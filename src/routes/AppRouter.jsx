@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import '../App.css'
 import Login from '../pages/Login/Login'
+import Inicio from "../pages/inicio/Inicio";
 
 import AgregarSensor from "../pages/admin/Sensores/AgregarSensor/Agregar";
 import AgregarFinca from "../pages/admin/Finca/CrearFincas/Agregar"
 
-// import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio';
+import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio'
 // import EditarFinca from '../pages/Admin/Finca/EditarFinca/editar';
 // import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 // import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
@@ -25,11 +26,12 @@ function App() {
       <Routes>
         
         {/* juan */}
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Inicio />} />
+        <Route path="/login" element={<Login />} />
 
         <Route path="/agregar-sensor/" element={<AgregarSensor/>}/>
         <Route path="/agregar-finca/" element={<AgregarFinca/>}/>
-        {/*<Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
+        <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
         
         {/* jhoan */}
         {/* <Route path="/inicio-SuperAdmin/fincas-Admin/:id" element={<FincasAdmin/>}/>

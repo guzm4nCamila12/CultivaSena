@@ -4,18 +4,18 @@ import styles from "./agregar.module.css";
 import Mapa from "../../../../components/Mapa";
 // import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
 // import { acctionSucessful } from "../../../../components/alertSuccesful";
-import { useNavigate, useParams } from "react-router"
+// import { useNavigate, useParams } from "react-router"
 // import BotonAtras from "../../../../components/BotonAtras";
 
 const Agregar = () => {
-  const { id } = useParams();
+  // const { id } = useParams();
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState({});
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const irAtras = () => {
-    navigate(-1);
-  };
+  // const irAtras = () => {
+  //   navigate(-1);
+  // };
 
   // Maneja el envío del formulario con validación
   const handleSubmit = async (e) => {
@@ -44,14 +44,14 @@ const Agregar = () => {
     // });
 
     // Si la inserción fue exitosa, proceder a la navegación
-    irAtras(); 
+    //irAtras(); 
   };
 
   return (
 
     <div>
       <div className="d-flex text-start">
-      <button className="btn btn-success  me-auto" onClick={irAtras}><i className="bi bi-arrow-left"></i></button>
+      <button className="btn btn-success  me-auto" ><i className="bi bi-arrow-left"></i></button>
       </div>
     <div className={styles.container}> 
     {/* <BotonAtras />  */}
@@ -77,7 +77,7 @@ const Agregar = () => {
             <h1>
               <i className="bi bi-geo-alt"></i>
             </h1>
-            <Mapa setUbicacion={setUbicacion} />
+          <Mapa setUbicacion={setUbicacion} />
           </div>
 
           <button type="submit" className={styles.button}>

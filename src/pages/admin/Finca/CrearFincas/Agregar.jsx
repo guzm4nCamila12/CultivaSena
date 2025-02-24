@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./agregar.module.css";
 import Mapa from "../../../../components/Mapa";
+import Gov from "../../../../components/gov/gov"
 // import { insertarFinca } from "../../../../services/Fincas/ApiFincas";
 // import { acctionSucessful } from "../../../../components/alertSuccesful";
 // import { useNavigate, useParams } from "react-router"
@@ -50,6 +51,7 @@ const Agregar = () => {
   return (
 
     <div>
+      <Gov></Gov>
       <div className="d-flex text-start">
       <button className="btn btn-success  me-auto" ><i className="bi bi-arrow-left"></i></button>
       </div>

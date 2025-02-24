@@ -1,101 +1,207 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import Swal from 'sweetalert2'
+import Gov from "../../../../components/gov/gov"
+import { acctionSucessful } from "../../../../components/alertSuccesful";
+import {getSensoresById} from "../../../../services/sensores/ApiSensores"
+import {getFincasByIdFincas} from "../../../../services/fincas/ApiFincas"
+import {getUsuarioById} from "../../../../services/usuarios/ApiUsuarios"
+import { insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
 
 function Sensores() {
   const [sensores, setSensores] = useState([]);
-  const [fincas, setFincas] = useState({ nombre: "Finca Ejemplo" }); // Nombre de finca de ejemplo
-  const [editarSensor, setEditarSensor] = useState({ id: "", nombre: "", descripcion: "" });
-  const [nuevoSensor, setNuevoSensor] = useState({ nombre: "", descripcion: "" });
+  const [fincas, setFincas] = useState({});
+  const [usuario, setUsuario] = useState({});
+  const [editarSensor, setEditarSensor] = useState({ nombre: "", descripcion: "" });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
 
+  const [formData, setFormData] = useState({
+    mac: null,
+    nombre: "",
+    descripcion: "",
+    estado: false,
+    idusuario: "",
+    idfinca: "",
+  });
+
   const { id, idUser } = useParams();
 
+  const [check, setCheck] = useState(false);
+
   useEffect(() => {
-    // Simulación de datos
-    setSensores([
-      { id: 1, mac: "00:14:22:01:23:45", nombre: "Sensor 1", descripcion: "Descripción 1", estado: true },
-      { id: 2, mac: "00:14:22:01:23:46", nombre: "Sensor 2", descripcion: "Descripción 2", estado: false },
-    ]);
+    try {
+      getSensoresById(id).then((data) => setSensores(data));
+    } catch (error) {
+      console.error("Error: ", error);
+    }    
+    getUsuarioById(idUser).then((data) => setUsuario(data));
+
+    getFincasByIdFincas(id).then((data) => setFincas(data));
+    
   }, []);
 
-  const handleSwitch = (event) => {
-    console.log("Estado del switch: ", event.target.checked);
+  useEffect(() => {
+    if (usuario && fincas) {
+      setFormData({
+        mac: null,
+        nombre: "",
+        descripcion: "",
+        estado: false,
+        idusuario: usuario.id,
+        idfinca: fincas.id,
+      });
+    }
+  }, [usuario, fincas]);
+
+  const handleChange = (e) => {
+    // Se actualiza el estado del formulario con el valor correspondiente
+    setFormData({
+      ...formData, // Se preservan los valores actuales de formData
+      [e.target.name]: e.target.value, // Se actualiza el campo que cambia
+    });
   };
 
-  const handleAgregarSensor = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSensores([...sensores, { id: sensores.length + 1, ...nuevoSensor, estado: true }]);
-    setModalInsertarAbierto(false);
+
+    insertarSensor(formData).then((response) => {
+      if (response) {
+        if (sensores === null) {
+          setSensores([response]);
+
+        } else {
+          setSensores([...sensores, response]);
+        }
+
+        acctionSucessful.fire({
+          icon: "success",
+          title: "Sensor agregado correctamente"
+        });
+        console.log("Datos enviados:", formData);
+
+
+      }
+
+    });
+
   };
+
+  const handleSwitch = (event) => {
+    setCheck(event.target.checked); // Actualiza el estado 'check' con el valor del checkbox
+    console.log(fincas);
+  };
+
 
   const handleEditarSensor = (e) => {
     e.preventDefault();
-    const sensoresActualizados = sensores.map((sensor) =>
-      sensor.id === editarSensor.id ? { ...sensor, nombre: editarSensor.nombre, descripcion: editarSensor.descripcion } : sensor
-    );
-    setSensores(sensoresActualizados);
+    try {
+      actualizarSensor(editarSensor.id, editarSensor)
+      setSensores(sensores.map(u => u.id === editarSensor.id ? editarSensor : u));
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Sensor editado correctamente"
+      });
+
+    } catch (error) {
+      console.error(error)
+    }
     setModalEditarAbierto(false);
   };
 
+  const handleChangeEditar = (e) => {
+    setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
+
+  };
+  const cargarDatosEdicion = (sensores) => {
+    setEditarSensor(sensores);
+  };
+
+  const HandlEliminarSensor = (id) => {
+    Swal.fire({
+      icon: 'error',
+      title: '¿Estas seguro?',
+      text: "¿Estas seguro de eliminar este sensor?",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      cancelButtonColor: "blue",
+      confirmButtonText: "si, eliminar ",
+      cancelButtonText: "cancelar "
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        try {
+          eliminarSensores(id)
+          setSensores(sensores.filter(sensor => sensor.id !== id));
+          acctionSucessful.fire({
+            icon: "success",
+            title: "Sensor eliminado correctamente"
+          });
+
+
+        } catch {
+          console.error("Error eliminando sensor:");
+        }
+      }
+    })
+  }
+
   return (
+    <div>
+      <div><Gov/></div>
     <div className="container mx-auto mt-4">
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-      <div className="flex justify-start mt-2">
-        <button
-          type="button"
-          onClick={() => setModalInsertarAbierto(true)}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-        >
-          Agregar Sensor
-        </button>
-      </div>
-      <table className="min-w-full mt-3 table-auto border-collapse border border-gray-300">
-        <thead className="bg-gray-800 text-white">
-          <tr>
-            <th className="px-4 py-2 border border-gray-300">N°</th>
-            <th className="px-4 py-2 border border-gray-300">MAC</th>
-            <th className="px-4 py-2 border border-gray-300">NOMBRE</th>
-            <th className="px-4 py-2 border border-gray-300">DESCRIPCION</th>
-            <th className="px-4 py-2 border border-gray-300">EDITAR</th>
-            <th className="px-4 py-2 border border-gray-300">ELIMINAR</th>
-            <th className="px-4 py-2 border border-gray-300">VER INFO</th>
-            <th className="px-4 py-2 border border-gray-300">Inactivo/Activo</th>
+      <h1 className="text-center text-2xl font-semibold">Observando a: {fincas.nombre}</h1>
+      <h2>Id de finca: {id}</h2>
+      <p> Administrador </p>
+      <table className="w-full border-separate border-spacing-y-4 rounded-lg p-4">
+        <thead>
+          <tr className="bg-[#00304D] text-white">
+            <th className="p-3 rounded-l-3xl text-center">#</th>
+            <th className="p-3 text-center">MAC</th>
+            <th className="p-3 text-center">Nombre</th>
+            <th className="p-3 text-center">Descripción</th>
+            <th className="p-3 text-center">Editar</th>
+            <th className="p-3 text-center">Eliminar</th>
+            <th className="p-3 text-center">Ver datos</th>
+            <th className="p-3 rounded-r-3xl text-center">Inactivo/Activo</th>
           </tr>
         </thead>
         <tbody>
           {Array.isArray(sensores) && sensores.length > 0 ? (
             sensores.map((sensor, index) => (
-              <tr key={index}>
-                <td className="px-4 py-2 border border-gray-300">{index + 1}</td>
-                <td className="px-4 py-2 border border-gray-300">{sensor.mac}</td>
-                <td className="px-4 py-2 border border-gray-300">{sensor.nombre}</td>
-                <td className="px-4 py-2 border border-gray-300">{sensor.descripcion}</td>
-                <td className="px-4 py-2 border border-gray-300">
+              <tr key={index} className="bg-[#EEEEEE] rounded-lg">
+                <td className="p-3 rounded-l-3xl text-center">{index + 1}</td>
+                <td className="pp-3 text-center">{sensor.mac}</td>
+                <td className="p-3 text-center">{sensor.nombre}</td>
+                <td className="p-3 text-center">{sensor.descripcion}</td>
+                <td className="p-3 text-center">
                   <button
                     onClick={() => {
-                      setEditarSensor(sensor);
                       setModalEditarAbierto(true);
+                      cargarDatosEdicion(sensor);
                     }}
                     className="px-2 py-1 bg-yellow-500 text-white rounded-lg"
                   >
                     Editar
                   </button>
                 </td>
-                <td className="px-4 py-2 border border-gray-300">
-                  <button className="px-2 py-1 bg-red-500 text-white rounded-lg">Eliminar</button>
+                <td className="p-3 text-center">
+                  <button className="px-2 py-1 bg-red-500 text-white rounded-lg"
+                  onClick={() => HandlEliminarSensor(sensor.id)}>Eliminar</button>
                 </td>
-                <td className="px-4 py-2 border border-gray-300">
+                <td className="p-3 text-center">
                   <Link to={`/datos-sensores`}>
                     <button className="px-2 py-1 bg-blue-500 text-white rounded-lg">Ver</button>
                   </Link>
                 </td>
-                <td className="px-4 py-2 border border-gray-300">
+                <td className="p-3 rounded-r-3xl text-center">
                   <div className="flex justify-center items-center">
-                    <input
-                      className="toggle-checkbox"
+                  <input
+                      className="form-check-input"
                       type="checkbox"
+                      role="switch"
                       checked={sensor.estado}
+                      id={`flexSwitchCheck${index}`}
                       onChange={handleSwitch}
                       disabled
                     />
@@ -111,6 +217,13 @@ function Sensores() {
             </tr>
           )}
         </tbody>
+        <button
+          type="button"
+          onClick={() => setModalInsertarAbierto(true)}
+          className="px-4 py-2 bg-[#009E00] text-white rounded-lg hover:bg-green-600"
+        >
+          Agregar Sensor
+        </button>
       </table>
 
       {/* Modal Insertar */}
@@ -118,15 +231,15 @@ function Sensores() {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
             <h5 className="text-xl font-semibold mb-4">INSERTAR SENSOR</h5>
-            <form onSubmit={handleAgregarSensor}>
+            <form onSubmit={handleSubmit}>
               <label className="block text-sm font-medium">NOMBRE</label>
               <input
                 className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
                 type="text"
                 name="nombre"
                 placeholder="Nombre"
-                value={nuevoSensor.nombre}
-                onChange={(e) => setNuevoSensor({ ...nuevoSensor, nombre: e.target.value })}
+                required
+                onChange={handleChange}
               />
               <label className="block text-sm font-medium mt-4">DESCRIPCION</label>
               <input
@@ -134,8 +247,7 @@ function Sensores() {
                 type="text"
                 name="descripcion"
                 placeholder="Descripción"
-                value={nuevoSensor.descripcion}
-                onChange={(e) => setNuevoSensor({ ...nuevoSensor, descripcion: e.target.value })}
+                onChange={handleChange}
               />
               <div className="flex justify-end mt-4">
                 <button
@@ -165,14 +277,14 @@ function Sensores() {
                 className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
                 value={editarSensor.nombre}
                 type="text"
-                onChange={(e) => setEditarSensor({ ...editarSensor, nombre: e.target.value })}
+                onChange={handleChangeEditar}
               />
               <label className="block text-sm font-medium mt-4">DESCRIPCION</label>
               <input
                 className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
                 value={editarSensor.descripcion}
                 type="text"
-                onChange={(e) => setEditarSensor({ ...editarSensor, descripcion: e.target.value })}
+                onChange={handleChangeEditar}
               />
               <div className="flex justify-end mt-4">
                 <button
@@ -190,6 +302,7 @@ function Sensores() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

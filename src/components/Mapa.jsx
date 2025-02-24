@@ -1,7 +1,7 @@
-//Importaciones necesarias para el funcionamiento del componente
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';//Importa los estilos para el mapa
+import L from 'leaflet'; // Importar Leaflet para manejar los iconos
+import 'leaflet/dist/leaflet.css'; // Importar los estilos para el mapa
 
 /**
  * 
@@ -11,25 +11,32 @@ import 'leaflet/dist/leaflet.css';//Importa los estilos para el mapa
  *  
  * @returns {JSX.Element} El componente del mapa interactivo 
  */
-
 const Mapa = ({ setUbicacion, ubicacion }) => {
   //Estado local de 'position' que mantiene la ubicacion del marcador en el mapa
-  // Inicialmente se usa la ubicación pasada por props, o se asigna una ubicación predeterminada.
   const [position, setPosition] = useState(ubicacion || { lat: 3.843792824199103, lng: -72.72583097219469 });
 
-  /* Actualiza la posición cada vez que 'ubicacion' cambie,si ubicacion tiene un valor 
-  se actualiza la ubicacion en el mapa*/
+  // Actualiza la posición cada vez que 'ubicacion' cambie
   useEffect(() => {
     if (ubicacion) {
-      setPosition(ubicacion);{/*Actualiza la posicion del mapa con las nuevas coordenadas*/ }
+      setPosition(ubicacion); // Actualiza la posición del mapa con las nuevas coordenadas
     }
-  }, [ubicacion]);//Se ejecuta solo cuando ubicacion cambia
+  }, [ubicacion]);
+
+  // Asegurarse de que Leaflet cargue el ícono del marcador
+  useEffect(() => {
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconUrl: require('leaflet/dist/images/marker-icon.png'),
+      iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+      shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+    });
+  }, []);
 
   // Función para actualizar la posición del marcador cuando el usuario haga click en el mapa
   const MyMapEvents = () => {
     useMapEvent('click', (event) => {
-      const { lat, lng } = event.latlng;  // Obtiene las coordenadas del click(latitud y longitud)
-      setPosition({ lat, lng });  //Actualiza la posicion del marcador en el mapa
+      const { lat, lng } = event.latlng;  // Obtiene las coordenadas del click
+      setPosition({ lat, lng });  // Actualiza la posición del marcador en el mapa
       setUbicacion({ lat, lng });  // Actualiza el estado en el componente
     });
 
@@ -40,12 +47,8 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     <div>
       <h2>Seleccione una ubicación en el mapa</h2>
 
-      {/*Muestra el mapa interactivo usando el componente MapContainer,se le define un zoom 
-      al mapa y se centra en la posicion definida por position*/}
-      <MapContainer center={position} zoom={5} style={{ width: '100%', height: '400px' }}>
-
+      <MapContainer className='rounded-3xl' center={position} zoom={5} style={{ width: '100%', height: '500px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {/*Marcador en el mapa que indica la ubicacion seleccionada*/}
         <Marker position={position}>
           <Popup>
             Ubicación seleccionada: {position.lat}, {position.lng}

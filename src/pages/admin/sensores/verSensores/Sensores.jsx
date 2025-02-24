@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
-import Gov from "../../../../components/gov/gov";
+import { useNavigate } from 'react-router-dom';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
 import Tabla from "../../../../components/Tabla";
+import NavBar from "../../../../components/gov/navbar"
 import macIcon from "../../../../assets/icons/mac.png";
 import nombreIcon from "../../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../../assets/icons/descripcion.png";
@@ -62,16 +63,28 @@ function Sensores() {
     { key: "acciones", label: "Acciones", icon: accionesIcon },
   ];
 
+  const navigate = useNavigate();
+
+  const verDatos = () => {
+    navigate(`/datos-sensor`);  // Redirige a la ruta con el ID del sensor
+  };
+
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
       <button onClick={() => abrirModalEditar(fila)}>
+      <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center">
         <img src={editIcon} alt="Editar" />
+        </div>
       </button>
       <button onClick={() => HandlEliminarSensor(fila.id)}>
+      <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center">
         <img src={deletIcon} alt="Eliminar" />
+        </div>
       </button>
-      <button>
+      <button onClick={verDatos}>
+      <div className="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center">
         <img src={verIcon} alt="Ver" />
+        </div>
       </button>
     </div>
   );
@@ -141,15 +154,13 @@ function Sensores() {
 
   return (
     <div>
-      <Gov />
+      <NavBar />
       <div className="container mx-auto mt-4">
-        <h1 className="text-center text-2xl font-semibold">Observando a: {fincas.nombre}</h1>
-        <h2>Id de finca: {id}</h2>
-        <p>Administrador</p>
+        <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
+        <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
+        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1 }))} acciones={acciones} />
 
-        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1 }))} titulo="Lista de Sensores" acciones={acciones} />
-
-        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg" onClick={() => setModalInsertarAbierto(true)}>
+        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
 
@@ -193,7 +204,7 @@ function Sensores() {
                 <div className="flex justify-end mt-4">
                   <button
                     type="button"
-                    className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
+                    className="px-4 py-2 bg-gSensor 1 de Finca A de Juanray-300 text-black rounded-lg mr-2"
                     onClick={() => setModalEditarAbierto(false)}
                   >
                     Cerrar

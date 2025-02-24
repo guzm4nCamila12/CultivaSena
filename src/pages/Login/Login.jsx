@@ -87,7 +87,12 @@ const Login = () => {
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 required
-                className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
+                className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
+                style={{
+                  backgroundImage: "url('/phoneGrey.png')",  // Icono de teléfono a la izquierda
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'left 12px center',  // Ajusta la posición del icono dentro del campo
+                }}
               />
 
               <div className="relative">

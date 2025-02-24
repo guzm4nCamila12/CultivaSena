@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 // import '../App.css'
 import Login from '../pages/Login/Login'
 import Inicio from "../pages/inicio/Inicio";
@@ -11,14 +12,19 @@ import EditarFinca from '../pages/admin/EditarFinca/editar';
 
 import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio'
 
-// import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
 import Sensores from '../pages/admin/sensores/verSensores/Sensores';
+
+import ListaFincas from "../pages/admin/verFincas/ListaFincas";
+import TablaAlternos from "../pages/alternos/ListaFincas/TablaAternos";
+import SensoresAlterno from "../pages/alternos/ListaFincas/sensores/SensoresAlterno";
+// import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
+
 //import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
-// import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
+
 import FincasAdmin from "../pages/superAdmin/verInformacion/FincasAdmin";
 import SensoresAdmin from "../pages/superAdmin/verInformacion/SensoresAdmin";
-// import Sensores from "../pages/Alterno/Inicio/Sensores";
+
 
 
 
@@ -47,9 +53,9 @@ function AppRouter() {
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}
-        {/* <Route path="/lista-fincas/:id" element={<ListaFincas />} />
-        <Route path="/alternos/:id" element={<TablaAlternos/>}/>      
-        <Route path="/sensores-alterno/:id" element={<Sensores/>}/>  */}
+      <Route path="/lista-fincas" element={<ListaFincas/>} />
+       <Route path="/alternos" element={<TablaAlternos/>}/>      
+        <Route path="/sensores-alterno" element={<SensoresAlterno/>}/>  
 
 
       </Routes>

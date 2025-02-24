@@ -1,13 +1,11 @@
 import './App.css';
 
-
-import AppRoutes from './routes/AppRouter'
-
+import Layout from './components/layouts/Layout';
+import AppRouter from './routes/AppRouter';
 function App() {
   return (
-    <AppRoutes/>
-
-  );
+    <AppRouter/>
+    );
 }
 
 export default App;

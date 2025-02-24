@@ -5,6 +5,7 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
     <div className="container mx-auto mt-4">
       <h1 className="text-xl font-bold mb-4">{titulo}</h1>
 
+
       {/* Contenedor con scroll */}
       <div className="overflow-x-auto max-h-[720px] overflow-y-auto border rounded-lg shadow-md">
         <table className="w-full border-separate border-spacing-y-4">
@@ -53,6 +54,7 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
           </tbody>
         </table>
       </div>
+
     </div>
   );
 };

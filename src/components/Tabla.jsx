@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const Tabla = ({ columnas, datos, titulo, acciones, botonAgregar }) => {
+const Tabla = ({ columnas, datos, titulo, acciones }) => {
   return (
     <div className="container mx-auto mt-4">
       <h1 className="text-xl font-bold mb-4">{titulo}</h1>
@@ -42,7 +42,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, botonAgregar }) => {
         </tbody>
 
       </table>
-      <button className="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg">{botonAgregar}</button>
     </div>
   );
 };
@@ -58,7 +57,6 @@ Tabla.propTypes = {
   datos: PropTypes.array.isRequired,
   titulo: PropTypes.string.isRequired,
   acciones: PropTypes.func.isRequired,
-  botonAgregar: PropTypes.string.isRequired,
 };
 
 export default Tabla;

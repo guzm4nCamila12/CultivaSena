@@ -8,9 +8,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio';
 import EditarFinca from '../pages/admin/EditarFinca/editar';
 // import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
-// import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
+import Sensores from '../pages/admin/sensores/verSensores/Sensores';
 //import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
-// import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
+import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
 // import TablaAlternos from '../pages/Admin/Alternos/TablaAlternos'
 import FincasAdmin from "../pages/superAdmin/verInformacion/FincasAdmin";
 import SensoresAdmin from "../pages/superAdmin/verInformacion/SensoresAdmin";
@@ -37,9 +37,8 @@ function App() {
         <Route path="/editar-finca" element={<EditarFinca/>}/>
 
         {/* camila */}
-        {/* <Route path="/sensores-SuperAdmin/:id/:idUser" element={<ActivarSensores/>}/>
-         <Route path='/datos-sensores' element={<VerSensores/>}/>
-        <Route path="/sensores-admin" element={<ActivarSensores/>}/> */}
+        <Route path="/sensores-admin" element={<Sensores/>}/>
+        <Route path="datos-sensor" element={<VerDatoSensor/>}/>
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}

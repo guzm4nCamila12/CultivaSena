@@ -22,7 +22,7 @@ import SensoresAdmin from "../pages/superAdmin/verInformacion/SensoresAdmin";
 
 
 
-function App() {
+function AppRouter() {
 
   return (
     <Router>
@@ -57,4 +57,4 @@ function App() {
   )
 }
 
-export default App
+export default AppRouter

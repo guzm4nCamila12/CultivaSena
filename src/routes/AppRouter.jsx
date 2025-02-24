@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 // import '../App.css'
 // import Login from '../pages/Login/Login'
 
@@ -7,7 +8,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio';
 // import EditarFinca from '../pages/Admin/Finca/EditarFinca/editar';
-// import ListaFincas from '../pages/SuperAdmin/Fincas/ListaFincas';
+import ListaFincas from "../pages/admin/verFincas/ListaFincas";
+import TablaAlternos from "../pages/alternos/ListaFincas/TablaAternos";
+import SensoresAlterno from "../pages/alternos/ListaFincas/sensores/SensoresAlterno";
 // import ActivarSensores from '../pages/SuperAdmin/Sensores/activarSensores';
 //import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 // import VerSensores from '../pages/Admin/Sensores/VerSensores/VerSensores';
@@ -43,9 +46,9 @@ function App() {
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}
-        {/* <Route path="/lista-fincas/:id" element={<ListaFincas />} />
-        <Route path="/alternos/:id" element={<TablaAlternos/>}/>      
-        <Route path="/sensores-alterno/:id" element={<Sensores/>}/>  */}
+      <Route path="/lista-fincas" element={<ListaFincas/>} />
+       <Route path="/alternos" element={<TablaAlternos/>}/>      
+        <Route path="/sensores-alterno" element={<SensoresAlterno/>}/>  
 
 
       </Routes>

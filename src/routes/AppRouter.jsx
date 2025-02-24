@@ -53,9 +53,9 @@ function AppRouter() {
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}
-      <Route path="/lista-fincas" element={<ListaFincas/>} />
-       <Route path="/alternos" element={<TablaAlternos/>}/>      
-        <Route path="/sensores-alterno" element={<SensoresAlterno/>}/>  
+      <Route path="/lista-fincas/:id" element={<ListaFincas/>} />
+       <Route path="/alternos/:id" element={<TablaAlternos/>}/>      
+        <Route path="/sensores-alterno/:id" element={<SensoresAlterno/>}/>  
 
 
       </Routes>

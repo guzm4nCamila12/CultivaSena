@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Mapa from "../../../components/Mapa";
 import { useParams, useNavigate } from "react-router";
+import { acctionSucessful } from "../../../components/alertSuccesful";
+import { actualizarFinca, getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import Gov from "../../../components/gov/gov"
 
 export default function EditarFinca() {
   const { id } = useParams();
@@ -15,6 +18,17 @@ export default function EditarFinca() {
     navigate(-1);
   };
 
+  useEffect(() => {
+    getFincasByIdFincas(id)
+      .then(data => {
+        setFincas(data);
+        setOriginalFinca(data); // Guardamos los datos originales
+        setNombreFinca(data.nombre); // Asigna el nombre de la finca
+        setUbicacion(data.ubicacion); // Establece la ubicación de la finca
+      })
+      .catch(error => console.error("Error al cargar la finca:", error));
+  }, [id]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -27,36 +41,57 @@ export default function EditarFinca() {
     }
 
     if (!nombreFinca || !ubicacion?.lat || !ubicacion?.lng) {
+      acctionSucessful.fire({
+        icon: "error",
+        title: "Debe ingresar un nombre y seleccionar una ubicación",
+      });
       return; // Detener el envío del formulario
     }
 
     // Abrir el modal para confirmar la actualización
-    setIsModalOpen(true);
-  };
-
-  const handleConfirmUpdate = () => {
+    //setIsModalOpen(true);
     const fincaActualizada = {
       nombre: nombreFinca,
       idUsuario: fincas.idusuario,
       ubicacion,
     };
-    
-    // Aquí debes enviar el objeto `fincaActualizada` a tu API o acción para actualizar la finca
-    // Por ejemplo, si tienes una función como `actualizarFinca(id, fincaActualizada)`
+
+    try {
+      actualizarFinca(id, fincaActualizada)
+        .then(() => {
+          acctionSucessful.fire({
+            icon: "success",
+            title: `Finca ${fincaActualizada.nombre} actualizada correctamente`,
+          });
+          irAtras();
+        })
+        .catch((error) => {
+          acctionSucessful.fire({
+            icon: "error",
+            title: "Error al actualizar la finca",
+          });
+          console.error("Error al actualizar finca:", error);
+        });
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+    }
+
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false); // Cerrar el modal si se cancela
-  };
 
   return (
     <div>
+      <div>
+      <Gov />
+      </div>
+      <div className="container mx-auto my-5 p-6">
       <div className="flex justify-start">
-        <button className="btn btn-success me-auto p-2 bg-green-500 text-white rounded hover:bg-green-400" onClick={irAtras}>
-          <i className="bi bi-arrow-left"></i> Regresar
+        <button className="me-auto p-2 bg-green-500 text-white rounded hover:bg-green-400" onClick={irAtras}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
         </button>
       </div>
-      <div className="container mx-auto p-6">
 
         <h3 className="text-xl font-semibold text-gray-800">EDITAR FINCA {fincas.nombre}</h3>
 
@@ -93,29 +128,6 @@ export default function EditarFinca() {
           </button>
         </form>
       </div>
-
-      {/* Modal de confirmación */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-sm">
-            <h5 className="text-xl font-semibold">¿Está seguro de que desea actualizar esta finca?</h5>
-            <div className="mt-4 flex justify-end">
-              <button
-                className="bg-gray-500 text-white py-2 px-4 rounded mr-2 hover:bg-gray-400"
-                onClick={handleCancel}
-              >
-                Cancelar
-              </button>
-              <button
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400"
-                onClick={handleConfirmUpdate}
-              >
-                Confirmar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

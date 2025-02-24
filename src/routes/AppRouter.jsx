@@ -38,14 +38,14 @@ function AppRouter() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/agregar-sensor/" element={<AgregarSensor/>}/>
-        <Route path="/agregar-finca/" element={<AgregarFinca/>}/>
+        <Route path="/agregar-sensor" element={<AgregarSensor/>}/>
+        <Route path="/agregar-finca/:id" element={<AgregarFinca/>}/>
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
         
         {/* jhoan */}
         <Route path="/inicio-SuperAdmin/fincas-Admin" element={<FincasAdmin/>}/>
         <Route path="/inicio-SuperAdmin/sensores-usuario" element={<SensoresAdmin/>}/>
-        <Route path="/editar-finca" element={<EditarFinca/>}/>
+        <Route path="/editar-finca/:id" element={<EditarFinca/>}/>
 
         {/* camila */}
         <Route path="/sensores-admin" element={<Sensores/>}/>
@@ -53,7 +53,7 @@ function AppRouter() {
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}
-      <Route path="/lista-fincas" element={<ListaFincas/>} />
+      <Route path="/lista-fincas/:id" element={<ListaFincas/>} />
        <Route path="/alternos" element={<TablaAlternos/>}/>      
         <Route path="/sensores-alterno" element={<SensoresAlterno/>}/>  
 

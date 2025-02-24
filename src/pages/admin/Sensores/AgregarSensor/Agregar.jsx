@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"; // Importación de React y useState para manejo de estado
 import styles from "../AgregarSensor/agregar.module.css"; 
 import { useParams } from "react-router";
-// import { getUsuarioById } from "../../../../services/Usuarios/ApiUsuarios";
-// import { getFincasByIdFincas  } from "../../../../services/Fincas/ApiFincas";
-// import { insertarSensor } from "../../../../services/Sensores/ApiSensores";
+import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
+import { getFincasByIdFincas  } from "../../../../services/fincas/ApiFincas";
+import { insertarSensor } from "../../../../services/sensores/ApiSensores";
 
 const Agregar = () => {
   // Definición del estado inicial del formulario (nombre y descripción)
@@ -21,44 +21,44 @@ const Agregar = () => {
 
   const { idUs, idFi } = useParams(); 
 
-  // Efecto para obtener los datos del usuario y finca
-  // useEffect(() => {
-  //   getUsuarioById(idUs).then((data) => setUsuario(data));
-  //   getFincasByIdFincas(idFi).then((data) => setFincas(data));
-  // }, [idUs, idFi]); 
+  //Efecto para obtener los datos del usuario y finca
+  useEffect(() => {
+    getUsuarioById(idUs).then((data) => setUsuario(data));
+    getFincasByIdFincas(idFi).then((data) => setFincas(data));
+  }, [idUs, idFi]); 
 
-  // Cuando los datos de usuario y finca están disponibles, actualizar formData
-  // useEffect(() => {
-  //   if (usuario && fincas) {
-  //     setFormData({
-  //       mac: null, 
-  //       nombre: "",
-  //       descripcion: "",
-  //       estado: false,
-  //       idusuario: usuario.id, 
-  //       idfinca: fincas.id,    
-  //     });
-  //   }
-  // }, [usuario, fincas]); 
+  //Cuando los datos de usuario y finca están disponibles, actualizar formData
+  useEffect(() => {
+    if (usuario && fincas) {
+      setFormData({
+        mac: null, 
+        nombre: "",
+        descripcion: "",
+        estado: false,
+        idusuario: usuario.id, 
+        idfinca: fincas.id,    
+      });
+    }
+  }, [usuario, fincas]); 
   
 
   // Maneja los cambios de los campos del formulario
   const handleChange = (e) => {
-    // Se actualiza el estado del formulario con el valor correspondiente
-    // setFormData({
-    //   ...formData, // Se preservan los valores actuales de formData
-    //   [e.target.name]: e.target.value, // Se actualiza el campo que cambia
-    // });
+    //Se actualiza el estado del formulario con el valor correspondiente
+    setFormData({
+      ...formData, // Se preservan los valores actuales de formData
+      [e.target.name]: e.target.value, // Se actualiza el campo que cambia
+    });
   };
 
   // Maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // insertarSensor(formData);
+    insertarSensor(formData);
 
 
-    // console.log("Datos enviados:", formData);
+    console.log("Datos enviados:", formData);
   };
 
   return (

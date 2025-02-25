@@ -105,20 +105,21 @@ const Inicio = () => {
   ];
 
   const acciones = (fila) => (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center items-center gap-2">
       <button onClick={() => abrirModalEditar(fila)}>
         <img src={editIcon} alt="Editar" />
       </button>
       <Link to={`/lista-fincas/${fila.id}`}>
-      <button >
-        <img src={ver} alt="Ver" />
-      </button>
+        <button>
+          <img src={ver} alt="Ver" />
+        </button>
       </Link>
-      <button >
+      <button>
         <img src={deletIcon} alt="Eliminar" />
       </button>
     </div>
-  );
+  )
+  
   const abrirModalEditar = (usuario) => {
     // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {

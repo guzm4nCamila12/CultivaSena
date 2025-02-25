@@ -32,7 +32,7 @@ export const login = async (inicioUsuario) => {
 };
 
 export const insertarUsuario = async (nuevoUsuario) => {
-  const response = await fetch(`${API_URL}/api/usuario`, {
+  const response = await fetch(`${API_URL}/usuarios`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevoUsuario),
@@ -41,7 +41,7 @@ export const insertarUsuario = async (nuevoUsuario) => {
 };
 
 export const actualizarUsuario = async (id, usuarioActualizado) => {
-  const response = await fetch(`${API_URL}/api/usuario/${id}`, {
+  const response = await fetch(`${API_URL}/usuarios/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(usuarioActualizado),

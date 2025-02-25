@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:3000";
 
 export const getUsuarios = async () => {
-  const response = await fetch(`${API_URL}/api/usuario`);
+  const response = await fetch(`${API_URL}/usuarios`);
   return response.json();
 };
 

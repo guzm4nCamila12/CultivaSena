@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:3000";
 
-
 export const getSensoresById = async (id) => {
   const response = await fetch(`${API_URL}/sensores/${id}`);
   return response.json();

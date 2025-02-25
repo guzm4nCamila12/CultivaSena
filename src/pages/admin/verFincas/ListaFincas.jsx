@@ -5,8 +5,7 @@ import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById,eliminarFincas} from '../../../services/fincas/ApiFincas'
 import { acctionSucessful } from '../../../components/alertSuccesful';
 import Swal from 'sweetalert2'
-import Gov from '../../../components/gov/gov'
-
+import Navbar from '../../../components/gov/navbar';
 export default function ListaFincas() {
   const { id } = useParams();
   
@@ -55,7 +54,7 @@ export default function ListaFincas() {
   return (
     <div>
       <div>
-      <Gov />
+      <Navbar/>
       </div>
       <div className="container my-10 mx-auto mt-8 px-4">
         <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>

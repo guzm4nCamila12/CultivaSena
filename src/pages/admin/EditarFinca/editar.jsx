@@ -3,7 +3,7 @@ import Mapa from "../../../components/Mapa";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
-import Gov from "../../../components/gov/gov"
+import Navbar from "../../../components/gov/navbar"
 
 export default function EditarFinca() {
   const { id } = useParams();
@@ -37,6 +37,11 @@ export default function EditarFinca() {
       nombreFinca === originalFinca.nombre && 
       JSON.stringify(ubicacion) === JSON.stringify(originalFinca.ubicacion)
     ) {
+      acctionSucessful.fire({
+        icon: "info",
+        title: "No se modificó la informacion de la finca",
+      });
+
       return; // Detener el envío del formulario si no hubo cambios
     }
 
@@ -81,20 +86,21 @@ export default function EditarFinca() {
 
   return (
     <div>
-      <div>
-      <Gov />
+      <Navbar/>
+      <div className="m-10">
       </div>
-      <div className="container mx-auto my-5 p-6">
-      <div className="flex justify-start">
-        <button className="me-auto p-2 bg-green-500 text-white rounded hover:bg-green-400" onClick={irAtras}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+      <div className="flex items-center justify-between">
+        <button className="ml-6 p-2 bg-green-500 text-white rounded hover:bg-green-400" 
+        onClick={irAtras}
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-full h-12 pb-7">
           <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
         </svg>
         </button>
+
+        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">EDITAR FINCA {fincas.nombre}</h1>
       </div>
-
-        <h3 className="text-xl font-semibold text-gray-800">EDITAR FINCA {fincas.nombre}</h3>
-
+      <div></div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-lg font-medium text-gray-700">Ingrese su nuevo nombre:</label>
@@ -127,7 +133,6 @@ export default function EditarFinca() {
             EDITAR
           </button>
         </form>
-      </div>
     </div>
   );
 }

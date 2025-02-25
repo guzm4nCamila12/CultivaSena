@@ -1,21 +1,24 @@
 import { useState, useEffect } from 'react';
-import { data, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
-import { getFincasById,eliminarFincas} from '../../../services/fincas/ApiFincas'
+import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
 import { acctionSucessful } from '../../../components/alertSuccesful';
-import Swal from 'sweetalert2'
-import Gov from '../../../components/gov/gov'
-import Tabla from '../../../components/Tabla'
-import userIcon from "../../../assets/icons/user.png"
-import configIcon from "../../../assets/icons/config.png"
-import editIcon from "../../../assets/icons/edit.png"
-import deletIcon from "../../../assets/icons/delete.png"
+import Swal from 'sweetalert2';
+import Gov from '../../../components/gov/gov';
+import Tabla from '../../../components/Tabla';
+import userIcon from "../../../assets/icons/user.png";
+import sensorIcon from "../../../assets/icons/sensor.png"
+import configIcon from "../../../assets/icons/config.png";
+import editIcon from "../../../assets/icons/edit.png";
+import deletIcon from "../../../assets/icons/delete.png";
+import alternoIcon from "../../../assets/icons/nombre.png"
+import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 
 export default function ListaFincas() {
   const { id } = useParams();
   
-  // Estado para almacenar la lista de fincas (vacío por ahora)
+  // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
@@ -29,7 +32,7 @@ export default function ListaFincas() {
       .catch(error => console.error('Error: ', error));
   }, [id]);
 
-  // Manejo de la eliminación de finca (sin funcionalidad)
+  // Manejo de la eliminación de finca
   const handleEliminarFinca = (id) => {
     Swal.fire({
       icon: 'error',
@@ -42,61 +45,72 @@ export default function ListaFincas() {
       cancelButtonText: "Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
-        try{
-          eliminarFincas(id)
+        try {
+          eliminarFincas(id);
           setFincas(fincas.filter(finca => finca.id !== id));
           acctionSucessful.fire({
             icon: "success",
             title: "Finca eliminada correctamente"
           });
-          
-
-        }catch{
+        } catch {
           console.error("Error eliminando Finca:");
         }
       }
     });
   }
+  
 
   const columnas = [
     { key: "#", label: "#", icon: "" },
     { key: "nombre", label: "Nombre", icon: userIcon },
-    { key: "sensores", label: "Sensores", icon: configIcon},
-    { key: "alternos", label: "Alternos", icon: userIcon },
+    { key: "sensores", label: "Sensores", icon: sensorAltIcon },
+    { key: "alternos", label: "Alternos", icon: alternoIcon },
     { key: "acciones", label: "Acciones", icon: configIcon },
-  ];
+  ];  
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-        <Link to={`/editar-finca/${fila.id}`}>
-          <button>
-            <img src={editIcon} alt="Editar" />
-          </button>
-        </Link>
+      <Link to={`/editar-finca/${fila.id}`}>
+        <button>
+          <img src={editIcon} alt="Editar" />
+        </button>
+      </Link>
       <button onClick={() => handleEliminarFinca(fila.id)} >
         <img src={deletIcon} alt="Eliminar"  />
       </button>
     </div>
-
   );
 
- 
+  // Mapear las fincas para incluir el icono de sensores directamente en los datos
+  const fincasConSensores = fincas.map(finca => ({
+    ...finca,
+    sensores: <Link to={`/sensores-admin/:${finca.id}`}>
+    <button className='text-center'>
+      <img src={sensorIcon} alt="Sensores" />
+      </button>
+    </Link>,
+    alternos: <Link to={`/alternos/:${finca.id}`}>
+    <button>
+      <img src={alternoIcon} alt="Alternos" />
+      </button>
+    </Link>
+  }));
 
   return (
     <div>
       <div>
-      <Gov />
+        <Gov />
       </div>
       <div className="container my-10 mx-auto mt-8 px-4">
         <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>
         <p className="text-center text-gray-600">Administrador</p>
         <p className="text-center text-gray-600">Tu Id: {usuario.id}</p>
        
-        {/* Dentro del renderizado de la tabla */}
+        {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
         <Tabla
-          titulo='Fincas'
+          titulo="Fincas"
           columnas={columnas}
-          datos={fincas} // Solo pasa los datos de las fincas directamente
+          datos={fincasConSensores} // Aquí pasas los datos modificados
           acciones={acciones}
         />
 

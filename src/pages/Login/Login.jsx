@@ -117,7 +117,7 @@ const Login = () => {
                   <img
                     src={mostrarClave ? "/ojoA.png" : "/ClosedEye.png"}
                     alt="Toggle Visibility"
-                    className="w-6 h-6"
+                    
                   />
                 </div>
               </div>

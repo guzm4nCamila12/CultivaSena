@@ -166,7 +166,7 @@ function Sensores() {
                   <img
                     src={nombreIcon} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
@@ -181,7 +181,7 @@ function Sensores() {
                   <img
                     src={descripcionIcon} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"

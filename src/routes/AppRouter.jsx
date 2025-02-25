@@ -48,7 +48,7 @@ function AppRouter() {
         <Route path="/editar-finca/:id" element={<EditarFinca/>}/>
 
         {/* camila */}
-        <Route path="/sensores-admin/:id" element={<Sensores/>}/>
+        <Route path="/sensores-admin/:id/:idUser" element={<Sensores/>}/>
         <Route path="datos-sensor" element={<VerDatoSensor/>}/>
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 

@@ -2,57 +2,60 @@ import PropTypes from "prop-types";
 
 const Tabla = ({ columnas, datos, titulo, acciones }) => {
   return (
-    <div className="container mx-auto mt-4">
-      <h1 className="text-xl font-bold mb-4">{titulo}</h1>
+    <div className="container mx-auto p-5">
+      <h1 className="text-xl font-bold mb-4 ">{titulo}</h1>
+
+      {/* Contenedor que permite el scroll horizontal */}
+      <div className="w-full overflow-x-auto border rounded-lg shadow-md">
+        <div className="max-h-[550px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[600px] overflow-y-auto m-auto">
 
 
-      {/* Contenedor con scroll */}
-      <div className="overflow-x-auto max-h-[720px] overflow-y-auto border rounded-lg shadow-md">
-        <table className="w-full border-separate border-spacing-y-4">
-          <thead>
-            <tr className="bg-[#00304D] text-white">
-              {columnas.map((columna, index) => (
-                <th
-                  key={index}
-                  className={`p-3 text-center ${index === 0 ? "rounded-l-3xl" : ""} ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
-                >
-                  <span className="inline-flex items-center gap-2">
-                    {columna.icon && <img src={columna.icon} alt={columna.label} />}
-                    {columna.label}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(datos) && datos.length > 0 ? (
-              datos.map((fila, index) => (
-                <tr key={fila.id || index} className="bg-[#EEEEEE] rounded-lg">
-                  {columnas.map((columna, i) => (
-                    <td
-                      key={i}
-                      className={`p-3 text-center ${i === 0 ? "rounded-l-3xl" : ""} ${i === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
-                    >
-                      {columna.key === "#" ? (
-                        index + 1
-                      ) : columna.key === "acciones" ? (
-                        <div className="flex justify-center gap-2">{acciones(fila)}</div>
-                      ) : (
-                        fila[columna.key]
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={columnas.length} className="text-center p-4">
-                  No hay datos
-                </td>
+          <table className="w-full min-w-[600px] border-separate border-spacing-y-4">
+            <thead>
+              <tr className="bg-[#00304D] text-white">
+                {columnas.map((columna, index) => (
+                  <th
+                    key={index}
+                    className={`p-2 md:p-3 text-left text-sm md:text-base ${index === 0 ? "rounded-l-3xl" : ""} ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+                  >
+                    <span className="inline-flex items-center gap-1 md:gap-2">
+                      {columna.icon && <img src={columna.icon} alt={columna.label} />}
+                      {columna.label}
+                    </span>
+                  </th>
+                ))}
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {Array.isArray(datos) && datos.length > 0 ? (
+                datos.map((fila, index) => (
+                  <tr key={fila.id || index} className="bg-[#EEEEEE] rounded-lg">
+                    {columnas.map((columna, i) => (
+                      <td
+                        key={i}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base ${i === 0 ? "rounded-l-3xl" : ""} ${i === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+                      >
+                        {columna.key === "#" ? (
+                          index + 1
+                        ) : columna.key === "acciones" ? (
+                          <div className="flex justify-start gap-1 md:gap-2">{acciones(fila)}</div>
+                        ) : (
+                          fila[columna.key]
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columnas.length} className="text-center p-4 text-sm">
+                    No hay datos
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

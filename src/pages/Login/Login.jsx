@@ -23,7 +23,7 @@ const Login = () => {
     // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
-        setUsuario(data);  // Actualiza el estado con los datos del usuario
+        console.log(data);  // Actualiza el estado con los datos del usuario
         acctionSucessful.fire({
           icon: "success",
           title: `Bienvenido ${data.nombre}`

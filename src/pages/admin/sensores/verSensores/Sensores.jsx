@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import Gov from "../../../../components/gov/gov";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
+import Navbar from "../../../../components/gov/navbar";
 import Tabla from "../../../../components/Tabla";
-import NavBar from "../../../../components/gov/navbar"
 import macIcon from "../../../../assets/icons/mac.png";
 import nombreIcon from "../../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../../assets/icons/descripcion.png";
@@ -15,17 +16,13 @@ import accionesIcon from "../../../../assets/icons/config.png";
 import editIcon from "../../../../assets/icons/edit.png";
 import verIcon from "../../../../assets/icons/view.png";
 import deletIcon from "../../../../assets/icons/delete.png";
-import Eliminar from "../../../../assets/icons/Disposal.png"
-
 function Sensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
   const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
-  const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
-  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
 
   const [formData, setFormData] = useState({
@@ -38,9 +35,9 @@ function Sensores() {
   });
 
   useEffect(() => {
-    getSensoresById(id).then(setSensores);
-    getUsuarioById(idUser).then(setUsuario);
-    getFincasByIdFincas(id).then(setFincas);
+    getSensoresById(idUser).then(setSensores);
+    getUsuarioById(id).then(setUsuario);
+    getFincasByIdFincas(idUser).then(setFincas);
   }, [id, idUser]);
 
   useEffect(() => {
@@ -65,61 +62,46 @@ function Sensores() {
     { key: "acciones", label: "Acciones", icon: accionesIcon },
   ];
 
-  const navigate = useNavigate();
-
-  const verDatos = () => {
-    navigate(`/datos-sensor`);  // Redirige a la ruta con el ID del sensor
-  };
-
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-
-      <button onClick={() => abrirModalEditar(fila)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-          <img src={editIcon} alt="Editar" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Editar
-        </span>
+      <button onClick={() => abrirModalEditar(fila)}>
+        <img src={editIcon} alt="Editar" />
       </button>
-  
-      <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-          <img src={deletIcon} alt="Eliminar" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Eliminar
-        </span>
+      <button onClick={() => HandlEliminarSensor(fila.id)}>
+        <img src={deletIcon} alt="Eliminar" />
       </button>
- 
-      <button onClick={verDatos} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
-          <img src={verIcon} alt="Ver" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Ver Datos
-        </span>
+      <button>
+        <img src={verIcon} alt="Ver" />
       </button>
     </div>
   );
-  
 
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
     setModalEditarAbierto(true);
   };
 
-  const abrirModalEliminar = (sensor) => {
-    setSensorAEliminar(sensor);
-    setModalEliminarAbierto(true);
-  };
-
-  const HandlEliminarSensor = () => {
-    eliminarSensores(sensorAEliminar).then(() => {
-      setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
-      setModalEliminarAbierto(false);
-      acctionSucessful.fire({ icon: "success", title: "Sensor eliminado correctamente" });
-    }).catch(console.error);
+  const HandlEliminarSensor = (id) => {
+    Swal.fire({
+      icon: 'error',
+      title: '¿Estás seguro?',
+      text: "¿Quieres eliminar este sensor?",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      cancelButtonColor: "blue",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        eliminarSensores(id).then(() => {
+          setSensores(sensores.filter(sensor => sensor.id !== id));
+          acctionSucessful.fire({
+            icon: "success",
+            title: "Sensor eliminado correctamente"
+          });
+        }).catch(console.error);
+      }
+    });
   };
 
   const handleChange = (e) => {
@@ -159,148 +141,70 @@ function Sensores() {
 
   return (
     <div>
-      <NavBar />
+      <Navbar />
       <div className="container mx-auto mt-4">
-        <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
-        <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1 }))} acciones={acciones} />
+        <h1 className="text-center text-2xl font-semibold">Observando a: {fincas.nombre}</h1>
+        <h2>Id de finca: {id}</h2>
+        <p>Administrador</p>
 
-        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
+        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1 }))} titulo="Lista de Sensores" acciones={acciones} />
+
+        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
 
         {modalInsertarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
-              <hr/>
+            <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+              <h5 className="text-xl font-semibold mb-4">INSERTAR SENSOR</h5>
               <form onSubmit={handleSubmit}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={nombreIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripción"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <button
-                    className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalInsertarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
-                    Agregar
-                  </button>
+                <label className="block text-sm font-medium">NOMBRE</label>
+                <input className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
+                <label className="block text-sm font-medium mt-4">DESCRIPCIÓN</label>
+                <input className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md" type="text" name="descripcion" placeholder="Descripción" onChange={handleChange} />
+                <div className="flex justify-end mt-4">
+                  <button className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2" onClick={() => setModalInsertarAbierto(false)}>Cerrar</button>
+                  <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Agregar</button>
                 </div>
               </form>
             </div>
           </div>
         )}
 
-
         {modalEditarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
-              <hr/>
+            <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+              <h5 className="text-xl font-semibold mb-4">EDITAR SENSOR</h5>
               <form onSubmit={handleEditarSensor}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={nombreIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    name="nombre"
-                    placeholder="Nombre"
-                    value={editarSensor.nombre}
-                    type="text"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripción"
-                    value={editarSensor.descripcion}
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="flex gap-4 mt-4">
+                <label className="block text-sm font-medium">NOMBRE</label>
+                <input
+                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
+                  value={editarSensor.nombre}
+                  type="text"
+                  onChange={handleChangeEditar}
+                />
+                <label className="block text-sm font-medium mt-4">DESCRIPCION</label>
+                <input
+                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
+                  value={editarSensor.descripcion}
+                  type="text"
+                  onChange={handleChangeEditar}
+                />
+                <div className="flex justify-end mt-4">
                   <button
-                    className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                    type="button"
+                    className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
                     onClick={() => setModalEditarAbierto(false)}
                   >
-                    Cancelar
+                    Cerrar
                   </button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                  <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">
                     Editar
                   </button>
                 </div>
               </form>
             </div>
           </div>
-        )}
-
-        {modalEliminarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-            <hr/>
-            <form onSubmit={HandlEliminarSensor}>
-            <div className="flex justify-center my-4">
-              <div className="bg-[#00304D] p-4 rounded-full">
-                <img
-                    src={Eliminar} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                  />
-              </div>
-            </div>
-            <p className="text-lg text-center font-semibold">¿Estás seguro?</p>
-            <p className="text-gray-500 text-center text-sm">Se eliminará el sensor de manera permanente.</p>
-    
-            <div className="flex justify-between mt-6 space-x-4">
-              <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
-                Cancelar
-              </button>
-              <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
-                Eliminar
-              </button>
-            </div>
-            </form>
-          </div>
-        </div>
         )}
       </div>
     </div>

@@ -73,23 +73,36 @@ function Sensores() {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <button onClick={() => abrirModalEditar(fila)}>
-        <div className="w-8 h-8 rounded-full bg-white-200 flex items-center justify-center">
+
+      <button onClick={() => abrirModalEditar(fila)} className="group relative">
+        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
           <img src={editIcon} alt="Editar" />
         </div>
+        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          Editar
+        </span>
       </button>
-      <button onClick={() => abrirModalEliminar(fila.id)}>
-        <div className="w-8 h-8 rounded-full bg-white-200 flex items-center justify-center">
+  
+      <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
+        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
           <img src={deletIcon} alt="Eliminar" />
         </div>
+        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          Eliminar
+        </span>
       </button>
-      <button onClick={verDatos}>
-        <div className="w-8 h-8 rounded-full bg-white-200 flex items-center justify-center">
+ 
+      <button onClick={verDatos} className="group relative">
+        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
           <img src={verIcon} alt="Ver" />
         </div>
+        <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          Ver Datos
+        </span>
       </button>
     </div>
   );
+  
 
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);

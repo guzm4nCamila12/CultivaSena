@@ -1,44 +1,31 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
-// Registrar los componentes de Chart.js
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+const data = [
+  { mes: "Enero", Calor: 24, pH: 14 },
+  { mes: "Febrero", Calor: 2, pH: 22 },
+  { mes: "Marzo", Calor: 0, pH: 2 },
+  { mes: "Abril", Calor: 12, pH: 12 },
+  { mes: "Mayo", Calor: 14, pH: 14 },
+  { mes: "Junio", Calor: 8, pH: 10 },
+  { mes: "Julio", Calor: 6, pH: 4 },
+];
 
-const GraficoSensor = () => {
-  // Datos del gráfico
-  const data = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"], // Etiquetas de las barras
-    datasets: [
-      {
-        label: "Ventas", // Etiqueta de la serie de datos
-        data: [65, 59, 80, 81, 56, 55], // Datos del gráfico
-        backgroundColor: "rgba(75, 192, 192, 0.2)", // Color de fondo de las barras
-        borderColor: "rgba(75, 192, 192, 1)", // Color del borde de las barras
-        borderWidth: 1, // Ancho del borde de las barras
-      },
-    ],
-  };
-
-  // Opciones del gráfico
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top", // Posición de la leyenda
-      },
-      title: {
-        display: true,
-        text: "Gráfico de Ventas", // Título del gráfico
-      },
-    },
-  };
-
+export default function GraficoSensor() {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
-      <Bar data={data} options={options} />
+    <div className="bg-white shadow-lg p-4 rounded-xl">
+      <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="mes" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="Calor" stroke="#6B21A8" strokeWidth={2} dot={{ r: 5 }} />
+          <Line type="monotone" dataKey="pH" stroke="#15803D" strokeWidth={2} dot={{ r: 5 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
-};
-
-export default GraficoSensor;
+}

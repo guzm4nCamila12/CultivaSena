@@ -26,7 +26,9 @@ const Inicio = () => {
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
-        return "SuperAdmin";
+        let bloque= <p>SuperAdmin</p>;
+
+        return bloque;
       case 2:
         return "Admin";
       case 3:
@@ -104,22 +106,29 @@ const Inicio = () => {
     { key: "acciones", label: "Acciones", icon: configIcon },
   ];
 
-  const acciones = (fila) => (
-    <div className="flex justify-center items-center gap-2">
-      <button onClick={() => abrirModalEditar(fila)}>
-        <img src={editIcon} alt="Editar" />
-      </button>
-      <Link to={`/lista-fincas/${fila.id}`}>
-        <button>
-          <img src={ver} alt="Ver" />
+
+  const acciones = (fila) => {
+    if (fila.id_rol === "Admin") {
+      return( <div className="flex justify-center gap-2">
+        {console.log(fila)}
+        <button className="hover:bg-[#93A6B2] rounded-full p-1" onClick={() => abrirModalEditar(fila)}>
+          <img src={editIcon} alt="Editar" />
         </button>
-      </Link>
-      <button>
-        <img src={deletIcon} alt="Eliminar" />
-      </button>
-    </div>
-  )
-  
+        <Link to={`/lista-fincas/${fila.id}`}>
+        <button className="hover:bg-[#93A6B2] rounded-full p-1">
+          <img src={ver} alt="Ver" className="w-6"/>
+        </button>
+        </Link>
+        <button className="hover:bg-[#93A6B2] rounded-full p-1">
+          <img src={deletIcon} alt="Eliminar" />
+        </button>
+      </div>)
+    }
+    return(
+      <p>Sin fincas</p>
+   
+  )};
+
   const abrirModalEditar = (usuario) => {
     // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {

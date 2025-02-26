@@ -5,7 +5,9 @@ import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
 import { acctionSucessful } from '../../../components/alertSuccesful';
 import Swal from 'sweetalert2';
+import Gov from '../../../components/gov/gov';
 import Tabla from '../../../components/Tabla';
+import userIcon from "../../../assets/icons/user.png";
 import sensorIcon from "../../../assets/icons/sensor.png"
 import configIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
@@ -68,47 +70,31 @@ export default function ListaFincas() {
   ];  
 
   const acciones = (fila) => (
-    <div className="flex justify-center gap-2 ">
-      <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto'>
-
+    <div className="flex justify-center gap-2">
       <Link to={`/editar-finca/${fila.id}`}>
-        <button >
+        <button>
           <img src={editIcon} alt="Editar" />
         </button>
       </Link>
-      </div>
-      <div className='hover:bg-[#93A6B2] rounded-full p-1 h-9 my-auto'> 
-
-      <button className='hover:bg-[#93A6B2] rounded-full p-1' onClick={() => handleEliminarFinca(fila.id)} >
+      <button onClick={() => handleEliminarFinca(fila.id)} >
         <img src={deletIcon} alt="Eliminar"  />
       </button>
-      </div>
     </div>
   );
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores: 
-    <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto w-8 '>
-
-    <Link to={`/sensores-admin/${id}/${finca.id}`}>
-    <button >
+    sensores: <Link to={`/activar-sensores/${id}/${finca.id}`}>
+    <button className='text-center'>
       <img src={sensorIcon} alt="Sensores" />
       </button>
-    </Link>
-    
-    </div>,
-
-    alternos:
-    <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto w-8 '>
-    <Link to={`/alternos/${finca.id}`}>
-    <button className='m-1 '>
+    </Link>,
+    alternos: <Link to={`/alternos/${finca.id}`}>
+    <button>
       <img src={alternoIcon} alt="Alternos" />
       </button>
     </Link>
-    
-    </div>
   }));
 
   return (

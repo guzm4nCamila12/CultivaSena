@@ -19,6 +19,7 @@ const Inicio = () => {
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+  const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
   }, []);
@@ -108,11 +109,11 @@ const Inicio = () => {
 
 
   const acciones = (fila) => {
-    if (fila.id_rol === "Admin") {
-      return (<div className="flex justify-center gap-2">
-        {console.log(fila)}
+    return (
+      <div className="flex justify-center gap-2">
+
         <button className="group relative" onClick={() => abrirModalEditar(fila)}>
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={editIcon} alt="Editar" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
@@ -120,32 +121,46 @@ const Inicio = () => {
           </span>
         </button>
 
-        <Link to={`/lista-fincas/${fila.id}`}>
-          <button className="group relative">
-            <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+        {fila.id_rol !== "Admin" ? (
+          <button onClick={() => setModalSinFincasAbierto(true)} className="group relative">
+            <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
               <img src={ver} alt="Ver" className="w-6" />
             </div>
             <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-            Ver Datos
+              Sin datos
             </span>
           </button>
+        ) : null}
 
-        </Link>
+        {fila.id_rol === "Admin" && (
+          <Link to={`/lista-fincas/${fila.id}`}>
+            <button className="group relative">
+              <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+                <img src={ver} alt="Ver" className="w-6" />
+              </div>
+              <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                Ver Datos
+              </span>
+            </button>
+          </Link>
+        )}
+
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={deletIcon} alt="Eliminar" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
             Eliminar
           </span>
         </button>
-      </div>)
-    }
-    return (
-      <p>Sin fincas</p>
 
-    )
+      </div>
+    );
   };
+
+
+
+
 
   const abrirModalEditar = (usuario) => {
     // Crear un objeto con solo las propiedades que necesitas
@@ -173,12 +188,12 @@ const Inicio = () => {
 
       />
       <div className="flex ">
-      <button
-        className="w-full  mx-5 sm:w-auto sm:ml-44 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold"
-        onClick={() => setModalInsertarAbierto(true)}
-      >
-        Agregar Usuario
-      </button>
+        <button
+          className="w-full  mx-5 sm:w-auto sm:ml-44 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold"
+          onClick={() => setModalInsertarAbierto(true)}
+        >
+          Agregar Usuario
+        </button>
       </div>
 
 
@@ -272,6 +287,24 @@ const Inicio = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {modalSinFincasAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+            <h5 className="text-xl font-semibold mb-4">El usuario no cuenta con fincas</h5>
+            <div className="flex justify-end mt-4">
+              <button
+                type="button"
+                className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
+                onClick={() => setModalSinFincasAbierto(false)}
+              >
+                Cerrar
+              </button>
+
+            </div>
           </div>
         </div>
       )}

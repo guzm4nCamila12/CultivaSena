@@ -16,7 +16,6 @@ import alternoIcon from "../../../assets/icons/nombre.png"
 import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
-import BotonAsistente from '../../../components/botonAsistente';
 export default function ListaFincas() {
   const { id } = useParams();
   
@@ -116,19 +115,16 @@ export default function ListaFincas() {
           acciones={acciones}
         />
 
-        <Link to={`/agregar-finca/${usuario.id}`}>
           <div className="flex justify-end">
-            <button type="button" className="mx-3 my-5 px-4 py-2 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-gray-700 flex items-center">
+        <Link to={`/agregar-finca/${usuario.id}`}>
+            <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-1 bg-[rgba(0,_158,_0,_1)] text-white rounded-full hover:bg-gray-700 flex items-center">
               Agregar Finca
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
+             
             </button>
-          </div>
         </Link>
+          </div>
 
       </div>
-      <BotonAsistente />
     </div>
   );
 }

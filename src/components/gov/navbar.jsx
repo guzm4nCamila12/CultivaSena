@@ -1,6 +1,7 @@
 import React from 'react'
 import Gov from './gov'
 import BotonAtras from '../botonAtras'
+import BotonAsistente from '../botonAsistente'
 export default function navbar() {
   return (
     <div className='mb-5  '><Gov />
@@ -25,6 +26,7 @@ export default function navbar() {
         </div>
 
       </div>
+      <BotonAsistente />
     </div>
 
   )

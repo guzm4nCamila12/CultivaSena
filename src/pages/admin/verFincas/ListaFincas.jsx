@@ -85,7 +85,7 @@ export default function ListaFincas() {
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores: <Link to={`/sensores-admin/${id}/${finca.id}`}>
+    sensores: <Link to={`/activar-sensores/${id}/${finca.id}`}>
     <button className='text-center'>
       <img src={sensorIcon} alt="Sensores" />
       </button>

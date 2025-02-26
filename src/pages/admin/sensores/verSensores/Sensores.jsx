@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
@@ -64,16 +64,12 @@ function Sensores() {
     { key: "acciones", label: "Acciones", icon: accionesIcon },
   ];
 
-  const navigate = useNavigate();
-
- 
-  
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
 
 
-    
+
       <button onClick={() => abrirModalEditar(fila)} className="group relative">
         <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
@@ -85,7 +81,7 @@ function Sensores() {
         </span>
       </button>
 
-   
+
       <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
         <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
@@ -96,21 +92,21 @@ function Sensores() {
         </span>
       </button>
 
-    
-      <Link to={`/datos-sensor/${fila.id}`}>
-      <button className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
-          <img src={verIcon} alt="Ver" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Ver Datos
-        </span>
-      </button>
+      <Link to={`/datos-sensor/${fila.id}`}>
+        <button className="group relative">
+          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+
+            <img src={verIcon} alt="Ver" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+            Ver Datos
+          </span>
+        </button>
       </Link>
     </div>
   );
-  
+
 
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
@@ -167,7 +163,7 @@ function Sensores() {
 
   const handleSwitch = (event, sensorId) => {
     // Actualizar el estado del sensor en la lista de sensores
-    setSensores(prevSensores => 
+    setSensores(prevSensores =>
       prevSensores.map(sensor =>
         sensor.id === sensorId ? { ...sensor, estado: event.target.checked } : sensor
       )
@@ -180,21 +176,26 @@ function Sensores() {
       <div className="container mx-auto mt-4">
         <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
         <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1, 
+        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
+          ...sensor, "#": index + 1,
           estado: (
             <div className="flex justify-center items-center">
-              <label className="switch">
+              <label className="relative flex items-center cursor-not-allowed">
                 <input
-                        type="checkbox"
-                        checked={sensor.estado}
-                        onChange={handleSwitch}
-                        disabled
-                        className="form-checkbox h-6 w-6 text-blue-500"
-                      />
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  disabled // Evita que el usuario lo modifique
+                  className="sr-only"
+                />
+                <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
               </label>
             </div>
           ),
-         }))} acciones={acciones} />
+        }))} acciones={acciones} />
 
         <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
@@ -204,7 +205,7 @@ function Sensores() {
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
               <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
-              <hr/>
+              <hr />
               <form onSubmit={handleSubmit}>
                 <div className="relative w-full mt-2">
                   <img
@@ -256,7 +257,7 @@ function Sensores() {
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
               <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
-              <hr/>
+              <hr />
               <form onSubmit={handleEditarSensor}>
                 <div className="relative w-full mt-2">
                   <img
@@ -306,32 +307,32 @@ function Sensores() {
 
         {modalEliminarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-            <hr/>
-            <form onSubmit={HandlEliminarSensor}>
-            <div className="flex justify-center my-4">
-              <div className="bg-[#00304D] p-4 rounded-full">
-                <img
-                    src={Eliminar} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                  />
-              </div>
+            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+              <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
+              <hr />
+              <form onSubmit={HandlEliminarSensor}>
+                <div className="flex justify-center my-4">
+                  <div className="bg-[#00304D] p-4 rounded-full">
+                    <img
+                      src={Eliminar} // Reemplaza con la ruta de tu icono
+                      alt="icono"
+                    />
+                  </div>
+                </div>
+                <p className="text-lg text-center font-semibold">¿Estás seguro?</p>
+                <p className="text-gray-500 text-center text-sm">Se eliminará el sensor de manera permanente.</p>
+
+                <div className="flex justify-between mt-6 space-x-4">
+                  <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                    Cancelar
+                  </button>
+                  <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                    Eliminar
+                  </button>
+                </div>
+              </form>
             </div>
-            <p className="text-lg text-center font-semibold">¿Estás seguro?</p>
-            <p className="text-gray-500 text-center text-sm">Se eliminará el sensor de manera permanente.</p>
-    
-            <div className="flex justify-between mt-6 space-x-4">
-              <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
-                Cancelar
-              </button>
-              <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
-                Eliminar
-              </button>
-            </div>
-            </form>
           </div>
-        </div>
         )}
       </div>
     </div>

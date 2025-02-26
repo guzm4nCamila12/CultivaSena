@@ -70,31 +70,47 @@ export default function ListaFincas() {
   ];  
 
   const acciones = (fila) => (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-2 ">
+      <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto'>
+
       <Link to={`/editar-finca/${fila.id}`}>
-        <button>
+        <button >
           <img src={editIcon} alt="Editar" />
         </button>
       </Link>
-      <button onClick={() => handleEliminarFinca(fila.id)} >
+      </div>
+      <div className='hover:bg-[#93A6B2] rounded-full p-1 h-9 my-auto'> 
+
+      <button className='hover:bg-[#93A6B2] rounded-full p-1' onClick={() => handleEliminarFinca(fila.id)} >
         <img src={deletIcon} alt="Eliminar"  />
       </button>
+      </div>
     </div>
   );
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores: <Link to={`/sensores-admin/${id}/${finca.id}`}>
-    <button className='text-center'>
+    sensores: 
+    <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto w-8 '>
+
+    <Link to={`/sensores-admin/${id}/${finca.id}`}>
+    <button >
       <img src={sensorIcon} alt="Sensores" />
       </button>
-    </Link>,
-    alternos: <Link to={`/alternos/${finca.id}`}>
-    <button>
+    </Link>
+    
+    </div>,
+
+    alternos:
+    <div className='hover:bg-[#93A6B2] rounded-full p-1 h-8 my-auto w-8 '>
+    <Link to={`/alternos/${finca.id}`}>
+    <button className='m-1 '>
       <img src={alternoIcon} alt="Alternos" />
       </button>
     </Link>
+    
+    </div>
   }));
 
   return (

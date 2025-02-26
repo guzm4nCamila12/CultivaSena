@@ -125,7 +125,21 @@ const Inicio = () => {
       </div>)
     }
     return(
-      <p>Sin fincas</p>
+      <div>
+        <button className="hover:bg-[#93A6B2] rounded-full p-1" onClick={() => abrirModalEditar(fila)}>
+          <img src={editIcon} alt="Editar" />
+        </button>
+        <Link to={`/lista-fincas/${fila.id}`}>
+        <button className="hover:bg-[#93A6B2] rounded-full p-1">
+          <img src={ver} alt="Ver" className="w-6"/>
+        </button>
+        </Link>
+        
+        <button className="hover:bg-[#93A6B2] rounded-full p-1">
+          <img src={deletIcon} alt="Eliminar" />
+        </button>
+      </div>
+      
    
   )};
 

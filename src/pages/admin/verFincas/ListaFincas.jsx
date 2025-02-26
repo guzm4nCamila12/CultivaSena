@@ -16,6 +16,7 @@ import alternoIcon from "../../../assets/icons/nombre.png"
 import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
+import BotonAsistente from '../../../components/botonAsistente';
 export default function ListaFincas() {
   const { id } = useParams();
   
@@ -127,6 +128,7 @@ export default function ListaFincas() {
         </Link>
 
       </div>
+      <BotonAsistente />
     </div>
   );
 }

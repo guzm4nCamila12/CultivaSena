@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvent } from 'react-leaflet';
-import L from 'leaflet'; // Importar Leaflet para manejar los iconos
-import 'leaflet/dist/leaflet.css'; // Importar los estilos para el mapa
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import locationIcon from "../assets/icons/location.png"
 
-/**
- * 
- * @param {Object} props - Propiedades que recibe el componente
- * @param {function} props.setUbicacion - Funcion para actualizar la ubicacion seleccionada
- * @param {Object} props.Ubicacion - Coordenadas actuales de la ubicacion (lat,lng)
- *  
- * @returns {JSX.Element} El componente del mapa interactivo 
- */
 const Mapa = ({ setUbicacion, ubicacion }) => {
-  //Estado local de 'position' que mantiene la ubicacion del marcador en el mapa
-  const [position, setPosition] = useState(ubicacion || { lat: 3.843792824199103, lng: -72.72583097219469 });
+  const [position, setPosition] = useState(ubicacion || { lat: 4.83553127984409, lng: -75.67226887098515 });
 
-  // Actualiza la posición cada vez que 'ubicacion' cambie
   useEffect(() => {
     if (ubicacion) {
-      setPosition(ubicacion); // Actualiza la posición del mapa con las nuevas coordenadas
+      setPosition(ubicacion);
     }
   }, [ubicacion]);
 
-  // Asegurarse de que Leaflet cargue el ícono del marcador
   useEffect(() => {
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -32,30 +22,40 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     });
   }, []);
 
-  // Función para actualizar la posición del marcador cuando el usuario haga click en el mapa
   const MyMapEvents = () => {
     useMapEvent('click', (event) => {
-      const { lat, lng } = event.latlng;  // Obtiene las coordenadas del click
-      setPosition({ lat, lng });  // Actualiza la posición del marcador en el mapa
-      setUbicacion({ lat, lng });  // Actualiza el estado en el componente
+      const { lat, lng } = event.latlng;
+      setPosition({ lat, lng });
+      setUbicacion({ lat, lng });
     });
-
     return null;
   };
-
   return (
     <div>
-      <h2>Seleccione una ubicación en el mapa</h2>
+      <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-2'>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 mr-2">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+        </svg>
+        Seleccione una ubicación en el mapa
+      </h2>
+      
+      <div className="relative">
+        <MapContainer center={position} opacity={1} className='z-10'  zoom={13} style={{ width: '100%', height: '500px' }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+          <Marker position={position}>
+            <Popup>
+              Ubicación seleccionada: {position.lat}, {position.lng}
+            </Popup>
+          </Marker>
+          <MyMapEvents /> 
+        </MapContainer>
+        <div className='absolute bottom-4 left-4 p-2 bg-white text-center text-black w-auto right-48 rounded-2xl z-20 flex items-center space-x-2'>
+          <img src={locationIcon} className="w-6 h-6" alt="Ubicación" /> {/* Ajusta el tamaño del icono si es necesario */}
+          <strong>Ubicación Actual:</strong> {position.lat}, {position.lng}
+        </div>
 
-      <MapContainer className='rounded-3xl' center={position} zoom={5} style={{ width: '100%', height: '500px' }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Marker position={position}>
-          <Popup>
-            Ubicación seleccionada: {position.lat}, {position.lng}
-          </Popup>
-        </Marker>
-        <MyMapEvents />  {/* Maneja los eventos del click en el mapa */}
-      </MapContainer>
+      </div>
     </div>
   );
 };

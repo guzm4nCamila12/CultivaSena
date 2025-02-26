@@ -2,7 +2,7 @@ import React from 'react'
 import Gov from './gov'
 export default function navbar() {
   return (
-    <div className='mb-5'><Gov />
+    <div className='mb-5 relative'><Gov />
     <nav className="relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/navbarphoto.png')" }}>
     <div className="absolute inset-0 bg-[rgba(132,106,41,0.5)]">
       <div className="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent"></div>

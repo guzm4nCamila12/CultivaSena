@@ -26,7 +26,7 @@ const Inicio = () => {
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
-        let bloque= <p>SuperAdmin</p>;
+        let bloque = <p>SuperAdmin</p>;
 
         return bloque;
       case 2:
@@ -109,25 +109,43 @@ const Inicio = () => {
 
   const acciones = (fila) => {
     if (fila.id_rol === "Admin") {
-      return( <div className="flex justify-center gap-2">
+      return (<div className="flex justify-center gap-2">
         {console.log(fila)}
-        <button className="hover:bg-[#93A6B2] rounded-full p-1" onClick={() => abrirModalEditar(fila)}>
-          <img src={editIcon} alt="Editar" />
+        <button className="group relative" onClick={() => abrirModalEditar(fila)}>
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={editIcon} alt="Editar" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+            Editar
+          </span>
         </button>
+
         <Link to={`/lista-fincas/${fila.id}`}>
-        <button className="hover:bg-[#93A6B2] rounded-full p-1">
-          <img src={ver} alt="Ver" className="w-6"/>
-        </button>
+          <button className="group relative">
+            <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+              <img src={ver} alt="Ver" className="w-6" />
+            </div>
+            <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+            Ver Datos
+            </span>
+          </button>
+
         </Link>
-        <button className="hover:bg-[#93A6B2] rounded-full p-1">
-          <img src={deletIcon} alt="Eliminar" />
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={deletIcon} alt="Eliminar" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+            Eliminar
+          </span>
         </button>
       </div>)
     }
-    return(
+    return (
       <p>Sin fincas</p>
-   
-  )};
+
+    )
+  };
 
   const abrirModalEditar = (usuario) => {
     // Crear un objeto con solo las propiedades que necesitas
@@ -137,11 +155,11 @@ const Inicio = () => {
       telefono: usuario.telefono,
       correo: usuario.correo
     };
-    
+
     setEditarUsuario(usuarioNecesario);
     setModalEditarAbierto(true);
   };
-  
+
 
 
   return (
@@ -154,12 +172,17 @@ const Inicio = () => {
         acciones={acciones}
 
       />
-      <button className=" px-4 py-2 bg-green-600 text-white rounded-3xl 
-                   min-w-fit sm:w-auto sm:ml-10 md:ml-20 lg:ml-44
-                   text-sm md:text-base"
-        onClick={() => setModalInsertarAbierto(true)}>
+      <div className="flex ">
+      <button
+        className="w-full  mx-5 sm:w-auto sm:ml-44 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold"
+        onClick={() => setModalInsertarAbierto(true)}
+      >
         Agregar Usuario
       </button>
+      </div>
+
+
+
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
@@ -201,7 +224,7 @@ const Inicio = () => {
           <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
             <h5 className="text-xl font-semibold mb-4">EDITAR USUARIO</h5>
             <form onSubmit={handleEditar}>
-            <label className="block text-sm font-medium">ID</label>
+              <label className="block text-sm font-medium">ID</label>
               <input
                 className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
                 value={editarUsuario.id}
@@ -235,7 +258,7 @@ const Inicio = () => {
                 name="correo"
                 onChange={handleChangeEditar}
               />
-            
+
               <div className="flex justify-end mt-4">
                 <button
                   type="button"

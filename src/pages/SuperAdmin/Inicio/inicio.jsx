@@ -134,7 +134,7 @@ const Inicio = () => {
 
         {fila.id_rol === "Admin" && (
           <Link to={`/lista-fincas/${fila.id}`}>
-            <button className="group relative">
+            <button onClick={console.log(fila.id)} className="group relative">
               <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
                 <img src={ver} alt="Ver" className="w-6" />
               </div>

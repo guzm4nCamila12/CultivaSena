@@ -18,16 +18,19 @@ import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 export default function ListaFincas() {
   const { id } = useParams();
-  
+
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const idRol = Number(localStorage.getItem('rol'));
+  console.log(idRol)
+
 
   useEffect(() => {
     getUsuarioById(id)
       .then(data => setUsuario(data))
       .catch(error => console.error('Error: ', error))
-  
+
     getFincasById(id)
       .then(data => setFincas(data || []))
       .catch(error => console.error('Error: ', error));
@@ -59,7 +62,7 @@ export default function ListaFincas() {
       }
     });
   }
-  
+
 
   const columnas = [
     { key: "#", label: "#", icon: "" },
@@ -67,7 +70,7 @@ export default function ListaFincas() {
     { key: "sensores", label: "Sensores", icon: sensorAltIcon },
     { key: "alternos", label: "Alternos", icon: alternoIcon },
     { key: "acciones", label: "Acciones", icon: configIcon },
-  ];  
+  ];
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
@@ -77,22 +80,25 @@ export default function ListaFincas() {
         </button>
       </Link>
       <button onClick={() => handleEliminarFinca(fila.id)} >
-        <img src={deletIcon} alt="Eliminar"  />
+        <img src={deletIcon} alt="Eliminar" />
       </button>
     </div>
   );
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
+
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores: <Link to={`/activar-sensores/${id}/${finca.id}`}>
-    <button className='text-center'>
-      <img src={sensorIcon} alt="Sensores" />
-      </button>
-    </Link>,
+    sensores: (
+      <Link to={idRol === 1 ? `/activar-sensores/${id}/${finca.id}` : `/sensores-admin/${id}/${finca.id}`}>
+        <button className='text-center'>
+          <img src={sensorIcon} alt="Sensores" />
+        </button>
+      </Link>
+    ),
     alternos: <Link to={`/alternos/${finca.id}`}>
-    <button>
-      <img src={alternoIcon} alt="Alternos" />
+      <button>
+        <img src={alternoIcon} alt="Alternos" />
       </button>
     </Link>
   }));
@@ -106,7 +112,7 @@ export default function ListaFincas() {
         <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>
         <p className="text-center text-gray-600">Administrador</p>
         <p className="text-center text-gray-600">Tu Id: {usuario.id}</p>
-       
+
         {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
         <Tabla
           titulo="Fincas"
@@ -117,7 +123,7 @@ export default function ListaFincas() {
 
         <Link to={`/agregar-finca/${usuario.id}`}>
           <div className="flex justify-end">
-            <button type="button" className="mx-3 my-5 px-4 py-2 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-gray-700 flex items-center">
+            <button type="button" className="mx-3 my-5 px-4 py-2 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl flex items-center">
               Agregar Finca
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

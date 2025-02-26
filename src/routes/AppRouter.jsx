@@ -49,7 +49,7 @@ function AppRouter() {
 
         {/* camila */}
         <Route path="/sensores-admin/:id/:idUser" element={<Sensores/>}/>
-        <Route path="datos-sensor" element={<VerDatoSensor/>}/>
+        <Route path="datos-sensor/:id" element={<VerDatoSensor/>}/>
         {/*<Route path='/sensores-grafica' element={<GraficoSensor />}/> */}
 
         {/* john */}

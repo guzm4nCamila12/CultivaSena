@@ -7,7 +7,7 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
 
       {/* Contenedor que permite el scroll horizontal */}
       <div className="w-full overflow-x-auto border rounded-lg shadow-md">
-        <div className="max-h-[550px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[600px] overflow-y-auto m-auto">
+        <div className="max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[600px] overflow-y-auto m-auto">
 
 
           <table className="w-full min-w-[600px] border-separate border-spacing-y-4">

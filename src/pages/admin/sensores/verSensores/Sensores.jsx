@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
@@ -38,9 +37,9 @@ function Sensores() {
   });
 
   useEffect(() => {
-    getSensoresById(id).then(setSensores);
-    getUsuarioById(idUser).then(setUsuario);
-    getFincasByIdFincas(id).then(setFincas);
+    getSensoresById(idUser).then(setSensores);
+    getUsuarioById(id).then(setUsuario);
+    getFincasByIdFincas(idUser).then(setFincas);
   }, [id, idUser]);
 
   useEffect(() => {
@@ -68,38 +67,40 @@ function Sensores() {
   const navigate = useNavigate();
 
   const verDatos = () => {
-    navigate(`/datos-sensor`);  // Redirige a la ruta con el ID del sensor
+    navigate("/datos-sensor");  
   };
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-
+    
       <button onClick={() => abrirModalEditar(fila)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
           <img src={editIcon} alt="Editar" />
         </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
           Editar
         </span>
       </button>
-  
+   
       <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
           <img src={deletIcon} alt="Eliminar" />
         </div>
         <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
           Eliminar
         </span>
       </button>
- 
-      <button onClick={verDatos} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+    
+      <Link to={`/datos-sensor/${fila.id}`}>
+      <button className="group relative">
+        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
           <img src={verIcon} alt="Ver" />
         </div>
         <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
           Ver Datos
         </span>
       </button>
+      </Link>
     </div>
   );
   
@@ -165,7 +166,7 @@ function Sensores() {
         <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
         <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({ ...sensor, "#": index + 1 }))} acciones={acciones} />
 
-        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
+        <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
 
@@ -231,7 +232,7 @@ function Sensores() {
                   <img
                     src={nombreIcon} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
@@ -246,7 +247,7 @@ function Sensores() {
                   <img
                     src={descripcionIcon} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"

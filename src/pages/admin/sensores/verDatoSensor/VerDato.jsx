@@ -4,26 +4,19 @@ import GraficoSensor from '../grafico/Grafico';
 import NavBar from '../../../../components/gov/navbar';
 import macIcon from "../../../../assets/icons/mac.png";
 import nombreIcon from "../../../../assets/icons/nombre.png";
+import { useParams } from "react-router-dom";
+import { getSensor } from '../../../../services/sensores/ApiSensores';
 
 export default function VerSensores() {
   // Estado para almacenar los datos de los sensores
   const [datosSensor, setDatosSensores] = useState([]);
   const [sensores, setSensores] = useState([]);
+  const { id } = useParams();
 
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
-    setDatosSensores([
-      {
-        id: 1,
-        fecha: "17-03-2006",
-        datos: "La temperatura estuvo a 30 grados"
-      },
-      {
-        id: 2,
-        fecha: "20-05-2010",
-        datos: "La temperatura es de 20 grados"
-      }
-    ]);
+    getSensor(id)
+    .then(data => setSensores(data))
   }, []);
 
   // Definir las columnas de la tabla

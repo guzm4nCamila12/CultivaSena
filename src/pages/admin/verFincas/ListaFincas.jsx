@@ -5,21 +5,20 @@ import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
 import { acctionSucessful } from '../../../components/alertSuccesful';
 import Swal from 'sweetalert2';
-import Gov from '../../../components/gov/gov';
 import Tabla from '../../../components/Tabla';
-import userIcon from "../../../assets/icons/user.png";
 import sensorIcon from "../../../assets/icons/sensor.png"
 import configIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
-import alternoIcon from "../../../assets/icons/nombre.png"
+import alternoIcon from "../../../assets/icons/alterno.png"
+import alternoIcon2 from "../../../assets/icons/nombre.png"
 import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 import BotonAsistente from '../../../components/botonAsistente';
 export default function ListaFincas() {
   const { id } = useParams();
-  
+
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
@@ -28,7 +27,7 @@ export default function ListaFincas() {
     getUsuarioById(id)
       .then(data => setUsuario(data))
       .catch(error => console.error('Error: ', error))
-  
+
     getFincasById(id)
       .then(data => setFincas(data || []))
       .catch(error => console.error('Error: ', error));
@@ -60,42 +59,81 @@ export default function ListaFincas() {
       }
     });
   }
-  
+
 
   const columnas = [
     { key: "#", label: "#", icon: "" },
     { key: "nombre", label: "Fincas", icon: fincaIcon },
     { key: "sensores", label: "Sensores", icon: sensorAltIcon },
-    { key: "alternos", label: "Alternos", icon: alternoIcon },
+    { key: "alternos", label: "Alternos", icon: alternoIcon2 },
     { key: "acciones", label: "Acciones", icon: configIcon },
-  ];  
+  ];
 
-  const acciones = (fila) => (
-    <div className="flex justify-center gap-2">
+const acciones = (fila) => (
+  <div className="flex justify-center gap-2">
+    {/* Editar */}
+    <div className="relative group">
       <Link to={`/editar-finca/${fila.id}`}>
-        <button>
+        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
           <img src={editIcon} alt="Editar" />
         </button>
       </Link>
-      <button onClick={() => handleEliminarFinca(fila.id)} >
-        <img src={deletIcon} alt="Eliminar"  />
-      </button>
+      <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Editar
+      </span>
     </div>
-  );
+
+    {/* Eliminar */}
+    <div className="relative group">
+      <button
+        onClick={() => handleEliminarFinca(fila.id)}
+        className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
+      >
+        <img src={deletIcon} alt="Eliminar" />
+      </button>
+      <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Eliminar
+      </span>
+    </div>
+  </div>
+);
+
+  
+  
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores: <Link to={`/activar-sensores/${id}/${finca.id}`}>
-    <button className='text-center'>
-      <img src={sensorIcon} alt="Sensores" />
+    sensores:
+      
+
+        <Link to={`/sensores-admin/${id}/${finca.id}`}>
+          <button className='group relative'>
+          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={sensorIcon} alt="Sensores" />
+            </div>
+        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          Sensores
+        </span>
       </button>
-    </Link>,
-    alternos: <Link to={`/alternos/${finca.id}`}>
-    <button>
-      <img src={alternoIcon} alt="Alternos" />
+        </Link>
+
+     ,
+
+    alternos:
+    
+        <Link to={`/alternos/${finca.id}`}>
+          <button className='group relative '>
+          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={alternoIcon} alt="Alternos" />
+            </div>
+        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          Alternos
+        </span>
       </button>
-    </Link>
+        </Link>
+
+    
   }));
 
   return (
@@ -107,7 +145,7 @@ export default function ListaFincas() {
         <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>
         <p className="text-center text-gray-600">Administrador</p>
         <p className="text-center text-gray-600">Tu Id: {usuario.id}</p>
-       
+
         {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
         <Tabla
           titulo="Fincas"

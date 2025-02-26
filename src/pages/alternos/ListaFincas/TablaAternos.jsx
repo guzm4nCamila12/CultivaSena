@@ -19,13 +19,13 @@ const Inicio = () => {
 
   // Estado local del componente
   const [usuarios, setUsuarios] = useState([]); // Arreglo de usuarios obtenidos de la Base de Datos
-  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0,id_rol: 3, id_finca:parseInt(id) });
-  const [editarUsuario, setEditarUsuario] = useState({id,nombre: "", telefono: "", correo: "", clave: "",cantidad_fincas: 0,id_rol: 3, id_finca:parseInt(id) });
- 
+  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+  const [editarUsuario, setEditarUsuario] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
 
-  
+
 
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
@@ -41,7 +41,7 @@ const Inicio = () => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
   };
 
- 
+
 
   const columnas = [
     { key: "#", label: "#" },
@@ -52,26 +52,26 @@ const Inicio = () => {
   ];
 
   const HandleEditarAlterno = (alterno) => {
-    const { "#" : removed, ...edit } = alterno;
+    const { "#": removed, ...edit } = alterno;
     setEditarUsuario(edit);
     setModalEditarAbierto(true);
     console.log(edit)
-    
+
 
   }
 
-    const handleEditarSensor = (e) => {
-      e.preventDefault();
-      console.log(editarUsuario);
-      actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
-        setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
-        acctionSucessful.fire({
-          icon: "success",
-          title: "Alterno editado correctamente"
-        });
-        setModalEditarAbierto(false);
+  const handleEditarSensor = (e) => {
+    e.preventDefault();
+    console.log(editarUsuario);
+    actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
+      setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Alterno editado correctamente"
       });
-    };
+      setModalEditarAbierto(false);
+    });
+  };
 
 
   const HandlEliminarSensor = (id) => {
@@ -100,7 +100,7 @@ const Inicio = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Validaciones
-    
+
     // Insertar nuevo usuario
     insertarUsuario(nuevoUsuario).then(() => {
       setUsuarios([...usuarios, nuevoUsuario]);
@@ -115,15 +115,26 @@ const Inicio = () => {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <button onClick={() => HandleEditarAlterno(fila)}>
-        <img src={editIcon} alt="Editar" />
-      </button>
-      <button onClick={() => HandlEliminarSensor(fila.id)}>
-        <img src={deletIcon} alt="Eliminar" />
-      </button>
-      <button>
-        <img src={verIcon} alt="Ver" />
-      </button>
+
+      <div className="relative group">
+        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => HandleEditarAlterno(fila)}>
+
+          <img src={editIcon} alt="Editar" />
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Editar
+        </span>
+      </div>
+
+      <div className="relative group">
+        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => HandlEliminarSensor(fila.id)}>
+
+          <img src={deletIcon} alt="Eliminar" />
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Eliminar
+        </span>
+      </div>
     </div>
   );
 
@@ -141,14 +152,14 @@ const Inicio = () => {
           Insertar
         </button>
 
-        
+
 
 
         {/* MODAL insertar */}
         {modalInsertarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6 text-center w-[30%]">
-              <h5 className="text-2xl font-bold mb-4 border-b-2 pb-3" style={{fontFamily:"work sans"}}>Agregar Alterno</h5>
+              <h5 className="text-2xl font-bold mb-4 border-b-2 pb-3" style={{ fontFamily: "work sans" }}>Agregar Alterno</h5>
               <form onSubmit={handleSubmit}>
                 <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
                 <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl " type="text" name="telefono" placeholder="Telefono" onChange={handleChange} />
@@ -193,13 +204,7 @@ const Inicio = () => {
                   type="text"
                   onChange={handleChangeEditar}
                 />
-                <label className="block text-sm font-medium mt-4">CLAVE</label>
-                <input
-                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-3xl "
-                  type="text"
-                  name="clave"
-                  onChange={handleChangeEditar}
-                />
+
                 <div className="flex justify-end mt-4">
                   <button
                     type="button"

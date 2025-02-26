@@ -14,7 +14,8 @@ import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import alternoIcon from "../../../assets/icons/nombre.png"
 import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
-
+import Navbar from '../../../components/gov/navbar';
+import fincaIcon from "../../../assets/icons/finca.png";
 export default function ListaFincas() {
   const { id } = useParams();
   
@@ -62,7 +63,7 @@ export default function ListaFincas() {
 
   const columnas = [
     { key: "#", label: "#", icon: "" },
-    { key: "nombre", label: "Nombre", icon: userIcon },
+    { key: "nombre", label: "Fincas", icon: fincaIcon },
     { key: "sensores", label: "Sensores", icon: sensorAltIcon },
     { key: "alternos", label: "Alternos", icon: alternoIcon },
     { key: "acciones", label: "Acciones", icon: configIcon },
@@ -99,7 +100,7 @@ export default function ListaFincas() {
   return (
     <div>
       <div>
-        <Gov />
+        <Navbar />
       </div>
       <div className="container my-10 mx-auto mt-8 px-4">
         <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>

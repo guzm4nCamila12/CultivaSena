@@ -11,7 +11,7 @@ const Login = () => {
   const [clave, setClave] = useState("");  // Estado para la contraseña
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState(null);  
+  const [usuario, setUsuario] = useState(null);
 
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = (e) => {
@@ -24,13 +24,15 @@ const Login = () => {
     login(inicioUsuario)
       .then((data) => {
         console.log(data);  // Actualiza el estado con los datos del usuario
+        // Guardar un dato en el localStorage
+        localStorage.setItem('rol', data.id_rol);
+
         acctionSucessful.fire({
           icon: "success",
           title: `Bienvenido ${data.nombre}`
         });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
-          console.log(data.id);
           navigate("/inicio-SuperAdmin");
         } else if (data.id_rol === 2) {
           console.log("Admin");
@@ -39,7 +41,7 @@ const Login = () => {
           console.log("Alterno");
           navigate(`/sensores-alterno/${data.id_finca}`);
         }
-        
+
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
@@ -117,7 +119,7 @@ const Login = () => {
                   <img
                     src={mostrarClave ? "/ojoA.png" : "/ClosedEye.png"}
                     alt="Toggle Visibility"
-                    
+
                   />
                 </div>
               </div>

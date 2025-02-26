@@ -22,6 +22,9 @@ export default function ListaFincas() {
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const idRol = Number(localStorage.getItem('rol'));
+  console.log(idRol)
+
 
   useEffect(() => {
     getUsuarioById(id)
@@ -78,9 +81,7 @@ const acciones = (fila) => (
           <img src={editIcon} alt="Editar" />
         </button>
       </Link>
-      <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Editar
-      </span>
+
     </div>
 
     {/* Eliminar */}
@@ -102,34 +103,21 @@ const acciones = (fila) => (
   
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
+
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
-    sensores:
-      
 
-        <Link to={`/sensores-admin/${id}/${finca.id}`}>
-          <button className='group relative'>
-          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorIcon} alt="Sensores" />
-            </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Sensores
-        </span>
-      </button>
-        </Link>
+    sensores: (
+      <Link to={idRol === 1 ? `/activar-sensores/${id}/${finca.id}` : `/sensores-admin/${id}/${finca.id}`}>
+        <button className='text-center'>
+          <img src={sensorIcon} alt="Sensores" />
+        </button>
+      </Link>
+    ),
+    alternos: <Link to={`/alternos/${finca.id}`}>
+      <button>
+        <img src={alternoIcon} alt="Alternos" />
 
-     ,
-
-    alternos:
-    
-        <Link to={`/alternos/${finca.id}`}>
-          <button className='group relative '>
-          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={alternoIcon} alt="Alternos" />
-            </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Alternos
-        </span>
       </button>
         </Link>
 
@@ -156,7 +144,7 @@ const acciones = (fila) => (
 
         <Link to={`/agregar-finca/${usuario.id}`}>
           <div className="flex justify-end">
-            <button type="button" className="mx-3 my-5 px-4 py-2 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-gray-700 flex items-center">
+            <button type="button" className="mx-3 my-5 px-4 py-2 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl flex items-center">
               Agregar Finca
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

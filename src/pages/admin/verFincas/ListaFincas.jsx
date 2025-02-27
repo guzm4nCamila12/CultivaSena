@@ -129,9 +129,8 @@ const acciones = (fila) => (
         <Navbar />
       </div>
       <div className="container my-10 mx-auto mt-8 px-4">
-        <h1 className="text-3xl font-semibold text-center text-gray-800">{usuario.nombre}</h1>
-        <p className="text-center text-gray-600">Administrador</p>
-        <p className="text-center text-gray-600">Tu Id: {usuario.id}</p>
+        <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
+        <p className="text-2xl text-center text-black">Administrador</p>
 
         {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
         <Tabla

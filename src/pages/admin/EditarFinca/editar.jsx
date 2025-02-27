@@ -87,53 +87,33 @@ export default function EditarFinca() {
   return (
     <div>
       <Navbar/>
-      <div className="m-10">
-      </div>
-      <div className="flex items-center justify-between">
-        <button className="ml-6 p-2 text-white  bg-green-500 rounded hover:bg-green-400 h-8 w-14" 
-        onClick={irAtras}
-        >
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-full h-12 pb-7">
-          <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-        </button>
-
-        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">FINCA: {fincas.nombre}</h1>
-      </div>
-      <div className="max-w-4xl mx-auto p-6 mb-auto w-full rounded-2xl">
+      <div style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-20 my-0 p-1 mb-auto rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
-          <div className="flex h-28 w-full mb-0 ">
+          <div className="flex max-w-[1721px] gap-4 relative ">
+          <h2 className="whitespace-nowrap text-4xl font-medium ml-9">Editar Finca</h2>
             <input
               type="text"
               name="nombreFinca"
               value={nombreFinca}
               onChange={(e) => setNombreFinca(e.target.value)}
-              className="mr-4 w-full h-12 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#10314669]"
+              className="z-10 max-w-[1260px] flex-grow pl-7 h-14 border-4 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]"
               placeholder="Ingrese su nuevo nombre"
               autoComplete="off"
             />
-
             <button type="submit"
-             className="w-64 p-3 h-12 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-[#30b63096] focus:outline-none" 
+             className="z-20 absolute bottom-0 -right-1 w-80 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none" 
             >
               EDITAR
             </button>
           </div>
 
-          <div>
-            <h1 className="text-3xl text-gray-700"><i className="bi bi-geo-alt"></i></h1>
+          <div className="m-0 w-full shadow-xl rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />
             ) : (
               <p className="text-gray-600">Cargando mapa...</p>
             )}
-          </div>
-
-          <div className="flex justify-start">
-            <p className="text-lg text-gray-700">
-              Ubicación Actual: {ubicacion ? `${ubicacion.lat}, ${ubicacion.lng}` : "Cargando..."}
-              </p>
           </div>
         </form>
       </div>

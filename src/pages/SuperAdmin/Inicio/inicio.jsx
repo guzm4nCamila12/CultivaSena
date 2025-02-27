@@ -1,4 +1,4 @@
-import { actualizarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import { useState, useEffect } from "react";
 import userIcon from "../../../assets/icons/user.png"
 import phoneIcon from "../../../assets/icons/phone.png"
@@ -17,14 +17,18 @@ import deletIcon from "../../../assets/icons/delete.png"
 import NavBar from "../../../components/gov/navbar";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { Link } from "react-router-dom";
+import sinFinca from "../../../assets/icons/sinFinca.png"
+import Eliminar from "../../../assets/icons/Disposal.png"
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
   }, []);
@@ -97,10 +101,15 @@ const Inicio = () => {
       console.error(error)
     }
 
-
-
   };
-
+  const handleEliminarUsuario = (e) => {
+    e.preventDefault();
+    eliminarUsuario(usuarioEliminar).then(() => {
+      setUsuarios(usuarios.filter(usuario => usuario.id !== usuarioEliminar));
+      setModalEliminarAbierto(false);
+      acctionSucessful.fire({ icon: "success", title: "Usuario eliminado correctamente" });
+    }).catch(console.error);
+  };
 
 
   const columnas = [
@@ -117,47 +126,51 @@ const Inicio = () => {
     return (
       <div className="flex justify-center gap-2">
 
-        <button className="group relative" onClick={() => abrirModalEditar(fila)}>
-          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+        <div className="relative group">
+          <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => abrirModalEditar(fila)}>
+
             <img src={editIcon} alt="Editar" />
-          </div>
-          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
           </span>
-        </button>
+        </div>
 
         {fila.id_rol !== "Admin" ? (
-          <button onClick={() => setModalSinFincasAbierto(true)} className="group relative">
-            <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="relative group">
+            <button onClick={() => setModalSinFincasAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+
               <img src={ver} alt="Ver" className="w-6" />
-            </div>
-            <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-              Sin datos
+            </button>
+            <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver
             </span>
-          </button>
+          </div>
         ) : null}
 
         {fila.id_rol === "Admin" && (
-          <Link to={`/lista-fincas/${fila.id}`}>
-            <button onClick={console.log(fila.id)} className="group relative">
-              <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="relative group">
+            <Link to={`/lista-fincas/${fila.id}`}>
+
+              <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+
                 <img src={ver} alt="Ver" className="w-6" />
-              </div>
-              <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                Ver Datos
+              </button>
+              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-1 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                Ver
               </span>
-            </button>
-          </Link>
+            </Link>
+          </div>
         )}
 
-        <button className="group relative">
-          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+        <div className="relative group">
+          <button onClick={() => abrirModalEliminar(fila.id)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={deletIcon} alt="Eliminar" />
-          </div>
-          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
-        </button>
+        </div>
 
       </div>
     );
@@ -180,6 +193,10 @@ const Inicio = () => {
     setEditarUsuario(usuarioNecesario);
     setModalEditarAbierto(true);
   };
+  const abrirModalEliminar = (id) => {
+    setUsuarioEliminar(id);
+    setModalEliminarAbierto(true)
+  }
 
 
 
@@ -356,25 +373,70 @@ const Inicio = () => {
         )
       }
 
-      {
-        modalSinFincasAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-              <h5 className="text-xl font-semibold mb-4">El usuario no cuenta con fincas</h5>
-              <div className="flex justify-end mt-4">
-                <button
-                  type="button"
-                  className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
-                  onClick={() => setModalSinFincasAbierto(false)}
-                >
-                  Cerrar
+
+
+      {modalSinFincasAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-1/4 p-6">
+            <h5 className="text-2xl font-bold mb-4 text-center">Fincas</h5>
+            <hr />
+            <form >
+              <div className="flex justify-center my-4">
+                <div className="bg-[#00304D] p-4 rounded-full">
+                  <img
+                    src={sinFinca} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                  />
+                </div>
+              </div>
+              <p className="text-lg text-center font-semibold">No hay fincas registradas</p>
+              <p className="text-gray-500 text-center text-sm">Agrega una finca para visualizar los datos.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalSinFincasAbierto(false)} >
+                  Aceptar
                 </button>
 
               </div>
-            </div>
+            </form>
           </div>
-        )
+        </div>
+      )
       }
+
+      {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Usuario</h5>
+            <hr />
+            <form onSubmit={handleEliminarUsuario}>
+              <div className="flex justify-center my-4">
+                <div className="bg-[#00304D] p-4 rounded-full">
+                  <img
+                    src={Eliminar} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                  />
+                </div>
+              </div>
+              <p className="text-lg text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-500 text-center text-sm">Se eliminará el usuario de manera permanente.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                  Cancelar
+                </button>
+                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                  Eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+
+
 
 
     </>

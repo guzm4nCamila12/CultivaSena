@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Mapa from "../../../components/Mapa";
+import Mapa from "../../../components/Mapa/Mapa";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
@@ -90,7 +90,7 @@ export default function EditarFinca() {
       <div className="m-10">
       </div>
       <div className="flex items-center justify-between">
-        <button className="ml-6 p-2 bg-green-500 text-white rounded hover:bg-green-400" 
+        <button className="ml-6 p-2 text-white  bg-green-500 rounded hover:bg-green-400 h-8 w-14" 
         onClick={irAtras}
         >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-full h-12 pb-7">
@@ -98,21 +98,26 @@ export default function EditarFinca() {
         </svg>
         </button>
 
-        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">EDITAR FINCA {fincas.nombre}</h1>
+        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">FINCA: {fincas.nombre}</h1>
       </div>
-      <div></div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-lg font-medium text-gray-700">Ingrese su nuevo nombre:</label>
+      <div className="max-w-4xl mx-auto p-6 mb-auto w-full rounded-2xl">
+        <form onSubmit={handleSubmit} className="space-y-6 mt-0">
+          <div className="flex h-28 w-full mb-0 ">
             <input
               type="text"
               name="nombreFinca"
               value={nombreFinca}
               onChange={(e) => setNombreFinca(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder={fincas.nombre}
+              className="mr-4 w-full h-12 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#10314669]"
+              placeholder="Ingrese su nuevo nombre"
               autoComplete="off"
             />
+
+            <button type="submit"
+             className="w-64 p-3 h-12 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-[#30b63096] focus:outline-none" 
+            >
+              EDITAR
+            </button>
           </div>
 
           <div>
@@ -121,18 +126,17 @@ export default function EditarFinca() {
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />
             ) : (
-              <p>Cargando mapa...</p>
+              <p className="text-gray-600">Cargando mapa...</p>
             )}
           </div>
 
-          <div>
-            <p className="text-lg text-gray-700">Ubicación Actual: {ubicacion ? `${ubicacion.lat}, ${ubicacion.lng}` : "Cargando..."}</p>
+          <div className="flex justify-start">
+            <p className="text-lg text-gray-700">
+              Ubicación Actual: {ubicacion ? `${ubicacion.lat}, ${ubicacion.lng}` : "Cargando..."}
+              </p>
           </div>
-
-          <button type="submit" className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-400 focus:outline-none">
-            EDITAR
-          </button>
         </form>
+      </div>
     </div>
   );
 }

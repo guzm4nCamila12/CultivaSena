@@ -22,7 +22,6 @@ import SensoresAlterno from "../pages/alternos/ListaFincas/sensores/SensoresAlte
 //import GraficoSensor from '../pages/Admin/Sensores/GraficoSensor/GraficoSensor';
 import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
 
-import FincasAdmin from "../pages/superAdmin/verInformacion/FincasAdmin";
 import ActivarSensores from "../pages/SuperAdmin/Sensores/ActivarSensores";
 
 
@@ -43,7 +42,6 @@ function AppRouter() {
         <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin/>}/>
         
         {/* jhoan */}
-        <Route path="/inicio-SuperAdmin/fincas-Admin" element={<FincasAdmin/>}/>
         <Route path="/editar-finca/:id" element={<EditarFinca/>}/>
 
         {/* camila */}

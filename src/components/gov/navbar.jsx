@@ -1,6 +1,7 @@
 import React from 'react'
 import Gov from './gov'
 import BotonAtras from '../botonAtras'
+import BotonAsistente from '../botonAsistente'
 export default function navbar() {
   const idRol = Number(localStorage.getItem('rol'));
   const rol = () => {
@@ -21,7 +22,6 @@ export default function navbar() {
         <div className="relative flex justify-center items-center h-32">
           <img src="/logoC.svg" alt="Cultiva SENA" className="h-16 md:h-20"  />
         </div>
-
       </nav>
       <div className='bg-[#00304D] h-12 w-full z-50 px-4' >
       
@@ -35,6 +35,7 @@ export default function navbar() {
         </div>
 
       </div>
+      <BotonAsistente />
     </div>
 
   )

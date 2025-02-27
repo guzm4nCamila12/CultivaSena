@@ -189,7 +189,10 @@ function ActivarSensores() {
     actualizarSensor(editarSensor.id, editarSensor).then((data)=>{
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
   const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
-
+  acctionSucessful.fire({
+    icon: "success",
+    title: "Sensor editado correctamente"
+  });
   console.log("index: " + index);
   
   // Verificar si se encontró el índice

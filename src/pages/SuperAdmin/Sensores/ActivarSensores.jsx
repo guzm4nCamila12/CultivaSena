@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { acctionSucessful } from "../../../../components/alertSuccesful";
-import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../../services/sensores/ApiSensores";
-import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
-import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
-import Tabla from "../../../../components/Tabla";
-import NavBar from "../../../../components/gov/navbar"
-import macIcon from "../../../../assets/icons/mac.png";
-import nombreIcon from "../../../../assets/icons/nombre.png";
-import descripcionIcon from "../../../../assets/icons/descripcion.png";
-import estadoIcon from "../../../../assets/icons/estado.png";
-import accionesIcon from "../../../../assets/icons/config.png";
-import editIcon from "../../../../assets/icons/edit.png";
-import verIcon from "../../../../assets/icons/view.png";
-import deletIcon from "../../../../assets/icons/delete.png";
-import Eliminar from "../../../../assets/icons/Disposal.png"
+import { acctionSucessful } from "../../../components/alertSuccesful";
+import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
+import Tabla from "../../../components/Tabla";
+import NavBar from "../../../components/gov/navbar"
+import macIcon from "../../../assets/icons/mac.png";
+import nombreIcon from "../../../assets/icons/nombre.png";
+import descripcionIcon from "../../../assets/icons/descripcion.png";
+import estadoIcon from "../../../assets/icons/estado.png";
+import accionesIcon from "../../../assets/icons/config.png";
+import editIcon from "../../../assets/icons/edit.png";
+import verIcon from "../../../assets/icons/view.png";
+import deletIcon from "../../../assets/icons/delete.png";
+import Eliminar from "../../../assets/icons/Disposal.png";
 
-function Sensores() {
+
+function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -25,6 +26,9 @@ function Sensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [modalEstadoAbierto, setModalEstadoAbierto] = useState(false);
+  const [sensorSeleccionado, setSensorSeleccionado] = useState(null);
+  const [datoAdicional, setDatoAdicional] = useState("");
   const { id, idUser } = useParams();
 
   const [formData, setFormData] = useState({
@@ -37,9 +41,9 @@ function Sensores() {
   });
 
   useEffect(() => {
-    getSensoresById(idUser).then(setSensores);
-    getUsuarioById(id).then(setUsuario);
-    getFincasByIdFincas(idUser).then(setFincas);
+    getSensoresById(id).then(setSensores);
+    getUsuarioById(idUser).then(setUsuario);
+    getFincasByIdFincas(id).then(setFincas);
   }, [id, idUser]);
 
   useEffect(() => {
@@ -64,12 +68,8 @@ function Sensores() {
     { key: "acciones", label: "Acciones", icon: accionesIcon },
   ];
 
-
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-
-
-
       <button onClick={() => abrirModalEditar(fila)} className="group relative">
         <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
@@ -80,8 +80,6 @@ function Sensores() {
           Editar
         </span>
       </button>
-
-
       <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
         <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
@@ -91,8 +89,6 @@ function Sensores() {
           Eliminar
         </span>
       </button>
-
-
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="group relative">
           <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
@@ -106,7 +102,6 @@ function Sensores() {
       </Link>
     </div>
   );
-
 
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
@@ -161,13 +156,21 @@ function Sensores() {
 
   };
 
-  const handleSwitch = (event, sensorId) => {
-    // Actualizar el estado del sensor en la lista de sensores
-    setSensores(prevSensores =>
-      prevSensores.map(sensor =>
-        sensor.id === sensorId ? { ...sensor, estado: event.target.checked } : sensor
-      )
-    );
+  const handleSwitch = () => {
+    if (sensorSeleccionado) {
+      const nuevoEstado = !sensorSeleccionado.estado; // Cambiar el estado del sensor
+      actualizarSensor(sensorSeleccionado.id, { estado: nuevoEstado, dato: datoAdicional })
+        .then(() => {
+          setSensores((prevSensores) =>
+            prevSensores.map((s) =>
+              s.id === sensorSeleccionado.id ? { ...s, estado: nuevoEstado } : s
+            )
+          );
+          setModalEstadoAbierto(false); // Cerrar el modal
+          acctionSucessful.fire({ icon: "success", title: "Estado actualizado correctamente" });
+        })
+        .catch(console.error); // Manejo de errores
+    }
   };
 
   return (
@@ -180,11 +183,11 @@ function Sensores() {
           ...sensor, "#": index + 1,
           estado: (
             <div className="flex justify-center items-center">
-              <label className="relative flex items-center cursor-not-allowed">
+              <label className="relative flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
+                  checked={sensor.estado}  // Usa el estado de cada sensor
+                  onChange={() => handleSwitch(sensor.id, sensor.estado)}
                   className="sr-only"
                 />
                 <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
@@ -201,53 +204,35 @@ function Sensores() {
           Agregar Sensor
         </button>
 
-        {modalInsertarAbierto && (
+        
+
+
+        {modalEstadoAbierto && sensorSeleccionado && sensorSeleccionado.estado && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
+              <h5 className="text-2xl font-bold mb-4 text-center">Ingrese la dirección MAC <br />del sensor:</h5>
               <hr />
-              <form onSubmit={handleSubmit}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={nombreIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripción"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <button
-                    className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalInsertarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
-                    Agregar
-                  </button>
-                </div>
-              </form>
+              <input
+                type="text"
+                placeholder="Digite la dirección MAC"
+                value={datoAdicional}
+                onChange={(e) => setDatoAdicional(e.target.value)} // Actualiza el dato adicional
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+              />
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={() => setModalEstadoAbierto(false)}
+                  className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSwitch} // Llamamos a la función handleSwitch al hacer clic en OK
+                  className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg"
+                >
+                  OK
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -335,8 +320,8 @@ function Sensores() {
           </div>
         )}
       </div>
-    </div>
-  );
+    </div >
+  )
 }
 
-export default Sensores;
+export default ActivarSensores;

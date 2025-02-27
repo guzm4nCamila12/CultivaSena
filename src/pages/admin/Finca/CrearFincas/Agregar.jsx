@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Mapa from "../../../../components/Mapa";
-import Gov from "../../../../components/gov/gov";
+import Mapa from "../../../../components/Mapa/Mapa";
 import { insertarFinca } from "../../../../services/fincas/ApiFincas";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { useNavigate, useParams } from "react-router";
-import Navbar from "../../../../components/gov/navbar"
+import Navbar from "../../../../components/gov/navbar";
+import userGray from "../../../../assets/icons/userGray.png"
+import '@fontsource/work-sans'
 
 const Agregar = () => {
   const { id } = useParams();
@@ -53,29 +54,31 @@ const Agregar = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="max-w-7xl mx-auto my-0 p-6 mb-auto w-full rounded-2xl">
+      <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-16 my-0 p-1 mb-auto rounded-2xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
-          {/* Contenedor de los elementos a alinear */}
-          <div className="flex items-center space-x-4">
-            <h1 className="text-center text-xl flex-shrink-0">
-              Agregar Finca
-            </h1>
-            <input
-              type="text"
-              name="nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              className="w-60 h-12 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#10314669]"
-              placeholder="Ingrese el nombre de la finca"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="w-32 h-12 bg-[rgba(0,_158,_0,_1)] text-white rounded-2xl hover:bg-[#30b63096] focus:outline-none"
-            >
-              AGREGAR
-            </button>
-          </div>
+            <div className="flex max-w-[1721px]  gap-4">
+              <h2 className="whitespace-nowrap text-4xl font-medium ml-9">Agregar Finca</h2>
+              <input
+                type="text"
+                name="nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className="z-10 max-w-[1260px] flex-grow pl-7 h-12 border-4 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]"
+                placeholder="Ingrese el nombre"
+                autoComplete="off"
+                style={{
+                  backgroundImage: `url(${userGray})`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'left 6px center',
+                }}
+              />
+              <button
+                type="submit"
+                className="font-extrabold z-20 w-72 h-12 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center rounded-full hover:bg-[#30b63096] focus:outline-none"
+              >
+                Agregar
+              </button>
+            </div>
   
           <div className="m-0 w-full shadow-xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}

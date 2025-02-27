@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Mapa from "../../../components/Mapa";
+import Mapa from "../../../components/Mapa/Mapa";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
@@ -98,7 +98,7 @@ export default function EditarFinca() {
         </svg>
         </button>
 
-        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">EDITAR FINCA {fincas.nombre}</h1>
+        <h1 className="text-center flex-1 mr-auto pr-20 text-xl">FINCA: {fincas.nombre}</h1>
       </div>
       <div className="max-w-4xl mx-auto p-6 mb-auto w-full rounded-2xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">

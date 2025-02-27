@@ -5,6 +5,12 @@ export const getSensoresById = async (id) => {
   return response.json();
 };
 
+export const getSensor = async (id) => {
+  const response = await fetch(`${API_URL}/sensoresid/${id}`);
+  return response.json();
+};
+
+
 export const insertarSensor = async (nuevaFinca) => {
   const response = await fetch(`${API_URL}/sensores`, {
     method: "POST",

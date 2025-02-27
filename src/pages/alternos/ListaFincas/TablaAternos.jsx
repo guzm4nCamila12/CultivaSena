@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import Navbar from "../../../components/gov/navbar";
 import Tabla from "../../../components/Tabla";
@@ -8,7 +8,6 @@ import descripcionIcon from "../../../assets/icons/descripcion.png";
 import estadoIcon from "../../../assets/icons/estado.png";
 import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
-import verIcon from "../../../assets/icons/view.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import '@fontsource/work-sans'; // Importar la fuente Work Sans
 

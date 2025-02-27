@@ -210,9 +210,9 @@ const Inicio = () => {
         acciones={acciones}
 
       />
-      <div className="flex ">
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
         <button
-          className="w-full  mx-5 sm:w-auto sm:ml-44 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold"
+          className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center"
           onClick={() => setModalInsertarAbierto(true)}
         >
           Agregar Usuario
@@ -227,6 +227,7 @@ const Inicio = () => {
           <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar Usuario</h5>
             <hr />
+            <br />
             <form onSubmit={handleInsertar}>
               <div className="relative w-full mt-2">
                 <img
@@ -302,12 +303,13 @@ const Inicio = () => {
             <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
               <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
               <hr />
+              <br />
               <form onSubmit={handleEditar}>
                 <div className="relative w-full mt-2">
                   <img
                     src={Nombre} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2"
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
@@ -322,7 +324,7 @@ const Inicio = () => {
                   <img
                     src={Telefono} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 "
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
@@ -337,7 +339,7 @@ const Inicio = () => {
                   <img
                     src={Correo} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 "
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
@@ -352,7 +354,7 @@ const Inicio = () => {
                   <img
                     src={Clave} // Reemplaza con la ruta de tu icono
                     alt="icono"
-                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 "
                   />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"

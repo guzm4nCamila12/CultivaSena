@@ -71,35 +71,38 @@ export default function ListaFincas() {
     { key: "acciones", label: "Acciones", icon: configIcon },
   ];
 
-const acciones = (fila) => (
-  <div className="flex justify-center gap-2">
-    {/* Editar */}
-    <div className="relative group">
-      <Link to={`/editar-finca/${fila.id}`}>
-        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-          <img src={editIcon} alt="Editar" />
+  const acciones = (fila) => (
+    <div className="flex justify-center gap-2">
+      {/* Editar */}
+      <div className="relative group">
+        <Link to={`/editar-finca/${fila.id}`}>
+          <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={editIcon} alt="Editar" />
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Editar
+          </span>
+        </Link>
+
+      </div>
+
+      {/* Eliminar */}
+      <div className="relative group">
+        <button
+          onClick={() => handleEliminarFinca(fila.id)}
+          className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
+        >
+          <img src={deletIcon} alt="Eliminar" />
         </button>
-      </Link>
-
+        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Eliminar
+        </span>
+      </div>
     </div>
+  );
 
-    {/* Eliminar */}
-    <div className="relative group">
-      <button
-        onClick={() => handleEliminarFinca(fila.id)}
-        className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
-      >
-        <img src={deletIcon} alt="Eliminar" />
-      </button>
-      <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Eliminar
-      </span>
-    </div>
-  </div>
-);
 
-  
-  
+
 
   // Mapear las fincas para incluir el icono de sensores directamente en los datos
 
@@ -108,19 +111,30 @@ const acciones = (fila) => (
 
     sensores: (
       <Link to={idRol === 1 ? `/activar-sensores/${id}/${finca.id}` : `/sensores-admin/${id}/${finca.id}`}>
-        <button className='text-center'>
-          <img src={sensorIcon} alt="Sensores" />
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={sensorIcon} alt="Sensores" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Sensores
+          </span>
         </button>
       </Link>
     ),
-    alternos: <Link to={`/alternos/${finca.id}`}>
-      <button>
-        <img src={alternoIcon} alt="Alternos" />
+    alternos:
+      <Link to={`/alternos/${finca.id}`}>
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={alternoIcon} alt="Alternos" />
 
-      </button>
-        </Link>
+            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Alternos
+            </span>
+          </div>
+        </button>
+      </Link>
 
-    
+
   }));
 
   return (
@@ -141,16 +155,16 @@ const acciones = (fila) => (
           acciones={acciones}
         />
 
-          <div className="flex justify-end">
+        <div className="flex justify-end">
 
-        <Link to={`/agregar-finca/${usuario.id}`}>
+          <Link to={`/agregar-finca/${usuario.id}`}>
             <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-1 bg-[rgba(0,_158,_0,_1)] text-white rounded-full hover:bg-gray-700 flex items-center">
 
               Agregar Finca
-             
+
             </button>
-        </Link>
-          </div>
+          </Link>
+        </div>
 
       </div>
     </div>

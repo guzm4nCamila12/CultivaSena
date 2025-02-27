@@ -14,10 +14,10 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto ">
       {/* Contenedor del título y el buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
-        <h1 className="text-xl font-bold">{titulo}</h1>
+        <h1 className="text-[27px] font-medium">{titulo}</h1>
 
         {/* Contenedor del input con iconos personalizados */}
         <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">

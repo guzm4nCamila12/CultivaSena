@@ -54,33 +54,33 @@ const Agregar = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-16 my-0 p-1 mb-auto rounded-2xl">
+      <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-16 my-0 p-1 mb-auto rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
-            <div className="flex max-w-[1721px]  gap-4">
-              <h2 className="whitespace-nowrap text-4xl font-medium ml-9">Agregar Finca</h2>
-              <input
-                type="text"
-                name="nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                className="z-10 max-w-[1260px] flex-grow pl-7 h-12 border-4 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]"
-                placeholder="Ingrese el nombre"
-                autoComplete="off"
-                style={{
-                  backgroundImage: `url(${userGray})`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'left 6px center',
-                }}
-              />
-              <button
-                type="submit"
-                className="font-extrabold z-20 w-72 h-12 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center rounded-full hover:bg-[#30b63096] focus:outline-none"
-              >
-                Agregar
-              </button>
-            </div>
-  
-          <div className="m-0 w-full shadow-xl">
+        <div className="flex max-w-[1721px] gap-4 relative ">
+          <h2 className="whitespace-nowrap text-4xl font-medium ml-9">Agregar Finca</h2>
+          <input
+            type="text"
+            name="nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            className="z-10 max-w-[1260px] flex-grow pl-7 h-14 border-4 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]"
+            placeholder="Ingrese el nombre"
+            autoComplete="off"
+            style={{
+              backgroundImage: `url(${userGray})`,
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'left 6px center',
+            }}
+          />
+          <button
+            type="submit"
+            className="z-20 absolute bottom-0 -right-1 w-80 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none"
+          >
+            Agregar
+          </button>
+        </div>
+
+          <div className="m-0 w-full shadow-xl rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} />

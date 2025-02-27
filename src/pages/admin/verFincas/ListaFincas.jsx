@@ -139,12 +139,11 @@ export default function ListaFincas() {
 
   return (
     <div>
-      <div>
+      
         <Navbar />
-      </div>
-      <div className="container my-10 mx-auto mt-8 px-4">
+     
+  
         <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
-        <p className="text-2xl text-center text-black">Administrador</p>
 
         {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
         <Tabla
@@ -154,10 +153,10 @@ export default function ListaFincas() {
           acciones={acciones}
         />
 
-        <div className="flex justify-end">
+        <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
 
           <Link to={`/agregar-finca/${usuario.id}`}>
-            <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-1 bg-[rgba(0,_158,_0,_1)] text-white rounded-full hover:bg-gray-700 flex items-center">
+            <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center">
 
               Agregar Finca
 
@@ -165,7 +164,7 @@ export default function ListaFincas() {
           </Link>
         </div>
 
-      </div>
+    
     </div>
   );
 }

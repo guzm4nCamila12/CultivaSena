@@ -130,6 +130,28 @@ function ActivarSensores() {
     </div>
   );
 
+  const sensoresDeFinca = sensores.map((sensor, index) => ({
+          
+    ...sensor, "#": index + 1,
+    estado: (
+      <div className="flex justify-start items-center">
+        <label className="relative flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={sensor.estado}  // Usa el estado de cada sensor
+            onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
+            className="sr-only"
+          />
+          <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+            <div
+              className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+            ></div>
+          </div>
+        </label>
+      </div>
+    ),
+  }))
+
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
     setModalEditarAbierto(true);
@@ -286,33 +308,15 @@ function ActivarSensores() {
   return (
     <div>
       <NavBar />
-      <div className="container mx-auto mt-4">
         <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
         <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
-          ...sensor, "#": index + 1,
-          estado: (
-            <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado}  // Usa el estado de cada sensor
-                  onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
-          ),
-        }))} acciones={acciones} />
+        <Tabla titulo="Sensores" columnas={columnas} datos={sensoresDeFinca} acciones={acciones} />
 
-        <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
-          Agregar Sensor
-        </button>
+        <div className="flex justify-end w-[84.4%] mx-auto mt-3  border border-collapse">
+          <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center" onClick={() => setModalInsertarAbierto(true)}>
+            Agregar Sensor
+          </button>
+        </div>
 
         {modalEstadoAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
@@ -467,7 +471,7 @@ function ActivarSensores() {
             </div>
           </div>
         )}
-      </div>
+    
     </div >
   )
 }

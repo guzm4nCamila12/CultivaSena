@@ -19,6 +19,7 @@ import { acctionSucessful } from "../../../components/alertSuccesful";
 import { Link } from "react-router-dom";
 import sinFinca from "../../../assets/icons/sinFinca.png"
 import Eliminar from "../../../assets/icons/Disposal.png"
+import Modal from "../../../components/modal";
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -27,7 +28,10 @@ const Inicio = () => {
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
+  const [modalAbierto, setModalAbierto] = useState(false);
+
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
@@ -138,7 +142,7 @@ const Inicio = () => {
 
         {fila.id_rol !== "Admin" ? (
           <div className="relative group">
-            <button onClick={() => setModalSinFincasAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <button onClick={() => setModalAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
               <img src={ver} alt="Ver" className="w-6" />
             </button>
@@ -434,6 +438,15 @@ const Inicio = () => {
             </form>
           </div>
         </div>
+      )}
+      {modalAbierto && (
+        <Modal 
+          titulo="Detalles del Sensor"
+          icono={Eliminar} 
+          descripcion="Este es el detalle del sensor" 
+          texto="Más información aquí"
+          onClose={() => setModalAbierto(false)} 
+        />
       )}
 
 

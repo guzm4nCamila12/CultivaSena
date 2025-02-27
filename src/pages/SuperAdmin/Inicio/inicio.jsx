@@ -7,7 +7,7 @@ import rolIcon from "../../../assets/icons/rol.png"
 import configIcon from "../../../assets/icons/config.png"
 import Tabla from "../../../components/Tabla";
 import ver from "../../../assets/icons/view.png"
-import Nombre from "../../../assets/icons/user.png"
+import Nombre from "../../../assets/icons/User.png"
 import Telefono from "../../../assets/icons/Phone.png"
 import Correo from "../../../assets/icons/Email.png"
 import Clave from "../../../assets/icons/contra.png"
@@ -173,7 +173,8 @@ const Inicio = () => {
       id: usuario.id,
       nombre: usuario.nombre,
       telefono: usuario.telefono,
-      correo: usuario.correo
+      correo: usuario.correo,
+      clave: usuario.clave
     };
 
     setEditarUsuario(usuarioNecesario);
@@ -242,32 +243,32 @@ const Inicio = () => {
                 <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="correo" placeholder="Correo" onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-              <img
-                src={Clave} // Reemplaza con la ruta de tu icono
-                alt="icono"
-                className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-              />
-              <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="clave" placeholder="Clave" onChange={handleChange} />
-                </div>
+                <img
+                  src={Clave} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="clave" placeholder="Clave" onChange={handleChange} />
+              </div>
 
               <div className="relative w-full mt-2">
-              <img
-                src={Rol} // Reemplaza con la ruta de tu icono
-                alt="icono"
-                className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-              />
-              <select
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                name="id_rol"
-                placeholder="ID Rol"
-                value={nuevoUsuario.id_rol}
-                onChange={handleChange}
-                required
-              >
-                <option value=""></option>
-                <option value="2">Administrador</option>
-                <option value="1">Super Admin</option>
-              </select>
+                <img
+                  src={Rol} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <select
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="id_rol"
+                  placeholder="ID Rol"
+                  value={nuevoUsuario.id_rol}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value=""> ID Rol </option>
+                  <option value="1">Super Admin</option>
+                  <option value="2">Administrador</option>
+                </select>
               </div>
               <div className="flex gap-4 mt-4">
                 <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
@@ -278,84 +279,102 @@ const Inicio = () => {
         </div >
       )}
 
-{
-  modalEditarAbierto && (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-        <h5 className="text-xl font-semibold mb-4">EDITAR USUARIO</h5>
-        <form onSubmit={handleEditar}>
-          <label className="block text-sm font-medium">ID</label>
-          <input
-            className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
-            value={editarUsuario.id}
-            type="text"
-            name="id"
-            onChange={handleChangeEditar}
-            disabled
-          />
+      {
+        modalEditarAbierto && (
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+              <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
+              <hr />
+              <form onSubmit={handleEditar}>
+                <div className="relative w-full mt-2">
+                  <img
+                    src={Nombre} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                  />
+                  <input
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                    value={editarUsuario.nombre}
+                    type="text"
+                    name="nombre"
+                    placeholder="Nombre"
+                    onChange={handleChangeEditar}
+                  />
+                </div>
+                <div className="relative w-full mt-2">
+                  <img
+                    src={Telefono} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                  />
+                  <input
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                    value={editarUsuario.telefono}
+                    type="text"
+                    name="telefono"
+                    placeholder="Teléfono"
+                    onChange={handleChangeEditar}
+                  />
+                </div>
+                <div className="relative w-full mt-2">
+                  <img
+                    src={Correo} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                  />
+                  <input
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                    value={editarUsuario.correo}
+                    type="text"
+                    name="correo"
+                    placeholder="Correo electrónico"
+                    onChange={handleChangeEditar}
+                  />
+                </div>
+                <div className="relative w-full mt-2">
+                  <img
+                    src={Clave} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                    className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                  />
+                  <input
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                    value={editarUsuario.clave}
+                    type="text"
+                    name="clave"
+                    placeholder="Clave"
+                    onChange={handleChangeEditar} />
+                </div>
+                <div className="flex gap-4 mt-4">
+                  <button type="button" className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEditarAbierto(false)}>Cancelar</button>
+                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">Editar</button>
+                </div>
 
-          <label className="block text-sm font-medium">NOMBRE</label>
-          <input
-            className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
-            value={editarUsuario.nombre}
-            type="text"
-            name="nombre"
-            onChange={handleChangeEditar}
-          />
-          <label className="block text-sm font-medium mt-4">TELEFONO</label>
-          <input
-            className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
-            value={editarUsuario.telefono}
-            type="text"
-            name="telefono"
-            onChange={handleChangeEditar}
-          />
-          <label className="block text-sm font-medium mt-4">CORREO</label>
-          <input
-            className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md"
-            value={editarUsuario.correo}
-            type="text"
-            name="correo"
-            onChange={handleChangeEditar}
-          />
-
-          <div className="flex justify-end mt-4">
-            <button
-              type="button"
-              className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
-              onClick={() => setModalEditarAbierto(false)}
-            >
-              Cerrar
-            </button>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">
-              Editar
-            </button>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
-  )
-}
+        )
+      }
 
-{
-  modalSinFincasAbierto && (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
-        <h5 className="text-xl font-semibold mb-4">El usuario no cuenta con fincas</h5>
-        <div className="flex justify-end mt-4">
-          <button
-            type="button"
-            className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
-            onClick={() => setModalSinFincasAbierto(false)}
-          >
-            Cerrar
-          </button>
+      {
+        modalSinFincasAbierto && (
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-lg w-1/3 p-6">
+              <h5 className="text-xl font-semibold mb-4">El usuario no cuenta con fincas</h5>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
+                  onClick={() => setModalSinFincasAbierto(false)}
+                >
+                  Cerrar
+                </button>
 
-        </div>
-      </div>
-    </div>
-  )
-}
+              </div>
+            </div>
+          </div>
+        )
+      }
 
 
     </>

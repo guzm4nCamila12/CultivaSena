@@ -15,24 +15,38 @@ import editIcon from "../../../assets/icons/edit.png";
 import verIcon from "../../../assets/icons/view.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import Eliminar from "../../../assets/icons/Disposal.png";
+import Swal from "sweetalert2";
+import withReactContent from 'sweetalert2-react-content'
 
 
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
+
+
   const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
+
+
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [modalEstadoAbierto, setModalEstadoAbierto] = useState(false);
-  const [sensorSeleccionado, setSensorSeleccionado] = useState(null);
-  const [datoAdicional, setDatoAdicional] = useState("");
-  const { id, idUser } = useParams();
 
+
+  const [sensorSeleccionado, setSensorSeleccionado] = useState(null);
+  const [datoAdicional, setDatoAdicional] = useState(null);
+  console.log("mac:", datoAdicional)
+
+  const { id, idUser } = useParams();
+  const [estado, setEstado] = useState([]);
+  let inputValue = '';
+  console.log("id",id,"Iduser", idUser)
+  
+  ;
   const [formData, setFormData] = useState({
-    mac: "",
+    mac: null,
     nombre: "",
     descripcion: "",
     estado: false,
@@ -41,15 +55,30 @@ function ActivarSensores() {
   });
 
   useEffect(() => {
-    getSensoresById(id).then(setSensores);
-    getUsuarioById(idUser).then(setUsuario);
+    try {
+      
+   
+    getSensoresById(idUser).then(
+      (data) => {
+        setSensores(data);
+        setEstado(data.map(({ id, estado }) => ({ id, estado })))
+        
+      }
+    );
+
+    getUsuarioById(id).then(setUsuario);
     getFincasByIdFincas(id).then(setFincas);
+    
+  } catch (error) {
+    console.error("Error: ", error);
+
+  }
   }, [id, idUser]);
 
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
-        mac: "",
+        mac: null,
         nombre: "",
         descripcion: "",
         estado: false,
@@ -129,14 +158,23 @@ function ActivarSensores() {
     e.preventDefault();
     insertarSensor(formData).then((response) => {
       if (response) {
+       if( sensores === null){
+        setSensores([response]);
+       }
+       else{
         setSensores([...sensores, response]);
-        acctionSucessful.fire({
-          icon: "success",
-          title: "Sensor agregado correctamente"
-        });
+       }
+       
         setModalInsertarAbierto(false);
       }
     });
+    acctionSucessful.fire({
+      icon: "success",
+      title: "Sensor agregado correctamente"
+    });
+    console.log("Datos enviados:", formData);
+
+
   };
 
   const handleEditarSensor = (e) => {
@@ -156,27 +194,90 @@ function ActivarSensores() {
 
   };
 
-  const handleSwitch = (sensor) => {
-    setSensorSeleccionado(sensor);
-    setModalEstadoAbierto(true);
+  const handleSwitch = async (id, estado, index) => {
+    console.log("index",index)
+    if(estado === true){
+      const newEstado= !estado;
+
+      const updatedSensores = [...sensores];
+      updatedSensores[index].estado = newEstado;
+
+      setSensores(updatedSensores);
+
+      const updatedFormData = {
+        mac: null,
+        nombre: sensores[index].nombre,
+        descripcion: sensores[index].descripcion,
+        estado: newEstado,
+        idusuario: sensores[index].idusuario,
+        idfinca: sensores[index].idfinca,
+      };
+
+      actualizarSensor(sensores[index].id, updatedFormData)
+      console.log("sensor:", updatedFormData);
+    }else {
+
+      const confirmacion = await showSwal();
+     if(confirmacion.isConfirmed){
+
+       const newEstado = !estado;
+       
+       const updatedSensores = [...sensores];
+       updatedSensores[index].estado = newEstado;
+       
+       
+       setSensores(updatedSensores);
+       const updatedFormData = {
+         mac: inputValue,
+         nombre: sensores[index].nombre,
+         descripcion: sensores[index].descripcion,
+         estado: newEstado,
+         idusuario: sensores[index].idusuario,
+         idfinca: sensores[index].idfinca,
+        }
+        
+        actualizarSensor(sensores[index].id, updatedFormData).then((data)=>{
+          const nuevosSensores = [...sensores]; // Copiar el array actual
+          nuevosSensores[index].mac = inputValue; // Cambiar el estado del sensor
+          setSensores(nuevosSensores);
+        })
+        console.log("sensores:", sensores);
+        inputValue= '';
+      }
+    }
+    
+  };
+  
+  const showSwal = () => {
+    return withReactContent(Swal).fire({
+      title: <i>Ingrese la direccion MAC del sensor:</i>,
+      input: 'text',
+      showCancelButton: true,
+      cancelButtonText: "cancelar",
+      inputValue,
+      preConfirm: () => {
+        const value = Swal.getInput()?.value; // Obtener el valor del campo de entrada
+        if (!value) {  // Si el campo está vacío, mostrar un mensaje de advertencia
+          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          return false;  // Evitar que el usuario confirme
+        }
+        inputValue = value; // Si hay un valor, actualizar el estado
+        console.log("Direccion MAC:", value);
+
+        return true;  // Permitir que se confirme
+      },
+
+    });
   };
 
   const confirmarCambioEstado = () => {
-    if (!sensorSeleccionado) return;
-    const nuevoEstado = !sensorSeleccionado.estado;
-    actualizarSensor(sensorSeleccionado.id, { estado: nuevoEstado, dato: datoAdicional })
-      .then(() => {
-        setSensores((prevSensores) =>
-          prevSensores.map((s) =>
-            s.id === sensorSeleccionado.id ? { ...s, estado: nuevoEstado } : s
-          )
-        );
-        setModalEstadoAbierto(false);
-        acctionSucessful.fire({ icon: "success", title: "Estado actualizado correctamente" });
-      })
-      .catch(console.error);
+   const cerrado = true;
+
+   return cerrado;
   };
 
+  console.log("usuarios:",usuario)
+  console.log("sensores:",sensores)
 
   return (
     <div>
@@ -192,7 +293,7 @@ function ActivarSensores() {
                 <input
                   type="checkbox"
                   checked={sensor.estado}  // Usa el estado de cada sensor
-                  onChange={() => handleSwitch(sensor.id, sensor.estado)}
+                  onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
                   className="sr-only"
                 />
                 <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
@@ -217,13 +318,13 @@ function ActivarSensores() {
               <input
                 type="text"
                 placeholder="Digite la dirección MAC"
-                value={datoAdicional}
                 onChange={(e) => setDatoAdicional(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                required
               />
               <div className="flex gap-4 mt-4">
                 <button onClick={() => setModalEstadoAbierto(false)} className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg">Cancelar</button>
-                <button onClick={confirmarCambioEstado} className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">OK</button>
+                <button onClick={() => confirmarCambioEstado} className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">OK</button>
               </div> 
             </div>
           </div>

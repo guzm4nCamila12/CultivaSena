@@ -57,7 +57,7 @@ const Agregar = () => {
       <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-20 my-0 p-1 mb-auto rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
         <div className="flex max-w-[1721px] gap-4 relative ">
-          <h2 className="whitespace-nowrap text-4xl font-medium ml-9">Agregar Finca</h2>
+          <h2 className="whitespace-nowrap text-4xl pt-2 font-medium ml-9">Agregar Finca</h2>
           <input
             type="text"
             name="nombre"

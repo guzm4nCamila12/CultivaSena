@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import search from "../assets/icons/search.png"
-import microphone from "../assets/icons/Microphone.png"
+import search from "../assets/icons/search.png";
+import microphone from "../assets/icons/Microphone.png";
 
 const Tabla = ({ columnas, datos, titulo, acciones }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -14,18 +14,14 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container mx-auto ">
+    <div className="container mx-auto p-4">
       {/* Contenedor del título y el buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-[27px] font-medium">{titulo}</h1>
 
-        {/* Contenedor del input con iconos personalizados */}
+        {/* Input de búsqueda con iconos */}
         <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
-          <img
-            src={search} // Ruta del icono de lupa
-            alt="Buscar"
-            className="absolute left-3 "
-          />
+          <img src={search} alt="Buscar" className="absolute left-3" />
           <input
             type="text"
             placeholder="Buscar"
@@ -34,36 +30,42 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
             className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
           />
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
-            <img
-              src={microphone} // Ruta del icono de micrófono
-              alt="Micrófono"
-              
-            />
+            <img src={microphone} alt="Micrófono" />
           </button>
         </div>
       </div>
 
-      {/* Tabla con scroll horizontal */}
+      {/* Tabla en pantallas grandes - Tarjetas en móviles */}
       <div className="w-full overflow-x-auto border rounded-lg shadow-md">
-        <div className="max-h-[300px] sm:max-h-[300px] md:max-h-[350px] lg:max-h-[400px] overflow-y-auto">
-          <table className="w-full min-w-[600px] border-separate border-spacing-y-4">
+        <div className="hidden md:block">
+          <table className="w-full border-separate border-spacing-y-4">
             <thead>
               <tr className="bg-[#00304D] text-white">
                 {columnas.map((columna, index) => (
                   <th
                     key={index}
-                    className={`p-2 md:p-3 text-left text-sm md:text-base ${
-                      index === 0 ? "rounded-l-3xl" : ""
-                    } ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+                    className={`p-2 md:p-3 text-left text-sm md:text-base 
+          ${index === 0 ? "rounded-l-3xl" : ""} 
+          ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
                   >
-                    <span className="inline-flex items-center gap-1 md:gap-2">
-                      {columna.icon && <img src={columna.icon} alt={columna.label} />}
-                      {columna.label}
-                    </span>
+                    <div className="flex items-center">
+                      <span className="flex-1 flex items-center">
+                        {columna.icon && (
+                          <img src={columna.icon} alt={columna.label} className="inline mr-2 hidden md:inline" />
+                        )}
+                        {columna.label}
+                      </span>
+                      {/* Línea divisoria: No agregar en la última columna ni en la columna de acciones */}
+                      {index !== columnas.length - 1 && columna.key !== "acciones" && (
+                        <div className="h-8 w-[1px] bg-gray-300"></div>
+                      )}
+                    </div>
                   </th>
                 ))}
               </tr>
             </thead>
+
+
             <tbody>
               {datosFiltrados.length > 0 ? (
                 datosFiltrados.map((fila, index) => (
@@ -71,17 +73,23 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                     {columnas.map((columna, i) => (
                       <td
                         key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${
-                          i === 0 ? "rounded-l-3xl" : ""
-                        } ${i === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
+              ${i === 0 ? "rounded-l-3xl text-center font-bold" : ""} 
+              ${i === columnas.length - 1 ? "rounded-r-3xl text-center" : ""}`}
                       >
-                        {columna.key === "#" ? (
-                          index + 1
-                        ) : columna.key === "acciones" ? (
-                          <div className="flex justify-start gap-1 md:gap-2">{acciones(fila)}</div>
-                        ) : (
-                          fila[columna.key]
-                        )}
+                        <div className="flex items-center">
+                          <span className="flex-1">
+                            {columna.key === "acciones" ? (
+                              <div className="flex gap-2">{acciones(fila)}</div>
+                            ) : (
+                              fila[columna.key]
+                            )}
+                          </span>
+                          {/* Línea divisoria: No agregarla en la última columna ni en la columna de acciones */}
+                          {i !== columnas.length - 1 && columna.key !== "acciones" && (
+                            <div className="h-8 w-[1px] bg-gray-300"></div>
+                          )}
+                        </div>
                       </td>
                     ))}
                   </tr>
@@ -94,7 +102,41 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                 </tr>
               )}
             </tbody>
+
+
+
           </table>
+        </div>
+
+        {/* Vista en tarjetas para móviles */}
+        <div className="md:hidden">
+          {datosFiltrados.length > 0 ? (
+            datosFiltrados.map((fila, index) => (
+              <div
+                key={fila.id || index}
+                className="bg-white shadow-md rounded-lg p-4 mb-4 border flex flex-col gap-2"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="bg-black text-white text-sm font-bold w-8 h-8 flex items-center justify-center rounded-full">
+                    {index + 1}
+                  </span>
+                  <div className="flex gap-2">{acciones(fila)}</div>
+                </div>
+                <div>
+                  {columnas
+                    .filter((columna) => columna.key !== "#" && columna.key !== "acciones")
+                    .map((columna, i) => (
+                      <p key={i} className="text-sm">
+                        <span className="font-semibold">{columna.label}: </span>
+                        {fila[columna.key]}
+                      </p>
+                    ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center p-4 text-sm">No hay datos</p>
+          )}
         </div>
       </div>
     </div>
@@ -106,7 +148,6 @@ Tabla.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      icon: PropTypes.string,
     })
   ).isRequired,
   datos: PropTypes.array.isRequired,

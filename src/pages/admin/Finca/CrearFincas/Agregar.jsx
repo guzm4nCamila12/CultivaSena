@@ -54,7 +54,7 @@ const Agregar = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-20 my-0 p-1 mb-auto rounded-3xl">
+      <div  style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-40 my-0 p-1 mb-auto rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
         <div className="flex max-w-[1721px] gap-4 relative ">
           <h2 className="whitespace-nowrap text-4xl pt-2 font-medium ml-9">Agregar Finca</h2>
@@ -74,13 +74,13 @@ const Agregar = () => {
           />
           <button
             type="submit"
-            className="z-20 absolute bottom-0 -right-1 w-80 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none"
+            className="z-20 absolute bottom-0 -right-1 w-64 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none"
           >
             Agregar
           </button>
         </div>
 
-          <div className="m-0 w-full shadow-xl rounded-b-3xl">
+          <div className="m-0 shadow-xl rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} />

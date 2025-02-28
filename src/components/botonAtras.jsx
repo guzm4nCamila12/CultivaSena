@@ -30,7 +30,7 @@ export default function BotonAtras () {
     if (screenWidth < 768) {
       setMensaje('<');
     } else {
-      setMensaje('< Regresar');
+      setMensaje('Regresar');
     }
   }, [screenWidth]); 
 

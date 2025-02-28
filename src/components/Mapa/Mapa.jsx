@@ -96,7 +96,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       </MapContainer>
   
       {/* Contenedor de Ubicación Actual y Botones - Más Ancho */}
-      <div className='absolute bottom-4 left-4 flex space-x-6 z-20 w-[1650px]'>
+      <div className='absolute bottom-4 left-4 flex space-x-6 z-20 w-[1480px] max-w-[1480px]'>
         {/* Ubicación Actual */}
         <div className='h-12 p-2 mr-20  bg-white text-center text-black rounded-3xl flex items-center space-x-2 flex-grow'>
           <img src={locationIcon} className="w-6 h-6" alt="Ubicación" style={{height : "25px", width : "25px"}} />
@@ -105,8 +105,8 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   
         {/* Botones */}
         <div className='h-12 bg-transparent bg-opacity-75 text-center  text-black w-36 rounded-3xl flex items-center space-x-4'>
-          <div className='shadow-xl rounded-full bg-white h-10'>
-            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 hover:bg-[#93A6B2] rounded-full'>
+          <div className='rounded-full bg-white h-10'>
+            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 hover:bg-[#93A6B2] shadow-2xl rounded-full'>
               <img src={currLocationIcon} alt="Ubicación Actual" />
             </button>
           </div>

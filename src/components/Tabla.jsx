@@ -44,15 +44,28 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                 {columnas.map((columna, index) => (
                   <th
                     key={index}
-                    className={`p-2 md:p-3 text-left text-sm md:text-base ${
-                      index === 0 ? "rounded-l-3xl" : ""
-                    } ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+                    className={`p-2 md:p-3 text-left text-sm md:text-base 
+          ${index === 0 ? "rounded-l-3xl" : ""} 
+          ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
                   >
-                    {columna.label}
+                    <div className="flex items-center">
+                      <span className="flex-1 flex items-center">
+                        {columna.icon && (
+                          <img src={columna.icon} alt={columna.label} className="inline mr-2 hidden md:inline" />
+                        )}
+                        {columna.label}
+                      </span>
+                      {/* Línea divisoria: No agregar en la última columna ni en la columna de acciones */}
+                      {index !== columnas.length - 1 && columna.key !== "acciones" && (
+                        <div className="h-8 w-[1px] bg-gray-300"></div>
+                      )}
+                    </div>
                   </th>
                 ))}
               </tr>
             </thead>
+
+
             <tbody>
               {datosFiltrados.length > 0 ? (
                 datosFiltrados.map((fila, index) => (
@@ -60,17 +73,23 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                     {columnas.map((columna, i) => (
                       <td
                         key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${
-                          i === 0 ? "rounded-l-3xl text-center font-bold" : ""
-                        } ${i === columnas.length - 1 ? "rounded-r-3xl text-center" : ""}`}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
+              ${i === 0 ? "rounded-l-3xl text-center font-bold" : ""} 
+              ${i === columnas.length - 1 ? "rounded-r-3xl text-center" : ""}`}
                       >
-                        {columna.key === "#" ? (
-                          index + 1
-                        ) : columna.key === "acciones" ? (
-                          <div className="flex justify-center gap-2">{acciones(fila)}</div>
-                        ) : (
-                          fila[columna.key]
-                        )}
+                        <div className="flex items-center">
+                          <span className="flex-1">
+                            {columna.key === "acciones" ? (
+                              <div className="flex gap-2">{acciones(fila)}</div>
+                            ) : (
+                              fila[columna.key]
+                            )}
+                          </span>
+                          {/* Línea divisoria: No agregarla en la última columna ni en la columna de acciones */}
+                          {i !== columnas.length - 1 && columna.key !== "acciones" && (
+                            <div className="h-8 w-[1px] bg-gray-300"></div>
+                          )}
+                        </div>
                       </td>
                     ))}
                   </tr>
@@ -83,6 +102,9 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                 </tr>
               )}
             </tbody>
+
+
+
           </table>
         </div>
 

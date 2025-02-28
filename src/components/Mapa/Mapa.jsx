@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import locationIcon from "../../assets/icons/location.png"
 import markerGreen from "../../assets/icons/MarkerGreen.png"
 import ubicacionIcon from "../../assets/icons/ubiWhite.png"
-import currLocationIcon from "../../assets/icons/currentLocation.png"
+import currLocationIcon from "../../assets/icons/ubiActual.png"
 import zoomIn from "../../assets/icons/zoomIn.png"
 import zoomOut from "../../assets/icons/zoomOut.png"
 
@@ -96,26 +96,26 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       </MapContainer>
   
       {/* Contenedor de Ubicación Actual y Botones - Más Ancho */}
-      <div className='absolute bottom-4 left-4 flex space-x-6 z-20 w-[1680px]'>
+      <div className='absolute bottom-4 left-4 flex space-x-6 z-20 w-[1650px]'>
         {/* Ubicación Actual */}
-        <div className='h-12 p-2 mr-20 bg-white text-center text-black rounded-3xl flex items-center space-x-2 flex-grow'>
-          <img src={locationIcon} className="w-6 h-6" alt="Ubicación" />
+        <div className='h-12 p-2 mr-20  bg-white text-center text-black rounded-3xl flex items-center space-x-2 flex-grow'>
+          <img src={locationIcon} className="w-6 h-6" alt="Ubicación" style={{height : "25px", width : "25px"}} />
           <p className='text-[#00304D] font-extrabold pr-2'>Ubicación Actual:</p> {position.lat}, {position.lng}
         </div>
   
         {/* Botones */}
-        <div className='h-12 p-2 bg-black text-center text-black w-36 rounded-3xl flex items-center space-x-4'>
-          <div className='rounded-full bg-white'>
-            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2'>
+        <div className='h-12 bg-transparent bg-opacity-75 text-center  text-black w-36 rounded-3xl flex items-center space-x-4'>
+          <div className='shadow-xl rounded-full bg-white h-10'>
+            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 hover:bg-[#93A6B2] rounded-full'>
               <img src={currLocationIcon} alt="Ubicación Actual" />
             </button>
           </div>
-          <div id='controlZoom' className='rounded-3xl bg-white left-3'>
-            <button type='button'  onClick={handleZoomIn}>
-              <img src={zoomIn} alt="Zoom In" />
+          <div id='controlZoom' className='shadow-xl rounded-3xl h-10 w-24 pt-2 bg-white left-3'>
+            <button type="button" className='pl-1 pr-2 rounded-tl-3xl rounded-bl-3xl hover:bg-[#93A6B2]' onClick={handleZoomOut}>
+              <img src={zoomOut} alt="Zoom Out" style={{height : "25px", width : "25px"}} />
             </button>
-            <button type="button" onClick={handleZoomOut}>
-              <img src={zoomOut} alt="Zoom Out" style={{height : "25px", width : "22px"}} />
+            <button type='button' className='pl-2 rounded-tr-3xl rounded-br-3xl hover:bg-[#93A6B2]'  onClick={handleZoomIn}>
+              <img src={zoomIn} alt="Zoom In"  style={{height: "25px",width: "25px"}}/>
             </button>
           </div>
         </div>

@@ -60,7 +60,7 @@ function ActivarSensores() {
         (data) => {
           if (data == null) {
             setSensores([]);
-
+            return
           }
           setSensores(data);
 

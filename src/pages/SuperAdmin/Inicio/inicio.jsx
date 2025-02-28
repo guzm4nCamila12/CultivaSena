@@ -75,7 +75,8 @@ const Inicio = () => {
         setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
         acctionSucessful.fire({
-          icon: "success",
+          imageUrl: deletIcon, 
+          imageAlt: 'Icono personalizado', 
           title: "Usuario agregado correctamente"
         });
 

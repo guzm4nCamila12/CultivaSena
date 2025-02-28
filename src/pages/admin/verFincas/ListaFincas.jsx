@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
-import { acctionSucessful } from '../../../components/alertSuccesful';
-import Swal from 'sweetalert2';
 import Tabla from '../../../components/Tabla';
 import sensorIcon from "../../../assets/icons/sensor.png"
 import configIcon from "../../../assets/icons/config.png";
@@ -15,11 +13,16 @@ import alternoIcon2 from "../../../assets/icons/nombre.png"
 import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+//import EliminadoIcon from "../../../assets/img/Eliminado.png"
+
 export default function ListaFincas() {
   const { id } = useParams();
 
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
   console.log(idRol)
@@ -37,31 +40,16 @@ export default function ListaFincas() {
 
   // Manejo de la eliminación de finca
   const handleEliminarFinca = (id) => {
-    Swal.fire({
-      icon: 'error',
-      title: '¿Estás seguro?',
-      text: "¿Estás seguro de eliminar esta finca?",
-      showCancelButton: true,
-      confirmButtonColor: "red",
-      cancelButtonColor: "blue",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          eliminarFincas(id);
-          setFincas(fincas.filter(finca => finca.id !== id));
-          acctionSucessful.fire({
-            icon: "success",
-            title: "Finca eliminada correctamente"
-          });
-        } catch {
-          console.error("Error eliminando Finca:");
-        }
-      }
-    });
+    eliminarFincas(fincaEliminar).then(() => {
+      setFincas(fincas.filter(finca => finca.id !== id));
+      setModalEliminarAbierto(false);
+    }).catch(console.error);
   }
 
+  const abrirModalEliminar = (id) => {
+    setFincaEliminar(id);
+    setModalEliminarAbierto(true)
+  }
 
   const columnas = [
     { key: "#", label: "#", icon: "" },
@@ -89,7 +77,7 @@ export default function ListaFincas() {
       {/* Eliminar */}
       <div className="relative group">
         <button
-          onClick={() => handleEliminarFinca(fila.id)}
+          onClick={() => abrirModalEliminar(fila.id)}
           className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
         >
           <img src={deletIcon} alt="Eliminar" />
@@ -164,6 +152,33 @@ export default function ListaFincas() {
           </Link>
         </div>
 
+        {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
+            <hr />
+            <form onSubmit={handleEliminarFinca}>
+              <div className="flex justify-center my-2">
+                  <img
+                    src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
+                    alt="icono"
+                  />
+              </div>
+              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                  Cancelar
+                </button>
+                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                  Sí, eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     
     </div>
   );

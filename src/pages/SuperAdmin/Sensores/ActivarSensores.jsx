@@ -14,8 +14,9 @@ import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import verIcon from "../../../assets/icons/view.png";
 import deletIcon from "../../../assets/icons/delete.png";
-import Eliminar from "../../../assets/icons/Disposal.png";
 import Swal from "sweetalert2";
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+//import EliminadoIcon from "../../../assets/img/Eliminado.png"
 import withReactContent from 'sweetalert2-react-content'
 
 
@@ -59,7 +60,7 @@ function ActivarSensores() {
         (data) => {
           if (data == null) {
             setSensores([]);
-
+            return
           }
           setSensores(data);
 
@@ -177,7 +178,6 @@ function ActivarSensores() {
     eliminarSensores(sensorAEliminar).then(() => {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
       setModalEliminarAbierto(false);
-      acctionSucessful.fire({ icon: "success", title: "Sensor eliminado correctamente" });
     }).catch(console.error);
   };
 
@@ -478,28 +478,27 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={HandlEliminarSensor}>
               <div className="flex justify-center my-4">
-                <div className="bg-[#00304D] p-4 rounded-full">
-                  <img
-                    src={Eliminar} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                  />
-                </div>
+                <img
+                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                />
               </div>
-              <p className="text-lg text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-sm">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
                 <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
-                  Eliminar
+                  Sí, eliminar
                 </button>
               </div>
             </form>
           </div>
         </div>
       )}
+
     </div>
 
   )

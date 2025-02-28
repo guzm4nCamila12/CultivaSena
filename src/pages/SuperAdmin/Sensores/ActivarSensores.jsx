@@ -302,20 +302,21 @@ function ActivarSensores() {
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: <i>Ingrese la direccion MAC del sensor:</i>,
+      title: '<h5 class="text-2xl font-extrabold mb-4 text-center">Ingrese la dirección MAC <br/>del sensor:</h5> <hr/>',
       input: 'text',
+      inputPlaceholder: 'Digite la dirección MAC',
       showCancelButton: true,
       cancelButtonText: "cancelar",
       inputValue,
-      preConfirm: () => {
-        const value = Swal.getInput()?.value; // Obtener el valor del campo de entrada
-        if (!value) {  // Si el campo está vacío, mostrar un mensaje de advertencia
-          Swal.showValidationMessage('¡Este campo es obligatorio!');
-          return false;  // Evitar que el usuario confirme
-        }
-        inputValue = value; // Si hay un valor, actualizar el estado
-        console.log("Direccion MAC:", value);
-
-        return true;  // Permitir que se confirme
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "OK",
+      customClass: {
+        popup: 'rounded-3xl shadow-lg  w-1/3',
+        title: 'text-gray-900',
+        input: ' flex py-2  border-gray rounded-3xl',
+        actions: 'flex max-w-[454px]',
+        cancelButton: 'w-[210px] p-3 text-center bg-[#00304D] hover:bg-[#021926] text-white font-bold rounded-full text-lg',
+        confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
       },
 
     });
@@ -341,7 +342,7 @@ function ActivarSensores() {
         acciones={acciones} />
 
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
-        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center" onClick={() => setModalInsertarAbierto(true)}>
+        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
       </div>

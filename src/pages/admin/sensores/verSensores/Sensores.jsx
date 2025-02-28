@@ -179,7 +179,7 @@ function Sensores() {
         <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
           ...sensor, "#": index + 1,
           estado: (
-            <div className="flex justify-center items-center">
+            <div className="flex justify-start items-center">
               <label className="relative flex items-center cursor-not-allowed">
                 <input
                   type="checkbox"

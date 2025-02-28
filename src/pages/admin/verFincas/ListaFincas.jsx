@@ -168,10 +168,10 @@ export default function ListaFincas() {
               <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
                   Sí, eliminar
                 </button>
               </div>

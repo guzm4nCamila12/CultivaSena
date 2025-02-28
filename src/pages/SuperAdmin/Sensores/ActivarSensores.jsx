@@ -368,7 +368,7 @@ function ActivarSensores() {
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
@@ -408,7 +408,10 @@ function ActivarSensores() {
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Agregar
                 </button>
               </div>
@@ -417,10 +420,9 @@ function ActivarSensores() {
         </div>
       )}
 
-
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
             <form onSubmit={handleEditarSensor}>
@@ -435,7 +437,6 @@ function ActivarSensores() {
                   name="nombre"
                   value={editarSensor.nombre}
                   placeholder="Nombre"
-
                   type="text"
                   onChange={handleChangeEditar}
                 />
@@ -462,7 +463,10 @@ function ActivarSensores() {
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Editar
                 </button>
               </div>
@@ -473,7 +477,7 @@ function ActivarSensores() {
 
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
             <hr />
             <form onSubmit={HandlEliminarSensor}>
@@ -487,10 +491,16 @@ function ActivarSensores() {
               <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button
+                  className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Sí, eliminar
                 </button>
               </div>
@@ -498,6 +508,7 @@ function ActivarSensores() {
           </div>
         </div>
       )}
+
 
     </div>
 

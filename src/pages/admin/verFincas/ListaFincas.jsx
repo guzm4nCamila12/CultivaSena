@@ -25,7 +25,7 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
-  console.log(idRol)
+
 
 
   useEffect(() => {
@@ -143,13 +143,21 @@ export default function ListaFincas() {
 
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
 
-        <Link to={`/agregar-finca/${usuario.id}`}>
-          <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center">
-
+        <Link
+          to={`/agregar-finca/${usuario.id}`}
+          className="w-full flex justify-center"
+        >
+          <button
+            type="button"
+            className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+                        hover:bg-[#005F00] flex items-center justify-center text-center
+                          sm:w-auto sm:mx-3 md:px-8 
+                          w-full max-w-sm"
+          >
             Agregar Finca
-
           </button>
         </Link>
+
       </div>
 
       {modalEliminarAbierto && (

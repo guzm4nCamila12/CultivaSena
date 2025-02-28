@@ -36,7 +36,7 @@ const Inicio = () => {
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
   }, []);
-  
+
 
   console.log(usuarios);
 
@@ -141,176 +141,183 @@ const Inicio = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto mt-4 p-4">
 
       <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-        <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
+      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
 
 
-        {/* BOTON DE INSERTAR USUARIO */}
-        <button className="mt-4 px-4 py-2 bg-[#009E00] font-bold text-white rounded-3xl" onClick={() => setModalInsertarAbierto(true)}>
+      {/* BOTON DE INSERTAR USUARIO */}
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3">
+        <button
+          className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+                      hover:bg-[#005F00] flex items-center justify-center
+                      sm:w-auto sm:mx-3 md:px-8 
+                      w-full max-w-sm mx-auto"
+          onClick={() => setModalInsertarAbierto(true)}
+        >
           Agregar Alterno
         </button>
 
 
-
-
-        {/* MODAL insertar */}
-        {modalInsertarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-              <h5 className="text-xl font-semibold text-center mb-4" style={{ fontFamily: "work sans" }}>Agregar Alterno</h5>
-              <hr />
-              <form onSubmit={handleSubmit}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Nombre}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Telefono}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="telefono" placeholder="Telefono" onChange={handleChange} />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Correo}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="correo" placeholder="Correo" onChange={handleChange} />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Clave}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="clave" placeholder="Clave" onChange={handleChange} />
-                </div>
-                <div className="flex justify-end mt-4">
-                  <button className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
-                  <button type="submit" className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">Agregar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-
-        {/* MODAL EDITAR USUARIO */}
-        {modalEditarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-              <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
-              <hr />
-              <br />
-              <form onSubmit={handleEditarSensor}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Nombre}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.nombre}
-                    type="text"
-                    name="nombre"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Telefono}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.telefono}
-                    type="text"
-                    name="telefono"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={Correo}
-                    alt="icono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.correo}
-                    name="correo"
-                    type="text"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="flex justify-end mt-4">
-                  <button
-                    type="button"
-                    className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                    onClick={() => setModalEditarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl"
-                  >
-                    Editar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-
-        {modalEliminarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-              <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Alterno</h5>
-              <hr />
-              <form onSubmit={HandlEliminarAlterno}>
-                <div className="flex justify-center my-2">
-                  <img
-                    src={ConfirmarEliminar}
-                    alt="icono"
-                  />
-                </div>
-                <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-                <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
-
-                <div className="flex justify-between mt-6 space-x-4">
-                  <button
-                    type="button"
-                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalEliminarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                  >
-                    Sí, eliminar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
       </div>
+
+
+
+
+      {/* MODAL insertar */}
+      {modalInsertarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-xl font-semibold text-center mb-4" style={{ fontFamily: "work sans" }}>Agregar Alterno</h5>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Nombre}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Telefono}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="telefono" placeholder="Telefono" onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Correo}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="correo" placeholder="Correo" onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Clave}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="clave" placeholder="Clave" onChange={handleChange} />
+              </div>
+              <div className="flex justify-end mt-4">
+                <button className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
+                <button type="submit" className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">Agregar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+      {/* MODAL EDITAR USUARIO */}
+      {modalEditarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
+            <hr />
+            <br />
+            <form onSubmit={handleEditarSensor}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Nombre}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.nombre}
+                  type="text"
+                  name="nombre"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Telefono}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.telefono}
+                  type="text"
+                  name="telefono"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Correo}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.correo}
+                  name="correo"
+                  type="text"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  onClick={() => setModalEditarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl"
+                >
+                  Editar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+      {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Alterno</h5>
+            <hr />
+            <form onSubmit={HandlEliminarAlterno}>
+              <div className="flex justify-center my-2">
+                <img
+                  src={ConfirmarEliminar}
+                  alt="icono"
+                />
+              </div>
+              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button
+                  type="button"
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                >
+                  Sí, eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

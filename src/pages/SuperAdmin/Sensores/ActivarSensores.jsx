@@ -37,7 +37,7 @@ function ActivarSensores() {
 
 
   const [datoAdicional, setDatoAdicional] = useState(null);
-  console.log("sensores:", sensores)
+
 
   const { id, idUser } = useParams();
   const [estado, setEstado] = useState([]);
@@ -65,17 +65,15 @@ function ActivarSensores() {
           setSensores(data);
 
           setEstado(data.map(({ id, estado }) => ({ id, estado })))
-          console.log("data:", data)
         }
       );
 
       getUsuarioById(id).then((data) => {
         setUsuario(data)
-        console.log("usuario:", data)
       });
       getFincasByIdFincas(idUser).then((data) => {
         setFincas(data)
-        console.log("finca:", data)
+    
       });
 
     } catch (error) {
@@ -344,7 +342,11 @@ function ActivarSensores() {
         acciones={acciones} />
 
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
-        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center" onClick={() => setModalInsertarAbierto(true)}>
+        <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+                      hover:bg-[#005F00] flex items-center justify-center
+                      sm:w-auto sm:mx-3 md:px-8 
+                      w-full max-w-sm mx-auto" 
+                      onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
       </div>

@@ -9,7 +9,6 @@ export default function FincasAdmin() {
   // Estado para almacenar la lista de fincas
   const [fincas, setFincas] = useState([]);
   const [Usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  let bloque;
 
   // Simulación de carga de datos al montar el componente
   useEffect(() => {

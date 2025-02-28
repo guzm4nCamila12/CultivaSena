@@ -45,7 +45,7 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
 
       {/* Tabla con scroll horizontal */}
       <div className="w-full overflow-x-auto border rounded-lg shadow-md">
-        <div className="max-h-[300px] sm:max-h-[350px] md:max-h-[400px] lg:max-h-[600px] overflow-auto">
+        <div className="max-h-[300px] sm:max-h-[300px] md:max-h-[350px] lg:max-h-[400px] overflow-y-auto">
           <table className="w-full min-w-[600px] border-separate border-spacing-y-4">
             <thead>
               <tr className="bg-[#00304D] text-white">

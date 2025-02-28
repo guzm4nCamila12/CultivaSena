@@ -36,29 +36,29 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
       </div>
 
       {/* Tabla en pantallas grandes - Tarjetas en móviles */}
-      <div className="w-full overflow-x-auto border rounded-lg shadow-md">
-        <div className="hidden md:block">
+      <div className="w-full overflow-y-auto  rounded-lg ">
+        <div className="hidden md:block lg:max-h-[400px]">
           <table className="w-full border-separate border-spacing-y-4">
             <thead>
-              <tr className="bg-[#00304D] text-white">
+              <tr className=" text-white">
                 {columnas.map((columna, index) => (
                   <th
                     key={index}
                     className={`p-2 md:p-3 text-left text-sm md:text-base 
-          ${index === 0 ? "rounded-l-3xl" : ""} 
-          ${index === columnas.length - 1 ? "rounded-r-3xl" : ""}`}
+          ${index === 0 ? "rounded-l-full" : ""} 
+          ${index === columnas.length - 1 ? "rounded-r-full" : ""}
+          border-t border-b border-gray-300 bg-[#00304D]`} // Añadir bordes explícitos a las celdas del encabezado
                   >
                     <div className="flex items-center">
-                      <span className="flex-1 flex items-center">
+                      <span className="flex-1">
                         {columna.icon && (
                           <img src={columna.icon} alt={columna.label} className="inline mr-2 hidden md:inline" />
                         )}
                         {columna.label}
                       </span>
-                      {/* Línea divisoria: No agregar en la última columna ni en la columna de acciones */}
                       {index !== columnas.length - 1 && columna.key !== "acciones" && (
-                        <div className="h-8 w-[1px] bg-gray-300"></div>
-                      )}
+                            <div className="h-8 w-[1px] bg-gray-300"></div>
+                          )}
                     </div>
                   </th>
                 ))}
@@ -66,42 +66,47 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
             </thead>
 
 
+
             <tbody>
-              {datosFiltrados.length > 0 ? (
-                datosFiltrados.map((fila, index) => (
-                  <tr key={fila.id || index} className="bg-[#EEEEEE] rounded-lg">
-                    {columnas.map((columna, i) => (
-                      <td
-                        key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
-              ${i === 0 ? "rounded-l-3xl text-center font-bold" : ""} 
-              ${i === columnas.length - 1 ? "rounded-r-3xl text-center" : ""}`}
-                      >
-                        <div className="flex items-center">
-                          <span className="flex-1">
-                            {columna.key === "acciones" ? (
-                              <div className="flex gap-2">{acciones(fila)}</div>
-                            ) : (
-                              fila[columna.key]
-                            )}
-                          </span>
-                          {/* Línea divisoria: No agregarla en la última columna ni en la columna de acciones */}
-                          {i !== columnas.length - 1 && columna.key !== "acciones" && (
-                            <div className="h-8 w-[1px] bg-gray-300"></div>
-                          )}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={columnas.length} className="text-center p-4 text-sm">
-                    No hay datos
-                  </td>
-                </tr>
+  {datosFiltrados.length > 0 ? (
+    datosFiltrados.map((fila, index) => (
+      <tr key={fila.id || index} className="">
+        {columnas.map((columna, i) => (
+          <td
+            key={i}
+            className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
+              ${i === 0 ? "rounded-l-full text-center font-bold" : ""} 
+              ${i === columnas.length - 1 ? "rounded-r-full text-center" : ""}
+              border-t border-b border-gray-300 bg-[#EEEEEE]`} // Añadir bordes explícitos a las celdas
+          >
+            <div className="flex items-center">
+              <span className="flex-1">
+                {columna.key === "#" ? (  // Aquí chequeamos si es la columna del índice
+                  index + 1 // Mostrar el número de índice
+                ) : columna.key === "acciones" ? (
+                  <div className="flex gap-2">{acciones(fila)}</div>
+                ) : (
+                  fila[columna.key]  // Mostrar el valor de la fila según la columna
+                )}
+              </span>
+              {i !== columnas.length - 1 && columna.key !== "acciones" && (
+                <div className="h-8 w-[1px] bg-gray-300"></div>
               )}
-            </tbody>
+            </div>
+          </td>
+        ))}
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan={columnas.length} className="text-center p-4 text-sm">
+        No hay datos
+      </td>
+    </tr>
+  )}
+</tbody>
+
+
 
 
 

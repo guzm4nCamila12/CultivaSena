@@ -238,12 +238,12 @@ function Sensores() {
                 </div>
                 <div className="flex gap-4 mt-4">
                   <button
-                    className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
                     onClick={() => setModalInsertarAbierto(false)}
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                  <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                     Agregar
                   </button>
                 </div>
@@ -291,12 +291,12 @@ function Sensores() {
                 </div>
                 <div className="flex gap-4 mt-4">
                   <button
-                    className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
                     onClick={() => setModalEditarAbierto(false)}
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                  <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                     Editar
                   </button>
                 </div>
@@ -321,10 +321,10 @@ function Sensores() {
                 <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
 
                 <div className="flex justify-between mt-6 space-x-4">
-                  <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                  <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                     Cancelar
                   </button>
-                  <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                  <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                     Sí, eliminar
                   </button>
                 </div>

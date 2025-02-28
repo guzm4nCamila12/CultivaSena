@@ -341,7 +341,7 @@ function ActivarSensores() {
         acciones={acciones} />
 
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
-        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center" onClick={() => setModalInsertarAbierto(true)}>
+        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
       </div>
@@ -359,8 +359,8 @@ function ActivarSensores() {
               required
             />
             <div className="flex gap-4 mt-4">
-              <button onClick={() => setModalEstadoAbierto(false)} className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg">Cancelar</button>
-              <button onClick={() => confirmarCambioEstado} className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">OK</button>
+              <button onClick={() => setModalEstadoAbierto(false)} className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg">Cancelar</button>
+              <button onClick={() => confirmarCambioEstado} className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">OK</button>
             </div>
           </div>
         </div>
@@ -403,12 +403,12 @@ function ActivarSensores() {
               </div>
               <div className="flex gap-4 mt-4">
                 <button
-                  className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
                   onClick={() => setModalInsertarAbierto(false)}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Agregar
                 </button>
               </div>
@@ -457,12 +457,12 @@ function ActivarSensores() {
               </div>
               <div className="flex gap-4 mt-4">
                 <button
-                  className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg"
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
                   onClick={() => setModalEditarAbierto(false)}
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Editar
                 </button>
               </div>
@@ -487,10 +487,10 @@ function ActivarSensores() {
               <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
                   Sí, eliminar
                 </button>
               </div>

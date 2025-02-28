@@ -1,30 +1,28 @@
-const Modal = ({ titulo, icono, descripcion, texto, onClose }) => {
-    return (
-      <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-        <div className="bg-white rounded-3xl shadow-lg w-1/4 p-6">
-          <h5 className="text-2xl font-bold mb-4 text-center">{titulo}</h5>
-          <hr />
-          <form>
-            <div className="flex justify-center my-3">
-                <img src={icono} alt="icono" />
-            </div>
-            <p className="text-2xl text-center font-semibold">{descripcion}</p>
-            <p className="text-gray-500 text-center text-sm">{texto}</p>
-  
-            <div className="flex justify-between mt-6 space-x-4">
-              <button 
-                className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-2xl"
-                onClick={onClose} 
-                type="button" 
-              >
-                Aceptar
-              </button>
-            </div>
-          </form>
-        </div>
+import { useState, useEffect } from "react";
+
+const ToastNotification = ({ titulo, descripcion, icono, barraColor = "bg-green-500", onClose }) => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+      if (onClose) onClose();
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  if (!visible) return null;
+
+  return (
+    <div className="fixed top-5 right-5 bg-white shadow-lg rounded-xl p-4 flex items-center space-x-4 z-50 border-l-4" style={{ borderColor: barraColor }}>
+      {icono && <img src={icono} alt="icono" className="w-6 h-6" />}
+      <div>
+        <h5 className="text-lg font-bold text-green-700">{titulo}</h5>
+        <p className="text-sm text-gray-700">{descripcion}</p>
       </div>
-    );
-  };
-  
-  export default Modal;
-  
+    </div>
+  );
+};
+
+export default ToastNotification;

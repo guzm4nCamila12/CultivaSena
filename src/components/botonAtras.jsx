@@ -35,10 +35,11 @@ export default function BotonAtras () {
   }, [screenWidth]); 
 
   return (
+
 <div className=" ml-auto mt-1 ">
   <button
     type="button"
-    className="bg-[#FBD000] hover:bg-[#00304D] hover:text-white font-bold  top-0 right-0  md:rounded-3xl rounded-full p-1 lg:w-40 md:w-44 w-8 h-8 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"
+    className="bg-[#FBD000] hover:bg-[#BE9E00] hover:text-white font-bold  top-0 right-0  md:rounded-3xl rounded-full p-1 lg:w-40 md:w-44 w-8 h-8 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"
     onClick={irAtras}
   >
     {mensaje}

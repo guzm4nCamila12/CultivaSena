@@ -226,7 +226,7 @@ const Inicio = () => {
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar Usuario</h5>
             <hr />
             <br />
@@ -302,7 +302,7 @@ const Inicio = () => {
       {
         modalEditarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
+            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
               <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
               <hr />
               <br />
@@ -378,17 +378,15 @@ const Inicio = () => {
 
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/4 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Fincas</h5>
             <hr />
             <form >
               <div className="flex justify-center my-4">
-                <div className="bg-[#00304D] p-4 rounded-full">
                   <img
                     src={sinFinca} // Reemplaza con la ruta de tu icono
                     alt="icono"
                   />
-                </div>
               </div>
               <p className="text-lg text-center font-semibold">No hay fincas registradas</p>
               <p className="text-gray-500 text-center text-sm">Agrega una finca para visualizar los datos.</p>
@@ -406,7 +404,7 @@ const Inicio = () => {
 
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/3 lg:w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>

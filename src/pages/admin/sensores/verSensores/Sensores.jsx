@@ -173,167 +173,166 @@ function Sensores() {
   return (
     <div>
       <NavBar />
-      <div className="container mx-auto mt-4">
-        <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
-        <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-        <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
-          ...sensor, "#": index + 1,
-          estado: (
-            <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-not-allowed">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
-          ),
-        }))} acciones={acciones} />
+      <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
+      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
+      <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
+        ...sensor, "#": index + 1,
+        estado: (
+          <div className="flex justify-start items-center">
+            <label className="relative flex items-center cursor-not-allowed">
+              <input
+                type="checkbox"
+                checked={sensor.estado} // Se mantiene el estado actual del sensor
+                disabled // Evita que el usuario lo modifique
+                className="sr-only"
+              />
+              <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                <div
+                  className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                ></div>
+              </div>
+            </label>
+          </div>
+        ),
+      }))} acciones={acciones} />
 
-        <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-[#005F00] text-white rounded-3xl font-semibold" onClick={() => setModalInsertarAbierto(true)}>
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
+        <button className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center" onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
-
-        {modalInsertarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
-              <hr />
-              <form onSubmit={handleSubmit}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={nombreIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripción"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <button
-                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalInsertarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                    Agregar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-
-        {modalEditarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
-              <hr />
-              <form onSubmit={handleEditarSensor}>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={nombreIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    name="nombre"
-                    placeholder="Nombre"
-                    value={editarSensor.nombre}
-                    type="text"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img
-                    src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                    className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                  />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    type="text"
-                    name="descripcion"
-                    placeholder="Descripción"
-                    value={editarSensor.descripcion}
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <button
-                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalEditarAbierto(false)}
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                    Editar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {modalEliminarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-              <hr />
-              <form onSubmit={HandlEliminarSensor}>
-                <div className="flex justify-center my-4">
-                    <img
-                      src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
-                      alt="icono"
-                    />
-                </div>
-                <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-                <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
-
-                <div className="flex justify-between mt-6 space-x-4">
-                  <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
-                    Cancelar
-                  </button>
-                  <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                    Sí, eliminar
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-        
       </div>
+
+      {modalInsertarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={nombreIcon} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre"
+                  required
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="descripcion"
+                  placeholder="Descripción"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalInsertarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Agregar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+      {modalEditarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
+            <hr />
+            <form onSubmit={handleEditarSensor}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={nombreIcon} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="nombre"
+                  placeholder="Nombre"
+                  value={editarSensor.nombre}
+                  type="text"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="descripcion"
+                  placeholder="Descripción"
+                  value={editarSensor.descripcion}
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEditarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Editar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
+            <hr />
+            <form onSubmit={HandlEliminarSensor}>
+              <div className="flex justify-center my-4">
+                <img
+                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                />
+              </div>
+              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                  Cancelar
+                </button>
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Sí, eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -17,11 +17,9 @@ import deletIcon from "../../../assets/icons/delete.png"
 import NavBar from "../../../components/gov/navbar";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { Link } from "react-router-dom";
-import sinFinca from "../../../assets/icons/sinFinca.png"
+import sinFinca from "../../../assets/img/sinFincas.png"
 import Eliminar from "../../../assets/icons/Disposal.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-//import EliminadoIcon from "../../../assets/img/Eliminado.png"
-import Modal from "../../../components/modal";
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -32,7 +30,6 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
 
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
-  const [modalAbierto, setModalAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
@@ -75,8 +72,8 @@ const Inicio = () => {
         setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
         acctionSucessful.fire({
-          imageUrl: deletIcon, 
-          imageAlt: 'Icono personalizado', 
+          imageUrl: deletIcon,
+          imageAlt: 'Icono personalizado',
           title: "Usuario agregado correctamente"
         });
 
@@ -143,7 +140,7 @@ const Inicio = () => {
 
         {fila.id_rol !== "Admin" ? (
           <div className="relative group">
-            <button onClick={() => setModalAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <button onClick={() => setModalSinFincasAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
               <img src={ver} alt="Ver" className="w-6" />
             </button>
@@ -229,7 +226,7 @@ const Inicio = () => {
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar Usuario</h5>
             <hr />
             <br />
@@ -294,8 +291,8 @@ const Inicio = () => {
                 </select>
               </div>
               <div className="flex gap-4 mt-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
-                <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">Agregar</button>
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">Agregar</button>
               </div>
             </form>
           </div >
@@ -305,7 +302,7 @@ const Inicio = () => {
       {
         modalEditarAbierto && (
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
               <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
               <hr />
               <br />
@@ -370,31 +367,26 @@ const Inicio = () => {
                     onChange={handleChangeEditar} />
                 </div>
                 <div className="flex gap-4 mt-4">
-                  <button type="button" className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEditarAbierto(false)}>Cancelar</button>
-                  <button type="submit" className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">Editar</button>
+                  <button type="button" className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEditarAbierto(false)}>Cancelar</button>
+                  <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">Editar</button>
                 </div>
-
               </form>
             </div>
           </div>
         )
       }
 
-
-
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/4 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Fincas</h5>
             <hr />
             <form >
               <div className="flex justify-center my-4">
-                <div className="bg-[#00304D] p-4 rounded-full">
                   <img
                     src={sinFinca} // Reemplaza con la ruta de tu icono
                     alt="icono"
                   />
-                </div>
               </div>
               <p className="text-lg text-center font-semibold">No hay fincas registradas</p>
               <p className="text-gray-500 text-center text-sm">Agrega una finca para visualizar los datos.</p>
@@ -408,29 +400,28 @@ const Inicio = () => {
             </form>
           </div>
         </div>
-      )
-      }
+      )}
 
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>
               <div className="flex justify-center my-2">
-                  <img
-                    src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                  />
+                <img
+                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">Se eliminará el usuario de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg">
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Sí, eliminar
                 </button>
               </div>
@@ -438,15 +429,7 @@ const Inicio = () => {
           </div>
         </div>
       )}
-      {modalAbierto && (
-        <Modal 
-          titulo="Detalles del Sensor"
-          icono={Eliminar} 
-          descripcion="Este es el detalle del sensor" 
-          texto="Más información aquí"
-          onClose={() => setModalAbierto(false)} 
-        />
-      )}
+
 
     </>
   );

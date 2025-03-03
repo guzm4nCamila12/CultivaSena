@@ -25,7 +25,7 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
-  console.log(idRol)
+
 
 
   useEffect(() => {
@@ -127,51 +127,60 @@ export default function ListaFincas() {
 
   return (
     <div>
-      
-        <Navbar />
-     
-  
-        <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
 
-        {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
-        <Tabla
-          titulo="Fincas"
-          columnas={columnas}
-          datos={fincasConSensores} // Aquí pasas los datos modificados
-          acciones={acciones}
-        />
+      <Navbar />
 
-        <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
 
-          <Link to={`/agregar-finca/${usuario.id}`}>
-            <button type="button" className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-[#005F00] flex items-center">
+      <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
 
-              Agregar Finca
+      {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
+      <Tabla
+        titulo="Fincas"
+        columnas={columnas}
+        datos={fincasConSensores} // Aquí pasas los datos modificados
+        acciones={acciones}
+      />
 
-            </button>
-          </Link>
-        </div>
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
 
-        {modalEliminarAbierto && (
+        <Link
+          to={`/agregar-finca/${usuario.id}`}
+          className="w-full flex justify-center"
+        >
+          <button
+            type="button"
+            className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+                        hover:bg-[#005F00] flex items-center justify-center text-center
+                          sm:w-auto sm:mx-3 md:px-8 
+                          w-full max-w-sm"
+          >
+            Agregar Finca
+          </button>
+        </Link>
+
+      </div>
+
+      {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">
-                  <img
-                    src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
-                    alt="icono"
-                  />
+                <img
+                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
+                  alt="icono"
+                />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
 
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+
+                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] text-white font-bold py-3 rounded-full text-lg" >
+                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
                   Sí, eliminar
                 </button>
               </div>
@@ -179,7 +188,8 @@ export default function ListaFincas() {
           </div>
         </div>
       )}
-    
+
+
     </div>
   );
 }

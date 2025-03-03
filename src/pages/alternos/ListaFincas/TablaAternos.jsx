@@ -9,26 +9,34 @@ import estadoIcon from "../../../assets/icons/estado.png";
 import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
+import Nombre from "../../../assets/icons/User.png"
+import Telefono from "../../../assets/icons/Phone.png"
+import Correo from "../../../assets/icons/Email.png"
+import Clave from "../../../assets/icons/contra.png"
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import '@fontsource/work-sans'; // Importar la fuente Work Sans
-
-import Swal from "sweetalert2";
 import { acctionSucessful } from "../../../components/alertSuccesful";
+
 const Inicio = () => {
   const { id } = useParams();
 
   // Estado local del componente
+  const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]); // Arreglo de usuarios obtenidos de la Base de Datos
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
   const [editarUsuario, setEditarUsuario] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
 
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [usuarioEliminar, setUsuarioEliminar] = useState(false)
 
 
 
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
   }, []);
+
 
   console.log(usuarios);
 
@@ -73,27 +81,20 @@ const Inicio = () => {
   };
 
 
-  const HandlEliminarSensor = (id) => {
-    Swal.fire({
-      icon: 'error',
-      title: '¿Estás seguro?',
-      text: "¿Quieres eliminar este sensor?",
-      showCancelButton: true,
-      confirmButtonColor: "red",
-      cancelButtonColor: "blue",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        eliminarUsuario(id).then(() => {
-          setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== id) || []);
-          acctionSucessful.fire({
-            icon: "success",
-            title: "Alterno eliminado correctamente"
-          });
-        }).catch(console.error);
-      }
-    });
+  const HandlEliminarAlterno = (id) => {
+    eliminarUsuario(usuarioEliminar).then(() => {
+      setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== id) || []);
+      setModalEliminarAbierto(false)
+      acctionSucessful.fire({
+        icon: "success",
+        title: "Alterno eliminado correctamente"
+      });
+    }).catch(console.error);
+  }
+
+  const abrirModalEliminar = (id) => {
+    setUsuarioEliminar(id);
+    setModalEliminarAbierto(true)
   }
 
   const handleSubmit = (e) => {
@@ -126,7 +127,7 @@ const Inicio = () => {
       </div>
 
       <div className="relative group">
-        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => HandlEliminarSensor(fila.id)}>
+        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => abrirModalEliminar(fila.id)}>
 
           <img src={deletIcon} alt="Eliminar" />
         </button>
@@ -140,87 +141,183 @@ const Inicio = () => {
   return (
     <div>
       <Navbar />
-      <div className="container mx-auto mt-4 p-4">
+
+      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
+      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
 
 
-        <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
-
-
-        {/* BOTON DE INSERTAR USUARIO */}
-        <button className="mt-4 px-4 py-2 bg-green-600 text-white rounded-lg" onClick={() => setModalInsertarAbierto(true)}>
-          Insertar
+      {/* BOTON DE INSERTAR USUARIO */}
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3">
+        <button
+          className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+                      hover:bg-[#005F00] flex items-center justify-center
+                      sm:w-auto sm:mx-3 md:px-8 
+                      w-full max-w-sm mx-auto"
+          onClick={() => setModalInsertarAbierto(true)}
+        >
+          Agregar Alterno
         </button>
 
 
+      </div>
 
 
-        {/* MODAL insertar */}
-        {modalInsertarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6 text-center w-[30%]">
-              <h5 className="text-2xl font-bold mb-4 border-b-2 pb-3" style={{ fontFamily: "work sans" }}>Agregar Alterno</h5>
-              <form onSubmit={handleSubmit}>
-                <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
-                <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl " type="text" name="telefono" placeholder="Telefono" onChange={handleChange} />
-                <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl " type="text" name="correo" placeholder="Correo" onChange={handleChange} />
-                <input className="w-full mb-3 px-4 py-2 border border-gray-300 rounded-3xl " type="text" name="clave" placeholder="Clave" onChange={handleChange} />
-                <div className="flex justify-center mt-4">
-                  <button className="w-60 px-4 py-2 bg-[#00304D] font-bold text-white rounded-3xl mr-2" onClick={() => setModalInsertarAbierto(false)}>Cerrar</button>
-                  <button type="submit" className="w-60 px-4 py-2 font-bold bg-[#009E00] text-white rounded-3xl">Agregar</button>
-                </div>
-              </form>
-            </div>
+
+
+      {/* MODAL insertar */}
+      {modalInsertarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-xl font-semibold text-center mb-4" style={{ fontFamily: "work sans" }}>Agregar Alterno</h5>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Nombre}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="nombre" placeholder="Nombre" required onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Telefono}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="telefono" placeholder="Telefono" onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Correo}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="correo" placeholder="Correo" onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Clave}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
+                <input className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl" type="text" name="clave" placeholder="Clave" onChange={handleChange} />
+              </div>
+              <div className="flex justify-end mt-4">
+                <button className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2" onClick={() => setModalInsertarAbierto(false)}>Cancelar</button>
+                <button type="submit" className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">Agregar</button>
+              </div>
+            </form>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* MODAL EDITAR USUARIO */}
-        {modalEditarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-1/3 p-6">
-              <h5 className="text-xl font-semibold mb-4">EDITAR ALTERNO</h5>
-              <form onSubmit={handleEditarSensor}>
-                <label className="block text-sm font-medium">NOMBRE</label>
+
+      {/* MODAL EDITAR USUARIO */}
+      {modalEditarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
+            <hr />
+            <br />
+            <form onSubmit={handleEditarSensor}>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Nombre}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
                 <input
-                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-3xl "
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.nombre}
                   type="text"
                   name="nombre"
                   onChange={handleChangeEditar}
                 />
-                <label className="block text-sm font-medium mt-4">TELEFONO</label>
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Telefono}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
                 <input
-                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-3xl "
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.telefono}
                   type="text"
                   name="telefono"
                   onChange={handleChangeEditar}
                 />
-                <label className="block text-sm font-medium mt-4">CORREO</label>
+              </div>
+              <div className="relative w-full mt-2">
+                <img
+                  src={Correo}
+                  alt="icono"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
+                />
                 <input
-                  className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-3xl "
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.correo}
                   name="correo"
                   type="text"
                   onChange={handleChangeEditar}
                 />
-
-                <div className="flex justify-end mt-4">
-                  <button
-                    type="button"
-                    className="px-4 py-2 bg-gray-300 text-black rounded-lg mr-2"
-                    onClick={() => setModalEditarAbierto(false)}
-                  >
-                    Cerrar
-                  </button>
-                  <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">
-                    Editar
-                  </button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div className="flex justify-end mt-4">
+                <button
+                  type="button"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  onClick={() => setModalEditarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl"
+                >
+                  Editar
+                </button>
+              </div>
+            </form>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+
+      {modalEliminarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Alterno</h5>
+            <hr />
+            <form onSubmit={HandlEliminarAlterno}>
+              <div className="flex justify-center my-2">
+                <img
+                  src={ConfirmarEliminar}
+                  alt="icono"
+                />
+              </div>
+              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
+
+              <div className="flex justify-between mt-6 space-x-4">
+                <button
+                  type="button"
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                >
+                  Sí, eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

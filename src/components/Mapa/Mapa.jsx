@@ -10,7 +10,7 @@ import zoomIn from "../../assets/icons/zoomIn.png"
 import zoomOut from "../../assets/icons/zoomOut.png"
 
 const Mapa = ({ setUbicacion, ubicacion }) => {
-  const [position, setPosition] = useState(ubicacion || { lat: 4.83553127984409, lng: -75.67226887098515 });
+  const [position, setPosition] = useState(ubicacion || {  lat: 4.54357027937176, lng: -72.97119140625001 });
   const [mapInstance, setMapInstance] = useState(null);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       Seleccione una ubicación en el mapa
     </h2>      
     <div className="flex relative max-h-[750px]">
-      <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 rounded-b-3xl' zoomControl={false} zoom={13} style={{ width: '100%', height: '600px' }}>
+      <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 rounded-b-3xl' zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         <Marker position={position} icon={customIcon}>
         </Marker>

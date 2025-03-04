@@ -237,7 +237,7 @@ const Inicio = () => {
       />
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
         <button
-          className="mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center"
+          className="animate-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[rgba(0,_158,_0,_1)] text-white font-bold rounded-full hover:bg-gray-700 flex items-center"
           onClick={() => setModalInsertarAbierto(true)}
         >
           Agregar Usuario

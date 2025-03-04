@@ -52,7 +52,7 @@ export default function ListaFincas() {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "Finca Eliminada correctamente"
+        title: "Finca eliminada correctamente"
       });
     }).catch(console.error);
   }

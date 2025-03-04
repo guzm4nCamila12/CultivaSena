@@ -14,7 +14,7 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 ">
       {/* Contenedor del título y el buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-[27px] font-medium">{titulo}</h1>

@@ -345,7 +345,7 @@ function ActivarSensores() {
         <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
                       hover:bg-[#005F00] flex items-center justify-center
                       sm:w-auto sm:mx-3 md:px-8 
-                      w-full max-w-sm mx-auto" 
+                      w-full max-w-sm mx-auto animate-bounce hover:animate-none" 
                       onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
@@ -354,7 +354,7 @@ function ActivarSensores() {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center ">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">

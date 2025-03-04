@@ -38,7 +38,17 @@ function Sensores() {
   });
 
   useEffect(() => {
-    getSensoresById(idUser).then(setSensores);
+    getSensoresById(idUser).then(
+      (data) => {
+        if (data == null) {
+          setSensores([]);
+          return
+        }
+        setSensores(data);
+
+        
+      }
+    );
     getUsuarioById(id).then(setUsuario);
     getFincasByIdFincas(idUser).then(setFincas);
   }, [id, idUser]);
@@ -65,13 +75,18 @@ function Sensores() {
     { key: "acciones", label: "Acciones", icon: accionesIcon },
   ];
 
+  const enviarForm = (id) => {
+    //se trae el id del sensor de la columna para traerlo y enviarlo como objeto
+    const sensorEnviado = sensores.find(sensor => sensor.id === id);
+    abrirModalEditar(sensorEnviado);
+  }
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
 
 
 
-      <button onClick={() => abrirModalEditar(fila)} className="group relative">
+      <button onClick={() => enviarForm(fila.id)} className="group relative">
         <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
 
 
@@ -145,15 +160,26 @@ function Sensores() {
   };
 
   const handleEditarSensor = (e) => {
-    e.preventDefault();
-    actualizarSensor(editarSensor.id, editarSensor).then(() => {
-      setSensores(sensores.map(u => u.id === editarSensor.id ? editarSensor : u));
-      acctionSucessful.fire({
-        icon: "success",
-        title: "Sensor editado correctamente"
-      });
-      setModalEditarAbierto(false);
-    });
+   e.preventDefault();
+       actualizarSensor(editarSensor.id, editarSensor).then((data) => {
+         const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
+         const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
+         acctionSucessful.fire({
+           icon: "success",
+           title: "Sensor editado correctamente"
+         });
+         console.log("index: " + index);
+   
+         // Verificar si se encontró el índice
+   
+         nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
+   
+   
+         console.log("nuevosSensores: ", nuevosSensores);
+   
+         setSensores(nuevosSensores);
+       })
+       setModalEditarAbierto(false);
   };
 
   const handleChangeEditar = (e) => {
@@ -196,7 +222,7 @@ function Sensores() {
         ),
       }))} acciones={acciones} />
 
-      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
+      <div className="flex justify-end w-[84.4%] mx-auto mt-3  animate-bounce hover:animate-none">
       <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
                       hover:bg-[#005F00] flex items-center justify-center
                       sm:w-auto sm:mx-3 md:px-8 

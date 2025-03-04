@@ -39,9 +39,8 @@ const Inicio = () => {
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
-        let bloque = <p>SuperAdmin</p>;
 
-        return bloque;
+        return "SuperAdmin";
       case 2:
         return "Admin";
       case 3:
@@ -125,7 +124,7 @@ const Inicio = () => {
     { key: "nombre", label: "Nombre", icon: userIcon },
     { key: "telefono", label: "Teléfono", icon: phoneIcon },
     { key: "correo", label: "Correo", icon: emailIcon },
-    { key: "id_rol", label: "Rol", icon: rolIcon, transform: obtenerRol },
+    { key: "id_rol", label: "Rol", icon: rolIcon},
     { key: "acciones", label: "Acciones", icon: configIcon },
   ];
 
@@ -136,7 +135,7 @@ const Inicio = () => {
 
         <div className="relative group">
           <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => abrirModalEditar(fila)}>
-
+          {console.log(fila)}
             <img src={editIcon} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -185,17 +184,35 @@ const Inicio = () => {
   };
 
 
+  const enviarRol = (rol) =>{
+    switch (rol) {
+      case 'SuperAdmin':
+        
+        return 1;
+      case 'Admin':
+        
+        return 2;
+      case 'Alterno':
+        
+        return 3;
+      default:
+        break;
 
+    }
+  }
 
 
   const abrirModalEditar = (usuario) => {
+  
+    
     // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {
       id: usuario.id,
       nombre: usuario.nombre,
       telefono: usuario.telefono,
       correo: usuario.correo,
-      clave: usuario.clave
+      clave: usuario.clave,
+      id_rol: enviarRol(usuario.id_rol)
     };
 
     setEditarUsuario(usuarioNecesario);

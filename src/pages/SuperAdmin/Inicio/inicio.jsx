@@ -1,9 +1,8 @@
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import { useState, useEffect } from "react";
-import userIcon from "../../../assets/icons/user.png"
-import phoneIcon from "../../../assets/icons/phone.png"
-import emailIcon from "../../../assets/icons/email.png"
-import rolIcon from "../../../assets/icons/rol.png"
+import phoneIcon from "../../../assets/icons/phoneBlue.png"
+import emailIcon from "../../../assets/icons/emailBlue.png"
+import rolIcon from "../../../assets/icons/rolBlue.png"
 import configIcon from "../../../assets/icons/config.png"
 import Tabla from "../../../components/Tabla";
 import ver from "../../../assets/icons/view.png"
@@ -121,8 +120,6 @@ const Inicio = () => {
 
 
   const columnas = [
-    { key: "#", label: "#", icon: "" },
-    { key: "nombre", label: "Nombre", icon: userIcon },
     { key: "telefono", label: "Teléfono", icon: phoneIcon },
     { key: "correo", label: "Correo", icon: emailIcon },
     { key: "id_rol", label: "Rol", icon: rolIcon, transform: obtenerRol },
@@ -132,58 +129,68 @@ const Inicio = () => {
 
   const acciones = (fila) => {
     return (
-      <div className="flex justify-center gap-2">
-
+      <div className="flex justify-center gap-4">
+        {/* Botón Editar */}
         <div className="relative group">
-          <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => abrirModalEditar(fila)}>
-
+          <button
+            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            onClick={() => abrirModalEditar(fila)}
+          >
             <img src={editIcon} alt="Editar" />
           </button>
-          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
           </span>
         </div>
-
+  
+        {/* Botón Ver (si no es Admin) */}
         {fila.id_rol !== "Admin" ? (
           <div className="relative group">
-            <button onClick={() => setModalSinFincasAbierto(true)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-
-              <img src={ver} alt="Ver" className="w-6" />
+            <button
+              onClick={() => setModalSinFincasAbierto(true)}
+              className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            >
+              <img src={ver} alt="Ver" />
             </button>
-            <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver
             </span>
           </div>
         ) : null}
-
+  
+        {/* Botón Ver (para Admin) */}
         {fila.id_rol === "Admin" && (
           <div className="relative group">
-            <Link to={`/lista-fincas/${fila.id}`}>
-
-              <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-
-                <img src={ver} alt="Ver" className="w-6" />
+            <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" >
+              <button
+                
+              >
+                <img src={ver} alt="Ver" />
               </button>
-              <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-1 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
               </span>
             </Link>
           </div>
         )}
-
+  
+        {/* Botón Eliminar */}
         <div className="relative group">
-          <button onClick={() => abrirModalEliminar(fila.id)} className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <button
+            onClick={() => abrirModalEliminar(fila.id)}
+            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          >
             <img src={deletIcon} alt="Eliminar" />
           </button>
-          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
         </div>
-
       </div>
     );
   };
-
+  
+  
 
 
 

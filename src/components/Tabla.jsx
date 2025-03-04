@@ -41,24 +41,27 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
           datosFiltrados.map((fila, index) => (
             <div
               key={fila.id || index}
-              className="relative bg-cover bg-center shadow-md rounded-xl overflow-hidden border-2 border-transparent flex flex-col transition-all duration-300 
-  hover:border-green-700 hover:shadow-inner hover:shadow-black/50"
-              style={{
-                backgroundImage: "url('/fondoCards.png')",
-                backgroundSize: "100% 100%",
-                backgroundPosition: "center top",
-              }}
+              className="bg-white shadow-md rounded-[36px] overflow-hidden border-2 border-transparent flex flex-col transition-all duration-300 
+             hover:border-green-700 hover:shadow-inner hover:shadow-black/50 
+             relative bg-cover bg-center"
+              style={{ backgroundImage: "url('/fondoCards.png')" }}
+
             >
 
 
 
 
-
-              {/* Título de la tarjeta */}
-              <div className="p-4 text-lg font-semibold text-center text-white bg-[#00304D]">
+              <div
+                className="bg-[#00304D] text-white p-4 text-lg font-semibold text-center relative"
+                style={{
+                  backgroundImage: "url('/fondoTitle.png')",
+                  backgroundSize: "cover",    
+                  backgroundPosition: "center center", 
+                  backgroundRepeat: "no-repeat", 
+                }}
+              >
                 {fila.nombre || "Usuario"}
               </div>
-
 
               {/* Datos */}
               <div className="p-4 flex flex-col gap-2">

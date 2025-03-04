@@ -18,6 +18,8 @@ import Swal from "sweetalert2";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 import withReactContent from 'sweetalert2-react-content'
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 
 
 function ActivarSensores() {
@@ -177,6 +179,11 @@ function ActivarSensores() {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
       setModalEliminarAbierto(false);
     }).catch(console.error);
+    acctionSucessful.fire({
+      imageUrl: UsuarioEliminado,
+      imageAlt: 'Icono personalizado',
+      title: "Sensor Eliminado correctamente"
+    });
   };
 
   const handleChange = (e) => {
@@ -198,7 +205,8 @@ function ActivarSensores() {
       }
     });
     acctionSucessful.fire({
-      icon: "success",
+      imageUrl: usuarioCreado,
+      imageAlt: 'Icono personalizado',
       title: "Sensor agregado correctamente"
     });
     console.log("Datos enviados:", formData);
@@ -212,7 +220,8 @@ function ActivarSensores() {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
       const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
       acctionSucessful.fire({
-        icon: "success",
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
         title: "Sensor editado correctamente"
       });
       console.log("index: " + index);

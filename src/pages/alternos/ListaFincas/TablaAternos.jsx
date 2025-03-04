@@ -16,6 +16,9 @@ import Clave from "../../../assets/icons/contra.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import '@fontsource/work-sans'; // Importar la fuente Work Sans
 import { acctionSucessful } from "../../../components/alertSuccesful";
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+
 
 const Inicio = () => {
   const { id } = useParams();
@@ -72,7 +75,8 @@ const Inicio = () => {
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
-        icon: "success",
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
         title: "Alterno editado correctamente"
       });
       setModalEditarAbierto(false);
@@ -87,7 +91,8 @@ const Inicio = () => {
       setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
       setModalEliminarAbierto(false)
       acctionSucessful.fire({
-        icon: "success",
+        imageUrl: UsuarioEliminado,
+        imageAlt: 'Icono personalizado',
         title: "Alterno eliminado correctamente"
       });
     }).catch(console.error);
@@ -109,8 +114,9 @@ const Inicio = () => {
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
-        icon: "success",
-        title: "Usuario insertado correctamente"
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
+        title: "Alterno agregado correctamente"
       });
     }).catch(console.error);
   }

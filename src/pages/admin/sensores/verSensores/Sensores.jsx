@@ -16,6 +16,8 @@ import verIcon from "../../../../assets/icons/view.png";
 import deletIcon from "../../../../assets/icons/delete.png";
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 //import EliminadoIcon from "../../../../assets/img/Eliminado.png"
+import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
+import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 
 function Sensores() {
   const [sensores, setSensores] = useState([]);
@@ -124,6 +126,11 @@ function Sensores() {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
       setModalEliminarAbierto(false);
     }).catch(console.error);
+    acctionSucessful.fire({
+      imageUrl: UsuarioEliminado,
+      imageAlt: 'Icono personalizado',
+      title: "Sensor Eliminado correctamente"
+    });
   };
 
   const handleChange = (e) => {
@@ -136,9 +143,10 @@ function Sensores() {
       if (response) {
         setSensores([...sensores, response]);
         acctionSucessful.fire({
-          icon: "success",
-          title: "Sensor agregado correctamente"
-        });
+      imageUrl: usuarioCreado,
+      imageAlt: 'Icono personalizado',
+      title: "Sensor agregado correctamente"
+    });
         setModalInsertarAbierto(false);
       }
     });
@@ -149,7 +157,8 @@ function Sensores() {
     actualizarSensor(editarSensor.id, editarSensor).then(() => {
       setSensores(sensores.map(u => u.id === editarSensor.id ? editarSensor : u));
       acctionSucessful.fire({
-        icon: "success",
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
         title: "Sensor editado correctamente"
       });
       setModalEditarAbierto(false);
@@ -197,11 +206,11 @@ function Sensores() {
       }))} acciones={acciones} />
 
       <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
-      <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
+        <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
                       hover:bg-[#005F00] flex items-center justify-center
                       sm:w-auto sm:mx-3 md:px-8 
-                      w-full max-w-sm mx-auto" 
-                      onClick={() => setModalInsertarAbierto(true)}>
+                      w-full max-w-sm mx-auto"
+          onClick={() => setModalInsertarAbierto(true)}>
           Agregar Sensor
         </button>
       </div>

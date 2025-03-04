@@ -97,7 +97,8 @@ const Inicio = () => {
       actualizarUsuario(Number(editarUsuario.id), editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
-        icon: "success",
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
         title: "Usuario editado correctamente"
       });
       setModalEditarAbierto(false)

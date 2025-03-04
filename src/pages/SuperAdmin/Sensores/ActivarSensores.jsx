@@ -6,20 +6,21 @@ import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
 import Tabla from "../../../components/Tabla";
 import NavBar from "../../../components/gov/navbar"
-import macIcon from "../../../assets/icons/mac.png";
+import macIcon from "../../../assets/icons/macBlue.png";
 import nombreIcon from "../../../assets/icons/nombre.png";
-import descripcionIcon from "../../../assets/icons/descripcion.png";
-import estadoIcon from "../../../assets/icons/estado.png";
+import descripcionIcon from "../../../assets/icons/descBlue.png";
+import estadoIcon from "../../../assets/icons/estadoBlue.png";
 import accionesIcon from "../../../assets/icons/config.png";
-import editIcon from "../../../assets/icons/edit.png";
-import verIcon from "../../../assets/icons/view.png";
-import deletIcon from "../../../assets/icons/delete.png";
+import editIcon from "../../../assets/icons/edit.png"
+import ver from "../../../assets/icons/view.png"
+import deletIcon from "../../../assets/icons/delete.png"
 import Swal from "sweetalert2";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 import withReactContent from 'sweetalert2-react-content'
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
+import sensorBoton from "../../../assets/icons/sensorBoton.png"
 
 
 function ActivarSensores() {
@@ -75,7 +76,7 @@ function ActivarSensores() {
       });
       getFincasByIdFincas(idUser).then((data) => {
         setFincas(data)
-    
+
       });
 
     } catch (error) {
@@ -98,46 +99,43 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "#", label: "#" },
     { key: "mac", label: "MAC", icon: macIcon },
-    { key: "nombre", label: "Nombre", icon: nombreIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },
-    { key: "acciones", label: "Acciones", icon: accionesIcon },
+    { key: "acciones", label: "Acciones"},
   ];
 
   const acciones = (fila) => (
-    <div className="flex justify-center gap-2">
-      <button onClick={() => enviarForm(fila.id)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-
-
+    <div className="flex justify-center gap-4">
+      <div className="relative group">
+        <button
+          className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          onClick={() => enviarForm(fila.id)}
+        >
           <img src={editIcon} alt="Editar" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700  text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
         </span>
-      </button>
-      <button onClick={() => abrirModalEliminar(fila.id)} className="group relative">
-        <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-
-          <img src={deletIcon} alt="Eliminar" />
-        </div>
-        <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-          Eliminar
-        </span>
-      </button>
-      <Link to={`/datos-sensor/${fila.id}`}>
-        <button className="group relative">
-          <div className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-
-            <img src={verIcon} alt="Ver" />
-          </div>
-          <span className="absolute left-1/2 -translate-x-1/2 -top-14 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-            Ver Datos
+      </div>
+      <div className="relative group">
+        <Link to={`/datos-sensor/${fila.id}`}>
+          <button className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={ver} alt="Ver" />
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver Datos
+            </span>
+          </button>
+        </Link>
+      </div>
+      <div className="relative group">
+        <button onClick={() => abrirModalEliminar(fila.id)} className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={deletIcon} alt="Eliminar" />
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Eliminar
           </span>
         </button>
-      </Link>
+      </div>
     </div>
   );
 
@@ -350,13 +348,15 @@ function ActivarSensores() {
         datos={sensoresDeFinca}
         acciones={acciones} />
 
-      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
-        <button className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
-                      hover:bg-[#005F00] flex items-center justify-center
-                      sm:w-auto sm:mx-3 md:px-8 
-                      w-full max-w-sm mx-auto" 
-                      onClick={() => setModalInsertarAbierto(true)}>
-          Agregar Sensor
+      <div className="flex justify-center w-[84.4%] mx-auto mt-8   ">
+        <button className=" animate-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+          onClick={() => setModalInsertarAbierto(true)}>
+          <span>Agregar Sensor</span>
+          <img
+              src={sensorBoton}
+              alt="icono"
+              className="w-6 h-4"
+            />
         </button>
       </div>
 

@@ -52,7 +52,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
 
 
               <div
-                className="bg-[#00304D] text-white p-4 text-lg font-semibold text-center relative"
+                className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center relative"
                 style={{
                   backgroundImage: "url('/fondoTitle.png')",
                   backgroundSize: "cover",    

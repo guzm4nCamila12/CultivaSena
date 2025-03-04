@@ -9,13 +9,14 @@ import configIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import alternoIcon from "../../../assets/icons/alterno.png"
-import alternoIcon2 from "../../../assets/icons/nombre.png"
-import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
+import alternoIcon2 from "../../../assets/icons/alternoBlue.png"
+import sensorAltIcon from "../../../assets/icons/sensorBlue.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import { acctionSucessful } from "../../../components/alertSuccesful";
+import iconBoton from "../../../assets/icons/iconBoton.png"
 
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 
@@ -44,8 +45,8 @@ export default function ListaFincas() {
   // Manejo de la eliminación de finca
   const handleEliminarFinca = (e) => {
     e.preventDefault();
-    console.log("Finca eliminar",fincaEliminar)
-    
+    console.log("Finca eliminar", fincaEliminar)
+
     eliminarFincas(fincaEliminar).then(() => {
       setFincas(fincas.filter(finca => finca.id !== fincaEliminar));
       setModalEliminarAbierto(false);
@@ -63,22 +64,20 @@ export default function ListaFincas() {
   }
 
   const columnas = [
-    { key: "#", label: "#", icon: "" },
-    { key: "nombre", label: "Fincas", icon: fincaIcon },
-    { key: "sensores", label: "Sensores", icon: sensorAltIcon },
-    { key: "alternos", label: "Alternos", icon: alternoIcon2 },
-    { key: "acciones", label: "Acciones", icon: configIcon },
+    { key: "sensores", label: "Sensores" },
+    { key: "alternos", label: "Alternos" },
+    { key: "acciones", label: "Acciones"},
   ];
 
   const acciones = (fila) => (
-    <div className="flex justify-center gap-2">
+    <div className="flex justify-center gap-4">
       {/* Editar */}
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
-          <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={editIcon} alt="Editar" />
           </button>
-          <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
           </span>
         </Link>
@@ -89,12 +88,13 @@ export default function ListaFincas() {
       <div className="relative group">
         <button
           onClick={() => abrirModalEliminar(fila.id)}
-          className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
-          
+
+          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+
         >
           <img src={deletIcon} alt="Eliminar" />
         </button>
-        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
         </span>
       </div>
@@ -116,7 +116,7 @@ export default function ListaFincas() {
             <img src={sensorIcon} alt="Sensores" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Sensores
+            Ver
           </span>
         </button>
       </Link>
@@ -128,7 +128,7 @@ export default function ListaFincas() {
             <img src={alternoIcon} alt="Alternos" />
 
             <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Alternos
+              Ver
             </span>
           </div>
         </button>
@@ -153,7 +153,7 @@ export default function ListaFincas() {
         acciones={acciones}
       />
 
-      <div className="flex justify-end w-[84.4%] mx-auto mt-3  ">
+      <div className=" flex justify-center w-[84.4%] mx-auto mt-8  ">
 
         <Link
           to={`/agregar-finca/${usuario.id}`}
@@ -161,13 +161,18 @@ export default function ListaFincas() {
         >
           <button
             type="button"
-            className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
-                        hover:bg-[#005F00] flex items-center justify-center text-center
-                          sm:w-auto sm:mx-3 md:px-8 
-                          w-full max-w-sm animate-light-bounce hover:animate-none"
+
+            className="animate-light-bounce  hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+
           >
-            Agregar Finca
+            <span>Agregar Finca</span>
+            <img
+              src={fincaIcon}
+              alt="icono"
+              className="w-5 h-5"
+            />
           </button>
+
         </Link>
 
       </div>
@@ -176,7 +181,7 @@ export default function ListaFincas() {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
-           
+
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">

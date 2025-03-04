@@ -4,8 +4,8 @@ import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario 
 import Navbar from "../../../components/gov/navbar";
 import Tabla from "../../../components/Tabla";
 import nombreIcon from "../../../assets/icons/nombre.png";
-import descripcionIcon from "../../../assets/icons/descripcion.png";
-import estadoIcon from "../../../assets/icons/estado.png";
+import phoneIcon from "../../../assets/icons/phoneBlue.png"
+import emailIcon from "../../../assets/icons/emailBlue.png"
 import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
@@ -18,6 +18,7 @@ import '@fontsource/work-sans'; // Importar la fuente Work Sans
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import iconBoton from "../../../assets/icons/iconBoton.png"
 
 
 const Inicio = () => {
@@ -53,11 +54,9 @@ const Inicio = () => {
 
 
   const columnas = [
-    { key: "#", label: "#" },
-    { key: "nombre", label: "Nombre", icon: nombreIcon },
-    { key: "telefono", label: "Telefono", icon: descripcionIcon },
-    { key: "correo", label: "Correo", icon: estadoIcon },
-    { key: "acciones", label: "Acciones", icon: accionesIcon },
+    { key: "telefono", label: "Telefono", icon: phoneIcon },
+    { key: "correo", label: "Correo", icon: emailIcon },
+    { key: "acciones", label: "Acciones" },
   ];
 
   const HandleEditarAlterno = (alterno) => {
@@ -126,22 +125,22 @@ const Inicio = () => {
     <div className="flex justify-center gap-2">
 
       <div className="relative group">
-        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => HandleEditarAlterno(fila)}>
+        <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => HandleEditarAlterno(fila)}>
 
           <img src={editIcon} alt="Editar" />
         </button>
-        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Editar
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Editar
         </span>
       </div>
 
       <div className="relative group">
-        <button className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center" onClick={() => abrirModalEliminar(fila.id)}>
+        <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => abrirModalEliminar(fila.id)}>
 
           <img src={deletIcon} alt="Eliminar" />
         </button>
-        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-1 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Eliminar
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        Eliminar
         </span>
       </div>
     </div>
@@ -156,15 +155,19 @@ const Inicio = () => {
 
 
       {/* BOTON DE INSERTAR USUARIO */}
-      <div className="flex justify-end w-[84.4%] mx-auto mt-3">
+      <div className="flex justify-center w-[84.4%] mx-auto mt-8 3">
         <button
-          className=" shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] text-white font-bold rounded-full 
-                      hover:bg-[#005F00] flex items-center justify-center
-                      sm:w-auto sm:mx-3 md:px-8 
-                      w-full max-w-sm mx-auto animate-light-bounce hover:animate-none"
+
+          className=" animate-light-bounce  hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+
           onClick={() => setModalInsertarAbierto(true)}
         >
-          Agregar Alterno
+          <span>Agregar Alterno</span>
+          <img
+              src={iconBoton}
+              alt="icono"
+              className="w-4 h-4"
+            />
         </button>
 
 

@@ -36,9 +36,8 @@ const Inicio = () => {
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
   }, []);
+      
 
-
-  console.log(usuarios);
 
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });

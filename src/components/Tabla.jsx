@@ -57,8 +57,8 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                         {columna.label}
                       </span>
                       {index !== columnas.length - 1 && columna.key !== "acciones" && (
-                            <div className="h-8 w-[1px] bg-gray-300"></div>
-                          )}
+                        <div className="h-8 w-[1px] bg-gray-300"></div>
+                      )}
                     </div>
                   </th>
                 ))}
@@ -68,43 +68,43 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
 
 
             <tbody>
-  {datosFiltrados.length > 0 ? (
-    datosFiltrados.map((fila, index) => (
-      <tr key={fila.id || index} className="">
-        {columnas.map((columna, i) => (
-          <td
-            key={i}
-            className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
+              {datosFiltrados.length > 0 ? (
+                datosFiltrados.map((fila, index) => (
+                  <tr key={fila.id || index} className="">
+                    {columnas.map((columna, i) => (
+                      <td
+                        key={i}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
               ${i === 0 ? "rounded-l-full text-center font-bold" : ""} 
               ${i === columnas.length - 1 ? "rounded-r-full text-center" : ""}
               border-t border-b border-gray-300 bg-[#EEEEEE]`} // Añadir bordes explícitos a las celdas
-          >
-            <div className="flex items-center">
-              <span className="flex-1">
-                {columna.key === "#" ? (  // Aquí chequeamos si es la columna del índice
-                  index + 1 // Mostrar el número de índice
-                ) : columna.key === "acciones" ? (
-                  <div className="flex gap-2">{acciones(fila)}</div>
-                ) : (
-                  fila[columna.key]  // Mostrar el valor de la fila según la columna
-                )}
-              </span>
-              {i !== columnas.length - 1 && columna.key !== "acciones" && (
-                <div className="h-8 w-[1px] bg-gray-300"></div>
+                      >
+                        <div className="flex items-center">
+                          <span className="flex-1">
+                            {columna.key === "#" ? (  // Aquí chequeamos si es la columna del índice
+                              index + 1 // Mostrar el número de índice
+                            ) : columna.key === "acciones" ? (
+                              <div className="flex gap-2">{acciones(fila)}</div>
+                            ) : (
+                              fila[columna.key]  // Mostrar el valor de la fila según la columna
+                            )}
+                          </span>
+                          {i !== columnas.length - 1 && columna.key !== "acciones" && (
+                            <div className="h-8 w-[1px] bg-gray-300"></div>
+                          )}
+                        </div>
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columnas.length} className="text-center p-4 text-sm">
+                    No hay datos
+                  </td>
+                </tr>
               )}
-            </div>
-          </td>
-        ))}
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan={columnas.length} className="text-center p-4 text-sm">
-        No hay datos
-      </td>
-    </tr>
-  )}
-</tbody>
+            </tbody>
 
 
 
@@ -131,12 +131,13 @@ const Tabla = ({ columnas, datos, titulo, acciones }) => {
                   {columnas
                     .filter((columna) => columna.key !== "#" && columna.key !== "acciones")
                     .map((columna, i) => (
-                      <p key={i} className="text-sm">
+                      <div key={i} className="text-sm">
                         <span className="font-semibold">{columna.label}: </span>
                         {fila[columna.key]}
-                      </p>
+                      </div>
                     ))}
                 </div>
+
               </div>
             ))
           ) : (

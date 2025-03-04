@@ -17,9 +17,10 @@ import deletIcon from "../../../assets/icons/delete.png"
 import NavBar from "../../../components/gov/navbar";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { Link } from "react-router-dom";
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import sinFinca from "../../../assets/img/sinFincas.png"
-import Eliminar from "../../../assets/icons/Disposal.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -72,7 +73,7 @@ const Inicio = () => {
         setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
         acctionSucessful.fire({
-          imageUrl: deletIcon,
+          imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
           title: "Usuario agregado correctamente"
         });
@@ -111,6 +112,11 @@ const Inicio = () => {
       setUsuarios(usuarios.filter(usuario => usuario.id !== usuarioEliminar));
       setModalEliminarAbierto(false);
     }).catch(console.error);
+    acctionSucessful.fire({
+      imageUrl: UsuarioEliminado,
+      imageAlt: 'Icono personalizado',
+      title: "Usuario Eliminado correctamente"
+    });
   };
 
 

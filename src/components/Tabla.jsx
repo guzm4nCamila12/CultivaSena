@@ -42,11 +42,11 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
             <div
               key={fila.id || index}
               className="bg-white shadow-md rounded-[36px] overflow-hidden border-2 border-transparent flex flex-col transition-all duration-300 
-             hover:border-green-700 hover:shadow-inner hover:shadow-black/50 
-             relative bg-cover bg-center"
+                        hover:border-green-700 hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/50 
+                          relative bg-cover bg-center"
               style={{ backgroundImage: "url('/fondoCards.png')" }}
-
             >
+
 
 
 
@@ -55,9 +55,9 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                 className="bg-[#00304D] text-white p-4 text-lg font-semibold text-center relative"
                 style={{
                   backgroundImage: "url('/fondoTitle.png')",
-                  backgroundSize: "cover",    
-                  backgroundPosition: "center center", 
-                  backgroundRepeat: "no-repeat", 
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
+                  backgroundRepeat: "no-repeat",
                 }}
               >
                 {fila.nombre || "Usuario"}

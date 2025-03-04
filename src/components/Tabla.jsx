@@ -67,12 +67,13 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
               <div className="p-4 flex flex-col gap-2">
                 {columnas.map((columna, i) =>
                   columna.key !== "acciones" && columna.key !== "#" ? (
-                    <p key={i} className="text-sm flex items-center">
-                      {columna.icon && (
-                        <img src={columna.icon} alt={columna.label} className="mr-2" />
-                      )}
-                      <strong>{columna.label}:</strong> {fila[columna.key]}
-                    </p>
+                    <div key={i} className="text-sm flex items-center">
+                    {columna.icon && (
+                      <img src={columna.icon} alt={columna.label} className="mr-2" />
+                    )}
+                    <strong>{columna.label}:</strong> {fila[columna.key]}
+                  </div>
+                  
                   ) : null
                 )}
               </div>

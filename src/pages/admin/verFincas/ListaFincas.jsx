@@ -90,7 +90,7 @@ export default function ListaFincas() {
         <button
           onClick={() => abrirModalEliminar(fila.id)}
           className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
-          {...console.log(fila.id)}
+          
         >
           <img src={deletIcon} alt="Eliminar" />
         </button>

@@ -27,10 +27,10 @@ const Login = () => {
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', data.id_rol);
 
-        acctionSucessful.fire({
-          icon: "success",
-          title: `Bienvenido ${data.nombre}`
-        });
+        // acctionSucessful.fire({
+        //   icon: "success",
+        //   title: `Bienvenido ${data.nombre}`
+        // });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
           navigate("/inicio-SuperAdmin");

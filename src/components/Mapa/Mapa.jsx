@@ -10,7 +10,7 @@ import zoomIn from "../../assets/icons/zoomIn.png"
 import zoomOut from "../../assets/icons/zoomOut.png"
 
 const Mapa = ({ setUbicacion, ubicacion }) => {
-  const [position, setPosition] = useState(ubicacion || { lat: 4.83553127984409, lng: -75.67226887098515 });
+  const [position, setPosition] = useState(ubicacion || {  lat: 4.54357027937176, lng: -72.97119140625001 });
   const [mapInstance, setMapInstance] = useState(null);
 
   useEffect(() => {
@@ -83,12 +83,13 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
 
   return (
     <div className='rounded-b-3xl'>
-    <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
-      <img src={ubicacionIcon} className='mr-2'/>
-      Seleccione una ubicación en el mapa
-    </h2>      
+      <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
+        <img src={ubicacionIcon} className='mr-2'/>
+        Seleccione una ubicación en el mapa
+      </h2>      
     <div className="flex relative max-h-[750px]">
-      <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 rounded-b-3xl' zoomControl={false} zoom={13} style={{ width: '100%', height: '600px' }}>
+      <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 rounded-b-3xl' 
+      zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         <Marker position={position} icon={customIcon}>
         </Marker>
@@ -96,25 +97,25 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       </MapContainer>
   
       {/* Contenedor de Ubicación Actual y Botones - Más Ancho */}
-      <div className='absolute bottom-4 left-4 flex space-x-6 z-20 w-[1650px]'>
+      <div className='absolute bottom-4 left-4 flex flex-col space-x-6 z-20 w-20'>
         {/* Ubicación Actual */}
-        <div className='h-12 p-2 mr-20  bg-white text-center text-black rounded-3xl flex items-center space-x-2 flex-grow'>
-          <img src={locationIcon} className="w-6 h-6" alt="Ubicación" style={{height : "25px", width : "25px"}} />
+        <div className='h-12 p-2  bg-white text-center w-16 lg:w-48 text-black rounded-3xl flex items-center space-x-2 flex-grow'>
+          <img src={locationIcon} className="w-auto h-6" alt="Ubicación" style={{height : "25px", width : "25px"}} />
           <p className='text-[#00304D] font-extrabold pr-2'>Ubicación Actual:</p> {position.lat}, {position.lng}
         </div>
   
         {/* Botones */}
-        <div className='h-12 bg-transparent bg-opacity-75 text-center  text-black w-36 rounded-3xl flex items-center space-x-4'>
-          <div className='shadow-xl rounded-full bg-white h-10'>
-            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 hover:bg-[#93A6B2] rounded-full'>
+        <div className='h-12 bg-transparent bg-opacity-75 text-center  text-black w-40  rounded-3xl flex items-center space-x-4'>
+          <div className='rounded-full bg-white h-10'>
+            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 w-5 hover:bg-[#93A6B2] shadow-2xl rounded-full'>
               <img src={currLocationIcon} alt="Ubicación Actual" />
             </button>
           </div>
-          <div id='controlZoom' className='shadow-xl rounded-3xl h-10 w-24 pt-2 bg-white left-3'>
-            <button type="button" className='pl-1 pr-2 rounded-tl-3xl rounded-bl-3xl hover:bg-[#93A6B2]' onClick={handleZoomOut}>
+          <div id='controlZoom' className='shadow-xl rounded-3xl h-10 pt-2 bg-white left-3'>
+            <button type="button" className='pl-1 pr-2 w-5 rounded-tl-3xl rounded-bl-3xl hover:bg-[#93A6B2]' onClick={handleZoomOut}>
               <img src={zoomOut} alt="Zoom Out" style={{height : "25px", width : "25px"}} />
             </button>
-            <button type='button' className='pl-2 rounded-tr-3xl rounded-br-3xl hover:bg-[#93A6B2]'  onClick={handleZoomIn}>
+            <button type='button' className='pl-2 rounded-tr-3xl w-5 rounded-br-3xl hover:bg-[#93A6B2]'  onClick={handleZoomIn}>
               <img src={zoomIn} alt="Zoom In"  style={{height: "25px",width: "25px"}}/>
             </button>
           </div>

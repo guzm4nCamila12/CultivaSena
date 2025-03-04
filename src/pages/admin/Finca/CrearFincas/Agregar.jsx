@@ -5,7 +5,6 @@ import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { useNavigate, useParams } from "react-router";
 import Navbar from "../../../../components/gov/navbar";
 import userGray from "../../../../assets/icons/userGray.png"
-import usuarioCreado from "../../../../assets/img/usuarioCreado.png"
 import '@fontsource/work-sans'
 
 const Agregar = () => {
@@ -39,11 +38,7 @@ const Agregar = () => {
     try {
       const response = await insertarFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
-        acctionSucessful({
-          icon: 'success',  // Cambiar el icono a 'success'
-          progressBarColor: '#99ff33',  // Cambiar el color de la barra de progreso
-          title: `Finca: ${nuevaFinca.nombre} insertada correctamente`  // Cambiar el texto del título
-        });
+       
       
       irAtras();
     } catch (error) {

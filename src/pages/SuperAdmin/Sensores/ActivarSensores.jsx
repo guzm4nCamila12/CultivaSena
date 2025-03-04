@@ -222,7 +222,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Sensor editado correctamente"
+        title: "Sensor agregado correctamente"
       });
       console.log("index: " + index);
 

@@ -14,6 +14,9 @@ import sensorAltIcon from "../../../assets/icons/sensorAlt.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import { acctionSucessful } from "../../../components/alertSuccesful";
+
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 
 export default function ListaFincas() {
@@ -39,10 +42,18 @@ export default function ListaFincas() {
   }, [id]);
 
   // Manejo de la eliminación de finca
-  const handleEliminarFinca = (id) => {
+  const handleEliminarFinca = (e) => {
+    e.preventDefault();
+    console.log("Finca eliminar",fincaEliminar)
+    
     eliminarFincas(fincaEliminar).then(() => {
-      setFincas(fincas.filter(finca => finca.id !== id));
+      setFincas(fincas.filter(finca => finca.id !== fincaEliminar));
       setModalEliminarAbierto(false);
+      acctionSucessful.fire({
+        imageUrl: UsuarioEliminado,
+        imageAlt: 'Icono personalizado',
+        title: "Finca Eliminada correctamente"
+      });
     }).catch(console.error);
   }
 
@@ -79,6 +90,7 @@ export default function ListaFincas() {
         <button
           onClick={() => abrirModalEliminar(fila.id)}
           className="w-10 h-10 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center"
+          {...console.log(fila.id)}
         >
           <img src={deletIcon} alt="Eliminar" />
         </button>
@@ -164,6 +176,7 @@ export default function ListaFincas() {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
+           
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">
@@ -180,7 +193,7 @@ export default function ListaFincas() {
                 <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
+                <button className="w-full  bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" type='submit' >
                   Sí, eliminar
                 </button>
               </div>

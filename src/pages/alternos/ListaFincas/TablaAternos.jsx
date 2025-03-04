@@ -80,9 +80,11 @@ const Inicio = () => {
   };
 
 
-  const HandlEliminarAlterno = (id) => {
+  const HandlEliminarAlterno = (e) => {
+    e.preventDefault();
+    console.log(usuarioEliminar);
     eliminarUsuario(usuarioEliminar).then(() => {
-      setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== id) || []);
+      setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
       setModalEliminarAbierto(false)
       acctionSucessful.fire({
         icon: "success",
@@ -93,6 +95,7 @@ const Inicio = () => {
 
   const abrirModalEliminar = (id) => {
     setUsuarioEliminar(id);
+    console.log("id: " + id);
     setModalEliminarAbierto(true)
   }
 
@@ -101,8 +104,9 @@ const Inicio = () => {
     // Validaciones
 
     // Insertar nuevo usuario
-    insertarUsuario(nuevoUsuario).then(() => {
-      setUsuarios([...usuarios, nuevoUsuario]);
+    insertarUsuario(nuevoUsuario).then((data) => {
+      console.log("usuario: " , data)
+      setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
         icon: "success",

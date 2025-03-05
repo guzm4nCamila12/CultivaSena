@@ -38,10 +38,10 @@ export default function ListaFincas() {
   }, [id]);
 
   // Manejo de la eliminación de finca
-  const handleEliminarFinca = (id) => {
-
+  const handleEliminarFinca = (e) => {
+    e.preventDefault()
     eliminarFincas(fincaEliminar).then(() => {
-      setFincas(fincas.filter(finca => finca.id !== id));
+      setFincas(fincas.filter(finca => finca.id !== fincaEliminar));
       setModalEliminarAbierto(false);
     }).catch(console.error);
   }

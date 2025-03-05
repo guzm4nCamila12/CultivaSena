@@ -82,49 +82,49 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   };
 
   return (
-    <div className='rounded-b-3xl'>
+    <div className='rounded-b-3xl '>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
         <img src={ubicacionIcon} className='mr-2'/>
         Seleccione una ubicación en el mapa
       </h2>      
-    <div className="flex relative max-h-[750px]">
-      <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 rounded-b-3xl' 
-      zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
-        <Marker position={position} icon={customIcon}>
-        </Marker>
-        <MyMapEvents /> 
-      </MapContainer>
-  
-      {/* Contenedor de Ubicación Actual y Botones - Más Ancho */}
-      <div className='absolute bottom-4 left-4 flex flex-col space-x-6 z-20 w-20'>
-        {/* Ubicación Actual */}
-        <div className='h-12 p-2  bg-white text-center w-16 lg:w-48 text-black rounded-3xl flex items-center space-x-2 flex-grow'>
-          <img src={locationIcon} className="w-auto h-6" alt="Ubicación" style={{height : "25px", width : "25px"}} />
-          <p className='text-[#00304D] font-extrabold pr-2'>Ubicación Actual:</p> {position.lat}, {position.lng}
-        </div>
-  
-        {/* Botones */}
-        <div className='h-12 bg-transparent bg-opacity-75 text-center  text-black w-40  rounded-3xl flex items-center space-x-4'>
-          <div className='rounded-full bg-white h-10'>
-            <button type='button' title='Mostrar tu ubicacion' onClick={getCurrentLocation} className='p-2 w-5 hover:bg-[#93A6B2] shadow-2xl rounded-full'>
-              <img src={currLocationIcon} alt="Ubicación Actual" />
-            </button>
-          </div>
-          <div id='controlZoom' className='shadow-xl rounded-3xl h-10 pt-2 bg-white left-3'>
-            <button type="button" className='pl-1 pr-2 w-5 rounded-tl-3xl rounded-bl-3xl hover:bg-[#93A6B2]' onClick={handleZoomOut}>
-              <img src={zoomOut} alt="Zoom Out" style={{height : "25px", width : "25px"}} />
-            </button>
-            <button type='button' className='pl-2 rounded-tr-3xl w-5 rounded-br-3xl hover:bg-[#93A6B2]'  onClick={handleZoomIn}>
-              <img src={zoomIn} alt="Zoom In"  style={{height: "25px",width: "25px"}}/>
-            </button>
-          </div>
-        </div>
+      <div className="flex justify-center relative ">
+        <MapContainer ref={mapRef} center={position} opacity={1} className='z-10' 
+          zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+          <Marker position={position} icon={customIcon}>
+          </Marker>
+          <MyMapEvents />
+        </MapContainer>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white h-36 z-30"></div>
       </div>
-    </div>
-  </div>
+      <div className='flex flex-wrap justify-center'>
+        <div className='flex mb-2'>
+          <div className='flex hover:bg-red-700 rounded-full shadow-lg p-2 items-center justify-center'>
+            <button type='button' title='Mostrar tu ubicación' onClick={getCurrentLocation}>
+              <img src={currLocationIcon} alt="Ubicación Actual" className='w-6 h-6'/>
+            </button>
+          </div>
+          <div id='controlZoom' className='flex justify-between items-center w-20 ml-2 p-2 shadow-lg bg-white rounded-3xl'>
+            <button type="button" onClick={handleZoomOut}>
+              <img src={zoomOut} alt="Zoom Out" className='w-6 h-6'/>
+            </button>
+            <button type='button' onClick={handleZoomIn}>
+              <img src={zoomIn} alt="Zoom In" className='w-6 h-6' />
+            </button>
+          </div>
+        </div>
+        <div className='flex h-[10px] w-full justify-center'>
+          <h2 className='flex justify-center font-bold text-[#00304D]'>
+            <img src={locationIcon} alt="Ubicacion actual" className='w-4 h-4 mt-1 mr-1' />
+            Ubicacion Actual:
+          </h2>
+        </div>
+        <div className='flex justify-center w-full mt-2 '>
+          <h2>{position.lat} {position.lng}</h2>
+        </div> 
+      </div>
   
-
+    </div>
   );
 };
 

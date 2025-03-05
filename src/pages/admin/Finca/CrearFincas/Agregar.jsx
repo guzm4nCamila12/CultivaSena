@@ -59,13 +59,13 @@ const Agregar = () => {
             <div className="xl:absolute flex flex-wrap">
               <h2 className=" whitespace-nowrap text-2xl  lg:text-[20px] xl:text-4xl xl:ml-2 pt-2 font-bold">Agregar Finca</h2>
             </div>
-            <div id="containerInpButton" className="mx-auto bg-gray-300 border-none md:bg-white ">
+            <div id="containerInpButton" className=" bg-gray-300 border-none md:bg-white ">
               <input
                 type="text"
                 name="nombre"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
-                className="z-10 h-14 border-4 w-full xl:ml-72 xl:w-full  md:border-gray-300 sm:border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]
+                className="z-10 h-14 m-1 w-full xl:ml-72 xl:w-full  md:border-gray-300 sm:border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-[#10314669]
                           sm:w-full "
                 placeholder="Ingrese el nombre"
                 autoComplete="off"
@@ -77,7 +77,7 @@ const Agregar = () => {
               />
               <button
                 type="submit"
-                className="z-20 absolute bottom-0 w-32 -right-1 p-0 font-extrabold mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[18px] rounded-full hover:bg-[#005F00] focus:outline-none
+                className="z-20 absolute bottom-0 w-32 mb-1 -right-1 p-0 font-extrabold mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[18px] rounded-full hover:bg-[#005F00] focus:outline-none
                           h-14 sm:w-36 sm:text-[20px] md:w-52 lg:w-56 "
               >
                 Agregar

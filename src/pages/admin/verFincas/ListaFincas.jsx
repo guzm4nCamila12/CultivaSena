@@ -141,12 +141,9 @@ export default function ListaFincas() {
 
       <Navbar />
 
-
-      <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
-
       {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
       <Tabla
-        titulo="Fincas"
+        titulo={`Fincas de: ${usuario.nombre}`} 
         columnas={columnas}
         datos={fincasConSensores} // Aquí pasas los datos modificados
         acciones={acciones}
@@ -180,7 +177,6 @@ export default function ListaFincas() {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
-
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">

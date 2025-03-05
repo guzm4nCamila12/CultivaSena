@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import Navbar from "../../../components/gov/navbar";
 import Tabla from "../../../components/Tabla";
 import nombreIcon from "../../../assets/icons/nombre.png";
 import phoneIcon from "../../../assets/icons/phoneBlue.png"
 import emailIcon from "../../../assets/icons/emailBlue.png"
-import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import Nombre from "../../../assets/icons/User.png"
@@ -39,7 +39,11 @@ const Inicio = () => {
 
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
-  }, []);
+    getFincasByIdFincas(id).then((data) => {
+      setFincas(data)
+    });
+  }, [id]);
+  
       
 
 
@@ -149,9 +153,7 @@ const Inicio = () => {
   return (
     <div>
       <Navbar />
-
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
+      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo={`Alternos de la finca: ${fincas.nombre}`} acciones={acciones} />
 
 
       {/* BOTON DE INSERTAR USUARIO */}
@@ -231,7 +233,6 @@ const Inicio = () => {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
             <hr />
-            <br />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
                 <img

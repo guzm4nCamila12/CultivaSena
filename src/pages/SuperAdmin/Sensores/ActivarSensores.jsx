@@ -340,11 +340,8 @@ function ActivarSensores() {
   return (
     <div>
       <NavBar />
-
-      <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
       <Tabla
-        titulo="Sensores"
+        titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         datos={sensoresDeFinca}
         acciones={acciones} />

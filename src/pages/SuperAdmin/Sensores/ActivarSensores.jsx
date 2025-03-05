@@ -10,6 +10,7 @@ import macIcon from "../../../assets/icons/macBlue.png";
 import nombreIcon from "../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../assets/icons/descBlue.png";
 import estadoIcon from "../../../assets/icons/estadoBlue.png";
+import descripcion from "../../../assets/icons/descripcion.png"
 import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png"
 import ver from "../../../assets/icons/view.png"
@@ -384,7 +385,7 @@ function ActivarSensores() {
               </div>
               <div className="relative w-full mt-2">
                 <img
-                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
+                  src={descripcion} // Reemplaza con la ruta de tu icono
                   alt="icono"
                   className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                 />
@@ -435,7 +436,7 @@ function ActivarSensores() {
               </div>
               <div className="relative w-full mt-2">
                 <img
-                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
+                  src={descripcion} // Reemplaza con la ruta de tu icono
                   alt="icono"
                   className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
                 />

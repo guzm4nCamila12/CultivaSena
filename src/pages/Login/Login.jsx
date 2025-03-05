@@ -11,7 +11,6 @@ const Login = () => {
   const [clave, setClave] = useState("");  // Estado para la contraseña
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState(null);
 
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = (e) => {
@@ -23,14 +22,13 @@ const Login = () => {
     // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
-        console.log(data);  // Actualiza el estado con los datos del usuario
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', data.id_rol);
 
-        // acctionSucessful.fire({
-        //   icon: "success",
-        //   title: `Bienvenido ${data.nombre}`
-        // });
+        acctionSucessful.fire({
+          icon: "success",
+          title: `Bienvenido ${data.nombre}`
+        });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
           navigate("/inicio-SuperAdmin");
@@ -55,7 +53,7 @@ const Login = () => {
       });
 
 
-    console.log("Formulario enviado");
+
   };
 
   // Alterna entre mostrar y ocultar la contraseña

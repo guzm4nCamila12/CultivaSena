@@ -4,7 +4,6 @@ import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario 
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import Navbar from "../../../components/gov/navbar";
 import Tabla from "../../../components/Tabla";
-import nombreIcon from "../../../assets/icons/nombre.png";
 import phoneIcon from "../../../assets/icons/phoneBlue.png"
 import emailIcon from "../../../assets/icons/emailBlue.png"
 import editIcon from "../../../assets/icons/edit.png";
@@ -67,14 +66,13 @@ const Inicio = () => {
     const { "#": removed, ...edit } = alterno;
     setEditarUsuario(edit);
     setModalEditarAbierto(true);
-    console.log(edit)
+
 
 
   }
 
   const handleEditarSensor = (e) => {
     e.preventDefault();
-    console.log(editarUsuario);
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({

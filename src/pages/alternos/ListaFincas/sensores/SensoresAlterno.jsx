@@ -10,7 +10,6 @@ import descripcionIcon from "../../../../assets/icons/descBlue.png";
 import estadoIcon from "../../../../assets/icons/estadoBlue.png";
 import accionesIcon from "../../../../assets/icons/config.png";
 import verIcon from "../../../../assets/icons/view.png";
-import { useNavigate } from 'react-router-dom';
 
 function SensoresAlterno() {
   const [sensores, setSensores] = useState([]);
@@ -28,7 +27,6 @@ function SensoresAlterno() {
 
   const { id } = useParams();
 
-  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     getFincasByIdFincas(id).then((data) => {
@@ -66,11 +64,7 @@ function SensoresAlterno() {
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },
   ];
 
-  const navigate = useNavigate();
-  console.log(sensores)
-  const verDatos = () => {
-    navigate(`/datos-sensor`);
-  };
+
 
   const acciones = (fila) => (
     <div className="relative group">
@@ -84,17 +78,6 @@ function SensoresAlterno() {
       </Link>
     </div>
   );
-
-  // Función para manejar el cambio de estado del checkbox
-  const handleSwitch = (event, sensorId) => {
-    // Actualizar el estado del sensor en la lista de sensores
-    setSensores(prevSensores =>
-      prevSensores.map(sensor =>
-        sensor.id === sensorId ? { ...sensor, estado: event.target.checked } : sensor
-      )
-    );
-  };
-
   return (
     <div>
       <Navbar />

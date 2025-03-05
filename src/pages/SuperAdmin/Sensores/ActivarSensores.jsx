@@ -11,13 +11,11 @@ import nombreIcon from "../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../assets/icons/descBlue.png";
 import estadoIcon from "../../../assets/icons/estadoBlue.png";
 import descripcion from "../../../assets/icons/descripcion.png"
-import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png"
 import ver from "../../../assets/icons/view.png"
 import deletIcon from "../../../assets/icons/delete.png"
 import Swal from "sweetalert2";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-//import EliminadoIcon from "../../../assets/img/Eliminado.png"
 import withReactContent from 'sweetalert2-react-content'
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
@@ -37,10 +35,6 @@ function ActivarSensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [modalEstadoAbierto, setModalEstadoAbierto] = useState(false);
-
-
-  const [datoAdicional, setDatoAdicional] = useState(null);
 
 
   const { id, idUser } = useParams();
@@ -339,12 +333,6 @@ function ActivarSensores() {
         confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
       },
     });
-  };
-
-  const confirmarCambioEstado = () => {
-    const cerrado = true;
-
-    return cerrado;
   };
 
 

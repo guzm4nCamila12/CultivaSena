@@ -5,18 +5,14 @@ import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
 import Tabla from '../../../components/Tabla';
 import sensorIcon from "../../../assets/icons/sensor.png"
-import configIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import alternoIcon from "../../../assets/icons/alterno.png"
-import alternoIcon2 from "../../../assets/icons/alternoBlue.png"
-import sensorAltIcon from "../../../assets/icons/sensorBlue.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import iconBoton from "../../../assets/icons/iconBoton.png"
 
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 

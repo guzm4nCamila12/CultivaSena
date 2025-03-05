@@ -187,14 +187,6 @@ function Sensores() {
 
   };
 
-  const handleSwitch = (event, sensorId) => {
-    // Actualizar el estado del sensor en la lista de sensores
-    setSensores(prevSensores =>
-      prevSensores.map(sensor =>
-        sensor.id === sensorId ? { ...sensor, estado: event.target.checked } : sensor
-      )
-    );
-  };
 
   return (
     <div>

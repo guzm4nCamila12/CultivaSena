@@ -16,7 +16,7 @@ export default function VerSensores() {
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
     getSensor(id)
-    .then(data => setSensores(data))
+      .then(data => setSensores(data))
   }, []);
 
   // Definir las columnas de la tabla
@@ -35,12 +35,9 @@ export default function VerSensores() {
 
   return (
     <div>
-      <NavBar/>
-    <div className="container mx-auto mt-8">
-      <h1 className="text-center text-3xl font-semibold mb-4">{sensores.nombre}</h1>
-      
-      {/* Usando el componente Tabla */}
+      <NavBar />
       <Tabla
+        titulo={`Datos del sensor: ${sensores.nombre}`}
         columnas={columnas}
         datos={datosSensor}
         acciones={acciones}
@@ -48,7 +45,6 @@ export default function VerSensores() {
 
       {/* El gráfico */}
       <GraficoSensor />
-    </div>
     </div>
   );
 }

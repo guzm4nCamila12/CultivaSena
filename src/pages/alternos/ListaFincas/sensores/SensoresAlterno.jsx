@@ -37,7 +37,13 @@ function SensoresAlterno() {
    })
 
    getSensoresById(id).then((data) => {
-     setSensores(data);
+    if(data == null){
+      setSensores([]);
+      return
+    }else{
+
+      setSensores(data);
+    }
    })
   }, []);
   

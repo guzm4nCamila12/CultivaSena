@@ -14,7 +14,7 @@ module.exports = {
             transform: 'translateY(0)',
           },
           '50%': {
-            transform: 'translateY(-5px)', // Ajusta este valor según lo que necesites
+            transform: 'translateY(-4px)', // Ajusta este valor según lo que necesites
           },
         },
       },

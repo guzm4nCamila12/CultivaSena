@@ -39,7 +39,7 @@ const Login = () => {
           navigate(`/lista-fincas/${data.id}`);
         } else if (data.id_rol === 3) {
           console.log("Alterno");
-          navigate(`/sensores-alterno/${data.id_finca}`);
+          navigate(`/sensores-alterno/${data.id_finca}/${data.id}`);
         }
 
       })

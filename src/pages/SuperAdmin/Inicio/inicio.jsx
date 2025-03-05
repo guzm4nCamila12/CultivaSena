@@ -39,9 +39,7 @@ const Inicio = () => {
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
-        let bloque = <p>SuperAdmin</p>;
-
-        return bloque;
+        return "SuperAdmin";
       case 2:
         return "Admin";
       case 3:
@@ -198,14 +196,18 @@ const Inicio = () => {
 
 
   const abrirModalEditar = (usuario) => {
+    
+
     // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {
       id: usuario.id,
       nombre: usuario.nombre,
       telefono: usuario.telefono,
       correo: usuario.correo,
-      clave: usuario.clave
+      clave: usuario.clave,
+      id_rol: enviarRol(usuario.id_rol)
     };
+    console.log("clave",usuario.clave)
 
     setEditarUsuario(usuarioNecesario);
     setModalEditarAbierto(true);
@@ -215,6 +217,22 @@ const Inicio = () => {
     setModalEliminarAbierto(true)
   }
 
+  const enviarRol = (rol) =>{
+    switch (rol) {
+      case 'SuperAdmin':
+        
+        return 1;
+      case 'Admin':
+        
+        return 2;
+      case 'Alterno':
+        
+        return 3;
+      default:
+        break;
+
+    }
+  }
  
 
   return (

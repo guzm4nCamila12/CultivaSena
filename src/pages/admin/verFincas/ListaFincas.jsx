@@ -31,7 +31,6 @@ export default function ListaFincas() {
   const idRol = Number(localStorage.getItem('rol'));
 
 
-
   useEffect(() => {
     getUsuarioById(id)
       .then(data => setUsuario(data))
@@ -44,8 +43,8 @@ export default function ListaFincas() {
 
   // Manejo de la eliminación de finca
   const handleEliminarFinca = (e) => {
+
     e.preventDefault();
-    console.log("Finca eliminar", fincaEliminar)
 
     eliminarFincas(fincaEliminar).then(() => {
       setFincas(fincas.filter(finca => finca.id !== fincaEliminar));

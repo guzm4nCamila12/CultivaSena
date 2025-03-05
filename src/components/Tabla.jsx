@@ -15,6 +15,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
     )
   );
 
+
   return (
     <div className="container mx-auto p-4">
       {/* Buscador */}
@@ -60,7 +61,6 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                {fila.nombre || "Usuario"}
               </div>
 
               {/* Datos */}

@@ -71,7 +71,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                     {columna.icon && (
                       <img src={columna.icon} alt={columna.label} className="mr-2" />
                     )}
-                    <strong>{columna.label}:</strong> {fila[columna.key]}
+                    <strong>{columna.label}:</strong> <span className="ml-1">{fila[columna.key]}</span>
                   </div>
                   
                   ) : null

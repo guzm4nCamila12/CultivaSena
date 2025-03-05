@@ -108,7 +108,6 @@ function SensoresAdmin() {
       confirmButtonText: 'Aceptar',
     });
 
-    console.log("Datos enviados:", formData);
   };
   const showSwal = () => {
     return withReactContent(Swal).fire({
@@ -124,7 +123,6 @@ function SensoresAdmin() {
           return false;  // Evitar que el usuario confirme
         }
         inputValue = value; // Si hay un valor, actualizar el estado
-        console.log("Direccion MAC:", value);
 
         return true;  // Permitir que se confirme
       },
@@ -155,11 +153,9 @@ function SensoresAdmin() {
 
       actualizarSensor(sensores[index].id, updatedFormData)
 
-      console.log("sensor:", updatedFormData);
     } else {
 
       const confirmacion = await showSwal();
-      console.log("confirmacion", confirmacion)
       if (confirmacion.isConfirmed) {
         const newEstado = !estado;
 

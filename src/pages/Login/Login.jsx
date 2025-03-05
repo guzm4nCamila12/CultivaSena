@@ -33,10 +33,8 @@ const Login = () => {
         if (data.id_rol === 1) {
           navigate("/inicio-SuperAdmin");
         } else if (data.id_rol === 2) {
-          console.log("Admin");
           navigate(`/lista-fincas/${data.id}`);
         } else if (data.id_rol === 3) {
-          console.log("Alterno");
           navigate(`/sensores-alterno/${data.id_finca}/${data.id}`);
         }
 

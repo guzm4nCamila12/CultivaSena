@@ -87,7 +87,6 @@ const Inicio = () => {
 
   const HandlEliminarAlterno = (e) => {
     e.preventDefault();
-    console.log(usuarioEliminar);
     eliminarUsuario(usuarioEliminar).then(() => {
       setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
       setModalEliminarAbierto(false)
@@ -101,7 +100,6 @@ const Inicio = () => {
 
   const abrirModalEliminar = (id) => {
     setUsuarioEliminar(id);
-    console.log("id: " + id);
     setModalEliminarAbierto(true)
   }
 
@@ -111,7 +109,6 @@ const Inicio = () => {
 
     // Insertar nuevo usuario
     insertarUsuario(nuevoUsuario).then((data) => {
-      console.log("usuario: ", data)
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({

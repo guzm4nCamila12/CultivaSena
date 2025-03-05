@@ -168,14 +168,14 @@ function Sensores() {
         imageAlt: 'Icono personalizado',
         title: "Sensor editado correctamente"
       });
-      console.log("index: " + index);
+     
 
       // Verificar si se encontró el índice
 
       nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
 
 
-      console.log("nuevosSensores: ", nuevosSensores);
+
 
       setSensores(nuevosSensores);
     })

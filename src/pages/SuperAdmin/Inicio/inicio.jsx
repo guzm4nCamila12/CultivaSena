@@ -207,7 +207,6 @@ const Inicio = () => {
       clave: usuario.clave,
       id_rol: enviarRol(usuario.id_rol)
     };
-    console.log("clave", usuario.clave)
 
     setEditarUsuario(usuarioNecesario);
     setModalEditarAbierto(true);

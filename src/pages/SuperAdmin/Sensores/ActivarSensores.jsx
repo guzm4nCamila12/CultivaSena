@@ -202,7 +202,6 @@ function ActivarSensores() {
       imageAlt: 'Icono personalizado',
       title: "Sensor agregado correctamente"
     });
-    console.log("Datos enviados:", formData);
 
 
   };
@@ -217,14 +216,11 @@ function ActivarSensores() {
         imageAlt: 'Icono personalizado',
         title: "Sensor agregado correctamente"
       });
-      console.log("index: " + index);
 
       // Verificar si se encontró el índice
 
       nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
 
-
-      console.log("nuevosSensores: ", nuevosSensores);
 
       setSensores(nuevosSensores);
     })
@@ -233,7 +229,6 @@ function ActivarSensores() {
 
   const handleChangeEditar = (e) => {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
-    console.log('Editar', editarSensor)
   };
 
   const handleSwitch = async (id, estado, index) => {
@@ -319,7 +314,6 @@ function ActivarSensores() {
           return false;  // Evitar que el usuario confirme
         }
         inputValue = value; // Si hay un valor, actualizar el estado
-        console.log("Direccion MAC:", value);
 
         return true;  // Permitir que se confirme
       },

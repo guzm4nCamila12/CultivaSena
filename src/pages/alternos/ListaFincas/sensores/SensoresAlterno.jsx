@@ -70,7 +70,7 @@ function SensoresAlterno() {
   ];
 
   const navigate = useNavigate();
-
+  console.log(sensores)
   const verDatos = () => {
     navigate(`/datos-sensor`);
   };
@@ -111,13 +111,17 @@ function SensoresAlterno() {
           estado: (
             <div className="flex justify-center items-center">
               <label className="switch">
-                <input
-                        type="checkbox"
-                        checked={sensor.estado}
-                        onChange={handleSwitch}
-                        disabled
-                        className="form-checkbox h-6 w-6 text-blue-500"
-                      />
+              <input
+                type="checkbox"
+                checked={sensor.estado} // Se mantiene el estado actual del sensor
+                disabled // Evita que el usuario lo modifique
+                className="sr-only"
+              />
+              <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                <div
+                  className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                ></div>
+              </div>
               </label>
             </div>
           ),

@@ -318,6 +318,17 @@ function ActivarSensores() {
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       inputValue,
+      preConfirm: () => {
+        const value = Swal.getInput()?.value; // Obtener el valor del campo de entrada
+        if (!value) {  // Si el campo está vacío, mostrar un mensaje de advertencia
+          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          return false;  // Evitar que el usuario confirme
+        }
+        inputValue = value; // Si hay un valor, actualizar el estado
+        console.log("Direccion MAC:", value);
+
+        return true;  // Permitir que se confirme
+      },
       confirmButtonText: 'OK',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',  // Responsive width and margin

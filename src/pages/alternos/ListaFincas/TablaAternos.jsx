@@ -57,6 +57,7 @@ const Inicio = () => {
 
 
   const columnas = [
+    { key: "nombre" },
     { key: "telefono", label: "Telefono", icon: phoneIcon },
     { key: "correo", label: "Correo", icon: emailIcon },
     { key: "acciones", label: "Acciones" },

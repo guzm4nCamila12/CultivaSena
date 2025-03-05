@@ -21,7 +21,7 @@ export default function VerSensores() {
 
   // Definir las columnas de la tabla
   const columnas = [
-    { key: "#", label: "#" },
+    { key: "nombre" },
     { key: "fecha", label: "Fecha", icon: macIcon },
     { key: "datos", label: "Datos", icon: nombreIcon },
   ];

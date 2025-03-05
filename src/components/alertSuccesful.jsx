@@ -29,20 +29,18 @@ style.innerHTML = `
   .my-toast-popup {
   display: flex !important;
   align-items: center !important; /* Alinea verticalmente */
-  justify-content: flex-start !important; /* Alinea el contenido a la izquierda */
+  justify-content: flex-end !important; /* Alinea el contenido a la izquierda */
   height: 90px; /* Mantiene una altura fija */
+  padding: 20px;
 }
 
-.my-toast-popup .swal2-icon {
-  margin-top: -5px !important;
-  margin-right: 30px !important; /* Espacio entre el icono y el texto */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.my-toast-popup img { 
+  width: 60px !important; /* Ajusta el tamaño de la imagen */
+  height: 60px !important;
+  margin: 10px !important;
+  
 }
-
 .my-toast-title {
-  margin-left: 30px !important;
   font-size: 16px !important;
   line-height: 1.2 !important; /* Ajusta el espaciado para mantener alineado el texto */
 }

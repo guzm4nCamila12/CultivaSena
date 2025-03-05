@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import Navbar from "../../../components/gov/navbar";
 import Tabla from "../../../components/Tabla";
-import nombreIcon from "../../../assets/icons/nombre.png";
 import phoneIcon from "../../../assets/icons/phoneBlue.png"
 import emailIcon from "../../../assets/icons/emailBlue.png"
-import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import Nombre from "../../../assets/icons/User.png"
@@ -39,8 +38,12 @@ const Inicio = () => {
 
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
-  }, []);
-      
+    getFincasByIdFincas(id).then((data) => {
+      setFincas(data)
+    });
+  }, [id]);
+
+
 
 
   const handleChange = (e) => {
@@ -54,6 +57,7 @@ const Inicio = () => {
 
 
   const columnas = [
+    { key: "nombre" },
     { key: "telefono", label: "Telefono", icon: phoneIcon },
     { key: "correo", label: "Correo", icon: emailIcon },
     { key: "acciones", label: "Acciones" },
@@ -63,14 +67,13 @@ const Inicio = () => {
     const { "#": removed, ...edit } = alterno;
     setEditarUsuario(edit);
     setModalEditarAbierto(true);
-    console.log(edit)
+
 
 
   }
 
   const handleEditarSensor = (e) => {
     e.preventDefault();
-    console.log(editarUsuario);
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
@@ -85,7 +88,6 @@ const Inicio = () => {
 
   const HandlEliminarAlterno = (e) => {
     e.preventDefault();
-    console.log(usuarioEliminar);
     eliminarUsuario(usuarioEliminar).then(() => {
       setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
       setModalEliminarAbierto(false)
@@ -99,7 +101,6 @@ const Inicio = () => {
 
   const abrirModalEliminar = (id) => {
     setUsuarioEliminar(id);
-    console.log("id: " + id);
     setModalEliminarAbierto(true)
   }
 
@@ -109,7 +110,6 @@ const Inicio = () => {
 
     // Insertar nuevo usuario
     insertarUsuario(nuevoUsuario).then((data) => {
-      console.log("usuario: " , data)
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
@@ -130,7 +130,7 @@ const Inicio = () => {
           <img src={editIcon} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Editar
+          Editar
         </span>
       </div>
 
@@ -140,7 +140,7 @@ const Inicio = () => {
           <img src={deletIcon} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Eliminar
+          Eliminar
         </span>
       </div>
     </div>
@@ -149,25 +149,20 @@ const Inicio = () => {
   return (
     <div>
       <Navbar />
-
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo="Alternos" acciones={acciones} />
-
-
-      {/* BOTON DE INSERTAR USUARIO */}
-      <div className="flex justify-center w-[84.4%] mx-auto mt-8 3">
+      <Tabla columnas={columnas} datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))} titulo={`Alternos de la finca: ${fincas.nombre}`} acciones={acciones} />
+      <div className="flex justify-center w-full mx-auto sm:mt-12">
         <button
 
-          className=" animate-light-bounce  hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+          className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
 
           onClick={() => setModalInsertarAbierto(true)}
         >
           <span>Agregar Alterno</span>
           <img
-              src={iconBoton}
-              alt="icono"
-              className="w-4 h-4"
-            />
+            src={iconBoton}
+            alt="icono"
+            className="w-4 h-4"
+          />
         </button>
 
 
@@ -231,7 +226,6 @@ const Inicio = () => {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
             <hr />
-            <br />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
                 <img

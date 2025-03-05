@@ -5,18 +5,14 @@ import { getUsuarioById } from '../../../services/usuarios/ApiUsuarios';
 import { getFincasById, eliminarFincas } from '../../../services/fincas/ApiFincas';
 import Tabla from '../../../components/Tabla';
 import sensorIcon from "../../../assets/icons/sensor.png"
-import configIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png";
 import deletIcon from "../../../assets/icons/delete.png";
 import alternoIcon from "../../../assets/icons/alterno.png"
-import alternoIcon2 from "../../../assets/icons/alternoBlue.png"
-import sensorAltIcon from "../../../assets/icons/sensorBlue.png"
 import Navbar from '../../../components/gov/navbar';
 import fincaIcon from "../../../assets/icons/finca.png";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import iconBoton from "../../../assets/icons/iconBoton.png"
 
 //import EliminadoIcon from "../../../assets/img/Eliminado.png"
 
@@ -63,6 +59,7 @@ export default function ListaFincas() {
   }
 
   const columnas = [
+    { key: "nombre", label: "Sensores" },
     { key: "sensores", label: "Sensores" },
     { key: "alternos", label: "Alternos" },
     { key: "acciones", label: "Acciones"},
@@ -141,18 +138,15 @@ export default function ListaFincas() {
 
       <Navbar />
 
-
-      <h1 className="text-3xl text-center font-semibold text-gray-800">{usuario.nombre}</h1>
-
       {/* Pasa los datos modificados con el ícono de sensores ya agregado */}
       <Tabla
-        titulo="Fincas"
+        titulo={`Fincas de: ${usuario.nombre}`} 
         columnas={columnas}
         datos={fincasConSensores} // Aquí pasas los datos modificados
         acciones={acciones}
       />
 
-      <div className=" flex justify-center w-[84.4%] mx-auto mt-8  ">
+      <div className="flex justify-center w-full mx-auto sm:mt-12">
 
         <Link
           to={`/agregar-finca/${usuario.id}`}
@@ -161,7 +155,7 @@ export default function ListaFincas() {
           <button
             type="button"
 
-            className="animate-light-bounce  hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+            className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
 
           >
             <span>Agregar Finca</span>
@@ -180,7 +174,6 @@ export default function ListaFincas() {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
-
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">

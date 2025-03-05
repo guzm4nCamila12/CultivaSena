@@ -11,13 +11,11 @@ import nombreIcon from "../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../assets/icons/descBlue.png";
 import estadoIcon from "../../../assets/icons/estadoBlue.png";
 import descripcion from "../../../assets/icons/descripcion.png"
-import accionesIcon from "../../../assets/icons/config.png";
 import editIcon from "../../../assets/icons/edit.png"
 import ver from "../../../assets/icons/view.png"
 import deletIcon from "../../../assets/icons/delete.png"
 import Swal from "sweetalert2";
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-//import EliminadoIcon from "../../../assets/img/Eliminado.png"
 import withReactContent from 'sweetalert2-react-content'
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
@@ -37,10 +35,6 @@ function ActivarSensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [modalEstadoAbierto, setModalEstadoAbierto] = useState(false);
-
-
-  const [datoAdicional, setDatoAdicional] = useState(null);
 
 
   const { id, idUser } = useParams();
@@ -100,6 +94,7 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
+    { key: "nombre" },
     { key: "mac", label: "MAC", icon: macIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },
@@ -121,7 +116,7 @@ function ActivarSensores() {
       </div>
       <div className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
-          <button className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+          <button className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={ver} alt="Ver" />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
@@ -208,7 +203,6 @@ function ActivarSensores() {
       imageAlt: 'Icono personalizado',
       title: "Sensor agregado correctamente"
     });
-    console.log("Datos enviados:", formData);
 
 
   };
@@ -223,14 +217,11 @@ function ActivarSensores() {
         imageAlt: 'Icono personalizado',
         title: "Sensor agregado correctamente"
       });
-      console.log("index: " + index);
 
       // Verificar si se encontró el índice
 
       nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
 
-
-      console.log("nuevosSensores: ", nuevosSensores);
 
       setSensores(nuevosSensores);
     })
@@ -239,7 +230,6 @@ function ActivarSensores() {
 
   const handleChangeEditar = (e) => {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
-    console.log('Editar', editarSensor)
   };
 
   const handleSwitch = async (id, estado, index) => {
@@ -325,7 +315,6 @@ function ActivarSensores() {
           return false;  // Evitar que el usuario confirme
         }
         inputValue = value; // Si hay un valor, actualizar el estado
-        console.log("Direccion MAC:", value);
 
         return true;  // Permitir que se confirme
       },
@@ -341,28 +330,19 @@ function ActivarSensores() {
     });
   };
 
-  const confirmarCambioEstado = () => {
-    const cerrado = true;
-
-    return cerrado;
-  };
-
 
   return (
     <div>
       <NavBar />
-
-      <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
       <Tabla
-        titulo="Sensores"
+        titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         datos={sensoresDeFinca}
         acciones={acciones} />
 
 
-      <div className="flex justify-center w-[84.4%] mx-auto mt-8   ">
-        <button className=" animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+      <div className="flex justify-center w-full mx-auto sm:mt-12">
+        <button className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
           onClick={() => setModalInsertarAbierto(true)}>
           <span>Agregar Sensor</span>
           <img

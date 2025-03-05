@@ -14,7 +14,6 @@ export default function EditarFinca() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
   const navigate = useNavigate();
 
-  console.log(id)
   const irAtras = () => {
     navigate(-1);
   };

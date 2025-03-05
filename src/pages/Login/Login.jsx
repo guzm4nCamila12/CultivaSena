@@ -1,4 +1,4 @@
-import React, { useState } from "react";  // Importación de React y useState para manejar el estado
+import {React, useState } from "react";  // Importación de React y useState para manejar el estado
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov/gov';
@@ -6,12 +6,11 @@ import Swal from "sweetalert2";
 import { acctionSucessful } from "../../components/alertSuccesful";
 
 const Login = () => {
-  // Estado para almacenar el valor del correo electrónico y la contraseña
+  // Estados para almacenar el valor del telefono y la contraseña
   const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
   const [clave, setClave] = useState("");  // Estado para la contraseña
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState(null);
 
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = (e) => {
@@ -23,22 +22,19 @@ const Login = () => {
     // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
-        console.log(data);  // Actualiza el estado con los datos del usuario
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', data.id_rol);
 
-        // acctionSucessful.fire({
-        //   icon: "success",
-        //   title: `Bienvenido ${data.nombre}`
-        // });
+        acctionSucessful.fire({
+          icon: "success",
+          title: `Bienvenido ${data.nombre}`
+        });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
           navigate("/inicio-SuperAdmin");
         } else if (data.id_rol === 2) {
-          console.log("Admin");
           navigate(`/lista-fincas/${data.id}`);
         } else if (data.id_rol === 3) {
-          console.log("Alterno");
           navigate(`/sensores-alterno/${data.id_finca}/${data.id}`);
         }
 
@@ -55,7 +51,7 @@ const Login = () => {
       });
 
 
-    console.log("Formulario enviado");
+
   };
 
   // Alterna entre mostrar y ocultar la contraseña

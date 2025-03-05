@@ -70,6 +70,7 @@ function Sensores() {
   }, [usuario, fincas]);
 
   const columnas = [
+    { key: "nombre" },
     { key: "mac", label: "MAC", icon: iconMac },
     { key: "descripcion", label: "Descripción", icon: iconDesc },
     { key: "estado", label: "Inactivo/Activo", icon: iconEstado },
@@ -168,14 +169,14 @@ function Sensores() {
         imageAlt: 'Icono personalizado',
         title: "Sensor editado correctamente"
       });
-      console.log("index: " + index);
+     
 
       // Verificar si se encontró el índice
 
       nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
 
 
-      console.log("nuevosSensores: ", nuevosSensores);
+
 
       setSensores(nuevosSensores);
     })
@@ -187,21 +188,11 @@ function Sensores() {
 
   };
 
-  const handleSwitch = (event, sensorId) => {
-    // Actualizar el estado del sensor en la lista de sensores
-    setSensores(prevSensores =>
-      prevSensores.map(sensor =>
-        sensor.id === sensorId ? { ...sensor, estado: event.target.checked } : sensor
-      )
-    );
-  };
 
   return (
     <div>
       <NavBar />
-      <h1 className="text-center text-2xl font-semibold">{usuario.nombre}</h1>
-      <h1 className="text-center text-2xl font-semibold">{fincas.nombre}</h1>
-      <Tabla columnas={columnas} datos={sensores.map((sensor, index) => ({
+      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`} columnas={columnas} datos={sensores.map((sensor, index) => ({
         ...sensor, "#": index + 1,
         estado: (
           <div className="flex justify-start items-center">
@@ -222,8 +213,8 @@ function Sensores() {
         ),
       }))} acciones={acciones} />
 
-      <div className="flex justify-center w-[84.4%] mx-auto mt-8 ">
-        <button className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-[43%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+      <div className="flex justify-center w-full mx-auto sm:mt-12">
+        <button className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
           onClick={() => setModalInsertarAbierto(true)}>
           <span>Agregar Sensor</span>
           <img

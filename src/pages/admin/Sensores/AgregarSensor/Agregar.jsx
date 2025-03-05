@@ -57,8 +57,6 @@ const Agregar = () => {
     
     insertarSensor(formData);
 
-
-    console.log("Datos enviados:", formData);
   };
 
   return (

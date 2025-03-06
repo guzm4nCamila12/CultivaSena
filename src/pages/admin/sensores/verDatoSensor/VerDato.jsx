@@ -1,37 +1,46 @@
-import React, { useEffect, useState } from 'react';
-import Tabla from '../../../../components/Tabla';  // Asegúrate de importar el componente Tabla
+//iconos de las columnas
+import macBlue from "../../../../assets/icons/macBlue.png";
+import descripcionBlue from "../../../../assets/icons/descripcionBlue.png";
+//componentes reutilizados
+import NavBar from '../../../../components/navbar';
 import GraficoSensor from '../grafico/Grafico';
-import NavBar from '../../../../components/gov/navbar';
-import macIcon from "../../../../assets/icons/mac.png";
-import nombreIcon from "../../../../assets/icons/nombre.png";
-import { useParams } from "react-router-dom";
+import Tabla from '../../../../components/Tabla';
+//endpoints para consumir api
 import { getSensor } from '../../../../services/sensores/ApiSensores';
+//importaciones necesarias de react
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 export default function VerSensores() {
   // Estado para almacenar los datos de los sensores
   const [datosSensor, setDatosSensores] = useState([]);
-  const [sensores, setSensores] = useState([]);
+  const [sensores, setSensores] = useState({});
   const { id } = useParams();
 
   // Simulación de carga de datos al montar el componente
   useEffect(() => {
+    // Simulando la respuesta de la API
     getSensor(id)
-      .then(data => setSensores(data))
-  }, []);
+      .then(data => {
+        setSensores(data);
+        setDatosSensores(data.datos || []);
+      })
+      .catch(error => console.error("Error al obtener los datos del sensor", error));
+  }, [id]);
 
-  // Definir las columnas de la tabla
-  const columnas = [
-    { key: "nombre" },
-    { key: "fecha", label: "Fecha", icon: macIcon },
-    { key: "datos", label: "Datos", icon: nombreIcon },
+  const datosSimulados = [
+    { fecha: "2025-03-05 12:00", datos: "Valor 1" },
+    { fecha: "2025-03-05 12:30", datos: "Valor 2" },
   ];
 
-  // Definir las acciones (puedes añadir más funcionalidad aquí si lo deseas)
-  const acciones = (sensor) => {
-    return (
-      <button className="text-blue-500 hover:underline">Ver Detalles</button>
-    );
-  };
+  const datosFinales = Array.isArray(datosSensor) && datosSensor.length > 0 ? datosSensor : datosSimulados;
+
+  const columnas = [
+    { key: "fecha", label: "Fecha", icon: macBlue },
+    { key: "datos", label: "Datos", icon: descripcionBlue },
+  ];
+
+  const acciones = (sensor) => { };
 
   return (
     <div>
@@ -39,11 +48,9 @@ export default function VerSensores() {
       <Tabla
         titulo={`Datos del sensor: ${sensores.nombre}`}
         columnas={columnas}
-        datos={datosSensor}
+        datos={datosFinales}
         acciones={acciones}
       />
-
-      {/* El gráfico */}
       <GraficoSensor />
     </div>
   );

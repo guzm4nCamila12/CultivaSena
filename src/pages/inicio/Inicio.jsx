@@ -1,5 +1,5 @@
 import React from 'react';
-import Gov from '../../components/gov/gov';
+import Gov from '../../components/gov';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 export default function Login() {

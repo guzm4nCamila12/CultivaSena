@@ -1,9 +1,12 @@
-import {React, useState } from "react";  // Importación de React y useState para manejar el estado
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
-import Gov from '../../components/gov/gov';
+import Gov from '../../components/gov';
+import phoneGray from "../../assets/icons/phoneGray.png"
+import passwordGray from "../../assets/icons/passwordGray.svg"
+import openEyeGray from "../../assets/icons/openEyeGray.png"
+import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import Swal from "sweetalert2";
-import { acctionSucessful } from "../../components/alertSuccesful";
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña
@@ -25,10 +28,10 @@ const Login = () => {
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', data.id_rol);
 
-        acctionSucessful.fire({
-          icon: "success",
-          title: `Bienvenido ${data.nombre}`
-        });
+        // acctionSucessful.fire({
+        //   icon: "success",
+        //   title: `Bienvenido ${data.nombre}`
+        // });
         // Lógica de navegación después de que se haya actualizado el estado
         if (data.id_rol === 1) {
           navigate("/inicio-SuperAdmin");
@@ -49,9 +52,6 @@ const Login = () => {
         }) // Almacena el mensaje de error en el estado error para mostrarlo al usuario
         // Manejo de errores si la API falla
       });
-
-
-
   };
 
   // Alterna entre mostrar y ocultar la contraseña
@@ -67,18 +67,14 @@ const Login = () => {
       >
         <div className="absolute w-full h-full backdrop-blur-sm"
           style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-        ></div>
-
+        > </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
-
           <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
           >
             <h2 className="text-3xl text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
-
             <form onSubmit={handleSubmit} className="space-y-3">
-
               <input
                 type="text"
                 placeholder="Número de teléfono"
@@ -87,39 +83,35 @@ const Login = () => {
                 required
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
-                  backgroundImage: "url('/phoneGrey.png')",  // Icono de teléfono a la izquierda
+                  backgroundImage: `url(${phoneGray})`,
                   backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'left 12px center',  // Ajusta la posición del icono dentro del campo
+                  backgroundPosition: 'left 12px center',
                 }}
               />
-
               <div className="relative">
                 <input
-                  type={mostrarClave ? "text" : "password"}  // Alterna entre texto y contraseña
+                  type={mostrarClave ? "text" : "password"}
                   placeholder="Contraseña"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
                   required
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
-                    backgroundImage: "url('/Vector.svg')",  // Icono de teléfono a la izquierda
+                    backgroundImage: `url(${passwordGray})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left 12px center',  // Ajusta la posición del icono dentro del campo
+                    backgroundPosition: 'left 12px center',
                   }}
                 />
-                {/* Icono de ojo a la derecha */}
                 <div
-                  onClick={handleToggle} // Alterna el icono
+                  onClick={handleToggle}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 >
                   <img
-                    src={mostrarClave ? "/ojoA.png" : "/ClosedEye.png"}
+                    src={mostrarClave ? openEyeGray : closedEyeGray}
                     alt="Toggle Visibility"
-
                   />
                 </div>
               </div>
-
               <button
                 type="submit"
                 className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl"
@@ -128,7 +120,6 @@ const Login = () => {
               </button>
             </form>
           </div>
-
           <img src="sena-logo.svg" alt="" />
         </div>
       </div>

@@ -6,8 +6,7 @@ import microphone from "../assets/icons/Microphone.png";
 
 const UserCards = ({ columnas, datos, titulo, acciones }) => {
   const [busqueda, setBusqueda] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [descripcion, setDescripcion] = useState({ descripcion: "" })
+
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((columna) =>
       String(fila[columna.key] || "")
@@ -15,16 +14,6 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
         .includes(busqueda.toLowerCase())
     )
   );
-
-  const abrirModal = (des) => {
-    setDescripcion(des);
-    setModalVisible(true);
-  };
-
-
-  const cerrarModal = () => {
-    setModalVisible(false);
-  };
 
   return (
     <div className="container mx-auto p-4">
@@ -71,43 +60,23 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                {fila.nombre || "Usuario"}
+                {fila.nombre || `Dato ${index+1}`}
               </div>
 
               {/* Datos */}
               <div className="p-4 flex flex-col gap-2">
                 {columnas.map((columna, i) =>
                   // Excluir "acciones", "#" y "nombre"
-
                   columna.key !== "acciones" && columna.key !== "#" && columna.key !== "nombre" ? (
-                    <>
-                      {console.log(fila.descripcion)}
-                      <div key={i} className="text-sm flex items-center relative">
-                        {columna.icon && (
-                          <img src={columna.icon} alt={columna.label} className="mr-2" />
-                        )}
-                        <strong>{columna.label}:</strong>{" "}
-                        <p className="ml-1">
-                          {columna.key === "descripcion" && fila[columna.key]?.length > 25 ? (
-                            <>
-                              {fila[columna.key].slice(0, 25)}...
-                              <a href="#"
-                                onClick={() => abrirModal(fila[columna.key])}
-                                className="text-blue-500 cursor-pointer">Ver más</a>
-                            </>
-                          ) : (
-                            fila[columna.key]
-                          )}
-                        </p>
-
-
-
-                      </div>
-                    </>
+                    <div key={i} className="text-sm flex items-center">
+                      {columna.icon && (
+                        <img src={columna.icon} alt={columna.label} className="mr-2" />
+                      )}
+                      <strong>{columna.label}:</strong>{" "}
+                      <span className="ml-1">{fila[columna.key]}</span>
+                    </div>
                   ) : null
-
                 )}
-
               </div>
 
               <hr />
@@ -122,22 +91,6 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
           <p className="text-center p-4 text-sm col-span-full">No hay datos</p>
         )}
       </div>
-
-      {modalVisible && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Descripción</h5>
-            <hr />
-            <p className="p-3">{descripcion}</p>
-
-            <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={cerrarModal} >
-              Cerrar
-            </button>
-          </div>
-
-
-        </div>
-      )}
     </div>
   );
 };

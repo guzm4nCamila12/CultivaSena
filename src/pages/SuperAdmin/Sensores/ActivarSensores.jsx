@@ -94,6 +94,7 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
+    { key: "nombre" },
     { key: "mac", label: "MAC", icon: macIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },

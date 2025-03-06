@@ -1,4 +1,4 @@
-import React, { useState } from "react";  // Importación de React y useState para manejar el estado
+import {React, useState } from "react";  // Importación de React y useState para manejar el estado
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov/gov';
@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import { acctionSucessful } from "../../components/alertSuccesful";
 
 const Login = () => {
-  // Estado para almacenar el valor del correo electrónico y la contraseña
+  // Estados para almacenar el valor del telefono y la contraseña
   const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
   const [clave, setClave] = useState("");  // Estado para la contraseña
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña

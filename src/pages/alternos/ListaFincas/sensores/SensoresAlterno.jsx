@@ -58,6 +58,7 @@ function SensoresAlterno() {
   }, [usuario, fincas]);
 
   const columnas = [
+    { key: "nombre" },
     { key: "mac", label: "MAC", icon: macIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "acciones", label: "Acciones", icon: accionesIcon },

@@ -70,6 +70,7 @@ function Sensores() {
   }, [usuario, fincas]);
 
   const columnas = [
+    { key: "nombre" },
     { key: "mac", label: "MAC", icon: iconMac },
     { key: "descripcion", label: "Descripción", icon: iconDesc },
     { key: "estado", label: "Inactivo/Activo", icon: iconEstado },

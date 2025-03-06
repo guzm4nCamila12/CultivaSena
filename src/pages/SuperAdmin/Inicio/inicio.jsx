@@ -120,6 +120,7 @@ const Inicio = () => {
 
 
   const columnas = [
+    { key: "nombre" },
     { key: "telefono", label: "Teléfono", icon: phoneIcon },
     { key: "correo", label: "Correo", icon: emailIcon },
     { key: "id_rol", label: "Rol", icon: rolIcon, transform: obtenerRol },

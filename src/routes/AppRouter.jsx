@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from '../pages/Login/Login'
 import Inicio from "../pages/inicio/Inicio";
-import AgregarFinca from "../pages/admin/CrearFincas/Agregar"
-import EditarFinca from '../pages/admin/EditarFinca/editar';
+import AgregarFinca from "../pages/admin/fincas/CrearFincas/Agregar"
+import EditarFinca from '../pages/admin/fincas/EditarFinca/editar';
 import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio'
 import Sensores from '../pages/admin/sensores/verSensores/Sensores';
-import ListaFincas from "../pages/admin/verFincas/ListaFincas";
+import ListaFincas from "../pages/admin/fincas/verFincas/ListaFincas";
 import TablaAlternos from "../pages/alternos/ListaFincas/TablaAternos";
 import SensoresAlterno from "../pages/alternos/sensores/SensoresAlterno";
 import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'

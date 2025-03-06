@@ -68,7 +68,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           setPosition({ lat: latitude, lng: longitude });
           setUbicacion({ lat: latitude, lng: longitude });
           if (mapInstance) {
-            mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación del usuario
+            mapInstance.setView([latitude, longitude], 13); 
           }
         },
         (error) => {

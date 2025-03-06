@@ -32,7 +32,7 @@ export default function navbar() {
           <BotonAtras />
         </div>
       </div>
-      <BotonAsistente />
+
     </div>
   )
 }

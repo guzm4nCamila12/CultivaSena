@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvent, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import locationIcon from ".././assets/icons/location.png"
-import markerGreen from ".././assets/icons/MarkerGreen.png"
-import ubicacionIcon from ".././assets/icons/ubiWhite.png"
-import currLocationIcon from ".././assets/icons/ubiActual.png"
-import zoomIn from ".././assets/icons/zoomIn.png"
-import zoomOut from ".././assets/icons/zoomOut.png"
+import locationIcon from "../assets/icons/location.png"
+import markerGreen from "../assets/icons/MarkerGreen.png"
+import ubicacionIcon from "../assets/icons/ubiWhite.png"
+import currLocationIcon from "../assets/icons/ubiActual.png"
+import zoomIn from "../assets/icons/zoomIn.png"
+import zoomOut from "../assets/icons/zoomOut.png"
 
 const Mapa = ({ setUbicacion, ubicacion }) => {
   const [position, setPosition] = useState(ubicacion || {  lat: 4.54357027937176, lng: -72.97119140625001 });
@@ -68,7 +68,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           setPosition({ lat: latitude, lng: longitude });
           setUbicacion({ lat: latitude, lng: longitude });
           if (mapInstance) {
-            mapInstance.setView([latitude, longitude], 13); 
+            mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación del usuario
           }
         },
         (error) => {
@@ -84,7 +84,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   return (
     <div className='mb-10 relative'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
-        <img src={ubicacionIcon} className='mr-2'/>
+        <img src={ubicacionIcon} className='mr-2' alt='iconoUbicacion'/>
         Seleccione una ubicación en el mapa
       </h2>      
       <div className="flex justify-center relative">

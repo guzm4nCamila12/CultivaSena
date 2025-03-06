@@ -50,14 +50,14 @@ const Agregar = () => {
     
   };
   return (
-    <div>
+    <div className="min-h-screen">
       <Navbar></Navbar>
       <div  style={{fontFamily: "work sans"}} className="my-0 p-1 mb-auto rounded-3xl  
-                                                          w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
+                                                          w-auto mx-4 sm:w-auto sm:mx-8 md:mx-10 lg:mx-12 xl:mx-16 2xl:mx-20">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="flex flex-col xl:flex w-auto gap-4 relative sm:m-1 ">
             <div className="xl:absolute flex flex-wrap">
-              <h2 className=" whitespace-nowrap text-2xl  lg:text-[20px] xl:text-4xl xl:ml-2 pt-2 font-bold">Agregar Finca</h2>
+              <h2 className=" whitespace-nowrap text-2xl lg:text-[30px] md:text-[25px] xl:text-4xl xl:ml-2 pt-2 font-bold">Agregar Finca</h2>
             </div>
             <div id="containerInpButton" className=" bg-gray-300 border-none md:bg-white ">
               <input
@@ -85,7 +85,7 @@ const Agregar = () => {
             </div>
           </div>
 
-          <div className="m-0 shadow-xl rounded-b-3xl">
+          <div className="rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} />

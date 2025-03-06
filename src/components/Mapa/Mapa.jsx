@@ -82,48 +82,49 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   };
 
   return (
-    <div className='rounded-b-3xl '>
+    <div className='mb-10 relative'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
         <img src={ubicacionIcon} className='mr-2'/>
         Seleccione una ubicación en el mapa
       </h2>      
-      <div className="flex justify-center relative ">
-        <MapContainer ref={mapRef} center={position} opacity={1} className='z-10' 
+      <div className="flex justify-center relative">
+        <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 lg:rounded-b-3xl' 
           zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
           <Marker position={position} icon={customIcon}>
           </Marker>
           <MyMapEvents />
         </MapContainer>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white h-36 z-30"></div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white h-28 z-30 lg:bg-none"></div> 
       </div>
-      <div className='flex flex-wrap justify-center'>
-        <div className='flex mb-2'>
-          <div className='flex hover:bg-red-700 rounded-full shadow-lg p-2 items-center justify-center'>
-            <button type='button' title='Mostrar tu ubicación' onClick={getCurrentLocation}>
-              <img src={currLocationIcon} alt="Ubicación Actual" className='w-6 h-6'/>
+      <div className='p-2 rounded-b-3xl flex flex-wrap lg:absolute lg:-bottom-0 bg-transparent lg:w-full lg:flex lg:flex-row z-50'>
+        <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
+          <div className='bg-white p-2 rounded-full flex mr-2 shadow-md hover:bg-[#93A6B2]'>
+            <button type="button" title="Mostrar tu ubicación" onClick={getCurrentLocation}>
+              <img src={currLocationIcon} alt="Ubicación Actual"/>
             </button>
           </div>
-          <div id='controlZoom' className='flex justify-between items-center w-20 ml-2 p-2 shadow-lg bg-white rounded-3xl'>
-            <button type="button" onClick={handleZoomOut}>
-              <img src={zoomOut} alt="Zoom Out" className='w-6 h-6'/>
+          <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 shadow-md'>
+            <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2]'>
+              <img src={zoomOut} alt="Zoom Out"/>
             </button>
-            <button type='button' onClick={handleZoomIn}>
-              <img src={zoomIn} alt="Zoom In" className='w-6 h-6' />
+            <button type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2]'>
+              <img src={zoomIn} alt="Zoom In"/>
             </button>
           </div>
         </div>
-        <div className='flex h-[10px] w-full justify-center'>
-          <h2 className='flex justify-center font-bold text-[#00304D]'>
-            <img src={locationIcon} alt="Ubicacion actual" className='w-4 h-4 mt-1 mr-1' />
-            Ubicacion Actual:
-          </h2>
+        <div className='flex p-1 rounded-b-3xl w-full justify-center flex-wrap shadow-2xl bg-white lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
+          <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
+            <h2 className='flex items-center font-bold text-[#00304D]'>
+              <img src={locationIcon} alt="Ubicacion actual" className=''/>
+              Ubicacion Actual:
+            </h2>
+          </div>
+          <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-r-full'>
+            <h2 className='flex flex-col items-center justify-center m-auto text-center'>{position.lat} {position.lng}</h2>
+          </div>
         </div>
-        <div className='flex justify-center w-full mt-2 '>
-          <h2>{position.lat} {position.lng}</h2>
-        </div> 
       </div>
-  
     </div>
   );
 };

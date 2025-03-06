@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "tailwindcss/tailwind.css";
-import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
-import { getSensoresById } from "../../../../services/sensores/ApiSensores";
-import Navbar from "../../../../components/gov/navbar";
-import Tabla from "../../../../components/Tabla";
-import macIcon from "../../../../assets/icons/macBlue.png";
-import descripcionIcon from "../../../../assets/icons/descBlue.png";
-import estadoIcon from "../../../../assets/icons/estadoBlue.png";
-import accionesIcon from "../../../../assets/icons/config.png";
-import verIcon from "../../../../assets/icons/view.png";
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import { getSensoresById } from "../../../services/sensores/ApiSensores";
+import Navbar from "../../../components/navbar";
+import Tabla from "../../../components/Tabla";
+import macIcon from "../../../assets/icons/macBlue.png";
+import descripcionIcon from "../../../assets/icons/descBlue.png";
+import accionesIcon from "../../../assets/icons/config.png";
+import verIcon from "../../../assets/icons/view.png";
 
 function SensoresAlterno() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
-
   const [formData, setFormData] = useState({
     mac: null,
     nombre: "",
@@ -24,9 +22,7 @@ function SensoresAlterno() {
     idusuario: "",
     idfinca: "",
   });
-
   const { id } = useParams();
-
 
   useEffect(() => {
     getFincasByIdFincas(id).then((data) => {
@@ -62,10 +58,8 @@ function SensoresAlterno() {
     { key: "mac", label: "MAC", icon: macIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "acciones", label: "Acciones", icon: accionesIcon },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },
+    { key: "estado", label: "Inactivo/Activo" },
   ];
-
-
 
   const acciones = (fila) => (
     <div className="relative group">
@@ -93,8 +87,8 @@ function SensoresAlterno() {
               <label className="switch">
                 <input
                   type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
+                  checked={sensor.estado}
+                  disabled
                   className="sr-only"
                 />
                 <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>

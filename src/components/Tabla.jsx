@@ -60,7 +60,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                {fila.nombre || "Usuario"}
+                {fila.nombre || `Dato ${index+1}`}
               </div>
 
               {/* Datos */}

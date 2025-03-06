@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Mapa from "../../../../components/Mapa/Mapa";
+import Mapa from "../../../../components/Mapa";
 import { insertarFinca } from "../../../../services/fincas/ApiFincas";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { useNavigate, useParams } from "react-router";
-import Navbar from "../../../../components/gov/navbar";
+import Navbar from "../../../../components/navbar";
 import userGray from "../../../../assets/icons/userGray.png"
 import '@fontsource/work-sans'
 

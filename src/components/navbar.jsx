@@ -1,7 +1,6 @@
 import React from 'react'
 import Gov from './gov'
 import BotonAtras from './botonAtras'
-import BotonAsistente from './botonAsistente'
 export default function navbar() {
   const idRol = Number(localStorage.getItem('rol'));
   const rol = () => {

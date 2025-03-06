@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Mapa from "../../../components/Mapa/Mapa";
+import Mapa from "../../../components/Mapa";
 import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
-import Navbar from "../../../components/gov/navbar"
+import Navbar from "../../../components/navbar"
 
 export default function EditarFinca() {
   const { id } = useParams();

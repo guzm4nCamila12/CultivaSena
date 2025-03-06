@@ -5,7 +5,7 @@ import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } f
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
 import Tabla from "../../../components/Tabla";
-import NavBar from "../../../components/gov/navbar"
+import NavBar from "../../../components/navbar"
 import macIcon from "../../../assets/icons/macBlue.png";
 import nombreIcon from "../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../assets/icons/descBlue.png";
@@ -21,26 +21,18 @@ import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import sensorBoton from "../../../assets/icons/sensorBoton.png"
 
-
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
-
-
   const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
-
-
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-
-
   const { id, idUser } = useParams();
   const [estado, setEstado] = useState([]);
   let inputValue = '';
-
   const [formData, setFormData] = useState({
     mac: null,
     nombre: "",
@@ -52,8 +44,6 @@ function ActivarSensores() {
 
   useEffect(() => {
     try {
-
-
       getSensoresById(idUser).then(
         (data) => {
           if (data == null) {
@@ -61,11 +51,9 @@ function ActivarSensores() {
             return
           }
           setSensores(data);
-
           setEstado(data.map(({ id, estado }) => ({ id, estado })))
         }
       );
-
       getUsuarioById(id).then((data) => {
         setUsuario(data)
       });
@@ -73,10 +61,8 @@ function ActivarSensores() {
         setFincas(data)
 
       });
-
     } catch (error) {
       console.error("Error: ", error);
-
     }
   }, [id, idUser]);
 
@@ -98,7 +84,7 @@ function ActivarSensores() {
     { key: "mac", label: "MAC", icon: macIcon },
     { key: "descripcion", label: "Descripción", icon: descripcionIcon },
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon },
-    { key: "acciones", label: "Acciones"},
+    { key: "acciones", label: "Acciones" },
   ];
 
   const acciones = (fila) => (
@@ -125,8 +111,10 @@ function ActivarSensores() {
         </Link>
       </div>
       <div className="relative group">
-        <button onClick={() => abrirModalEliminar(fila.id)} className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={deletIcon} alt="Eliminar" />
+        <button
+          onClick={() => abrirModalEliminar(fila.id)}
+          className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+          <img src={deletIcon} alt="Eliminar" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
@@ -136,7 +124,6 @@ function ActivarSensores() {
   );
 
   const sensoresDeFinca = sensores.map((sensor, index) => ({
-
     ...sensor, "#": index + 1,
     estado: (
       <div className="flex justify-start items-center">
@@ -194,7 +181,6 @@ function ActivarSensores() {
         else {
           setSensores([...sensores, response]);
         }
-
         setModalInsertarAbierto(false);
       }
     });
@@ -203,8 +189,6 @@ function ActivarSensores() {
       imageAlt: 'Icono personalizado',
       title: "Sensor agregado correctamente"
     });
-
-
   };
 
   const handleEditarSensor = (e) => {
@@ -217,12 +201,7 @@ function ActivarSensores() {
         imageAlt: 'Icono personalizado',
         title: "Sensor agregado correctamente"
       });
-
-      // Verificar si se encontró el índice
-
-      nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
-
-
+      nuevosSensores[index] = editarSensor;
       setSensores(nuevosSensores);
     })
     setModalEditarAbierto(false);
@@ -235,10 +214,8 @@ function ActivarSensores() {
   const handleSwitch = async (id, estado, index) => {
     if (estado === true) {
       const newEstado = !estado;
-
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
-
       setSensores(updatedSensores);
 
       const updatedFormData = {
@@ -252,20 +229,16 @@ function ActivarSensores() {
       };
 
       actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
-        const nuevosSensores = [...sensores]; // Copiar el array actual
-        nuevosSensores[index] = updatedFormData; // Cambiar el estado del sensor
+        const nuevosSensores = [...sensores];
+        nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
       })
     } else {
-
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
-
         const newEstado = !estado;
-
         const updatedSensores = [...sensores];
         updatedSensores[index].estado = newEstado;
-
 
         setSensores(updatedSensores);
         const updatedFormData = {
@@ -279,10 +252,9 @@ function ActivarSensores() {
         }
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
-          const nuevosSensores = [...sensores]; // Copiar el array actual
-          nuevosSensores[index] = updatedFormData; // Cambiar el estado del sensor
+          const nuevosSensores = [...sensores];
+          nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
-
         })
         inputValue = '';
       }
@@ -309,27 +281,25 @@ function ActivarSensores() {
       showCancelButton: true,
       inputValue,
       preConfirm: () => {
-        const value = Swal.getInput()?.value; // Obtener el valor del campo de entrada
-        if (!value) {  // Si el campo está vacío, mostrar un mensaje de advertencia
+        const value = Swal.getInput()?.value;
+        if (!value) {
           Swal.showValidationMessage('¡Este campo es obligatorio!');
-          return false;  // Evitar que el usuario confirme
+          return false;
         }
-        inputValue = value; // Si hay un valor, actualizar el estado
-
-        return true;  // Permitir que se confirme
+        inputValue = value;
+        return true;
       },
       confirmButtonText: 'OK',
       customClass: {
-        popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',  // Responsive width and margin
+        popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
         input: 'flex py-2 border-gray rounded-3xl',
-        actions: 'flex justify-center space-x-4 max-w-[454px] mx-auto',  // Center buttons with spacing
+        actions: 'flex justify-center space-x-4 max-w-[454px] mx-auto',
         cancelButton: 'w-[210px] p-3 text-center bg-[#00304D] hover:bg-[#021926] text-white font-bold rounded-full text-lg',
         confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
       },
     });
   };
-
 
   return (
     <div>
@@ -339,18 +309,13 @@ function ActivarSensores() {
         columnas={columnas}
         datos={sensoresDeFinca}
         acciones={acciones} />
-
-
       <div className="flex justify-center w-full mx-auto sm:mt-12">
-        <button className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+        <button
+          className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
           onClick={() => setModalInsertarAbierto(true)}>
           <span>Agregar Sensor</span>
-          <img
-              src={sensorBoton}
-              alt="icono"
-              className="w-6 h-4"
-            />
-     </button>
+          <img src={sensorBoton} alt="icono" className="w-6 h-4" />
+        </button>
       </div>
 
       {modalInsertarAbierto && (
@@ -360,11 +325,7 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img
-                  src={nombreIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={nombreIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -375,11 +336,7 @@ function ActivarSensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img
-                  src={descripcion} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={descripcion} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -391,8 +348,7 @@ function ActivarSensores() {
               <div className="flex gap-4 mt-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalInsertarAbierto(false)}
-                >
+                  onClick={() => setModalInsertarAbierto(false)}>
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
@@ -411,11 +367,7 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
-                <img
-                  src={nombreIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={nombreIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
@@ -426,11 +378,7 @@ function ActivarSensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img
-                  src={descripcion} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={descripcion} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -443,11 +391,9 @@ function ActivarSensores() {
               <div className="flex gap-4 mt-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEditarAbierto(false)}
-                >
+                  onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
-
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Editar
                 </button>
@@ -464,17 +410,15 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={HandlEliminarSensor}>
               <div className="flex justify-center my-4">
-                <img
-                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
-                  alt="icono"
+                <img src={ConfirmarEliminar} alt="icono"
                 />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
-
               <div className="flex justify-between mt-6 space-x-4">
-
-                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEliminarAbierto(false)} >
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
@@ -485,10 +429,7 @@ function ActivarSensores() {
           </div>
         </div>
       )}
-
-
     </div>
-
   )
 }
 

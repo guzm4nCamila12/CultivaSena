@@ -5,7 +5,7 @@ import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } f
 import { getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
 import Tabla from "../../../../components/Tabla";
-import NavBar from "../../../../components/gov/navbar"
+import NavBar from "../../../../components/navbar"
 import nombreIcon from "../../../../assets/icons/nombre.png";
 import descripcionIcon from "../../../../assets/icons/descripcion.png";
 import iconMac from "../../../../assets/icons/macBlue.png";
@@ -16,7 +16,6 @@ import ver from "../../../../assets/icons/view.png"
 import deletIcon from "../../../../assets/icons/delete.png";
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import sensorBoton from "../../../../assets/icons/sensorBoton.png"
-//import EliminadoIcon from "../../../../assets/img/Eliminado.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 
@@ -48,8 +47,6 @@ function Sensores() {
           return
         }
         setSensores(data);
-
-
       }
     );
     getUsuarioById(id).then(setUsuario);
@@ -98,7 +95,8 @@ function Sensores() {
       </div>
       <div className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
-          <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+          <button
+            className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={ver} alt="Ver" />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
@@ -107,7 +105,10 @@ function Sensores() {
         </Link>
       </div>
       <div className="relative group">
-        <button onClick={() => abrirModalEliminar(fila.id)} className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+        <button
+          className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          onClick={() => abrirModalEliminar(fila.id)}
+        >
           <img src={deletIcon} alt="Eliminar" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
@@ -116,7 +117,6 @@ function Sensores() {
       </div>
     </div>
   );
-
 
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
@@ -163,20 +163,14 @@ function Sensores() {
     e.preventDefault();
     actualizarSensor(editarSensor.id, editarSensor).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
-      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
+      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: "Sensor editado correctamente"
       });
-     
 
-      // Verificar si se encontró el índice
-
-      nuevosSensores[index] = editarSensor; // Actualizar el sensor en el índice encontrado
-
-
-
+      nuevosSensores[index] = editarSensor;
 
       setSensores(nuevosSensores);
     })
@@ -187,7 +181,6 @@ function Sensores() {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
 
   };
-
 
   return (
     <div>
@@ -214,14 +207,11 @@ function Sensores() {
       }))} acciones={acciones} />
 
       <div className="flex justify-center w-full mx-auto sm:mt-12">
-        <button className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
+        <button
+          className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
           onClick={() => setModalInsertarAbierto(true)}>
           <span>Agregar Sensor</span>
-          <img
-            src={sensorBoton}
-            alt="icono"
-            className="w-6 h-4"
-          />
+          <img src={sensorBoton} alt="icono" className="w-6 h-4" />
         </button>
       </div>
 
@@ -232,11 +222,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img
-                  src={nombreIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={nombreIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"/>
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -247,11 +233,7 @@ function Sensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img
-                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={descripcionIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"/>
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -284,11 +266,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
-                <img
-                  src={nombreIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={nombreIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
@@ -299,11 +277,7 @@ function Sensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img
-                  src={descripcionIcon} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                  className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                />
+                <img src={descripcionIcon} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -336,16 +310,15 @@ function Sensores() {
             <hr />
             <form onSubmit={HandlEliminarSensor}>
               <div className="flex justify-center my-4">
-                <img
-                  src={ConfirmarEliminar} // Reemplaza con la ruta de tu icono
-                  alt="icono"
-                />
+                <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
-
               <div className="flex justify-between mt-6 space-x-4">
-                <button className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg" onClick={() => setModalEliminarAbierto(false)} >
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">

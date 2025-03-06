@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvent, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import locationIcon from "../../assets/icons/location.png"
-import markerGreen from "../../assets/icons/MarkerGreen.png"
-import ubicacionIcon from "../../assets/icons/ubiWhite.png"
-import currLocationIcon from "../../assets/icons/ubiActual.png"
-import zoomIn from "../../assets/icons/zoomIn.png"
-import zoomOut from "../../assets/icons/zoomOut.png"
+import locationIcon from ".././assets/icons/location.png"
+import markerGreen from ".././assets/icons/MarkerGreen.png"
+import ubicacionIcon from ".././assets/icons/ubiWhite.png"
+import currLocationIcon from ".././assets/icons/ubiActual.png"
+import zoomIn from ".././assets/icons/zoomIn.png"
+import zoomOut from ".././assets/icons/zoomOut.png"
 
 const Mapa = ({ setUbicacion, ubicacion }) => {
   const [position, setPosition] = useState(ubicacion || {  lat: 4.54357027937176, lng: -72.97119140625001 });
@@ -123,7 +123,6 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           <h2>{position.lat} {position.lng}</h2>
         </div> 
       </div>
-  
     </div>
   );
 };

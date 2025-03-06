@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
-import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+//iconos de las columnas
+import phoneBlue from "../../../assets/icons/phoneBlue.png"
+import emailBlue from "../../../assets/icons/emailBlue.png"
+//iconos de las acciones
+import editWhite from "../../../assets/icons/editWhite.png";
+import deletWhite from "../../../assets/icons/deleteWhite.png";
+//iconos de los modales
+import userGray from "../../../assets/icons/userGray.png"
+import phoneGray from "../../../assets/icons/phoneGray.png"
+import emailGray from "../../../assets/icons/emailGray.png"
+import passwordGray from "../../../assets/icons/passwordGray.svg"
+import userWhite from "../../../assets/icons/userWhite.png"
+//imgs de los modales
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+//componentes reutilizados
+import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
 import Tabla from "../../../components/Tabla";
-import phoneIcon from "../../../assets/icons/phoneBlue.png"
-import emailIcon from "../../../assets/icons/emailBlue.png"
-import editIcon from "../../../assets/icons/edit.png";
-import deletIcon from "../../../assets/icons/delete.png";
-import Nombre from "../../../assets/icons/User.png"
-import Telefono from "../../../assets/icons/Phone.png"
-import Correo from "../../../assets/icons/Email.png"
-import Clave from "../../../assets/icons/contra.png"
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-import { acctionSucessful } from "../../../components/alertSuccesful";
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import iconBoton from "../../../assets/icons/iconBoton.png"
-
+//endpoints para consumir api
+import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 
 const Inicio = () => {
   const { id } = useParams();
@@ -47,8 +53,8 @@ const Inicio = () => {
 
   const columnas = [
     { key: "nombre" },
-    { key: "telefono", label: "Telefono", icon: phoneIcon },
-    { key: "correo", label: "Correo", icon: emailIcon },
+    { key: "telefono", label: "Telefono", icon: phoneBlue },
+    { key: "correo", label: "Correo", icon: emailBlue },
     { key: "acciones", label: "Acciones" },
   ];
 
@@ -109,7 +115,7 @@ const Inicio = () => {
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarAlterno(fila)}
         >
-          <img src={editIcon} alt="Editar" />
+          <img src={editWhite} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -120,7 +126,7 @@ const Inicio = () => {
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}
         >
-          <img src={deletIcon} alt="Eliminar" />
+          <img src={deletWhite} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -144,7 +150,7 @@ const Inicio = () => {
           onClick={() => setModalInsertarAbierto(true)}
         >
           <span>Agregar Alterno</span>
-          <img src={iconBoton} alt="icono" className="w-4 h-4" />
+          <img src={userWhite} alt="icono" className="w-4 h-4" />
         </button>
       </div>
 
@@ -155,7 +161,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={Nombre} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -166,7 +172,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Telefono} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -176,7 +182,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Correo} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -186,7 +192,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Clave} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -218,7 +224,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleEditarAlterno}>
               <div className="relative w-full mt-2">
-                <img src={Nombre} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.nombre}
@@ -228,7 +234,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Telefono} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.telefono}
@@ -238,7 +244,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Correo} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.correo}

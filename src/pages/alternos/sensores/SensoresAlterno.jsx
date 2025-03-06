@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import "tailwindcss/tailwind.css";
-import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
-import { getSensoresById } from "../../../services/sensores/ApiSensores";
+//iconos de las columnas
+import macBlue from "../../../assets/icons/macBlue.png";
+import descripcionBlue from "../../../assets/icons/descripcionBlue.png";
+import estadoBlue from "../../../assets/icons/estadoBlue.png"
+//iconos de las acciones
+import viewWhite from "../../../assets/icons/viewWhite.png";
+//componentes reutilizados
 import Navbar from "../../../components/navbar";
 import Tabla from "../../../components/Tabla";
-import macIcon from "../../../assets/icons/macBlue.png";
-import descripcionIcon from "../../../assets/icons/descBlue.png";
-import accionesIcon from "../../../assets/icons/config.png";
-import verIcon from "../../../assets/icons/view.png";
+//endpoints para consumir el api
+import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import { getSensoresById } from "../../../services/sensores/ApiSensores";
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 
 function SensoresAlterno() {
   const [sensores, setSensores] = useState([]);
@@ -55,17 +59,16 @@ function SensoresAlterno() {
 
   const columnas = [
     { key: "nombre" },
-    { key: "mac", label: "MAC", icon: macIcon },
-    { key: "descripcion", label: "Descripción", icon: descripcionIcon },
-    { key: "acciones", label: "Acciones", icon: accionesIcon },
-    { key: "estado", label: "Inactivo/Activo" },
+    { key: "mac", label: "MAC", icon: macBlue },
+    { key: "descripcion", label: "Descripción", icon: descripcionBlue },
+    { key: "estado", label: "Inactivo/Activo",icon: estadoBlue  },
   ];
 
   const acciones = (fila) => (
     <div className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={verIcon} alt="Ver" />
+          <img src={viewWhite} alt="Ver" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver Datos
           </span>

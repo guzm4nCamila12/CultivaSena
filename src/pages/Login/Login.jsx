@@ -2,6 +2,10 @@ import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov';
+import phoneGray from "../../assets/icons/phoneGray.png"
+import passwordGray from "../../assets/icons/passwordGray.svg"
+import openEyeGray from "../../assets/icons/openEyeGray.png"
+import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import Swal from "sweetalert2";
 
 const Login = () => {
@@ -79,7 +83,7 @@ const Login = () => {
                 required
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
-                  backgroundImage: "url('/phoneGrey.png')",
+                  backgroundImage: `url(${phoneGray})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
                 }}
@@ -93,7 +97,7 @@ const Login = () => {
                   required
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
-                    backgroundImage: "url('/Vector.svg')",
+                    backgroundImage: `url(${passwordGray})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                   }}
@@ -103,7 +107,7 @@ const Login = () => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 >
                   <img
-                    src={mostrarClave ? "/ojoA.png" : "/ClosedEye.png"}
+                    src={mostrarClave ? openEyeGray : closedEyeGray}
                     alt="Toggle Visibility"
                   />
                 </div>

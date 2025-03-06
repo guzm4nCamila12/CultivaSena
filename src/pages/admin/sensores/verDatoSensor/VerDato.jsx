@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import Tabla from '../../../../components/Tabla';
-import GraficoSensor from '../grafico/Grafico';
+//iconos de las columnas
+import macBlue from "../../../../assets/icons/macBlue.png";
+import descripcionBlue from "../../../../assets/icons/descripcionBlue.png";
+//componentes reutilizados
 import NavBar from '../../../../components/navbar';
-import macIcon from "../../../../assets/icons/macBlue.png";
-import descripcionIcon from "../../../../assets/icons/descBlue.png";
-import { useParams } from "react-router-dom";
+import GraficoSensor from '../grafico/Grafico';
+import Tabla from '../../../../components/Tabla';
+//endpoints para consumir api
 import { getSensor } from '../../../../services/sensores/ApiSensores';
+//importaciones necesarias de react
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 export default function VerSensores() {
   // Estado para almacenar los datos de los sensores
@@ -32,8 +36,8 @@ export default function VerSensores() {
   const datosFinales = Array.isArray(datosSensor) && datosSensor.length > 0 ? datosSensor : datosSimulados;
 
   const columnas = [
-    { key: "fecha", label: "Fecha", icon: macIcon },
-    { key: "datos", label: "Datos", icon: descripcionIcon },
+    { key: "fecha", label: "Fecha", icon: macBlue },
+    { key: "datos", label: "Datos", icon: descripcionBlue },
   ];
 
   const acciones = (sensor) => { };

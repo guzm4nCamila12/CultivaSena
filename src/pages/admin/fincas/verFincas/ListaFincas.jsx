@@ -1,18 +1,24 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from "react-router-dom";
-import { getUsuarioById } from '../../../../services/usuarios/ApiUsuarios';
-import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
+//iconos de las acciones
+import deletWhite from "../../../../assets/icons/deleteWhite.png";
+import editWhite from "../../../../assets/icons/editWhite.png";
+//iconos de las columnas
+import sensorIcon from "../../../../assets/icons/sensorBlue.png"
+import alternoIcon from "../../../../assets/icons/alternoBlue.png"
+//icono de agregar finca
+import fincaWhite from "../../../../assets/icons/fincaWhite.png";
+//componentes reutilizados
 import Tabla from '../../../../components/Tabla';
-import sensorIcon from "../../../../assets/icons/sensor.png"
-import editIcon from "../../../../assets/icons/edit.png";
-import deletIcon from "../../../../assets/icons/delete.png";
-import alternoIcon from "../../../../assets/icons/alterno.png"
 import Navbar from '../../../../components/navbar';
-import fincaIcon from "../../../../assets/icons/finca.png";
+import { acctionSucessful } from "../../../../components/alertSuccesful";
+//imgs de modales
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
-import { acctionSucessful } from "../../../../components/alertSuccesful";
+//endpoints para consumir api
+import {getUsuarioById} from "../../../../services/usuarios/ApiUsuarios"
+import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
+//importaciones necesarias de react
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -62,7 +68,7 @@ export default function ListaFincas() {
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={editIcon} alt="Editar" />
+            <img src={editWhite} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -73,7 +79,7 @@ export default function ListaFincas() {
         <button onClick={() => abrirModalEliminar(fila.id)}
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
         >
-          <img src={deletIcon} alt="Eliminar" />
+          <img src={deletWhite} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -128,7 +134,7 @@ export default function ListaFincas() {
             className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
           >
             <span>Agregar Finca</span>
-            <img src={fincaIcon} alt="icono" className="w-5 h-5" />
+            <img src={fincaWhite} alt="icono" className="w-5 h-5" />
           </button>
         </Link>
       </div>

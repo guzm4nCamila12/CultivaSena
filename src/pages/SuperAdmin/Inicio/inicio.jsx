@@ -1,25 +1,32 @@
-import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
-import { useState, useEffect } from "react";
-import phoneIcon from "../../../assets/icons/phoneBlue.png"
-import emailIcon from "../../../assets/icons/emailBlue.png"
-import rolIcon from "../../../assets/icons/rolBlue.png"
+//iconos de las columnas
+import phoneBlue from "../../../assets/icons/phoneBlue.png"
+import emailBlue from "../../../assets/icons/emailBlue.png"
+import rolBlue from "../../../assets/icons/rolBlue.png"
+//iconoso de las acciones
+import deletWhite from "../../../assets/icons/deleteWhite.png"
+import editWhite from "../../../assets/icons/editWhite.png"
+import viewWhite from "../../../assets/icons/viewWhite.png"
+//iconos de modales
+import nameGray from "../../../assets/icons/userGray.png"
+import phoneGray from "../../../assets/icons/phoneGray.png"
+import emailGray from "../../../assets/icons/emailGray.png"
+import passwordGray from "../../../assets/icons/passwordGray.svg"
+import rolGray from "../../../assets/icons/rolGray.png"
+import userWhite from "../../../assets/icons/userWhite.png"
+//componetes reutilizados
 import Tabla from "../../../components/Tabla";
-import ver from "../../../assets/icons/view.png"
-import Nombre from "../../../assets/icons/User.png"
-import Telefono from "../../../assets/icons/Phone.png"
-import Correo from "../../../assets/icons/Email.png"
-import Clave from "../../../assets/icons/contra.png"
-import Rol from "../../../assets/icons/rolIn.png"
-import editIcon from "../../../assets/icons/edit.png"
-import deletIcon from "../../../assets/icons/delete.png"
-import NavBar from "../../../components/navbar";
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import { Link } from "react-router-dom";
+import NavBar from "../../../components/navbar";
+//imgs modales
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import sinFinca from "../../../assets/img/sinFincas.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import iconBoton from "../../../assets/icons/iconBoton.png"
+//endpoints para consumir api
+import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
+//importaciones necesarias de react
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Inicio = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -115,9 +122,9 @@ const Inicio = () => {
 
   const columnas = [
     { key: "nombre" },
-    { key: "telefono", label: "Teléfono", icon: phoneIcon },
-    { key: "correo", label: "Correo", icon: emailIcon },
-    { key: "id_rol", label: "Rol", icon: rolIcon, transform: obtenerRol },
+    { key: "telefono", label: "Teléfono", icon: phoneBlue },
+    { key: "correo", label: "Correo", icon: emailBlue },
+    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
     { key: "acciones", label: "Acciones" },
   ];
 
@@ -129,7 +136,7 @@ const Inicio = () => {
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEditar(fila)}
           >
-            <img src={editIcon} alt="Editar" />
+            <img src={editWhite} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -143,7 +150,7 @@ const Inicio = () => {
               onClick={() => setModalSinFincasAbierto(true)}
               className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             >
-              <img src={ver} alt="Ver" />
+              <img src={viewWhite} alt="Ver" />
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver
@@ -156,7 +163,7 @@ const Inicio = () => {
           <div className="relative group">
             <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" >
               <button>
-                <img src={ver} alt="Ver" />
+                <img src={viewWhite} alt="Ver" />
               </button>
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
@@ -170,7 +177,7 @@ const Inicio = () => {
             onClick={() => abrirModalEliminar(fila.id)}
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           >
-            <img src={deletIcon} alt="Eliminar" />
+            <img src={deletWhite} alt="Eliminar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
@@ -224,7 +231,7 @@ const Inicio = () => {
           onClick={() => setModalInsertarAbierto(true)}
         >
           <span>Agregar Usuario</span>
-          <img src={iconBoton} alt="icono" className="w-4 h-4" />
+          <img src={userWhite} alt="icono" className="w-4 h-4" />
         </button>
       </div>
 
@@ -235,7 +242,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleInsertar}>
               <div className="relative w-full mt-2">
-                <img src={Nombre} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -246,7 +253,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Telefono} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -256,7 +263,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Correo} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -266,7 +273,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Clave} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -275,7 +282,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Rol} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={rolGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <select
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="id_rol"
@@ -313,7 +320,7 @@ const Inicio = () => {
               <hr />
               <form onSubmit={handleEditar}>
                 <div className="relative w-full mt-2">
-                  <img src={Nombre} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                     value={editarUsuario.nombre}
@@ -324,7 +331,7 @@ const Inicio = () => {
                   />
                 </div>
                 <div className="relative w-full mt-2">
-                  <img src={Telefono} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                  <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                     value={editarUsuario.telefono}
@@ -335,7 +342,7 @@ const Inicio = () => {
                   />
                 </div>
                 <div className="relative w-full mt-2">
-                  <img src={Correo} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                  <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                     value={editarUsuario.correo}
@@ -346,7 +353,7 @@ const Inicio = () => {
                   />
                 </div>
                 <div className="relative w-full mt-2">
-                  <img src={Clave} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                  <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
                   <input
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                     value={editarUsuario.clave}

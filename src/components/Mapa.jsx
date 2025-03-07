@@ -99,12 +99,12 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       </div>
       <div className='p-2 shadow-2xl rounded-b-3xl flex flex-wrap lg:shadow-none lg:absolute lg:-bottom-0 lg:bg-transparent bg-white lg:w-full lg:flex lg:flex-row z-50'>
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
-          <div className='bg-white p-2 rounded-full flex mr-2 shadow-md hover:bg-[#93A6B2]'>
+          <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
             <button type="button" title="Mostrar tu ubicación" onClick={getCurrentLocation}>
               <img src={currLocationIcon} alt="Ubicación Actual"/>
             </button>
           </div>
-          <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 shadow-md'>
+          <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 lg:shadow-xl shadow-md'>
             <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2]'>
               <img src={zoomOut} alt="Zoom Out"/>
             </button>
@@ -113,15 +113,15 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
             </button>
           </div>
         </div>
-        <div className='lg:bg-white flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
+        <div className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
-            <h2 className='flex items-center font-bold text-[#00304D]'>
-              <img src={locationIcon} alt="Ubicacion actual" className=''/>
-              Ubicacion Actual:
+            <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
+              <img src={locationIcon} alt="Ubicacion actual" className='mr-1'/>
+              Ubicación Actual:
             </h2>
           </div>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-r-full'>
-            <h2 className='flex flex-col items-center justify-center m-auto text-center'>{position.lat} {position.lng}</h2>
+            <h2 className='flex flex-col items-center justify-center m-auto text-center text-[18px]'>{position.lat} {position.lng}</h2>
           </div>
         </div>
       </div>

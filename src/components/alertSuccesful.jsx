@@ -35,8 +35,8 @@ style.innerHTML = `
 }
 
 .my-toast-popup img { 
-  width: 60px !important; /* Ajusta el tamaño de la imagen */
-  height: 60px !important;
+  width: 80px !important; /* Ajusta el tamaño de la imagen */
+  height: 80px !important;
   margin: 10px !important;
   
 }

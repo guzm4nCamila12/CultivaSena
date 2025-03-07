@@ -16,7 +16,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container  mx-auto p-4 px-0 ">
+    <div className="container  mx-auto p-4 sm:px-0 ">
       {/* Buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>

@@ -16,10 +16,10 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container  mx-auto p-4 px-0 ">
       {/* Buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
-        <h1 className="text-2xl font-medium z-10">{titulo}</h1>
+        <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>
         <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
           <img src={search} alt="Buscar" className="absolute left-3 w-4" />
           <input
@@ -41,8 +41,8 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
           datosFiltrados.map((fila, index) => (
             <div
               key={fila.id || index}
-              className="bg-white shadow-md rounded-[36px] overflow-hidden border-2 border-transparent flex flex-col transition-all duration-300 
-                          relative bg-cover bg-center"
+              className="bg-white shadow-md rounded-[36px] overflow-hidden border-2 border-transparent flex flex-col  
+                          relative bg-cover bg-center transition delay-150 duration-250 hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/25 ease-in-out  hover:scale-90"
               style={{ backgroundImage: "url('/fondoCards.png')" }}
             >
               {/* Título */}

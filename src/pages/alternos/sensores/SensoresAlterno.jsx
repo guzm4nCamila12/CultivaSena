@@ -61,7 +61,7 @@ function SensoresAlterno() {
     { key: "nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
-    { key: "estado", label: "Inactivo/Activo",icon: estadoBlue  },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
   ];
 
   const acciones = (fila) => (
@@ -77,8 +77,7 @@ function SensoresAlterno() {
     </div>
   );
   return (
-    <div>
-      <Navbar />
+    <div >       <Navbar />
       <Tabla
         titulo={`Sensor de la finca: ${fincas.nombre}`}
         columnas={columnas}

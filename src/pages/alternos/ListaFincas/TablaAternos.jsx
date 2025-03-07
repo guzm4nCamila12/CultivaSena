@@ -136,8 +136,7 @@ const Inicio = () => {
   );
 
   return (
-    <div>
-      <Navbar />
+    <div >       <Navbar />
       <Tabla
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}

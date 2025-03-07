@@ -22,6 +22,7 @@ import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import sinFinca from "../../../assets/img/sinFincas.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import fotoPerfil from "../../../assets/img/fotoPerfil.png"
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 //importaciones necesarias de react
@@ -126,6 +127,7 @@ const Inicio = () => {
     { key: "correo", label: "Correo", icon: emailBlue },
     { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
     { key: "acciones", label: "Acciones" },
+    { key: "fotoPerfil", label: "fotoPerfil",icon:fotoPerfil },
   ];
 
   const acciones = (fila) => {
@@ -221,10 +223,15 @@ const Inicio = () => {
   }
 
   return (
-    <>
+    <div className=" h-[100vh]"> 
+    
       <NavBar />
+      
+
       <Tabla
         titulo="Usuarios registrados" columnas={columnas} datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))} acciones={acciones} />
+      
+
       <div className="flex justify-center w-full mx-auto sm:mt-12">
         <button
           className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
@@ -427,7 +434,7 @@ const Inicio = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

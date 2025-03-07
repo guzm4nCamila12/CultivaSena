@@ -117,7 +117,7 @@ export default function ListaFincas() {
   }));
 
   return (
-    <div>
+    <div > 
       <Navbar />
       <Tabla
         titulo={`Fincas de: ${usuario.nombre}`}

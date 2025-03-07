@@ -310,7 +310,7 @@ function ActivarSensores() {
   };
 
   return (
-    <div>
+    <div > 
       <NavBar />
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}

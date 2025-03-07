@@ -58,9 +58,9 @@ const Agregar = () => {
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1  sm:bg-white">
 
 
-            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-0">
+            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-0 bg-transparent">
               {/* Título centrado en móvil */}
-              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-white ">
+              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
                 <h2 className="text-2xl sm:text-3xl font-semibold">Agregar Finca</h2>
               </div>
 
@@ -77,8 +77,8 @@ const Agregar = () => {
                   style={{
                     backgroundImage: `url(${userGray})`, // Ícono
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left 10px center', // Ajuste de posición
-                    backgroundSize: '20px', // Tamaño del ícono
+                    backgroundPosition: 'left 12px center', // Ajuste de posición
+                    backgroundSize: '15px', // Tamaño del ícono
                   }}
                 />
 

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 
-
 const UserCards = ({ columnas, datos, titulo, acciones }) => {
   const [busqueda, setBusqueda] = useState("");
 
@@ -16,7 +15,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container  mx-auto p-4 sm:px-0 ">
+    <div className="container mx-auto p-4 sm:px-0 ">
       {/* Buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>
@@ -58,7 +57,6 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                 {fila.nombre || `Dato ${index + 1}`}
               </div>
 
-            
               {/* Datos */}
               <div className="p-4 flex flex-col gap-2 relative">
                 {columnas
@@ -89,7 +87,8 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
 
               {/* Botones de acción */}
               <div className="flex items-center justify-center p-3">
-                {acciones(fila)}
+                {/* Verifica si 'acciones' es una función antes de invocar */}
+                {typeof acciones === "function" && acciones(fila)}
               </div>
             </div>
           ))
@@ -111,7 +110,8 @@ UserCards.propTypes = {
   ).isRequired,
   datos: PropTypes.array.isRequired,
   titulo: PropTypes.string.isRequired,
-  acciones: PropTypes.func.isRequired,
+  acciones: PropTypes.func, // 'acciones' ahora es opcional
 };
+
 
 export default UserCards;

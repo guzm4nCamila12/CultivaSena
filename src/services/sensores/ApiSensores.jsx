@@ -32,3 +32,8 @@ export const actualizarSensor = async (id, fincaActualizada) => {
 export const eliminarSensores = async (id) => {
   await fetch(`${API_URL}/sensores/${id}`, { method: "DELETE" });
 };
+
+export const getHistorialSensores = async (mac) => {
+  const response = await fetch(`${API_URL}/historial/sensores/${mac}`);
+  return response.json();
+};

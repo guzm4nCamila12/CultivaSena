@@ -57,6 +57,7 @@ const Login = () => {
       });
   };
 
+
   //inicializa el estado con el tamaño actual del contenedor
   useEffect(() => {
     const handleResize = () => {
@@ -74,7 +75,9 @@ const Login = () => {
   const handleToggle = () => {
     setMostrarClave(!mostrarClave);
   };
-
+  const irAtras=()=>{
+    navigate(-1);
+  }
   const responsive = () => {
     if (screenWidth > 768) {
       let bloque = <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative"
@@ -84,6 +87,8 @@ const Login = () => {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
         > </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
+        <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white'onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
+
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
           <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
@@ -153,14 +158,14 @@ const Login = () => {
               style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
             > </div>
             
-          <button className='absolute p-2 rounded-full text-white top-3 left-2 bg-white'><img src={AtrasIcon} alt="" className='w-2' /></button>
+          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white'onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
           </div>
 
           <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
 
           <div className="absolute bottom-64 m-auto w-full p-2 z-20 gap-5 ">
               <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
-              <div className="py-4 px-2 mb-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border  border-gray-500"
+              <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border  border-gray-500"
                 style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
               >
                 <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>

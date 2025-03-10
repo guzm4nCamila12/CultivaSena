@@ -143,7 +143,7 @@ function Sensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "Sensor Eliminado correctamente"
+      title: "¡Sensor eliminado correctamente!"
     });
   };
 
@@ -159,7 +159,7 @@ function Sensores() {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
-          title: "Sensor agregado correctamente"
+          title: "¡Sensor agregado correctamente!"
         });
         setModalInsertarAbierto(false);
       }
@@ -174,7 +174,7 @@ function Sensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Sensor editado correctamente"
+        title: "¡Sensor editado correctamente!"
       });
 
       nuevosSensores[index] = editarSensor;

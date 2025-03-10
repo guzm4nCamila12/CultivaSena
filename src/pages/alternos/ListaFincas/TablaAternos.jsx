@@ -71,7 +71,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno editado correctamente"
+        title: "¡Alterno editado correctamente!"
       });
       setModalEditarAbierto(false);
     });
@@ -85,7 +85,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno eliminado correctamente"
+        title: "¡Alterno eliminado correctamente!"
       });
     }).catch(console.error);
   }
@@ -103,7 +103,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno agregado correctamente"
+        title: "¡Alterno agregado correctamente!"
       });
     }).catch(console.error);
   }

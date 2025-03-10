@@ -5,6 +5,7 @@ import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { useNavigate, useParams } from "react-router";
 import Navbar from "../../../../components/navbar";
 import userGray from "../../../../assets/icons/userGray.png"
+import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import '@fontsource/work-sans'
 
 const Agregar = () => {
@@ -38,6 +39,11 @@ const Agregar = () => {
     try {
       const response = await insertarFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
+      acctionSucessful.fire({
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
+        title: "¡Finca agregada correctamente!"
+      });
       irAtras();
     } catch (error) {
       acctionSucessful.fire({

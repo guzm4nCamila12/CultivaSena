@@ -171,7 +171,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "Sensor Eliminado correctamente"
+      title: "¡Sensor eliminado correctamente!"
     });
   };
 
@@ -195,7 +195,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
-      title: "Sensor agregado correctamente"
+      title: "¡Sensor agregado correctamente!"
     });
   };
 
@@ -207,7 +207,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Sensor agregado correctamente"
+        title: "¡Sensor editado correctamente!"
       });
       nuevosSensores[index] = editarSensor;
       setSensores(nuevosSensores);

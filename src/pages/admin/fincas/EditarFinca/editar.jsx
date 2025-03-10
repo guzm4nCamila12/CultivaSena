@@ -4,6 +4,8 @@ import { useParams, useNavigate } from "react-router";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
 import Navbar from "../../../../components/navbar"
+import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
+
 
 export default function EditarFinca() {
   const { id } = useParams();
@@ -59,8 +61,8 @@ export default function EditarFinca() {
       actualizarFinca(id, fincaActualizada)
         .then(() => {
           acctionSucessful.fire({
-            icon: "success",
-            title: `Finca ${fincaActualizada.nombre} actualizada correctamente`,
+            imageUrl: usuarioCreado,
+            title: `¡Finca ${fincaActualizada.nombre} actualizada correctamente!`,
           });
           irAtras();
         })

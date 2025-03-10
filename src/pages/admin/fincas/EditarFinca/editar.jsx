@@ -31,20 +31,16 @@ export default function EditarFinca() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Validar si se modificó algo
     if (
-      nombreFinca === originalFinca.nombre && 
+      nombreFinca === originalFinca.nombre &&
       JSON.stringify(ubicacion) === JSON.stringify(originalFinca.ubicacion)
     ) {
       acctionSucessful.fire({
         icon: "info",
         title: "No se modificó la informacion de la finca",
       });
-
-      return; // Detener el envío del formulario si no hubo cambios
+      return;
     }
-
     if (!nombreFinca || !ubicacion?.lat || !ubicacion?.lng) {
       acctionSucessful.fire({
         icon: "error",
@@ -53,8 +49,6 @@ export default function EditarFinca() {
       return; // Detener el envío del formulario
     }
 
-    // Abrir el modal para confirmar la actualización
-    //setIsModalOpen(true);
     const fincaActualizada = {
       nombre: nombreFinca,
       idUsuario: fincas.idusuario,
@@ -80,17 +74,15 @@ export default function EditarFinca() {
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     }
-
   };
-
 
   return (
     <div>
-      <Navbar/>
-      <div style={{fontFamily: "work sans"}} className="max-w-[1906px] min-h-[580px] mx-40 my-0 p-1 mb-auto rounded-3xl">
+      <Navbar />
+      <div style={{ fontFamily: "work sans" }} className="max-w-[1906px] min-h-[580px] mx-40 my-0 p-1 mb-auto rounded-3xl">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="flex max-w-[1721px] gap-4 relative ">
-          <h2 className="whitespace-nowrap text-4xl font-medium pt-2 ml-9">{nombreFinca}</h2>
+            <h2 className="whitespace-nowrap text-4xl font-medium pt-2 ml-9">{nombreFinca}</h2>
             <input
               type="text"
               name="nombreFinca"
@@ -101,12 +93,10 @@ export default function EditarFinca() {
               autoComplete="off"
             />
             <button type="submit"
-             className="z-20 absolute bottom-0 -right-1 w-64 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none" 
-            >
+              className="z-20 absolute bottom-0 -right-1 w-64 p-0 font-extrabold h-14 mr-0 bg-[rgba(0,_158,_0,_1)] text-white text-center text-[25px] rounded-full hover:bg-[#005F00] focus:outline-none" >
               Editar
             </button>
           </div>
-
           <div className="m-0 w-full shadow-xl rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (

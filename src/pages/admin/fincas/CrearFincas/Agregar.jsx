@@ -38,8 +38,6 @@ const Agregar = () => {
     try {
       const response = await insertarFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
-
-
       irAtras();
     } catch (error) {
       acctionSucessful.fire({
@@ -47,22 +45,19 @@ const Agregar = () => {
         title: `Error: ${error.message}`,
       });
     }
-
   };
+
   return (
     <div>
       <Navbar></Navbar>
-      <div style={{ fontFamily: "work sans" }} className="mt-1 p-1 mb-auto rounded-3xl  
-                                                          w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-36">
+      <div style={{ fontFamily: "work sans" }}
+        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-36">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
-              {/* Título centrado en móvil */}
               <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
                 <h2 className="text-2xl sm:text-3xl font-semibold lg:pl-6">Agregar Finca</h2>
               </div>
-
-              {/* Contenedor del input y botón */}
               <div className="sm:pl-2 pr-4 flex justify-center items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12 xl: sm:rounded-full relative">
                 <input
                   type="text"
@@ -73,17 +68,15 @@ const Agregar = () => {
                   placeholder="Ingrese el nombre"
                   autoComplete="off"
                   style={{
-                    backgroundImage: `url(${userGray})`, // Ícono
+                    backgroundImage: `url(${userGray})`,
                     backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'left 12px center', // Ajuste de posición
-                    backgroundSize: '15px', // Tamaño del ícono
+                    backgroundPosition: 'left 12px center',
+                    backgroundSize: '15px',
                   }}
                 />
-
                 <button
                   type="submit"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14  mr-10 sm:mr-0 font-extrabold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-[14px] sm:text-[18px] w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none"
-                >
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14  mr-10 sm:mr-0 font-extrabold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-[14px] sm:text-[18px] w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none">
                   Agregar
                 </button>
               </div>

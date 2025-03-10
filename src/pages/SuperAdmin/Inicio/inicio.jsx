@@ -79,7 +79,7 @@ const Inicio = () => {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
-          title: "Usuario agregado correctamente"
+          title: "¡Usuario agregado correctamente!"
         });
       }
       setModalInsertarAbierto(false)
@@ -100,7 +100,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Usuario editado correctamente"
+        title: "¡Usuario editado correctamente!"
       });
       setModalEditarAbierto(false)
     } catch (error) {
@@ -117,7 +117,7 @@ const Inicio = () => {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "Usuario Eliminado correctamente"
+      title: "¡Usuario eliminado correctamente!"
     });
   };
 
@@ -127,7 +127,7 @@ const Inicio = () => {
     { key: "correo", label: "Correo", icon: emailBlue },
     { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
     { key: "acciones", label: "Acciones" },
-    { key: "fotoPerfil", label: "fotoPerfil",icon:fotoPerfil },
+    { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
   ];
 
   const acciones = (fila) => {
@@ -190,7 +190,6 @@ const Inicio = () => {
   };
 
   const abrirModalEditar = (usuario) => {
-
     // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {
       id: usuario.id,
@@ -223,14 +222,10 @@ const Inicio = () => {
   }
 
   return (
-    <div> 
-    
+    <div>
       <NavBar />
-      
-
       <Tabla
         titulo="Usuarios registrados" columnas={columnas} datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))} acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)} />
-
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
@@ -309,71 +304,70 @@ const Inicio = () => {
         </div >
       )}
 
-      {
-        modalEditarAbierto && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-              <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
-              <hr />
-              <form onSubmit={handleEditar}>
-                <div className="relative w-full mt-2">
-                  <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.nombre}
-                    type="text"
-                    name="nombre"
-                    placeholder="Nombre"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.telefono}
-                    type="text"
-                    name="telefono"
-                    placeholder="Teléfono"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.correo}
-                    type="text"
-                    name="correo"
-                    placeholder="Correo electrónico"
-                    onChange={handleChangeEditar}
-                  />
-                </div>
-                <div className="relative w-full mt-2">
-                  <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
-                  <input
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                    value={editarUsuario.clave}
-                    type="text"
-                    name="clave"
-                    placeholder="Clave"
-                    onChange={handleChangeEditar} />
-                </div>
-                <div className="flex gap-4 mt-4">
-                  <button type="button"
-                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                    onClick={() => setModalEditarAbierto(false)}>
-                    Cancelar
-                  </button>
-                  <button type="submit"
-                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                    Editar
-                  </button>
-                </div>
-              </form>
-            </div>
+      {modalEditarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
+            <hr />
+            <form onSubmit={handleEditar}>
+              <div className="relative w-full mt-2">
+                <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.nombre}
+                  type="text"
+                  name="nombre"
+                  placeholder="Nombre"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.telefono}
+                  type="text"
+                  name="telefono"
+                  placeholder="Teléfono"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.correo}
+                  type="text"
+                  name="correo"
+                  placeholder="Correo electrónico"
+                  onChange={handleChangeEditar}
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  value={editarUsuario.clave}
+                  type="text"
+                  name="clave"
+                  placeholder="Clave"
+                  onChange={handleChangeEditar} />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button type="button"
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEditarAbierto(false)}>
+                  Cancelar
+                </button>
+                <button type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Editar
+                </button>
+              </div>
+            </form>
           </div>
-        )
+        </div>
+      )
       }
 
       {modalSinFincasAbierto && (

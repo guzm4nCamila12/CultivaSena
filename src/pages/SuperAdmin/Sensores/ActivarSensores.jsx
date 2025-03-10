@@ -319,16 +319,9 @@ function ActivarSensores() {
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         datos={sensoresDeFinca}
-        acciones={acciones} />
-      <div className="flex justify-center w-full mx-auto sm:mt-12">
-        <button
-          className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
-          onClick={() => setModalInsertarAbierto(true)}>
-          <span>Agregar Sensor</span>
-          <img src={sensorWhite} alt="icono" className="w-6 h-4" />
-        </button>
-      </div>
-
+        acciones={acciones} 
+        onAddUser={() => setModalInsertarAbierto(true)}/>
+      
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -378,7 +371,7 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"

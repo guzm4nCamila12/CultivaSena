@@ -32,3 +32,8 @@ export const actualizarSensor = async (id, fincaActualizada) => {
 export const eliminarSensores = async (id) => {
   await fetch(`${API_URL}/sensores/${id}`, { method: "DELETE" });
 };
+
+export const activarDatosSensor = async (mac) => {
+ await fetch (`${API_URL}/prueba/${mac}`);
+
+}

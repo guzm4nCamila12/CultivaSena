@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 
-
-const UserCards = ({ columnas, datos, titulo, acciones }) => {
+const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
   const [busqueda, setBusqueda] = useState("");
 
   const datosFiltrados = datos.filter((fila) =>
@@ -16,7 +15,7 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
   );
 
   return (
-    <div className="container  mx-auto p-4 sm:px-0 ">
+    <div className="container mx-auto p-4 sm:px-0 ">
       {/* Buscador */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>
@@ -37,12 +36,23 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
 
       {/* Contenedor de tarjetas con scroll */}
       <div className="w-full overflow-y-auto max-h-[500px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+        {/* Tarjeta para agregar usuario */}
+        <div
+          className="bg-[#009E00] bg-opacity-5 border-dashed border-2 border-green-500 rounded-[36px] flex flex-col items-center justify-center p-6 cursor-pointer transition delay-50 duration-300 hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/25 ease-in-out hover:scale-95"
+          onClick={onAddUser}
+        >
+          <span className="text-[#009E00] text-lg font-semibold ">Agregar</span>
+          <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-2">
+            <span className="text-white text-3xl font-bold">+</span>
+          </div>
+        </div>
+
+        {/* Tarjetas de usuario */}
         {datosFiltrados.length > 0 ? (
           datosFiltrados.map((fila, index) => (
             <div
               key={fila.id || index}
-              className="bg-white shadow-md rounded-[36px] overflow-hidden  flex flex-col  
-                          relative bg-cover bg-center transition delay-50 duration-300 hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/25 ease-in-out  hover:scale-95"
+              className="bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col relative bg-cover bg-center transition delay-50 duration-300 hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/25 ease-in-out hover:scale-95"
               style={{ backgroundImage: "url('/fondoCards.png')" }}
             >
               {/* Título */}
@@ -58,11 +68,16 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                 {fila.nombre || `Dato ${index + 1}`}
               </div>
 
-            
               {/* Datos */}
               <div className="p-4 flex flex-col gap-2 relative">
                 {columnas
-                  .filter((columna) => columna.key !== "acciones" && columna.key !== "#" && columna.key !== "nombre" && columna.key !== "fotoPerfil") // Excluir fotoPerfil de los datos
+                  .filter(
+                    (columna) =>
+                      columna.key !== "acciones" &&
+                      columna.key !== "#" &&
+                      columna.key !== "nombre" &&
+                      columna.key !== "fotoPerfil"
+                  )
                   .map((columna, i) => (
                     <div key={i} className="text-sm flex items-center">
                       {columna.icon && (
@@ -72,17 +87,6 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                       <span className="ml-1">{fila[columna.key]}</span>
                     </div>
                   ))}
-
-                {/* Foto de perfil */}
-                {columnas.some(columna => columna.key === "fotoPerfil") && (
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                    <img
-                      src={columnas.find(col => col.key === "fotoPerfil").icon || "/defaultProfile.png"}
-                      alt="Foto de perfil"
-                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
-                    />
-                  </div>
-                )}
               </div>
 
               <hr />
@@ -106,12 +110,13 @@ UserCards.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      icon: PropTypes.string, // Icono opcional (ahora usado para fotoPerfil también)
+      icon: PropTypes.string,
     })
   ).isRequired,
   datos: PropTypes.array.isRequired,
   titulo: PropTypes.string.isRequired,
   acciones: PropTypes.func.isRequired,
+  onAddUser: PropTypes.func.isRequired,
 };
 
 export default UserCards;

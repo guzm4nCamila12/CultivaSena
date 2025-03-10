@@ -19,7 +19,7 @@ import { acctionSucessful } from "../../../components/alertSuccesful";
 import Tabla from "../../../components/Tabla";
 import NavBar from "../../../components/navbar"
 //endpoints para consumir api
-import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
+import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores, activarDatosSensor } from "../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
 //libreria sweetalert para las alertas
@@ -258,12 +258,14 @@ function ActivarSensores() {
           idusuario: sensores[index].idusuario,
           idfinca: sensores[index].idfinca,
         }
+        console.log(sensores[index].id)
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
         })
+        activarDatosSensor(updatedFormData.mac)
         inputValue = '';
       }
     }
@@ -278,10 +280,10 @@ function ActivarSensores() {
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: (
-        <h5 className="text-2xl font-extrabold mb-4 text-center">
+        <div className="text-2xl font-extrabold mb-4 text-center">
           Ingrese la dirección MAC <br />
           del sensor:
-        </h5>
+        </div>
       ),
       input: 'text',
       inputPlaceholder: 'Digite la dirección MAC',
@@ -308,9 +310,10 @@ function ActivarSensores() {
       },
     });
   };
+  
 
   return (
-    <div > 
+    <div>
       <NavBar />
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}

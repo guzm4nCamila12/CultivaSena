@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 export default function BotonAtras() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
-  const [mensaje, setMensaje] = useState('Tamaño grande'); // Valor inicial
+  const [mensaje, setMensaje] = useState('Regresar'); // Valor inicial
   const navigate = useNavigate();
   const irAtras = () => {
     navigate(-1);
@@ -31,7 +31,7 @@ export default function BotonAtras() {
     <div className=" ml-auto mt-1 ">
       <button
         type="button"
-        className="bg-[#FBD000] hover:bg-[#BE9E00] hover:text-white font-bold  top-0 right-0  md:rounded-3xl rounded-full p-1 lg:w-40 md:w-44 w-8 h-8 shadow-[inset_0_4px_6px_rgba(0,0,0,0.5)]"
+        className="bg-[#FBD000] hover:bg-[#BE9E00] font-extrabold text-lg text-[#00304D] top-0 right-0  md:rounded-3xl rounded-full lg:w-40 md:w-44 w-8 h-8"
         onClick={irAtras}
       >
         {mensaje}

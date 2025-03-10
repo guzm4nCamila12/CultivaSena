@@ -59,13 +59,13 @@ const Agregar = () => {
     <div>
       <Navbar></Navbar>
       <div style={{ fontFamily: "work sans" }} className="mt-1 p-1 mb-auto rounded-3xl  
-                                                          w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
+                                                          w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-36">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
               {/* Título centrado en móvil */}
               <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-                <h2 className="text-2xl sm:text-3xl font-semibold">Agregar Finca</h2>
+                <h2 className="text-2xl sm:text-3xl font-semibold lg:pl-6">Agregar Finca</h2>
               </div>
 
               {/* Contenedor del input y botón */}

@@ -6,7 +6,8 @@ import microphone from "../assets/icons/Microphone.png";
 
 const UserCards = ({ columnas, datos, titulo, acciones }) => {
   const [busqueda, setBusqueda] = useState("");
-
+  const [descripcionModal, setDescripcionModal] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((columna) =>
       String(fila[columna.key] || "")
@@ -14,6 +15,18 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
         .includes(busqueda.toLowerCase())
     )
   );
+
+   // Función para abrir el modal
+   const handleVerMas = (descripcion) => {
+    setDescripcionModal(descripcion);
+    setModalOpen(true); // Abrir el modal
+  };
+
+  // Función para cerrar el modal
+  const handleCerrarModal = () => {
+    setModalOpen(false);
+    setDescripcionModal(""); // Limpiar la descripción del modal
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -73,7 +86,22 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
                         <img src={columna.icon} alt={columna.label} className="mr-2" />
                       )}
                       <strong>{columna.label}:</strong>{" "}
-                      <span className="ml-1">{fila[columna.key]}</span>
+                      <span className="ml-1">
+                      {columna.key === "descripcion" && fila[columna.key].length > 15 ? (
+                          <>
+                            {fila[columna.key].slice(0, 15)}...{" "}
+                            <button
+                              className="text-blue-500"
+                              onClick={() => handleVerMas(fila[columna.key])}
+                            >
+                              Ver más
+                            </button>
+                          </>
+                        ) : (
+                          fila[columna.key]
+                        )}
+
+                      </span>
                     </div>
                   ) : null
                 )}
@@ -91,6 +119,29 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
           <p className="text-center p-4 text-sm col-span-full">No hay datos</p>
         )}
       </div>
+      {modalOpen && (
+         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+         <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+           <h5 className="text-2xl font-bold mb-4 text-center">Descripcion</h5>
+           <hr />
+      
+             <div className="flex justify-center my-4">
+               
+             </div>
+             <p className="text-xl text-center font-semibold">{descripcionModal}</p>
+             <div className="flex justify-between mt-6 space-x-4">
+               <button
+                 className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                 onClick={handleCerrarModal}
+                  >
+                 Cerrar
+               </button>
+              
+             </div>
+          
+         </div>
+       </div>
+      )}
     </div>
   );
 };

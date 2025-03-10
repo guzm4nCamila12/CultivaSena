@@ -5,6 +5,7 @@ import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { actualizarFinca, getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
 import Navbar from "../../../../components/navbar"
 import userGray from "../../../../assets/icons/userGray.png"
+import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 
 export default function EditarFinca() {
   const { id } = useParams();
@@ -32,26 +33,18 @@ export default function EditarFinca() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validar si se modificó algo
-    if (
-      nombreFinca === originalFinca.nombre && 
-      JSON.stringify(ubicacion) === JSON.stringify(originalFinca.ubicacion)
-    ) {
+    const nombreModificado = nombreFinca !== originalFinca.nombre;
+    const ubicacionModificada = JSON.stringify(ubicacion) !== JSON.stringify(originalFinca.ubicacion);
+  
+    if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
         icon: "info",
-        title: "No se modificó la informacion de la finca",
+        title: `No se modificó la información de la finca ${nombreFinca}`,
       });
 
-      return; // Detener el envío del formulario si no hubo cambios
+      return
     }
-
-    if (!nombreFinca || !ubicacion?.lat || !ubicacion?.lng) {
-      acctionSucessful.fire({
-        icon: "error",
-        title: "Debe ingresar un nombre y seleccionar una ubicación",
-      });
-      return; // Detener el envío del formulario
-    }
+    // Validar si se modificó algo
 
     // Abrir el modal para confirmar la actualización
     //setIsModalOpen(true);
@@ -65,7 +58,8 @@ export default function EditarFinca() {
       actualizarFinca(id, fincaActualizada)
         .then(() => {
           acctionSucessful.fire({
-            icon: "success",
+            imageUrl: usuarioCreado,
+            imageAlt: 'Icono personalizado',
             title: `Finca ${fincaActualizada.nombre} actualizada correctamente`,
           });
           irAtras();
@@ -94,7 +88,7 @@ export default function EditarFinca() {
           <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
             {/* Título centrado en móvil */}
             <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-              <h2 className="text-2xl sm:text-3xl font-semibold">{nombreFinca}</h2>
+              <h2 className="text-2xl sm:text-3xl font-semibold">{originalFinca.nombre}</h2>
             </div>
 
             {/* Contenedor del input y botón */}
@@ -104,7 +98,8 @@ export default function EditarFinca() {
                 name="nombre"
                 className="w-[80%] text-[18px] placeholder-black sm:w-full h-10 xl:h-14 rounded-full  focus:outline-none focus:ring-2 focus:ring-[#10314669] ml-5 sm:ml-0 pl-10 pr-36 sm:pl-10 sm:pr-48 "
                 autoComplete="off"
-                placeholder={nombreFinca}
+                placeholder={originalFinca.nombre}
+                onChange={(e) => setNombreFinca(e.target.value)} 
                 style={{
                   backgroundImage: `url(${userGray})`, // Ícono
                   backgroundRepeat: 'no-repeat',

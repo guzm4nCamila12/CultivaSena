@@ -32,6 +32,7 @@ style.innerHTML = `
   justify-content: flex-end !important; /* Alinea el contenido a la izquierda */
   height: 90px; /* Mantiene una altura fija */
   padding: 20px;
+  border-radius: 25px;
 }
 
 .my-toast-popup img { 
@@ -41,7 +42,8 @@ style.innerHTML = `
   
 }
 .my-toast-title {
-  font-size: 16px !important;
+  color: black;
+  font-size: 18px !important;
   line-height: 1.2 !important; /* Ajusta el espaciado para mantener alineado el texto */
 }
 

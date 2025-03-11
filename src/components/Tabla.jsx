@@ -1,4 +1,3 @@
-// Importacion necesaria de react
 import { useState } from "react";
 // Importacion necesaria para recibir props o parametros en el componente
 import PropTypes from "prop-types";

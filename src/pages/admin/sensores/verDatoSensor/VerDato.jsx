@@ -34,9 +34,9 @@ const limitarValor = (valor, decimales = 4) => {
 export default function VerSensores() {
   const [datosSensor, setDatosSensores] = useState([]);
   const [sensores, setSensores] = useState({});
+  const [horaFiltro, setHoraFiltro] = useState(''); // Estado para la hora del filtro
   const { id } = useParams();
 
-  // Simulación de carga de datos al montar el componente
   useEffect(() => {
     getSensor(id)
       .then(data => {
@@ -63,44 +63,43 @@ export default function VerSensores() {
       .catch(error => console.error("Error al obtener los datos del sensor", error));
   }, [id]);
 
+  // Filtrar los datos por hora
+  const filtrarDatos = () => {
+    if (horaFiltro) {
+      return datosSensor.filter(item => item.hora.includes(horaFiltro));
+    }
+    return datosSensor;
+  };
 
-  const datosFinales = Array.isArray(datosSensor) && datosSensor.length > 0 ? datosSensor : [];
+  const datosFinales = filtrarDatos();
 
   return (
     <div className='bg-white'>
       <NavBar />
 
-
-      {/* <div className="flex justify-center bg-white h-60">
-        <table className="w-10/12 table-auto border-separate border-spacing-y-2 mt-4">
-          <thead>
-            <tr className="bg-[#00304D] text-white">
-              <th className="p-2 text-left rounded-l-full">#</th>
-              <th className="p-2 text-left flex">Fecha</th>
-              <th className="p-2 text-left">Hora</th>
-              <th className="p-2 text-left rounded-r-full">Datos</th>
-            </tr>
-          </thead>
-          <tbody className=''>          
-            {datosFinales.length > 0 ? (
-              datosFinales.map((fila, index) => (
-                <tr key={index} className="bg-[#EEEEEE] hover:bg-[#e4dddd44]">
-                  <td className="p-3 rounded-l-full">{index + 1}</td>
-                  <td className="p-3">{fila.fecha}</td>
-                  <td className="p-3">{fila.hora}</td>
-                  <td className="p-3 rounded-r-full">{fila.valor + " °C"}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="text-center p-4">No hay datos disponibles</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div> */}
-
       <div className="w-auto pt-10 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
+        <div className="flex justify-between items-center mb-4">
+          {/* Filtro de hora */}
+          <div className="p-4">
+            <h3 className="text-center mb-2 font-semibold">Filtrar por Hora</h3>
+            <div>
+              <input
+                type="time"
+                value={horaFiltro}
+                onChange={e => setHoraFiltro(e.target.value)}
+                className="mb-2 p-2 border rounded"
+                placeholder="Filtrar por hora"
+              />
+              <button
+                onClick={filtrarDatos}
+                className="bg-blue-500 text-white p-2 rounded mt-2 w-full"
+              >
+                Filtrar
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="overflow-x-auto max-h-64 p-0 m-0">
           <table className="w-full table-fixed border-separate border-spacing-y-3">
             <thead className="sticky top-0 bg-[#00304D] text-white  text-left">
@@ -145,11 +144,6 @@ export default function VerSensores() {
           </table>
         </div>
       </div>
-
-
-
-
-
 
       {/* Gráfico */}
       <div className='flex flex-row justify-center bg-white'>

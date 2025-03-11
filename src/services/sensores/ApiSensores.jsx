@@ -1,16 +1,18 @@
+//Variable que almacena la url base del localhost para concatenar a los endpoints
 const API_URL = "http://localhost:3000";
 
+// Función para obtener todos los sensores de la finca a la cual pertenece el ID
 export const getSensoresById = async (id) => {
   const response = await fetch(`${API_URL}/sensores/${id}`);
   return response.json();
 };
-
+//funcion para obtener los sensores de manera individual por su propio ID
 export const getSensor = async (id) => {
   const response = await fetch(`${API_URL}/sensoresid/${id}`);
   return response.json();
 };
 
-
+//Funcion para agregar un sensor a su respectiva finca
 export const insertarSensor = async (nuevaFinca) => {
   const response = await fetch(`${API_URL}/sensores`, {
     method: "POST",
@@ -19,7 +21,7 @@ export const insertarSensor = async (nuevaFinca) => {
   });
   return response.json();
 };
-
+//Funcion para actualizar la informacion de un sensor ya existente
 export const actualizarSensor = async (id, fincaActualizada) => {
   const response = await fetch(`${API_URL}/sensores/${id}`, {
     method: "PUT",
@@ -29,10 +31,44 @@ export const actualizarSensor = async (id, fincaActualizada) => {
   
 };
 
+//Funcion para eliminar un sensor de la finca
 export const eliminarSensores = async (id) => {
   await fetch(`${API_URL}/sensores/${id}`, { method: "DELETE" });
 };
 
+//Funcion para simular la lectura de datos del sensor a partir de su MAC
+export const insertarDatos = async (mac) => {
+  try {
+    // Realizamos la petición al endpoint con el MAC del sensor
+    const response = await fetch(`${API_URL}/api/sensores/simulacion/${mac}`);
+    
+    // Verificamos si la respuesta fue exitosa (status 200-299)
+    if (!response.ok) {
+      throw new Error(`Error del servidor: ${response.statusText} (Código de estado: ${response.status})`);
+    }
+
+    // Obtener el tipo de contenido de la respuesta
+    const contentType = response.headers.get("Content-Type");
+    console.log("Tipo de contenido:", contentType);
+
+    // Si la respuesta es JSON
+    if (contentType && contentType.includes("application/json")) {
+      // Parseamos la respuesta JSON
+      const data = await response.json();
+      console.log("Datos JSON recibidos:", data);
+      return data;
+    } else {
+      // Si la respuesta no es JSON, la mostramos como texto
+      const text = await response.text();
+      console.error("La respuesta no es JSON, es:", text);
+      throw new Error("La respuesta del servidor no es un JSON válido");
+    }
+  } catch (error) {
+    // Si ocurre un error, lo mostramos en la consola
+    console.error("Error al realizar la solicitud:", error);
+    throw error; // También lanzamos el error para que el llamador lo pueda manejar
+  }
+};
 export const getHistorialSensores = async (mac) => {
   const response = await fetch(`${API_URL}/historial/sensores/${mac}`);
   return response.json();

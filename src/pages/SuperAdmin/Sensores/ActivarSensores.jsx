@@ -27,6 +27,7 @@ import withReactContent from 'sweetalert2-react-content'
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
 function ActivarSensores() {
   const { id, idUser } = useParams();  //Variables que reciben de la url el id de la finca y el id del usuario
@@ -229,6 +230,8 @@ function ActivarSensores() {
   };
 
   const handleSwitch = async (id, estado, index) => {
+    const sensorcito = [...sensores]
+    console.log("macc:", sensorcito[index].mac)
     if (estado === true) {
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -237,7 +240,7 @@ function ActivarSensores() {
 
       const updatedFormData = {
         id: sensores[index].id,
-        mac: null,
+        mac: sensores[index].mac,
         nombre: sensores[index].nombre,
         descripcion: sensores[index].descripcion,
         estado: newEstado,
@@ -249,8 +252,9 @@ function ActivarSensores() {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
+        insertarDatos(updatedFormData.mac)
       })
-    } else {
+    } else if(sensorcito[index].mac === null) {
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
         const newEstado = !estado;
@@ -273,10 +277,46 @@ function ActivarSensores() {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
+          if(updatedFormData.estado === true){
+
+            insertarDatos(updatedFormData.mac).then((data) =>{
+              console.log(data);
+            })
+          }
         })
         activarDatosSensor(updatedFormData.mac)
         inputValue = '';
       }
+    }else{
+
+      const newEstado = !estado;
+      const updatedSensores = [...sensores];
+      updatedSensores[index].estado = newEstado;
+
+      setSensores(updatedSensores);
+      const updatedFormData = {
+        id: sensores[index].id,
+        mac: updatedSensores[index].mac,
+        nombre: sensores[index].nombre,
+        descripcion: sensores[index].descripcion,
+        estado: newEstado,
+        idusuario: sensores[index].idusuario,
+        idfinca: sensores[index].idfinca,
+      }
+
+      actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+        const nuevosSensores = [...sensores];
+        nuevosSensores[index] = updatedFormData;
+        setSensores(nuevosSensores);
+        if(updatedFormData.estado ===true){
+
+          insertarDatos(updatedFormData.mac).then((data) =>{
+            console.log(data);
+          })
+        }
+
+      })
+
     }
 
   };

@@ -1,16 +1,17 @@
-//Importacion necesaria de react
+// Importacion necesaria de react
 import { useState } from "react";
-//Importacion necesaria para recibir props o parametros en el componente
+// Importacion necesaria para recibir props o parametros en el componente
 import PropTypes from "prop-types";
-//Iconos utilizados en el buscador
+// Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 
-//Funcion que contiene el componente y recibe los props
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
   const [busqueda, setBusqueda] = useState("");
+  const [descripcionModal, setDescripcionModal] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
-  //funcion para filtrar la informacion con el buscador, utilizando la key que se envia en la prop columna
+  // Filtra la información con base en la búsqueda
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((columna) =>
       String(fila[columna.key] || "")
@@ -18,7 +19,19 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
         .includes(busqueda.toLowerCase())
     )
   );
-  //Codigo frontend
+
+  // Función para abrir el modal
+  const handleVerMas = (descripcion) => {
+    setDescripcionModal(descripcion);
+    setModalOpen(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCerrarModal = () => {
+    setModalOpen(false);
+    setDescripcionModal("");
+  };
+
   return (
     <div className="container mx-auto p-4 sm:px-0">
       {/* Buscador */}
@@ -41,12 +54,13 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
 
       {/* Contenedor de tarjetas */}
       <div
-        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${datosFiltrados.length === 0
-          ? "grid-cols-1 place-items-center"
-          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          }`}
+        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${
+          datosFiltrados.length === 0
+            ? "grid-cols-1 place-items-center"
+            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        }`}
       >
-        {/* Tarjeta para agregar usuario  */}
+        {/* Tarjeta para agregar usuario */}
         {datosFiltrados.length === 0 ? (
           <div
             className="w-full h-52 flex flex-col items-center justify-center 
@@ -90,7 +104,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
                            ease-in-out hover:scale-95"
                 style={{ backgroundImage: "url('/fondoCards.png')" }}
               >
-                {/*Titulo */}
+                {/* Título */}
                 <div
                   className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
                   style={{
@@ -123,24 +137,41 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
                           />
                         )}
                         <strong>{columna.label}:</strong>{" "}
-                        <span className="ml-1">{fila[columna.key]}</span>
+                        <span className="ml-1">
+                          {columna.key === "descripcion" &&
+                          fila[columna.key]?.length > 15 ? (
+                            <>
+                              {fila[columna.key].slice(0, 15)}...{" "}
+                              <button
+                                className="text-blue-500"
+                                onClick={() =>
+                                  handleVerMas(fila[columna.key])
+                                }
+                              >
+                                Ver más
+                              </button>
+                            </>
+                          ) : (
+                            fila[columna.key]
+                          )}
+                        </span>
                       </div>
                     ))}
-
-                  {/* Foto de perfil */}
-                  {columnas.some((columna) => columna.key === "fotoPerfil") && (
-                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                      <img
-                        src={
-                          columnas.find((col) => col.key === "fotoPerfil").icon ||
-                          "/defaultProfile.png"
-                        }
-                        alt="Foto de perfil"
-                        className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
-                      />
-                    </div>
-                  )}
                 </div>
+
+                {/* Foto de perfil */}
+                {columnas.some((columna) => columna.key === "fotoPerfil") && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <img
+                      src={
+                        columnas.find((col) => col.key === "fotoPerfil").icon ||
+                        "/defaultProfile.png"
+                      }
+                      alt="Foto de perfil"
+                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
+                    />
+                  </div>
+                )}
 
                 <hr />
 
@@ -153,17 +184,36 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
           </>
         )}
       </div>
+
+      {/* Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Descripción</h5>
+            <hr />
+            <p className="text-xl text-center font-normal">{descripcionModal}</p>
+            <div className="flex justify-between mt-6 space-x-4">
+              <button
+                className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                onClick={handleCerrarModal}
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-//validacion de props que usa el componente
+// Validación de props que usa el componente
 UserCards.propTypes = {
   columnas: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      icon: PropTypes.string,// 'icon' es opcional
+      icon: PropTypes.string, // 'icon' es opcional
     })
   ).isRequired,
   datos: PropTypes.array.isRequired,

@@ -69,3 +69,12 @@ export const insertarDatos = async (mac) => {
     throw error; // También lanzamos el error para que el llamador lo pueda manejar
   }
 };
+export const getHistorialSensores = async (mac) => {
+  const response = await fetch(`${API_URL}/historial/sensores/${mac}`);
+  return response.json();
+};
+
+export const activarDatosSensor = async (mac) => {
+ await fetch (`${API_URL}/prueba/${mac}`);
+
+}

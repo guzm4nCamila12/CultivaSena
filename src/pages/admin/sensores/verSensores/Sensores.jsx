@@ -204,9 +204,9 @@ function Sensores() {
   };
 
   return (
-    <div>
+    <div>       
       <NavBar />
-      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`} columnas={columnas} datos={sensores.map((sensor, index) => ({
+      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`} columnas={columnas} onAddUser={() => setModalInsertarAbierto(true)} datos={sensores.map((sensor, index) => ({
         ...sensor, "#": index + 1,
         estado: (
           <div className="flex justify-start items-center">
@@ -245,7 +245,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"/>
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -256,7 +256,7 @@ function Sensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={descripcionGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"/>
+                <img src={descripcionGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -289,7 +289,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"

@@ -9,11 +9,13 @@ import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import '@fontsource/work-sans'
 
 const Agregar = () => {
+  //estados del id del usuario, nombre de la finca y ubicación
   const { id } = useParams();
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState({});
   const navigate = useNavigate();
 
+  // Función para navegar a la página anterior
   const irAtras = () => {
     navigate(-1);
   };

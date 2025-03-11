@@ -62,6 +62,7 @@ export default function VerSensores() {
       .catch(error => console.error("Error al obtener los datos del sensor", error));
   }, [id]);
 
+
   const datosFinales = Array.isArray(datosSensor) && datosSensor.length > 0 ? datosSensor : [];
 
   return (

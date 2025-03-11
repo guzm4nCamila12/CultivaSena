@@ -9,7 +9,6 @@ import deleteWhite from "../../../assets/icons/deleteWhite.png"
 //icons de los modales
 import userGray from "../../../assets/icons/userGray.png";
 import descripcionWhite from "../../../assets/icons/descripcionWhite.png";
-import sensorWhite from "../../../assets/icons/sensorWhite.png"
 // imgs modales
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
@@ -28,19 +27,22 @@ import withReactContent from 'sweetalert2-react-content'
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
 function ActivarSensores() {
+  const { id, idUser } = useParams();  //Variables que reciben de la url el id de la finca y el id del usuario
+  let inputValue = '';
+  //Se definen variables de estado con la funcion de abrir modales
+  const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
+  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  //Se definen variables de estado para almacenar informacion
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
   const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
-  const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
-  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
-  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const { id, idUser } = useParams();
   const [estado, setEstado] = useState([]);
-  let inputValue = '';
   const [formData, setFormData] = useState({
     mac: null,
     nombre: "",
@@ -50,6 +52,7 @@ function ActivarSensores() {
     idfinca: "",
   });
 
+  //Funcion de react para ejecutarse cada que se utiliza el componente  donde se obtienen y almacenan datos de los sensores,fincas y usuario
   useEffect(() => {
     try {
       getSensoresById(idUser).then(
@@ -87,6 +90,7 @@ function ActivarSensores() {
     }
   }, [usuario, fincas]);
 
+  //Declaracion de columnas o informacion que mostraremos en el componente reutilizable "TABLA"
   const columnas = [
     { key: "nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
@@ -95,6 +99,7 @@ function ActivarSensores() {
     { key: "acciones", label: "Acciones" },
   ];
 
+  //Funcion de acciones que seran enviadas a el componente "TABLA"
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       <div className="relative group">
@@ -151,7 +156,7 @@ function ActivarSensores() {
       </div>
     ),
   }))
-
+  //Cambio de estado a los modales editar y eliminar, en este caso para abrirlos
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
     setModalEditarAbierto(true);
@@ -162,23 +167,26 @@ function ActivarSensores() {
     setModalEliminarAbierto(true);
   };
 
+  //Funcion submit para para eliminar un sensor en especifico y setear la informacion de la variable de estado
   const HandlEliminarSensor = (e) => {
     e.preventDefault();
     eliminarSensores(sensorAEliminar).then(() => {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
       setModalEliminarAbierto(false);
     }).catch(console.error);
+
+    //Uso del componente acctionSucessful para informar que la acción fue correcta
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
       title: "¡Sensor eliminado correctamente!"
     });
   };
-
+  //Funcion handle para actualizar la variable de estado formData cada que se escribe algo en el formulario de agregar 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  //Funcion submit para agregar un sensor con la informacion agregada en el "formData" 
   const handleSubmit = (e) => {
     e.preventDefault();
     insertarSensor(formData).then((response) => {
@@ -192,18 +200,20 @@ function ActivarSensores() {
         setModalInsertarAbierto(false);
       }
     });
+    //Uso del componente acctionSucessful para informar que la acción fue correcta
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
       title: "¡Sensor agregado correctamente!"
     });
   };
-
+  //Funcion submit para editar la informacion de un sensor seteando la variable de estado para que aparezca la edicion automaticamene
   const handleEditarSensor = (e) => {
     e.preventDefault();
     actualizarSensor(editarSensor.id, editarSensor).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
-      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
+      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el indice del sensor con el mismo id
+      //Uso del componente acctionSucessful para informar que la acción fue correcta
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
@@ -214,12 +224,14 @@ function ActivarSensores() {
     })
     setModalEditarAbierto(false);
   };
-
+  //Funcion handle para actualizar la variable de estado "editarSensor" cada que se escribe algo en el formulario de editar 
   const handleChangeEditar = (e) => {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
   };
 
   const handleSwitch = async (id, estado, index) => {
+    const sensorcito = [...sensores]
+    console.log("macc:", sensorcito[index].mac)
     if (estado === true) {
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -228,7 +240,7 @@ function ActivarSensores() {
 
       const updatedFormData = {
         id: sensores[index].id,
-        mac: null,
+        mac: sensores[index].mac,
         nombre: sensores[index].nombre,
         descripcion: sensores[index].descripcion,
         estado: newEstado,
@@ -240,8 +252,9 @@ function ActivarSensores() {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
+        insertarDatos(updatedFormData.mac)
       })
-    } else {
+    } else if(sensorcito[index].mac === null) {
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
         const newEstado = !estado;
@@ -264,10 +277,46 @@ function ActivarSensores() {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
+          if(updatedFormData.estado === true){
+
+            insertarDatos(updatedFormData.mac).then((data) =>{
+              console.log(data);
+            })
+          }
         })
         activarDatosSensor(updatedFormData.mac)
         inputValue = '';
       }
+    }else{
+
+      const newEstado = !estado;
+      const updatedSensores = [...sensores];
+      updatedSensores[index].estado = newEstado;
+
+      setSensores(updatedSensores);
+      const updatedFormData = {
+        id: sensores[index].id,
+        mac: updatedSensores[index].mac,
+        nombre: sensores[index].nombre,
+        descripcion: sensores[index].descripcion,
+        estado: newEstado,
+        idusuario: sensores[index].idusuario,
+        idfinca: sensores[index].idfinca,
+      }
+
+      actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+        const nuevosSensores = [...sensores];
+        nuevosSensores[index] = updatedFormData;
+        setSensores(nuevosSensores);
+        if(updatedFormData.estado ===true){
+
+          insertarDatos(updatedFormData.mac).then((data) =>{
+            console.log(data);
+          })
+        }
+
+      })
+
     }
 
   };
@@ -276,7 +325,7 @@ function ActivarSensores() {
     const sensorEnviado = sensores.find(sensor => sensor.id === id);
     abrirModalEditar(sensorEnviado);
   }
-
+  //modal alerta para editar el mac del sensor
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: (
@@ -310,18 +359,19 @@ function ActivarSensores() {
       },
     });
   };
-  
 
+  //Codigo frontend
   return (
     <div>
+      {/* Componentes llamados para ser utilizados el navbar y la tabla donde se le nvia la informacion que queremos ver */}
       <NavBar />
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         datos={sensoresDeFinca}
-        acciones={acciones} 
-        onAddUser={() => setModalInsertarAbierto(true)}/>
-      
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)} />
+      {/*Codigo modal insertar */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -363,7 +413,7 @@ function ActivarSensores() {
           </div>
         </div>
       )}
-
+      {/*Codigo modal editar */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -406,7 +456,7 @@ function ActivarSensores() {
           </div>
         </div>
       )}
-
+      {/*Codigo modal eliminar */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

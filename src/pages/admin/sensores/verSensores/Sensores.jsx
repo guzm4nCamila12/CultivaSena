@@ -227,16 +227,6 @@ function Sensores() {
         ),
       }))} acciones={acciones} />
 
-      <div className="flex justify-center w-full mx-auto sm:mt-12">
-        <button
-          className="animate-light-bounce hover:animate-none mx-3 shadow-[rgba(0,0,0,0.5)] shadow-md px-8 py-2 bg-[#009E00] w-full sm:w-[80%] md:w-[50%] lg:w-[43%] xl:w-[30%] text-white text-xl font-bold rounded-full hover:bg-[#005F00] flex justify-center items-center gap-2"
-          onClick={() => setModalInsertarAbierto(true)}>
-          <span>Agregar Sensor</span>
-          <img src={sensorWhite} alt="icono" className="w-6 h-4" />
-        </button>
-      </div>
-      
-
       {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

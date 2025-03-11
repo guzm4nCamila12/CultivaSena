@@ -81,12 +81,30 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
                   .map((columna, i) => (
                     <div key={i} className="text-sm flex items-center">
                       {columna.icon && (
-                        <img src={columna.icon} alt={columna.label} className="mr-2" />
+                        <img
+                          src={columna.icon}
+                          alt={columna.label}
+                          className="mr-2"
+                        />
                       )}
                       <strong>{columna.label}:</strong>{" "}
                       <span className="ml-1">{fila[columna.key]}</span>
                     </div>
                   ))}
+
+                {/* Foto de perfil */}
+                {columnas.some((columna) => columna.key === "fotoPerfil") && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <img
+                      src={
+                        columnas.find((col) => col.key === "fotoPerfil").icon ||
+                        "/defaultProfile.png"
+                      }
+                      alt="Foto de perfil"
+                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
+                    />
+                  </div>
+                )}
               </div>
 
               <hr />

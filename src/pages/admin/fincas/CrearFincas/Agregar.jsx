@@ -46,6 +46,11 @@ const Agregar = () => {
         title: "Finca insertada correctamente"
       });
       // Si la respuesta es válida, se maneja de forma exitosa
+      acctionSucessful.fire({
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
+        title: "¡Finca agregada correctamente!"
+      });
       irAtras();
     } catch (error) {
       acctionSucessful.fire({

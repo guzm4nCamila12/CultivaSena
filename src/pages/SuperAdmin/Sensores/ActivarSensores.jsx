@@ -179,7 +179,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "Sensor Eliminado correctamente"
+      title: "¡Sensor eliminado correctamente!"
     });
   };
   //Funcion handle para actualizar la variable de estado formData cada que se escribe algo en el formulario de agregar 
@@ -204,7 +204,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
-      title: "Sensor agregado correctamente"
+      title: "¡Sensor agregado correctamente!"
     });
   };
   //Funcion submit para editar la informacion de un sensor seteando la variable de estado para que aparezca la edicion automaticamene
@@ -217,7 +217,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Sensor agregado correctamente"
+        title: "¡Sensor editado correctamente!"
       });
       nuevosSensores[index] = editarSensor;
       setSensores(nuevosSensores);

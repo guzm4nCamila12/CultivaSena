@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
 function SensoresAlterno() {
+  //Estado para almacenar datos
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -26,13 +27,16 @@ function SensoresAlterno() {
     idusuario: "",
     idfinca: "",
   });
+  //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();
 
   useEffect(() => {
+    //Obtiene la informacion de las fincas por ID 
     getFincasByIdFincas(id).then((data) => {
       setFincas(data);
     })
 
+    //Obtiene los sensores asociados
     getSensoresById(id).then((data) => {
       if (data == null) {
         setSensores([]);
@@ -44,6 +48,7 @@ function SensoresAlterno() {
     })
   }, []);
 
+  //Se ejecuta cuando cambia el usuario o la finca, ajustando los datos
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
@@ -57,6 +62,7 @@ function SensoresAlterno() {
     }
   }, [usuario, fincas]);
 
+  //Define las columnas para la tabla
   const columnas = [
     { key: "nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
@@ -64,6 +70,7 @@ function SensoresAlterno() {
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
   ];
 
+  //Funcion que define las acciones que se muestran en cada fila
   const acciones = (fila) => (
     <div className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
@@ -77,7 +84,8 @@ function SensoresAlterno() {
     </div>
   );
   return (
-    <div >       <Navbar />
+    <div >
+      <Navbar />
       <Tabla
         titulo={`Sensor de la finca: ${fincas.nombre}`}
         columnas={columnas}
@@ -89,7 +97,7 @@ function SensoresAlterno() {
               <label className="switch">
                 <input
                   type="checkbox"
-                  checked={sensor.estado}
+                  checked={sensor.estado} //Muestra el estado del sensor
                   disabled
                   className="sr-only"
                 />

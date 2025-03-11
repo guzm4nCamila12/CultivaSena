@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 //iconos de las columnas
 import phoneBlue from "../../../assets/icons/phoneBlue.png"
 import emailBlue from "../../../assets/icons/emailBlue.png"
@@ -9,7 +12,6 @@ import userGray from "../../../assets/icons/userGray.png"
 import phoneGray from "../../../assets/icons/phoneGray.png"
 import emailGray from "../../../assets/icons/emailGray.png"
 import passwordGray from "../../../assets/icons/passwordGray.svg"
-import userWhite from "../../../assets/icons/userWhite.png"
 //imgs de los modales
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
@@ -21,12 +23,11 @@ import Tabla from "../../../components/Tabla";
 //endpoints para consumir api
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
 
 const Inicio = () => {
+  //Obtiene el ID de la URL 
   const { id } = useParams();
+  //Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
@@ -36,21 +37,27 @@ const Inicio = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
 
+  //Efecto que carga los datos
   useEffect(() => {
+    //Obtiene los usuarios con el rol asociado al ID
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
+    //Obtiene la finca asociada al ID de finca
     getFincasByIdFincas(id).then((data) => {
       setFincas(data)
     });
   }, [id]);
 
+  //Maneja el cambio de valores para agregar un nuevo usuario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
+  //Maneja el cambio de valores para editar un usuario
   const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
   };
 
+  //Definicion de las columnas de la tabla
   const columnas = [
     { key: "nombre" },
     { key: "telefono", label: "Telefono", icon: phoneBlue },
@@ -58,34 +65,40 @@ const Inicio = () => {
     { key: "acciones", label: "Acciones" },
   ];
 
+  //Abre el modal de edicion con los datos de ese usuario
   const HandleEditarAlterno = (alterno) => {
     const { "#": removed, ...edit } = alterno;
     setEditarUsuario(edit);
     setModalEditarAbierto(true);
   }
 
+  //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = (e) => {
     e.preventDefault();
+    //Realiza la actualizacion
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
+      //Actualiza la lista de usuarios
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno editado correctamente"
+        title: "¡Alterno editado correctamente!"
       });
       setModalEditarAbierto(false);
     });
   };
 
+  //Maneja la eliminacion de un usuario
   const HandlEliminarAlterno = (e) => {
     e.preventDefault();
+    //Elimina el usuario
     eliminarUsuario(usuarioEliminar).then(() => {
       setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
       setModalEliminarAbierto(false)
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno eliminado correctamente"
+        title: "¡Alterno eliminado correctamente!"
       });
     }).catch(console.error);
   }
@@ -95,19 +108,22 @@ const Inicio = () => {
     setModalEliminarAbierto(true)
   }
 
+  //Maneja el envio del formulario para agregar un usuario
   const handleSubmit = (e) => {
     e.preventDefault();
+    //Inserta el nuevo usuario
     insertarUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "Alterno agregado correctamente"
+        title: "¡Alterno agregado correctamente!"
       });
     }).catch(console.error);
   }
 
+  //Define las acciones que se pueden hacer en cada fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
       <div className="relative group">
@@ -136,7 +152,8 @@ const Inicio = () => {
   );
 
   return (
-    <div >       <Navbar />
+    <div >
+      <Navbar />
       <Tabla
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
@@ -151,6 +168,7 @@ const Inicio = () => {
             <h5 className="text-xl font-semibold text-center mb-4">Agregar Alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
+              {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -214,6 +232,7 @@ const Inicio = () => {
             <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
             <hr />
             <form onSubmit={handleEditarAlterno}>
+              {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

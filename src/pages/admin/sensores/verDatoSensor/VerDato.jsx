@@ -28,6 +28,7 @@ export default function VerSensores() {
       .catch(error => console.error("Error al obtener los datos del sensor", error));
   }, [id]);
 
+  
   const datosSimulados = [
     { fecha: "2025-03-05 12:00", datos: "Valor 1" },
     { fecha: "2025-03-05 12:30", datos: "Valor 2" },

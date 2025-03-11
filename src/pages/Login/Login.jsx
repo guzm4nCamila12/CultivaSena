@@ -75,10 +75,15 @@ const Login = () => {
   const handleToggle = () => {
     setMostrarClave(!mostrarClave);
   };
+
+  //Ir a la pagina anterior a la actual
   const irAtras=()=>{
     navigate(-1);
   }
+
+  //Dependiendo de el tamaño de la pantalla se utiliza una interfaz u otra.
   const responsive = () => {
+    //si el tamaño de la pantalla es mayor a 768px se muestra una interfaz
     if (screenWidth > 768) {
       let bloque = <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative"
         style={{ backgroundImage: "url('/fondoC.svg')" }}
@@ -146,6 +151,7 @@ const Login = () => {
       return bloque;
 
     } else {
+          //si el tamaño de la pantalla es menor a 768px se muestra otra interfaz
       let bloque =
         <div
           className="min-h-screen  bg-black">
@@ -228,6 +234,7 @@ const Login = () => {
 
   }
 
+  //se llama el bloque de codigo que retorna la vista dependiendo del tamaño de la pantalla
   return (
     <div>
       <Gov />

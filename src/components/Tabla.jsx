@@ -122,13 +122,13 @@ const UserCards = ({ columnas, datos, titulo, acciones }) => {
       {modalOpen && (
          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-           <h5 className="text-2xl font-bold mb-4 text-center">Descripcion</h5>
+           <h5 className="text-2xl font-bold mb-4 text-center">Descripción</h5>
            <hr />
       
              <div className="flex justify-center my-4">
                
              </div>
-             <p className="text-xl text-center font-semibold">{descripcionModal}</p>
+             <p className="text-xl text-center font-normal">{descripcionModal}.</p>
              <div className="flex justify-between mt-6 space-x-4">
                <button
                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

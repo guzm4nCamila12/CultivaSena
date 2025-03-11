@@ -27,6 +27,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 
 function Sensores() {
+  //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -37,6 +38,7 @@ function Sensores() {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
 
+  //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
     mac: "",
     nombre: "",
@@ -60,6 +62,7 @@ function Sensores() {
     getFincasByIdFincas(idUser).then(setFincas);
   }, [id, idUser]);
 
+  //si se traen los datos del usuario y la finca, se utilizan los ID de estos como valores por defecto para los sensores
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
@@ -73,6 +76,7 @@ function Sensores() {
     }
   }, [usuario, fincas]);
 
+  //se declaran las columnas de la tabla
   const columnas = [
     { key: "nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
@@ -81,12 +85,14 @@ function Sensores() {
     { key: "acciones", label: "Acciones" },
   ];
 
+  //se trae el id del sensor para traerlo y editarlo
   const enviarForm = (id) => {
     //se trae el id del sensor de la columna para traerlo y enviarlo como objeto
     const sensorEnviado = sensores.find(sensor => sensor.id === id);
     abrirModalEditar(sensorEnviado);
   }
 
+  //se declaran las acciones de la tabla
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       <div className="relative group">
@@ -125,16 +131,19 @@ function Sensores() {
     </div>
   );
 
+  //modal para editar, se guarda el sensor traido en el estado de editarSensor
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
     setModalEditarAbierto(true);
   };
 
+  //modal para eliminar, se guarda el sensor traido en el estado de sensorAEliminar
   const abrirModalEliminar = (sensor) => {
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
 
+  //accion que ejecutara el modal de eliminar, se eliminara el sensor y se cerrara el modal
   const HandlEliminarSensor = () => {
     eliminarSensores(sensorAEliminar).then(() => {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
@@ -147,10 +156,13 @@ function Sensores() {
     });
   };
 
+  //actualiza dinamicamente los datos de un sensor para agregarlo
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
+  //accion que ejecuta el modal insertar para crear un nuevo sensor
   const handleSubmit = (e) => {
     e.preventDefault();
     insertarSensor(formData).then((response) => {
@@ -166,6 +178,7 @@ function Sensores() {
     });
   };
 
+  //accion que ejecuta el modal editar para actualizar un sensor
   const handleEditarSensor = (e) => {
     e.preventDefault();
     actualizarSensor(editarSensor.id, editarSensor).then((data) => {
@@ -184,6 +197,7 @@ function Sensores() {
     setModalEditarAbierto(false);
   };
 
+  //ingresa datos de forma dinamica en el estado EditarSensor
   const handleChangeEditar = (e) => {
     setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
 
@@ -221,7 +235,9 @@ function Sensores() {
           <img src={sensorWhite} alt="icono" className="w-6 h-4" />
         </button>
       </div>
+      
 
+      {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -265,7 +281,7 @@ function Sensores() {
         </div>
       )}
 
-
+      {/* Modal para editar un sensor*/}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -310,6 +326,7 @@ function Sensores() {
         </div>
       )}
 
+      {/* Modal para Eliminar un sensor*/}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

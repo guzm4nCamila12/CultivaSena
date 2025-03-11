@@ -1,11 +1,16 @@
+//Importacion necesaria de react
 import { useState } from "react";
+//Importacion necesaria para recibir props o parametros en el componente
 import PropTypes from "prop-types";
+//Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 
+//Funcion que contiene el componente y recibe los props
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
   const [busqueda, setBusqueda] = useState("");
 
+  //funcion para filtrar la informacion con el buscador, utilizando la key que se envia en la prop columna
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((columna) =>
       String(fila[columna.key] || "")
@@ -13,7 +18,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
         .includes(busqueda.toLowerCase())
     )
   );
-
+  //Codigo frontend
   return (
     <div className="container mx-auto p-4 sm:px-0">
       {/* Buscador */}
@@ -36,13 +41,12 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
 
       {/* Contenedor de tarjetas */}
       <div
-        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${
-          datosFiltrados.length === 0
-            ? "grid-cols-1 place-items-center"
-            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        }`}
+        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${datosFiltrados.length === 0
+          ? "grid-cols-1 place-items-center"
+          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          }`}
       >
-        {/* Tarjeta para agregar usuario (altura reducida si no hay usuarios) */}
+        {/* Tarjeta para agregar usuario  */}
         {datosFiltrados.length === 0 ? (
           <div
             className="w-full h-52 flex flex-col items-center justify-center 
@@ -140,7 +144,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
 
                 <hr />
 
-                {/* 🛠 Botones de acción */}
+                {/* Botones de acción */}
                 <div className="flex items-center justify-center p-3">
                   {typeof acciones === "function" && acciones(fila)}
                 </div>
@@ -153,17 +157,18 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser }) => {
   );
 };
 
+//validacion de props que usa el componente
 UserCards.propTypes = {
   columnas: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
-      icon: PropTypes.string,
+      icon: PropTypes.string,// 'icon' es opcional
     })
   ).isRequired,
   datos: PropTypes.array.isRequired,
   titulo: PropTypes.string.isRequired,
-  acciones: PropTypes.func, // 'acciones' ahora es opcional
+  acciones: PropTypes.func, // 'acciones' es opcional
   onAddUser: PropTypes.func.isRequired,
 };
 

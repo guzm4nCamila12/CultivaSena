@@ -1,5 +1,6 @@
+//importacion de libreria para mostrar alertas
 import Swal from 'sweetalert2';
-
+//funcion para mostrar la alerta con caracteristicas especificas
 export const acctionSucessful = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -7,18 +8,19 @@ export const acctionSucessful = Swal.mixin({
   timer: 3000,
   timerProgressBar: true,
   customClass: {
-    // Aplica un estilo personalizado a la barra de progreso
+    // Se aplican clases personalizadas para modificar el alert
     popup: 'my-toast-popup', 
-    timerProgressBar: 'my-timer-progress-bar', // Aplica clase personalizada a la barra de progreso
-    title: 'my-toast-title', // Aplica una clase personalizada al título
+    timerProgressBar: 'my-timer-progress-bar', 
+    title: 'my-toast-title', 
   },
+  //Funcion de la libreria para detener la barra de pogreso cuando se hace hover
   didOpen: (toast) => {
     toast.onmouseenter = Swal.stopTimer;
     toast.onmouseleave = Swal.resumeTimer;
   }
 });
 
-// Estilos para personalización
+// Estilos personalizados
 const style = document.createElement('style');
 style.innerHTML = `
   .my-timer-progress-bar {

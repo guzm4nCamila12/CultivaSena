@@ -51,30 +51,30 @@ export default function Login() {
         className="min-h-screen  bg-black"
 
       >
-        
-        <div className='flex justify-center   items-center min-h-[50rem] bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>
 
-          
-         
+        <div className='flex justify-center   items-center min-h-screen bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>
+
+
+          <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
+            <div className='bottom-0 absolute w-full px-5 text-center text-white'>
+              <h1 className='font-extrabold mt-16 text-[40px]   '>Bienvenido</h1>
+              <p className='font-light text-[18px] mb-5  leading-5'>Innovamos juntos para un <br /><strong className='font-extrabold'>campo más fuerte y tecnológico.</strong> <br />
+                ¡El futuro del agro comienza hoy!</p>
+              <Link to={"/login"}>
+                <button
+                  type="submit"
+                  className="w-full h-[45px] mb-2  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-black text-2xl drop-shadow-xl"
+                >
+                  Iniciar Sesión
+                </button>
+              </Link>
+              <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>
+              <img src="/sena-logo.svg" alt="" className='m-auto w-14 mb-5 mt-5' />
+            </div>
+          </div>
 
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
-        <div className='bottom-0 absolute w-full px-5 text-center text-white'>
-            <h1 className='font-extrabold mt-16 text-[40px]   '>Bienvenido</h1>
-            <p className='font-light text-[18px] mb-5  leading-5'>Innovamos juntos para un <br /><strong className='font-extrabold'>campo más fuerte y tecnológico.</strong> <br />
-              ¡El futuro del agro comienza hoy!</p>
-            <Link to={"/login"}>
-              <button
-                type="submit"
-                className="w-full h-[45px] mb-2  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-black text-2xl drop-shadow-xl"
-              >
-                Iniciar Sesión
-              </button>
-            </Link>
-            <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>
-            <img src="/sena-logo.svg" alt="" className='m-auto w-14 mb-5 mt-5' />
-          </div>
-          </div>
+
       </div>
       return bloque
     }

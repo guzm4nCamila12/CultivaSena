@@ -370,7 +370,8 @@ function ActivarSensores() {
         columnas={columnas}
         datos={sensoresDeFinca}
         acciones={acciones}
-        onAddUser={() => setModalInsertarAbierto(true)} />
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true} />
       {/*Codigo modal insertar */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

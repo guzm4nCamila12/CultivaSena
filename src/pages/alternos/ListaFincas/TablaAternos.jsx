@@ -160,6 +160,7 @@ const Inicio = () => {
         titulo={`Alternos de la finca: ${fincas.nombre}`}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
       />
 
       {modalInsertarAbierto && (

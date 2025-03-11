@@ -3,12 +3,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 
 export default function GraficoSensor({ datos }) {
   return (
-    <div className="bg-[#EEEEEE] w-full shadow-lg p-5 my-20 mx-20 rounded-xl">
+    <div className="bg-[#EEEEEE] w-10/12 shadow-lg p-5 my-20 mx-20 rounded-xl">
       <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
-      <ResponsiveContainer width="95%" height={300} className="">
+      <ResponsiveContainer width="95%" height={300}>
         <LineChart data={datos}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="fecha" />
+          <XAxis dataKey="hora" />
           <YAxis />
           <Tooltip />
           <Legend />

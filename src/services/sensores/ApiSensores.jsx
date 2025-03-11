@@ -33,6 +33,11 @@ export const eliminarSensores = async (id) => {
   await fetch(`${API_URL}/sensores/${id}`, { method: "DELETE" });
 };
 
+export const getHistorialSensores = async (mac) => {
+  const response = await fetch(`${API_URL}/historial/sensores/${mac}`);
+  return response.json();
+};
+
 export const activarDatosSensor = async (mac) => {
  await fetch (`${API_URL}/prueba/${mac}`);
 

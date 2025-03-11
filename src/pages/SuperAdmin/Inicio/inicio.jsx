@@ -1,8 +1,11 @@
+//importaciones necesarias de react
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 //iconos de las columnas
 import phoneBlue from "../../../assets/icons/phoneBlue.png"
 import emailBlue from "../../../assets/icons/emailBlue.png"
 import rolBlue from "../../../assets/icons/rolBlue.png"
-//iconoso de las acciones
+//iconos de las acciones
 import deletWhite from "../../../assets/icons/deleteWhite.png"
 import editWhite from "../../../assets/icons/editWhite.png"
 import viewWhite from "../../../assets/icons/viewWhite.png"
@@ -12,8 +15,7 @@ import phoneGray from "../../../assets/icons/phoneGray.png"
 import emailGray from "../../../assets/icons/emailGray.png"
 import passwordGray from "../../../assets/icons/passwordGray.svg"
 import rolGray from "../../../assets/icons/rolGray.png"
-import userWhite from "../../../assets/icons/userWhite.png"
-//componetes reutilizados
+//componentes reutilizados
 import Tabla from "../../../components/Tabla";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
@@ -25,11 +27,9 @@ import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import fotoPerfil from "../../../assets/img/fotoPerfil.png"
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
-//importaciones necesarias de react
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 const Inicio = () => {
+  //Estado para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
@@ -39,10 +39,12 @@ const Inicio = () => {
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
 
+  //Obtiene los usuarios al cargar el componente 
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
   }, []);
 
+  //Funcion para convertir el id_rol
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
@@ -56,10 +58,12 @@ const Inicio = () => {
     }
   };
 
+  //Maneja el cambio en los campos para agregar un nuevo usuario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
+  //Maneja el proceso de agregar un usuario
   const handleInsertar = async (e) => {
     e.preventDefault();
     const nuevo = {
@@ -88,10 +92,12 @@ const Inicio = () => {
     }
   };
 
+  //Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
   };
 
+  //Maneja el proceso de editar
   const handleEditar = async (e) => {
     e.preventDefault();
     try {
@@ -108,6 +114,7 @@ const Inicio = () => {
     }
   };
 
+  //Maneja el proceso de eliminar un usuario
   const handleEliminarUsuario = (e) => {
     e.preventDefault();
     eliminarUsuario(usuarioEliminar).then(() => {
@@ -121,6 +128,7 @@ const Inicio = () => {
     });
   };
 
+  //Define las columnas de la tabla
   const columnas = [
     { key: "nombre" },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
@@ -130,6 +138,7 @@ const Inicio = () => {
     { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
   ];
 
+  //Definicion de las acciones que se pueden hacer en una fila
   const acciones = (fila) => {
     return (
       <div className="flex justify-center gap-4">
@@ -208,6 +217,7 @@ const Inicio = () => {
     setModalEliminarAbierto(true)
   }
 
+  //Funcion para convertir el nombre del rol con su ID correspondiente 
   const enviarRol = (rol) => {
     switch (rol) {
       case 'SuperAdmin':
@@ -225,7 +235,10 @@ const Inicio = () => {
     <div>
       <NavBar />
       <Tabla
-        titulo="Usuarios registrados" columnas={columnas} datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))} acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)} />
+        titulo="Usuarios registrados"
+        columnas={columnas}
+        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+        acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)} />
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
@@ -233,6 +246,7 @@ const Inicio = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar Usuario</h5>
             <hr />
             <form onSubmit={handleInsertar}>
+              {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -310,6 +324,7 @@ const Inicio = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
             <hr />
             <form onSubmit={handleEditar}>
+              {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
@@ -370,6 +385,7 @@ const Inicio = () => {
       )
       }
 
+      {/*Modal que se muestra cuando el usuario no tiene fincas agregadas*/}
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

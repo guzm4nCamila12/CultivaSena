@@ -2,6 +2,10 @@ import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function GraficoSensor({ datos }) {
+  // Obtener los valores mínimos y máximos de "valor" y redondearlos a enteros
+  const minValor = Math.floor(Math.min(...datos.map((item) => item.valor)));
+  const maxValor = Math.ceil(Math.max(...datos.map((item) => item.valor)));
+
   return (
     <div className="bg-[#EEEEEE] w-10/12 shadow-lg p-5 my-20 mx-20 rounded-xl">
       <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
@@ -9,7 +13,8 @@ export default function GraficoSensor({ datos }) {
         <LineChart data={datos}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="hora" />
-          <YAxis />
+          {/* Ajustamos el eje Y para que se ajuste al rango de valores en los datos, usando enteros */}
+          <YAxis domain={[minValor - 1, maxValor + 1]} />
           <Tooltip />
           <Legend />
           <Line type="monotone" dataKey="valor" stroke="#6B21A8" strokeWidth={2} dot={{ r: 5 }} />

@@ -100,7 +100,7 @@ export default function VerSensores() {
         </table>
       </div> */}
 
-      <div className="w-auto pt-10 xl:mx-36 lg:mx-16 sm:mx-5 bg-white">
+      <div className="w-auto pt-10 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
         <div className="overflow-x-auto max-h-64 p-0 m-0">
           <table className="w-full table-fixed border-separate border-spacing-y-3">
             <thead className="sticky top-0 bg-[#00304D] text-white  text-left">

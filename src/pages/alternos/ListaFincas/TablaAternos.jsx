@@ -75,6 +75,45 @@ const Inicio = () => {
   //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = (e) => {
     e.preventDefault();
+    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
+      acctionSucessful.fire({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
+    }
+
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (editarUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (editarUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
     //Realiza la actualizacion
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       //Actualiza la lista de usuarios
@@ -111,6 +150,45 @@ const Inicio = () => {
   //Maneja el envio del formulario para agregar un usuario
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
+      acctionSucessful.fire({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
+    }
+
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (nuevoUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (nuevoUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
     //Inserta el nuevo usuario
     insertarUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);

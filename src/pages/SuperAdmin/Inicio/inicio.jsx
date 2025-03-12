@@ -108,12 +108,6 @@ const Inicio = () => {
       return;
     }
   
-    // Validación del id_rol (debe ser un número válido)
-    if (isNaN(nuevoUsuario.id_rol) || nuevoUsuario.id_rol <= 0) {
-      alert("El rol seleccionado no es válido.");
-      return;
-    }
-  
     const nuevo = {
       nombre: nuevoUsuario.nombre,
       telefono: nuevoUsuario.telefono,
@@ -148,6 +142,45 @@ const Inicio = () => {
   //Maneja el proceso de editar
   const handleEditar = async (e) => {
     e.preventDefault();
+    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
+      acctionSucessful.fire ({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+  
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
+    }
+  
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+  
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (editarUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (editarUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
     try {
       actualizarUsuario(Number(editarUsuario.id), editarUsuario)
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));

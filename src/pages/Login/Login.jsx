@@ -77,7 +77,7 @@ const Login = () => {
   };
 
   //Ir a la pagina anterior a la actual
-  const irAtras=()=>{
+  const irAtras = () => {
     navigate(-1);
   }
 
@@ -92,7 +92,7 @@ const Login = () => {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
         > </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
-        <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white'onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
+          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
 
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
           <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
@@ -151,7 +151,7 @@ const Login = () => {
       return bloque;
 
     } else {
-          //si el tamaño de la pantalla es menor a 768px se muestra otra interfaz
+      //si el tamaño de la pantalla es menor a 768px se muestra otra interfaz
       let bloque =
         <div
           className="min-h-screen  bg-black">
@@ -162,71 +162,76 @@ const Login = () => {
             style={{ backgroundImage: "url('/cultivaBanner2.png')" }} >
             <div className="absolute w-full h-full backdrop-blur-sm"
               style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-            > </div>
-            
-          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white'onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
-          </div>
+            >
+                              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
 
-          <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
+              <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
 
-          <div className="absolute bottom-64 m-auto w-full p-2 z-20 gap-5 ">
-              <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
-              <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border  border-gray-500"
-                style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
-              >
-                <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
-                <form onSubmit={handleSubmit} className="space-y-3">
-                  <input
-                    type="text"
-                    placeholder="Número de teléfono"
-                    value={telefono}
-                    onChange={(e) => setTelefono(e.target.value)}
-                    required
-                    className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
-                    style={{
-                      backgroundImage: `url(${phoneGray})`,
-                      backgroundRepeat: 'no-repeat',
-                      backgroundPosition: 'left 12px center',
-                    }}
-                  />
-                  <div className="relative">
-                    <input
-                      type={mostrarClave ? "text" : "password"}
-                      placeholder="Contraseña"
-                      value={clave}
-                      onChange={(e) => setClave(e.target.value)}
-                      required
-                      className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
-                      style={{
-                        backgroundImage: `url(${passwordGray})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'left 12px center',
-                      }}
-                    />
-                    <div
-                      onClick={handleToggle}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    >
-                      <img
-                        src={mostrarClave ? openEyeGray : closedEyeGray}
-                        alt="Toggle Visibility"
-                      />
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full p-2 bg-[#39A900] hover:bg-[#005F00] shadow-black shadow-sm text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 text-2xl rounded-3xl font-bold drop-shadow-xl"
+                <div className="absolute bottom-44 m-auto w-full p-2 z-20 gap-5 ">
+                  <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
+                  <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border  border-gray-500"
+                    style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
                   >
-                    Iniciar Sesión
-                  </button>
-                </form>
+                    <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
+                    <form onSubmit={handleSubmit} className="space-y-3">
+                      <input
+                        type="text"
+                        placeholder="Número de teléfono"
+                        value={telefono}
+                        onChange={(e) => setTelefono(e.target.value)}
+                        required
+                        className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
+                        style={{
+                          backgroundImage: `url(${phoneGray})`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundPosition: 'left 12px center',
+                        }}
+                      />
+                      <div className="relative">
+                        <input
+                          type={mostrarClave ? "text" : "password"}
+                          placeholder="Contraseña"
+                          value={clave}
+                          onChange={(e) => setClave(e.target.value)}
+                          required
+                          className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
+                          style={{
+                            backgroundImage: `url(${passwordGray})`,
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'left 12px center',
+                          }}
+                        />
+                        <div
+                          onClick={handleToggle}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        >
+                          <img
+                            src={mostrarClave ? openEyeGray : closedEyeGray}
+                            alt="Toggle Visibility"
+                          />
+                        </div>
+                      </div>
+                      <button
+                        type="submit"
+                        className="w-full p-2 bg-[#39A900] hover:bg-[#005F00] shadow-black shadow-sm text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 text-2xl rounded-3xl font-bold drop-shadow-xl"
+                      >
+                        Iniciar Sesión
+                      </button>
+                    </form>
+                          
+                  </div>
+                  <a href="#" className='m-auto text-white'>¿Olvidó su contraseña?</a>
+                </div>
 
               </div>
-              <a href="#" className='m-auto text-white'>¿Olvidó su contraseña?</a>
+
+
+            
 
             </div>
-              <img src="sena-logo.svg" alt="" className='w-14 absolute bottom-7 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
           </div>
+          <img src="sena-logo.svg" alt="" className='w-14 absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
+
         </div>
       return bloque;
 

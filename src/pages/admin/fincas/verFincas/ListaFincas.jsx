@@ -131,6 +131,7 @@ export default function ListaFincas() {
           // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
           navigate(`/agregar-finca/${usuario.id}`);
         }}
+        mostrarAgregar={true}
       />
       
       {modalEliminarAbierto && (

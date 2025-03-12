@@ -204,28 +204,32 @@ function Sensores() {
   };
 
   return (
-    <div>       
+    <div>
       <NavBar />
-      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`} columnas={columnas} onAddUser={() => setModalInsertarAbierto(true)} datos={sensores.map((sensor, index) => ({
-        ...sensor, "#": index + 1,
-        estado: (
-          <div className="flex justify-start items-center">
-            <label className="relative flex items-center cursor-not-allowed">
-              <input
-                type="checkbox"
-                checked={sensor.estado} // Se mantiene el estado actual del sensor
-                disabled // Evita que el usuario lo modifique
-                className="sr-only"
-              />
-              <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                <div
-                  className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                ></div>
-              </div>
-            </label>
-          </div>
-        ),
-      }))} acciones={acciones} />
+      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`}
+        columnas={columnas}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+        datos={sensores.map((sensor, index) => ({
+          ...sensor, "#": index + 1,
+          estado: (
+            <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-not-allowed">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  disabled // Evita que el usuario lo modifique
+                  className="sr-only"
+                />
+                <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+          ),
+        }))} acciones={acciones} />
 
       {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (

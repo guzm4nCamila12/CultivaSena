@@ -89,6 +89,7 @@ function SensoresAlterno() {
       <Tabla
         titulo={`Sensor de la finca: ${fincas.nombre}`}
         columnas={columnas}
+        mostrarAgregar={false}
         datos={sensores.map((sensor, index) => ({
           ...sensor,
           "#": index + 1,

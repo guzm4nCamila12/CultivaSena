@@ -355,10 +355,12 @@ function ActivarSensores() {
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         datos={sensoresDeFinca}
-        acciones={acciones} 
-        onAddUser={()=>setModalInsertarAbierto(true)}
-        />
-      
+
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true} />
+      {/*Codigo modal insertar */}
+
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

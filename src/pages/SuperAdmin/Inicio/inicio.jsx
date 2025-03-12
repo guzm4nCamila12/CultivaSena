@@ -238,7 +238,8 @@ const Inicio = () => {
         titulo="Usuarios registrados"
         columnas={columnas}
         datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-        acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)} />
+        acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true} />
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

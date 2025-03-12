@@ -12,7 +12,7 @@ export default function GraficoSensor({ datos }) {
       <ResponsiveContainer width="95%" height={300}>
         <LineChart data={datos}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="hora" />
+          <XAxis dataKey="fecha" />
           {/* Ajustamos el eje Y para que se ajuste al rango de valores en los datos, usando enteros */}
           <YAxis domain={[minValor - 1, maxValor + 1]} />
           <Tooltip />

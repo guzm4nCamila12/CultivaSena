@@ -66,6 +66,54 @@ const Inicio = () => {
   //Maneja el proceso de agregar un usuario
   const handleInsertar = async (e) => {
     e.preventDefault();
+  
+    // Validación de los campos
+    if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
+      acctionSucessful.fire ({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+  
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
+    }
+  
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+  
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (nuevoUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (nuevoUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+  
+    // Validación del id_rol (debe ser un número válido)
+    if (isNaN(nuevoUsuario.id_rol) || nuevoUsuario.id_rol <= 0) {
+      alert("El rol seleccionado no es válido.");
+      return;
+    }
+  
     const nuevo = {
       nombre: nuevoUsuario.nombre,
       telefono: nuevoUsuario.telefono,
@@ -73,10 +121,9 @@ const Inicio = () => {
       clave: nuevoUsuario.clave,
       id_rol: Number(nuevoUsuario.id_rol)
     };
+  
     try {
-      const data = await insertarUsuario(
-        nuevo
-      );
+      const data = await insertarUsuario(nuevo);
       if (data) {
         setUsuarios([...usuarios, data]);
         setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
@@ -86,11 +133,12 @@ const Inicio = () => {
           title: "¡Usuario agregado correctamente!"
         });
       }
-      setModalInsertarAbierto(false)
+      setModalInsertarAbierto(false);
     } catch (error) {
       console.error("Error en la solicitud:", error);
     }
   };
+  
 
   //Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {

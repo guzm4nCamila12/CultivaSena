@@ -36,6 +36,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [errors, setErrors] = useState({}); // Estado para los errores
 
   //Efecto que carga los datos
   useEffect(() => {
@@ -111,7 +112,30 @@ const Inicio = () => {
   //Maneja el envio del formulario para agregar un usuario
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Inserta el nuevo usuario
+    const newErrors = {};
+
+    // Validaciones
+    if (!nuevoUsuario.nombre) {
+      newErrors.nombre = "El nombre es requerido.";
+    }
+    if (!nuevoUsuario.telefono) {
+      newErrors.telefono = "El teléfono es requerido.";
+    }
+    if (!nuevoUsuario.correo) {
+      newErrors.correo = "El correo es requerido.";
+    } else if (!/\S+@\S+\.\S+/.test(nuevoUsuario.correo)) {
+      newErrors.correo = "El correo no es válido.";
+    }
+    if (!nuevoUsuario.clave) {
+      newErrors.clave = "La clave es requerida.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // Actualiza los errores si hay
+      return; // Detiene el envío si hay errores
+    }
+
+    // Inserta el nuevo usuario si no hay errores
     insertarUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
@@ -120,9 +144,9 @@ const Inicio = () => {
         imageAlt: 'Icono personalizado',
         title: "¡Alterno agregado correctamente!"
       });
+      setErrors({}); // Limpia los errores después de un envío exitoso
     }).catch(console.error);
-  }
-
+  };
   //Define las acciones que se pueden hacer en cada fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
@@ -169,47 +193,49 @@ const Inicio = () => {
             <h5 className="text-xl font-semibold text-center mb-4">Agregar Alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-              {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.nombre ? 'border-red-500' : ''}`}
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
-                  required
                   onChange={handleChange}
                 />
+                {errors.nombre && <p className="text-red-500 text-xs">{errors.nombre}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.telefono ? 'border-red-500' : ''}`}
                   type="text"
                   name="telefono"
                   placeholder="Telefono"
                   onChange={handleChange}
                 />
+                {errors.telefono && <p className="text-red-500 text-xs">{errors.telefono}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.correo ? 'border-red-500' : ''}`}
                   type="text"
                   name="correo"
                   placeholder="Correo"
                   onChange={handleChange}
                 />
+                {errors.correo && <p className="text-red-500 text-xs">{errors.correo}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.clave ? 'border-red-500' : ''}`}
                   type="text"
                   name="clave"
                   placeholder="Clave"
                   onChange={handleChange}
                 />
+                {errors.clave && <p className="text-red-500 text-xs">{errors.clave}</p>}
               </div>
               <div className="flex justify-end mt-4">
                 <button

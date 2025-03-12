@@ -36,7 +36,6 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
-  const [errors, setErrors] = useState({}); // Estado para los errores
 
   //Efecto que carga los datos
   useEffect(() => {
@@ -76,6 +75,45 @@ const Inicio = () => {
   //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = (e) => {
     e.preventDefault();
+    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
+      acctionSucessful.fire({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
+    }
+
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (editarUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (editarUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
     //Realiza la actualizacion
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       //Actualiza la lista de usuarios
@@ -112,30 +150,46 @@ const Inicio = () => {
   //Maneja el envio del formulario para agregar un usuario
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newErrors = {};
-
-    // Validaciones
-    if (!nuevoUsuario.nombre) {
-      newErrors.nombre = "El nombre es requerido.";
-    }
-    if (!nuevoUsuario.telefono) {
-      newErrors.telefono = "El teléfono es requerido.";
-    }
-    if (!nuevoUsuario.correo) {
-      newErrors.correo = "El correo es requerido.";
-    } else if (!/\S+@\S+\.\S+/.test(nuevoUsuario.correo)) {
-      newErrors.correo = "El correo no es válido.";
-    }
-    if (!nuevoUsuario.clave) {
-      newErrors.clave = "La clave es requerida.";
+    if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
+      acctionSucessful.fire({
+        tittle: "¡Por favor, complete todos los campos!"
+      });
+      return;
     }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors); // Actualiza los errores si hay
-      return; // Detiene el envío si hay errores
+    // Validación del formato del correo
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
+    if (!correoValido) {
+      acctionSucessful.fire({
+        title: "¡El correo electrónico no es válido!"
+      });
+      return;
     }
 
-    // Inserta el nuevo usuario si no hay errores
+    // Validación del teléfono (puedes adaptarlo al formato que necesites)
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    if (!telefonoValido) {
+      acctionSucessful.fire({
+        title: "¡El número de teléfono no es válido!"
+      });
+      return;
+    }
+
+    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    if (nuevoUsuario.clave.length < 6) {
+      acctionSucessful.fire({
+        title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+
+    if (nuevoUsuario.nombre.length < 6) {
+      acctionSucessful.fire({
+        title: "¡El nombre debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+    //Inserta el nuevo usuario
     insertarUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
@@ -144,9 +198,9 @@ const Inicio = () => {
         imageAlt: 'Icono personalizado',
         title: "¡Alterno agregado correctamente!"
       });
-      setErrors({}); // Limpia los errores después de un envío exitoso
     }).catch(console.error);
-  };
+  }
+
   //Define las acciones que se pueden hacer en cada fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
@@ -193,49 +247,47 @@ const Inicio = () => {
             <h5 className="text-xl font-semibold text-center mb-4">Agregar Alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
+              {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.nombre ? 'border-red-500' : ''}`}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
+                  required
                   onChange={handleChange}
                 />
-                {errors.nombre && <p className="text-red-500 text-xs">{errors.nombre}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.telefono ? 'border-red-500' : ''}`}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="telefono"
                   placeholder="Telefono"
                   onChange={handleChange}
                 />
-                {errors.telefono && <p className="text-red-500 text-xs">{errors.telefono}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.correo ? 'border-red-500' : ''}`}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="correo"
                   placeholder="Correo"
                   onChange={handleChange}
                 />
-                {errors.correo && <p className="text-red-500 text-xs">{errors.correo}</p>}
               </div>
               <div className="relative w-full mt-2">
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
-                  className={`w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl ${errors.clave ? 'border-red-500' : ''}`}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="clave"
                   placeholder="Clave"
                   onChange={handleChange}
                 />
-                {errors.clave && <p className="text-red-500 text-xs">{errors.clave}</p>}
               </div>
               <div className="flex justify-end mt-4">
                 <button

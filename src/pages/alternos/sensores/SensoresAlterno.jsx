@@ -6,7 +6,7 @@ import estadoBlue from "../../../assets/icons/estadoBlue.png"
 import viewWhite from "../../../assets/icons/viewWhite.png";
 //componentes reutilizados
 import Navbar from "../../../components/navbar";
-import Tabla from "../../../components/Tabla";
+import UseCards from "../../../components/UseCards";
 //endpoints para consumir el api
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../../services/sensores/ApiSensores";
@@ -62,7 +62,7 @@ function SensoresAlterno() {
     }
   }, [usuario, fincas]);
 
-  //Define las columnas para la tabla
+  //Define las columnas para la UseCards
   const columnas = [
     { key: "nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
@@ -86,7 +86,7 @@ function SensoresAlterno() {
   return (
     <div >
       <Navbar />
-      <Tabla
+      <UseCards
         titulo={`Sensor de la finca: ${fincas.nombre}`}
         columnas={columnas}
         mostrarAgregar={false}

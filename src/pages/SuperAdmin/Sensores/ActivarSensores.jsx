@@ -15,7 +15,7 @@ import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import Tabla from "../../../components/Tabla";
+import Tabla from "../../../components/UseCards";
 import NavBar from "../../../components/navbar"
 //endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";

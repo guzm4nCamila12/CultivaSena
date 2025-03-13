@@ -231,12 +231,12 @@ const Inicio = () => {
 
   //Define las columnas de la tabla
   const columnas = [
-    { key: "nombre" },
+    { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
+    { key: "nombre",  label: "Nombre", icon: phoneBlue  },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
     { key: "correo", label: "Correo", icon: emailBlue },
     { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
     { key: "acciones", label: "Acciones" },
-    { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
   ];
 
   //Definicion de las acciones que se pueden hacer en una fila

@@ -20,7 +20,7 @@ import Alerta from "../../../assets/img/Alert.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
-import Tabla from "../../../components/Tabla";
+import UseCards from "../../../components/UseCards";
 //endpoints para consumir api
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
@@ -58,7 +58,7 @@ const Inicio = () => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
   };
 
-  //Definicion de las columnas de la tabla
+  //Definicion de las columnas de la UseCards
   const columnas = [
     { key: "nombre" },
     { key: "telefono", label: "Telefono", icon: phoneBlue },
@@ -253,7 +253,7 @@ const Inicio = () => {
   return (
     <div >
       <Navbar />
-      <Tabla
+      <UseCards
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
         titulo={`Alternos de la finca: ${fincas.nombre}`}

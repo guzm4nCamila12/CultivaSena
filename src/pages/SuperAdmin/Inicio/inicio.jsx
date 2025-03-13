@@ -25,7 +25,7 @@ import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import sinFinca from "../../../assets/img/sinFincas.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import fotoPerfil from "../../../assets/img/fotoPerfil.png"
+import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png"
 import Alerta from "../../../assets/img/Alert.png"
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
@@ -231,7 +231,6 @@ const Inicio = () => {
 
   //Define las columnas de la tabla
   const columnas = [
-    { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
     { key: "nombre",  label: "Nombre", icon: phoneBlue  },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
     { key: "correo", label: "Correo", icon: emailBlue },

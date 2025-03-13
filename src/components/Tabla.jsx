@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 // Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
+import OpcionTabla from "../assets/icons/OpcionTabla.png"
+import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png"
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -49,15 +51,27 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
         </div>
+        <div className="flex items-center">
+          <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
+            {/* Sección de Lista - Activa */}
+            <div className="flex-1 flex justify-center items-center p-2 bg-white">
+              <img src={OpcionTabla} alt="Lista" />
+            </div>
+            {/* Sección de Tarjetas - Inactiva */}
+            <div className="flex-1 flex justify-center items-center p-2 bg-[#93A6B2]">
+              <img src={OpcionTarjeta} alt="Tarjetas" className="h-5 w-5" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Contenedor de tarjetas */}
       <div
-        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${
-          datosFiltrados.length === 0
-            ? "grid-cols-1 place-items-center"
-            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        }`}
+        className={`w-full overflow-y-auto max-h-[500px] grid gap-4 ${datosFiltrados.length === 0
+          ? "grid-cols-1 place-items-center"
+          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          }`}
       >
         {/* Mostrar solo el botón de agregar si 'mostrarAgregar' es verdadero */}
         {mostrarAgregar && (
@@ -122,7 +136,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                     <strong>{columna.label}:</strong>{" "}
                     <span className="ml-1">
                       {columna.key === "descripcion" &&
-                      fila[columna.key]?.length > 15 ? (
+                        fila[columna.key]?.length > 15 ? (
                         <>
                           {fila[columna.key].slice(0, 15)}...{" "}
                           <button

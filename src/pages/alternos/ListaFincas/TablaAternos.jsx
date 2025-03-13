@@ -16,6 +16,7 @@ import passwordGray from "../../../assets/icons/passwordGray.svg"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+import Alerta from "../../../assets/img/Alert.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
@@ -77,7 +78,9 @@ const Inicio = () => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
       acctionSucessful.fire({
-        tittle: "¡Por favor, complete todos los campos!"
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
+        title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
@@ -86,6 +89,8 @@ const Inicio = () => {
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El correo electrónico no es válido!"
       });
       return;
@@ -95,6 +100,8 @@ const Inicio = () => {
     const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El número de teléfono no es válido!"
       });
       return;
@@ -103,6 +110,8 @@ const Inicio = () => {
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡La clave debe tener más de 6 caracteres!"
       });
       return;
@@ -110,6 +119,8 @@ const Inicio = () => {
 
     if (editarUsuario.nombre.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El nombre debe tener más de 6 caracteres!"
       });
       return;
@@ -152,7 +163,9 @@ const Inicio = () => {
     e.preventDefault();
     if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
       acctionSucessful.fire({
-        tittle: "¡Por favor, complete todos los campos!"
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
+        title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
@@ -161,6 +174,8 @@ const Inicio = () => {
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El correo electrónico no es válido!"
       });
       return;
@@ -170,6 +185,8 @@ const Inicio = () => {
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El número de teléfono no es válido!"
       });
       return;
@@ -178,6 +195,8 @@ const Inicio = () => {
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡La clave debe tener más de 6 caracteres!"
       });
       return;
@@ -185,6 +204,8 @@ const Inicio = () => {
 
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El nombre debe tener más de 6 caracteres!"
       });
       return;

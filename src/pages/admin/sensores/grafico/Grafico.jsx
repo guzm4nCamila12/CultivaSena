@@ -17,7 +17,7 @@ export default function GraficoSensor({ datos }) {
           <YAxis domain={[minValor - 1, maxValor + 1]} />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="valor" stroke="#6B21A8" strokeWidth={2} dot={{ r: 5 }} />
+          <Line type="monotone" dataKey="valor" stroke="#3CB23C" strokeWidth={2} dot={{ r: 5 }} />
           {/* Si tienes otro dato, por ejemplo pH, descomenta esta línea y agrega la clave adecuada */}
           {/* <Line type="monotone" dataKey="pH" stroke="#15803D" strokeWidth={2} dot={{ r: 5 }} /> */}
         </LineChart>

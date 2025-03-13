@@ -1,22 +1,35 @@
-import React from 'react'
-import Gov from './gov'
-import BotonAtras from './botonAtras'
-import menuWhite from "../assets/icons/menuWhite.png"
-export default function navbar() {
+import React, { useState } from 'react';
+import Gov from './gov';
+import BotonAtras from './botonAtras';
+import menuWhite from "../assets/icons/menuWhite.png";
+import logOutIcon from "../assets/icons/logOut.png";
+
+export default function Navbar() {
+  const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad del modal
   const idRol = Number(localStorage.getItem('rol'));
+
+  // Función para mostrar el mensaje dependiendo del rol
   const rol = () => {
     if (idRol === 1) {
-      return "Hola, SuperAdmin!"
+      return "Hola, SuperAdmin!";
     } else if (idRol === 2) {
-      return "Hola, Admin!"
+      return "Hola, Admin!";
     } else {
-      return "Hola, Alterno!"
+      return "Hola, Alterno!";
     }
-  }
+  };
+
+  // Función para manejar el clic en "Cerrar sesión"
+  const handleLogout = () => {
+    localStorage.removeItem('rol');
+    localStorage.removeItem('user'); // Puedes añadir más claves a eliminar si es necesario
+    window.location.reload(); // O redirigir a otra página si prefieres
+  };
+
   return (
-    <div >
+    <div>
       <Gov />
-      <nav className="relative bg-cover bg-center bg-no-repeat " style={{ backgroundImage: "url('/navbarphoto.png')" }}>
+      <nav className="relative bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/navbarphoto.png')" }}>
         <div className="absolute inset-0 bg-[rgba(132,106,41,0.5)]">
           <div className="absolute inset-0 bg-gradient-to-t from-black/100 to-transparent"></div>
         </div>
@@ -24,16 +37,52 @@ export default function navbar() {
           <img src="/logoC.svg" alt="Cultiva SENA" className="h-16 md:h-20" />
         </div>
       </nav>
-      <div className='bg-[#00304D] h-12 w-full z-50 px-4' >
 
-        <div className='container mx-auto py-1 flex flex-row items-center   '>
-          <img src={menuWhite} alt="" className='h-3 pr-2 ' />
+      <div className='bg-[#00304D] h-12 w-full z-50 px-4'>
+        <div className='container mx-auto py-1 flex flex-row items-center'>
+          {/* Icono de menú */}
+          <img
+            src={menuWhite}
+            alt="Menu"
+            className='h-3 pr-2 cursor-pointer'
+            onClick={() => setMenuVisible(!menuVisible)} // Toggle visibility del modal
+          />
 
-          <h2 className='font-extrabold text-white md:text-2xl text-xl '>{rol()}</h2>
+          <h2 className='font-extrabold text-white md:text-2xl text-xl'>{rol()}</h2>
           <BotonAtras />
+
+          {/* Menu lateral con "cabeza" sobresaliente */}
+          <div
+            className={`absolute mt-[172px] top-10 left-0 w-64 bg-[#00304D] p-4 rounded-3xl shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${menuVisible ? 'translate-x-0' : '-translate-x-full'
+              }`}
+          >
+            {/* Cabeza sobresaliente en el centro superior */}
+            <div
+              className="absolute -top-2 ml-[72px] transform -translate-x-1/2 w-0 h-0 border-l-[16px] border-r-[16px] border-b-[10px] border-l-transparent border-r-transparent border-b-[#00304D]"
+            ></div>
+            <div className=''>
+              <h3 className='w-full justify-center flex mb-3 text-white font-medium'>Menú</h3>
+              <div className='bg-red-500 flex justify-center rounded-3xl'>
+                <img src={logOutIcon} alt="" className='mt-2 h-5 w-6' />
+                <button
+                  onClick={handleLogout}
+                  className="text-white p-2"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Overlay oscuro que cubre toda la página cuando el menú está visible */}
+      {menuVisible && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-40"
+          onClick={() => setMenuVisible(false)} // Cierra el menú al hacer clic fuera de él
+        ></div>
+      )}
     </div>
-  )
+  );
 }

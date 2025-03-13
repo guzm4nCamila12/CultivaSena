@@ -1,11 +1,11 @@
 import { useState } from "react";
 // Importacion necesaria para recibir props o parametros en el componente
 import PropTypes from "prop-types";
+import Opcion from "./Opcion";
 // Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
-import OpcionTabla from "../assets/icons/OpcionTabla.png"
-import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png"
+
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -51,18 +51,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
         </div>
-        <div className="flex items-center">
-          <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
-            {/* Sección de Lista - Activa */}
-            <button className="flex-1 flex justify-center items-center p-2 bg-white">
-              <img src={OpcionTabla} alt="Lista" />
-            </button>
-            {/* Sección de Tarjetas - Inactiva */}
-            <button className="flex-1 flex justify-center items-center p-2 bg-[#93A6B2]">
-              <img src={OpcionTarjeta} alt="Tarjetas" />
-            </button>
-          </div>
-        </div>
+        <Opcion/>
 
       </div>
 

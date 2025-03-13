@@ -9,6 +9,7 @@ import rolBlue from "../../../assets/icons/rolBlue.png"
 import deletWhite from "../../../assets/icons/deleteWhite.png"
 import editWhite from "../../../assets/icons/editWhite.png"
 import viewWhite from "../../../assets/icons/viewWhite.png"
+import sinFincas from "../../../assets/icons/sinFincas.png"
 //iconos de modales
 import nameGray from "../../../assets/icons/userGray.png"
 import phoneGray from "../../../assets/icons/phoneGray.png"
@@ -25,6 +26,7 @@ import sinFinca from "../../../assets/img/sinFincas.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import fotoPerfil from "../../../assets/img/fotoPerfil.png"
+import Alerta from "../../../assets/img/Alert.png"
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 
@@ -66,11 +68,11 @@ const Inicio = () => {
   //Maneja el proceso de agregar un usuario
   const handleInsertar = async (e) => {
     e.preventDefault();
-  
-    // Validación de los campos
-    if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
+    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
       acctionSucessful.fire ({
-        tittle: "¡Por favor, complete todos los campos!"
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
+        title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
@@ -79,6 +81,8 @@ const Inicio = () => {
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El correo electrónico no es válido!"
       });
       return;
@@ -88,6 +92,8 @@ const Inicio = () => {
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El número de teléfono no es válido!"
       });
       return;
@@ -96,6 +102,8 @@ const Inicio = () => {
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡La clave debe tener más de 6 caracteres!"
       });
       return;
@@ -103,6 +111,8 @@ const Inicio = () => {
 
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El nombre debe tener más de 6 caracteres!"
       });
       return;
@@ -144,7 +154,9 @@ const Inicio = () => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
       acctionSucessful.fire ({
-        tittle: "¡Por favor, complete todos los campos!"
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
+        title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
@@ -153,6 +165,8 @@ const Inicio = () => {
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El correo electrónico no es válido!"
       });
       return;
@@ -162,6 +176,8 @@ const Inicio = () => {
     const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El número de teléfono no es válido!"
       });
       return;
@@ -170,6 +186,8 @@ const Inicio = () => {
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡La clave debe tener más de 6 caracteres!"
       });
       return;
@@ -177,6 +195,8 @@ const Inicio = () => {
 
     if (editarUsuario.nombre.length < 6) {
       acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: 'Icono personalizado',
         title: "¡El nombre debe tener más de 6 caracteres!"
       });
       return;
@@ -242,7 +262,7 @@ const Inicio = () => {
               onClick={() => setModalSinFincasAbierto(true)}
               className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             >
-              <img src={viewWhite} alt="Ver" />
+              <img src={sinFincas} alt="Ver" />
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver

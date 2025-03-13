@@ -29,6 +29,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
+import LogOut from "../../../components/auth/logOut";
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
@@ -355,6 +356,8 @@ function ActivarSensores() {
   return (
     <div>
       <NavBar />
+      <LogOut />
+
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}

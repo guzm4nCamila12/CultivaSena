@@ -13,6 +13,8 @@ export default function navbar() {
       return "Hola, Alterno!"
     }
   }
+
+  
   return (
     <div >
       <Gov />

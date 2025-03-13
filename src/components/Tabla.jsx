@@ -5,7 +5,7 @@ import microphone from "../assets/icons/Microphone.png";
 import superAdminIcon from "../assets/img/fotoPerfil.png";
 import adminIcon from "../assets/img/fotoPerfil.png";
 import alternoIcon from "../assets/img/fotoPerfil.png";
-import Opcion from "./Opcion";
+import Opcion from "../components/Opcion"
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -29,7 +29,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
       String(fila[columna.key] || "").toLowerCase().includes(busqueda.toLowerCase())
     )
   );
-
 
   return (
     <div className="container mx-auto p-4">
@@ -79,7 +78,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                     className={`p-2 md:p-3 text-left text-sm md:text-base 
           ${index === 0 ? "rounded-l-full" : ""} 
           ${index === columnas.length - 1 ? "rounded-r-full" : ""}
-          border-t border-b border-gray-300 bg-[#00304D]`}
+          border-t border-b border-gray-300 bg-[#00304D]`} 
                   >
                     <div className="flex items-center">
                       <span className="flex-1">{columna.label}</span>
@@ -101,7 +100,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                         className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
               ${i === 0 ? "rounded-l-full text-center font-bold" : ""} 
               ${i === columnas.length - 1 ? "rounded-r-full text-center" : ""}
-              border-t border-b border-gray-300 bg-[#EEEEEE]`}
+              border-t border-b border-gray-300 bg-[#EEEEEE]`} 
                       >
                         <div className="flex items-center">
                           {columna.key === "id_rol" && (

@@ -1,10 +1,10 @@
 import { useState } from "react";
 // Importacion necesaria para recibir props o parametros en el componente
 import PropTypes from "prop-types";
-import Opcion from "./Opcion"
 // Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
+import Opcion from "../components/Opcion"
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -50,7 +50,8 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
         </div>
-        <Opcion />
+        <Opcion/>
+
       </div>
 
       {/* Contenedor de tarjetas */}

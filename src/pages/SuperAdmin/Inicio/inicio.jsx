@@ -17,9 +17,7 @@ import emailGray from "../../../assets/icons/emailGray.png"
 import passwordGray from "../../../assets/icons/passwordGray.svg"
 import rolGray from "../../../assets/icons/rolGray.png"
 //componentes reutilizados
-import Opcion from "../../../components/Opcion";
-import Tabla from "../../../components/Tabla"
-import UserCards from "../../../components/UseCards";
+import Tabla from "../../../components/Tabla";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
 //imgs modales
@@ -71,14 +69,14 @@ const Inicio = () => {
   const handleInsertar = async (e) => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
-      acctionSucessful.fire({
+      acctionSucessful.fire ({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
         title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
-
+  
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
@@ -89,7 +87,7 @@ const Inicio = () => {
       });
       return;
     }
-
+  
     // Validación del teléfono (puedes adaptarlo al formato que necesites)
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
@@ -100,7 +98,7 @@ const Inicio = () => {
       });
       return;
     }
-
+  
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -119,7 +117,7 @@ const Inicio = () => {
       });
       return;
     }
-
+  
     const nuevo = {
       nombre: nuevoUsuario.nombre,
       telefono: nuevoUsuario.telefono,
@@ -127,7 +125,7 @@ const Inicio = () => {
       clave: nuevoUsuario.clave,
       id_rol: Number(nuevoUsuario.id_rol)
     };
-
+  
     try {
       const data = await insertarUsuario(nuevo);
       if (data) {
@@ -144,7 +142,7 @@ const Inicio = () => {
       console.error("Error en la solicitud:", error);
     }
   };
-
+  
 
   //Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {
@@ -155,14 +153,14 @@ const Inicio = () => {
   const handleEditar = async (e) => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
-      acctionSucessful.fire({
+      acctionSucessful.fire ({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
         title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
-
+  
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
@@ -173,7 +171,7 @@ const Inicio = () => {
       });
       return;
     }
-
+  
     // Validación del teléfono (puedes adaptarlo al formato que necesites)
     const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
@@ -184,7 +182,7 @@ const Inicio = () => {
       });
       return;
     }
-
+  
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -234,7 +232,7 @@ const Inicio = () => {
   //Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon: phoneBlue },
+    { key: "nombre",  label: "Nombre", icon: phoneBlue  },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
     { key: "correo", label: "Correo", icon: emailBlue },
     { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
@@ -334,27 +332,16 @@ const Inicio = () => {
     }
   }
 
-
-  // Estado para controlar qué componente mostrar
-  const [vistaActiva, setVistaActiva] = useState('tabla');
-
-  // Callback para manejar el cambio de vista
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-  }
-
   return (
     <div>
       <NavBar />
-      <Opcion
-         titulo="Usuarios registrados"
-         columnas={columnas}
-         datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-         acciones={acciones}
-         onAddUser={() => setModalInsertarAbierto(true)}
-         mostrarAgregar={true}
-        onChangeVista={handleVistaChange}
-      />
+      <Tabla
+        titulo="Usuarios registrados"
+        columnas={columnas}
+        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+        acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true} />
+
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

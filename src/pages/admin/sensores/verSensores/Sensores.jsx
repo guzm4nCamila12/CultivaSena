@@ -15,7 +15,7 @@ import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 //componentes reutilizados
-import Tabla from "../../../../components/Tabla";
+import Tabla from "../../../../components/UseCards";
 import NavBar from "../../../../components/navbar"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 //endpoints para consumir api

@@ -7,7 +7,7 @@ import alternoIcon from "../../../../assets/icons/alternoBlue.png"
 //icono de agregar finca
 import fincaWhite from "../../../../assets/icons/fincaWhite.png";
 //componentes reutilizados
-import Tabla from '../../../../components/Tabla';
+import UseCards from '../../../../components/UseCards';
 import Navbar from '../../../../components/navbar';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 //imgs de modales
@@ -122,7 +122,7 @@ export default function ListaFincas() {
   return (
     <div > 
       <Navbar />
-      <Tabla
+      <UseCards
         titulo={`Fincas de: ${usuario.nombre}`}
         columnas={columnas}
         datos={fincasConSensores}

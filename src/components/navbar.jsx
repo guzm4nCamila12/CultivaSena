@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Gov from './gov';
 import BotonAtras from './botonAtras';
 import menuWhite from "../assets/icons/menuWhite.png";
-import logOutIcon from "../assets/icons/logOut.png";
+import  CerrarSesion from "./auth/logOut"
 
 export default function Navbar() {
   const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad del modal
@@ -53,7 +53,7 @@ export default function Navbar() {
 
           {/* Menu lateral con "cabeza" sobresaliente */}
           <div
-            className={`absolute mt-[172px] top-10 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            className={`absolute mt-[172px] top-10 md:left-10 lg:left-2 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
             {/* Cabeza sobresaliente en el centro superior */}
             <div
@@ -62,13 +62,7 @@ export default function Navbar() {
             <div>
               <h3 className='w-full flex mb-3 text-white font-medium  border-b-2 pb-2 pl-2 border-white'>Menú Principal</h3>
               <div className='flex justify-center rounded-3xl'>
-                <img src={logOutIcon} alt="" className='mt-2 h-5 w-6' />
-                <button
-                  onClick={handleLogout}
-                  className="text-white p-2"
-                >
-                  Cerrar sesión
-                </button>
+               <CerrarSesion/>
               </div>
             </div>
           </div>

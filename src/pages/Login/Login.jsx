@@ -28,20 +28,23 @@ const Login = () => {
     // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
+        const user = data.user;
+        //guarda el token en el almacenamiento local
+        localStorage.setItem('token', data.token);
         // Guardar un dato en el localStorage
-        localStorage.setItem('rol', data.id_rol);
+        localStorage.setItem('rol', user.id_rol);
 
         // acctionSucessful.fire({
         //   icon: "success",
         //   title: `Bienvenido ${data.nombre}`
         // });
         // Lógica de navegación después de que se haya actualizado el estado
-        if (data.id_rol === 1) {
+        if (user.id_rol === 1) {
           navigate("/inicio-SuperAdmin");
-        } else if (data.id_rol === 2) {
-          navigate(`/lista-fincas/${data.id}`);
-        } else if (data.id_rol === 3) {
-          navigate(`/sensores-alterno/${data.id_finca}/${data.id}`);
+        } else if (user.id_rol === 2) {
+          navigate(`/lista-fincas/${user.id}`);
+        } else if (user.id_rol === 3) {
+          navigate(`/sensores-alterno/${user.id_finca}/${user.id}`);
         }
 
       })
@@ -78,7 +81,7 @@ const Login = () => {
 
   //Ir a la pagina anterior a la actual
   const irAtras = () => {
-    navigate(-1);
+    navigate("/");
   }
 
   //Dependiendo de el tamaño de la pantalla se utiliza una interfaz u otra.

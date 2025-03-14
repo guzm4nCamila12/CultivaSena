@@ -40,7 +40,7 @@ function Sensores() {
 
   //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
-    mac: "",
+    mac: null,
     nombre: "",
     descripcion: "",
     estado: false,
@@ -66,7 +66,7 @@ function Sensores() {
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
-        mac: "",
+        mac: null,
         nombre: "",
         descripcion: "",
         estado: false,
@@ -165,6 +165,7 @@ function Sensores() {
   //accion que ejecuta el modal insertar para crear un nuevo sensor
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("sensor agregado:", formData)
     insertarSensor(formData).then((response) => {
       if (response) {
         setSensores([...sensores, response]);

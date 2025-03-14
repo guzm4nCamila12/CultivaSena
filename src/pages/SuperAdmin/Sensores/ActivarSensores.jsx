@@ -29,6 +29,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
+import LogOut from "../../../components/auth/logOut";
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
@@ -223,6 +224,7 @@ function ActivarSensores() {
     const sensorcito = [...sensores]
     console.log("macc:", sensorcito[index].mac)
     if (estado === true) {
+      console.log("bloque 1")
       const newEstado = !estado;
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
@@ -245,6 +247,8 @@ function ActivarSensores() {
         insertarDatos(updatedFormData.mac)
       })
     } else if(sensorcito[index].mac === null) {
+      console.log("bloque 2")
+
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
         const newEstado = !estado;
@@ -276,6 +280,7 @@ function ActivarSensores() {
         inputValue = '';
       }
     }else{
+      console.log("bloque 3")
 
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -351,6 +356,8 @@ function ActivarSensores() {
   return (
     <div>
       <NavBar />
+      <LogOut />
+
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}

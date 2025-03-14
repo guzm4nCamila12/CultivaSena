@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 // Iconos utilizados en el buscador
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
-import OpcionTabla from "../assets/icons/OpcionTabla.png"
-import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png"
+import Opcion from "../components/Opcion"
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -51,18 +50,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
         </div>
-        <div className="flex items-center">
-          <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
-            {/* Sección de Lista - Activa */}
-            <div className="flex-1 flex justify-center items-center p-2 bg-white">
-              <img src={OpcionTabla} alt="Lista" />
-            </div>
-            {/* Sección de Tarjetas - Inactiva */}
-            <div className="flex-1 flex justify-center items-center p-2 bg-[#93A6B2]">
-              <img src={OpcionTarjeta} alt="Tarjetas" className="h-5 w-5" />
-            </div>
-          </div>
-        </div>
+        <Opcion/>
 
       </div>
 

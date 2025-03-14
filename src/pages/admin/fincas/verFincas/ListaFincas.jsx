@@ -123,16 +123,16 @@ export default function ListaFincas() {
     <div > 
       <Navbar />
       <UseCards
-        titulo={`Fincas de: ${usuario.nombre}`}
-        columnas={columnas}
-        datos={fincasConSensores}
-        acciones={acciones}
-        onAddUser={() => {
-          // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
-          navigate(`/agregar-finca/${usuario.id}`);
-        }}
-        mostrarAgregar={true}
-      />
+      titulo={`Fincas de: ${usuario.nombre}`}
+      columnas={columnas}
+      datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+      acciones={acciones}
+      onAddUser={() => {
+        // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
+        navigate(`/agregar-finca/${usuario.id}`);
+      }}
+      mostrarAgregar={true}
+    />
       
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

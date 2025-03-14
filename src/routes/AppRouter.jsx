@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from '../pages/Login/Login'
 import Inicio from "../pages/inicio/Inicio";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 import AgregarFinca from "../pages/admin/fincas/CrearFincas/Agregar"
 import EditarFinca from '../pages/admin/fincas/EditarFinca/editar';
 import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio'
@@ -17,15 +18,15 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/agregar-finca/:id" element={<AgregarFinca />} />
-        <Route path="/inicio-SuperAdmin" element={<InicioSuperAdmin />} />
-        <Route path="/editar-finca/:id" element={<EditarFinca />} />
-        <Route path="/sensores-admin/:id/:idUser" element={<Sensores />} />
-        <Route path="datos-sensor/:id" element={<VerDatoSensor />} />
-        <Route path="/lista-fincas/:id" element={<ListaFincas />} />
-        <Route path="/alternos/:id" element={<TablaAlternos />} />
-        <Route path="/sensores-alterno/:id/:idUser" element={<SensoresAlterno />} />
-        <Route path="/activar-sensores/:id/:idUser" element={<ActivarSensores />} />
+        <Route path="/agregar-finca/:id" element={<ProtectedRoute element={AgregarFinca} />} />
+        <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={InicioSuperAdmin} />} />
+        <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} />} />
+        <Route path="/sensores-admin/:id/:idUser" element={<ProtectedRoute element={Sensores} />} />
+        <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} />} />
+        <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} />} />
+        <Route path="/alternos/:id" element={<ProtectedRoute element={TablaAlternos} />} />
+        <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={SensoresAlterno} />} />
+        <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ActivarSensores} />} />
       </Routes>
     </Router>
   )

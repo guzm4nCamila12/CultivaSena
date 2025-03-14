@@ -33,8 +33,9 @@ export const login = async (inicioUsuario) => {
   if (!response.ok) {
     throw new Error("Error en el inicio de sesión");
   }
+  const data = await response.json();
 
-  return response.json();
+  return data;
 };
 
 //Funcion para insertar un usuario

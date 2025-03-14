@@ -38,7 +38,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <div className='bg-[#00304D] h-12 w-full z-50 px-4'>
+      <div className='bg-[#002A43] h-12 w-full z-50 px-4'>
         <div className='container mx-auto py-1 flex flex-row items-center'>
           {/* Icono de menú */}
           <img
@@ -53,16 +53,15 @@ export default function Navbar() {
 
           {/* Menu lateral con "cabeza" sobresaliente */}
           <div
-            className={`absolute mt-[172px] top-10 left-0 w-64 bg-[#00304D] p-4 rounded-3xl shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${menuVisible ? 'translate-x-0' : '-translate-x-full'
-              }`}
+            className={`absolute mt-[172px] top-10 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
             {/* Cabeza sobresaliente en el centro superior */}
             <div
-              className="absolute -top-2 ml-[72px] transform -translate-x-1/2 w-0 h-0 border-l-[16px] border-r-[16px] border-b-[10px] border-l-transparent border-r-transparent border-b-[#00304D]"
+              className="absolute -top-2 xl:left-4 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]"
             ></div>
-            <div className=''>
-              <h3 className='w-full justify-center flex mb-3 text-white font-medium'>Menú</h3>
-              <div className='bg-red-500 flex justify-center rounded-3xl'>
+            <div>
+              <h3 className='w-full flex mb-3 text-white font-medium  border-b-2 pb-2 pl-2 border-white'>Menú Principal</h3>
+              <div className='flex justify-center rounded-3xl'>
                 <img src={logOutIcon} alt="" className='mt-2 h-5 w-6' />
                 <button
                   onClick={handleLogout}

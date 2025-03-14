@@ -29,6 +29,7 @@ import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png"
 import Alerta from "../../../assets/img/Alert.png"
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import UserCards from "../../../components/UseCards";
 
 const Inicio = () => {
   //Estado para gestionar los usuarios y formularios
@@ -231,6 +232,7 @@ const Inicio = () => {
 
   //Define las columnas de la tabla
   const columnas = [
+    { key: "fotoPerfil",  label: "fotoPerfil", icon: fotoPerfil  },
     { key: "nombre",  label: "Nombre", icon: phoneBlue  },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
     { key: "correo", label: "Correo", icon: emailBlue },
@@ -334,7 +336,7 @@ const Inicio = () => {
   return (
     <div>
       <NavBar />
-      <Tabla
+      <UserCards
         titulo="Usuarios registrados"
         columnas={columnas}
         datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}

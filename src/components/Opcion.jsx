@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react'; // Asegúrate de importar 'useEffect'
 import OpcionTabla from "../assets/icons/OpcionTabla.png";
 import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png";
-import Tabla from './Tabla'; // Asegúrate de que la ruta esté bien
-import UserCards from './UseCards'; // Asegúrate de que la ruta esté bien
 import { getUsuarios } from "../services/usuarios/ApiUsuarios"; // Asegúrate de que la ruta y el método estén bien
 
 function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
@@ -45,29 +43,6 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
             </button>
           </div>
         </div>
-  
-        {/* Renderizar Tabla o UserCards dependiendo de la vista activa */}
-        {/* {vistaActiva === 'tabla' ? (
-          <Tabla
-          titulo="Usuarios registrados"
-          columnas={columnas}
-          datos={usuarios && Array.isArray(usuarios) ? usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) })) : []}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-        
-        ) : (
-            <UserCards
-            titulo="Usuarios registrados"
-            columnas={columnas}
-            datos={usuarios && Array.isArray(usuarios) ? usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) })) : []}
-            acciones={acciones}
-            onAddUser={() => setModalInsertarAbierto(true)}
-            mostrarAgregar={true}
-          />
-          
-        )} */}
       </div>
     );
   }

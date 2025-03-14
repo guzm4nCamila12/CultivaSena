@@ -2,52 +2,59 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //iconos de las columnas
-import phoneBlue from "../../../assets/icons/phoneBlue.png"
-import emailBlue from "../../../assets/icons/emailBlue.png"
-import rolBlue from "../../../assets/icons/rolBlue.png"
+import phoneBlue from "../../../assets/icons/phoneBlue.png";
+import emailBlue from "../../../assets/icons/emailBlue.png";
+import rolBlue from "../../../assets/icons/rolBlue.png";
 //iconos de las acciones
-import deletWhite from "../../../assets/icons/deleteWhite.png"
-import editWhite from "../../../assets/icons/editWhite.png"
-import viewWhite from "../../../assets/icons/viewWhite.png"
-import sinFincas from "../../../assets/icons/sinFincas.png"
+import deletWhite from "../../../assets/icons/deleteWhite.png";
+import editWhite from "../../../assets/icons/editWhite.png";
+import viewWhite from "../../../assets/icons/viewWhite.png";
+import sinFincas from "../../../assets/icons/sinFincas.png";
 //iconos de modales
-import nameGray from "../../../assets/icons/userGray.png"
-import phoneGray from "../../../assets/icons/phoneGray.png"
-import emailGray from "../../../assets/icons/emailGray.png"
-import passwordGray from "../../../assets/icons/passwordGray.svg"
-import rolGray from "../../../assets/icons/rolGray.png"
+import nameGray from "../../../assets/icons/userGray.png";
+import phoneGray from "../../../assets/icons/phoneGray.png";
+import emailGray from "../../../assets/icons/emailGray.png";
+import passwordGray from "../../../assets/icons/passwordGray.svg";
+import rolGray from "../../../assets/icons/rolGray.png";
+//iconos para cambiar la vista
+import OpcionTabla from "../../../assets/icons/OpcionTabla.png"; 
+import OpcionTarjeta from "../../../assets/icons/OpcionTarjetas.png";
 //componentes reutilizados
 import Tabla from "../../../components/Tabla";
+import UserCards from "../../../components/UseCards";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
+import Opcion from "../../../components/Opcion";
 //imgs modales
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
-import sinFinca from "../../../assets/img/sinFincas.png"
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png"
-import Alerta from "../../../assets/img/Alert.png"
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
+import sinFinca from "../../../assets/img/sinFincas.png";
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
+import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png";
+import Alerta from "../../../assets/img/Alert.png";
 //endpoints para consumir api
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
-import UserCards from "../../../components/UseCards";
 
 const Inicio = () => {
-  //Estado para gestionar los usuarios y formularios
+  // Estado para seleccionar la vista: "tabla" o "tarjetas"
+  const [vistaActiva, setVistaActiva] = useState("tabla");
+
+  //Estados para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [usuarioEliminar, setUsuarioEliminar] = useState(false);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
-  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false)
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
 
   //Obtiene los usuarios al cargar el componente 
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
   }, []);
 
-  //Funcion para convertir el id_rol
+  //Funcion para convertir el id_rol a su nombre correspondiente
   const obtenerRol = (id_rol) => {
     switch (id_rol) {
       case 1:
@@ -69,8 +76,8 @@ const Inicio = () => {
   //Maneja el proceso de agregar un usuario
   const handleInsertar = async (e) => {
     e.preventDefault();
-    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
-      acctionSucessful.fire ({
+    if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
+      acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
         title: "¡Por favor, complete todos los campos!"
@@ -89,8 +96,8 @@ const Inicio = () => {
       return;
     }
   
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    // Validación del teléfono (suponiendo 10 dígitos)
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -100,7 +107,7 @@ const Inicio = () => {
       return;
     }
   
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    // Validación de la clave (mínimo 6 caracteres)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -144,7 +151,6 @@ const Inicio = () => {
     }
   };
   
-
   //Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
@@ -154,7 +160,7 @@ const Inicio = () => {
   const handleEditar = async (e) => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
-      acctionSucessful.fire ({
+      acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
         title: "¡Por favor, complete todos los campos!"
@@ -173,8 +179,8 @@ const Inicio = () => {
       return;
     }
   
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    // Validación del teléfono (suponiendo 10 dígitos)
+    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -184,7 +190,7 @@ const Inicio = () => {
       return;
     }
   
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
+    // Validación de la clave (mínimo 6 caracteres)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -203,26 +209,28 @@ const Inicio = () => {
       return;
     }
     try {
-      actualizarUsuario(Number(editarUsuario.id), editarUsuario)
+      actualizarUsuario(Number(editarUsuario.id), editarUsuario);
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: "¡Usuario editado correctamente!"
       });
-      setModalEditarAbierto(false)
+      setModalEditarAbierto(false);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
   //Maneja el proceso de eliminar un usuario
   const handleEliminarUsuario = (e) => {
     e.preventDefault();
-    eliminarUsuario(usuarioEliminar).then(() => {
-      setUsuarios(usuarios.filter(usuario => usuario.id !== usuarioEliminar));
-      setModalEliminarAbierto(false);
-    }).catch(console.error);
+    eliminarUsuario(usuarioEliminar)
+      .then(() => {
+        setUsuarios(usuarios.filter(usuario => usuario.id !== usuarioEliminar));
+        setModalEliminarAbierto(false);
+      })
+      .catch(console.error);
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
@@ -232,15 +240,15 @@ const Inicio = () => {
 
   //Define las columnas de la tabla
   const columnas = [
-    { key: "nombre",  label: "Nombre", icon: phoneBlue },
+    { key: "fotoPerfil", label: "fotoPerfil", icon: fotoPerfil },
+    { key: "nombre", label: "Nombre", icon: phoneBlue },
     { key: "telefono", label: "Teléfono", icon: phoneBlue },
     { key: "correo", label: "Correo", icon: emailBlue },
     { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
     { key: "acciones", label: "Acciones" },
   ];
 
-
-  //Definicion de las acciones que se pueden hacer en una fila
+  //Definición de las acciones que se pueden hacer en una fila
   const acciones = (fila) => {
     return (
       <div className="flex justify-center gap-4">
@@ -274,7 +282,7 @@ const Inicio = () => {
         {/* Botón Ver (para Admin) */}
         {fila.id_rol === "Admin" && (
           <div className="relative group">
-            <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" >
+            <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
               <button>
                 <img src={viewWhite} alt="Ver" />
               </button>
@@ -301,7 +309,6 @@ const Inicio = () => {
   };
 
   const abrirModalEditar = (usuario) => {
-    // Crear un objeto con solo las propiedades que necesitas
     const usuarioNecesario = {
       id: usuario.id,
       nombre: usuario.nombre,
@@ -316,10 +323,10 @@ const Inicio = () => {
 
   const abrirModalEliminar = (id) => {
     setUsuarioEliminar(id);
-    setModalEliminarAbierto(true)
-  }
+    setModalEliminarAbierto(true);
+  };
 
-  //Funcion para convertir el nombre del rol con su ID correspondiente 
+  //Función para convertir el nombre del rol a su ID correspondiente 
   const enviarRol = (rol) => {
     switch (rol) {
       case 'SuperAdmin':
@@ -329,20 +336,41 @@ const Inicio = () => {
       case 'Alterno':
         return 3;
       default:
-        break;
+        return "";
     }
-  }
+  };
+
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
 
   return (
     <div>
       <NavBar />
-      <UserCards
-        titulo="Usuarios registrados"
-        columnas={columnas}
-        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-        acciones={acciones} onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true} />
+      
 
+
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo="Usuarios registrados"
+          columnas={columnas}
+          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      ) : (
+        <UserCards
+          titulo="Usuarios registrados"
+          columnas={columnas}
+          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      )}
+      {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -351,7 +379,7 @@ const Inicio = () => {
             <form onSubmit={handleInsertar}>
               {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -362,7 +390,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -372,7 +400,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -382,20 +410,20 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="clave"
                   placeholder="Clave"
-                  onChange={handleChange} />
+                  onChange={handleChange}
+                />
               </div>
               <div className="relative w-full mt-2">
-                <img src={rolGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={rolGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <select
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="id_rol"
-                  placeholder="ID Rol"
                   value={nuevoUsuario.id_rol}
                   onChange={handleChange}
                   required
@@ -408,19 +436,23 @@ const Inicio = () => {
               <div className="flex gap-4 mt-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalInsertarAbierto(false)}>
+                  onClick={() => setModalInsertarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Agregar
                 </button>
               </div>
             </form>
-          </div >
-        </div >
+          </div>
+        </div>
       )}
 
+      {/* Modal Editar Usuario */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -429,7 +461,7 @@ const Inicio = () => {
             <form onSubmit={handleEditar}>
               {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={nameGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.nombre}
@@ -440,7 +472,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.telefono}
@@ -451,7 +483,7 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.correo}
@@ -462,39 +494,43 @@ const Inicio = () => {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={passwordGray} alt="icono" className=" absolute left-3 top-1/2 transform -translate-y-1/2 " />
+                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={editarUsuario.clave}
                   type="text"
                   name="clave"
                   placeholder="Clave"
-                  onChange={handleChangeEditar} />
+                  onChange={handleChangeEditar}
+                />
               </div>
               <div className="flex gap-4 mt-4">
-                <button type="button"
+                <button
+                  type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEditarAbierto(false)}>
+                  onClick={() => setModalEditarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Editar
                 </button>
               </div>
             </form>
           </div>
         </div>
-      )
-      }
+      )}
 
-      {/*Modal que se muestra cuando el usuario no tiene fincas agregadas*/}
+      {/* Modal Sin Fincas */}
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Sin Fincas</h5>
             <hr />
-            <form >
+            <form>
               <div className="flex justify-center my-4">
                 <img src={sinFinca} alt="icono" />
               </div>
@@ -503,7 +539,8 @@ const Inicio = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalSinFincasAbierto(false)} >
+                  onClick={() => setModalSinFincasAbierto(false)}
+                >
                   Aceptar
                 </button>
               </div>
@@ -512,6 +549,7 @@ const Inicio = () => {
         </div>
       )}
 
+      {/* Modal Eliminar Usuario */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -526,7 +564,8 @@ const Inicio = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)} >
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">

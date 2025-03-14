@@ -6,6 +6,7 @@ import { getSensor, getHistorialSensores } from '../../../../services/sensores/A
 import data from "../../../../assets/icons/dataWhite.png";
 import horaIcon from "../../../../assets/icons/relojWhite.png";
 import fechaIcon from  "../../../../assets/icons/fechaWhite.png";
+import filtroIcon from "../../../../assets/icons/filterIcon.png"
 
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {
@@ -55,7 +56,6 @@ export default function VerSensores() {
       .catch(error => console.error("Error al obtener los datos del sensor", error));
   }, [id]);
 
-
   const filtrarDatos = () => {
     return datosSensor.filter(item => {
       const { fecha } = item;
@@ -96,6 +96,7 @@ export default function VerSensores() {
             </div>
           </div>
         </div>
+        
         <div className="overflow-x-auto max-h-64 p-0 m-0">
           <table className="w-full table-fixed border-separate border-spacing-y-3">
             <thead className="sticky top-0 bg-[#00304D] text-white text-left">

@@ -8,6 +8,7 @@ import openEyeGray from "../../assets/icons/openEyeGray.png"
 import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import Swal from "sweetalert2";
 import AtrasIcon from "../../assets/icons/Vector(1).png"
+import { acctionSucessful } from "../../components/alertSuccesful";
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña
@@ -34,10 +35,10 @@ const Login = () => {
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', user.id_rol);
 
-        // acctionSucessful.fire({
-        //   icon: "success",
-        //   title: `Bienvenido ${data.nombre}`
-        // });
+        acctionSucessful.fire({
+          icon: "success",
+          title: `Bienvenido ${user.nombre}`
+        });
         // Lógica de navegación después de que se haya actualizado el estado
         if (user.id_rol === 1) {
           navigate("/inicio-SuperAdmin");

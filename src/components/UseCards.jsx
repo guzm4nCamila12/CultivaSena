@@ -10,6 +10,8 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [vistaActiva, setVistaActiva] = useState("tabla");
+
 
   // Filtra la información con base en la búsqueda
   const datosFiltrados = datos.filter((fila) =>
@@ -32,6 +34,11 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
     setDescripcionModal("");
   };
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
+
   return (
     <div className="container mx-auto p-4 sm:px-0">
       {/* Buscador */}
@@ -49,9 +56,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
-        </div>
-        <Opcion/>
-      </div>
+        </div>      </div>
 
       {/* Contenedor de tarjetas */}
       <div

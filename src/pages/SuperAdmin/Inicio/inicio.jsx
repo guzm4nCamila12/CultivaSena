@@ -37,7 +37,7 @@ import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from
 
 const Inicio = () => {
   // Estado para seleccionar la vista: "tabla" o "tarjetas"
-  const [vistaActiva, setVistaActiva] = useState("tabla");
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   //Estados para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
@@ -347,9 +347,7 @@ const Inicio = () => {
   return (
     <div>
       <NavBar />
-      
-
-
+      <Opcion onChangeVista={handleVistaChange}/>
       {/* Renderiza la vista activa */}
       {vistaActiva === "tabla" ? (
         <Tabla

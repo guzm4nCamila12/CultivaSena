@@ -5,6 +5,7 @@ import microphone from "../assets/icons/Microphone.png";
 import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
 import adminIcon from "../assets/img/PerfilAdmin.png";
 import alternoIcon from "../assets/img/PerfilAlterno.png";
+import Opcion from "./Opcion";
 
 const getRoleImage = (role) => {
     switch (role) {
@@ -21,6 +22,8 @@ const getRoleImage = (role) => {
 
 const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
     const [busqueda, setBusqueda] = useState("");
+    const [vistaActiva, setVistaActiva] = useState("tabla");
+
 
     // Filtrar datos según la búsqueda
     const datosFiltrados = datos.filter((fila) =>
@@ -28,6 +31,10 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
             String(fila[columna.key] || "").toLowerCase().includes(busqueda.toLowerCase())
         )
     );
+
+    const handleVistaChange = (vista) => {
+        setVistaActiva(vista);
+      };
 
     // Agregar una columna vacía al principio
     const columnasConVacia = [{ key: "vacía", label: "" }, ...columnas];

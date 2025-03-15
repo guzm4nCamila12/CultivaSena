@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+
+//Importaciones de el Mapa
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+//Importaciones de Iconos
 import locationIcon from "../assets/icons/location.png"
 import markerGreen from "../assets/icons/MarkerGreen.png"
 import ubicacionIcon from "../assets/icons/ubiWhite.png"
@@ -10,7 +14,7 @@ import zoomIn from "../assets/icons/zoomIn.png"
 import zoomOut from "../assets/icons/zoomOut.png"
 
 const Mapa = ({ setUbicacion, ubicacion }) => {
-  const [position, setPosition] = useState(ubicacion || {  lat: 4.54357027937176, lng: -72.97119140625001 });
+  const [position, setPosition] = useState(ubicacion || { lat: 4.54357027937176, lng: -72.97119140625001 });
   const [mapInstance, setMapInstance] = useState(null);
 
   useEffect(() => {
@@ -28,11 +32,13 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     });
   }, []);
 
-   const customIcon = new L.Icon({
-    iconUrl: markerGreen,  // Ruta al archivo de la imagen
-    iconSize: [50, 65],     // Tamaño del ícono
-    iconAnchor: [20, 35],   // Anclaje del ícono
+  //Personalizacion de el icono de Marcador en el mapa
+  const customIcon = new L.Icon({
+    iconUrl: markerGreen,
+    iconSize: [50, 65],     
+    iconAnchor: [25, 60],
   });
+
 
   const MyMapEvents = () => {
     useMapEvent('click', (event) => {
@@ -42,17 +48,21 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     });
     return null;
   };
+  
+  //Funcion para acercar zoom en el mapa
   const handleZoomIn = () => {
     if (mapInstance) {
       mapInstance.zoomIn();
     }
   };
 
+  //Funcion para alejar zoom en el mapa
   const handleZoomOut = () => {
     if (mapInstance) {
       mapInstance.zoomOut();
     }
   };
+
 
   const mapRef = (map) => {
     if (map) {
@@ -60,6 +70,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     }
   };
 
+  //Funcion para obtener la ubicacion actual o aproximada de el usuario por medio de el navegador
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -91,8 +102,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 lg:rounded-b-3xl' 
           zoomControl={false} zoom={5} style={{ width: '100%', height: '600px' }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+          
+          {/* Marcador con customIcon arriba */}
           <Marker position={position} icon={customIcon}>
           </Marker>
+
           <MyMapEvents />
         </MapContainer>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white h-28 z-30 lg:bg-none"></div> 
@@ -100,16 +114,25 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       <div className='p-2 shadow-2xl rounded-b-3xl flex flex-wrap lg:shadow-none lg:absolute lg:-bottom-0 lg:bg-transparent bg-white lg:w-full lg:flex lg:flex-row z-50'>
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
           <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
-            <button type="button" title="Mostrar tu ubicación" onClick={getCurrentLocation}>
+            <button type="button" onClick={getCurrentLocation} className='group relative'>
               <img src={currLocationIcon} alt="Ubicación Actual"/>
+              <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 w-48 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
+                Mostrar tu ubicacion
+              </span>
             </button>
           </div>
           <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 lg:shadow-xl shadow-md'>
-            <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2]'>
+            <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2] group relative'>
               <img src={zoomOut} alt="Zoom Out"/>
+              <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
+                Alejar
+              </span>
             </button>
-            <button type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2]'>
+            <button type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2] group relative'>
               <img src={zoomIn} alt="Zoom In"/>
+              <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
+                Acercar
+              </span>
             </button>
           </div>
         </div>

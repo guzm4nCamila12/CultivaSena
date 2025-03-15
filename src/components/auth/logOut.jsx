@@ -2,6 +2,7 @@ import {React, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ConfirmarEliminar from '../../assets/img/Eliminar.png'
 import { acctionSucessful } from "../../components/alertSuccesful";
+import goodBye from "../../assets/img/goodByeIcon.png"
 
 
 const LogOut = () => {
@@ -17,10 +18,11 @@ const LogOut = () => {
         // Redirigir al usuario a la página de login
         navigate('/');
         acctionSucessful.fire({
-          
-            title: "¡Sesión Cerrada!"
-          });
-      
+          imageUrl: goodBye,
+          imageAlt: 'Icono personalizado',
+          title: `¡Sesión Cerrada!`
+        });
+        
       };
 
   return (

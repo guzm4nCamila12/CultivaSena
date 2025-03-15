@@ -10,8 +10,6 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [vistaActiva, setVistaActiva] = useState("tabla");
-
 
   // Filtra la información con base en la búsqueda
   const datosFiltrados = datos.filter((fila) =>
@@ -34,11 +32,6 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
     setDescripcionModal("");
   };
 
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-  };
-
-
   return (
     <div className="container mx-auto p-4 sm:px-0">
       {/* Buscador */}
@@ -56,7 +49,10 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
-        </div>      </div>
+        </div>
+
+
+      </div>
 
       {/* Contenedor de tarjetas */}
       <div
@@ -65,131 +61,112 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
           : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           }`}
       >
-        {/* Tarjeta para agregar usuario */}
-        {datosFiltrados.length === 0 ? (
+        {/* Mostrar solo el botón de agregar si 'mostrarAgregar' es verdadero */}
+        {mostrarAgregar && (
           <div
-            className="w-full h-52 flex flex-col items-center justify-center 
-                       bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 
-                       rounded-[36px] cursor-pointer transition duration-300 
-                       hover:shadow-md hover:shadow-black/25 hover:scale-95"
-            onClick={onAddUser}
-          >
-            <span className="text-[#009E00] text-2xl font-semibold">
-              Agregar
-            </span>
-            <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
-              <span className="text-white text-3xl font-bold">+</span>
-            </div>
-          </div>
-        ) : (
-          <>
-            {/* Tarjeta de "Agregar Usuario" cuando hay usuarios */}
-            <div
-              className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center 
+            className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center 
                        bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 
                        rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer transition duration-300 
                        hover:shadow-md hover:shadow-black/25 hover:scale-95"
-              onClick={onAddUser}
-            >
-              <span className="text-[#009E00] text-base sm:text-2xl font-semibold">
-                Agregar
-              </span>
-              <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
-                <span className="text-white text-xl sm:text-3xl font-bold">+</span>
-              </div>
+            onClick={onAddUser}
+          >
+            <span className="text-[#009E00] text-base sm:text-2xl font-semibold">
+              Agregar
+            </span>
+            <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
+              <span className="text-white text-xl sm:text-3xl font-bold">+</span>
             </div>
+          </div>
+        )}
 
-            {/* Tarjetas de usuario */}
-            {datosFiltrados.map((fila, index) => (
-              <div
-                key={fila.id || index}
-                className="bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col 
+        {/* Tarjetas de usuario */}
+        {datosFiltrados.map((fila, index) => (
+          <div
+            key={fila.id || index}
+            className="bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col 
                        relative bg-cover bg-center transition delay-50 duration-300 
                        hover:shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] hover:shadow-black/25 
                        ease-in-out hover:scale-95"
-                style={{ backgroundImage: "url('/fondoCards.png')" }}
-              >
-                {/* Título */}
-                <div
-                  className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
-                  style={{
-                    backgroundImage: "url('/fondoTitle.png')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center center",
-                    backgroundRepeat: "no-repeat",
-                  }}
-                >
-                  {fila.nombre || `Dato ${index + 1}`}
-                </div>
+            style={{ backgroundImage: "url('/fondoCards.png')" }}
+          >
+            {/* Título */}
+            <div
+              className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
+              style={{
+                backgroundImage: "url('/fondoTitle.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center center",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              {fila.nombre || `Dato ${index + 1}`}
+            </div>
 
-                {/* Datos */}
-                <div className="p-4 flex flex-col gap-2 relative">
-                  {columnas
-                    .filter(
-                      (columna) =>
-                        columna.key !== "acciones" &&
-                        columna.key !== "#" &&
-                        columna.key !== "nombre" &&
-                        columna.key !== "fotoPerfil"
-                    )
-                    .map((columna, i) => (
-                      <div key={i} className="text-sm flex items-center">
-                        {columna.icon && (
-                          <img
-                            src={columna.icon}
-                            alt={columna.label}
-                            className="mr-2"
-                          />
-                        )}
-                        <strong>{columna.label}:</strong>{" "}
-                        <span className="ml-1">
-                          {columna.key === "descripcion" &&
-                            fila[columna.key]?.length > 15 ? (
-                            <>
-                              {fila[columna.key].slice(0, 15)}...{" "}
-                              <button
-                                className="text-blue-500"
-                                onClick={() =>
-                                  handleVerMas(fila[columna.key])
-                                }
-                              >
-                                Ver más
-                              </button>
-                            </>
-                          ) : (
-                            fila[columna.key]
-                          )}
-                        </span>
-                      </div>
-                    ))}
-                </div>
-
-                {/* Foto de perfil */}
-                {columnas.some((columna) => columna.key === "fotoPerfil") && (
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                    <img
-                      src={
-                        columnas.find((col) => col.key === "fotoPerfil").icon ||
-                        "/defaultProfile.png"
-                      }
-                      alt="Foto de perfil"
-                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
-                    />
+            {/* Datos */}
+            <div className="p-4 flex flex-col gap-2 relative">
+              {columnas
+                .filter(
+                  (columna) =>
+                    columna.key !== "acciones" &&
+                    columna.key !== "#" &&
+                    columna.key !== "nombre" &&
+                    columna.key !== "fotoPerfil"
+                )
+                .map((columna, i) => (
+                  <div key={i} className="text-sm flex items-center">
+                    {columna.icon && (
+                      <img
+                        src={columna.icon}
+                        alt={columna.label}
+                        className="mr-2"
+                      />
+                    )}
+                    <strong>{columna.label}:</strong>{" "}
+                    <span className="ml-1">
+                      {columna.key === "descripcion" &&
+                        fila[columna.key]?.length > 15 ? (
+                        <>
+                          {fila[columna.key].slice(0, 15)}...{" "}
+                          <button
+                            className="text-blue-500"
+                            onClick={() =>
+                              handleVerMas(fila[columna.key])
+                            }
+                          >
+                            Ver más
+                          </button>
+                        </>
+                      ) : (
+                        fila[columna.key]
+                      )}
+                    </span>
                   </div>
-                )}
+                ))}
+            </div>
 
-                <hr />
-
-                {/* Botones de acción */}
-                <div className="flex items-center justify-center p-3">
-                  {typeof acciones === "function" && acciones(fila)}
-                </div>
+            {/* Foto de perfil */}
+            {columnas.some((columna) => columna.key === "fotoPerfil") && (
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <img
+                  src={
+                    columnas.find((col) => col.key === "fotoPerfil").icon ||
+                    "/defaultProfile.png"
+                  }
+                  alt="Foto de perfil"
+                  className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
+                />
               </div>
-            ))}
-          </>
-        )}
-      </div>
+            )}
 
+            <hr />
+
+            {/* Botones de acción */}
+            <div className="flex items-center justify-center p-3">
+              {typeof acciones === "function" && acciones(fila)}
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* Modal */}
       {modalOpen && (

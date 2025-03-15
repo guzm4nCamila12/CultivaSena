@@ -15,7 +15,9 @@ import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
-import Tabla from "../../../components/UseCards";
+import Tabla from "../../../components/Tabla";
+import UserCards from "../../../components/UseCards";
+import Opcion from "../../../components/Opcion";
 import NavBar from "../../../components/navbar"
 //endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
@@ -31,6 +33,7 @@ import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
 import LogOut from "../../../components/auth/logOut";
 function ActivarSensores() {
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -353,21 +356,36 @@ function ActivarSensores() {
     });
   };
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
     <div>
       <NavBar />
       <LogOut />
-
-      <Tabla
-        titulo={`Sensores de la finca: ${fincas.nombre}`}
-        columnas={columnas}
-        datos={sensoresDeFinca}
-
-        acciones={acciones}
-        onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true} />
+        <Opcion onChangeVista={handleVistaChange}/>
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Sensores de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          datos={sensoresDeFinca}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      ) : (
+        <UserCards
+          titulo={`Sensores de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          datos={sensoresDeFinca}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      )}
       {/*Codigo modal insertar */}
-
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

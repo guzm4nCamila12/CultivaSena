@@ -30,13 +30,13 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
         <div className="flex items-center mb-4">
           <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
             <button
-              className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-white' : 'bg-[#93A6B2]'}`}
+              className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-[#93A6B2]' : 'bg-white' }`}
               onClick={() => handleVistaChange('tabla')}
             >
               <img src={OpcionTabla} alt="Lista" />
             </button>
             <button
-              className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tarjetas' ? 'bg-white' : 'bg-[#93A6B2]'}`}
+              className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tarjetas' ? 'bg-[#93A6B2]' : 'bg-white' }`}
               onClick={() => handleVistaChange('tarjetas')}
             >
               <img src={OpcionTarjeta} alt="Tarjetas" />

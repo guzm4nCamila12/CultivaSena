@@ -20,7 +20,9 @@ import Alerta from "../../../assets/img/Alert.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
-import UseCards from "../../../components/UseCards";
+import UserCards from "../../../components/UseCards";
+import Tabla from "../../../components/Tabla";
+import Opcion from "../../../components/Opcion";
 //endpoints para consumir api
 import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
@@ -37,6 +39,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   //Efecto que carga los datos
   useEffect(() => {
@@ -250,17 +253,34 @@ const Inicio = () => {
     </div>
   );
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
     <div >
       <Navbar />
-      <UseCards
-        columnas={columnas}
-        datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
-        titulo={`Alternos de la finca: ${fincas.nombre}`}
-        acciones={acciones}
-        onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true}
-      />
+      <Opcion onChangeVista={handleVistaChange}/>
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Alternos de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      ) : (
+        <UserCards
+          titulo={`Alternos de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+        />
+      )}
 
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

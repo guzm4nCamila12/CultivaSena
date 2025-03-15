@@ -6,7 +6,9 @@ import estadoBlue from "../../../assets/icons/estadoBlue.png"
 import viewWhite from "../../../assets/icons/viewWhite.png";
 //componentes reutilizados
 import Navbar from "../../../components/navbar";
-import UseCards from "../../../components/UseCards";
+import UserCards from "../../../components/UseCards";
+import Tabla from "../../../components/Tabla";
+import Opcion from "../../../components/Opcion";
 //endpoints para consumir el api
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../../services/sensores/ApiSensores";
@@ -16,6 +18,7 @@ import { useParams, Link } from "react-router-dom";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -83,36 +86,72 @@ function SensoresAlterno() {
       </Link>
     </div>
   );
+
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
   return (
     <div >
       <Navbar />
-      <UseCards
-        titulo={`Sensor de la finca: ${fincas.nombre}`}
-        columnas={columnas}
-        mostrarAgregar={false}
-        datos={sensores.map((sensor, index) => ({
-          ...sensor,
-          "#": index + 1,
-          estado: (
-            <div className="flex justify-center items-center">
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} //Muestra el estado del sensor
-                  disabled
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
-          ),
-        }))}
-        acciones={acciones}
-      />
+      <Opcion onChangeVista={handleVistaChange}/>
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Sensor de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          acciones={acciones}
+          mostrarAgregar={false}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor,
+            "#": index + 1,
+            estado: (
+              <div className="flex justify-center items-center">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={sensor.estado} //Muestra el estado del sensor
+                    disabled
+                    className="sr-only"
+                  />
+                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
+      ) : (
+        <UserCards
+          titulo={`Sensor de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          acciones={acciones}
+          mostrarAgregar={false}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor,
+            "#": index + 1,
+            estado: (
+              <div className="flex justify-center items-center">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={sensor.estado} //Muestra el estado del sensor
+                    disabled
+                    className="sr-only"
+                  />
+                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
+      )}
     </div>
   );
 }

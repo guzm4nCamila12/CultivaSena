@@ -7,14 +7,16 @@ import alternoIcon from "../../../../assets/icons/alternoBlue.png"
 //icono de agregar finca
 import fincaWhite from "../../../../assets/icons/fincaWhite.png";
 //componentes reutilizados
-import UseCards from '../../../../components/UseCards';
+import UserCards from "../../../../components/UseCards";
 import Navbar from '../../../../components/navbar';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
+import Opcion from "../../../../components/Opcion";
+import Tabla from "../../../../components/Tabla"
 //imgs de modales
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 //endpoints para consumir api
-import {getUsuarioById} from "../../../../services/usuarios/ApiUsuarios"
+import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios"
 import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
 //importaciones necesarias de react
 import { useState, useEffect } from 'react';
@@ -30,6 +32,7 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   useEffect(() => {
     getUsuarioById(id)
@@ -119,21 +122,41 @@ export default function ListaFincas() {
       </Link>
   }));
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
-    <div > 
+    <div >
       <Navbar />
-      <UseCards
-      titulo={`Fincas de: ${usuario.nombre}`}
-      columnas={columnas}
-      datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
-      acciones={acciones}
-      onAddUser={() => {
-        // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
-        navigate(`/agregar-finca/${usuario.id}`);
-      }}
-      mostrarAgregar={true}
-    />
-      
+      <Opcion onChangeVista={handleVistaChange} />
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Fincas de: ${usuario.nombre}`}
+          columnas={columnas}
+          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          acciones={acciones}
+          onAddUser={() => {
+            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
+            navigate(`/agregar-finca/${usuario.id}`);
+          }}
+          mostrarAgregar={true}
+        />
+      ) : (
+        <UserCards
+          titulo={`Fincas de: ${usuario.nombre}`}
+          columnas={columnas}
+          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          acciones={acciones}
+          onAddUser={() => {
+            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
+            navigate(`/agregar-finca/${usuario.id}`);
+          }}
+          mostrarAgregar={true}
+        />
+      )}
+
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

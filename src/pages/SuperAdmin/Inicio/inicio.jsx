@@ -24,6 +24,7 @@ import Tabla from "../../../components/Tabla";
 import UserCards from "../../../components/UseCards";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
+import Opcion from "../../../components/Opcion";
 //imgs modales
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
 import sinFinca from "../../../assets/img/sinFincas.png";
@@ -32,15 +33,11 @@ import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
 import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png";
 import Alerta from "../../../assets/img/Alert.png";
 //endpoints para consumir api
-import Opcion from "../../../components/Opcion";
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estado para seleccionar la vista: "tabla" o "tarjetas"
-  const [vistaActiva, setVistaActiva] = useState("tabla");
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-  };
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   //Estados para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
@@ -343,53 +340,34 @@ const Inicio = () => {
     }
   };
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
     <div>
       <NavBar />
-      {/* Botones para cambiar la vista */}
-      <div className="flex items-center mb-4 justify-center">
-        <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
-          <button
-            className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-white' : 'bg-[#93A6B2]'}`}
-            onClick={() => handleVistaChange('tabla')}
-          >
-            <img src={OpcionTabla} alt="Lista" />
-          </button>
-          <button
-            className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tarjetas' ? 'bg-white' : 'bg-[#93A6B2]'}`}
-            onClick={() => handleVistaChange('tarjetas')}
-          >
-            <img src={OpcionTarjeta} alt="Tarjetas" />
-          </button>
-        </div>
-      </div>
-
-      {/* Renderizado condicional según la vista seleccionada */}
+      <Opcion onChangeVista={handleVistaChange}/>
+      {/* Renderiza la vista activa */}
       {vistaActiva === "tabla" ? (
-      <div>
-        <Opcion
-        vistaActivada="tabla" 
-          titulo="Usuarios dfsdfsdfsdfs"
+        <Tabla
+          titulo="Usuarios registrados"
           columnas={columnas}
           datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
           acciones={acciones}
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
-        </div>
       ) : (
-        <Opcion
-        vistaActivada="cards" 
-
-        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-          titulo="dgfhgfhgf registrados"
+        <UserCards
+          titulo="Usuarios registrados"
           columnas={columnas}
+          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
           acciones={acciones}
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
       )}
-
       {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

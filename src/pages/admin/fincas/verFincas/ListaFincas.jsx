@@ -4,8 +4,11 @@ import editWhite from "../../../../assets/icons/editWhite.png";
 // Iconos de las columnas (sensores y alternos)
 import sensorIcon from "../../../../assets/icons/sensorBlue.png"
 import alternoIcon from "../../../../assets/icons/alternoBlue.png"
+
 // Componentes reutilizados
-import UseCards from '../../../../components/UseCards';
+import UserCards from '../../../../components/UseCards';
+import Tabla from '../../../../components/Tabla';
+import Opcion from '../../../../components/Opcion';
 import Navbar from '../../../../components/navbar';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 // Imágenes para los modales
@@ -13,6 +16,7 @@ import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 // Endpoints para consumir la API
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
+
 import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
 // Importaciones necesarias de React
 import { useState, useEffect } from 'react';
@@ -20,13 +24,15 @@ import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 export default function ListaFincas() {
-  const { id } = useParams(); // Obtenemos el id desde los parámetros de la URL
-  const navigate = useNavigate(); // Hook para la navegación
-  const [fincas, setFincas] = useState([]); // Estado para almacenar las fincas
-  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false); // Estado para controlar la visibilidad del modal de eliminación
-  const [fincaEliminar, setFincaEliminar] = useState(false); // Estado para almacenar la finca que se va a eliminar
-  const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" }); // Estado para los datos del usuario
-  const idRol = Number(localStorage.getItem('rol')); // Obtenemos el rol del usuario desde el almacenamiento local
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [fincas, setFincas] = useState([]);
+  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [fincaEliminar, setFincaEliminar] = useState(false);
+  const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const idRol = Number(localStorage.getItem('rol'));
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   // useEffect para cargar los datos del usuario y las fincas cuando se monta el componente
   useEffect(() => {
@@ -128,21 +134,42 @@ export default function ListaFincas() {
     )
   }));
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
-    <div>
-      <Navbar /> {/* Barra de navegación */}
-      
-      {/* Componente de tarjetas que muestran lasfincas */}
-      <UseCards
-        titulo={`Fincas de: ${usuario.nombre}`} // Título de las tarjetas con el nombre del usuario
-        columnas={columnas} // Las columnas que mostrará la tabla
-        datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []} // Los datos de las fincas con sensores
-        acciones={acciones} // Las acciones para cada fila (editar, eliminar)
-        onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)} // Redirige para agregar una finca
-        mostrarAgregar={true} // Muestra el botón para agregar una finca
-      />
-      
-      {/* Modal para confirmar la eliminación de una finca */}
+
+    <div >
+      <Navbar />
+      <Opcion onChangeVista={handleVistaChange} />
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Fincas de: ${usuario.nombre}`}
+          columnas={columnas}
+          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          acciones={acciones}
+          onAddUser={() => {
+            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
+            navigate(`/agregar-finca/${usuario.id}`);
+          }}
+          mostrarAgregar={true}
+        />
+      ) : (
+        <UserCards
+          titulo={`Fincas de: ${usuario.nombre}`}
+          columnas={columnas}
+          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          acciones={acciones}
+          onAddUser={() => {
+            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
+            navigate(`/agregar-finca/${usuario.id}`);
+          }}
+          mostrarAgregar={true}
+        />
+      )}
+
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

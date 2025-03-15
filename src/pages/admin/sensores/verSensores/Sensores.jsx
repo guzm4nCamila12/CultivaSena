@@ -15,7 +15,9 @@ import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 //componentes reutilizados
-import Tabla from "../../../../components/UseCards";
+import Tabla from "../../../../components/Tabla";
+import UserCards from "../../../../components/UseCards";
+import Opcion from "../../../../components/Opcion";
 import NavBar from "../../../../components/navbar"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 //endpoints para consumir api
@@ -37,6 +39,7 @@ function Sensores() {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
+  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
@@ -204,33 +207,72 @@ function Sensores() {
 
   };
 
+  const handleVistaChange = (vista) => {
+    setVistaActiva(vista);
+  };
+
   return (
     <div>
       <NavBar />
-      <Tabla titulo={`Sensores de la finca: ${fincas.nombre}`}
-        columnas={columnas}
-        onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true}
-        datos={sensores.map((sensor, index) => ({
-          ...sensor, "#": index + 1,
-          estado: (
-            <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-not-allowed">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
-          ),
-        }))} acciones={acciones} />
+        <Opcion onChangeVista={handleVistaChange}/>
+      {/* Renderiza la vista activa */}
+      {vistaActiva === "tabla" ? (
+        <Tabla
+          titulo={`Sensores de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor, "#": index + 1,
+            estado: (
+              <div className="flex justify-start items-center">
+                <label className="relative flex items-center cursor-not-allowed">
+                  <input
+                    type="checkbox"
+                    checked={sensor.estado} // Se mantiene el estado actual del sensor
+                    disabled // Evita que el usuario lo modifique
+                    className="sr-only"
+                  />
+                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
+      ) : (
+        <UserCards
+          titulo={`Sensores de la finca: ${fincas.nombre}`}
+          columnas={columnas}
+          acciones={acciones}
+          onAddUser={() => setModalInsertarAbierto(true)}
+          mostrarAgregar={true}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor, "#": index + 1,
+            estado: (
+              <div className="flex justify-start items-center">
+                <label className="relative flex items-center cursor-not-allowed">
+                  <input
+                    type="checkbox"
+                    checked={sensor.estado} // Se mantiene el estado actual del sensor
+                    disabled // Evita que el usuario lo modifique
+                    className="sr-only"
+                  />
+                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
+      )}
 
       {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (

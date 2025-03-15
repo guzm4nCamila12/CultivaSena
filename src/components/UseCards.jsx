@@ -50,8 +50,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             <img src={microphone} alt="Micrófono" className="w-4" />
           </button>
         </div>
-        <Opcion/>
-
+        
       </div>
 
       {/* Contenedor de tarjetas */}

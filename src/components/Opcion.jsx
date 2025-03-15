@@ -5,31 +5,23 @@ import Tabla from './Tabla'; // Asegúrate de que la ruta esté bien
 import UserCards from './UseCards'; // Asegúrate de que la ruta esté bien
 import { getUsuarios } from "../services/usuarios/ApiUsuarios"; // Asegúrate de que la ruta y el método estén bien
 
-function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
+
+function Opcion({vistaActivada, ...props}) {
     const [vistaActiva, setVistaActiva] = useState('tabla');
     const [usuarios, setUsuarios] = useState([]);
   
-    useEffect(() => {
-        getUsuarios()
-          .then((data) => {
-            console.log("Usuarios obtenidos:", data); // Verifica si los datos son correctos
-            setUsuarios(data || []);
-          })
-          .catch((error) => {
-            console.error("Error al obtener usuarios:", error);
-            setUsuarios([]);
-          });
-      }, []);
+   console.log('props:', props);
+
       
   
     const handleVistaChange = (vista) => {
       setVistaActiva(vista);
-      onChangeVista(vista);
     };
   
     return (
       <div>
-        <div className="flex items-center mb-4">
+       
+        <div className="flex justify-end  mb-4 border border-red-500">
           <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
             <button
               className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-[#93A6B2]' : 'bg-white' }`}
@@ -47,27 +39,18 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
         </div>
   
         {/* Renderizar Tabla o UserCards dependiendo de la vista activa */}
-        {/* {vistaActiva === 'tabla' ? (
+        {vistaActiva === 'tabla' ? (
           <Tabla
-          titulo="Usuarios registrados"
-          columnas={columnas}
-          datos={usuarios && Array.isArray(usuarios) ? usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) })) : []}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
+
+          {...props}
         />
         
         ) : (
             <UserCards
-            titulo="Usuarios registrados"
-            columnas={columnas}
-            datos={usuarios && Array.isArray(usuarios) ? usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) })) : []}
-            acciones={acciones}
-            onAddUser={() => setModalInsertarAbierto(true)}
-            mostrarAgregar={true}
+            {...props}
           />
           
-        )} */}
+        )}
       </div>
     );
   }

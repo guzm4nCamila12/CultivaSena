@@ -32,6 +32,7 @@ import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
 import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png";
 import Alerta from "../../../assets/img/Alert.png";
 //endpoints para consumir api
+import Opcion from "../../../components/Opcion";
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
@@ -365,19 +366,24 @@ const Inicio = () => {
 
       {/* Renderizado condicional según la vista seleccionada */}
       {vistaActiva === "tabla" ? (
-        <Tabla
-          titulo="Usuarios registrados"
+      <div>
+        <Opcion
+        vistaActivada="tabla" 
+          titulo="Usuarios dfsdfsdfsdfs"
           columnas={columnas}
           datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
           acciones={acciones}
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
+        </div>
       ) : (
-        <UserCards
-          titulo="Usuarios registrados"
+        <Opcion
+        vistaActivada="cards" 
+
+        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+          titulo="dgfhgfhgf registrados"
           columnas={columnas}
-          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
           acciones={acciones}
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}

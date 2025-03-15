@@ -68,7 +68,6 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
           </button>
         </div>
 
-
       </div>
 
       {/* Contenedor de tarjetas */}

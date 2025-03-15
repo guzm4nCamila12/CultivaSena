@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import Gov from './gov';
 import BotonAtras from './botonAtras';
 import menuWhite from "../assets/icons/menuWhite.png";
+import cultivaSena from "../assets/icons/cultiva.png"
+
+//Importamos el componente que tiene la funcionalidad de cerrar sesion
 import  CerrarSesion from "./auth/logOut"
 
 export default function Navbar() {
-  const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad del modal
+  const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad de el menu lateral
   const idRol = Number(localStorage.getItem('rol'));
 
   // Función para mostrar el mensaje dependiendo del rol
@@ -17,13 +20,6 @@ export default function Navbar() {
     } else {
       return "Hola, Alterno!";
     }
-  };
-
-  // Función para manejar el clic en "Cerrar sesión"
-  const handleLogout = () => {
-    localStorage.removeItem('rol');
-    localStorage.removeItem('user'); // Puedes añadir más claves a eliminar si es necesario
-    window.location.reload(); // O redirigir a otra página si prefieres
   };
 
   return (
@@ -51,17 +47,22 @@ export default function Navbar() {
           <h2 className='font-extrabold text-white md:text-2xl text-xl'>{rol()}</h2>
           <BotonAtras />
 
-          {/* Menu lateral con "cabeza" sobresaliente */}
+          {/* Menu lateral*/}
           <div
-            className={`absolute mt-[172px] top-10 md:left-10 lg:left-2 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            className={`absolute mt-[172px] top-10 md:left-10 2xl:left-36 lg:left-2 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
-            {/* Cabeza sobresaliente en el centro superior */}
+            {/* Div con forma triangular*/}
             <div
               className="absolute -top-2 xl:left-4 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]"
             ></div>
             <div>
               <h3 className='w-full flex mb-3 text-white font-medium  border-b-2 pb-2 pl-2 border-white'>Menú Principal</h3>
-              <div className='flex justify-center rounded-3xl'>
+              <div className='flex justify-center text-white'>
+                <img src={cultivaSena} alt="" className='w-5 h-5 mr-2' />
+                <h4>Ir a CultivaSena</h4>
+              </div>
+              <div className='flex justify-center rounded-3xl mt-2'>
+                {/*Llamamos el componente que tiene la funcionalidad de cerrar sesion */}
                <CerrarSesion/>
               </div>
             </div>

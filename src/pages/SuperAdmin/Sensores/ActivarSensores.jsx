@@ -29,7 +29,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
-import LogOut from "../../../components/auth/logOut";
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
@@ -143,7 +142,7 @@ function ActivarSensores() {
             onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
             className="sr-only"
           />
-          <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
+          <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
             <div
               className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
             ></div>
@@ -246,7 +245,7 @@ function ActivarSensores() {
         setSensores(nuevosSensores);
         insertarDatos(updatedFormData.mac)
       })
-    } else if(sensorcito[index].mac === null) {
+    } else if (sensorcito[index].mac === null) {
       console.log("bloque 2")
 
       const confirmacion = await showSwal();
@@ -270,16 +269,16 @@ function ActivarSensores() {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
-          if(updatedFormData.estado === true){
+          if (updatedFormData.estado === true) {
 
-            insertarDatos(updatedFormData.mac).then((data) =>{
+            insertarDatos(updatedFormData.mac).then((data) => {
               console.log(data);
             })
           }
         })
         inputValue = '';
       }
-    }else{
+    } else {
       console.log("bloque 3")
 
       const newEstado = !estado;
@@ -301,9 +300,9 @@ function ActivarSensores() {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
-        if(updatedFormData.estado ===true){
+        if (updatedFormData.estado === true) {
 
-          insertarDatos(updatedFormData.mac).then((data) =>{
+          insertarDatos(updatedFormData.mac).then((data) => {
             console.log(data);
           })
         }
@@ -356,7 +355,6 @@ function ActivarSensores() {
   return (
     <div>
       <NavBar />
-      <LogOut />
 
       <Tabla
         titulo={`Sensores de la finca: ${fincas.nombre}`}

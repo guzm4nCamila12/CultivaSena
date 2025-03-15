@@ -9,6 +9,7 @@ import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import Swal from "sweetalert2";
 import AtrasIcon from "../../assets/icons/Vector(1).png"
 import { acctionSucessful } from "../../components/alertSuccesful";
+import welcomeIcon from "../../assets/img/welcome.jpg"
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña
@@ -36,7 +37,8 @@ const Login = () => {
         localStorage.setItem('rol', user.id_rol);
 
         acctionSucessful.fire({
-          icon: "success",
+          imageUrl: welcomeIcon,
+          imageAlt: 'Icono personalizado',
           title: `Bienvenido ${user.nombre}`
         });
         // Lógica de navegación después de que se haya actualizado el estado

@@ -1,4 +1,3 @@
-//importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 //componentes reutilizados
@@ -15,10 +14,11 @@ import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 export default function EditarFinca() {
   //Obtener el ID de la URL
   const { id } = useParams();
+  
   //Declaracion de los estados que gestionan los valores
   const [nombreFinca, setNombreFinca] = useState("");
   const [fincas, setFincas] = useState({});
-  const [ubicacion, setUbicacion] = useState(null);
+  const [ubicacion, setUbicacion] = useState(null);  // Asegúrate de que la ubicación es inicializada correctamente
   const [originalFinca, setOriginalFinca] = useState({});
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function EditarFinca() {
     navigate(-1);
   };
 
-  //Se ejecuta cuando el componente se monta o cuandoi cambia el ID 
+  //Se ejecuta cuando el componente se monta o cuando cambia el ID 
   useEffect(() => {
     //Obtiene los datos de la finca por su ID
     getFincasByIdFincas(id)
@@ -35,7 +35,7 @@ export default function EditarFinca() {
         setFincas(data);
         setOriginalFinca(data);
         setNombreFinca(data.nombre);
-        setUbicacion(data.ubicacion);
+        setUbicacion(data.ubicacion);  // Asignamos la ubicación de la finca a este estado
       })
       .catch(error => console.error("Error al cargar la finca:", error));
   }, [id]);
@@ -48,7 +48,7 @@ export default function EditarFinca() {
     const nombreModificado = nombreFinca !== originalFinca.nombre;
     const ubicacionModificada = JSON.stringify(ubicacion) !== JSON.stringify(originalFinca.ubicacion);
 
-    //Si no se ha modificado algun dato
+    //Si no se ha modificado algun dato muestra un mensaje de alerta
     if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
         icon: "info",
@@ -88,6 +88,7 @@ export default function EditarFinca() {
 
   return (
     <div>
+      {/* Componente de Barra de navegación */}
       <Navbar></Navbar>
       <div style={{ fontFamily: "work sans" }}
         className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
@@ -125,7 +126,7 @@ export default function EditarFinca() {
           <div className="m-0 shadow-xl rounded-b-3xl">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
-              <Mapa setUbicacion={setUbicacion} />
+              <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />  
             ) : (
               <p className="text-gray-600">Cargando mapa...</p>
             )}

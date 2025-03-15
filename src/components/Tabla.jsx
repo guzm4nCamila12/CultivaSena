@@ -22,23 +22,23 @@ const getRoleImage = (role) => {
 const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
     const [busqueda, setBusqueda] = useState("");
 
+    // Filtrar columnas para excluir "foto_perfil"
+    const columnasFiltradas = columnas.filter(columna => columna.key !== "fotoPerfil");
+
     // Filtrar datos según la búsqueda
     const datosFiltrados = datos.filter((fila) =>
-        columnas.some((columna) =>
+        columnasFiltradas.some((columna) =>
             String(fila[columna.key] || "").toLowerCase().includes(busqueda.toLowerCase())
         )
     );
 
     // Agregar una columna vacía al principio
-    const columnasConVacia = [{ key: "vacía", label: "" }, ...columnas];
+    const columnasConVacia = [{ key: "vacía", label: "" }, ...columnasFiltradas];
 
     return (
         <div className="container mx-auto p-4">
-            {/* Contenedor del título y el buscador */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
                 <h1 className="text-[27px] font-medium">{titulo}</h1>
-
-                {/* Input de búsqueda con iconos */}
                 <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
                     <img src={search} alt="Buscar" className="absolute left-3" />
                     <input
@@ -54,7 +54,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                 </div>
             </div>
 
-            {/* Tabla en pantallas grandes y pequeñas */}
             <div className="w-full overflow-x-auto rounded-lg">
                 <table className="min-w-full border-separate border-spacing-y-4">
                     <thead>
@@ -88,12 +87,12 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                                             className="w-10 h-10 rounded-full mr-2"
                                         />
                                     </td>
-                                    {columnas.map((columna, i) => (
+                                    {columnasFiltradas.map((columna, i) => (
                                         <td
                                             key={i}
                                             className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
                           ${i === 0 ? "font-bold" : ""} 
-                          ${i === columnasConVacia.length - 2 ? "rounded-r-full" : ""}
+                          ${i === columnasFiltradas.length - 1 ? "rounded-r-full" : ""}
                           border-t border-b border-gray-300 bg-[#EEEEEE]`}
                                         >
                                             <div className="flex items-center justify-start">
@@ -122,7 +121,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                 </table>
             </div>
 
-            {/* Botón de agregar */}
             {mostrarAgregar && (
                 <div
                     className="w-full sm:w-[60%] mx-auto flex flex-row items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95 mb-4"
@@ -134,10 +132,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                     </div>
                 </div>
             )}
-
-
         </div>
-
     );
 };
 

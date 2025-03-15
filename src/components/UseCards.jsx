@@ -5,11 +5,28 @@ import PropTypes from "prop-types";
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 import Opcion from "../components/Opcion"
+import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
+import adminIcon from "../assets/img/PerfilAdmin.png";
+import alternoIcon from "../assets/img/PerfilAlterno.png";
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
+
+  const getRoleImage = (role) => {
+    switch (role) {
+        case "SuperAdmin":
+            return superAdminIcon;
+        case "Admin":
+            return adminIcon;
+        case "Alterno":
+            return alternoIcon;
+        default:
+            return adminIcon;
+    }
+};
 
   // Filtra la información con base en la búsqueda
   const datosFiltrados = datos.filter((fila) =>
@@ -148,13 +165,11 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             {columnas.some((columna) => columna.key === "fotoPerfil") && (
               <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                 <img
-                  src={
-                    columnas.find((col) => col.key === "fotoPerfil").icon ||
-                    "/defaultProfile.png"
-                  }
+                  src={getRoleImage(fila.id_rol)}
                   alt="Foto de perfil"
                   className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
                 />
+
               </div>
             )}
 

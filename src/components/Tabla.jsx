@@ -20,8 +20,8 @@ const getRoleImage = (role) => {
 };
 
 const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
-    const [busqueda, setBusqueda] = useState("");
-
+    const [busqueda, setBusqueda] = useState(""); 
+    
 
     // Filtrar columnas para excluir "foto_perfil"
     const columnasFiltradas = columnas.filter(columna => columna.key !== "fotoPerfil");
@@ -37,7 +37,9 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
     const columnasConVacia = [{ key: "vacía", label: "" }, ...columnasFiltradas];
 
     return (
-        <div className="container mx-auto px-0 ">
+        <div className="container mx-auto px-0 py-4 ">
+   
+         
 
             <div className="w-full overflow-x-auto rounded-lg">
                 <table className="min-w-full border-separate border-spacing-y-4">

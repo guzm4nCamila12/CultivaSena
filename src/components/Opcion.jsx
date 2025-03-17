@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import OpcionTabla from "../assets/icons/OpcionTabla.png";
 import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png";
-import { getUsuarios } from "../services/usuarios/ApiUsuarios";
 
 function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
   // Inicializa 'vistaActiva' leyendo el valor desde localStorage, o por defecto 'tarjetas'
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem('vistaActiva') || 'tarjetas');
-  const [usuarios, setUsuarios] = useState([]);
 
-  useEffect(() => {
-    getUsuarios()
-      .then((data) => {
-        console.log("Usuarios obtenidos:", data);
-        setUsuarios(data || []);
-      })
-      .catch((error) => {
-        console.error("Error al obtener usuarios:", error);
-        setUsuarios([]);
-      });
-  }, []);
 
   // Cada vez que 'vistaActiva' cambie, se guarda en localStorage
   useEffect(() => {

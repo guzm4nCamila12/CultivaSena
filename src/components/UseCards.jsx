@@ -55,7 +55,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>
         <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
-          <img src={search} alt="Buscar" className="absolute left-3 w-4" />
+          <img src={search} alt="Buscar" className="absolute left-3 " />
           <input
             type="text"
             placeholder="Buscar"
@@ -64,7 +64,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
           />
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
-            <img src={microphone} alt="Micrófono" className="w-4" />
+            <img src={microphone} alt="Micrófono"  />
           </button>
         </div>
 

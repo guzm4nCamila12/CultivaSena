@@ -41,7 +41,9 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
    
             {/* Contenedor del título y el buscador */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
+
                 <h1 className="text-[27px] font-medium ml-7">{titulo}</h1>
+
                 <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
                     <img src={search} alt="Buscar" className="absolute left-3" />
                     <input

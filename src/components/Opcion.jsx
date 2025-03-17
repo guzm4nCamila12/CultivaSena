@@ -4,7 +4,7 @@ import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png";
 import { getUsuarios } from "../services/usuarios/ApiUsuarios"; // Asegúrate de que la ruta y el método estén bien
 
 function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
-    const [vistaActiva, setVistaActiva] = useState('tabla');
+    const [vistaActiva, setVistaActiva] = useState('tarjetas');
     const [usuarios, setUsuarios] = useState([]);
   
     useEffect(() => {

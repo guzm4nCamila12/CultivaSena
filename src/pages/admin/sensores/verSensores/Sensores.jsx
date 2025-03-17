@@ -39,7 +39,8 @@ function Sensores() {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
+  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
+    const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
   //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
@@ -214,8 +215,9 @@ function Sensores() {
   return (
     <div>
       <NavBar />
-        <Opcion onChangeVista={handleVistaChange}/>
-      {/* Renderiza la vista activa */}
+      {/* Se renderiza la vista según lo que traiga en localStorage:
+                Si vistaActiva es "tabla", se muestra el componente Tabla;
+                de lo contrario, se muestra UserCards */}
       {vistaActiva === "tabla" ? (
         <Tabla
           titulo={`Sensores de la finca: ${fincas.nombre}`}

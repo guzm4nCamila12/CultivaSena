@@ -40,7 +40,8 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
+  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
+    const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
   //Efecto que carga los datos
   useEffect(() => {
@@ -261,8 +262,9 @@ const Inicio = () => {
   return (
     <div >
       <Navbar />
-      <Opcion onChangeVista={handleVistaChange}/>
-      {/* Renderiza la vista activa */}
+      {/* Se renderiza la vista según lo que traiga en localStorage:
+                Si vistaActiva es "tabla", se muestra el componente Tabla;
+                de lo contrario, se muestra UserCards */}
       {vistaActiva === "tabla" ? (
         <Tabla
           titulo={`Alternos de la finca: ${fincas.nombre}`}

@@ -18,7 +18,8 @@ import { useParams, Link } from "react-router-dom";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
+  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
+      const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -93,8 +94,9 @@ function SensoresAlterno() {
   return (
     <div >
       <Navbar />
-      <Opcion onChangeVista={handleVistaChange}/>
-      {/* Renderiza la vista activa */}
+      {/* Se renderiza la vista según lo que traiga en localStorage:
+                Si vistaActiva es "tabla", se muestra el componente Tabla;
+                de lo contrario, se muestra UserCards */}
       {vistaActiva === "tabla" ? (
         <Tabla
           titulo={`Sensor de la finca: ${fincas.nombre}`}

@@ -18,8 +18,7 @@ import { acctionSucessful } from "../../../components/alertSuccesful";
 import Tabla from "../../../components/Tabla";
 import UserCards from "../../../components/UseCards";
 import Opcion from "../../../components/Opcion";
-import NavBar from "../../../components/navbar"
-//endpoints para consumir api
+import Navbar from "../../../components/navbar";//endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
@@ -32,7 +31,6 @@ import { useParams, Link } from "react-router-dom";
 import { insertarDatos } from "../../../services/sensores/ApiSensores";
 
 function ActivarSensores() {
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -42,6 +40,8 @@ function ActivarSensores() {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
+  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
+  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [estado, setEstado] = useState([]);
   let inputValue = '';
   const [formData, setFormData] = useState({
@@ -361,10 +361,10 @@ function ActivarSensores() {
 
   return (
     <div>
-      <NavBar />
+      <Navbar />
+      {/* El componente Opcion ya incluye la opción de cambiar la vista.
+                Su propiedad onChangeVista actualizará el estado y localStorage. */}
 
-        <Opcion onChangeVista={handleVistaChange}/>
-      {/* Renderiza la vista activa */}
       {vistaActiva === "tabla" ? (
         <Tabla
           titulo={`Sensores de la finca: ${fincas.nombre}`}
@@ -384,6 +384,7 @@ function ActivarSensores() {
           mostrarAgregar={true}
         />
       )}
+
 
       {/*Codigo modal insertar */}
       {modalInsertarAbierto && (

@@ -65,11 +65,11 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                         {datosFiltrados.length > 0 ? (
                             datosFiltrados.map((fila, index) => (
                                 <tr key={fila.id || index}>
-                                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#EEEEEE] w-16">
+                                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#EEEEEE] w-16 items-center justify-center">
                                         <img
                                             src={getRoleImage(fila.id_rol)}
                                             alt={fila.key}
-                                            className="w-10 h-10 rounded-full mr-2"
+                                            className="w-8 h-8 md:w-10 md:h-10 rounded-full"
                                         />
                                     </td>
                                     {columnasFiltradas.map((columna, i) => (

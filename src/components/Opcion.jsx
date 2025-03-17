@@ -21,7 +21,7 @@ function Opcion({vistaActivada, ...props}) {
     return (
       <div>
        
-        <div className="flex justify-end  mb-4 border border-red-500">
+        <div className="flex justify-end  mb-4 ">
           <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
             <button
               className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-[#93A6B2]' : 'bg-white' }`}

@@ -99,11 +99,11 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                           border-t border-b border-gray-300 bg-[#EEEEEE]`}
                                         >
                                             <div className="flex items-center justify-start">
-                                                <span className="flex-1">
+                                                <span className="flex-1 ">
                                                     {columna.key === "#" ? (
                                                         index + 1
                                                     ) : columna.key === "acciones" ? (
-                                                        <div className="flex gap-2">{acciones(fila)}</div>
+                                                        <div>{acciones(fila)}</div>
                                                     ) : (
                                                         fila[columna.key]
                                                     )}

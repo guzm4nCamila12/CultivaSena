@@ -16,15 +16,10 @@ import phoneGray from "../../../assets/icons/phoneGray.png";
 import emailGray from "../../../assets/icons/emailGray.png";
 import passwordGray from "../../../assets/icons/passwordGray.svg";
 import rolGray from "../../../assets/icons/rolGray.png";
-//iconos para cambiar la vista
-import OpcionTabla from "../../../assets/icons/OpcionTabla.png"; 
-import OpcionTarjeta from "../../../assets/icons/OpcionTarjetas.png";
 //componentes reutilizados
-import Tabla from "../../../components/Tabla";
 import UserCards from "../../../components/UseCards";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
-import Opcion from "../../../components/Opcion";
 //imgs modales
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
 import sinFinca from "../../../assets/img/sinFincas.png";
@@ -36,8 +31,6 @@ import Alerta from "../../../assets/img/Alert.png";
 import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
-  // Estado para seleccionar la vista: "tabla" o "tarjetas"
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
   //Estados para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
@@ -84,7 +77,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
@@ -95,7 +88,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación del teléfono (suponiendo 10 dígitos)
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
@@ -106,7 +99,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación de la clave (mínimo 6 caracteres)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -125,7 +118,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     const nuevo = {
       nombre: nuevoUsuario.nombre,
       telefono: nuevoUsuario.telefono,
@@ -133,7 +126,7 @@ const Inicio = () => {
       clave: nuevoUsuario.clave,
       id_rol: Number(nuevoUsuario.id_rol)
     };
-  
+
     try {
       const data = await insertarUsuario(nuevo);
       if (data) {
@@ -150,7 +143,7 @@ const Inicio = () => {
       console.error("Error en la solicitud:", error);
     }
   };
-  
+
   //Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {
     setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
@@ -167,7 +160,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
@@ -178,7 +171,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación del teléfono (suponiendo 10 dígitos)
     const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);
     if (!telefonoValido) {
@@ -189,7 +182,7 @@ const Inicio = () => {
       });
       return;
     }
-  
+
     // Validación de la clave (mínimo 6 caracteres)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -340,34 +333,20 @@ const Inicio = () => {
     }
   };
 
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-  };
+
 
   return (
     <div>
       <NavBar />
-      <Opcion onChangeVista={handleVistaChange}/>
-      {/* Renderiza la vista activa */}
-      {vistaActiva === "tabla" ? (
-        <Tabla
-          titulo="Usuarios registrados"
-          columnas={columnas}
-          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      ) : (
-        <UserCards
-          titulo="Usuarios registrados"
-          columnas={columnas}
-          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      )}
+      <UserCards
+        titulo="Usuarios Registrados"
+        columnas={columnas}
+        datos={usuarios.map((u) => ({...u, id_rol:obtenerRol(u.id_rol)}))}  
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+      />
+
       {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

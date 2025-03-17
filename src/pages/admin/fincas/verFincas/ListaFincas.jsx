@@ -1,30 +1,23 @@
-// Importamos los iconos de las acciones (eliminar y editar)
-import deletWhite from "../../../../assets/icons/deleteWhite.png";
-import editWhite from "../../../../assets/icons/editWhite.png";
-// Iconos de las columnas (sensores y alternos)
-import sensorIcon from "../../../../assets/icons/sensorBlue.png"
-import alternoIcon from "../../../../assets/icons/alternoBlue.png"
-
-// Componentes reutilizados
-import UserCards from '../../../../components/UseCards';
-import Tabla from '../../../../components/Tabla';
-import Opcion from '../../../../components/Opcion';
-import Navbar from '../../../../components/navbar';
-import { acctionSucessful } from "../../../../components/alertSuccesful";
-// Imágenes para los modales
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
-import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
-// Endpoints para consumir la API
-import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
-
-import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
-// Importaciones necesarias de React
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../../../components/navbar';
+import Tabla from '../../../../components/Tabla';
+import UserCards from '../../../../components/UseCards';
+import Opcion from '../../../../components/Opcion';
+import { acctionSucessful } from "../../../../components/alertSuccesful";
+
+import deletWhite from "../../../../assets/icons/deleteWhite.png";
+import editWhite from "../../../../assets/icons/editWhite.png";
+import sensorIcon from "../../../../assets/icons/sensorBlue.png";
+import alternoIcon from "../../../../assets/icons/alternoBlue.png";
+import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
+import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";
+
+import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
+import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
 
 export default function ListaFincas() {
-
   const { id } = useParams();
   const navigate = useNavigate();
   const [fincas, setFincas] = useState([]);
@@ -32,42 +25,40 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
-  const [vistaActiva, setVistaActiva] = useState("tarjeta");
 
-  // useEffect para cargar los datos del usuario y las fincas cuando se monta el componente
+  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
+  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
+
   useEffect(() => {
     getUsuarioById(id)
-      .then(data => setUsuario(data)) // Seteamos los datos del usuario
+      .then(data => setUsuario(data))
       .catch(error => console.error('Error: ', error));
 
     getFincasById(id)
-      .then(data => setFincas(data || [])) // Seteamos las fincas obtenidas
+      .then(data => setFincas(data || []))
       .catch(error => console.error('Error: ', error));
-  }, [id]); // El useEffect se ejecuta cuando el id cambia
+  }, [id]);
 
-  // Función para manejar la eliminación de una finca
   const handleEliminarFinca = (e) => {
-    e.preventDefault(); // Prevenimos la acción por defecto del formulario
-    eliminarFincas(fincaEliminar) // Llamamos a la API para eliminar la finca
+    e.preventDefault();
+    eliminarFincas(fincaEliminar)
       .then(() => {
-        setFincas(fincas.filter(finca => finca.id !== fincaEliminar)); // Eliminamos la finca del estado
-        setModalEliminarAbierto(false); // Cerramos el modal
+        setFincas(fincas.filter(finca => finca.id !== fincaEliminar));
+        setModalEliminarAbierto(false);
         acctionSucessful.fire({
           imageUrl: UsuarioEliminado,
           imageAlt: 'Icono personalizado',
-          title: "¡Finca eliminada correctamente!" // Notificación de éxito
+          title: "¡Finca eliminada correctamente!"
         });
       })
-      .catch(console.error); // Manejo de errores
-  }
+      .catch(console.error);
+  };
 
-  // Función para abrir el modal de eliminación
   const abrirModalEliminar = (id) => {
-    setFincaEliminar(id); // Guardamos el id de la finca a eliminar
-    setModalEliminarAbierto(true); // Abrimos el modal
-  }
+    setFincaEliminar(id);
+    setModalEliminarAbierto(true);
+  };
 
-  // Columnas de la tabla que se va a mostrar en el componente UseCards
   const columnas = [
     { key: "nombre", label: "Sensores" },
     { key: "sensores", label: "Sensores" },
@@ -75,27 +66,22 @@ export default function ListaFincas() {
     { key: "acciones", label: "Acciones" },
   ];
 
-  // Función que devuelve las acciones (editar y eliminar) para cada fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      {/* Acción para editar */}
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={editWhite} alt="Editar" />
           </button>
-          {/* Tooltip de editar */}
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
           </span>
         </Link>
       </div>
-      {/* Acción para eliminar */}
       <div className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
           <img src={deletWhite} alt="Eliminar" />
         </button>
-        {/* Tooltip de eliminar */}
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
         </span>
@@ -103,7 +89,6 @@ export default function ListaFincas() {
     </div>
   );
 
-  // Mapeamos las fincas para agregar los iconos de sensores y alternos
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
     sensores: (
@@ -112,7 +97,6 @@ export default function ListaFincas() {
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={sensorIcon} alt="Sensores" />
           </div>
-          {/* Tooltip de ver sensores */}
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
           </span>
@@ -124,48 +108,43 @@ export default function ListaFincas() {
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={alternoIcon} alt="Alternos" />
-            {/* Tooltip de ver alternos */}
-            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Ver
-            </span>
           </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver
+          </span>
         </button>
       </Link>
     )
   }));
 
+  // La función que se pasa a Opcion actualizará la vista y la guardará en localStorage.
   const handleVistaChange = (vista) => {
     setVistaActiva(vista);
+    localStorage.setItem("vistaActiva", vista);
   };
 
   return (
-
-    <div >
+    <div>
       <Navbar />
-      <Opcion onChangeVista={handleVistaChange} />
-      {/* Renderiza la vista activa */}
+      {/* El componente Opcion ya incluye la opción de cambiar la vista.
+          Su propiedad onChangeVista actualizará el estado y localStorage. */}
+
       {vistaActiva === "tabla" ? (
         <Tabla
           titulo={`Fincas de: ${usuario.nombre}`}
           columnas={columnas}
-          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
           acciones={acciones}
-          onAddUser={() => {
-            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
-            navigate(`/agregar-finca/${usuario.id}`);
-          }}
+          onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
           mostrarAgregar={true}
         />
       ) : (
         <UserCards
           titulo={`Fincas de: ${usuario.nombre}`}
           columnas={columnas}
-          datos={fincasConSensores && Array.isArray(fincasConSensores) ? fincasConSensores : []}
+          datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
           acciones={acciones}
-          onAddUser={() => {
-            // Redirige a la ruta dinámica usando history.push o navigate (dependiendo de la versión de React Router)
-            navigate(`/agregar-finca/${usuario.id}`);
-          }}
+          onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
           mostrarAgregar={true}
         />
       )}
@@ -177,14 +156,14 @@ export default function ListaFincas() {
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">
-                <img src={ConfirmarEliminar} /> {/* Imagen de confirmación de eliminación */}
+                <img src={ConfirmarEliminar} alt="Confirmar eliminar" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)} // Cierra el modal sin eliminar
+                  onClick={() => setModalEliminarAbierto(false)}
                 >
                   Cancelar
                 </button>

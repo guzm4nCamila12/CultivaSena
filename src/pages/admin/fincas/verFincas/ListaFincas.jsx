@@ -5,6 +5,7 @@ import Navbar from '../../../../components/navbar';
 import Tabla from '../../../../components/Tabla';
 import UserCards from '../../../../components/UseCards';
 import Opcion from '../../../../components/Opcion';
+import MostrarInfo from '../../../../components/mostrarInfo';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 
 import deletWhite from "../../../../assets/icons/deleteWhite.png";
@@ -129,8 +130,8 @@ export default function ListaFincas() {
       {/* El componente Opcion ya incluye la opción de cambiar la vista.
           Su propiedad onChangeVista actualizará el estado y localStorage. */}
 
-      {vistaActiva === "tabla" ? (
-        <Tabla
+      
+        <MostrarInfo
           titulo={`Fincas de: ${usuario.nombre}`}
           columnas={columnas}
           datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
@@ -138,16 +139,7 @@ export default function ListaFincas() {
           onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
           mostrarAgregar={true}
         />
-      ) : (
-        <UserCards
-          titulo={`Fincas de: ${usuario.nombre}`}
-          columnas={columnas}
-          datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
-          acciones={acciones}
-          onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
-          mostrarAgregar={true}
-        />
-      )}
+    
 
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

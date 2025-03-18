@@ -5,9 +5,6 @@ import PropTypes from "prop-types";
 import search from "../assets/icons/search.png";
 import microphone from "../assets/icons/Microphone.png";
 import Opcion from "../components/Opcion";
-import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
-import adminIcon from "../assets/img/PerfilAdmin.png";
-import alternoIcon from "../assets/img/PerfilAlterno.png";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) {

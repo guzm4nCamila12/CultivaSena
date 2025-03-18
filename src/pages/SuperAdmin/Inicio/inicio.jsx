@@ -323,7 +323,7 @@ const Inicio = () => {
       {/* Se renderiza la vista según lo que traiga en localStorage:
           Si vistaActiva es "tabla", se muestra el componente Tabla;
           de lo contrario, se muestra UserCards */}
-      {vistaActiva === "tabla" ? (
+      {vistaActiva === "tarjeta" ? (
         <Tabla
           titulo="Usuarios Registrados"
           columnas={columnas}

@@ -9,6 +9,7 @@ import Navbar from "../../../components/navbar";
 import UserCards from "../../../components/UseCards";
 import Tabla from "../../../components/Tabla";
 import Opcion from "../../../components/Opcion";
+import MostrarInfo from "../../../components/mostrarInfo";
 //endpoints para consumir el api
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../../services/sensores/ApiSensores";
@@ -97,8 +98,7 @@ function SensoresAlterno() {
       {/* Se renderiza la vista según lo que traiga en localStorage:
                 Si vistaActiva es "tabla", se muestra el componente Tabla;
                 de lo contrario, se muestra UserCards */}
-      {vistaActiva === "tabla" ? (
-        <Tabla
+      <MostrarInfo
           titulo={`Sensor de la finca: ${fincas.nombre}`}
           columnas={columnas}
           acciones={acciones}
@@ -125,35 +125,6 @@ function SensoresAlterno() {
             ),
           }))}
         />
-      ) : (
-        <UserCards
-          titulo={`Sensor de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          acciones={acciones}
-          mostrarAgregar={false}
-          datos={sensores.map((sensor, index) => ({
-            ...sensor,
-            "#": index + 1,
-            estado: (
-              <div className="flex justify-center items-center">
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={sensor.estado} //Muestra el estado del sensor
-                    disabled
-                    className="sr-only"
-                  />
-                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                    <div
-                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                    ></div>
-                  </div>
-                </label>
-              </div>
-            ),
-          }))}
-        />
-      )}
     </div>
   );
 }

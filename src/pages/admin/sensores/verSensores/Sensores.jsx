@@ -16,6 +16,7 @@ import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 //componentes reutilizados
 import Tabla from "../../../../components/Tabla";
+import MostrarInfo from "../../../../components/mostrarInfo";
 import UserCards from "../../../../components/UseCards";
 import Opcion from "../../../../components/Opcion";
 import NavBar from "../../../../components/navbar"
@@ -82,7 +83,7 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre" },
+    { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
@@ -218,8 +219,7 @@ function Sensores() {
       {/* Se renderiza la vista según lo que traiga en localStorage:
                 Si vistaActiva es "tabla", se muestra el componente Tabla;
                 de lo contrario, se muestra UserCards */}
-      {vistaActiva === "tabla" ? (
-        <Tabla
+      <MostrarInfo
           titulo={`Sensores de la finca: ${fincas.nombre}`}
           columnas={columnas}
           acciones={acciones}
@@ -246,35 +246,7 @@ function Sensores() {
             ),
           }))}
         />
-      ) : (
-        <UserCards
-          titulo={`Sensores de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-          datos={sensores.map((sensor, index) => ({
-            ...sensor, "#": index + 1,
-            estado: (
-              <div className="flex justify-start items-center">
-                <label className="relative flex items-center cursor-not-allowed">
-                  <input
-                    type="checkbox"
-                    checked={sensor.estado} // Se mantiene el estado actual del sensor
-                    disabled // Evita que el usuario lo modifique
-                    className="sr-only"
-                  />
-                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                    <div
-                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                    ></div>
-                  </div>
-                </label>
-              </div>
-            ),
-          }))}
-        />
-      )}
+    
 
       {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (

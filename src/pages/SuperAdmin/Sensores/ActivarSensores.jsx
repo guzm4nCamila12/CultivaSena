@@ -15,6 +15,7 @@ import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
 import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
+import MostrarInfo from "../../../components/mostrarInfo";
 import Tabla from "../../../components/Tabla";
 import UserCards from "../../../components/UseCards";
 import Opcion from "../../../components/Opcion";
@@ -91,7 +92,7 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre" },
+    { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
@@ -364,9 +365,7 @@ function ActivarSensores() {
       <Navbar />
       {/* El componente Opcion ya incluye la opción de cambiar la vista.
                 Su propiedad onChangeVista actualizará el estado y localStorage. */}
-
-      {vistaActiva === "tabla" ? (
-        <Tabla
+      <MostrarInfo
           titulo={`Sensores de la finca: ${fincas.nombre}`}
           columnas={columnas}
           datos={sensoresDeFinca}
@@ -374,16 +373,6 @@ function ActivarSensores() {
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
-      ) : (
-        <UserCards
-          titulo={`Sensores de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          datos={sensoresDeFinca}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      )}
 
 
       {/*Codigo modal insertar */}

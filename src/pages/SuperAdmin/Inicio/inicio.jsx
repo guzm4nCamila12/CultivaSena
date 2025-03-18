@@ -18,6 +18,7 @@ import passwordGray from "../../../assets/icons/passwordGray.svg";
 import rolGray from "../../../assets/icons/rolGray.png";
 //componentes reutilizados
 import UserCards from "../../../components/UseCards";
+import MostrarInfo from "../../../components/mostrarInfo";
 import Tabla from "../../../components/Tabla";
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import NavBar from "../../../components/navbar";
@@ -43,7 +44,7 @@ const Inicio = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   // Se inicializa la vista según localStorage (por defecto "tarjetas")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjetas");
-
+ 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
@@ -323,8 +324,8 @@ const Inicio = () => {
       {/* Se renderiza la vista según lo que traiga en localStorage:
           Si vistaActiva es "tabla", se muestra el componente Tabla;
           de lo contrario, se muestra UserCards */}
-      {vistaActiva === "tarjeta" ? (
-        <Tabla
+
+        <MostrarInfo
           titulo="Usuarios Registrados"
           columnas={columnas}
           datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
@@ -332,16 +333,7 @@ const Inicio = () => {
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
-      ) : (
-        <UserCards
-          titulo="Usuarios Registrados"
-          columnas={columnas}
-          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      )}
+      
 
       {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (

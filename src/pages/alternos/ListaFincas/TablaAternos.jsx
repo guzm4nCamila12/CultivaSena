@@ -20,6 +20,7 @@ import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 import Alerta from "../../../assets/img/Alert.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
+import MostrarInfo from "../../../components/mostrarInfo";
 import Navbar from "../../../components/navbar";
 import UserCards from "../../../components/UseCards";
 import Tabla from "../../../components/Tabla";
@@ -265,8 +266,7 @@ const Inicio = () => {
       {/* Se renderiza la vista según lo que traiga en localStorage:
                 Si vistaActiva es "tabla", se muestra el componente Tabla;
                 de lo contrario, se muestra UserCards */}
-      {vistaActiva === "tabla" ? (
-        <Tabla
+      <MostrarInfo
           titulo={`Alternos de la finca: ${fincas.nombre}`}
           columnas={columnas}
           datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
@@ -274,17 +274,6 @@ const Inicio = () => {
           onAddUser={() => setModalInsertarAbierto(true)}
           mostrarAgregar={true}
         />
-      ) : (
-        <UserCards
-          titulo={`Alternos de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      )}
-
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

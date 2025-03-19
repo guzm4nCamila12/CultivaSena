@@ -37,25 +37,9 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
     const columnasConVacia = [{ key: "vacía", label: "" }, ...columnasFiltradas];
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto px-0 py-4 ">
    
-            {/* Contenedor del título y el buscador */}
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
-                <h1 className="text-[27px] font-medium">{titulo}</h1>
-                <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
-                    <img src={search} alt="Buscar" className="absolute left-3" />
-                    <input
-                        type="text"
-                        placeholder="Buscar"
-                        value={busqueda}
-                        onChange={(e) => setBusqueda(e.target.value)}
-                        className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
-                    />
-                    <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
-                        <img src={microphone} alt="Micrófono" />
-                    </button>
-                </div>
-            </div>
+         
 
             <div className="w-full overflow-x-auto rounded-lg">
                 <table className="min-w-full border-separate border-spacing-y-4">

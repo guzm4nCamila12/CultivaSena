@@ -48,3 +48,17 @@ const response = await fetch(`${API_URL}/zonas`, {
 });
 return response.json();
 };
+
+export const actualizarZona = async (id, zonaActualizada) => {
+  const response = await fetch(`${API_URL}/zonas/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(zonaActualizada),
+  });
+  return response;
+  
+};
+
+export const eliminarZonas = async (id) => {
+  await fetch(`${API_URL}/zonas/${id}`, { method: "DELETE" });
+};

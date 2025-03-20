@@ -1,4 +1,3 @@
-
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
@@ -20,8 +19,7 @@ import Alerta from "../../../../assets/img/Alert.png"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
 //endpoints para consumir api
-import { eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../../services/usuarios/ApiUsuarios";
-import { getFincasByIdFincas, getZonasByIdFinca,insertarFinca, insertarZona } from "../../../../services/fincas/ApiFincas";
+import { getFincasByIdFincas,getZonasByIdFinca,insertarZona,actualizarZona,eliminarZonas } from "../../../../services/fincas/ApiFincas";
 import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
@@ -29,18 +27,18 @@ const Zonas = () => {
   const { id } = useParams();
   //Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
-  const [usuarios, setUsuarios] = useState([]);
-  const [nuevaZona, setNuevaZona] = useState({ nombre: "",id_finca: parseInt(id) });
-  const [editarZona, setEditarZona] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+  const [zonas, setZonas] = useState([]);
+  const [nuevaZona, setNuevaZona] = useState({ nombre: "",idfinca: parseInt(id) });
+  const [editarZona, setEditarZona] = useState([]);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [zonaEliminar, setZonaEliminar] = useState(false)
 
   //Efecto que carga los datos
   useEffect(() => {
     //Obtiene los usuarios con el rol asociado al ID
-    getZonasByIdFinca(id).then(data => setUsuarios(data || [])).catch(error => console.error('Error: ', error));
+    getZonasByIdFinca(id).then(data => setZonas(data || [])).catch(error => console.error('Error: ', error));
     //Obtiene la finca asociada al ID de finca
     getFincasByIdFincas(id).then((data) => {
       setFincas(data)
@@ -60,8 +58,9 @@ const Zonas = () => {
   //Definicion de las columnas de la UseCards
   const columnas = [
     { key: "nombre", },
-    { key: "cantidadSensores", label: "Cantidad Sensores", icon: emailBlue },
-    { key: "verSensores", label: "Ver Sensores", icon: sensorIcon },
+    { key: "cantidadSensores", label: "Cantidad Sensores"},
+    { key: "verSensores", label: "Sensores"},
+    { key: "actividades", label: "Actividades"},
     { key: "acciones", label: "Acciones" },
   ];
 
@@ -84,39 +83,39 @@ const Zonas = () => {
       return;
     }
     //Realiza la actualizacion
-    actualizarUsuario(editarZona.id, editarZona).then(() => {
+    actualizarZona(editarZona.id, editarZona).then(() => {
       //Actualiza la lista de usuarios
-      setUsuarios(usuarios.map(u => u.id === editarZona.id ? editarZona : u));
+      setZonas(zonas.map(u => u.id === editarZona.id ? editarZona : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Zona editada correctamente!"
+        title: `¡Zona: ${editarZona.nombre} editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
   };
 
   //Maneja la eliminacion de un usuario
-  const HandlEliminarAlterno = (e) => {
+  const HandlEliminarZonas = (e) => {
     e.preventDefault();
     //Elimina el usuario
-    eliminarUsuario(usuarioEliminar).then(() => {
-      setUsuarios((prevUsuarios) => prevUsuarios?.filter(usuario => usuario.id !== usuarioEliminar) || []);
+    eliminarZonas(zonaEliminar).then(() => {
+      setZonas((prevZonas) => prevZonas?.filter(zona => zona.id !== zonaEliminar) || []);
       setModalEliminarAbierto(false)
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno eliminado correctamente!"
+        title: `¡Zona eliminada correctamente!`
       });
     }).catch(console.error);
   }
 
   const abrirModalEliminar = (id) => {
-    setUsuarioEliminar(id);
+    setZonaEliminar(id);
     setModalEliminarAbierto(true)
   }
 
-  //Maneja el envio del formulario para agregar un usuario
+  //Maneja el envio del formulario para agregar una Zona
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!nuevaZona.nombre) {
@@ -128,14 +127,15 @@ const Zonas = () => {
       return;
     }
 
-    //Inserta el nuevo usuario
+    //Inserta la nueva zona
+    console.log(nuevaZona)
     insertarZona(nuevaZona).then((data) => {
-      setUsuarios([...usuarios, data]);
+      setZonas([...zonas, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Zona agregada correctamente!"
+        title: `¡Zona ${nuevaZona.nombre} agregada correctamente!`
       });
     }).catch(console.error);
   }
@@ -186,7 +186,7 @@ const Zonas = () => {
       <MostrarInfo
         titulo={`Zonas de la finca: ${fincas.nombre}`}
         columnas={columnas}
-        datos={Array.isArray(usuarios) ? usuarios : []}
+        datos={Array.isArray(zonas) ? zonas : []}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
@@ -260,12 +260,12 @@ const Zonas = () => {
         </div>
       )}
 
-      {modalEliminarAbierto && (
+       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Zona</h5>
             <hr />
-            <form onSubmit={HandlEliminarAlterno}>
+            <form onSubmit={HandlEliminarZonas}>
               <div className="flex justify-center my-2">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>

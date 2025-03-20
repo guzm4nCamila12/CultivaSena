@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmarEliminar from '../../assets/img/Eliminar.png'
 import { acctionSucessful } from "../../components/alertSuccesful";
 import goodBye from "../../assets/img/goodByeIcon.png"
+import logOut from "../../assets/icons/logOut.png"
 
 
 const LogOut = () => {
@@ -29,7 +30,9 @@ const LogOut = () => {
     <div>
     
       {/* Otros contenidos de tu componente */}
-      <button onClick={() =>setModallogoutAbierto(true)} className='rounded-3xl font-bold text-white bg-red-500 p-2 m-2 hover:bg-red-700'>Cerrar sesión</button>
+      <button onClick={() =>setModallogoutAbierto(true)} className='text-white p-2 m-2 flex justify-items-start hover:bg-[#184a68]'>
+        <img src={logOut} alt="" className="mr-1 h-5" />
+        Cerrar sesión</button>
 
       {modalLogoutAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

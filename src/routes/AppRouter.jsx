@@ -11,6 +11,7 @@ import TablaAlternos from "../pages/alternos/ListaFincas/TablaAternos";
 import SensoresAlterno from "../pages/alternos/sensores/SensoresAlterno";
 import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
 import ActivarSensores from "../pages/SuperAdmin/Sensores/ActivarSensores";
+import ZonasFIncas from "../pages/admin/fincas/zonasFincas/zonas";
 
 function AppRouter() {
   return (
@@ -25,6 +26,7 @@ function AppRouter() {
         <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} />} />
         <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} />} />
         <Route path="/alternos/:id" element={<ProtectedRoute element={TablaAlternos} />} />
+        <Route path="/zonas/:id" element={<ProtectedRoute element={ZonasFIncas} />} />
         <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={SensoresAlterno} />} />
         <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ActivarSensores} />} />
       </Routes>

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import Navbar from "../../../../components/navbar";
 import userGray from "../../../../assets/icons/userGray.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
+import altertaIcon from "../../../../assets/img/Alert.png"
 import '@fontsource/work-sans'
 
 const Agregar = () => {
@@ -26,7 +27,7 @@ const Agregar = () => {
 
     if (!nombre || !ubicacion.lat || !ubicacion.lng) {
       acctionSucessful.fire({
-        icon: "error",
+        imageUrl: altertaIcon,
         title: "Debe ingresar un nombre y seleccionar una ubicación",
       });
       return;
@@ -64,7 +65,7 @@ const Agregar = () => {
     <div>
       <Navbar></Navbar>
       <div style={{ fontFamily: "work sans" }}
-        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-36">
+        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-2 md:mx-10 lg:mx-16 2xl:mx-36">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">

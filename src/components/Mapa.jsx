@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-//Importaciones de el Mapa
+// Importaciones para el mapa
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-//Importaciones de Iconos
+// Importación de íconos personalizados para el mapa
 import locationIcon from "../assets/icons/location.png"
 import markerGreen from "../assets/icons/MarkerGreen.png"
 import ubicacionIcon from "../assets/icons/ubiWhite.png"
@@ -13,16 +13,22 @@ import currLocationIcon from "../assets/icons/ubiActual.png"
 import zoomIn from "../assets/icons/zoomIn.png"
 import zoomOut from "../assets/icons/zoomOut.png"
 
+// Componente del Mapa
 const Mapa = ({ setUbicacion, ubicacion }) => {
+  // Estado para la posición actual del mapa (latitud y longitud)
   const [position, setPosition] = useState(ubicacion || { lat: 4.54357027937176, lng: -72.97119140625001 });
+  
+  // Estado para almacenar la instancia del mapa, lo cual es útil para hacer manipulaciones directas
   const [mapInstance, setMapInstance] = useState(null);
 
+  // useEffect para actualizar la posición si el valor de 'ubicacion' cambia
   useEffect(() => {
     if (ubicacion) {
       setPosition(ubicacion);
     }
   }, [ubicacion]);
 
+  // useEffect para sobrescribir los iconos por defecto de Leaflet y cargar los íconos personalizados
   useEffect(() => {
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -32,54 +38,55 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     });
   }, []);
 
-  //Personalizacion de el icono de Marcador en el mapa
+  // Definición de un ícono personalizado para el marcador del mapa (usando la imagen "MarkerGreen")
   const customIcon = new L.Icon({
     iconUrl: markerGreen,
-    iconSize: [50, 65],     
-    iconAnchor: [25, 60],
+    iconSize: [50, 65], // Tamaño del ícono
+    iconAnchor: [25, 60], // Punto de anclaje del ícono
   });
 
-
+  // Componente que maneja eventos del mapa, como clics para seleccionar una ubicación
   const MyMapEvents = () => {
     useMapEvent('click', (event) => {
+      // Al hacer clic en el mapa, se obtiene la latitud y longitud y se actualiza la posición
       const { lat, lng } = event.latlng;
       setPosition({ lat, lng });
-      setUbicacion({ lat, lng });
+      setUbicacion({ lat, lng }); // Notifica al componente padre con la nueva ubicación
     });
     return null;
   };
   
-  //Funcion para acercar zoom en el mapa
+  // Función para acercar el zoom en el mapa
   const handleZoomIn = () => {
     if (mapInstance) {
-      mapInstance.zoomIn();
+      mapInstance.zoomIn(); // Acerca el mapa
     }
   };
 
-  //Funcion para alejar zoom en el mapa
+  // Función para alejar el zoom en el mapa
   const handleZoomOut = () => {
     if (mapInstance) {
-      mapInstance.zoomOut();
+      mapInstance.zoomOut(); // Aleja el mapa
     }
   };
 
-
+  // Referencia al mapa para poder manipularlo directamente (por ejemplo, para centrado)
   const mapRef = (map) => {
     if (map) {
-      setMapInstance(map);
+      setMapInstance(map); // Guarda la instancia del mapa en el estado
     }
   };
 
-  //Funcion para obtener la ubicacion actual o aproximada de el usuario por medio de el navegador
+  // Función para obtener la ubicación actual del usuario (usando la geolocalización del navegador)
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setPosition({ lat: latitude, lng: longitude });
-          setUbicacion({ lat: latitude, lng: longitude });
+          setUbicacion({ lat: latitude, lng: longitude }); // Actualiza la ubicación
           if (mapInstance) {
-            mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación del usuario
+            mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación actual
           }
         },
         (error) => {
@@ -91,7 +98,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       alert('La geolocalización no está soportada en este navegador.');
     }
   };
-
+  
   return (
     <div className='mb-10 relative lg:shadow-2xl lg:rounded-b-3xl'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>

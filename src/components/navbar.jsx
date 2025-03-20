@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Gov from './gov';
 import BotonAtras from './botonAtras';
 import menuWhite from "../assets/icons/menuWhite.png";
-import cultivaSena from "../assets/icons/cultiva.png"
+import cultivaSena from "../assets/icons/cultiva.png";
 
 //Importamos el componente que tiene la funcionalidad de cerrar sesion
-import  CerrarSesion from "./auth/logOut"
+import CerrarSesion from "./auth/logOut";
 
 export default function Navbar() {
   const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad de el menu lateral
@@ -36,11 +36,11 @@ export default function Navbar() {
 
       <div className='bg-[#002A43] h-12 w-full z-50 px-4'>
         <div className='container mx-auto py-1 flex flex-row items-center'>
-          {/* Icono de menú */}
+          {/* Icono de menú con rotación condicional */}
           <img
             src={menuWhite}
             alt="Menu"
-            className='h-3 pr-2 cursor-pointer'
+            className={`h-3 pr-2 cursor-pointer transition-transform duration-300 ease-in-out ${menuVisible ? 'rotate-90 mt-2' : ''}`}
             onClick={() => setMenuVisible(!menuVisible)} // Toggle visibility del modal
           />
 
@@ -49,7 +49,7 @@ export default function Navbar() {
 
           {/* Menu lateral*/}
           <div
-            className={`absolute mt-[172px] top-10 md:left-10 2xl:left-36 lg:left-2 left-20 xl:left-2 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            className={`absolute mt-[172px] top-10 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
           >
             {/* Div con forma triangular*/}
             <div
@@ -57,13 +57,13 @@ export default function Navbar() {
             ></div>
             <div>
               <h3 className='w-full flex mb-3 text-white font-medium  border-b-2 pb-2 pl-2 border-white'>Menú Principal</h3>
-              <div className='flex justify-center text-white'>
+              <div className='flex ml-3 pt-2 text-white'>
                 <img src={cultivaSena} alt="" className='w-5 h-5 mr-2' />
                 <h4>Ir a CultivaSena</h4>
               </div>
-              <div className='flex justify-center rounded-3xl mt-2'>
+              <div className='flex rounded-3xl mt-2'>
                 {/*Llamamos el componente que tiene la funcionalidad de cerrar sesion */}
-               <CerrarSesion/>
+                <CerrarSesion />
               </div>
             </div>
           </div>

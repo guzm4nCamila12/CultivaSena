@@ -10,6 +10,7 @@ import { actualizarFinca, getFincasByIdFincas } from "../../../../services/finca
 import userGray from "../../../../assets/icons/userGray.png"
 //img modales
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
+import alertaIcon from "../../../../assets/img/Alert.png"
 
 export default function EditarFinca() {
   //Obtener el ID de la URL
@@ -51,7 +52,7 @@ export default function EditarFinca() {
     //Si no se ha modificado algun dato muestra un mensaje de alerta
     if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
-        icon: "info",
+        imageUrl : alertaIcon,
         title: `No se modificó la información de la finca ${nombreFinca}`,
       });
       return

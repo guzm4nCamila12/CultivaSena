@@ -82,6 +82,8 @@ export default function VerSensores() {
   return (
     <div className='bg-white'>
       <NavBar />
+
+      {/* Filtrar datos por fecha */}
       <div className="w-auto pt-10 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
         <div className="flex justify-between items-center mb-4">
           <div className="p-4">

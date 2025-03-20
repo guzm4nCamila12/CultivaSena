@@ -80,10 +80,10 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                   {columnasSinFoto.map((columna, i) => (
                     <td
                       key={i}
-                      className={`p-2 md:p-3 text-left text-sm md:text-base h-14 
-                        ${i === 0 ? "font-bold" : ""} 
-                        ${i === columnasSinFoto.length - 1 ? "rounded-r-full" : ""}
-                        border-t border-b border-gray-300 bg-[#EEEEEE]`}
+                      className={`p-2 md:p-3 text-left text-sm md:text-base h-14
+      ${i === 0 ? "font-bold" : ""} 
+      ${i === columnasSinFoto.length - 1 ? "rounded-r-full" : ""}
+      border-t border-b border-gray-300 bg-[#EEEEEE]`}
                     >
                       <div className="flex items-center justify-start">
                         <span className="flex-1">

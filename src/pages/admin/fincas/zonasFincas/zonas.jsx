@@ -21,7 +21,7 @@ import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
 //endpoints para consumir api
 import { eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../../services/usuarios/ApiUsuarios";
-import { getFincasByIdFincas, getZonasByIdFinca,insertarFinca, insertarZona } from "../../../../services/fincas/ApiFincas";
+import { getFincasByIdFincas, getZonasByIdFinca, insertarFinca, insertarZona } from "../../../../services/fincas/ApiFincas";
 import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
@@ -30,12 +30,46 @@ const Zonas = () => {
   //Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
-  const [nuevaZona, setNuevaZona] = useState({ nombre: "",id_finca: parseInt(id) });
+  const [nuevaZona, setNuevaZona] = useState({ nombre: "", id_finca: parseInt(id) });
   const [editarZona, setEditarZona] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
+  const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [etapaSeleccionada, setEtapaSeleccionada] = useState("");
+  const actividadesPorEtapa = {
+    "1": [
+      { value: "1", label: "Arar o remover el suelo" },
+      { value: "2", label: "Limpiar las malas hierbas" },
+      { value: "3", label: "Abonar el campo" },
+      { value: "4", label: "Otros" }
+    ],
+    "2": [
+      { value: "1", label: "Poner las semillas en la tierra" },
+      { value: "2", label: "Regar después de sembrar" },
+      { value: "3", label: "Cubrir las semillas con tierra" },
+      { value: "4", label: "Otros" }
+    ],
+    "3": [
+      { value: "1", label: "Regar para que crezcan bien" },
+      { value: "2", label: "Aplicar fertilizante" },
+      { value: "3", label: "Deshierbar el cultivo" },
+      { value: "4", label: "Otros" }
+    ],
+    "4": [
+      { value: "1", label: "Recoger los frutos" },
+      { value: "2", label: "Clasificar la cosecha" },
+      { value: "3", label: "Empacar lo recolectado" },
+      { value: "4", label: "Otros" }
+    ],
+    "5": [
+      { value: "1", label: "Preparar la venta o distribución" },
+      { value: "2", label: "Organizar el empaque para la venta" },
+      { value: "3", label: "Llevar los productos al mercado" },
+      { value: "4", label: "Otros" }
+    ]
+  }
 
   //Efecto que carga los datos
   useEffect(() => {
@@ -140,19 +174,25 @@ const Zonas = () => {
     }).catch(console.error);
   }
 
+  const handleEtapaChange = (event) => {
+    setEtapaSeleccionada(event.target.value);
+  };
+
+  const actividades = actividadesPorEtapa[etapaSeleccionada] || [];
+
   //Define las acciones que se pueden hacer en cada fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-        <div className="relative group">
-            <button
-            className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-            onClick={() => abrirModalEliminar(fila.id)}
-            >
-                <img src={addRegistro} alt="" className="w-5 h-5"/>
-            </button>
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Agregar Actividad
-            </span>
+      <div className="relative group">
+        <button
+          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          onClick={() => setModalActividadInsertar(true)}
+        >
+          <img src={addRegistro} alt="" className="w-5 h-5" />
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Agregar Actividad
+        </span>
       </div>
       <div className="relative group">
         <button
@@ -192,7 +232,7 @@ const Zonas = () => {
         mostrarAgregar={true}
       />
 
-      {modalInsertarAbierto && (
+{modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-xl font-semibold text-center mb-4">Agregar zona en finca: {fincas.nombre}</h5>
@@ -222,6 +262,108 @@ const Zonas = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {modalActividadInsertar && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Registro de actividades</h5>
+            <hr />
+            {/* <form onSubmit={handleInsertar}> */}
+            <div className="relative w-full mt-2">
+              <label className=" font-semibold">Seleccione el tipo de cultivo</label>
+              <div className="flex gap-4 mt-2">
+                <label className="flex items-center gap-2">
+                  <input type="radio" name="cultivo" value="cafe" required /> Café
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="radio" name="cultivo" value="mora" required /> Mora
+                </label>
+              </div>
+              <div className="relative w-full mt-2">
+                <label className=" font-semibold">Seleccione la etapa del cultivo</label>
+                <select
+                  className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="etapa"
+                  required
+                  onChange={handleEtapaChange}
+                >
+                  <option value="">Seleccione etapa del cultivo</option>
+                  <option value="1">Preparar el terreno</option>
+                  <option value="2">Siembra</option>
+                  <option value="3">Crecer y madurar</option>
+                  <option value="4">Cosecha</option>
+                  <option value="5">Comercialización</option>
+                </select>
+              </div>
+              <div className="relative w-full mt-2">
+                <label className=" font-semibold">Seleccione actividad que realizó</label>
+                <select
+                  className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="etapa"
+                  required
+                >
+                  <option value="">Seleccione actividad</option>
+                  {actividades.map((actividad) => (
+                    <option key={actividad.value} value={actividad.value}>{actividad.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="relative w-full mt-2">
+                <label className=" font-semibold">Descripción</label>
+                <input
+                  className="w-full pl-3 py-5 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="descripcion"
+                  placeholder="Escriba una breve descripción"
+                />
+              </div>
+              <div className="relative w-full mt-2">
+                <label className=" font-semibold">Marque inicio y finalización</label>
+                <div className="relative mt-2">
+                  <input
+                    type="date"
+                    name="fecha"
+                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
+                    required
+                  />
+                </div>
+                <div className="relative mt-2">
+                  <label className=" font-semibold">Hora inicio</label>
+                  <input
+                    type="time"
+                    name="horaInicio"
+                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
+                    required
+                  />
+                </div>
+                <div className="relative mt-2">
+                  <label className=" font-semibold">Hora finalización</label>
+                  <input
+                    type="time"
+                    name="horaFin"
+                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-4 mt-4">
+            <button
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  onClick={() => setModalActividadInsertar(false)}>
+                  Cancelar
+                </button>
+              <button
+                type="submit"
+                className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl"
+              >
+               Registrar
+              </button>
+            </div>
+            {/* </form> */}
           </div>
         </div>
       )}

@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../../../components/navbar';
-import Tabla from '../../../../components/Tabla';
-import UserCards from '../../../../components/UseCards';
-import Opcion from '../../../../components/Opcion';
 import MostrarInfo from '../../../../components/mostrarInfo';
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 
@@ -14,6 +11,7 @@ import sensorIcon from "../../../../assets/icons/sensorBlue.png";
 import alternoIcon from "../../../../assets/icons/alternoBlue.png";
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";
+import zonasIcon from "../../../../assets/icons/zonasFinca.png"
 
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
 import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
@@ -65,6 +63,7 @@ export default function ListaFincas() {
     { key: "sensores", label: "Sensores" },
     { key: "alternos", label: "Alternos" },
     { key: "acciones", label: "Acciones" },
+    { key: "zonas", label: "Zonas"},
   ];
 
   const acciones = (fila) => (
@@ -115,6 +114,18 @@ export default function ListaFincas() {
           </span>
         </button>
       </Link>
+    ),
+    zonas: (
+      <Link to={`/zonas/${finca.id}`}>
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={zonasIcon} alt="Zonas" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver
+          </span>
+        </button>
+    </Link>
     )
   }));
 

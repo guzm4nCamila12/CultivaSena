@@ -34,3 +34,17 @@ export const actualizarFinca = async (id, fincaActualizada) => {
 export const eliminarFincas = async (id) => {
   await fetch(`${API_URL}/fincas/${id}`, { method: "DELETE" });
 };
+// Consumo al api para obtener una zona por el id de la finca
+export const getZonasByIdFinca = async (id) => {
+  const response = await fetch(`${API_URL}/zonas/${id}`);
+  return response.json();
+};
+// Consumo al api para crear una zona
+export const insertarZona = async (nuevaZona) => {
+const response = await fetch(`${API_URL}/zonas`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(nuevaZona),
+});
+return response.json();
+};

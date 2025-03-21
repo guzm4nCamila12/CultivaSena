@@ -48,3 +48,13 @@ const response = await fetch(`${API_URL}/zonas`, {
 });
 return response.json();
 };
+
+//Consumo al api para crear una actividad
+export const insertarActividad = async (nuevaActividad) => {
+  const response = await fetch(`${API_URL}/zona/actividad`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(nuevaActividad),
+  });
+  return response.json();
+  };

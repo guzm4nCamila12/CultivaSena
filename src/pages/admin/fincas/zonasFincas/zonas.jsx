@@ -21,7 +21,7 @@ import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
 //endpoints para consumir api
 import { eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../../services/usuarios/ApiUsuarios";
-import { getFincasByIdFincas, getZonasByIdFinca, insertarFinca, insertarZona } from "../../../../services/fincas/ApiFincas";
+import { getFincasByIdFincas, getZonasByIdFinca, insertarActividad, insertarFinca, insertarZona } from "../../../../services/fincas/ApiFincas";
 import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
@@ -30,7 +30,9 @@ const Zonas = () => {
   //Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
+  const [actividad, setActividad] = useState([])
   const [nuevaZona, setNuevaZona] = useState({ nombre: "", id_finca: parseInt(id) });
+  const [nuevaActividad, setNuevaActividad] = useState({ idzona:"", cultivo: "", etapa: "", actividad: "", descripcion: "", fechainicio: "", fechafin: "" });
   const [editarZona, setEditarZona] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
@@ -84,6 +86,10 @@ const Zonas = () => {
   //Maneja el cambio de valores para agregar un nuevo usuario
   const handleChange = (e) => {
     setNuevaZona({ ...nuevaZona, [e.target.name]: e.target.value });
+  };
+
+  const handleActividadChange = (e) => {
+    setNuevaActividad({ ...nuevaActividad, [e.target.name]: e.target.value });
   };
 
   //Maneja el cambio de valores para editar un usuario
@@ -174,6 +180,33 @@ const Zonas = () => {
     }).catch(console.error);
   }
 
+  const handleInsertarActividad = (e) => {
+    e.preventDefault();
+
+    // Asegúrate de que todos los campos estén llenos
+    // if (!nuevaActividad.cultivo || !nuevaActividad.etapa || !nuevaActividad.actividad || !nuevaActividad.fecha || !nuevaActividad.horaInicio || !nuevaActividad.horaFin) {
+    //   acctionSucessful.fire({
+    //     imageUrl: Alerta,
+    //     imageAlt: 'Icono personalizado',
+    //     title: "¡Por favor, complete todos los campos!"
+    //   });
+    //   return;
+    // }
+
+    // Inserta la nueva actividad
+    insertarActividad(nuevaActividad)
+    console.log(nuevaActividad)
+      .then((data) => {
+        setActividad([...actividad, data]);
+        setModalActividadInsertar(false);
+        acctionSucessful.fire({
+          imageUrl: usuarioCreado,
+          imageAlt: 'Icono personalizado',
+          title: "¡Actividad agregada correctamente!"
+        });
+      })
+  };
+
   const handleEtapaChange = (event) => {
     setEtapaSeleccionada(event.target.value);
   };
@@ -232,7 +265,7 @@ const Zonas = () => {
         mostrarAgregar={true}
       />
 
-{modalInsertarAbierto && (
+      {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-xl font-semibold text-center mb-4">Agregar zona en finca: {fincas.nombre}</h5>
@@ -271,24 +304,40 @@ const Zonas = () => {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Registro de actividades</h5>
             <hr />
-            {/* <form onSubmit={handleInsertar}> */}
-            <div className="relative w-full mt-2">
-              <label className=" font-semibold">Seleccione el tipo de cultivo</label>
-              <div className="flex gap-4 mt-2">
-                <label className="flex items-center gap-2">
-                  <input type="radio" name="cultivo" value="cafe" required /> Café
-                </label>
-                <label className="flex items-center gap-2">
-                  <input type="radio" name="cultivo" value="mora" required /> Mora
-                </label>
-              </div>
+            <form onSubmit={handleInsertarActividad}>
               <div className="relative w-full mt-2">
-                <label className=" font-semibold">Seleccione la etapa del cultivo</label>
+                <label className="font-semibold">Seleccione el tipo de cultivo</label>
+                <div className="flex gap-4 mt-2">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="cultivo"
+                      value="cafe"
+                      required
+                      onChange={handleActividadChange} // Agregar aquí
+                    />
+                    Café
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="cultivo"
+                      value="mora"
+                      required
+                      onChange={handleActividadChange} // Agregar aquí
+                    />
+                    Mora
+                  </label>
+                </div>
+              </div>
+
+              <div className="relative w-full mt-2">
+                <label className="font-semibold">Seleccione la etapa del cultivo</label>
                 <select
                   className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="etapa"
                   required
-                  onChange={handleEtapaChange}
+                  onChange={handleEtapaChange} // Si tienes otra función específica para esto
                 >
                   <option value="">Seleccione etapa del cultivo</option>
                   <option value="1">Preparar el terreno</option>
@@ -298,72 +347,74 @@ const Zonas = () => {
                   <option value="5">Comercialización</option>
                 </select>
               </div>
+
               <div className="relative w-full mt-2">
-                <label className=" font-semibold">Seleccione actividad que realizó</label>
+                <label className="font-semibold">Seleccione actividad que realizó</label>
                 <select
                   className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  name="etapa"
+                  name="actividad"
                   required
+                  onChange={handleActividadChange} // Agregar aquí
                 >
                   <option value="">Seleccione actividad</option>
                   {actividades.map((actividad) => (
-                    <option key={actividad.value} value={actividad.value}>{actividad.label}</option>
+                    <option key={actividad.value} value={actividad.value}>
+                      {actividad.label}
+                    </option>
                   ))}
                 </select>
               </div>
+
               <div className="relative w-full mt-2">
-                <label className=" font-semibold">Descripción</label>
+                <label className="font-semibold">Descripción</label>
                 <input
                   className="w-full pl-3 py-5 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
                   placeholder="Escriba una breve descripción"
+                  onChange={handleActividadChange} // Agregar aquí
                 />
               </div>
+
               <div className="relative w-full mt-2">
-                <label className=" font-semibold">Marque inicio y finalización</label>
+                <label className="font-semibold">Fecha inicio</label>
                 <div className="relative mt-2">
                   <input
-                    type="date"
-                    name="fecha"
+                    type="datetime-local"
+                    name="fechainicio"
                     className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
                     required
-                  />
-                </div>
-                <div className="relative mt-2">
-                  <label className=" font-semibold">Hora inicio</label>
-                  <input
-                    type="time"
-                    name="horaInicio"
-                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
-                    required
-                  />
-                </div>
-                <div className="relative mt-2">
-                  <label className=" font-semibold">Hora finalización</label>
-                  <input
-                    type="time"
-                    name="horaFin"
-                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
-                    required
+                    onChange={handleActividadChange} // Agregar aquí
                   />
                 </div>
               </div>
-            </div>
-            <div className="flex gap-4 mt-4">
-            <button
+              <div className="relative w-full mt-2">
+                <label className="font-semibold">Fecha finalización</label>
+                <div className="relative mt-2">
+                  <input
+                    type="datetime-local"
+                    name="fechafin"
+                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
+                    required
+                    onChange={handleActividadChange} // Agregar aquí
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4 mt-4">
+                <button
                   className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
                   onClick={() => setModalActividadInsertar(false)}>
                   Cancelar
                 </button>
-              <button
-                type="submit"
-                className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl"
-              >
-               Registrar
-              </button>
-            </div>
-            {/* </form> */}
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl"
+                >
+                  Registrar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

@@ -59,11 +59,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Sensores" },
+    { key: "nombre", label: "Nombre" },
     { key: "sensores", label: "Sensores" },
     { key: "alternos", label: "Alternos" },
-    { key: "acciones", label: "Acciones" },
     { key: "zonas", label: "Zonas"},
+    { key: "acciones", label: "Acciones" },
   ];
 
   const acciones = (fila) => (

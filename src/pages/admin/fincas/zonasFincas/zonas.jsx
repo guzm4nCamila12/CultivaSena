@@ -1,6 +1,6 @@
 // importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, data } from "react-router-dom";
 // iconos de las columnas
 import emailBlue from "../../../../assets/icons/emailBlue.png";
 // iconos de las acciones
@@ -97,8 +97,10 @@ const Zonas = () => {
   useEffect(() => {
     // Obtiene las zonas de la finca por el id
     getZonasByIdFinca(id)
-      .then(data => setZonas(data || []))
+      .then(data =>{
+       setZonas(data || [])})
       .catch(error => console.error("Error: ", error));
+      
     // Obtiene la finca asociada al ID
     getFincasByIdFincas(id)
       .then((data) => {
@@ -293,11 +295,11 @@ const Zonas = () => {
   const zonaszonas = zonas.map(zona => ({
     ...zona,
     cantidadSensores: (
-      <button className="group relative">
-        <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-          <h2>1</h2>
-        </div>
-      </button>
+   
+
+          <h2>{zona.cantidad_sensores}</h2>
+
+
     ),
     verSensores: (
       <Link to={"#"}>

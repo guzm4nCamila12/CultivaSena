@@ -78,7 +78,7 @@ function ActivarSensores() {
       });
       getZonasByIdFinca(idUser).then((data) => {
 
-        setZonas(data)
+        setZonas(data || [])
       })
     } catch (error) {
       console.error("Error: ", error);

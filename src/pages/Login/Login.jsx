@@ -53,12 +53,10 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
-        Swal.fire({
-          title: "Error",
-          text: error.message,
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        }) // Almacena el mensaje de error en el estado error para mostrarlo al usuario
+        acctionSucessful.fire({
+                icon: "error",
+                title: error.message,
+              }); // Almacena el mensaje de error en el estado error para mostrarlo al usuario
         // Manejo de errores si la API falla
       });
   };

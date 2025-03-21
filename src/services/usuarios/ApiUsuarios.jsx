@@ -31,34 +31,36 @@ export const login = async (inicioUsuario) => {
 
   //Verifica si la respuesta es exitosa
   if (!response.ok) {
-    throw new Error("Error en el inicio de sesión");
-  }
-  const data = await response.json();
+    // Leemos el cuerpo de la respuesta de error
+    const errorText = await response.text(); // Lee el cuerpo como texto
+    throw new Error(errorText); // Lanza el error con el mensaje del servidor 
+     }
+    const data = await response.json();
 
-  return data;
-};
+    return data;
+  };
 
-//Funcion para insertar un usuario
-export const insertarUsuario = async (nuevoUsuario) => {
-  const response = await fetch(`${API_URL}/usuarios`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(nuevoUsuario),
-  });
-  return response.json();
-};
+  //Funcion para insertar un usuario
+  export const insertarUsuario = async (nuevoUsuario) => {
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nuevoUsuario),
+    });
+    return response.json();
+  };
 
-//Funcion para actualizar un usuario existente
-export const actualizarUsuario = async (id, usuarioActualizado) => {
-  const response = await fetch(`${API_URL}/usuarios/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(usuarioActualizado),
-  });
+  //Funcion para actualizar un usuario existente
+  export const actualizarUsuario = async (id, usuarioActualizado) => {
+    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(usuarioActualizado),
+    });
 
-};
+  };
 
-//Funcion para eliminar un usuario
-export const eliminarUsuario = async (id) => {
-  await fetch(`${API_URL}/usuarios/${id}`, { method: "DELETE" });
-};
+  //Funcion para eliminar un usuario
+  export const eliminarUsuario = async (id) => {
+    await fetch(`${API_URL}/usuarios/${id}`, { method: "DELETE" });
+  };

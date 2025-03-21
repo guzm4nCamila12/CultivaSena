@@ -20,7 +20,7 @@ import Alerta from "../../../../assets/img/Alert.png";
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
 // endpoints para consumir api
-import { 
+import {
   getFincasByIdFincas,
   getZonasByIdFinca,
   insertarZona,
@@ -41,14 +41,14 @@ const Zonas = () => {
   const [zonaEliminar, setZonaEliminar] = useState(false);
   const [actividad, setActividad] = useState([]);
   // Estado para almacenar los datos de la actividad, se guardará el texto de las opciones
-  const [nuevaActividad, setNuevaActividad] = useState({ 
-    idzona: parseInt(id), 
-    cultivo: "", 
-    etapa: "", 
-    actividad: "", 
-    descripcion: "", 
-    fechainicio: "", 
-    fechafin: "" 
+  const [nuevaActividad, setNuevaActividad] = useState({
+    idzona: parseInt(id),
+    cultivo: "",
+    etapa: "",
+    actividad: "",
+    descripcion: "",
+    fechainicio: "",
+    fechafin: ""
   });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
@@ -97,10 +97,11 @@ const Zonas = () => {
   useEffect(() => {
     // Obtiene las zonas de la finca por el id
     getZonasByIdFinca(id)
-      .then(data =>{
-       setZonas(data || [])})
+      .then(data => {
+        setZonas(data || [])
+      })
       .catch(error => console.error("Error: ", error));
-      
+
     // Obtiene la finca asociada al ID
     getFincasByIdFincas(id)
       .then((data) => {
@@ -237,6 +238,18 @@ const Zonas = () => {
   // Maneja el envío del formulario para insertar una actividad
   const handleInsertarActividad = (e) => {
     e.preventDefault();
+    const fechaInicio = new Date(nuevaActividad.fechainicio);
+    const fechaFin = new Date(nuevaActividad.fechafin);
+
+    // Validar que la fecha de fin no sea anterior a la fecha de inicio
+    if (fechaFin < fechaInicio) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La fecha de fin no puede ser antes de la fecha de inicio!"
+      });
+      return;
+    }
     // Aquí puedes agregar validaciones si es necesario
     console.log(nuevaActividad);
     insertarActividad(nuevaActividad)
@@ -295,9 +308,9 @@ const Zonas = () => {
   const zonaszonas = zonas.map(zona => ({
     ...zona,
     cantidadSensores: (
-   
 
-          <h2>{zona.cantidad_sensores}</h2>
+
+      <h2>{zona.cantidad_sensores}</h2>
 
 
     ),
@@ -453,6 +466,7 @@ const Zonas = () => {
                   className="w-full pl-3 py-5 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
+                  required
                   placeholder="Escriba una breve descripción"
                   onChange={handleActividadChange}
                 />

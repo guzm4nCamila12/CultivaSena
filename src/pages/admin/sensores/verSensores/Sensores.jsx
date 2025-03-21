@@ -94,6 +94,7 @@ function Sensores() {
   const columnas = [
     { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
+    { key: "idzona", label: "Zona" },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
     { key: "acciones", label: "Acciones" },
@@ -158,7 +159,8 @@ function Sensores() {
   };
 
   //accion que ejecutara el modal de eliminar, se eliminara el sensor y se cerrara el modal
-  const HandlEliminarSensor = () => {
+  const HandlEliminarSensor = (e) => {
+    e.preventDefault();
     eliminarSensores(sensorAEliminar).then(() => {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
       setModalEliminarAbierto(false);
@@ -173,7 +175,8 @@ function Sensores() {
   //actualiza dinamicamente los datos de un sensor para agregarlo
   const handleChange = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
-    setFormData({ ...formData, [e.target.name]: value });  };
+    setFormData({ ...formData, [e.target.name]: value });
+  };
 
 
   //accion que ejecuta el modal insertar para crear un nuevo sensor
@@ -214,36 +217,18 @@ function Sensores() {
 
   //ingresa datos de forma dinamica en el estado EditarSensor
   const handleChangeEditar = (e) => {
-    setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
-
+    const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
+    setEditarSensor({ ...editarSensor, [e.target.name]: value });
   };
 
   const handleVistaChange = (vista) => {
     setVistaActiva(vista);
   };
 
-  const asignarZona = () => {
+  const asignarZona = (id) => {
 
-
-    return (
-      <div className="relative w-full mt-2">
-        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-          name="idzona"
-          onChange={handleChange}
-          required
-        >
-          <option value="">seleccionar zona </option>
-          <option value=""> Sin zona </option>
-          {zonas.map((zona) => (
-            console.log('Zona:', zona),
-            <option key={zona.id} value={zona.id}>
-              {zona.nombre}
-
-            </option>
-          ))}
-        </select>
-      </div>
-    );
+    const nombre = zonas.find(zonas => zonas.id === id);
+    return nombre ? nombre.nombre : "Sin zona";
   }
 
   return (
@@ -259,7 +244,7 @@ function Sensores() {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
         datos={sensores.map((sensor, index) => ({
-          ...sensor, "#": index + 1,
+          ...sensor, idzona: asignarZona(sensor.idzona),
           estado: (
             <div className="flex justify-start items-center">
               <label className="relative flex items-center cursor-not-allowed">
@@ -276,7 +261,7 @@ function Sensores() {
                 </div>
               </label>
             </div>
-          ),
+          ), 
         }))}
       />
 
@@ -333,6 +318,23 @@ function Sensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
             <form onSubmit={handleEditarSensor}>
+              <div className="relative w-full mt-2">
+                <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="idzona"
+                  onChange={handleChangeEditar}
+                  required
+                >
+                  <option value="">seleccionar zona </option>
+                  <option value=""> Sin zona </option>
+                  {zonas.map((zona) => (
+                    console.log('Zona:', zona),
+                    <option key={zona.id} value={zona.id}>
+                      {zona.nombre}
+
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

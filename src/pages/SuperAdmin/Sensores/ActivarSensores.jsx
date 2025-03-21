@@ -21,7 +21,7 @@ import UserCards from "../../../components/UseCards";
 import Opcion from "../../../components/Opcion";
 import Navbar from "../../../components/navbar";//endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
-import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import { getFincasByIdFincas, getZonasByIdFinca } from "../../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
 //libreria sweetalert para las alertas
 import Swal from "sweetalert2";
@@ -34,8 +34,9 @@ import { insertarDatos } from "../../../services/sensores/ApiSensores";
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
+  const [zonas, setZonas] = useState([]);
   const [usuario, setUsuario] = useState({});
-  const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
+  const [editarSensor, setEditarSensor] = useState({ id: null,nombre: "", descripcion: "", idzona: null});
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -51,8 +52,10 @@ function ActivarSensores() {
     descripcion: "",
     estado: false,
     idusuario: "",
+    idzona: null,
     idfinca: "",
   });
+  console.log(formData)
 
   useEffect(() => {
     try {
@@ -73,6 +76,9 @@ function ActivarSensores() {
         setFincas(data)
 
       });
+      getZonasByIdFinca(idUser).then((data) => {
+        setZonas(data)
+      })
     } catch (error) {
       console.error("Error: ", error);
     }
@@ -86,6 +92,7 @@ function ActivarSensores() {
         descripcion: "",
         estado: false,
         idusuario: usuario.id,
+        idzona: null,
         idfinca: fincas.id,
       });
     }
@@ -156,6 +163,7 @@ function ActivarSensores() {
     ),
   }))
 
+
   const abrirModalEditar = (sensor) => {
     setEditarSensor(sensor);
     setModalEditarAbierto(true);
@@ -180,8 +188,11 @@ function ActivarSensores() {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // cambia el idzona de string a número entero
+    const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -220,12 +231,14 @@ function ActivarSensores() {
   };
 
   const handleChangeEditar = (e) => {
-    setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
+    const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
+    setEditarSensor({ ...editarSensor, [e.target.name]: value });
   };
 
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
-    console.log("macc:", sensorcito[index].mac)
+
+    console.log("mac:", sensorcito[index].mac)
     if (estado === true) {
       console.log("bloque 1")
       const newEstado = !estado;
@@ -240,14 +253,15 @@ function ActivarSensores() {
         descripcion: sensores[index].descripcion,
         estado: newEstado,
         idusuario: sensores[index].idusuario,
+        idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       };
-
+      console.log("data:",updatedFormData)
       actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
-        insertarDatos(updatedFormData.mac)
+         insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
       console.log("bloque 2")
@@ -266,8 +280,12 @@ function ActivarSensores() {
           descripcion: sensores[index].descripcion,
           estado: newEstado,
           idusuario: sensores[index].idusuario,
+          idzona: sensores[index].idzona,
+
           idfinca: sensores[index].idfinca,
         }
+              console.log("data:",updatedFormData)
+
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
@@ -297,6 +315,7 @@ function ActivarSensores() {
         descripcion: sensores[index].descripcion,
         estado: newEstado,
         idusuario: sensores[index].idusuario,
+        idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
 
@@ -360,19 +379,44 @@ function ActivarSensores() {
     setVistaActiva(vista);
   };
 
+  const asignarZona = () => {
+
+
+    return (
+      <div className="relative w-full mt-2">
+        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+          name="idzona"
+          onChange={handleChange}
+          required
+        >
+          <option value="">seleccionar zona </option>
+          <option value=""> Sin zona </option>
+          {zonas.map((zona) => (
+            console.log('Zona:', zona),
+            <option key={zona.id} value={zona.id}>
+              {zona.nombre}
+
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
+
   return (
     <div>
       <Navbar />
       {/* El componente Opcion ya incluye la opción de cambiar la vista.
                 Su propiedad onChangeVista actualizará el estado y localStorage. */}
       <MostrarInfo
-          titulo={`Sensores de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          datos={sensoresDeFinca}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
+        titulo={`Sensores de la finca: ${fincas.nombre}`}
+        columnas={columnas}
+        datos={sensoresDeFinca}
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+      />
 
 
       {/*Codigo modal insertar */}
@@ -382,6 +426,8 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
+              
+                {asignarZona()}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -424,6 +470,24 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
             <form onSubmit={handleEditarSensor}>
+
+            <div className="relative w-full mt-2">
+        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+          name="idzona"
+          onChange={handleChangeEditar}
+          required
+        >
+          <option value="">seleccionar zona </option>
+          <option value=""> Sin zona </option>
+          {zonas.map((zona) => (
+            console.log('Zona:', zona),
+            <option key={zona.id} value={zona.id}>
+              {zona.nombre}
+
+            </option>
+          ))}
+        </select>
+      </div>
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

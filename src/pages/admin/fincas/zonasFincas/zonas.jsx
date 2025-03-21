@@ -1,6 +1,6 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams,Link } from 'react-router-dom';
 //iconos de las columnas
 import emailBlue from "../../../../assets/icons/emailBlue.png"
 //iconos de las acciones
@@ -9,6 +9,7 @@ import editWhite from "../../../../assets/icons/editWhite.png";
 import deletWhite from "../../../../assets/icons/deleteWhite.png";
 //iconos de los modales
 import userGray from "../../../../assets/icons/userGray.png"
+import actividadesIcon from "../../../../assets/icons/registroActividades.png"
 import sensorIcon from "../../../../assets/icons/sensorBlue.png"
 //imgs de los modales
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
@@ -103,7 +104,7 @@ const Zonas = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", },
+    { key: "nombre", label: "Nombre Zona" },
     { key: "cantidadSensores", label: "Cantidad Sensores"},
     { key: "verSensores", label: "Sensores"},
     { key: "actividades", label: "Actividades"},
@@ -120,6 +121,8 @@ const Zonas = () => {
   //Maneja la edicion cuando se envia el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
+    console.log(editarZona);  // Verifica el contenido de editarZona
+  
     if (!editarZona.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -128,18 +131,28 @@ const Zonas = () => {
       });
       return;
     }
-    //Realiza la actualizacion
-    actualizarZona(editarZona.id, editarZona).then(() => {
-      //Actualiza la lista de usuarios
-      setZonas(zonas.map(u => u.id === editarZona.id ? editarZona : u));
+  
+    // Eliminar las propiedades JSX antes de enviar la actualización
+    const zonaParaActualizar = {
+      ...editarZona,
+      cantidadSensores: undefined, // Elimina la propiedad JSX
+      verSensores: undefined,      // Elimina la propiedad JSX
+      actividades: undefined       // Elimina la propiedad JSX
+    };
+  
+    // Realiza la actualización con el objeto limpio
+    actualizarZona(zonaParaActualizar.id, zonaParaActualizar).then(() => {
+      // Actualiza la lista de zonas
+      setZonas(zonas.map(u => u.id === zonaParaActualizar.id ? zonaParaActualizar : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Zona: ${editarZona.nombre} editada correctamente!`
+        title: `¡Zona: ${zonaParaActualizar.nombre} editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
   };
+  
 
   //Maneja la eliminacion de un usuario
   const HandlEliminarZonas = (e) => {
@@ -224,7 +237,7 @@ const Zonas = () => {
     <div className="flex justify-center gap-2">
       <div className="relative group">
         <button
-          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => setModalActividadInsertar(true)}
         >
           <img src={addRegistro} alt="" className="w-5 h-5" />
@@ -235,7 +248,7 @@ const Zonas = () => {
       </div>
       <div className="relative group">
         <button
-          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarZona(fila)}
         >
           <img src={editWhite} alt="Editar" />
@@ -246,7 +259,7 @@ const Zonas = () => {
       </div>
       <div className="relative group">
         <button
-          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}
         >
           <img src={deletWhite} alt="Eliminar" />
@@ -258,6 +271,42 @@ const Zonas = () => {
     </div>
   );
 
+
+const zonaszonas = zonas.map(zona => ({
+    ...zona,
+    cantidadSensores: (
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <h2>1</h2>
+          </div>
+        </button>
+    ),
+    verSensores: (
+      <Link to={"#"}>
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={sensorIcon} alt="Alternos" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver
+          </span>
+        </button>
+      </Link>
+    ),
+    actividades: (
+      <Link to={"#"}>
+        <button className="group relative">
+          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <img src={actividadesIcon} alt="Zonas" className=" w-6 h-6" />
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver
+          </span>
+        </button>
+    </Link>
+    )
+  }));
+
   return (
     <div >
       <Navbar />
@@ -265,7 +314,7 @@ const Zonas = () => {
       <MostrarInfo
         titulo={`Zonas de la finca: ${fincas.nombre}`}
         columnas={columnas}
-        datos={Array.isArray(zonas) ? zonas : []}
+        datos={Array.isArray(zonaszonas) ? zonaszonas : []}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}

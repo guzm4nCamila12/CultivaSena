@@ -20,7 +20,7 @@ import Alerta from "../../../../assets/img/Alert.png"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
 //endpoints para consumir api
-import { getFincasByIdFincas,getZonasByIdFinca,insertarZona,actualizarZona,eliminarZonas } from "../../../../services/fincas/ApiFincas";
+import { getFincasByIdFincas,getZonasByIdFinca,insertarZona,actualizarZona,eliminarZonas, insertarActividad } from "../../../../services/fincas/ApiFincas";
 
 
 

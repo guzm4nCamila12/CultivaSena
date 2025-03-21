@@ -1,49 +1,61 @@
-//importaciones necesarias de react
+// importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams,Link } from 'react-router-dom';
-//iconos de las columnas
-import emailBlue from "../../../../assets/icons/emailBlue.png"
-//iconos de las acciones
-import addRegistro from "../../../../assets/icons/agregar-archivo.png"
+import { useParams, Link } from "react-router-dom";
+// iconos de las columnas
+import emailBlue from "../../../../assets/icons/emailBlue.png";
+// iconos de las acciones
+import addRegistro from "../../../../assets/icons/agregar-archivo.png";
 import editWhite from "../../../../assets/icons/editWhite.png";
 import deletWhite from "../../../../assets/icons/deleteWhite.png";
-//iconos de los modales
-import userGray from "../../../../assets/icons/userGray.png"
-import actividadesIcon from "../../../../assets/icons/registroActividades.png"
-import sensorIcon from "../../../../assets/icons/sensorBlue.png"
-//imgs de los modales
-import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
-import Alerta from "../../../../assets/img/Alert.png"
-//componentes reutilizados
+// iconos de los modales
+import userGray from "../../../../assets/icons/userGray.png";
+import actividadesIcon from "../../../../assets/icons/registroActividades.png";
+import sensorIcon from "../../../../assets/icons/sensorBlue.png";
+// imgs de los modales
+import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";
+import usuarioCreado from "../../../../assets/img/UsuarioCreado.png";
+import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
+import Alerta from "../../../../assets/img/Alert.png";
+// componentes reutilizados
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 import Navbar from "../../../../components/navbar";
-//endpoints para consumir api
-import { getFincasByIdFincas,getZonasByIdFinca,insertarZona,actualizarZona,eliminarZonas, insertarActividad } from "../../../../services/fincas/ApiFincas";
-
-
-
+// endpoints para consumir api
+import { 
+  getFincasByIdFincas,
+  getZonasByIdFinca,
+  insertarZona,
+  actualizarZona,
+  eliminarZonas,
+  insertarActividad
+} from "../../../../services/fincas/ApiFincas";
 import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
-  //Obtiene el ID de la URL 
+  // Obtiene el ID de la URL 
   const { id } = useParams();
-  //Estado para almacenar los datos
+  // Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
-
-
   const [zonas, setZonas] = useState([]);
-  const [nuevaZona, setNuevaZona] = useState({ nombre: "",idfinca: parseInt(id) });
+  const [nuevaZona, setNuevaZona] = useState({ nombre: "", idfinca: parseInt(id) });
   const [editarZona, setEditarZona] = useState([]);
-  const [zonaEliminar, setZonaEliminar] = useState(false)
-  const [actividad, setActividad] = useState([])
-  const [nuevaActividad, setNuevaActividad] = useState({ idzona:"", cultivo: "", etapa: "", actividad: "", descripcion: "", fechainicio: "", fechafin: "" });
+  const [zonaEliminar, setZonaEliminar] = useState(false);
+  const [actividad, setActividad] = useState([]);
+  // Estado para almacenar los datos de la actividad, se guardará el texto de las opciones
+  const [nuevaActividad, setNuevaActividad] = useState({ 
+    idzona: parseInt(id), 
+    cultivo: "", 
+    etapa: "", 
+    actividad: "", 
+    descripcion: "", 
+    fechainicio: "", 
+    fechafin: "" 
+  });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
 
+  // Para manejar la etapa y las actividades asociadas
   const [etapaSeleccionada, setEtapaSeleccionada] = useState("");
   const actividadesPorEtapa = {
     "1": [
@@ -76,163 +88,169 @@ const Zonas = () => {
       { value: "3", label: "Llevar los productos al mercado" },
       { value: "4", label: "Otros" }
     ]
-  }
+  };
 
-  //Efecto que carga los datos
+  // Obtiene las actividades disponibles según la etapa seleccionada.
+  const actividades = actividadesPorEtapa[etapaSeleccionada] || [];
+
+  // Efecto que carga los datos
   useEffect(() => {
-    //Obtiene los usuarios con el rol asociado al ID
-    getZonasByIdFinca(id).then(data => setZonas(data || [])).catch(error => console.error('Error: ', error));
-    //Obtiene la finca asociada al ID de finca
-    getFincasByIdFincas(id).then((data) => {
-      setFincas(data)
-    });
+    // Obtiene las zonas de la finca por el id
+    getZonasByIdFinca(id)
+      .then(data => setZonas(data || []))
+      .catch(error => console.error("Error: ", error));
+    // Obtiene la finca asociada al ID
+    getFincasByIdFincas(id)
+      .then((data) => {
+        setFincas(data);
+      })
+      .catch(error => console.error("Error: ", error));
   }, [id]);
 
-  //Maneja el cambio de valores para agregar un nuevo usuario
+  // Maneja el cambio de valores para agregar una nueva zona
   const handleChange = (e) => {
     setNuevaZona({ ...nuevaZona, [e.target.name]: e.target.value });
   };
 
+  // Handler general para actualizar el estado de la actividad
+  // Se captura el texto de la opción en los <select>
   const handleActividadChange = (e) => {
-    setNuevaActividad({ ...nuevaActividad, [e.target.name]: e.target.value });
+    const { name, value, tagName, selectedIndex } = e.target;
+    let newValue = value;
+    if (tagName === "SELECT") {
+      newValue = e.target.options[selectedIndex].text;
+    }
+    setNuevaActividad((prev) => ({
+      ...prev,
+      [name]: newValue
+    }));
   };
 
-  //Maneja el cambio de valores para editar un usuario
+  // Handler para la etapa; guarda el valor seleccionado (para filtrar las actividades) y también su texto
+  const handleEtapaChange = (e) => {
+    const { name, value, tagName, selectedIndex } = e.target;
+    let etapaText = value;
+    if (tagName === "SELECT") {
+      etapaText = e.target.options[selectedIndex].text;
+    }
+    // Guardamos la etapa en el estado de la actividad y actualizamos la etapaSeleccionada para filtrar el select de actividad
+    setNuevaActividad((prev) => ({
+      ...prev,
+      [name]: etapaText
+    }));
+    setEtapaSeleccionada(value);
+  };
+
+  // Maneja el cambio de valores para editar una zona
   const handleChangeEditar = (e) => {
     setEditarZona({ ...editarZona, [e.target.name]: e.target.value });
   };
 
-  //Definicion de las columnas de la UseCards
+  // Definición de las columnas para el componente MostrarInfo
   const columnas = [
     { key: "nombre", label: "Nombre Zona" },
-    { key: "cantidadSensores", label: "Cantidad Sensores"},
-    { key: "verSensores", label: "Sensores"},
-    { key: "actividades", label: "Actividades"},
-    { key: "acciones", label: "Acciones" },
+    { key: "cantidadSensores", label: "Cantidad Sensores" },
+    { key: "verSensores", label: "Sensores" },
+    { key: "actividades", label: "Actividades" },
+    { key: "acciones", label: "Acciones" }
   ];
 
-  //Abre el modal de edicion con los datos de ese usuario
+  // Abre el modal de edición con los datos de esa zona
   const HandleEditarZona = (zona) => {
     const { "#": removed, ...edit } = zona;
     setEditarZona(edit);
     setModalEditarAbierto(true);
-  }
+  };
 
-  //Maneja la edicion cuando se envia el formulario
+  // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
-    console.log(editarZona);  // Verifica el contenido de editarZona
-  
     if (!editarZona.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
-        imageAlt: 'Icono personalizado',
+        imageAlt: "Icono personalizado",
         title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
-  
-    // Eliminar las propiedades JSX antes de enviar la actualización
+    // Se limpia el objeto eliminando propiedades JSX
     const zonaParaActualizar = {
       ...editarZona,
-      cantidadSensores: undefined, // Elimina la propiedad JSX
-      verSensores: undefined,      // Elimina la propiedad JSX
-      actividades: undefined       // Elimina la propiedad JSX
+      cantidadSensores: undefined,
+      verSensores: undefined,
+      actividades: undefined
     };
-  
-    // Realiza la actualización con el objeto limpio
     actualizarZona(zonaParaActualizar.id, zonaParaActualizar).then(() => {
-      // Actualiza la lista de zonas
       setZonas(zonas.map(u => u.id === zonaParaActualizar.id ? zonaParaActualizar : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
-        imageAlt: 'Icono personalizado',
+        imageAlt: "Icono personalizado",
         title: `¡Zona: ${zonaParaActualizar.nombre} editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
   };
-  
 
-  //Maneja la eliminacion de un usuario
+  // Maneja la eliminación de una zona
   const HandlEliminarZonas = (e) => {
     e.preventDefault();
-    //Elimina el usuario
     eliminarZonas(zonaEliminar).then(() => {
-      setZonas((prevZonas) => prevZonas?.filter(zona => zona.id !== zonaEliminar) || []);
-      setModalEliminarAbierto(false)
+      setZonas(prevZonas => prevZonas.filter(zona => zona.id !== zonaEliminar));
+      setModalEliminarAbierto(false);
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
-        imageAlt: 'Icono personalizado',
-        title: `¡Zona eliminada correctamente!`
+        imageAlt: "Icono personalizado",
+        title: "¡Zona eliminada correctamente!"
       });
     }).catch(console.error);
-  }
+  };
 
   const abrirModalEliminar = (id) => {
     setZonaEliminar(id);
-    setModalEliminarAbierto(true)
-  }
+    setModalEliminarAbierto(true);
+  };
 
-  //Maneja el envio del formulario para agregar una Zona
+  // Maneja el envío del formulario para agregar una zona
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!nuevaZona.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
-        imageAlt: 'Icono personalizado',
+        imageAlt: "Icono personalizado",
         title: "¡Por favor, complete todos los campos!"
       });
       return;
     }
-
-    //Inserta la nueva zona
-    console.log(nuevaZona)
     insertarZona(nuevaZona).then((data) => {
       setZonas([...zonas, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
-        imageAlt: 'Icono personalizado',
+        imageAlt: "Icono personalizado",
         title: `¡Zona ${nuevaZona.nombre} agregada correctamente!`
       });
     }).catch(console.error);
-  }
+  };
 
+  // Maneja el envío del formulario para insertar una actividad
   const handleInsertarActividad = (e) => {
     e.preventDefault();
-
-    // Asegúrate de que todos los campos estén llenos
-    // if (!nuevaActividad.cultivo || !nuevaActividad.etapa || !nuevaActividad.actividad || !nuevaActividad.fecha || !nuevaActividad.horaInicio || !nuevaActividad.horaFin) {
-    //   acctionSucessful.fire({
-    //     imageUrl: Alerta,
-    //     imageAlt: 'Icono personalizado',
-    //     title: "¡Por favor, complete todos los campos!"
-    //   });
-    //   return;
-    // }
-
-    // Inserta la nueva actividad
+    // Aquí puedes agregar validaciones si es necesario
+    console.log(nuevaActividad);
     insertarActividad(nuevaActividad)
-    console.log(nuevaActividad)
       .then((data) => {
         setActividad([...actividad, data]);
         setModalActividadInsertar(false);
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
-          imageAlt: 'Icono personalizado',
+          imageAlt: "Icono personalizado",
           title: "¡Actividad agregada correctamente!"
         });
       })
+      .catch(console.error);
   };
 
-  const handleEtapaChange = (event) => {
-    setEtapaSeleccionada(event.target.value);
-  };
-
-  const actividades = actividadesPorEtapa[etapaSeleccionada] || [];
-
-  //Define las acciones que se pueden hacer en cada fila
+  // Define las acciones para cada fila de la tabla
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
       <div className="relative group">
@@ -240,7 +258,7 @@ const Zonas = () => {
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => setModalActividadInsertar(true)}
         >
-          <img src={addRegistro} alt="" className="w-5 h-5" />
+          <img src={addRegistro} alt="Agregar Actividad" className="w-5 h-5" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Agregar Actividad
@@ -271,21 +289,21 @@ const Zonas = () => {
     </div>
   );
 
-
-const zonaszonas = zonas.map(zona => ({
+  // Mapeo de zonas para agregar componentes JSX a ciertas columnas
+  const zonaszonas = zonas.map(zona => ({
     ...zona,
     cantidadSensores: (
-        <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <h2>1</h2>
-          </div>
-        </button>
+      <button className="group relative">
+        <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <h2>1</h2>
+        </div>
+      </button>
     ),
     verSensores: (
       <Link to={"#"}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorIcon} alt="Alternos" />
+            <img src={sensorIcon} alt="Sensores" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -297,18 +315,18 @@ const zonaszonas = zonas.map(zona => ({
       <Link to={"#"}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesIcon} alt="Zonas" className=" w-6 h-6" />
+            <img src={actividadesIcon} alt="Actividades" className="w-6 h-6" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
           </span>
         </button>
-    </Link>
+      </Link>
     )
   }));
 
   return (
-    <div >
+    <div>
       <Navbar />
 
       <MostrarInfo
@@ -320,13 +338,15 @@ const zonaszonas = zonas.map(zona => ({
         mostrarAgregar={true}
       />
 
+      {/* Modal para insertar Zona */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Agregar zona en finca: {fincas.nombre}</h5>
+            <h5 className="text-xl font-semibold text-center mb-4">
+              Agregar zona en finca: {fincas.nombre}
+            </h5>
             <hr />
             <form onSubmit={handleSubmit}>
-              {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -340,12 +360,16 @@ const zonaszonas = zonas.map(zona => ({
               </div>
               <div className="flex justify-end mt-4">
                 <button
+                  type="button"
                   className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                  onClick={() => setModalInsertarAbierto(false)}>
+                  onClick={() => setModalInsertarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                <button
+                  type="submit"
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl"
+                >
                   Agregar
                 </button>
               </div>
@@ -354,6 +378,7 @@ const zonaszonas = zonas.map(zona => ({
         </div>
       )}
 
+      {/* Modal para insertar Actividad */}
       {modalActividadInsertar && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -367,9 +392,9 @@ const zonaszonas = zonas.map(zona => ({
                     <input
                       type="radio"
                       name="cultivo"
-                      value="cafe"
+                      value="Café"
                       required
-                      onChange={handleActividadChange} // Agregar aquí
+                      onChange={handleActividadChange}
                     />
                     Café
                   </label>
@@ -377,9 +402,9 @@ const zonaszonas = zonas.map(zona => ({
                     <input
                       type="radio"
                       name="cultivo"
-                      value="mora"
+                      value="Mora"
                       required
-                      onChange={handleActividadChange} // Agregar aquí
+                      onChange={handleActividadChange}
                     />
                     Mora
                   </label>
@@ -392,7 +417,7 @@ const zonaszonas = zonas.map(zona => ({
                   className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="etapa"
                   required
-                  onChange={handleEtapaChange} // Si tienes otra función específica para esto
+                  onChange={handleEtapaChange}
                 >
                   <option value="">Seleccione etapa del cultivo</option>
                   <option value="1">Preparar el terreno</option>
@@ -409,12 +434,12 @@ const zonaszonas = zonas.map(zona => ({
                   className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="actividad"
                   required
-                  onChange={handleActividadChange} // Agregar aquí
+                  onChange={handleActividadChange}
                 >
                   <option value="">Seleccione actividad</option>
-                  {actividades.map((actividad) => (
-                    <option key={actividad.value} value={actividad.value}>
-                      {actividad.label}
+                  {actividades.map((act) => (
+                    <option key={act.value} value={act.value}>
+                      {act.label}
                     </option>
                   ))}
                 </select>
@@ -427,7 +452,7 @@ const zonaszonas = zonas.map(zona => ({
                   type="text"
                   name="descripcion"
                   placeholder="Escriba una breve descripción"
-                  onChange={handleActividadChange} // Agregar aquí
+                  onChange={handleActividadChange}
                 />
               </div>
 
@@ -439,10 +464,11 @@ const zonaszonas = zonas.map(zona => ({
                     name="fechainicio"
                     className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
                     required
-                    onChange={handleActividadChange} // Agregar aquí
+                    onChange={handleActividadChange}
                   />
                 </div>
               </div>
+
               <div className="relative w-full mt-2">
                 <label className="font-semibold">Fecha finalización</label>
                 <div className="relative mt-2">
@@ -451,15 +477,17 @@ const zonaszonas = zonas.map(zona => ({
                     name="fechafin"
                     className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
                     required
-                    onChange={handleActividadChange} // Agregar aquí
+                    onChange={handleActividadChange}
                   />
                 </div>
               </div>
 
               <div className="flex gap-4 mt-4">
                 <button
+                  type="button"
                   className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                  onClick={() => setModalActividadInsertar(false)}>
+                  onClick={() => setModalActividadInsertar(false)}
+                >
                   Cancelar
                 </button>
                 <button
@@ -474,13 +502,13 @@ const zonaszonas = zonas.map(zona => ({
         </div>
       )}
 
+      {/* Modal para editar Zona */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-xl font-semibold text-center mb-4">Editar Zona</h5>
             <hr />
             <form onSubmit={handleEditarZona}>
-              {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -493,13 +521,17 @@ const zonaszonas = zonas.map(zona => ({
                 />
               </div>
               <div className="flex justify-end mt-4">
-                <button type="button"
+                <button
+                  type="button"
                   className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                  onClick={() => setModalEditarAbierto(false)}>
+                  onClick={() => setModalEditarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                <button
+                  type="submit"
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl"
+                >
                   Editar
                 </button>
               </div>
@@ -508,7 +540,8 @@ const zonaszonas = zonas.map(zona => ({
         </div>
       )}
 
-       {modalEliminarAbierto && (
+      {/* Modal para eliminar Zona */}
+      {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Zona</h5>
@@ -518,15 +551,21 @@ const zonaszonas = zonas.map(zona => ({
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará la zona de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">
+                Se eliminará la zona de manera permanente.
+              </p>
               <div className="flex justify-between mt-6 space-x-4">
-                <button type="button"
+                <button
+                  type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
+                  onClick={() => setModalEliminarAbierto(false)}
+                >
                   Cancelar
                 </button>
-                <button type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                <button
+                  type="submit"
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                >
                   Sí, eliminar
                 </button>
               </div>

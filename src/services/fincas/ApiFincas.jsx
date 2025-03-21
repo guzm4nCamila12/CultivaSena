@@ -66,7 +66,7 @@ export const eliminarZonas = async (id) => {
 
 //Consumo al api para crear una actividad
 export const insertarActividad = async (nuevaActividad) => {
-  const response = await fetch(`${API_URL}/zona/actividad`, {
+  const response = await fetch(`${API_URL}/zonas/actividades`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaActividad),

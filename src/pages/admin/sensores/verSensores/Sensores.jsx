@@ -227,26 +227,10 @@ function Sensores() {
 
   const asignarZona = (id) => {
 
+    const nombre = zonas.find(zonas => zonas.id === id);
+    return nombre ? nombre.nombre : "Sin zona";
 
-
-    return (
-      <div className="relative w-full mt-2">
-        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-          name="idzona"
-          onChange={handleChange}
-          required
-        >
-          <option value="">seleccionar zona </option>
-          <option value=""> Sin zona </option>
-          {zonas.map((zona) => (
-            <option key={zona.id} value={zona.id}>
-              {zona.nombre}
-
-            </option>
-          ))}
-        </select>
-      </div>
-    );
+    
   }
 
   return (

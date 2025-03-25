@@ -99,9 +99,19 @@ function ActivarSensores() {
     { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
+    { key: "idzona", label: "Zona" },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
     { key: "acciones", label: "Acciones" },
   ];
+
+  const asignarZona2 = (id) => {
+
+    const nombre = zonas.find(zonas => zonas.id === id);
+    return nombre ? nombre.nombre : "Sin zona";
+
+    
+  }
+
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
@@ -140,7 +150,7 @@ function ActivarSensores() {
   );
 
   const sensoresDeFinca = sensores.map((sensor, index) => ({
-    ...sensor, "#": index + 1,
+    ...sensor, idzona: asignarZona2(sensor.idzona),
     estado: (
       <div className="flex justify-start items-center">
         <label className="relative flex items-center cursor-pointer">

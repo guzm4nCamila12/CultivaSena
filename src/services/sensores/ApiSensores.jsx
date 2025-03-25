@@ -78,3 +78,9 @@ export const activarDatosSensor = async (mac) => {
  await fetch (`${API_URL}/prueba/${mac}`);
 
 }
+
+// Función para obtener todos los sensores de la finca a la cual pertenece el ID
+export const getSensoresZonasById = async (id) => {
+  const response = await fetch(`${API_URL}/sensoreszona/${id}`);
+  return response.json();
+};

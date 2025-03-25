@@ -36,7 +36,7 @@ function ActivarSensores() {
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [usuario, setUsuario] = useState({});
-  const [editarSensor, setEditarSensor] = useState({ id: null,nombre: "", descripcion: "", idzona: null});
+  const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -193,7 +193,7 @@ function ActivarSensores() {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
-  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -420,8 +420,8 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-              
-                {asignarZona()}
+
+              {asignarZona()}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -465,23 +465,23 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
 
-            <div className="relative w-full mt-2">
-        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-          name="idzona"
-          onChange={handleChangeEditar}
-          required
-        >
-          <option value="">seleccionar zona </option>
-          <option value=""> Sin zona </option>
-          {zonas.map((zona) => (
-            console.log('Zona:', zona),
-            <option key={zona.id} value={zona.id}>
-              {zona.nombre}
+              <div className="relative w-full mt-2">
+                <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="idzona"
+                  onChange={handleChangeEditar}
+                  required
+                >
+                  <option value="">seleccionar zona </option>
+                  <option value=""> Sin zona </option>
+                  {zonas.map((zona) => (
+                    console.log('Zona:', zona),
+                    <option key={zona.id} value={zona.id}>
+                      {zona.nombre}
 
-            </option>
-          ))}
-        </select>
-      </div>
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

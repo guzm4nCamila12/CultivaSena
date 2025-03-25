@@ -100,7 +100,7 @@ const Inicio = () => {
       });
       return;
     }
-    // Validación de la clave (mínimo 6 caracteres)
+    // Validaciones de la clave 
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -109,6 +109,32 @@ const Inicio = () => {
       });
       return;
     }
+    if (!/[A-Z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra mayúscula!"
+      });
+      return;
+    }
+    
+    if (!/[a-z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra minúscula!"
+      });
+      return;
+    }
+    
+    if (!/[0-9]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos un número!"
+      });
+      return;
+    }    
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,

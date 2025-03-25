@@ -16,9 +16,6 @@ import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import MostrarInfo from "../../../components/mostrarInfo";
-import Tabla from "../../../components/Tabla";
-import UserCards from "../../../components/UseCards";
-import Opcion from "../../../components/Opcion";
 import Navbar from "../../../components/navbar";//endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../../services/fincas/ApiFincas";
@@ -79,6 +76,7 @@ function ActivarSensores() {
       getZonasByIdFinca(idUser).then((data) => {
 
         setZonas(data || [])
+
       })
     } catch (error) {
       console.error("Error: ", error);
@@ -238,7 +236,8 @@ function ActivarSensores() {
 
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
-    console.log("macc:", sensorcito[index].mac)
+
+    console.log("mac:", sensorcito[index].mac)
     if (estado === true) {
       console.log("bloque 1")
       const newEstado = !estado;
@@ -253,14 +252,15 @@ function ActivarSensores() {
         descripcion: sensores[index].descripcion,
         estado: newEstado,
         idusuario: sensores[index].idusuario,
+        idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       };
-
+      console.log("data:",updatedFormData)
       actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
-        insertarDatos(updatedFormData.mac)
+         insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
       console.log("bloque 2")
@@ -279,8 +279,12 @@ function ActivarSensores() {
           descripcion: sensores[index].descripcion,
           estado: newEstado,
           idusuario: sensores[index].idusuario,
+          idzona: sensores[index].idzona,
+
           idfinca: sensores[index].idfinca,
         }
+              console.log("data:",updatedFormData)
+
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
@@ -310,6 +314,7 @@ function ActivarSensores() {
         descripcion: sensores[index].descripcion,
         estado: newEstado,
         idusuario: sensores[index].idusuario,
+        idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
 

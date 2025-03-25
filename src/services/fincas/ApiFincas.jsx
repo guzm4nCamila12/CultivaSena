@@ -72,5 +72,10 @@ export const insertarActividad = async (nuevaActividad) => {
     body: JSON.stringify(nuevaActividad),
   });
   return response.json();
-  };
+};
+
+export const getZonasById = async (id) => {
+  const response = await fetch(`${API_URL}/zonabyid/${id}`);
+  return response.json();
+};
 

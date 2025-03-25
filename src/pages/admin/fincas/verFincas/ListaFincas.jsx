@@ -116,7 +116,7 @@ export default function ListaFincas() {
       </Link>
     ),
     zonas: (
-      <Link to={`/zonas/${finca.id}`}>
+      <Link to={`/zonas/${id}/${finca.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={zonasIcon} alt="Zonas" />

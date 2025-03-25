@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import PropTypes from "prop-types";
 import search from "../assets/icons/search.png";
@@ -35,8 +34,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
     )
   );
 
-  // Definir las columnas a mostrar en la cabecera:
-  // Si se muestra la foto, agregamos esa columna al inicio.
+  // Armar las columnas a usar en el header: si hay foto, la agregamos al inicio.
   const columnasAUsar = mostrarFotoPerfil
     ? [{ key: "fotoPerfil", label: "" }, ...columnasSinFoto]
     : columnasSinFoto;
@@ -47,22 +45,37 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
         <table className="min-w-full border-separate border-spacing-y-4">
           <thead>
             <tr className="text-white">
-              {columnasAUsar.map((columna, index) => (
-                <th
-                  key={index}
-                  className={`p-2 md:p-3 text-left text-sm md:text-base 
-                    ${index === 0 ? "rounded-l-full" : ""} 
-                    ${index === columnasAUsar.length - 1 ? "rounded-r-full" : ""}
-                    border-t border-b border-gray-300 bg-[#00304D]`}
-                >
-                  <div className="flex items-center">
-                    <span className="flex-1">{columna.label}</span>
-                    {index !== columnasAUsar.length - 1 && columna.key !== "acciones" && (
-                      <div className="h-8 w-[1px] bg-gray-300"></div>
-                    )}
-                  </div>
-                </th>
-              ))}
+              {columnasAUsar.map((columna, index) => {
+                let borderClasses = "";
+                if (mostrarFotoPerfil) {
+                  // Si hay foto, la columna foto es la primera y se redondea a la izquierda.
+                  if (columna.key === "fotoPerfil") {
+                    borderClasses = "rounded-l-full";
+                  }
+                } else {
+                  // Si no hay foto, la columna nombre se redondea a la izquierda.
+                  if (columna.key === "nombre") {
+                    borderClasses = "rounded-l-full";
+                  }
+                }
+                // Para la última columna siempre se redondea a la derecha.
+                if (index === columnasAUsar.length - 1) {
+                  borderClasses += " rounded-r-full";
+                }
+                return (
+                  <th
+                    key={index}
+                    className={`p-2 md:p-3 text-left text-sm md:text-base ${borderClasses} border-t border-b border-gray-300 bg-[#00304D]`}
+                  >
+                    <div className="flex items-center">
+                      <span className="flex-1">{columna.label}</span>
+                      {index !== columnasAUsar.length - 1 && columna.key !== "acciones" && (
+                        <div className="h-8 w-[1px] bg-gray-300"></div>
+                      )}
+                    </div>
+                  </th>
+                );
+              })}
             </tr>
           </thead>
           <tbody>
@@ -78,27 +91,36 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       />
                     </td>
                   )}
-                  {columnasSinFoto.map((columna, i) => (
-                    <td
-                      key={i}
-                      className={`p-2 md:p-3 text-left text-sm md:text-base h-14
-      ${i === 0 ? "font-bold" : ""} 
-      ${i === columnasSinFoto.length - 1 ? "rounded-r-full" : ""}
-      border-t border-b border-gray-300 bg-[#EEEEEE]`}
-                    >
-                      <div className="flex items-center justify-start">
-                        <span className="flex-1">
-                          {columna.key === "#" ? (
-                            index + 1
-                          ) : columna.key === "acciones" ? (
-                            <div className="flex gap-2">{acciones(fila)}</div>
-                          ) : (
-                            fila[columna.key]
-                          )}
-                        </span>
-                      </div>
-                    </td>
-                  ))}
+
+                  {columnasSinFoto.map((columna, i) => {
+                    let borderClasses = "";
+                    if (!mostrarFotoPerfil && columna.key === "nombre") {
+                      // Cuando no hay foto, columna "nombre" redondea solo a la izquierda.
+                      borderClasses = "rounded-l-full";
+                    }
+                    // La última columna siempre redondea a la derecha.
+                    if (i === columnasSinFoto.length - 1) {
+                      borderClasses += " rounded-r-full";
+                    }
+                    return (
+                      <td
+                        key={i}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#EEEEEE]`}
+                      >
+                        <div className="flex items-center justify-start">
+                          <span className="flex-1">
+                            {columna.key === "#" ? (
+                              index + 1
+                            ) : columna.key === "acciones" ? (
+                              <div className="flex gap-2">{acciones(fila)}</div>
+                            ) : (
+                              fila[columna.key]
+                            )}
+                          </span>
+                        </div>
+                      </td>
+                    );
+                  })}
                 </tr>
               ))
             ) : (

@@ -16,9 +16,6 @@ import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import MostrarInfo from "../../../components/mostrarInfo";
-import Tabla from "../../../components/Tabla";
-import UserCards from "../../../components/UseCards";
-import Opcion from "../../../components/Opcion";
 import Navbar from "../../../components/navbar";//endpoints para consumir api
 import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../../services/fincas/ApiFincas";

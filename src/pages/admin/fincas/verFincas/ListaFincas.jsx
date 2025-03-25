@@ -59,11 +59,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Sensores" },
+    { key: "nombre", label: "Nombre" },
     { key: "sensores", label: "Sensores" },
     { key: "alternos", label: "Alternos" },
-    { key: "acciones", label: "Acciones" },
     { key: "zonas", label: "Zonas"},
+    { key: "acciones", label: "Acciones" },
   ];
 
   const acciones = (fila) => (
@@ -116,7 +116,7 @@ export default function ListaFincas() {
       </Link>
     ),
     zonas: (
-      <Link to={`/zonas/${finca.id}`}>
+      <Link to={`/zonas/${id}/${finca.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={zonasIcon} alt="Zonas" />

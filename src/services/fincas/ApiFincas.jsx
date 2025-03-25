@@ -49,6 +49,7 @@ const response = await fetch(`${API_URL}/zonas`, {
 return response.json();
 };
 
+
 export const actualizarZona = async (id, zonaActualizada) => {
   const response = await fetch(`${API_URL}/zonas/${id}`, {
     method: "PUT",
@@ -62,3 +63,19 @@ export const actualizarZona = async (id, zonaActualizada) => {
 export const eliminarZonas = async (id) => {
   await fetch(`${API_URL}/zonas/${id}`, { method: "DELETE" });
 };
+
+//Consumo al api para crear una actividad
+export const insertarActividad = async (nuevaActividad) => {
+  const response = await fetch(`${API_URL}/zonas/actividades`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(nuevaActividad),
+  });
+  return response.json();
+};
+
+export const getZonasById = async (id) => {
+  const response = await fetch(`${API_URL}/zonabyid/${id}`);
+  return response.json();
+};
+

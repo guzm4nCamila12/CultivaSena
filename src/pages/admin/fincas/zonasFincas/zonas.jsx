@@ -32,7 +32,7 @@ import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
   // Obtiene el ID de la URL 
-  const { id } = useParams();
+  const { id, idUser } = useParams();
   // Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
@@ -97,7 +97,8 @@ const Zonas = () => {
   useEffect(() => {
     // Obtiene las zonas de la finca por el id
     getZonasByIdFinca(id)
-      .then(data =>{
+      .then((data )=>{
+        console.log(data);
        setZonas(data || [])})
       .catch(error => console.error("Error: ", error));
       

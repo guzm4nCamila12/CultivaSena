@@ -74,6 +74,10 @@ function ActivarSensores() {
 
       });
       getZonasByIdFinca(idUser).then((data) => {
+        if (data == null){
+          setZonas([])
+          return
+        }
         setZonas(data)
       })
     } catch (error) {

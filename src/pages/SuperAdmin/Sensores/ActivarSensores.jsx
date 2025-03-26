@@ -52,7 +52,6 @@ function ActivarSensores() {
     idzona: null,
     idfinca: "",
   });
-  console.log(formData)
 
   useEffect(() => {
     try {
@@ -74,11 +73,14 @@ function ActivarSensores() {
 
       });
       getZonasByIdFinca(idUser).then((data) => {
+
         if (data == null){
           setZonas([])
           return
         }
         setZonas(data)
+
+
       })
     } catch (error) {
       console.error("Error: ", error);
@@ -249,9 +251,7 @@ function ActivarSensores() {
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
 
-    console.log("mac:", sensorcito[index].mac)
     if (estado === true) {
-      console.log("bloque 1")
       const newEstado = !estado;
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
@@ -267,7 +267,6 @@ function ActivarSensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       };
-      console.log("data:", updatedFormData)
       actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
@@ -275,7 +274,6 @@ function ActivarSensores() {
         insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
-      console.log("bloque 2")
 
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
@@ -295,7 +293,6 @@ function ActivarSensores() {
 
           idfinca: sensores[index].idfinca,
         }
-        console.log("data:", updatedFormData)
 
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
@@ -305,14 +302,12 @@ function ActivarSensores() {
           if (updatedFormData.estado === true) {
 
             insertarDatos(updatedFormData.mac).then((data) => {
-              console.log(data);
             })
           }
         })
         inputValue = '';
       }
     } else {
-      console.log("bloque 3")
 
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -337,7 +332,6 @@ function ActivarSensores() {
         if (updatedFormData.estado === true) {
 
           insertarDatos(updatedFormData.mac).then((data) => {
-            console.log(data);
           })
         }
 
@@ -418,7 +412,6 @@ function ActivarSensores() {
           <option value="">seleccionar zona </option>
           <option value=""> Sin zona </option>
           {zonas.map((zona) => (
-            console.log('Zona:', zona),
             <option key={zona.id} value={zona.id}>
               {zona.nombre}
 

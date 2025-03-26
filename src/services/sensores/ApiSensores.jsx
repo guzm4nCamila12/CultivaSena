@@ -49,13 +49,11 @@ export const insertarDatos = async (mac) => {
 
     // Obtener el tipo de contenido de la respuesta
     const contentType = response.headers.get("Content-Type");
-    console.log("Tipo de contenido:", contentType);
 
     // Si la respuesta es JSON
     if (contentType && contentType.includes("application/json")) {
       // Parseamos la respuesta JSON
       const data = await response.json();
-      console.log("Datos JSON recibidos:", data);
       return data;
     } else {
       // Si la respuesta no es JSON, la mostramos como texto

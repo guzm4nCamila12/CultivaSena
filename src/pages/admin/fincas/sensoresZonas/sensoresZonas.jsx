@@ -18,8 +18,8 @@ import MostrarInfo from "../../../../components/mostrarInfo";
 import NavBar from "../../../../components/navbar"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 //endpoints para consumir api
-import { insertarSensor, actualizarSensor, eliminarSensores,getSensoresZonasById } from "../../../../services/sensores/ApiSensores";
-import { getFincasByIdFincas,getZonasById } from "../../../../services/fincas/ApiFincas"
+import { insertarSensor, actualizarSensor, eliminarSensores, getSensoresZonasById } from "../../../../services/sensores/ApiSensores";
+import { getFincasByIdFincas, getZonasById } from "../../../../services/fincas/ApiFincas"
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios"
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
@@ -36,9 +36,9 @@ function Sensores() {
   const [usuarios, setUsuarios] = useState({})
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const { id,idUser } = useParams();
+  const { id, idUser } = useParams();
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
-    const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
+  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
   //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
@@ -52,36 +52,41 @@ function Sensores() {
   });
 
   useEffect(() => {
-    getSensoresZonasById(idUser)    
-      .then((data) => {setSensores(data || []);
-    })
-    getZonasById(idUser)
-    .then((data) => {setZonas(data);
-    })
-    getFincasByIdFincas(id)
-        .then((data) => {setFincas(data)
+    getSensoresZonasById(id)
+      .then((data) => {
+        setSensores(data || []);
+      })
+    getZonasById(id)
+      .then((data) => {
+        getFincasByIdFincas(data.idfinca)
+          .then((data) => {
+            setFincas(data)
 
-    })
-    getUsuarioById(id)
-        .then((data) => {setUsuarios(data)   
-        })
+          })
+        setZonas(data);
+      })
 
-    .catch(error => console.error('Error: ', error));
-  }, [id,idUser]);
+    getUsuarioById(idUser)
+      .then((data) => {
+        setUsuarios(data)
+      })
 
-    useEffect(() => {
-      if (usuarios && fincas) {
-        setFormData({
-          mac: null,
-          nombre: "",
-          descripcion: "",
-          estado: false,
-          idusuario: usuarios.id,
-          idzona: zonas.id,
-          idfinca: fincas.id,
-        });
-      }
-    }, [usuarios, fincas]);
+      .catch(error => console.error('Error: ', error));
+  }, [id, idUser]);
+
+  useEffect(() => {
+    if (usuarios && fincas) {
+      setFormData({
+        mac: null,
+        nombre: "",
+        descripcion: "",
+        estado: false,
+        idusuario: usuarios.id,
+        idzona: zonas.id,
+        idfinca: fincas.id,
+      });
+    }
+  }, [usuarios, fincas]);
 
 
 
@@ -176,7 +181,6 @@ function Sensores() {
   //accion que ejecuta el modal insertar para crear un nuevo sensor
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("sensor agregado:", formData)
     insertarSensor(formData).then((response) => {
       if (response) {
         setSensores([...sensores, response]);
@@ -226,33 +230,33 @@ function Sensores() {
                 Si vistaActiva es "tabla", se muestra el componente Tabla;
                 de lo contrario, se muestra UserCards */}
       <MostrarInfo
-          titulo={`Sensores de la Zona: ${zonas.nombre}`}
-          columnas={columnas}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-          datos={sensores.map((sensor, index) => ({
-            ...sensor, "#": index + 1,
-            estado: (
-              <div className="flex justify-start items-center">
-                <label className="relative flex items-center cursor-not-allowed">
-                  <input
-                    type="checkbox"
-                    checked={sensor.estado} // Se mantiene el estado actual del sensor
-                    disabled // Evita que el usuario lo modifique
-                    className="sr-only"
-                  />
-                  <div className={`w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-blue-500' : ''}`}>
-                    <div
-                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                    ></div>
-                  </div>
-                </label>
-              </div>
-            ),
-          }))}
-        />
-    
+        titulo={`Sensores de la Zona: ${zonas.nombre}`}
+        columnas={columnas}
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+        datos={sensores.map((sensor, index) => ({
+          ...sensor, "#": index + 1,
+          estado: (
+            <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-not-allowed">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  disabled // Evita que el usuario lo modifique
+                  className="sr-only"
+                />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+          ),
+        }))}
+      />
+
 
       {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (

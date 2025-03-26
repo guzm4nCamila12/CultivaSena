@@ -182,7 +182,6 @@ function Sensores() {
   //accion que ejecuta el modal insertar para crear un nuevo sensor
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("sensor agregado:", formData)
     insertarSensor(formData).then((response) => {
       if (response) {
         setSensores([...sensores, response]);

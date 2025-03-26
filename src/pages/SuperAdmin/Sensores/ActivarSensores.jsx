@@ -1,3 +1,4 @@
+
 import descripcionBlue from "../../../assets/icons/descripcionBlue.png"
 import macBlue from "../../../assets/icons/macBlue.png";
 import estadoBlue from "../../../assets/icons/estadoBlue.png";
@@ -52,7 +53,6 @@ function ActivarSensores() {
     idzona: null,
     idfinca: "",
   });
-  console.log(formData)
 
   useEffect(() => {
     try {
@@ -74,7 +74,10 @@ function ActivarSensores() {
 
       });
       getZonasByIdFinca(idUser).then((data) => {
-        setZonas(data)
+
+        setZonas(data || [])
+
+
       })
     } catch (error) {
       console.error("Error: ", error);
@@ -99,19 +102,9 @@ function ActivarSensores() {
     { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
-    { key: "idzona", label: "Zona" },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
     { key: "acciones", label: "Acciones" },
   ];
-
-  const asignarZona2 = (id) => {
-
-    const nombre = zonas.find(zonas => zonas.id === id);
-    return nombre ? nombre.nombre : "Sin zona";
-
-    
-  }
-
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
@@ -150,7 +143,7 @@ function ActivarSensores() {
   );
 
   const sensoresDeFinca = sensores.map((sensor, index) => ({
-    ...sensor, idzona: asignarZona2(sensor.idzona),
+    ...sensor, "#": index + 1,
     estado: (
       <div className="flex justify-start items-center">
         <label className="relative flex items-center cursor-pointer">
@@ -245,9 +238,7 @@ function ActivarSensores() {
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
 
-    console.log("mac:", sensorcito[index].mac)
     if (estado === true) {
-      console.log("bloque 1")
       const newEstado = !estado;
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
@@ -263,15 +254,13 @@ function ActivarSensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       };
-      console.log("data:", updatedFormData)
       actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
-        insertarDatos(updatedFormData.mac)
+         insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
-      console.log("bloque 2")
 
       const confirmacion = await showSwal();
       if (confirmacion.isConfirmed) {
@@ -291,7 +280,6 @@ function ActivarSensores() {
 
           idfinca: sensores[index].idfinca,
         }
-        console.log("data:", updatedFormData)
 
 
         actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
@@ -301,14 +289,12 @@ function ActivarSensores() {
           if (updatedFormData.estado === true) {
 
             insertarDatos(updatedFormData.mac).then((data) => {
-              console.log(data);
             })
           }
         })
         inputValue = '';
       }
     } else {
-      console.log("bloque 3")
 
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -333,7 +319,6 @@ function ActivarSensores() {
         if (updatedFormData.estado === true) {
 
           insertarDatos(updatedFormData.mac).then((data) => {
-            console.log(data);
           })
         }
 
@@ -386,35 +371,19 @@ function ActivarSensores() {
     setVistaActiva(vista);
   };
 
-  const asignarZona = (onChange) => {
-    if (zonas == null) {
-      return (
-        <div className="relative w-full mt-2">
-          <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-            name="idzona"
-            onChange={onChange}
-            required
-          >
-            <option value="">seleccionar zona </option>
-            <option value=""> Sin zona </option>
+  const asignarZona = () => {
 
-          </select>
-        </div>
-
-      )
-    }
 
     return (
       <div className="relative w-full mt-2">
         <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
           name="idzona"
-          onChange={onChange}
+          onChange={handleChange}
           required
         >
           <option value="">seleccionar zona </option>
           <option value=""> Sin zona </option>
           {zonas.map((zona) => (
-            console.log('Zona:', zona),
             <option key={zona.id} value={zona.id}>
               {zona.nombre}
 
@@ -448,11 +417,8 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-              
 
-                  {asignarZona(handleChange)}
-               
-
+              {asignarZona()}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -496,7 +462,22 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
 
-              {asignarZona(handleChangeEditar)}
+              <div className="relative w-full mt-2">
+                <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="idzona"
+                  onChange={handleChangeEditar}
+                  required
+                >
+                  <option value="">seleccionar zona </option>
+                  <option value=""> Sin zona </option>
+                  {zonas.map((zona) => (
+                    <option key={zona.id} value={zona.id}>
+                      {zona.nombre}
+
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

@@ -13,6 +13,7 @@ import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
 import ActivarSensores from "../pages/SuperAdmin/Sensores/ActivarSensores";
 import ZonasFIncas from "../pages/admin/fincas/zonasFincas/zonas";
 import ZonasconSensores from "../pages/admin/fincas/sensoresZonas/sensoresZonas"
+import Actividades from "../pages/admin/fincas/actividades/actividadesZonas"
 
 function AppRouter() {
   return (
@@ -31,6 +32,7 @@ function AppRouter() {
         <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={SensoresAlterno} />} />
         <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ActivarSensores} />} />
         <Route path="/sensoresZonas/:id/:idUser" element={<ProtectedRoute element={ZonasconSensores} />} />
+        <Route path="/actividadesZonas/:id" element={<ProtectedRoute element={Actividades} />} />
       </Routes>
     </Router>
   )

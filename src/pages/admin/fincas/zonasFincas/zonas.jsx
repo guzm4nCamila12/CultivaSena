@@ -32,7 +32,8 @@ import MostrarInfo from "../../../../components/mostrarInfo";
 
 const Zonas = () => {
   // Obtiene el ID de la URL 
-  const { id } = useParams();
+  const { idUser } = useParams();
+  const {id} = useParams();
   // Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
@@ -251,7 +252,6 @@ const Zonas = () => {
       return;
     }
     // Aquí puedes agregar validaciones si es necesario
-    console.log(nuevaActividad);
     insertarActividad(nuevaActividad)
       .then((data) => {
         setActividad([...actividad, data]);
@@ -312,10 +312,9 @@ const Zonas = () => {
       <h2>{zona.cantidad_sensores}</h2>
 
 
-
     ),
     verSensores: (
-      <Link to={`/sensoresZonas/${id}/${zona.id}`}>
+      <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={sensorIcon} alt="Sensores" />

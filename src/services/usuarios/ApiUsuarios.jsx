@@ -3,13 +3,13 @@ const API_URL = "http://localhost:3000";
 
 //Funcion para obtener todos los usuarios
 export const getUsuarios = async () => {
-  const response = await fetch(`${API_URL}/usuarios`);
+  const response = await fetch(`${API_URL}/api/usuario`);
   return response.json();
 };
 
 //Funcion para obtener un usuario por su ID
 export const getUsuarioById = async (id) => {
-  const response = await fetch(`${API_URL}/usuarios/${id}`);
+  const response = await fetch(`${API_URL}/api/usuario/${id}`);
   return response.json();
 };
 
@@ -42,7 +42,7 @@ export const login = async (inicioUsuario) => {
 
   //Funcion para insertar un usuario
   export const insertarUsuario = async (nuevoUsuario) => {
-    const response = await fetch(`${API_URL}/usuarios`, {
+    const response = await fetch(`${API_URL}/api/usuario`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nuevoUsuario),
@@ -52,7 +52,7 @@ export const login = async (inicioUsuario) => {
 
   //Funcion para actualizar un usuario existente
   export const actualizarUsuario = async (id, usuarioActualizado) => {
-    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+    const response = await fetch(`${API_URL}/api/usuario/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(usuarioActualizado),
@@ -62,5 +62,5 @@ export const login = async (inicioUsuario) => {
 
   //Funcion para eliminar un usuario
   export const eliminarUsuario = async (id) => {
-    await fetch(`${API_URL}/usuarios/${id}`, { method: "DELETE" });
+    await fetch(`${API_URL}/api/usuario/${id}`, { method: "DELETE" });
   };

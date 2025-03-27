@@ -24,7 +24,6 @@ function ActividadesZonas() {
     },[id]);
 
     const columnas = [
-        { key: "nombre", label: "Actividad"},
         { key: "cultivo", label: "Cultivo" },
         { key: "etapa", label: "Etapa" },
     ];

@@ -44,7 +44,7 @@ const Zonas = () => {
   // Estado para almacenar los datos de la actividad, se guardará el texto de las opciones
   console.log(idUser)
   const [nuevaActividad, setNuevaActividad] = useState({
-    idzona: parseInt(id),
+    idzona: null,
     cultivo: "",
     etapa: "",
     actividad: "",
@@ -99,6 +99,7 @@ const Zonas = () => {
   useEffect(() => {
     // Obtiene las zonas de la finca por el id
     getZonasByIdFinca(id)
+
       .then(data => {
         setZonas(data || [])
       })
@@ -166,6 +167,16 @@ const Zonas = () => {
     setEditarZona(edit);
     setModalEditarAbierto(true);
   };
+
+  //abre el modal insertar actividad
+const HandleAgregarActividad = (idZona) => {
+  setNuevaActividad((prev) => ({
+    ...prev,
+    idzona: idZona
+  }));
+  setModalActividadInsertar(true);
+};
+
 
   // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
@@ -253,6 +264,7 @@ const Zonas = () => {
       return;
     }
     // Aquí puedes agregar validaciones si es necesario
+    console.log(nuevaActividad)
     insertarActividad(nuevaActividad)
       .then((data) => {
         setActividad([...actividad, data]);
@@ -272,7 +284,7 @@ const Zonas = () => {
       <div className="relative group">
         <button
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => setModalActividadInsertar(true)}
+          onClick={() => HandleAgregarActividad(fila.id)}
         >
           <img src={addRegistro} alt="Agregar Actividad" className="w-5 h-5" />
         </button>

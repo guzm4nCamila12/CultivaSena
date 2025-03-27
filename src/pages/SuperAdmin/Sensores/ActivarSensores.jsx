@@ -75,7 +75,11 @@ function ActivarSensores() {
       });
       getZonasByIdFinca(idUser).then((data) => {
 
-        setZonas(data || [])
+        if (data == null){
+          setZonas([])
+          return
+        }
+        setZonas(data)
 
 
       })
@@ -417,8 +421,8 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-
-              {asignarZona()}
+                  {asignarZona(handleChange)}
+               
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -462,22 +466,7 @@ function ActivarSensores() {
             <hr />
             <form onSubmit={handleEditarSensor}>
 
-              <div className="relative w-full mt-2">
-                <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  name="idzona"
-                  onChange={handleChangeEditar}
-                  required
-                >
-                  <option value="">seleccionar zona </option>
-                  <option value=""> Sin zona </option>
-                  {zonas.map((zona) => (
-                    <option key={zona.id} value={zona.id}>
-                      {zona.nombre}
-
-                    </option>
-                  ))}
-                </select>
-              </div>
+              {asignarZona(handleChangeEditar)}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

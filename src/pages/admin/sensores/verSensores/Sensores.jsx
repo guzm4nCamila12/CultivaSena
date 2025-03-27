@@ -224,7 +224,7 @@ function Sensores() {
     setVistaActiva(vista);
   };
 
-  const asignarZona = (id) => {
+  const asignarZona2 = (id) => {
 
     const nombre = zonas.find(zonas => zonas.id === id);
     return nombre ? nombre.nombre : "Sin zona";
@@ -232,6 +232,43 @@ function Sensores() {
     
   }
 
+  const asignarZona = (onChange) => {
+    if (zonas == null) {
+      return (
+        <div className="relative w-full mt-2">
+          <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+            name="idzona"
+            onChange={onChange}
+            required
+          >
+            <option value="">seleccionar zona </option>
+            <option value=""> Sin zona </option>
+
+          </select>
+        </div>
+
+      )
+    }
+
+    return (
+      <div className="relative w-full mt-2">
+        <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+          name="idzona"
+          onChange={onChange}
+          required
+        >
+          <option value="">seleccionar zona </option>
+          <option value=""> Sin zona </option>
+          {zonas.map((zona) => (
+            <option key={zona.id} value={zona.id}>
+              {zona.nombre}
+
+            </option>
+          ))}
+        </select>
+      </div>
+    );
+  }
   return (
     <div>
       <NavBar />
@@ -245,7 +282,7 @@ function Sensores() {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
         datos={sensores.map((sensor, index) => ({
-          ...sensor, idzona: asignarZona(sensor.idzona),
+          ...sensor, idzona: asignarZona2(sensor.idzona),
           estado: (
             <div className="flex justify-start items-center">
               <label className="relative flex items-center cursor-not-allowed">
@@ -274,7 +311,9 @@ function Sensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-              {asignarZona()}
+
+            {asignarZona(handleChange)}
+
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input

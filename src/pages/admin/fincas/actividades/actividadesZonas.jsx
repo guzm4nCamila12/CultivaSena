@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import { getActividadesByZona, getZonasById, getZonasByIdFinca, insertarActividad } from '../../../../services/fincas/ApiFincas'
+import { getActividadesByZona, getZonasById, eliminarActividad, insertarActividad } from '../../../../services/fincas/ApiFincas'
 import { useParams } from 'react-router-dom'
 import MostrarInfo from '../../../../components/mostrarInfo';
 import Navbar from '../../../../components/navbar';
 import { acctionSucessful } from '../../../../components/alertSuccesful'
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
+import usuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 import Alerta from "../../../../assets/img/Alert.png";
+//Iconos para acciones
+import verTodo from '../../../../assets/icons/sinFincas.png'
+import eliminarIcon from '../../../../assets/icons/deleteWhite.png'
+import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
 
 function ActividadesZonas() {
     const { id } = useParams();
     const [actividades, setActividades] = useState([]);
     const [zonas, setZonas] = useState([]);
-    const [actividad, setActividad] = useState([]);
+    const [actividadEliminar, setActividadEliminar] = useState(false);
+    const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
     const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
     // Estado para almacenar los datos de la actividad, se guardará el texto de las opciones
     const [nuevaActividad, setNuevaActividad] = useState({
@@ -67,6 +73,7 @@ function ActividadesZonas() {
             .then((data) => {
                 setActividades(data)
             })
+
         getZonasById(id)
             .then((data) => {
                 console.log(data)
@@ -75,7 +82,6 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "nombre", label: "Actividad" },
         { key: "cultivo", label: "Cultivo" },
         { key: "etapa", label: "Etapa" },
     ];
@@ -158,6 +164,52 @@ function ActividadesZonas() {
             .catch(console.error);
     };
 
+    // Maneja la eliminación de una actividad
+  const HandlEliminarActividad = (e) => {
+    e.preventDefault();
+    eliminarActividad(actividadEliminar).then(() => {
+        setActividades(prevActividades => prevActividades.filter(actividad => actividad.id !== actividadEliminar));
+        setModalEliminarAbierto(false);
+      acctionSucessful.fire({
+        imageUrl: usuarioEliminado,
+        imageAlt: "Icono personalizado",
+        title: "¡Actividad eliminada correctamente!"
+      });
+    }).catch(console.error);
+  };
+
+  const abrirModalEliminar = (id) => {
+    setActividadEliminar(id);
+    setModalEliminarAbierto(true);
+  };
+  
+
+    const acciones = (fila) => (
+        <div className="flex justify-center gap-2">
+            <div className="relative group">
+                <button
+                    className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+                >
+                    <img src={verTodo} alt="Agregar Actividad" className="w-5 h-5" />
+                </button>
+                <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    Ver Todo
+                </span>
+            </div>
+            <div className="relative group">
+                <button
+                    className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+                 onClick={() => abrirModalEliminar(fila.id)}
+                >
+                    <img src={eliminarIcon} alt="Eliminar" />
+                </button>
+                <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    Eliminar
+                </span>
+            </div>
+        </div>
+    );
+
     return (
         <div>
             <Navbar />
@@ -166,6 +218,7 @@ function ActividadesZonas() {
                 columnas={columnas}
                 datos={Array.isArray(actividades) ? actividades : []}
                 onAddUser={() => HandleAgregarActividad(Number(id))}
+                acciones={acciones}
                 mostrarAgregar={true}
             />
 
@@ -287,6 +340,40 @@ function ActividadesZonas() {
                                     className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl"
                                 >
                                     Registrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal para eliminar Zona */}
+            {modalEliminarAbierto && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                    <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+                        <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Actividad</h5>
+                        <hr />
+                        <form onSubmit={HandlEliminarActividad}>
+                            <div className="flex justify-center my-2">
+                                <img src={ConfirmarEliminar} alt="icono" />
+                            </div>
+                            <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+                            <p className="text-gray-400 text-center text-lg">
+                                Se eliminará la actividad de manera permanente.
+                            </p>
+                            <div className="flex justify-between mt-6 space-x-4">
+                                <button
+                                    type="button"
+                                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                                    onClick={() => setModalEliminarAbierto(false)}
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                                >
+                                    Sí, eliminar
                                 </button>
                             </div>
                         </form>

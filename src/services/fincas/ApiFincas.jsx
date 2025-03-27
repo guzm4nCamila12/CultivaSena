@@ -8,12 +8,12 @@ export const getFincasById = async (id) => {
 };
 // Consumo al api para obtener una finca por su id
 export const getFincasByIdFincas = async (id) => {
-    const response = await fetch(`${API_URL}/fincasid/${id}`);
+    const response = await fetch(`${API_URL}/api/fincas/${id}`);
     return response.json();
   };
 // Consumo al api para crear una finca
 export const insertarFinca = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/fincas`, {
+  const response = await fetch(`${API_URL}/api/fincas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
@@ -22,7 +22,7 @@ export const insertarFinca = async (nuevaFinca) => {
 };
 // Consumo al api para actualizar una finca
 export const actualizarFinca = async (id, fincaActualizada) => {
-  const response = await fetch(`${API_URL}/fincas/${id}`, {
+  const response = await fetch(`${API_URL}/api/fincas/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
@@ -32,7 +32,7 @@ export const actualizarFinca = async (id, fincaActualizada) => {
 };
 // Consumo al api para eliminar una finca
 export const eliminarFincas = async (id) => {
-  await fetch(`${API_URL}/fincas/${id}`, { method: "DELETE" });
+  await fetch(`${API_URL}/api/fincas/${id}`, { method: "DELETE" });
 };
 // Consumo al api para obtener una zona por el id de la finca
 export const getZonasByIdFinca = async (id) => {
@@ -41,7 +41,7 @@ export const getZonasByIdFinca = async (id) => {
 };
 // Consumo al api para crear una zona
 export const insertarZona = async (nuevaZona) => {
-const response = await fetch(`${API_URL}/zonas`, {
+const response = await fetch(`${API_URL}/api/zonas`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(nuevaZona),
@@ -51,7 +51,7 @@ return response.json();
 
 
 export const actualizarZona = async (id, zonaActualizada) => {
-  const response = await fetch(`${API_URL}/zonas/${id}`, {
+  const response = await fetch(`${API_URL}/api/zonas/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(zonaActualizada),
@@ -61,12 +61,12 @@ export const actualizarZona = async (id, zonaActualizada) => {
 };
 
 export const eliminarZonas = async (id) => {
-  await fetch(`${API_URL}/zonas/${id}`, { method: "DELETE" });
+  await fetch(`${API_URL}/api/zonas/${id}`, { method: "DELETE" });
 };
 
 //Consumo al api para crear una actividad
 export const insertarActividad = async (nuevaActividad) => {
-  const response = await fetch(`${API_URL}/zonas/actividades`, {
+  const response = await fetch(`${API_URL}/api/registro_actividades`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaActividad),
@@ -79,7 +79,7 @@ export const eliminarActividad = async (id) => {
 }
 
 export const getZonasById = async (id) => {
-  const response = await fetch(`${API_URL}/zonabyid/${id}`);
+  const response = await fetch(`${API_URL}/api/zonas/${id}`);
   return response.json();
 };
 

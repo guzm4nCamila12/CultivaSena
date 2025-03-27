@@ -43,6 +43,7 @@ function ActivarSensores() {
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [estado, setEstado] = useState([]);
+  const rol = localStorage.getItem("rol");
   let inputValue = '';
   const [formData, setFormData] = useState({
     mac: null,
@@ -105,6 +106,7 @@ function ActivarSensores() {
   const columnas = [
     { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
+    { key: "idzona", label: "Zona" },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
     { key: "acciones", label: "Acciones" },
@@ -146,24 +148,63 @@ function ActivarSensores() {
     </div>
   );
 
+
+  const ActivarSensor = (idRol, sensor, index) =>{
+    console.log("idrol:",idRol)
+    if(idRol == "1"){
+      return (  
+        <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
+                  className="sr-only"
+                />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+
+      )
+    }else{
+      return(
+
+        <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-not-allowed">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  disabled // Evita que el usuario lo modifique
+                  className="sr-only"
+                  />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+  )
+    }
+  }
+  const asignarZona2 = (id) => {
+
+    const nombre = zonas.find(zonas => zonas.id === id);
+    return nombre ? nombre.nombre : "Sin zona";
+
+    
+  }
+
   const sensoresDeFinca = sensores.map((sensor, index) => ({
-    ...sensor, "#": index + 1,
+    ...sensor, idzona: asignarZona2(sensor.idzona),
+
     estado: (
-      <div className="flex justify-start items-center">
-        <label className="relative flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={sensor.estado}  // Usa el estado de cada sensor
-            onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
-            className="sr-only"
-          />
-          <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-            <div
-              className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-            ></div>
-          </div>
-        </label>
-      </div>
+      ActivarSensor(rol, sensor, index)
+
     ),
   }))
 
@@ -375,14 +416,29 @@ function ActivarSensores() {
     setVistaActiva(vista);
   };
 
-  const asignarZona = () => {
+  const asignarZona = (onChange) => {
+    if (zonas == null) {
+      return (
+        <div className="relative w-full mt-2">
+          <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+            name="idzona"
+            onChange={onChange}
+            required
+          >
+            <option value="">seleccionar zona </option>
+            <option value=""> Sin zona </option>
 
+          </select>
+        </div>
+
+      )
+    }
 
     return (
       <div className="relative w-full mt-2">
         <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
           name="idzona"
-          onChange={handleChange}
+          onChange={onChange}
           required
         >
           <option value="">seleccionar zona </option>
@@ -397,7 +453,6 @@ function ActivarSensores() {
       </div>
     );
   }
-
 
   return (
     <div>
@@ -421,7 +476,7 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-                  {asignarZona(handleChange)}
+            {asignarZona(handleChange)}
                
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />

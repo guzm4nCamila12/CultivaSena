@@ -10,6 +10,7 @@ import deleteWhite from "../../../assets/icons/deleteWhite.png"
 import userGray from "../../../assets/icons/userGray.png";
 import descripcionWhite from "../../../assets/icons/descripcionWhite.png";
 import sensorWhite from "../../../assets/icons/sensorWhite.png"
+import mapa from "../../../assets/icons/mapa.png"
 // imgs modales
 import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
@@ -106,7 +107,7 @@ function ActivarSensores() {
   const columnas = [
     { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
-    { key: "idzona", label: "Zona" },
+    { key: "idzona", label: "Zona", icon:mapa },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
     { key: "acciones", label: "Acciones" },
@@ -150,7 +151,6 @@ function ActivarSensores() {
 
 
   const ActivarSensor = (idRol, sensor, index) =>{
-    console.log("idrol:",idRol)
     if(idRol == "1"){
       return (  
         <div className="flex justify-start items-center">
@@ -244,9 +244,12 @@ function ActivarSensores() {
     insertarSensor(formData).then((response) => {
       if (response) {
         if (sensores === null) {
+          console.log("hola",response)
           setSensores([response]);
         }
         else {
+          console.log("hola",response)
+
           setSensores([...sensores, response]);
         }
         setModalInsertarAbierto(false);

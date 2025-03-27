@@ -1,15 +1,13 @@
 // importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link, data } from "react-router-dom";
-// iconos de las columnas
-import emailBlue from "../../../../assets/icons/emailBlue.png";
 // iconos de las acciones
 import addRegistro from "../../../../assets/icons/agregar-archivo.png";
 import editWhite from "../../../../assets/icons/editWhite.png";
 import deletWhite from "../../../../assets/icons/deleteWhite.png";
 // iconos de los modales
 import userGray from "../../../../assets/icons/userGray.png";
-import actividadesIcon from "../../../../assets/icons/registroActividades.png";
+import actividadesIcon from "../../../../assets/icons/actividades.png";
 import sensorIcon from "../../../../assets/icons/sensorBlue.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";

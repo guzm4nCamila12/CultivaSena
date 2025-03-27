@@ -92,7 +92,7 @@ export default function ListaFincas() {
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
     sensores: (
-      <Link to={idRol === 1 ? `/activar-sensores/${id}/${finca.id}` : `/sensores-admin/${id}/${finca.id}`}>
+      <Link to={`/activar-sensores/${id}/${finca.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <img src={sensorIcon} alt="Sensores" />

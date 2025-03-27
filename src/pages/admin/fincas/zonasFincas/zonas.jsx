@@ -167,7 +167,6 @@ const Zonas = () => {
     setEditarZona(edit);
     setModalEditarAbierto(true);
   };
-
   //abre el modal insertar actividad
 const HandleAgregarActividad = (idZona) => {
   setNuevaActividad((prev) => ({

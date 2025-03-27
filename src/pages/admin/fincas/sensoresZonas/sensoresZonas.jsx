@@ -9,6 +9,9 @@ import deletWhite from "../../../../assets/icons/deleteWhite.png";
 //iconos de los modales
 import userGray from "../../../../assets/icons/userGray.png";
 import descripcionGray from "../../../../assets/icons/descripcionWhite.png";
+
+import Swal from "sweetalert2";
+import withReactContent from 'sweetalert2-react-content'
 //imgs de los modales
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
@@ -18,9 +21,10 @@ import MostrarInfo from "../../../../components/mostrarInfo";
 import NavBar from "../../../../components/navbar"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 //endpoints para consumir api
-import { insertarSensor, actualizarSensor, eliminarSensores, getSensoresZonasById } from "../../../../services/sensores/ApiSensores";
+import { insertarSensor, actualizarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasById } from "../../../../services/fincas/ApiFincas"
 import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios"
+
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link, data } from "react-router-dom";
@@ -39,6 +43,10 @@ function Sensores() {
   const { id, idUser } = useParams();
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
+  const rol = localStorage.getItem('rol');
+  let inputValue = '';
+
+  console.log("Rol:",rol)
 
   //se declaran los datos de un sensor desactivado por defecto, se traen los sensores y las fincas
   const [formData, setFormData] = useState({
@@ -223,6 +231,176 @@ function Sensores() {
     setVistaActiva(vista);
   };
 
+  const handleSwitch = async (id, estado, index) => {
+      const sensorcito = [...sensores]
+  
+      if (estado === true) {
+        const newEstado = !estado;
+        const updatedSensores = [...sensores];
+        updatedSensores[index].estado = newEstado;
+        setSensores(updatedSensores);
+  
+        const updatedFormData = {
+          id: sensores[index].id,
+          mac: sensores[index].mac,
+          nombre: sensores[index].nombre,
+          descripcion: sensores[index].descripcion,
+          estado: newEstado,
+          idusuario: sensores[index].idusuario,
+          idzona: sensores[index].idzona,
+          idfinca: sensores[index].idfinca,
+        };
+        actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+          const nuevosSensores = [...sensores];
+          nuevosSensores[index] = updatedFormData;
+          setSensores(nuevosSensores);
+           insertarDatos(updatedFormData.mac)
+        })
+      } else if (sensorcito[index].mac === null) {
+  
+        const confirmacion = await showSwal();
+        if (confirmacion.isConfirmed) {
+          const newEstado = !estado;
+          const updatedSensores = [...sensores];
+          updatedSensores[index].estado = newEstado;
+  
+          setSensores(updatedSensores);
+          const updatedFormData = {
+            id: sensores[index].id,
+            mac: inputValue,
+            nombre: sensores[index].nombre,
+            descripcion: sensores[index].descripcion,
+            estado: newEstado,
+            idusuario: sensores[index].idusuario,
+            idzona: sensores[index].idzona,
+  
+            idfinca: sensores[index].idfinca,
+          }
+  
+  
+          actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+            const nuevosSensores = [...sensores];
+            nuevosSensores[index] = updatedFormData;
+            setSensores(nuevosSensores);
+            if (updatedFormData.estado === true) {
+  
+              insertarDatos(updatedFormData.mac).then((data) => {
+              })
+            }
+          })
+          inputValue = '';
+        }
+      } else {
+  
+        const newEstado = !estado;
+        const updatedSensores = [...sensores];
+        updatedSensores[index].estado = newEstado;
+  
+        setSensores(updatedSensores);
+        const updatedFormData = {
+          id: sensores[index].id,
+          mac: updatedSensores[index].mac,
+          nombre: sensores[index].nombre,
+          descripcion: sensores[index].descripcion,
+          estado: newEstado,
+          idusuario: sensores[index].idusuario,
+          idzona: sensores[index].idzona,
+          idfinca: sensores[index].idfinca,
+        }
+  
+        actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+          const nuevosSensores = [...sensores];
+          nuevosSensores[index] = updatedFormData;
+          setSensores(nuevosSensores);
+          if (updatedFormData.estado === true) {
+  
+            insertarDatos(updatedFormData.mac).then((data) => {
+            })
+          }
+  
+        })
+  
+      }
+  
+    };
+
+    const showSwal = () => {
+        return withReactContent(Swal).fire({
+          title: (
+            <h5 className="text-2xl font-extrabold mb-4 text-center">
+              Ingrese la dirección MAC <br />
+              del sensor:
+            </h5>
+          ),
+          input: 'text',
+          inputPlaceholder: 'Digite la dirección MAC',
+          cancelButtonText: 'Cancelar',
+          showCancelButton: true,
+          inputValue,
+          preConfirm: () => {
+            const value = Swal.getInput()?.value;
+            if (!value) {
+              Swal.showValidationMessage('¡Este campo es obligatorio!');
+              return false;
+            }
+            inputValue = value;
+            return true;
+          },
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
+            title: 'text-gray-900',
+            input: 'flex py-2 border-gray rounded-3xl',
+            actions: 'flex justify-center space-x-4 max-w-[454px] mx-auto',
+            cancelButton: 'w-[210px] p-3 text-center bg-[#00304D] hover:bg-[#021926] text-white font-bold rounded-full text-lg',
+            confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
+          },
+        });
+      };
+
+  const ActivarSensor = (idRol, sensor, index) =>{
+    console.log("idrol:",idRol)
+    if(idRol == "1"){
+      return (  
+        <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
+                  className="sr-only"
+                />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+
+      )
+    }else{
+      return(
+
+        <div className="flex justify-start items-center">
+              <label className="relative flex items-center cursor-not-allowed">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} // Se mantiene el estado actual del sensor
+                  disabled // Evita que el usuario lo modifique
+                  className="sr-only"
+                  />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                  <div
+                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                  ></div>
+                </div>
+              </label>
+            </div>
+  )
+    }
+  }
+
   return (
     <div>
       <NavBar />
@@ -238,21 +416,7 @@ function Sensores() {
         datos={sensores.map((sensor, index) => ({
           ...sensor, "#": index + 1,
           estado: (
-            <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-not-allowed">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
+            ActivarSensor(rol, sensor, index)
           ),
         }))}
       />

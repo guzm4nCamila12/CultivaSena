@@ -35,6 +35,15 @@ function ActividadesZonas() {
 
     // Para manejar la etapa y las actividades asociadas
     const [etapaSeleccionada, setEtapaSeleccionada] = useState("");
+
+
+    const [etapas, setEtapas] = useState([
+        { value: '1', label: 'Preparar el terreno' },
+        { value: '2', label: 'Siembra' },
+        { value: '3', label: 'Crecer y madurar' },
+        { value: '4', label: 'Cosecha' },
+        { value: '5', label: 'Comercialización' }
+    ]);
     const actividadesPorEtapa = {
         "1": [
             { value: "1", label: "Arar o remover el suelo" },
@@ -105,7 +114,15 @@ function ActividadesZonas() {
     };
 
     const handleEditarActividadChange = (e) => {
-        setActividadEditar({... actividadEditar, [e.target.name]: e.target.value})
+        const { name, value, tagName, selectedIndex } = e.target;
+        let newValue = value;
+        if (tagName === "SELECT") {
+            newValue = e.target.options[selectedIndex].text;
+        }
+        console.log("nombre: " + newValue)
+
+
+        setActividadEditar({ ...actividadEditar, [e.target.name]: newValue })
     }
 
 
@@ -122,6 +139,7 @@ function ActividadesZonas() {
             ...prev,
             [name]: etapaText
         }));
+        setActividadEditar({ ...actividadEditar, [e.target.name]: etapaText })
         setEtapaSeleccionada(value);
     };
 
@@ -133,6 +151,38 @@ function ActividadesZonas() {
         }));
         setModalActividadInsertar(true);
     };
+
+    const handleEditarActividad = (e) => {
+        e.preventDefault();
+        const fechaInicio = new Date(actividadEditar.fechainicio);
+        const fechaFin = new Date(actividadEditar.fechafin);
+
+        // Validar que la fecha de fin no sea anterior a la fecha de inicio
+        if (fechaFin < fechaInicio) {
+            acctionSucessful.fire({
+                imageUrl: Alerta,
+                imageAlt: "Icono personalizado",
+                title: "¡La fecha de fin no puede ser antes de la fecha de inicio!"
+            });
+            return;
+        }
+        actualizarActividad(actividadEditar.id, actividadEditar).then((data) => {
+            console.log("data enviada:", actividadEditar);
+            const nuevoact = [...actividades]
+            const index = actividades.findIndex((actividad) => actividad.id === actividadEditar.id);
+            nuevoact[index] = actividadEditar;
+            console.log("nueva activiadad", nuevoact)
+            setModalEditarActividad(false)
+
+            setActividades(nuevoact);
+            acctionSucessful.fire({
+                imageUrl: usuarioCreado,
+                imageAlt: 'Icono personalizado',
+                title: "¡Actividad editada correctamente!"
+              });
+        })
+
+    }
 
     // Maneja el envío del formulario para insertar una actividad
     const handleInsertarActividad = (e) => {
@@ -149,6 +199,7 @@ function ActividadesZonas() {
             });
             return;
         }
+
 
         // Aquí puedes agregar validaciones si es necesario
         console.log(nuevaActividad);
@@ -205,6 +256,39 @@ function ActividadesZonas() {
         else {
             return false
         }
+    }
+
+    const BuscarEtapa = () => {
+
+        const valor = etapas.find(etapa => etapa.label == actividadEditar.etapa)
+        console.log("valor:", valor)
+
+        if (valor && valor.value !== etapaSeleccionada) {
+            // Si el valor encontrado no es igual al estado actual, actualizarlo
+            setEtapaSeleccionada(valor.value);
+        }
+
+        return (
+            <div className="relative w-full mt-2">
+                <label className="font-semibold">Seleccione la etapa del cultivo</label>
+                <select
+                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
+                    name="etapa"
+                    required
+                    onChange={handleEtapaChange}
+                >
+                    <option value={valor.value}>{valor.label}</option>
+
+                    {etapas.map((etapa) => {
+                        return (
+                            <option value={etapa.value}>{etapa.label}</option>
+                        )
+                    })}
+
+                </select>
+            </div>
+
+        )
     }
 
     const castearFecha = (fecha) => {
@@ -385,7 +469,7 @@ function ActividadesZonas() {
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
                         <h5 className="text-2xl font-bold mb-4 text-center">Ver Actividad</h5>
                         <hr />
-                        <form onSubmit={handleInsertarActividad}>
+                        <form onSubmit={handleEditarActividad}>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Tipo de cultivo</label>
                                 <div className="flex gap-4 mt-2">
@@ -414,23 +498,7 @@ function ActividadesZonas() {
                                 </div>
                             </div>
 
-                            <div className="relative w-full mt-2">
-                                <label className="font-semibold">Etapa del cultivo</label>
-                                <select
-                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
-                                    name="etapa"
-                                    required
-                                    onChange={handleEditarActividadChange}
-                                >
-                                    <option value="">{actividadEditar.etapa}</option>
-
-                                    <option value="1">Preparar el terreno</option>
-                                    <option value="2">Siembra</option>
-                                    <option value="3">Crecer y madurar</option>
-                                    <option value="4">Cosecha</option>
-                                    <option value="5">Comercialización</option>
-                                </select>
-                            </div>
+                            {BuscarEtapa()}
 
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Actividad que realizó</label>
@@ -442,7 +510,7 @@ function ActividadesZonas() {
                                 >
                                     <option>{actividadEditar.actividad}</option>
                                     {activ.map((act) => (
-                                        <option key={act.value} value={act.value}>
+                                        < option key={act.value} value={act.value} >
                                             {act.label}
                                         </option>
                                     ))}
@@ -507,43 +575,46 @@ function ActividadesZonas() {
                             </div>
                         </form>
                     </div>
-                </div>
-            )}
+                </div >
+            )
+            }
 
             {/* Modal para eliminar Zona */}
-            {modalEliminarAbierto && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Actividad</h5>
-                        <hr />
-                        <form onSubmit={HandlEliminarActividad}>
-                            <div className="flex justify-center my-2">
-                                <img src={ConfirmarEliminar} alt="icono" />
-                            </div>
-                            <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-                            <p className="text-gray-400 text-center text-lg">
-                                Se eliminará la actividad de manera permanente.
-                            </p>
-                            <div className="flex justify-between mt-6 space-x-4">
-                                <button
-                                    type="button"
-                                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                                    onClick={() => setModalEliminarAbierto(false)}
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                                >
-                                    Sí, eliminar
-                                </button>
-                            </div>
-                        </form>
+            {
+                modalEliminarAbierto && (
+                    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+                        <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+                            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Actividad</h5>
+                            <hr />
+                            <form onSubmit={HandlEliminarActividad}>
+                                <div className="flex justify-center my-2">
+                                    <img src={ConfirmarEliminar} alt="icono" />
+                                </div>
+                                <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
+                                <p className="text-gray-400 text-center text-lg">
+                                    Se eliminará la actividad de manera permanente.
+                                </p>
+                                <div className="flex justify-between mt-6 space-x-4">
+                                    <button
+                                        type="button"
+                                        className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                                        onClick={() => setModalEliminarAbierto(false)}
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
+                                    >
+                                        Sí, eliminar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     )
 
 }

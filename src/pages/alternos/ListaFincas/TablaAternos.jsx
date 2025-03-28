@@ -26,7 +26,7 @@ import UserCards from "../../../components/UseCards";
 import Tabla from "../../../components/Tabla";
 import Opcion from "../../../components/Opcion";
 //endpoints para consumir api
-import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
 
 const Inicio = () => {
@@ -82,7 +82,7 @@ const Inicio = () => {
   }
 
   //Maneja la edicion cuando se envia el formulario
-  const handleEditarAlterno = (e) => {
+  const handleEditarAlterno = async (e) => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
       acctionSucessful.fire({
@@ -92,7 +92,24 @@ const Inicio = () => {
       });
       return;
     }
-
+    const correoExistente = await verificarExistenciaCorreo(editarUsuario.correo);
+    if (correoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El correo ya existe!"
+      });
+      return;
+    }
+    const telefonoExistente = await verificarExistenciaTelefono(editarUsuario.telefono);
+    if(telefonoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El teléfono ya existe!"
+      });
+      return;
+    }
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
@@ -132,6 +149,32 @@ const Inicio = () => {
       })
       return
     }
+    if (!/[A-Z]/.test(editarUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra mayúscula!"
+      });
+      return;
+    }
+    
+    if (!/[a-z]/.test(editarUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra minúscula!"
+      });
+      return;
+    }
+    
+    if (!/[0-9]/.test(editarUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos un número!"
+      });
+      return;
+    }  
 
     if (editarUsuario.nombre.length < 6) {
       acctionSucessful.fire({
@@ -176,7 +219,7 @@ const Inicio = () => {
   }
 
   //Maneja el envio del formulario para agregar un usuario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
       acctionSucessful.fire({
@@ -186,7 +229,24 @@ const Inicio = () => {
       });
       return;
     }
-
+    const correoExistente = await verificarExistenciaCorreo(nuevoUsuario.correo);
+    if (correoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El correo ya existe!"
+      });
+      return;
+    }
+    const telefonoExistente = await verificarExistenciaTelefono(nuevoUsuario.telefono);
+    if(telefonoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El teléfono ya existe!"
+      });
+      return;
+    }
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
@@ -218,6 +278,32 @@ const Inicio = () => {
       });
       return;
     }
+    if (!/[A-Z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra mayúscula!"
+      });
+      return;
+    }
+    
+    if (!/[a-z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra minúscula!"
+      });
+      return;
+    }
+    
+    if (!/[0-9]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos un número!"
+      });
+      return;
+    }  
 
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({

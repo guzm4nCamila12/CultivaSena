@@ -76,7 +76,7 @@ export const insertarActividad = async (nuevaActividad) => {
 
 // Consumo al api para actualizar una actividad
 export const actualizarActividad = async (id, actividadActualizada) => {
-  const response = await fetch(`${API_URL}/fincas/${id}`, {
+  const response = await fetch(`${API_URL}/api/registro_actividades/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(actividadActualizada),
@@ -86,7 +86,7 @@ export const actualizarActividad = async (id, actividadActualizada) => {
 };
 
 export const eliminarActividad = async (id) => {
-  await fetch(`${API_URL}/zonas/actividades/${id}`, { method: "DELETE" });
+  await fetch(`${API_URL}/api/registro_actividades/${id}`, { method: "DELETE" });
 }
 
 export const getZonasById = async (id) => {

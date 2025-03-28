@@ -40,7 +40,10 @@ export const login = async (inicioUsuario) => {
   return data;
 };
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 108246493655381ad2de48af3391b6bbccf27869
   //Funcion para insertar un usuario
   export const insertarUsuario = async (nuevoUsuario) => {
     console.log(nuevoUsuario)

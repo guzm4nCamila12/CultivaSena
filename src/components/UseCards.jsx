@@ -123,7 +123,10 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                       {fila.nombre || `Actividad ${index + 1}`}
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 108246493655381ad2de48af3391b6bbccf27869
                     </div>
 
                     {/* Contenido de la tarjeta */}

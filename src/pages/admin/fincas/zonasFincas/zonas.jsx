@@ -43,6 +43,8 @@ const Zonas = () => {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [nombreModificado, setNombreModificado] = useState("");
+  
 
   // Efecto que carga los datos
   useEffect(() => {
@@ -84,6 +86,7 @@ const Zonas = () => {
   // Abre el modal de edición con los datos de esa zona
   const HandleEditarZona = (zona) => {
     const { "#": removed, ...edit } = zona;
+    setNombreModificado(zona.nombre)
     setEditarZona(edit);
     setModalEditarAbierto(true);
   };
@@ -91,6 +94,16 @@ const Zonas = () => {
   // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
+
+    if(nombreModificado == editarZona.nombre){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono",
+        title: `¡No se modificó la información de la Zona ${nombreModificado}!`
+      })
+      return
+    }
+
     if (!editarZona.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -99,6 +112,7 @@ const Zonas = () => {
       });
       return;
     }
+
     // Se limpia el objeto eliminando propiedades JSX
     const zonaParaActualizar = {
       ...editarZona,

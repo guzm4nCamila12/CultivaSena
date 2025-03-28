@@ -6,7 +6,6 @@ import phoneGray from "../../assets/icons/phoneGray.png"
 import passwordGray from "../../assets/icons/passwordGray.svg"
 import openEyeGray from "../../assets/icons/openEyeGray.png"
 import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
-import Swal from "sweetalert2";
 import AtrasIcon from "../../assets/icons/Vector(1).png"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import welcomeIcon from "../../assets/img/welcome.jpg"
@@ -39,7 +38,7 @@ const Login = () => {
         acctionSucessful.fire({
           imageUrl: welcomeIcon,
           imageAlt: 'Icono personalizado',
-          title: `Bienvenido ${user.nombre}`
+          title: `Bienvenido(a) ${user.nombre}`
         });
         // Lógica de navegación después de que se haya actualizado el estado
         if (user.id_rol === 1) {

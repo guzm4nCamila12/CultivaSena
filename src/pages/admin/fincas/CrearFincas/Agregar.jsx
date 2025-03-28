@@ -96,8 +96,7 @@ const Agregar = () => {
               </div>
             </div>
           </div>
-          <div className="relative  h-[60px] sm:h-[0]"></div>
-          <div className="m-0 shadow-xl rounded-b-3xl">
+          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} />

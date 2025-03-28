@@ -214,6 +214,7 @@ function Sensores() {
   const handleChangeEditar = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
     setEditarSensor({ ...editarSensor, [e.target.name]: value });
+    console.log("cccc",value)
   };
 
   const handleVistaChange = (vista) => {

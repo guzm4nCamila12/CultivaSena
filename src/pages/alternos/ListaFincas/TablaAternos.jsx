@@ -41,6 +41,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
+  const [alternoEditado, setAlternoEditado] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
     const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
@@ -76,6 +77,7 @@ const Inicio = () => {
   const HandleEditarAlterno = (alterno) => {
     const { "#": removed, ...edit } = alterno;
     setEditarUsuario(edit);
+    setAlternoEditado(alterno)
     setModalEditarAbierto(true);
   }
 
@@ -122,6 +124,14 @@ const Inicio = () => {
       });
       return;
     }
+    if(alternoEditado.nombre == editarUsuario.nombre && alternoEditado.telefono == editarUsuario.telefono && alternoEditado.correo == editarUsuario.correo){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono",
+        title: "¡No se modificó la informacion del alterno"
+      })
+      return
+    }
 
     if (editarUsuario.nombre.length < 6) {
       acctionSucessful.fire({
@@ -131,6 +141,7 @@ const Inicio = () => {
       });
       return;
     }
+
     //Realiza la actualizacion
     actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
       //Actualiza la lista de usuarios

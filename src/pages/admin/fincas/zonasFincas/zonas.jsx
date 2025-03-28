@@ -1,6 +1,9 @@
+
 // importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link, data } from "react-router-dom";
+// iconos de las columnas
+import emailBlue from "../../../../assets/icons/emailBlue.png";
 // iconos de las acciones
 import addRegistro from "../../../../assets/icons/agregar-archivo.png";
 import editWhite from "../../../../assets/icons/editWhite.png";
@@ -24,7 +27,6 @@ import {
   insertarZona,
   actualizarZona,
   eliminarZonas,
-  insertarActividad
 } from "../../../../services/fincas/ApiFincas";
 import MostrarInfo from "../../../../components/mostrarInfo";
 

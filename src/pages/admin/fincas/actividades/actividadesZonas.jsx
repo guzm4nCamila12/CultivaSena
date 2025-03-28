@@ -20,8 +20,8 @@ function ActividadesZonas() {
     const [actividadEliminar, setActividadEliminar] = useState(false);
     const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
     const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
-    const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
-    const [editarActividad, setEditarActividad] = useState({ id, idzona: "",cultivo: "", etapa: "", actividad: "", descripcion: "", fechainicio: "", fechafin: ""});
+    const [modalEditarActividad, setModalEditarActividad] = useState(false);
+    const [actividadEditar, setActividadEditar] = useState({});
     // Estado para almacenar los datos de la actividad, se guardará el texto de las opciones
     const [nuevaActividad, setNuevaActividad] = useState({
         idzona: null,
@@ -103,10 +103,11 @@ function ActividadesZonas() {
         }));
     };
 
-    const handleChangeEditar = (e) => {
-        setEditarActividad({ ...editarActividad, [e.target.name]: e.target.value });
-    };    
-    
+    const handleEditarActividadChange = (e) => {
+        setActividadEditar({... actividadEditar, [e.target.name]: e.target.value})
+    }
+
+
 
     // Handler para la etapa; guarda el valor seleccionado (para filtrar las actividades) y también su texto
     const handleEtapaChange = (e) => {
@@ -173,43 +174,45 @@ function ActividadesZonas() {
     };
 
     // Maneja la eliminación de una actividad
-  const HandlEliminarActividad = (e) => {
-    e.preventDefault();
-    eliminarActividad(actividadEliminar).then(() => {
-        setActividades(prevActividades => prevActividades.filter(actividad => actividad.id !== actividadEliminar));
-        setModalEliminarAbierto(false);
-      acctionSucessful.fire({
-        imageUrl: usuarioEliminado,
-        imageAlt: "Icono personalizado",
-        title: "¡Actividad eliminada correctamente!"
-      });
-    }).catch(console.error);
-  };
-
-  const abrirModalEliminar = (id) => {
-    setActividadEliminar(id);
-    setModalEliminarAbierto(true);
-  };
-
-
-
-  const handleEditarActividad = (e) => {
-    e.preventDefault();
-
-    // Se limpia el objeto eliminando propiedades JSX
-    const actividadParaActualizar = {
-      ...editarActividad,
+    const HandlEliminarActividad = (e) => {
+        e.preventDefault();
+        eliminarActividad(actividadEliminar).then(() => {
+            setActividades(prevActividades => prevActividades.filter(actividad => actividad.id !== actividadEliminar));
+            setModalEliminarAbierto(false);
+            acctionSucessful.fire({
+                imageUrl: usuarioEliminado,
+                imageAlt: "Icono personalizado",
+                title: "¡Actividad eliminada correctamente!"
+            });
+        }).catch(console.error);
     };
-    actualizarZona(actividadParaActualizar.id, actividadParaActualizar).then(() => {
-      setZonas(zonas.map(u => u.id === actividadParaActualizar.id ? actividadParaActualizar : u));
-      acctionSucessful.fire({
-        imageUrl: usuarioCreado,
-        imageAlt: "Icono personalizado",
-        title: `¡Zona: ${actividadParaActualizar.nombre} editada correctamente!`
-      });
-      setModalEditarAbierto(false);
-    });
-  };
+
+    const abrirModalEditar = (fila) => {
+        setActividadEditar(fila);
+        setModalEditarActividad(true);
+    }
+
+    const abrirModalEliminar = (id) => {
+        setActividadEliminar(id);
+        setModalEliminarAbierto(true);
+    };
+
+    const buscarCultivo = (cultivo) => {
+        if (cultivo == actividadEditar.cultivo) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
+    const castearFecha = (fecha) => {
+        const fechaNormal = fecha;
+        const fechaLocal = new Date(fechaNormal).toLocaleString('sv-SE'); // Esto te da la fecha en formato local (YYYY-MM-DDTHH:MM)
+        return fechaLocal
+    }
+
+    console.log(actividadEditar.etapa)
 
 
     const acciones = (fila) => (
@@ -217,6 +220,7 @@ function ActividadesZonas() {
             <div className="relative group">
                 <button
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+                    onClick={() => abrirModalEditar(fila)}
                 >
                     <img src={verTodo} alt="Agregar Actividad" className="w-5 h-5" />
                 </button>
@@ -227,7 +231,7 @@ function ActividadesZonas() {
             <div className="relative group">
                 <button
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-                 onClick={() => abrirModalEliminar(fila.id)}
+                    onClick={() => abrirModalEliminar(fila.id)}
                 >
                     <img src={eliminarIcon} alt="Eliminar" />
                 </button>
@@ -375,44 +379,67 @@ function ActividadesZonas() {
                 </div>
             )}
 
-            {modalEditarAbierto && (
+            {modalEditarActividad && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Registro de actividades</h5>
+                        <h5 className="text-2xl font-bold mb-4 text-center">Ver Actividad</h5>
                         <hr />
-                        <form onSubmit={handleEditarActividad}>
+                        <form onSubmit={handleInsertarActividad}>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Tipo de cultivo</label>
                                 <div className="flex gap-4 mt-2">
+                                    <label className="flex items-center gap-2">
                                         <input
                                             type="radio"
                                             name="cultivo"
-                                            value={editarActividad.cultivo}
+                                            checked={buscarCultivo("Café")}
+                                            value="Café"
                                             required
-                                            onChange={handleActividadChange}
+                                            onChange={handleEditarActividadChange}
                                         />
+                                        Café
+                                    </label>
+                                    <label className="flex items-center gap-2">
+                                        <input
+                                            type="radio"
+                                            checked={buscarCultivo("Mora")}
+                                            name="cultivo"
+                                            value="Mora"
+                                            required
+                                            onChange={handleEditarActividadChange}
+                                        />
+                                        Mora
+                                    </label>
                                 </div>
                             </div>
 
                             <div className="relative w-full mt-2">
-                                <label className="font-semibold">Seleccione la etapa del cultivo</label>
-                                <input
-                                    type="text"
+                                <label className="font-semibold">Etapa del cultivo</label>
+                                <select
+                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                                     name="etapa"
-                                    value={editarActividad.etapa}
-                                    onChange={handleActividadChange} 
-                                    />
+                                    required
+                                    onChange={handleEditarActividadChange}
+                                >
+                                    <option value="">{actividadEditar.etapa}</option>
+
+                                    <option value="1">Preparar el terreno</option>
+                                    <option value="2">Siembra</option>
+                                    <option value="3">Crecer y madurar</option>
+                                    <option value="4">Cosecha</option>
+                                    <option value="5">Comercialización</option>
+                                </select>
                             </div>
 
                             <div className="relative w-full mt-2">
-                                <label className="font-semibold">Seleccione actividad que realizó</label>
+                                <label className="font-semibold">Actividad que realizó</label>
                                 <select
                                     className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                                     name="actividad"
                                     required
-                                    onChange={handleActividadChange}
+                                    onChange={handleEditarActividadChange}
                                 >
-                                    <option value="">Seleccione actividad</option>
+                                    <option>{actividadEditar.actividad}</option>
                                     {activ.map((act) => (
                                         <option key={act.value} value={act.value}>
                                             {act.label}
@@ -427,9 +454,10 @@ function ActividadesZonas() {
                                     className="w-full pl-3 py-5 border border-gray-300 rounded-3xl"
                                     type="text"
                                     name="descripcion"
+                                    value={actividadEditar.descripcion}
                                     required
                                     placeholder="Escriba una breve descripción"
-                                    onChange={handleActividadChange}
+                                    onChange={handleEditarActividadChange}
                                 />
                             </div>
 
@@ -441,7 +469,8 @@ function ActividadesZonas() {
                                         name="fechainicio"
                                         className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
                                         required
-                                        onChange={handleActividadChange}
+                                        value={castearFecha(actividadEditar.fechainicio)}
+                                        onChange={handleEditarActividadChange}
                                     />
                                 </div>
                             </div>
@@ -454,7 +483,8 @@ function ActividadesZonas() {
                                         name="fechafin"
                                         className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl text-gray-500"
                                         required
-                                        onChange={handleActividadChange}
+                                        value={castearFecha(actividadEditar.fechafin)}
+                                        onChange={handleEditarActividadChange}
                                     />
                                 </div>
                             </div>
@@ -463,7 +493,7 @@ function ActividadesZonas() {
                                 <button
                                     type="button"
                                     className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                                    onClick={() => setModalActividadInsertar(false)}
+                                    onClick={() => setModalEditarActividad(false)}
                                 >
                                     Cancelar
                                 </button>
@@ -471,7 +501,7 @@ function ActividadesZonas() {
                                     type="submit"
                                     className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl"
                                 >
-                                    Registrar
+                                    Editar
                                 </button>
                             </div>
                         </form>

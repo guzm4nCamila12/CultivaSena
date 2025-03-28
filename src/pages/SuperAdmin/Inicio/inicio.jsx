@@ -246,7 +246,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (!/[A-Z]/.test(nuevoUsuario.clave)) {
+    if (!/[A-Z]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -255,7 +255,7 @@ const Inicio = () => {
       return;
     }
 
-    if (!/[a-z]/.test(nuevoUsuario.clave)) {
+    if (!/[a-z]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -264,7 +264,7 @@ const Inicio = () => {
       return;
     }
 
-    if (!/[0-9]/.test(nuevoUsuario.clave)) {
+    if (!/[0-9]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",

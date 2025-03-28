@@ -87,6 +87,7 @@ function ActividadesZonas() {
     const columnas = [
         { key: "cultivo", label: "Cultivo" },
         { key: "etapa", label: "Etapa" },
+        { key: "acciones", label: "Acciones" },
     ];
 
     // Handler general para actualizar el estado de la actividad

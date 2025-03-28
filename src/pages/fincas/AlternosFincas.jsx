@@ -3,31 +3,28 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
-import phoneBlue from "../../../assets/icons/phoneBlue.png"
-import emailBlue from "../../../assets/icons/emailBlue.png"
+import phoneBlue from "../../assets/icons/phoneBlue.png"
+import emailBlue from "../../assets/icons/emailBlue.png"
 //iconos de las acciones
-import editWhite from "../../../assets/icons/editWhite.png";
-import deletWhite from "../../../assets/icons/deleteWhite.png";
+import editWhite from "../../assets/icons/editWhite.png";
+import deletWhite from "../../assets/icons/deleteWhite.png";
 //iconos de los modales
-import userGray from "../../../assets/icons/userGray.png"
-import phoneGray from "../../../assets/icons/phoneGray.png"
-import emailGray from "../../../assets/icons/emailGray.png"
-import passwordGray from "../../../assets/icons/passwordGray.svg"
+import userGray from "../../assets/icons/userGray.png"
+import phoneGray from "../../assets/icons/phoneGray.png"
+import emailGray from "../../assets/icons/emailGray.png"
+import passwordGray from "../../assets/icons/passwordGray.svg"
 //imgs de los modales
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
-import Alerta from "../../../assets/img/Alert.png"
+import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
+import usuarioCreado from "../../assets/img/UsuarioCreado.png"
+import ConfirmarEliminar from "../../assets/img/Eliminar.png"
+import Alerta from "../../assets/img/Alert.png"
 //componentes reutilizados
-import { acctionSucessful } from "../../../components/alertSuccesful";
-import MostrarInfo from "../../../components/mostrarInfo";
-import Navbar from "../../../components/navbar";
-import UserCards from "../../../components/UseCards";
-import Tabla from "../../../components/Tabla";
-import Opcion from "../../../components/Opcion";
+import { acctionSucessful } from "../../components/alertSuccesful";
+import MostrarInfo from "../../components/mostrarInfo";
+import Navbar from "../../components/navbar";
 //endpoints para consumir api
-import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../../services/usuarios/ApiUsuarios";
-import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
+import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
+import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 
 const Inicio = () => {
   //Obtiene el ID de la URL 

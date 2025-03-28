@@ -1,16 +1,18 @@
+//imgs de los modales
+import usuarioCreado from "../../assets/img/UsuarioCreado.png"
+import alertaIcon from "../../assets/img/Alert.png"
+//icono del input
+import userGray from "../../assets/icons/userGray.png"
+//endpoints para consumir api
+import { actualizarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
+//componentes reutilizados
+import Mapa from "../../components/Mapa";
+import Navbar from "../../components/navbar"
+import { acctionSucessful } from "../../components/alertSuccesful";
+//importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
-//componentes reutilizados
-import Mapa from "../../../../components/Mapa";
-import Navbar from "../../../../components/navbar"
-import { acctionSucessful } from "../../../../components/alertSuccesful";
-//endpoints para consumir api
-import { actualizarFinca, getFincasByIdFincas } from "../../../../services/fincas/ApiFincas";
-//icons
-import userGray from "../../../../assets/icons/userGray.png"
-//img modales
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
-import alertaIcon from "../../../../assets/img/Alert.png"
+
 
 export default function EditarFinca() {
   //Obtener el ID de la URL

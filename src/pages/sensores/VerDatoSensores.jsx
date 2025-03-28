@@ -1,12 +1,15 @@
+//iconos de la columna
+import data from "../../assets/icons/dataWhite.png";
+import horaIcon from "../../assets/icons/relojWhite.png";
+import fechaIcon from  "../../assets/icons/fechaWhite.png";
+//componentes reutilizados
+import NavBar from '../../components/navbar';
+import GraficoSensor from './GraficoSensores';
+//endpoints para consumir api
+import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
+//importaciones necesarias de react
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import NavBar from '../../../../components/navbar';
-import GraficoSensor from '../grafico/Grafico';
-import { getSensor, getHistorialSensores } from '../../../../services/sensores/ApiSensores';
-import data from "../../../../assets/icons/dataWhite.png";
-import horaIcon from "../../../../assets/icons/relojWhite.png";
-import fechaIcon from  "../../../../assets/icons/fechaWhite.png";
-import filtroIcon from "../../../../assets/icons/filterIcon.png"
 
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {

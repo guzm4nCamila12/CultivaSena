@@ -1,20 +1,23 @@
+//iconos de la data
+import zonasIcon from "../../assets/icons/zonasFinca.png"
+import alternoIcon from "../../assets/icons/alternoBlue.png";
+import sensorIcon from "../../assets/icons/sensorBlue.png";
+//iconos de las acciones
+import deletWhite from "../../assets/icons/deleteWhite.png";
+import editWhite from "../../assets/icons/editWhite.png";
+//imgs de los modales
+import ConfirmarEliminar from "../../assets/img/Eliminar.png";
+import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png";
+//componentes reutilizados
+import Navbar from '../../components/navbar';
+import MostrarInfo from '../../components/mostrarInfo';
+import { acctionSucessful } from "../../components/alertSuccesful";
+//endpoints para consumir api
+import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
+import { getFincasById, eliminarFincas } from '../../services/fincas/ApiFincas';
+//importaciones necesarias de react
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../../../../components/navbar';
-import MostrarInfo from '../../../../components/mostrarInfo';
-import { acctionSucessful } from "../../../../components/alertSuccesful";
-
-import deletWhite from "../../../../assets/icons/deleteWhite.png";
-import editWhite from "../../../../assets/icons/editWhite.png";
-import sensorIcon from "../../../../assets/icons/sensorBlue.png";
-import alternoIcon from "../../../../assets/icons/alternoBlue.png";
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
-import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";
-import zonasIcon from "../../../../assets/icons/zonasFinca.png"
-
-import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios";
-import { getFincasById, eliminarFincas } from '../../../../services/fincas/ApiFincas';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 
 export default function ListaFincas() {
   const { id } = useParams();

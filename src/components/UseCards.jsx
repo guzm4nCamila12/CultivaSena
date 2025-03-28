@@ -118,7 +118,9 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                         backgroundRepeat: "no-repeat",
                       }}
                     >
-                      {fila.nombre || fila.cultivo || `Dato ${index + 1}`}
+
+                      {fila.nombre || `Actividad ${index + 1}`}
+
                     </div>
 
                     {/* Contenido de la tarjeta */}

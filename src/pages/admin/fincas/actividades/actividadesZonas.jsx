@@ -12,6 +12,8 @@ import Alerta from "../../../../assets/img/Alert.png";
 import verTodo from '../../../../assets/icons/sinFincas.png'
 import eliminarIcon from '../../../../assets/icons/deleteWhite.png'
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
+import cultivo from "../../../../assets/icons/cultivar.png"
+import etapa from "../../../../assets/icons/progreso.png"
 
 function ActividadesZonas() {
     const { id } = useParams();
@@ -94,9 +96,11 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
+
         { key: "cultivo", label: "Cultivo" },
         { key: "etapa", label: "Etapa" },
         { key: "acciones", label: "Acciones" },
+
     ];
 
     // Handler general para actualizar el estado de la actividad

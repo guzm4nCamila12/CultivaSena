@@ -119,7 +119,9 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                       }}
                     >
 
+
                       {fila.nombre || `Actividad ${index + 1}`}
+
 
 
                     </div>

@@ -34,11 +34,12 @@ export const login = async (inicioUsuario) => {
     // Leemos el cuerpo de la respuesta de error
     const errorText = await response.text(); // Lee el cuerpo como texto
     throw new Error(errorText); // Lanza el error con el mensaje del servidor 
-     }
-    const data = await response.json();
+  }
+  const data = await response.json();
 
-    return data;
-  };
+  return data;
+};
+
 
   //Funcion para insertar un usuario
   export const insertarUsuario = async (nuevoUsuario) => {
@@ -51,17 +52,36 @@ export const login = async (inicioUsuario) => {
     return response.json();
   };
 
-  //Funcion para actualizar un usuario existente
-  export const actualizarUsuario = async (id, usuarioActualizado) => {
-    const response = await fetch(`${API_URL}/api/usuario/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(usuarioActualizado),
-    });
 
-  };
+//Funcion para actualizar un usuario existente
+export const actualizarUsuario = async (id, usuarioActualizado) => {
+  const response = await fetch(`${API_URL}/api/usuario/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(usuarioActualizado),
+  });
 
-  //Funcion para eliminar un usuario
-  export const eliminarUsuario = async (id) => {
-    await fetch(`${API_URL}/api/usuario/${id}`, { method: "DELETE" });
-  };
+};
+
+//Funcion para eliminar un usuario
+export const eliminarUsuario = async (id) => {
+  await fetch(`${API_URL}/api/usuario/${id}`, { method: "DELETE" });
+};
+
+// Función para verificar si el correo o teléfono ya existe
+export const verificarExistenciaCorreo = async (correo) => {
+  const usuarios = await getUsuarios();
+
+  // Verifica si algún usuario tiene el mismo correo o teléfono
+  const correoExistente = usuarios.find(usuario => usuario.correo === correo);
+
+  return correoExistente;
+};
+
+export const verificarExistenciaTelefono = async (telefono) => {
+  const usuarios = await getUsuarios();
+
+  const telefonoExistente = usuarios.find(usuario => usuario.telefono === telefono);
+
+  return telefonoExistente;
+}

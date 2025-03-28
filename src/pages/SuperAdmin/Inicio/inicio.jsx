@@ -30,7 +30,7 @@ import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
 import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png";
 import Alerta from "../../../assets/img/Alert.png";
 //endpoints para consumir api
-import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario } from "../../../services/usuarios/ApiUsuarios";
+import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estados para gestionar los usuarios y formularios
@@ -44,7 +44,7 @@ const Inicio = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   // Se inicializa la vista según localStorage (por defecto "tarjetas")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjetas");
- 
+
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
     getUsuarios().then((data) => setUsuarios(data));
@@ -77,6 +77,25 @@ const Inicio = () => {
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
         title: "¡Por favor, complete todos los campos!"
+      });
+      return;
+    }
+    // Verificar si el correo o teléfono ya existe
+    const correoExistente = await verificarExistenciaCorreo(nuevoUsuario.correo);
+    if (correoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El correo ya existe!"
+      });
+      return;
+    }
+    const telefonoExistente = await verificarExistenciaTelefono(nuevoUsuario.telefono);
+    if(telefonoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El teléfono ya existe!"
       });
       return;
     }
@@ -117,7 +136,7 @@ const Inicio = () => {
       });
       return;
     }
-    
+
     if (!/[a-z]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -126,7 +145,7 @@ const Inicio = () => {
       });
       return;
     }
-    
+
     if (!/[0-9]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -134,7 +153,7 @@ const Inicio = () => {
         title: "¡La clave debe tener al menos un número!"
       });
       return;
-    }    
+    }
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -183,6 +202,24 @@ const Inicio = () => {
       });
       return;
     }
+    const correoExistente = await verificarExistenciaCorreo(editarUsuario.correo);
+    if (correoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El correo ya existe!"
+      });
+      return;
+    }
+    const telefonoExistente = await verificarExistenciaTelefono(editarUsuario.telefono);
+    if(telefonoExistente) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡El teléfono ya existe!"
+      });
+      return;
+    }
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -206,6 +243,32 @@ const Inicio = () => {
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
         title: "¡La clave debe tener más de 6 caracteres!"
+      });
+      return;
+    }
+    if (!/[A-Z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra mayúscula!"
+      });
+      return;
+    }
+
+    if (!/[a-z]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos una letra minúscula!"
+      });
+      return;
+    }
+
+    if (!/[0-9]/.test(nuevoUsuario.clave)) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La clave debe tener al menos un número!"
       });
       return;
     }
@@ -351,15 +414,15 @@ const Inicio = () => {
           Si vistaActiva es "tabla", se muestra el componente Tabla;
           de lo contrario, se muestra UserCards */}
 
-        <MostrarInfo
-          titulo="Usuarios Registrados"
-          columnas={columnas}
-          datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
-      
+      <MostrarInfo
+        titulo="Usuarios Registrados"
+        columnas={columnas}
+        datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+      />
+
 
       {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (

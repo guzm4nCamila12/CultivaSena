@@ -69,7 +69,7 @@ function SensoresAlterno() {
 
   //Define las columnas para la UseCards
   const columnas = [
-    { key: "nombre" },
+    { key: "nombre", label: "Nombre" },
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },

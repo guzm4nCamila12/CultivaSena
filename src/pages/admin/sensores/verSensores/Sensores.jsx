@@ -9,16 +9,12 @@ import deletWhite from "../../../../assets/icons/deleteWhite.png";
 //iconos de los modales
 import userGray from "../../../../assets/icons/userGray.png";
 import descripcionGray from "../../../../assets/icons/descripcionWhite.png";
-import sensorWhite from "../../../../assets/icons/sensorWhite.png"
 //imgs de los modales
 import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
 import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
 import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
 //componentes reutilizados
-import Tabla from "../../../../components/Tabla";
 import MostrarInfo from "../../../../components/mostrarInfo";
-import UserCards from "../../../../components/UseCards";
-import Opcion from "../../../../components/Opcion";
 import NavBar from "../../../../components/navbar"
 import { acctionSucessful } from "../../../../components/alertSuccesful";
 

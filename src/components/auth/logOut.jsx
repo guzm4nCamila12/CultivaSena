@@ -2,7 +2,7 @@ import {React, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import ConfirmarEliminar from '../../assets/img/Eliminar.png'
 import { acctionSucessful } from "../../components/alertSuccesful";
-import goodBye from "../../assets/img/goodByeIcon.png"
+import goodBye from "../../assets/img/cerrarSesion.png"
 import logOut from "../../assets/icons/logOut.png"
 
 
@@ -21,7 +21,7 @@ const LogOut = () => {
         acctionSucessful.fire({
           imageUrl: goodBye,
           imageAlt: 'Icono personalizado',
-          title: `¡Sesión Cerrada!`
+          title: `¡Sesión finalizada exitosamente!`
         });
         
       };

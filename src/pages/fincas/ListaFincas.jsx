@@ -1,5 +1,5 @@
 //iconos de la data
-import zonasIcon from "../../assets/icons/zonasFinca.png"
+import zonasIcon from "../../assets/icons/zonas.png"
 import alternoIcon from "../../assets/icons/alternoBlue.png";
 import sensorIcon from "../../assets/icons/sensorBlue.png";
 //iconos de las acciones

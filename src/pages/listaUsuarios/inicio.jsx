@@ -2,35 +2,33 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //iconos de las columnas
-import phoneBlue from "../../../assets/icons/phoneBlue.png";
-import emailBlue from "../../../assets/icons/emailBlue.png";
-import rolBlue from "../../../assets/icons/rolBlue.png";
+import phoneBlue from "../../assets/icons/phoneBlue.png";
+import emailBlue from "../../assets/icons/emailBlue.png";
+import rolBlue from "../../assets/icons/rolBlue.png";
 //iconos de las acciones
-import deletWhite from "../../../assets/icons/deleteWhite.png";
-import editWhite from "../../../assets/icons/editWhite.png";
-import viewWhite from "../../../assets/icons/viewWhite.png";
-import sinFincas from "../../../assets/icons/sinFincas.png";
+import deletWhite from "../../assets/icons/deleteWhite.png";
+import editWhite from "../../assets/icons/editWhite.png";
+import viewWhite from "../../assets/icons/viewWhite.png";
+import sinFincas from "../../assets/icons/sinFincas.png";
 //iconos de modales
-import nameGray from "../../../assets/icons/userGray.png";
-import phoneGray from "../../../assets/icons/phoneGray.png";
-import emailGray from "../../../assets/icons/emailGray.png";
-import passwordGray from "../../../assets/icons/passwordGray.svg";
-import rolGray from "../../../assets/icons/rolGray.png";
+import nameGray from "../../assets/icons/userGray.png";
+import phoneGray from "../../assets/icons/phoneGray.png";
+import emailGray from "../../assets/icons/emailGray.png";
+import passwordGray from "../../assets/icons/passwordGray.svg";
+import rolGray from "../../assets/icons/rolGray.png";
 //componentes reutilizados
-import UserCards from "../../../components/UseCards";
-import MostrarInfo from "../../../components/mostrarInfo";
-import Tabla from "../../../components/Tabla";
-import { acctionSucessful } from "../../../components/alertSuccesful";
-import NavBar from "../../../components/navbar";
+import MostrarInfo from "../../components/mostrarInfo";
+import { acctionSucessful } from "../../components/alertSuccesful";
+import NavBar from "../../components/navbar";
 //imgs modales
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
-import sinFinca from "../../../assets/img/sinFincas.png";
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
-import fotoPerfil from "../../../assets/img/PerfilSuperAdmin.png";
-import Alerta from "../../../assets/img/Alert.png";
+import usuarioCreado from "../../assets/img/UsuarioCreado.png";
+import sinFinca from "../../assets/img/sinFincas.png";
+import ConfirmarEliminar from "../../assets/img/Eliminar.png";
+import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png";
+import fotoPerfil from "../../assets/img/PerfilSuperAdmin.png";
+import Alerta from "../../assets/img/Alert.png";
 //endpoints para consumir api
-import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../../services/usuarios/ApiUsuarios";
+import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estados para gestionar los usuarios y formularios

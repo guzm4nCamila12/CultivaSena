@@ -1,34 +1,33 @@
-
-import descripcionBlue from "../../../assets/icons/descripcionBlue.png"
-import macBlue from "../../../assets/icons/macBlue.png";
-import estadoBlue from "../../../assets/icons/estadoBlue.png";
+//iconos de las columnas
+import descripcionBlue from "../../assets/icons/descripcionBlue.png"
+import macBlue from "../../assets/icons/macBlue.png";
+import estadoBlue from "../../assets/icons/estadoBlue.png";
 //icons de las acciones
-import editWhite from "../../../assets/icons/editWhite.png"
-import viewWhite from "../../../assets/icons/viewWhite.png"
-import deleteWhite from "../../../assets/icons/deleteWhite.png"
+import editWhite from "../../assets/icons/editWhite.png"
+import viewWhite from "../../assets/icons/viewWhite.png"
+import deleteWhite from "../../assets/icons/deleteWhite.png"
 //icons de los modales
-import userGray from "../../../assets/icons/userGray.png";
-import descripcionWhite from "../../../assets/icons/descripcionWhite.png";
-import sensorWhite from "../../../assets/icons/sensorWhite.png"
-import mapa from "../../../assets/icons/mapa.png"
+import userGray from "../../assets/icons/userGray.png";
+import descripcionWhite from "../../assets/icons/descripcionWhite.png";
+import mapa from "../../assets/icons/mapa.png"
 // imgs modales
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png"
+import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
+import usuarioCreado from "../../assets/img/UsuarioCreado.png"
+import ConfirmarEliminar from "../../assets/img/Eliminar.png"
 //componentes reutilizados
-import { acctionSucessful } from "../../../components/alertSuccesful";
-import MostrarInfo from "../../../components/mostrarInfo";
-import Navbar from "../../../components/navbar";//endpoints para consumir api
-import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../../services/sensores/ApiSensores";
-import { getFincasByIdFincas, getZonasByIdFinca } from "../../../services/fincas/ApiFincas";
-import { getUsuarioById } from "../../../services/usuarios/ApiUsuarios";
+import { acctionSucessful } from "../../components/alertSuccesful";
+import MostrarInfo from "../../components/mostrarInfo";
+import Navbar from "../../components/navbar";//endpoints para consumir api
+import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../services/sensores/ApiSensores";
+import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
+import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
 //libreria sweetalert para las alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { insertarDatos } from "../../../services/sensores/ApiSensores";
+import { insertarDatos } from "../../services/sensores/ApiSensores";
 
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);

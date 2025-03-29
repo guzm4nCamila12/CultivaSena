@@ -1,13 +1,18 @@
+//imgs de los modales
+import usuarioCreado from "../../assets/img/UsuarioCreado.png"
+import altertaIcon from "../../assets/img/Alert.png"
+//componentes reutilizados
+import Mapa from "../../components/Mapa";
+import { acctionSucessful } from "../../components/alertSuccesful";
+import Navbar from "../../components/navbar";
+//icono del input
+import userGray from "../../assets/icons/userGray.png"
+//endpoints para consumir api
+import { insertarFinca } from "../../services/fincas/ApiFincas";
+//importaciones necesarias de react
 import React, { useState } from "react";
-import Mapa from "../../../../components/Mapa";
-import { insertarFinca } from "../../../../services/fincas/ApiFincas";
-import { acctionSucessful } from "../../../../components/alertSuccesful";
 import { useNavigate, useParams } from "react-router";
-import Navbar from "../../../../components/navbar";
-import userGray from "../../../../assets/icons/userGray.png"
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
-import altertaIcon from "../../../../assets/img/Alert.png"
-import '@fontsource/work-sans'
+
 
 const Agregar = () => {
   //estados del id del usuario, nombre de la finca y ubicación

@@ -1,21 +1,24 @@
-
+//iconos de las acciones
+import viewWhite from '../../../assets/icons/sinFincas.png'
+import deleteWhite from '../../../assets/icons/deleteWhite.png'
+//imgs de los modales
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
+import usuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
+import Alerta from "../../../assets/img/Alert.png";
+//componentes reutilizados
+import { acctionSucessful } from '../../../components/alertSuccesful'
+import Navbar from '../../../components/navbar';
+import MostrarInfo from '../../../components/mostrarInfo';
+//endpoints para consumir api
+import { getActividadesByZona, getZonasById, eliminarActividad, insertarActividad, actualizarActividad } from '../../../services/fincas/ApiFincas'
+//importaciones necesarias de react
 import React, { useEffect, useState } from 'react'
-import { getActividadesByZona, getZonasById, eliminarActividad, insertarActividad, actualizarActividad } from '../../../../services/fincas/ApiFincas'
 import { useParams } from 'react-router-dom'
-import MostrarInfo from '../../../../components/mostrarInfo';
-import Navbar from '../../../../components/navbar';
-import { acctionSucessful } from '../../../../components/alertSuccesful'
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
-import usuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
-import Alerta from "../../../../assets/img/Alert.png";
-//Iconos para acciones
-import verTodo from '../../../../assets/icons/sinFincas.png'
-import eliminarIcon from '../../../../assets/icons/deleteWhite.png'
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
-import cultivo from "../../../../assets/icons/cultivar.png"
-import etapa from "../../../../assets/icons/progreso.png"
+
 
 function ActividadesZonas() {
+    //estados para almacenar la zona, las actividades de la zona y los estados de los modales
     const { id } = useParams();
     const [actividades, setActividades] = useState([]);
     const [zonas, setZonas] = useState([]);
@@ -311,7 +314,7 @@ function ActividadesZonas() {
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEditar(fila)}
                 >
-                    <img src={verTodo} alt="Agregar Actividad" className="w-5 h-5" />
+                    <img src={viewWhite} alt="Agregar Actividad" className="w-5 h-5" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Ver Todo
@@ -322,7 +325,7 @@ function ActividadesZonas() {
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
-                    <img src={eliminarIcon} alt="Eliminar" />
+                    <img src={deleteWhite} alt="Eliminar" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Eliminar

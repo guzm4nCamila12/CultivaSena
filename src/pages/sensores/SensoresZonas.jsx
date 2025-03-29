@@ -1,33 +1,32 @@
 //iconos de las columnas
-import macBlue from "../../../../assets/icons/macBlue.png";
-import descripcionBlue from "../../../../assets/icons/descripcionBlue.png";
-import estadoBlue from "../../../../assets/icons/estadoBlue.png"
+import macBlue from "../../assets/icons/macBlue.png";
+import descripcionBlue from "../../assets/icons/descripcionBlue.png";
+import estadoBlue from "../../assets/icons/estadoBlue.png"
 //iconos de las acciones
-import editWhite from "../../../../assets/icons/editWhite.png";
-import viewWhite from "../../../../assets/icons/viewWhite.png"
-import deletWhite from "../../../../assets/icons/deleteWhite.png";
+import editWhite from "../../assets/icons/editWhite.png";
+import viewWhite from "../../assets/icons/viewWhite.png"
+import deletWhite from "../../assets/icons/deleteWhite.png";
 //iconos de los modales
-import userGray from "../../../../assets/icons/userGray.png";
-import descripcionGray from "../../../../assets/icons/descripcionWhite.png";
-
+import userGray from "../../assets/icons/userGray.png";
+import descripcionGray from "../../assets/icons/descripcionWhite.png";
+//librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 //imgs de los modales
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png"
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png"
-import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png"
+import ConfirmarEliminar from "../../assets/img/Eliminar.png"
+import usuarioCreado from "../../assets/img/UsuarioCreado.png"
+import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
 //componentes reutilizados
-import MostrarInfo from "../../../../components/mostrarInfo";
-import NavBar from "../../../../components/navbar"
-import { acctionSucessful } from "../../../../components/alertSuccesful";
+import MostrarInfo from "../../components/mostrarInfo";
+import NavBar from "../../components/navbar"
+import { acctionSucessful } from "../../components/alertSuccesful";
 //endpoints para consumir api
-import { insertarSensor, actualizarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../../../services/sensores/ApiSensores";
-import { getFincasByIdFincas, getZonasById } from "../../../../services/fincas/ApiFincas"
-import { getUsuarioById } from "../../../../services/usuarios/ApiUsuarios"
-
+import { insertarSensor, actualizarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
+import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
+import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams, Link, data } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function Sensores() {
   //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales

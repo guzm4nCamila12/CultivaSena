@@ -1,34 +1,24 @@
-
+// iconos de las acciones
+import editWhite from "../../../assets/icons/editWhite.png";
+import deletWhite from "../../../assets/icons/deleteWhite.png";
+// iconos de los modales
+import userGray from "../../../assets/icons/userGray.png";
+import actividadesIcon from "../../../assets/icons/actividades.png";
+import sensorIcon from "../../../assets/icons/sensorBlue.png";
+// imgs de los modales
+import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
+import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
+import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
+import Alerta from "../../../assets/img/Alert.png";
+// componentes reutilizados
+import { acctionSucessful } from "../../../components/alertSuccesful";
+import Navbar from "../../../components/navbar";
+import MostrarInfo from "../../../components/mostrarInfo";
+// endpoints para consumir api
+import {getFincasByIdFincas,getZonasByIdFinca,insertarZona,actualizarZona,eliminarZonas} from "../../../services/fincas/ApiFincas";
 // importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams, Link, data } from "react-router-dom";
-// iconos de las columnas
-import emailBlue from "../../../../assets/icons/emailBlue.png";
-// iconos de las acciones
-import addRegistro from "../../../../assets/icons/agregar-archivo.png";
-import editWhite from "../../../../assets/icons/editWhite.png";
-import deletWhite from "../../../../assets/icons/deleteWhite.png";
-// iconos de los modales
-import userGray from "../../../../assets/icons/userGray.png";
-import actividadesIcon from "../../../../assets/icons/actividades.png";
-import sensorIcon from "../../../../assets/icons/sensorBlue.png";
-// imgs de los modales
-import UsuarioEliminado from "../../../../assets/img/UsuarioEliminado.png";
-import usuarioCreado from "../../../../assets/img/UsuarioCreado.png";
-import ConfirmarEliminar from "../../../../assets/img/Eliminar.png";
-import Alerta from "../../../../assets/img/Alert.png";
-// componentes reutilizados
-import { acctionSucessful } from "../../../../components/alertSuccesful";
-import Navbar from "../../../../components/navbar";
-// endpoints para consumir api
-import {
-  getFincasByIdFincas,
-  getZonasByIdFinca,
-  insertarZona,
-  actualizarZona,
-  eliminarZonas,
-} from "../../../../services/fincas/ApiFincas";
-import MostrarInfo from "../../../../components/mostrarInfo";
+import { useParams, Link } from "react-router-dom";
 
 const Zonas = () => {
   // Obtiene el ID de la URL 

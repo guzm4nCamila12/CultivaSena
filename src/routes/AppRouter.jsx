@@ -1,18 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from '../pages/Login/Login'
-import Inicio from "../pages/inicio/Inicio";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-import AgregarFinca from "../pages/admin/fincas/CrearFincas/Agregar"
-import EditarFinca from '../pages/admin/fincas/EditarFinca/editar';
-import InicioSuperAdmin from '../pages/SuperAdmin/Inicio/inicio'
-import ListaFincas from "../pages/admin/fincas/verFincas/ListaFincas";
-import TablaAlternos from "../pages/alternos/ListaFincas/TablaAternos";
-import SensoresAlterno from "../pages/alternos/sensores/SensoresAlterno";
-import VerDatoSensor from '../pages/admin/sensores/verDatoSensor/VerDato'
-import ActivarSensores from "../pages/SuperAdmin/Sensores/ActivarSensores";
-import ZonasFIncas from "../pages/admin/fincas/zonasFincas/zonas";
-import ZonasconSensores from "../pages/admin/fincas/sensoresZonas/sensoresZonas"
-import Actividades from "../pages/admin/fincas/actividades/actividadesZonas"
+import Inicio from "../pages/inicio/Inicio";
+import Login from '../pages/login/Login'
+import ListaUsuarios from '../pages/listaUsuarios/inicio'
+import ListaFincas from "../pages/fincas/ListaFincas";
+import CrearFinca from "../pages/fincas/CrearFinca"
+import EditarFinca from '../pages/fincas/EditarFinca';
+import AlternosFincas from "../pages/fincas/AlternosFincas";
+import ListaZonas from "../pages/fincas/zonas/ListaZonas";
+import ActividadesZonas from "../pages/fincas/zonas/ActividadesZonas"
+import SensoresZona from "../pages/sensores/SensoresZonas"
+import ListaSensores from "../pages/sensores/ListaSensores";
+import VerDatoSensor from '../pages/sensores/VerDatoSensores'
+import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
+
 
 function AppRouter() {
   return (
@@ -20,17 +21,17 @@ function AppRouter() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/agregar-finca/:id" element={<ProtectedRoute element={AgregarFinca} />} />
-        <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={InicioSuperAdmin} />} />
-        <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} />} />        
-        <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} />} />
+        <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={ListaUsuarios} />} />
         <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} />} />
-        <Route path="/alternos/:id" element={<ProtectedRoute element={TablaAlternos} />} />
-        <Route path="/zonas/:id/:idUser" element={<ProtectedRoute element={ZonasFIncas} />} />
-        <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={SensoresAlterno} />} />
-        <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ActivarSensores} />} />
-        <Route path="/sensoresZonas/:id/:idUser" element={<ProtectedRoute element={ZonasconSensores} />} />
-        <Route path="/actividadesZonas/:id" element={<ProtectedRoute element={Actividades} />} />
+        <Route path="/agregar-finca/:id" element={<ProtectedRoute element={CrearFinca} />} />
+        <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} />} />
+        <Route path="/alternos/:id" element={<ProtectedRoute element={AlternosFincas} />} />
+        <Route path="/zonas/:id/:idUser" element={<ProtectedRoute element={ListaZonas} />} />
+        <Route path="/actividadesZonas/:id" element={<ProtectedRoute element={ActividadesZonas} />} />
+        <Route path="/sensoresZonas/:id/:idUser" element={<ProtectedRoute element={SensoresZona} />} />
+        <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ListaSensores} />} />
+        <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} />} />
+        <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={ListaSensoresAlterno} />} />
       </Routes>
     </Router>
   )

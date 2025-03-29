@@ -1,18 +1,15 @@
 //iconos de las columnas
-import macBlue from "../../../assets/icons/macBlue.png";
-import descripcionBlue from "../../../assets/icons/descripcionBlue.png";
-import estadoBlue from "../../../assets/icons/estadoBlue.png"
+import macBlue from "../../assets/icons/macBlue.png";
+import descripcionBlue from "../../assets/icons/descripcionBlue.png";
+import estadoBlue from "../../assets/icons/estadoBlue.png"
 //iconos de las acciones
-import viewWhite from "../../../assets/icons/viewWhite.png";
+import viewWhite from "../../assets/icons/viewWhite.png";
 //componentes reutilizados
-import Navbar from "../../../components/navbar";
-import UserCards from "../../../components/UseCards";
-import Tabla from "../../../components/Tabla";
-import Opcion from "../../../components/Opcion";
-import MostrarInfo from "../../../components/mostrarInfo";
+import Navbar from "../../components/navbar";
+import MostrarInfo from "../../components/mostrarInfo";
 //endpoints para consumir el api
-import { getFincasByIdFincas } from "../../../services/fincas/ApiFincas";
-import { getSensoresById } from "../../../services/sensores/ApiSensores";
+import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
+import { getSensoresById } from "../../services/sensores/ApiSensores";
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";

@@ -1,7 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import search from "../assets/icons/search.png";
-import microphone from "../assets/icons/Microphone.png";
 import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
 import adminIcon from "../assets/img/PerfilAdmin.png";
 import alternoIcon from "../assets/img/PerfilAlterno.png";
@@ -21,19 +19,16 @@ const getRoleImage = (role) => {
 
 const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
-
   // Determinar si se debe mostrar la columna de fotoPerfil
   const mostrarFotoPerfil = columnas.some((columna) => columna.key === "fotoPerfil");
   // Filtrar columnas para usar en búsqueda y renderizado (sin fotoPerfil)
   const columnasSinFoto = columnas.filter((columna) => columna.key !== "fotoPerfil");
-
   // Filtrar datos según la búsqueda usando solo las columnas que contienen texto
   const datosFiltrados = datos.filter((fila) =>
     columnasSinFoto.some((columna) =>
       String(fila[columna.key] || "").toLowerCase().includes(busqueda.toLowerCase())
     )
   );
-
   // Armar las columnas a usar en el header: si hay foto, la agregamos al inicio.
   const columnasAUsar = mostrarFotoPerfil
     ? [{ key: "fotoPerfil", label: "" }, ...columnasSinFoto]
@@ -91,7 +86,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       />
                     </td>
                   )}
-
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
                     if (!mostrarFotoPerfil && columna.key === "nombre") {

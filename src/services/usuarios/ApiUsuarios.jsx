@@ -41,7 +41,7 @@ export const login = async (inicioUsuario) => {
 };
 
   //Funcion para insertar un usuario
-  export const insertarUsuario = async (nuevoUsuario) => {
+  export const crearUsuario = async (nuevoUsuario) => {
     console.log(nuevoUsuario)
     const response = await fetch(`${API_URL}/api/usuario`, {
       method: "POST",
@@ -53,7 +53,7 @@ export const login = async (inicioUsuario) => {
 
 
 //Funcion para actualizar un usuario existente
-export const actualizarUsuario = async (id, usuarioActualizado) => {
+export const editarUsuario = async (id, usuarioActualizado) => {
   const response = await fetch(`${API_URL}/api/usuario/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -70,17 +70,12 @@ export const eliminarUsuario = async (id) => {
 // Función para verificar si el correo o teléfono ya existe
 export const verificarExistenciaCorreo = async (correo) => {
   const usuarios = await getUsuarios();
-
-  // Verifica si algún usuario tiene el mismo correo o teléfono
   const correoExistente = usuarios.find(usuario => usuario.correo === correo);
-
   return correoExistente;
 };
 
 export const verificarExistenciaTelefono = async (telefono) => {
   const usuarios = await getUsuarios();
-
   const telefonoExistente = usuarios.find(usuario => usuario.telefono === telefono);
-
   return telefonoExistente;
 }

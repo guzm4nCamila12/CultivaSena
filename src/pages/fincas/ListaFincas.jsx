@@ -65,7 +65,7 @@ export default function ListaFincas() {
     { key: "nombre", label: "Nombre" },
     { key: "sensores", label: "Sensores" },
     { key: "alternos", label: "Alternos" },
-    { key: "zonas", label: "Zonas"},
+    { key: "zonas", label: "Zonas" },
     { key: "acciones", label: "Acciones" },
   ];
 
@@ -128,7 +128,7 @@ export default function ListaFincas() {
             Ver
           </span>
         </button>
-    </Link>
+      </Link>
     )
   }));
 
@@ -141,20 +141,14 @@ export default function ListaFincas() {
   return (
     <div>
       <Navbar />
-      {/* El componente Opcion ya incluye la opción de cambiar la vista.
-          Su propiedad onChangeVista actualizará el estado y localStorage. */}
-
-      
-        <MostrarInfo
-          titulo={`Fincas de: ${usuario.nombre}`}
-          columnas={columnas}
-          datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
-          acciones={acciones}
-          onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
-          mostrarAgregar={true}
-        />
-    
-
+      <MostrarInfo
+        titulo={`Fincas de: ${usuario.nombre}`}
+        columnas={columnas}
+        datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
+        acciones={acciones}
+        onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
+        mostrarAgregar={true}
+      />
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -169,8 +163,7 @@ export default function ListaFincas() {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}
-                >
+                  onClick={() => setModalEliminarAbierto(false)}>
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" type="submit">

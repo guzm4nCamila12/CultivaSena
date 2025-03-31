@@ -1,15 +1,12 @@
-//iconos de la columna
 import data from "../../assets/icons/dataWhite.png";
 import horaIcon from "../../assets/icons/relojWhite.png";
-import fechaIcon from  "../../assets/icons/fechaWhite.png";
-//componentes reutilizados
+import fechaIcon from "../../assets/icons/fechaWhite.png";
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
-//endpoints para consumir api
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
-//importaciones necesarias de react
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
+import MostrarInfo from "../../components/mostrarInfo";
 
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {
@@ -63,88 +60,56 @@ export default function VerSensores() {
     return datosSensor.filter(item => {
       const { fecha } = item;
 
-      // Comprobar si se ha establecido un filtro de fecha
       if (fechaFiltro) {
         const [añoFiltro, mesFiltro, diaFiltro] = fechaFiltro.split('-');
         const [diaItem, mesItem, añoItem] = fecha.split('/');
-
         const coincideDia = diaFiltro ? diaItem === diaFiltro : true;
         const coincideMes = mesFiltro ? mesItem === mesFiltro : true;
         const coincideAño = añoFiltro ? añoItem === añoFiltro : true;
-
         return coincideDia && coincideMes && coincideAño;
       }
-
-      return true; // Si no hay filtro, devuelve todos los datos
+      return true;
     });
   };
 
   const datosFinales = filtrarDatos();
 
+  const columnas = [
+    { key: "#", label: "#" },
+    { key: "fecha", label: "Fecha" },
+    { key: "hora", label: "Hora" },
+    { key: "valor", label: "Datos" }
+  ];
+
+  // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo
+  const datosTabla = datosFinales.map((fila, index) => ({
+    "#": index + 1,
+    fecha: fila.fecha,
+    hora: fila.hora,
+    valor: fila.valor + " °C"
+  }));
 
   return (
     <div className='bg-white'>
       <NavBar />
-
       {/* Filtrar datos por fecha */}
-      <div className="w-auto pt-10 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
+      <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
         <div className="flex justify-between items-center mb-4">
           <div className="p-4">
-            <h3 className="text-center mb-2 font-semibold">Filtrar por Fecha</h3>
+            <h3 className="mb-2 font-semibold">Filtrar por Fecha</h3>
             <div>
               <input
                 type="date"
                 value={fechaFiltro}
                 onChange={e => setFechaFiltro(e.target.value)}
-                className="mb-2 p-2 border rounded"
-              />
+                className="mb-2 p-2 border rounded" />
             </div>
           </div>
         </div>
-        
-        <div className="overflow-x-auto max-h-64 p-0 m-0">
-          <table className="w-full table-fixed border-separate border-spacing-y-3">
-            <thead className="sticky top-0 bg-[#00304D] text-white text-left">
-              <tr>
-                <th className="p-2 rounded-l-full">#</th>
-                <th className="p-2 justify-items-center">
-                  <span className='inline-block align-middle'>
-                    <img src={fechaIcon} alt="Icono fecha" className='mr-1 mb-1 h-4 w-4' />
-                  </span>
-                  Fecha
-                </th>
-                <th className="p-2 justify-items-center">
-                  <span className='inline-block align-middle'>
-                    <img src={horaIcon} alt="Icono Hora" className="mr-1 mb-1 h-4 w-4" />
-                  </span>
-                  Hora
-                </th>
-                <th className="p-2 rounded-r-full">
-                  <span className='inline-block align-middle'>
-                    <img src={data} alt="Icono datos" className="mr-1 mb-1 h-4 w-4" />
-                  </span>
-                  Datos
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {datosFinales.length > 0 ? (
-                datosFinales.map((fila, index) => (
-                  <tr key={index} className="bg-[#EEEEEE] hover:bg-[#e4dddd44] text-left">
-                    <td className="p-3 rounded-l-full">{index + 1}</td>
-                    <td className="p-3">{fila.fecha}</td>
-                    <td className="p-3">{fila.hora}</td>
-                    <td className="p-3 rounded-r-full">{fila.valor + " °C"}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" className="text-center p-4">No hay datos disponibles</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <MostrarInfo
+          titulo={`Datos del sensor: ${sensores.nombre}`}
+          columnas={columnas}
+          datos={datosTabla} />
       </div>
       <div className='flex flex-row justify-center bg-white'>
         <GraficoSensor datos={datosFinales} />

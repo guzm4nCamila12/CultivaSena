@@ -12,7 +12,7 @@ export const getFincasByIdFincas = async (id) => {
     return response.json();
   };
 // Consumo al api para crear una finca
-export const insertarFinca = async (nuevaFinca) => {
+export const crearFinca = async (nuevaFinca) => {
   const response = await fetch(`${API_URL}/api/fincas`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -21,7 +21,7 @@ export const insertarFinca = async (nuevaFinca) => {
   return response.json();
 };
 // Consumo al api para actualizar una finca
-export const actualizarFinca = async (id, fincaActualizada) => {
+export const editarFinca = async (id, fincaActualizada) => {
   const response = await fetch(`${API_URL}/api/fincas/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ export const getZonasByIdFinca = async (id) => {
   return response.json();
 };
 // Consumo al api para crear una zona
-export const insertarZona = async (nuevaZona) => {
+export const crearZona = async (nuevaZona) => {
 const response = await fetch(`${API_URL}/api/zonas`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -50,7 +50,7 @@ return response.json();
 };
 
 
-export const actualizarZona = async (id, zonaActualizada) => {
+export const editarZona = async (id, zonaActualizada) => {
   const response = await fetch(`${API_URL}/api/zonas/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -65,7 +65,7 @@ export const eliminarZonas = async (id) => {
 };
 
 //Consumo al api para crear una actividad
-export const insertarActividad = async (nuevaActividad) => {
+export const crearActividad = async (nuevaActividad) => {
   const response = await fetch(`${API_URL}/api/registro_actividades`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -75,7 +75,7 @@ export const insertarActividad = async (nuevaActividad) => {
 };
 
 // Consumo al api para actualizar una actividad
-export const actualizarActividad = async (id, actividadActualizada) => {
+export const editarActividad = async (id, actividadActualizada) => {
   const response = await fetch(`${API_URL}/api/registro_actividades/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

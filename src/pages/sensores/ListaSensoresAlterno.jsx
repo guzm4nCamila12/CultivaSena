@@ -17,7 +17,7 @@ import { useParams, Link } from "react-router-dom";
 function SensoresAlterno() {
   //Estado para almacenar datos
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
-      const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
+  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [sensores, setSensores] = useState([]);
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -44,7 +44,6 @@ function SensoresAlterno() {
         setSensores([]);
         return
       } else {
-
         setSensores(data);
       }
     })
@@ -70,6 +69,7 @@ function SensoresAlterno() {
     { key: "mac", label: "MAC", icon: macBlue },
     { key: "descripcion", label: "Descripción", icon: descripcionBlue },
     { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
+    { key: "acciones", label: "Acciones" },
   ];
 
   //Funcion que define las acciones que se muestran en cada fila
@@ -92,37 +92,32 @@ function SensoresAlterno() {
   return (
     <div >
       <Navbar />
-      {/* Se renderiza la vista según lo que traiga en localStorage:
-                Si vistaActiva es "tabla", se muestra el componente Tabla;
-                de lo contrario, se muestra UserCards */}
       <MostrarInfo
-          titulo={`Sensor de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          acciones={acciones}
-          mostrarAgregar={false}
-          datos={sensores.map((sensor, index) => ({
-            ...sensor,
-            "#": index + 1,
-            estado: (
-              <div className="flex justify-center items-center">
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={sensor.estado} //Muestra el estado del sensor
-                    disabled
-                    className="sr-only"
-                  />
-                  <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+        titulo={`Sensores de la finca: ${fincas.nombre}`}
+        columnas={columnas}
+        acciones={acciones}
+        mostrarAgregar={false}
+        datos={sensores.map((sensor, index) => ({
+          ...sensor,
+          "#": index + 1,
+          estado: (
+            <div className="flex justify-center items-center">
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={sensor.estado} //Muestra el estado del sensor
+                  disabled
+                  className="sr-only" />
+                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
                   <div
                     className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
                   ></div>
                 </div>
-                  
-                </label>
-              </div>
-            ),
-          }))}
-        />
+              </label>
+            </div>
+          ),
+        }))}
+      />
     </div>
   );
 }

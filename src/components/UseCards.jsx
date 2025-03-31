@@ -67,7 +67,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                            hover:shadow-md hover:shadow-black/25 hover:scale-95"
             onClick={onAddUser}
           >
-            <span className="text-[#009E00] text-2xl font-semibold">Agregar</span>
+            <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
             <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
               <span className="text-white text-3xl font-bold">+</span>
             </div>
@@ -83,7 +83,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                                hover:shadow-md hover:shadow-black/25 hover:scale-95"
                 onClick={onAddUser}
               >
-                <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Agregar</span>
+                <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Crear</span>
                 <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
                   <span className="text-white text-xl sm:text-3xl font-bold">+</span>
                 </div>

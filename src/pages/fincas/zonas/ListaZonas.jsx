@@ -150,7 +150,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: ${nuevaZona.nombre} creada correctamente!`
+        title: `¡Zona ${nuevaZona.nombre} creada correctamente!`
       });
     }).catch(console.error);
   };
@@ -229,7 +229,7 @@ const Zonas = () => {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-semibold text-center mb-4">
-              Agregar zona en finca {fincas.nombre}
+              Crear zona en finca {fincas.nombre}
             </h5>
             <hr />
             <form onSubmit={handleSubmit}>
@@ -253,7 +253,7 @@ const Zonas = () => {
                 <button
                   type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </form>
@@ -265,7 +265,7 @@ const Zonas = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar Zona</h5>
+            <h5 className="text-xl font-semibold text-center mb-4">Editar zona</h5>
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">
@@ -300,7 +300,7 @@ const Zonas = () => {
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Zona</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar zona</h5>
             <hr />
             <form onSubmit={HandleEliminarZonas}>
               <div className="flex justify-center my-2">

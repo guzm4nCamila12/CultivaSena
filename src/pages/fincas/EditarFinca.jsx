@@ -92,7 +92,7 @@ export default function EditarFinca() {
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
               <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-                <h2 className="text-2xl sm:text-3xl font-semibold">{originalFinca.nombre}</h2>
+                <h2 className="text-2xl sm:text-3xl font-semibold">Editar finca</h2>
               </div>
               {/* Contenedor del input y botón */}
               <div className="sm:pl-2 pr-4 flex justify-center items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12 xl: sm:rounded-full relative">

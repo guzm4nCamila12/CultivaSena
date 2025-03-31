@@ -34,7 +34,7 @@ const Inicio = () => {
   // Estados para gestionar los usuarios y formularios
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  const [editarUsuario, setEditarUsuario] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const [usuarioEditar, setusuarioEditar] = useState({ id: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [usuarioEliminar, setUsuarioEliminar] = useState(false);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -184,13 +184,13 @@ const Inicio = () => {
 
   // Maneja el cambio en los campos para editar un usuario
   const handleChangeEditar = (e) => {
-    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
+    setusuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value });
   };
 
   // Maneja el proceso de editar
-  const handleEditarUsuario = async (e) => {
+  const handleUsuarioEditar = async (e) => {
     e.preventDefault();
-    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
+    if (!usuarioEditar.nombre || !usuarioEditar.telefono || !usuarioEditar.correo || !usuarioEditar.clave || !usuarioEditar.id_rol) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -198,7 +198,7 @@ const Inicio = () => {
       });
       return;
     }
-    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(usuarioEditar.correo);
     if (!correoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -207,7 +207,7 @@ const Inicio = () => {
       });
       return;
     }
-    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);
+    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -216,7 +216,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (editarUsuario.clave.length < 6) {
+    if (usuarioEditar.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -224,7 +224,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (!/[A-Z]/.test(editarUsuario.clave)) {
+    if (!/[A-Z]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -232,7 +232,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (!/[a-z]/.test(editarUsuario.clave)) {
+    if (!/[a-z]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -240,7 +240,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (!/[0-9]/.test(editarUsuario.clave)) {
+    if (!/[0-9]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -248,7 +248,7 @@ const Inicio = () => {
       });
       return;
     }
-    if (editarUsuario.nombre.length < 6) {
+    if (usuarioEditar.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -257,8 +257,8 @@ const Inicio = () => {
       return;
     }
     try {
-      await editarUsuario(Number(editarUsuario.id), editarUsuario);
-      setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
+      await editarUsuario(Number(usuarioEditar.id), usuarioEditar);
+      setUsuarios(usuarios.map(u => u.id === usuarioEditar.id ? usuarioEditar : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
@@ -357,7 +357,7 @@ const Inicio = () => {
       clave: usuario.clave,
       id_rol: enviarRol(usuario.id_rol)
     };
-    setEditarUsuario(usuarioNecesario);
+    setusuarioEditar(usuarioNecesario);
     setModalEditarAbierto(true);
   };
 
@@ -396,7 +396,7 @@ const Inicio = () => {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Crear Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Crear usuario</h5>
             <hr />
             <form onSubmit={handleCrearUsuario}>
               <div className="relative w-full mt-2">
@@ -458,7 +458,7 @@ const Inicio = () => {
                 <button
                   type="submit"
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </form>
@@ -470,14 +470,14 @@ const Inicio = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Editar usuario</h5>
             <hr />
-            <form onSubmit={handleEditarUsuario}>
+            <form onSubmit={handleUsuarioEditar}>
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.nombre}
+                  value={usuarioEditar.nombre}
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
@@ -487,7 +487,7 @@ const Inicio = () => {
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.telefono}
+                  value={usuarioEditar.telefono}
                   type="text"
                   name="telefono"
                   placeholder="Teléfono"
@@ -497,7 +497,7 @@ const Inicio = () => {
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.correo}
+                  value={usuarioEditar.correo}
                   type="text"
                   name="correo"
                   placeholder="Correo electrónico"
@@ -507,7 +507,7 @@ const Inicio = () => {
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.clave}
+                  value={usuarioEditar.clave}
                   type="text"
                   name="clave"
                   placeholder="Clave"
@@ -535,7 +535,7 @@ const Inicio = () => {
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Sin Fincas</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Sin fincas</h5>
             <hr />
             <form>
               <div className="flex justify-center my-4">
@@ -559,7 +559,7 @@ const Inicio = () => {
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>
               <div className="flex justify-center my-2">

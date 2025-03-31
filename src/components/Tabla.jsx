@@ -133,7 +133,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
           className="w-full sm:w-[60%] mx-auto flex flex-row items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95 mb-4"
           onClick={onAddUser}
         >
-          <span className="text-[#009E00] text-sm sm:text-base font-semibold">Agregar</span>
+          <span className="text-[#009E00] text-sm sm:text-base font-semibold">Crear</span>
           <div className="ml-2 w-6 h-6 sm:w-8 sm:h-8 bg-[#009E00] rounded-full flex items-center justify-center">
             <span className="text-white text-xl sm:text-2xl font-bold">+</span>
           </div>

@@ -1,6 +1,6 @@
 import data from "../../assets/icons/dataWhite.png";
 import horaIcon from "../../assets/icons/relojWhite.png";
-import fechaIcon from "../../assets/icons/fechaWhite.png";
+import fechaIcon from  "../../assets/icons/fechaWhite.png";
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
@@ -102,7 +102,7 @@ export default function VerSensores() {
                 type="date"
                 value={fechaFiltro}
                 onChange={e => setFechaFiltro(e.target.value)}
-                className="mb-2 p-2 border rounded" />
+                className="mb-2 p-2 border rounded"/>
             </div>
           </div>
         </div>

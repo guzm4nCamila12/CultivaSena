@@ -40,8 +40,6 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  // Se inicializa la vista según localStorage (por defecto "tarjetas")
-  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjetas");
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {

@@ -41,7 +41,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
 
   return (
     <div className="container mx-auto px-0 py-4">
-      <div className="w-full overflow-x-auto rounded-lg">
+      <div className="w-full overflow-x-auto overflow-y-auto max-h-[500px] pr-4 rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4">
           <thead>
             <tr className="text-white">
@@ -83,7 +83,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
               datosFiltrados.map((fila, index) => (
                 <tr key={fila.id || index}>
                   {mostrarFotoPerfil && (
-                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#EEEEEE] w-16">
+                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#ffffff] w-16">
                       <img
                         src={getRoleImage(fila.id_rol)}
                         alt="Foto de perfil"
@@ -91,7 +91,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       />
                     </td>
                   )}
-
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
                     if (!mostrarFotoPerfil && columna.key === "nombre") {
@@ -105,7 +104,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                     return (
                       <td
                         key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#EEEEEE]`}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#ffffff]`}
                       >
                         <div className="flex items-center justify-start">
                           <span className="flex-1">

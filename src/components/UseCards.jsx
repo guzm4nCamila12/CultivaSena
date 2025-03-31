@@ -2,13 +2,9 @@ import { useState } from "react";
 // Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
 // Iconos utilizados en el buscador
-import search from "../assets/icons/search.png";
-import microphone from "../assets/icons/Microphone.png";
-import Opcion from "../components/Opcion";
 import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
 import adminIcon from "../assets/img/PerfilAdmin.png";
 import alternoIcon from "../assets/img/PerfilAlterno.png";
-import Tabla from "./Tabla";
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -173,7 +169,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                         <img
                           src={getRoleImage(fila.id_rol)}
                           alt="Foto de perfil"
-                          className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
+                          className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
                         />
                       </div>
                     )}

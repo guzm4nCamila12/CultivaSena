@@ -55,7 +55,7 @@ export default function EditarFinca() {
     if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
         imageUrl : alertaIcon,
-        title: `No se modificó la información de la finca ${nombreFinca}`,
+        title: `No se modificó la información de la finca: ${nombreFinca}`,
       });
       return
     }
@@ -73,7 +73,7 @@ export default function EditarFinca() {
         .then(() => {
           acctionSucessful.fire({
             imageUrl: usuarioCreado,
-            title: `¡Finca ${fincaActualizada.nombre} actualizada correctamente!`,
+            title: `¡Finca: ${fincaActualizada.nombre} actualizada correctamente!`,
           });
           irAtras();
         })

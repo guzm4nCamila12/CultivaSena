@@ -8,7 +8,7 @@ import openEyeGray from "../../assets/icons/openEyeGray.png"
 import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import AtrasIcon from "../../assets/icons/Vector(1).png"
 import { acctionSucessful } from "../../components/alertSuccesful";
-import welcomeIcon from "../../assets/img/inicioSesion.png"
+import welcomeIcon from "../../assets/img/iniciosesion.png"
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña

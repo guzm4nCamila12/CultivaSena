@@ -39,6 +39,7 @@ const Inicio = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [alternoEditado, setAlternoEditado] = useState()
+  const [alternoEliminar, setAlternoEliminar] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
     const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
@@ -191,7 +192,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno editado correctamente!"
+        title: `¡Alterno ${alternoEditado} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -207,12 +208,14 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno eliminado correctamente!"
+        title: `¡Alterno: ${alternoEliminar.nombre} eliminado correctamente!`
       });
     }).catch(console.error);
   }
 
   const abrirModalEliminar = (id) => {
+    const alternoPrev = usuarios.find(usuarios => usuarios.id === id)
+    setAlternoEliminar(alternoPrev)
     setUsuarioEliminar(id);
     setModalEliminarAbierto(true)
   }
@@ -319,7 +322,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno agregado correctamente!"
+        title: `¡Alterno: ${nuevoUsuario.nombre} agregado correctamente!`
       });
     }).catch(console.error);
   }
@@ -479,7 +482,7 @@ const Inicio = () => {
                 </button>
                 <button type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>
@@ -497,7 +500,7 @@ const Inicio = () => {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno <strong className="text-red-600">{alternoEliminar.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

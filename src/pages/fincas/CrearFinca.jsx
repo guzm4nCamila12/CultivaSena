@@ -46,16 +46,11 @@ const Agregar = () => {
 
     try {
       const response = await insertarFinca(nuevaFinca);
-      acctionSucessful.fire({
-        imageUrl: usuarioCreado,
-        imageAlt: 'Icono personalizado',
-        title: "Finca insertada correctamente"
-      });
       // Si la respuesta es válida, se maneja de forma exitosa
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Finca agregada correctamente!"
+        title: `¡Finca: ${nombre} agregada correctamente!`
       });
       irAtras();
     } catch (error) {
@@ -70,7 +65,7 @@ const Agregar = () => {
     <div>
       <Navbar></Navbar>
       <div style={{ fontFamily: "work sans" }}
-        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-2 md:mx-10 lg:mx-16 2xl:mx-36">
+        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-2 md:mx-10 lg:mx-16 2xl:mx-36">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">

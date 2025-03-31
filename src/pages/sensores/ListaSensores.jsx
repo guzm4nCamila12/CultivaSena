@@ -257,9 +257,12 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor agregado correctamente!"
+      title: `¡Sensor agregado correctamente!`
     });
   };
+
+ 
+
 
   const handleEditarSensor = (e) => {
     e.preventDefault();
@@ -269,7 +272,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor: ${editarSensor.nombre} editado correctamente!`
       });
       nuevosSensores[index] = editarSensor;
       setSensores(nuevosSensores);
@@ -472,7 +475,7 @@ function ActivarSensores() {
 
 
       {/*Codigo modal insertar */}
-      {modalInsertarAbierto && (
+      { modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>

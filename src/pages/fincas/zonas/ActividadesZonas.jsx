@@ -1,8 +1,12 @@
 //iconos de las columnas
-import cultivoBlanco from '../../../assets/icons/cultivoBlanco.png'
-import cultivoAzul from '../../../assets/icons/cultivoAzul.png'
-import etapaBlanco from "../../../assets/icons/etapaBlanco.png"
+import cultivoBlanco from '../../../assets/icons/cultiva.png'
+import cultivoAzul from '../../../assets/icons/OpcionTabla.png'
+import etapaBlanco from "../../../assets/icons/etapaAzul.png"
+
 import ajustesBlanco from '../../../assets/icons/ajustesBlanco.png'
+
+import etapaAzul from "../../../assets/icons/etapaAzul.png"
+
 //iconos de las acciones
 import verActividad from '../../../assets/icons/sinFincas.png'
 import eliminarBlanco from '../../../assets/icons/eliminarBlanco.png'
@@ -100,9 +104,11 @@ function ActividadesZonas() {
 
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivoAzul  ,icon2:cultivoBlanco },
-        { key: "etapa", label: "Etapa", icon:cultivoAzul   ,icon2:etapaBlanco },
+        { key: "etapa", label: "Etapa", icon:etapaAzul   ,icon2:etapaBlanco },
+
         { key: "acciones", label: "Acciones", icon2: ajustesBlanco },
-    ];
+    ]
+
 
     // Handler general para actualizar el estado de la actividad
     const handleActividadChange = (e) => {

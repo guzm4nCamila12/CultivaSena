@@ -1,5 +1,11 @@
+//iconos de la columna
+import userWhite from "../../assets/icons/userWhite.png"
+import sensoresWhite from "../../assets/icons/sensorWhite.png";
+import alternoWhithe from "../../assets/icons/alternoWhite.png";
+import zonasWhite from "../../assets/icons/zonaWhite.png"
+import configWhite from "../../assets/icons/ajustesWhite.png";
 //iconos de la data
-import zonasIcon from "../../assets/icons/zonas.png"
+import zonasIcon from "../../assets/icons/zonaBlue.png"
 import alternoIcon from "../../assets/icons/alternoBlue.png";
 import sensorIcon from "../../assets/icons/sensorBlue.png";
 //iconos de las acciones
@@ -27,6 +33,7 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
+  const [nombreFincaEliminar,setNombreFincaEliminar] = useState();
 
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
@@ -50,23 +57,25 @@ export default function ListaFincas() {
         acctionSucessful.fire({
           imageUrl: UsuarioEliminado,
           imageAlt: 'Icono personalizado',
-          title: "¡Finca eliminada correctamente!"
+          title: `¡Finca: ${nombreFincaEliminar.nombre} eliminada correctamente!`
         });
       })
       .catch(console.error);
   };
 
   const abrirModalEliminar = (id) => {
+    const fincaPrev = fincas.find(fincas => fincas.id === id)
+    setNombreFincaEliminar(fincaPrev)
     setFincaEliminar(id);
     setModalEliminarAbierto(true);
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "sensores", label: "Sensores" },
-    { key: "alternos", label: "Alternos" },
-    { key: "zonas", label: "Zonas" },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre",icon2: userWhite },
+    { key: "sensores", label: "Sensores",icon2:sensoresWhite  },
+    { key: "alternos", label: "Alternos",icon2: alternoWhithe },
+    { key: "zonas", label: "Zonas",icon2: zonasWhite },
+    { key: "acciones", label: "Acciones",icon2: configWhite },
   ];
 
   const acciones = (fila) => (
@@ -159,7 +168,7 @@ export default function ListaFincas() {
                 <img src={ConfirmarEliminar} alt="Confirmar eliminar" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará la finca <strong className="text-red-600"> {nombreFincaEliminar.nombre}</strong>  de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

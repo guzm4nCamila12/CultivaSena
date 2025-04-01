@@ -1,3 +1,7 @@
+//iconos de las columnas
+import cultivoWhite from '../../../assets/icons/cultivoWhite.png'
+import cultivoBlue from '../../../assets/icons/cultivoBlue.png'
+import configWhite from '../../../assets/icons/ajustesWhite.png'
 //iconos de las acciones
 import viewWhite from '../../../assets/icons/sinFincas.png'
 import deleteWhite from '../../../assets/icons/deleteWhite.png'
@@ -94,9 +98,9 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo" },
-        { key: "etapa", label: "Etapa" },
-        { key: "acciones", label: "Acciones" },
+        { key: "cultivo", label: "Cultivo", icon: cultivoBlue  ,icon2:cultivoWhite },
+        { key: "etapa", label: "Etapa", icon:cultivoBlue   ,icon2:cultivoWhite },
+        { key: "acciones", label: "Acciones", icon2: configWhite },
     ];
 
     // Handler general para actualizar el estado de la actividad

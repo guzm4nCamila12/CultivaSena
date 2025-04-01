@@ -4,6 +4,12 @@ import { useParams } from 'react-router-dom';
 //iconos de las columnas
 import phoneBlue from "../../assets/icons/phoneBlue.png"
 import emailBlue from "../../assets/icons/emailBlue.png"
+
+import userWhite from "../../assets/icons/userWhite.png"
+import phoneWhite from "../../assets/icons/phoneWhite.png"
+import emailWhite from "../../assets/icons/emailWhite.png"
+import configWhite from "../../assets/icons/ajustesWhite.png"
+
 //iconos de las acciones
 import editWhite from "../../assets/icons/editWhite.png";
 import deletWhite from "../../assets/icons/deleteWhite.png";
@@ -38,6 +44,7 @@ const AlternosFinca = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [alternoEditado, setAlternoEditado] = useState()
+  const [alternoEliminar, setAlternoEliminar] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   //Efecto que carga los datos
@@ -62,10 +69,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "telefono", label: "Telefono", icon: phoneBlue },
-    { key: "correo", label: "Correo", icon: emailBlue },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre",icon2: userWhite },
+    { key: "telefono", label: "Telefono", icon: phoneBlue,icon2: phoneWhite  },
+    { key: "correo", label: "Correo", icon: emailBlue,icon2: emailWhite },
+    { key: "acciones", label: "Acciones",icon2: configWhite },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -164,7 +171,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno editado correctamente!"
+        title: `¡Alterno ${alternoEditado} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -180,12 +187,14 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno eliminado correctamente!"
+        title: `¡Alterno: ${alternoEliminar.nombre} eliminado correctamente!`
       });
     }).catch(console.error);
   }
 
   const abrirModalEliminar = (id) => {
+    const alternoPrev = usuarios.find(usuarios => usuarios.id === id)
+    setAlternoEliminar(alternoPrev)
     setUsuarioEliminar(id);
     setModalEliminarAbierto(true)
   }
@@ -287,7 +296,9 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno creado correctamente!"
+
+        title: `¡Alterno: ${nuevoUsuario.nombre} creado correctamente!`
+
       });
     }).catch(console.error);
   }
@@ -435,7 +446,7 @@ const AlternosFinca = () => {
                 </button>
                 <button type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>
@@ -453,7 +464,7 @@ const AlternosFinca = () => {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno <strong className="text-red-600">{alternoEliminar.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

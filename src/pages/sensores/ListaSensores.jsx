@@ -2,6 +2,13 @@
 import descripcionBlue from "../../assets/icons/descripcionBlue.png"
 import macBlue from "../../assets/icons/macBlue.png";
 import estadoBlue from "../../assets/icons/estadoBlue.png";
+
+import nombreWhite from "../../assets/icons/sensorWhite.png"
+import macWhite from "../../assets/icons/macWhite.png";
+import estadoWhite from "../../assets/icons/estadoWhite.png";
+import configWhite from "../../assets/icons/ajustesWhite.png";
+import zonaWhite from "../../assets/icons/zonaWhite.png";
+
 //icons de las acciones
 import editWhite from "../../assets/icons/editWhite.png"
 import viewWhite from "../../assets/icons/viewWhite.png"
@@ -9,7 +16,7 @@ import deleteWhite from "../../assets/icons/deleteWhite.png"
 //icons de los modales
 import userGray from "../../assets/icons/userGray.png";
 import descripcionWhite from "../../assets/icons/descripcionWhite.png";
-import zona from "../../assets/icons/zonas.png"
+import zona from "../../assets/icons/zonaBlue.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../assets/img/UsuarioCreado.png"
@@ -100,12 +107,12 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "mac", label: "MAC", icon: macBlue },
-    { key: "idzona", label: "Zona", icon: zona },
-    { key: "descripcion", label: "Descripción", icon: descripcionBlue },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon2:nombreWhite },
+    { key: "mac", label: "MAC", icon: macBlue, icon2:macWhite },
+    { key: "idzona", label: "Zona", icon: zona, icon2: zonaWhite },
+    { key: "descripcion", label: "Descripción", icon: descripcionBlue, icon2:descripcionWhite },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue, icon2:estadoWhite },
+    { key: "acciones", label: "Acciones", icon2:configWhite },
   ];
 
   const acciones = (fila) => (
@@ -239,6 +246,7 @@ function ActivarSensores() {
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
       title: "¡Sensor creado correctamente!"
+
     });
   };
 
@@ -250,7 +258,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor: ${editarSensor.nombre} editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
@@ -435,7 +443,7 @@ function ActivarSensores() {
       />
 
       {/*Codigo modal insertar */}
-      {modalInsertarAbierto && (
+      { modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Crear sensor</h5>

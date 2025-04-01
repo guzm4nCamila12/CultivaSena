@@ -69,6 +69,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                            bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 
                            rounded-[36px] cursor-pointer transition duration-300 
                            hover:shadow-md hover:shadow-black/25 hover:scale-95"
+<<<<<<< HEAD
             onClick={onAddUser}
           >
             <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
@@ -93,6 +94,33 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                 </div>
               </div>
             )}
+=======
+                onClick={onAddUser}
+              >
+                <span className="text-[#009E00] text-2xl font-semibold">Agregar</span>
+                <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
+                  <span className="text-white text-3xl font-bold">+</span>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Tarjeta de "Agregar Usuario" cuando hay datos */}
+                {mostrarAgregar && (
+                  <div
+                    className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center 
+                               bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 
+                               rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer transition duration-300 
+                               hover:shadow-md hover:shadow-black/25 hover:scale-95"
+                    onClick={onAddUser}
+                  >
+                    <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Agregar</span>
+                    <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
+                      <span className="text-white text-xl sm:text-3xl font-bold">+</span>
+                    </div>
+                  </div>
+                )}
+>>>>>>> 1c4048a3346013a7b18c7ed1ec5279dbe2980db4
+
                 {/* Tarjetas de usuario */}
                 {datosFiltrados.map((fila, index) => (
                   <div

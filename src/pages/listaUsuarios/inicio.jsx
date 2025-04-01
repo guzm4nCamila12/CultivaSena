@@ -5,6 +5,12 @@ import { Link } from "react-router-dom";
 import phoneBlue from "../../assets/icons/phoneBlue.png";
 import emailBlue from "../../assets/icons/emailBlue.png";
 import rolBlue from "../../assets/icons/rolBlue.png";
+
+import phoneWhite from "../../assets/icons/phoneWhite.png";
+import emailWhite from "../../assets/icons/emailWhite.png";
+import rolWhite from "../../assets/icons/rolWhite.png";
+import nombreWhite from "../../assets/icons/userWhite.png";
+import configWhite from "../../assets/icons/ajustesWhite.png"
 //iconos de las acciones
 import deletWhite from "../../assets/icons/deleteWhite.png";
 import editWhite from "../../assets/icons/editWhite.png";
@@ -40,8 +46,6 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  // Se inicializa la vista según localStorage (por defecto "tarjetas")
-  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjetas");
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
@@ -289,11 +293,11 @@ const Inicio = () => {
   // Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon: phoneBlue },
-    { key: "telefono", label: "Teléfono", icon: phoneBlue },
-    { key: "correo", label: "Correo", icon: emailBlue },
-    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon: phoneBlue, icon2:nombreWhite },
+    { key: "telefono", label: "Teléfono", icon: phoneBlue, icon2:phoneWhite },
+    { key: "correo", label: "Correo", icon: emailBlue, icon2:emailWhite },
+    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol, icon2:rolWhite },
+    { key: "acciones", label: "Acciones", icon2:configWhite },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila

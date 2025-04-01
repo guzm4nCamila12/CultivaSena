@@ -2,6 +2,13 @@
 import macBlue from "../../assets/icons/macBlue.png";
 import descripcionBlue from "../../assets/icons/descripcionBlue.png";
 import estadoBlue from "../../assets/icons/estadoBlue.png"
+
+import nombreWhite from "../../assets/icons/sensorWhite.png"
+import macWhite from "../../assets/icons/macWhite.png";
+import estadoWhite from "../../assets/icons/estadoWhite.png";
+import configWhite from "../../assets/icons/ajustesWhite.png";
+import descripcionWhite from "../../assets/icons/descripcionWhite.png";
+
 //iconos de las acciones
 import editWhite from "../../assets/icons/editWhite.png";
 import viewWhite from "../../assets/icons/viewWhite.png"
@@ -92,12 +99,13 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "mac", label: "MAC", icon: macBlue },
-    { key: "descripcion", label: "Descripción", icon: descripcionBlue },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon2:nombreWhite },
+    { key: "mac", label: "MAC", icon: macBlue, icon2:macWhite },
+    { key: "descripcion", label: "Descripción", icon: descripcionBlue, icon2:descripcionWhite },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue, icon2:estadoWhite },
+    { key: "acciones", label: "Acciones", icon2:configWhite },
   ];
+  
 
   //se trae el id del sensor para traerlo y editarlo
   const enviarForm = (id) => {

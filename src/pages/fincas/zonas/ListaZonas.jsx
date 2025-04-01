@@ -1,3 +1,10 @@
+// iconos de las columnas
+import nombreWhite from "../../../assets/icons/zonaWhite.png";
+import cantidadSensores from "../../../assets/icons/sensorWhite.png";
+import sensorWhite from "../../../assets/icons/sensorWhite.png";
+import actividadesWhite from "../../../assets/icons/actividadesWhite.png";
+import configWhite from "../../../assets/icons/ajustesWhite.png";
+
 // iconos de las acciones
 import editWhite from "../../../assets/icons/editWhite.png";
 import deletWhite from "../../../assets/icons/deleteWhite.png";
@@ -63,11 +70,11 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "cantidadSensores", label: "Cantidad sensores" },
-    { key: "verSensores", label: "Sensores" },
-    { key: "actividades", label: "Actividades" },
-    { key: "acciones", label: "Acciones" }
+    { key: "nombre", label: "Nombre",icon2:nombreWhite },
+    { key: "cantidadSensores", label: "Cantidad sensores",icon2:cantidadSensores },
+    { key: "verSensores", label: "Sensores",icon2:sensorWhite },
+    { key: "actividades", label: "Actividades",icon2:actividadesWhite },
+    { key: "acciones", label: "Acciones",icon2: configWhite }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -203,7 +210,7 @@ const Zonas = () => {
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesIcon} alt="Actividades" className="w-6 h-6" />
+            <img src={actividadesIcon} alt="Actividades" className="w-5 h-5" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -308,7 +315,7 @@ const Zonas = () => {
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">
-                Se eliminará la zona {zonaEliminar} de manera permanente.
+                Se eliminará la zona de manera permanente.
               </p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button

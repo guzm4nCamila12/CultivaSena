@@ -36,24 +36,21 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
 
   return (
     <div className="container mx-auto px-0 py-4">
-      <div className="w-full overflow-x-auto rounded-lg">
+      <div className="w-full overflow-x-auto overflow-y-auto max-h-[500px] pr-4 rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4">
           <thead>
             <tr className="text-white">
               {columnasAUsar.map((columna, index) => {
                 let borderClasses = "";
                 if (mostrarFotoPerfil) {
-                  // Si hay foto, la columna foto es la primera y se redondea a la izquierda.
                   if (columna.key === "fotoPerfil") {
                     borderClasses = "rounded-l-full";
                   }
                 } else {
-                  // Si no hay foto, la columna nombre se redondea a la izquierda.
-                  if (columna.key === "nombre") {
+                  if (columna.key === "nombre" || columna.key === "cultivo") {
                     borderClasses = "rounded-l-full";
                   }
                 }
-                // Para la última columna siempre se redondea a la derecha.
                 if (index === columnasAUsar.length - 1) {
                   borderClasses += " rounded-r-full";
                 }
@@ -62,10 +59,19 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                     key={index}
                     className={`p-2 md:p-3 text-left text-sm md:text-base ${borderClasses} border-t border-b border-gray-300 bg-[#00304D]`}
                   >
-                    <div className="flex items-center">
-                      <span className="flex-1">{columna.label}</span>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
+                        {columna.icon2 && (
+                          <img
+                            src={columna.icon2}
+                            alt={columna.label}
+                            className="mr-2"
+                          />
+                        )}
+                        <span>{columna.label}</span>
+                      </div>
                       {index !== columnasAUsar.length - 1 && columna.key !== "acciones" && (
-                        <div className="h-8 w-[1px] bg-gray-300"></div>
+                        <div className="h-8 w-[1px] bg-gray-300" />
                       )}
                     </div>
                   </th>
@@ -73,12 +79,14 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
               })}
             </tr>
           </thead>
+
+
           <tbody>
             {datosFiltrados.length > 0 ? (
               datosFiltrados.map((fila, index) => (
                 <tr key={fila.id || index}>
                   {mostrarFotoPerfil && (
-                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#EEEEEE] w-16">
+                    <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#ffffff] w-16">
                       <img
                         src={getRoleImage(fila.id_rol)}
                         alt="Foto de perfil"
@@ -88,18 +96,16 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                   )}
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
-                    if (!mostrarFotoPerfil && columna.key === "nombre") {
-                      // Cuando no hay foto, columna "nombre" redondea solo a la izquierda.
+                    if (!mostrarFotoPerfil && columna.key === "nombre" || !mostrarFotoPerfil && columna.key === "cultivo") {
                       borderClasses = "rounded-l-full";
                     }
-                    // La última columna siempre redondea a la derecha.
                     if (i === columnasSinFoto.length - 1) {
                       borderClasses += " rounded-r-full";
                     }
                     return (
                       <td
                         key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#EEEEEE]`}
+                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#ffffff]`}
                       >
                         <div className="flex items-center justify-start">
                           <span className="flex-1">
@@ -148,6 +154,7 @@ Tabla.propTypes = {
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
+      icon2: PropTypes.string,
     })
   ).isRequired,
   datos: PropTypes.array.isRequired,

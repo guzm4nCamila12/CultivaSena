@@ -1,6 +1,7 @@
 //iconos de las columnas
-import cultivoWhite from '../../../assets/icons/cultivoWhite.png'
+import cultivoWhite from '../../../assets/icons/Vector.png'
 import cultivoBlue from '../../../assets/icons/cultivoBlue.png'
+import etapaWhite from "../../../assets/icons/etapaWhite.png"
 import configWhite from '../../../assets/icons/ajustesWhite.png'
 //iconos de las acciones
 import viewWhite from '../../../assets/icons/sinFincas.png'
@@ -99,7 +100,7 @@ function ActividadesZonas() {
 
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivoBlue  ,icon2:cultivoWhite },
-        { key: "etapa", label: "Etapa", icon:cultivoBlue   ,icon2:cultivoWhite },
+        { key: "etapa", label: "Etapa", icon:cultivoBlue   ,icon2:etapaWhite },
         { key: "acciones", label: "Acciones", icon2: configWhite },
     ];
 

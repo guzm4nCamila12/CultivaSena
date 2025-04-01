@@ -8,11 +8,10 @@ import Navbar from "../../components/navbar";
 //icono del input
 import userGray from "../../assets/icons/userGray.png"
 //endpoints para consumir api
-import { insertarFinca } from "../../services/fincas/ApiFincas";
+import { crearFinca } from "../../services/fincas/ApiFincas";
 //importaciones necesarias de react
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-
 
 const Agregar = () => {
   //estados del id del usuario, nombre de la finca y ubicación
@@ -20,7 +19,6 @@ const Agregar = () => {
   const [nombre, setNombre] = useState("");
   const [ubicacion, setUbicacion] = useState({});
   const navigate = useNavigate();
-
   // Función para navegar a la página anterior
   const irAtras = () => {
     navigate(-1);
@@ -29,7 +27,6 @@ const Agregar = () => {
   // Maneja el envío del formulario con validación
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!nombre || !ubicacion.lat || !ubicacion.lng) {
       acctionSucessful.fire({
         imageUrl: altertaIcon,
@@ -37,20 +34,17 @@ const Agregar = () => {
       });
       return;
     }
-
-    const nuevaFinca = {
-      idUsuario: Number(id),
-      nombre,
-      ubicacion,
-    };
+    const nuevaFinca = { idUsuario: Number(id), nombre, ubicacion };
 
     try {
-      const response = await insertarFinca(nuevaFinca);
+
+      const response = await crearFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Finca: ${nombre} agregada correctamente!`
+        title: `¡Finca: ${nombre} creada correctamente!`
+
       });
       irAtras();
     } catch (error) {
@@ -63,14 +57,14 @@ const Agregar = () => {
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div style={{ fontFamily: "work sans" }}
         className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-2 md:mx-10 lg:mx-16 2xl:mx-36">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
               <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-                <h2 className="text-2xl sm:text-3xl font-semibold lg:pl-6">Agregar Finca</h2>
+                <h2 className="text-2xl sm:text-3xl font-semibold lg:pl-6">Crear finca</h2>
               </div>
               <div className="sm:pl-2 pr-4 flex justify-center items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12 xl: sm:rounded-full relative">
                 <input
@@ -86,12 +80,11 @@ const Agregar = () => {
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                     backgroundSize: '15px',
-                  }}
-                />
+                  }} />
                 <button
                   type="submit"
                   className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14  mr-10 sm:mr-0 font-extrabold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-[14px] sm:text-[18px] w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </div>
@@ -108,9 +101,6 @@ const Agregar = () => {
       </div>
     </div>
   );
-
-
-
 };
 
 export default Agregar;

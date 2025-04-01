@@ -1,5 +1,11 @@
+//iconos de la columna
+import userWhite from "../../assets/icons/userWhite.png"
+import sensoresWhite from "../../assets/icons/sensorWhite.png";
+import alternoWhithe from "../../assets/icons/alternoWhite.png";
+import zonasWhite from "../../assets/icons/zonaWhite.png"
+import configWhite from "../../assets/icons/ajustesWhite.png";
 //iconos de la data
-import zonasIcon from "../../assets/icons/zonas.png"
+import zonasIcon from "../../assets/icons/zonaBlue.png"
 import alternoIcon from "../../assets/icons/alternoBlue.png";
 import sensorIcon from "../../assets/icons/sensorBlue.png";
 //iconos de las acciones
@@ -65,11 +71,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "sensores", label: "Sensores" },
-    { key: "alternos", label: "Alternos" },
-    { key: "zonas", label: "Zonas"},
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre",icon2: userWhite },
+    { key: "sensores", label: "Sensores",icon2:sensoresWhite  },
+    { key: "alternos", label: "Alternos",icon2: alternoWhithe },
+    { key: "zonas", label: "Zonas",icon2: zonasWhite },
+    { key: "acciones", label: "Acciones",icon2: configWhite },
   ];
 
   const acciones = (fila) => (
@@ -131,7 +137,7 @@ export default function ListaFincas() {
             Ver
           </span>
         </button>
-    </Link>
+      </Link>
     )
   }));
 
@@ -144,24 +150,18 @@ export default function ListaFincas() {
   return (
     <div>
       <Navbar />
-      {/* El componente Opcion ya incluye la opción de cambiar la vista.
-          Su propiedad onChangeVista actualizará el estado y localStorage. */}
-
-      
-        <MostrarInfo
-          titulo={`Fincas de: ${usuario.nombre}`}
-          columnas={columnas}
-          datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
-          acciones={acciones}
-          onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
-          mostrarAgregar={true}
-        />
-    
-
+      <MostrarInfo
+        titulo={`Fincas de: ${usuario.nombre}`}
+        columnas={columnas}
+        datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
+        acciones={acciones}
+        onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
+        mostrarAgregar={true}
+      />
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar finca</h5>
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">
@@ -172,8 +172,7 @@ export default function ListaFincas() {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}
-                >
+                  onClick={() => setModalEliminarAbierto(false)}>
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" type="submit">

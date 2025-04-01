@@ -1,7 +1,8 @@
 //iconos de las columnas
-import cultivoWhite from '../../../assets/icons/Vector.png'
-import cultivoBlue from '../../../assets/icons/cultivoBlue.png'
-import etapaWhite from "../../../assets/icons/etapaWhite.png"
+import cultivoBlanco from '../../../assets/icons/cultivoBlanco.png'
+import cultivoAzul from '../../../assets/icons/cultivoAzul.png'
+import etapaBlanco from "../../../assets/icons/etapaBlanco.png"
+import etapaAzul from "../../../assets/icons/etapaAzul.png"
 import configWhite from '../../../assets/icons/ajustesWhite.png'
 //iconos de las acciones
 import viewWhite from '../../../assets/icons/sinFincas.png'
@@ -99,8 +100,8 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivoBlue  ,icon2:cultivoWhite },
-        { key: "etapa", label: "Etapa", icon:cultivoBlue   ,icon2:etapaWhite },
+        { key: "cultivo", label: "Cultivo", icon: cultivoAzul  ,icon2:cultivoBlanco },
+        { key: "etapa", label: "Etapa", icon:etapaAzul   ,icon2:etapaBlanco },
         { key: "acciones", label: "Acciones", icon2: configWhite },
     ];
 

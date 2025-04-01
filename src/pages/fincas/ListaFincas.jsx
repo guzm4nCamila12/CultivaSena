@@ -33,6 +33,7 @@ export default function ListaFincas() {
   const [fincaEliminar, setFincaEliminar] = useState(false);
   const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const idRol = Number(localStorage.getItem('rol'));
+  const [nombreFincaEliminar,setNombreFincaEliminar] = useState();
 
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
@@ -56,13 +57,15 @@ export default function ListaFincas() {
         acctionSucessful.fire({
           imageUrl: UsuarioEliminado,
           imageAlt: 'Icono personalizado',
-          title: "¡Finca eliminada correctamente!"
+          title: `¡Finca: ${nombreFincaEliminar.nombre} eliminada correctamente!`
         });
       })
       .catch(console.error);
   };
 
   const abrirModalEliminar = (id) => {
+    const fincaPrev = fincas.find(fincas => fincas.id === id)
+    setNombreFincaEliminar(fincaPrev)
     setFincaEliminar(id);
     setModalEliminarAbierto(true);
   };
@@ -165,7 +168,7 @@ export default function ListaFincas() {
                 <img src={ConfirmarEliminar} alt="Confirmar eliminar" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará la finca de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará la finca <strong className="text-red-600"> {nombreFincaEliminar.nombre}</strong>  de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

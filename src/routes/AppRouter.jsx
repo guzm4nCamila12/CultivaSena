@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
-
 import Inicio from "../pages/inicio/Inicio";
 import Login from '../pages/login/Login'
 import ListaUsuarios from '../pages/listaUsuarios/inicio'
@@ -14,7 +13,6 @@ import SensoresZona from "../pages/sensores/SensoresZonas"
 import ListaSensores from "../pages/sensores/ListaSensores";
 import VerDatoSensor from '../pages/sensores/VerDatoSensores'
 import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
-
 
 
 function AppRouter() {

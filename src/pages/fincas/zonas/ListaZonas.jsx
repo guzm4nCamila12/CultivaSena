@@ -210,7 +210,7 @@ const Zonas = () => {
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesIcon} alt="Actividades" className="w-6 h-6" />
+            <img src={actividadesIcon} alt="Actividades" className="w-5 h-5" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -315,7 +315,7 @@ const Zonas = () => {
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">
-                Se eliminará la zona {zonaEliminar} de manera permanente.
+                Se eliminará la zona de manera permanente.
               </p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button

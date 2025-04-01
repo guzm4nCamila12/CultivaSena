@@ -44,6 +44,7 @@ const AlternosFinca = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [alternoEditado, setAlternoEditado] = useState()
+  const [alternoEliminar, setAlternoEliminar] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   //Efecto que carga los datos
@@ -122,7 +123,9 @@ const AlternosFinca = () => {
       });
       return;
     }
+
     if (alternoEditado.nombre == editarUsuario.nombre && alternoEditado.telefono == editarUsuario.telefono && alternoEditado.correo == editarUsuario.correo) {
+
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono",
@@ -130,6 +133,7 @@ const AlternosFinca = () => {
       })
       return
     }
+
     if (!/[A-Z]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -170,7 +174,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno editado correctamente!"
+        title: `¡Alterno ${alternoEditado} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -186,12 +190,14 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno eliminado correctamente!"
+        title: `¡Alterno: ${alternoEliminar.nombre} eliminado correctamente!`
       });
     }).catch(console.error);
   }
 
   const abrirModalEliminar = (id) => {
+    const alternoPrev = usuarios.find(usuarios => usuarios.id === id)
+    setAlternoEliminar(alternoPrev)
     setUsuarioEliminar(id);
     setModalEliminarAbierto(true)
   }
@@ -293,7 +299,9 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno creado correctamente!"
+
+        title: `¡Alterno: ${nuevoUsuario.nombre} creado correctamente!`
+
       });
     }).catch(console.error);
   }
@@ -441,7 +449,7 @@ const AlternosFinca = () => {
                 </button>
                 <button type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>
@@ -459,7 +467,7 @@ const AlternosFinca = () => {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el alterno <strong className="text-red-600">{alternoEliminar.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

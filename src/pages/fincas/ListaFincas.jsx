@@ -161,7 +161,7 @@ export default function ListaFincas() {
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Finca</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar finca</h5>
             <hr />
             <form onSubmit={handleEliminarFinca}>
               <div className="flex justify-center my-2">

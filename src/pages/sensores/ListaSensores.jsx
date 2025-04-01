@@ -41,7 +41,7 @@ function ActivarSensores() {
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [usuario, setUsuario] = useState({});
-  const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
+  const [sensorEditar, setsensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -201,7 +201,7 @@ function ActivarSensores() {
 
 
   const abrirModalEditar = (sensor) => {
-    setEditarSensor(sensor);
+    setsensorEditar(sensor);
     setModalEditarAbierto(true);
   };
 
@@ -250,20 +250,17 @@ function ActivarSensores() {
     });
   };
 
- 
-
-
-  const handleEditarSensor = (e) => {
+  const handleSensorEditar = (e) => {
     e.preventDefault();
-    editarSensor(editarSensor.id, editarSensor).then((data) => {
+    editarSensor(sensorEditar.id, sensorEditar).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
-      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
+      const index = nuevosSensores.findIndex(sensor => sensor.id === sensorEditar.id); // Buscar el índice del sensor con el mismo id
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: `¡Sensor: ${editarSensor.nombre} editado correctamente!`
       });
-      nuevosSensores[index] = editarSensor;
+      nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
     })
     setModalEditarAbierto(false);
@@ -271,7 +268,7 @@ function ActivarSensores() {
 
   const handleChangeEditar = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
-    setEditarSensor({ ...editarSensor, [e.target.name]: value });
+    setsensorEditar({ ...sensorEditar, [e.target.name]: value });
   };
 
   const handleSwitch = async (id, estado, index) => {
@@ -345,7 +342,6 @@ function ActivarSensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
-
       editarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
@@ -385,7 +381,7 @@ function ActivarSensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Guardar y actualizar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -422,7 +418,7 @@ function ActivarSensores() {
           name="idzona"
           onChange={onChange}
           required>
-          <option value="">seleccionar zona </option>
+          <option value="">Seleccionar zona </option>
           <option value=""> Sin zona </option>
           {zonas.map((zona) => (
             <option key={zona.id} value={zona.id}>
@@ -493,14 +489,14 @@ function ActivarSensores() {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
-            <form onSubmit={handleEditarSensor}>
+            <form onSubmit={handleSensorEditar}>
               {asignarZona(handleChangeEditar)}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
-                  value={editarSensor.nombre}
+                  value={sensorEditar.nombre}
                   placeholder="Nombre"
                   type="text"
                   onChange={handleChangeEditar}
@@ -512,7 +508,7 @@ function ActivarSensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
-                  value={editarSensor.descripcion}
+                  value={sensorEditar.descripcion}
                   placeholder="Descripción"
                   onChange={handleChangeEditar}
                 />

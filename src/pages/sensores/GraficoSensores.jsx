@@ -8,7 +8,7 @@ export default function GraficoSensor({ datos }) {
   const maxValor = Math.ceil(Math.max(...datos.map((item) => item.valor)));  // Redondeamos hacia arriba el valor máximo
 
   return (
-    <div className="bg-[#EEEEEE] w-10/12 shadow-lg p-5 my-20 mx-20 rounded-xl">
+    <div className="bg-white w-10/12 shadow-lg p-5 my-20 mx-20 rounded-xl">
       <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
       {/* ResponsiveContainer asegura que el gráfico se ajuste bien en diferentes tamaños de pantalla */}
       <ResponsiveContainer width="95%" height={300}>

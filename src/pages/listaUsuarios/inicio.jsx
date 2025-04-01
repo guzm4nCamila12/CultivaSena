@@ -192,7 +192,7 @@ const Inicio = () => {
   };
 
   // Maneja el proceso de editar
-  const handleusuarioEditar = async (e) => {
+  const handleUsuarioEditar = async (e) => {
     e.preventDefault();
     if (!usuarioEditar.nombre || !usuarioEditar.telefono || !usuarioEditar.correo || !usuarioEditar.clave || !usuarioEditar.id_rol) {
       acctionSucessful.fire({
@@ -400,7 +400,7 @@ const Inicio = () => {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Crear Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Crear usuario</h5>
             <hr />
             <form onSubmit={handleCrearUsuario}>
               <div className="relative w-full mt-2">
@@ -462,7 +462,7 @@ const Inicio = () => {
                 <button
                   type="submit"
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </form>
@@ -474,9 +474,9 @@ const Inicio = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Editar usuario</h5>
             <hr />
-            <form onSubmit={handleusuarioEditar}>
+            <form onSubmit={handleUsuarioEditar}>
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
@@ -539,7 +539,7 @@ const Inicio = () => {
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Sin Fincas</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Sin fincas</h5>
             <hr />
             <form>
               <div className="flex justify-center my-4">
@@ -563,7 +563,7 @@ const Inicio = () => {
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>
               <div className="flex justify-center my-2">

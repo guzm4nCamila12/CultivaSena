@@ -318,7 +318,7 @@ function ActividadesZonas() {
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Registro de actividades</h5>
+                        <h5 className="text-2xl font-bold mb-4 text-center">Crear actividad</h5>
                         <hr />
                         <form onSubmit={handleCrearActividad}>
                             <div className="relative w-full mt-2">
@@ -416,7 +416,7 @@ function ActividadesZonas() {
                                 <button
                                     type="submit"
                                     className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl">
-                                    Registrar
+                                    Crear
                                 </button>
                             </div>
                         </form>
@@ -427,7 +427,7 @@ function ActividadesZonas() {
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Ver Actividad</h5>
+                        <h5 className="text-2xl font-bold mb-4 text-center">Ver actividad</h5>
                         <hr />
                         <form onSubmit={handleEditarActividad}>
                             <div className="relative w-full mt-2">
@@ -529,7 +529,7 @@ function ActividadesZonas() {
             {modalEliminarAbierto && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Actividad</h5>
+                        <h5 className="text-2xl font-bold mb-4 text-center">Eliminar actividad</h5>
                         <hr />
                         <form onSubmit={HandleEliminarActividad}>
                             <div className="flex justify-center my-2">

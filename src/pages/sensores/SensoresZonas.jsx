@@ -38,7 +38,7 @@ import { useParams, Link } from "react-router-dom";
 function Sensores() {
   //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales
   const [sensores, setSensores] = useState([]);
-  const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "" });
+  const [sensorEditar, setsensorEditar] = useState({ id: null, nombre: "", descripcion: "" });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [zonas, setZonas] = useState({})
@@ -151,9 +151,9 @@ function Sensores() {
     </div>
   );
 
-  //modal para editar, se guarda el sensor traido en el estado de editarSensor
+  //modal para editar, se guarda el sensor traido en el estado de sensorEditar
   const abrirModalEditar = (sensor) => {
-    setEditarSensor(sensor);
+    setsensorEditar(sensor);
     setModalEditarAbierto(true);
   };
 
@@ -200,25 +200,25 @@ function Sensores() {
   };
 
   //accion que ejecuta el modal editar para actualizar un sensor
-  const handleEditarSensor = (e) => {
+  const handlesensorEditar = (e) => {
     e.preventDefault();
-    editarSensor(editarSensor.id, editarSensor).then((data) => {
+    editarSensor(sensorEditar.id, sensorEditar).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
-      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id);
+      const index = nuevosSensores.findIndex(sensor => sensor.id === sensorEditar.id);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: "¡Sensor editado correctamente!"
       });
-      nuevosSensores[index] = editarSensor;
+      nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
     })
     setModalEditarAbierto(false);
   };
 
-  //ingresa datos de forma dinamica en el estado EditarSensor
+  //ingresa datos de forma dinamica en el estado sensorEditar
   const handleChangeEditar = (e) => {
-    setEditarSensor({ ...editarSensor, [e.target.name]: e.target.value });
+    setsensorEditar({ ...sensorEditar, [e.target.name]: e.target.value });
 
   };
 
@@ -331,7 +331,7 @@ function Sensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Guardar y actualizar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -445,14 +445,14 @@ function Sensores() {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
-            <form onSubmit={handleEditarSensor}>
+            <form onSubmit={handlesensorEditar}>
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
                   placeholder="Nombre"
-                  value={editarSensor.nombre}
+                  value={sensorEditar.nombre}
                   type="text"
                   onChange={handleChangeEditar} />
               </div>
@@ -463,7 +463,7 @@ function Sensores() {
                   type="text"
                   name="descripcion"
                   placeholder="Descripción"
-                  value={editarSensor.descripcion}
+                  value={sensorEditar.descripcion}
                   onChange={handleChangeEditar} />
               </div>
               <div className="flex gap-4 mt-4">

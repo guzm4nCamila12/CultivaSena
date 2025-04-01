@@ -38,7 +38,7 @@ const AlternosFinca = () => {
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
   const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
-  const [editarUsuario, setEditarUsuario] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+  const [usuarioEditar, setusuarioEditar] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
@@ -64,7 +64,7 @@ const AlternosFinca = () => {
 
   //Maneja el cambio de valores para editar un usuario
   const handleChangeEditar = (e) => {
-    setEditarUsuario({ ...editarUsuario, [e.target.name]: e.target.value });
+    setusuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value });
   };
 
   //Definicion de las columnas de la UseCards
@@ -78,7 +78,7 @@ const AlternosFinca = () => {
   //Abre el modal de edicion con los datos de ese usuario
   const HandleEditarAlterno = (alterno) => {
     const { "#": removed, ...edit } = alterno;
-    setEditarUsuario(edit);
+    setusuarioEditar(edit);
     setAlternoEditado(alterno)
     setModalEditarAbierto(true);
   }
@@ -86,7 +86,7 @@ const AlternosFinca = () => {
   //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = async (e) => {
     e.preventDefault();
-    if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
+    if (!usuarioEditar.nombre || !usuarioEditar.telefono || !usuarioEditar.correo || !usuarioEditar.clave || !usuarioEditar.id_rol) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
@@ -95,7 +95,7 @@ const AlternosFinca = () => {
       return;
     }
     // Validación del formato del correo
-    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
+    const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(usuarioEditar.correo);
     if (!correoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -105,7 +105,7 @@ const AlternosFinca = () => {
       return;
     }
     // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -115,7 +115,7 @@ const AlternosFinca = () => {
       return;
     }
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
-    if (editarUsuario.clave.length < 6) {
+    if (usuarioEditar.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
@@ -123,9 +123,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-
-    if (alternoEditado.nombre == editarUsuario.nombre && alternoEditado.telefono == editarUsuario.telefono && alternoEditado.correo == editarUsuario.correo) {
-
+    if (alternoEditado.nombre == usuarioEditar.nombre && alternoEditado.telefono == usuarioEditar.telefono && alternoEditado.correo == usuarioEditar.correo) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono",
@@ -133,8 +131,7 @@ const AlternosFinca = () => {
       })
       return
     }
-
-    if (!/[A-Z]/.test(editarUsuario.clave)) {
+    if (!/[A-Z]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -142,7 +139,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    if (!/[a-z]/.test(editarUsuario.clave)) {
+    if (!/[a-z]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -150,7 +147,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    if (!/[0-9]/.test(editarUsuario.clave)) {
+    if (!/[0-9]/.test(usuarioEditar.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -158,7 +155,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    if (editarUsuario.nombre.length < 6) {
+    if (usuarioEditar.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: 'Icono personalizado',
@@ -168,9 +165,9 @@ const AlternosFinca = () => {
     }
 
     //Realiza la actualizacion
-    editarUsuario(editarUsuario.id, editarUsuario).then(() => {
+    editarUsuario(usuarioEditar.id, usuarioEditar).then(() => {
       //Actualiza la lista de usuarios
-      setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
+      setUsuarios(usuarios.map(u => u.id === usuarioEditar.id ? usuarioEditar : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
@@ -350,7 +347,7 @@ const AlternosFinca = () => {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Agregar Alterno</h5>
+            <h5 className="text-xl font-semibold text-center mb-4">Crear alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
               {/* Campos del formulario para agregar un usuario */}
@@ -399,7 +396,7 @@ const AlternosFinca = () => {
                 </button>
                 <button type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </form>
@@ -410,7 +407,7 @@ const AlternosFinca = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar Alterno</h5>
+            <h5 className="text-xl font-semibold text-center mb-4">Editar alterno</h5>
             <hr />
             <form onSubmit={handleEditarAlterno}>
               {/* Campos del formulario para editar un usuario */}
@@ -418,7 +415,7 @@ const AlternosFinca = () => {
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.nombre}
+                  value={usuarioEditar.nombre}
                   type="text"
                   name="nombre"
                   onChange={handleChangeEditar} />
@@ -427,7 +424,7 @@ const AlternosFinca = () => {
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.telefono}
+                  value={usuarioEditar.telefono}
                   type="text"
                   name="telefono"
                   onChange={handleChangeEditar} />
@@ -436,7 +433,7 @@ const AlternosFinca = () => {
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarUsuario.correo}
+                  value={usuarioEditar.correo}
                   name="correo"
                   type="text"
                   onChange={handleChangeEditar} />
@@ -460,7 +457,7 @@ const AlternosFinca = () => {
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Alterno</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar alterno</h5>
             <hr />
             <form onSubmit={HandleEliminarAlterno}>
               <div className="flex justify-center my-2">

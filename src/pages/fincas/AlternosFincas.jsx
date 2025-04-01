@@ -192,7 +192,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno ${alternoEditado} editado correctamente!`
+        title: `¡Alterno: ${editarUsuario.nombre} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });

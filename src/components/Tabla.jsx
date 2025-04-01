@@ -47,7 +47,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                     borderClasses = "rounded-l-full";
                   }
                 } else {
-                  if (columna.key === "nombre" || columna.key === "cultivo") {
+                  if (columna.key === "nombre" || columna.key === "cultivo"|| columna.key === "#") {
                     borderClasses = "rounded-l-full";
                   }
                 }
@@ -96,7 +96,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                   )}
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
-                    if (!mostrarFotoPerfil && columna.key === "nombre" || !mostrarFotoPerfil && columna.key === "cultivo") {
+                    if (!mostrarFotoPerfil && columna.key === "nombre" || !mostrarFotoPerfil && columna.key === "cultivo"|| !mostrarFotoPerfil && columna.key === "#") {
                       borderClasses = "rounded-l-full";
                     }
                     if (i === columnasSinFoto.length - 1) {

@@ -103,7 +103,7 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivoAzul  ,icon2:cultivoBlanco },
+        { key: "cultivo", label: "Cultivo", icon: cultivoAzul   ,icon2:cultivoBlanco },
         { key: "etapa", label: "Etapa", icon:etapaAzul   ,icon2:etapaBlanco },
 
         { key: "acciones", label: "Acciones", icon2: ajustesBlanco },

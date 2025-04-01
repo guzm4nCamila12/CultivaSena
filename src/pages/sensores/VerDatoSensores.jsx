@@ -76,9 +76,9 @@ export default function VerSensores() {
 
   const columnas = [
     { key: "#", label: "#" },
-    { key: "fecha", label: "Fecha" },
-    { key: "hora", label: "Hora" },
-    { key: "valor", label: "Datos" }
+    { key: "fecha", label: "Fecha", icon2: fechaIcon },
+    { key: "hora", label: "Hora", icon2: horaIcon },
+    { key: "valor", label: "Datos", icon2: data }
   ];
 
   // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo
@@ -90,7 +90,7 @@ export default function VerSensores() {
   }));
 
   return (
-    <div className='bg-white'>
+    <div>
       <NavBar />
       {/* Filtrar datos por fecha */}
       {/* <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">

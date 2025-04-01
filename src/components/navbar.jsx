@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Gov from './gov';
 import BotonAtras from './botonAtras';
-import menuWhite from "../assets/icons/menuWhite.png";
+import menuBlanco from "../assets/icons/menuBlanco.png";
 import cultivaSena from "../assets/icons/cultiva.png";
 //Importamos el componente que tiene la funcionalidad de cerrar sesion
 import CerrarSesion from "./auth/logOut";
@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className='container mx-auto py-1 flex flex-row items-center'>
           {/* Icono de menú con rotación condicional */}
           <img
-            src={menuWhite}
+            src={menuBlanco}
             alt="Menu"
             className={`h-3 pr-2 cursor-pointer transition-transform duration-300 ease-in-out ${menuVisible ? 'rotate-90 mt-2' : ''}`}
             onClick={() => setMenuVisible(!menuVisible)} // Toggle visibility del modal}

@@ -1,28 +1,28 @@
 //iconos de las columnas
-import macBlue from "../../assets/icons/macBlue.png";
-import descripcionBlue from "../../assets/icons/descripcionBlue.png";
-import estadoBlue from "../../assets/icons/estadoBlue.png"
+import macAzul from "../../assets/icons/macAzul.png";
+import descripcionAzul from "../../assets/icons/descripcionAzul.png";
+import estadoAzul from "../../assets/icons/estadoAzul.png"
 
-import nombreWhite from "../../assets/icons/sensorWhite.png"
-import macWhite from "../../assets/icons/macWhite.png";
-import estadoWhite from "../../assets/icons/estadoWhite.png";
-import configWhite from "../../assets/icons/ajustesWhite.png";
-import descripcionWhite from "../../assets/icons/descripcionWhite.png";
+import sensorBlanco from "../../assets/icons/sensorBlanco.png"
+import macBlanco from "../../assets/icons/macBlanco.png";
+import estadoBlanco from "../../assets/icons/estadoBlanco.png";
+import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
+import descripcionBlanco from "../../assets/icons/descripcionBlanco.png";
 
 //iconos de las acciones
-import editWhite from "../../assets/icons/editWhite.png";
-import viewWhite from "../../assets/icons/viewWhite.png"
-import deletWhite from "../../assets/icons/deleteWhite.png";
+import editarBlanco from "../../assets/icons/editarBlanco.png";
+import verBlanco from "../../assets/icons/verBlanco.png"
+import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 //iconos de los modales
-import userGray from "../../assets/icons/userGray.png";
-import descripcionGray from "../../assets/icons/descripcionWhite.png";
+import userGray from "../../assets/icons/usuarioGris.png";
+import descripcionGray from "../../assets/icons/descripcionBlanco.png";
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 //imgs de los modales
-import ConfirmarEliminar from "../../assets/img/Eliminar.png"
-import usuarioCreado from "../../assets/img/UsuarioCreado.png"
-import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
+import ConfirmarEliminar from "../../assets/img/eliminar.png"
+import usuarioCreado from "../../assets/img/usuarioCreado.png"
+import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 //componentes reutilizados
 import MostrarInfo from "../../components/mostrarInfo";
 import NavBar from "../../components/navbar"
@@ -99,11 +99,11 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2:nombreWhite },
-    { key: "mac", label: "MAC", icon: macBlue, icon2:macWhite },
-    { key: "descripcion", label: "Descripción", icon: descripcionBlue, icon2:descripcionWhite },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue, icon2:estadoWhite },
-    { key: "acciones", label: "Acciones", icon2:configWhite },
+    { key: "nombre", label: "Nombre", icon2:sensorBlanco },
+    { key: "mac", label: "MAC", icon: macAzul, icon2:macBlanco },
+    { key: "descripcion", label: "Descripción", icon: descripcionAzul, icon2:descripcionBlanco },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoAzul, icon2:estadoBlanco },
+    { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
   ];
   
 
@@ -121,7 +121,7 @@ function Sensores() {
         <button
           className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
-          <img src={editWhite} alt="Editar" />
+          <img src={editarBlanco} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -131,7 +131,7 @@ function Sensores() {
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
             className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={viewWhite} alt="Ver" />
+            <img src={verBlanco} alt="Ver" />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -142,7 +142,7 @@ function Sensores() {
         <button
           className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={deletWhite} alt="Eliminar" />
+          <img src={eliminarBlanco} alt="Eliminar" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>

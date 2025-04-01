@@ -2,8 +2,8 @@ import { useState } from "react";
 // Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
 // Iconos utilizados en el buscador
-import search from "../assets/icons/search.png";
-import microphone from "../assets/icons/Microphone.png";
+import buscarAzul from "../assets/icons/buscarAzul.png";
+import microfonoBlanco from "../assets/icons/microfonoBlanco.png";
 import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
@@ -27,7 +27,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-2xl font-semibold ml-[1.8%]">{titulo}</h1>
         <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
-          <img src={search} alt="Buscar" className="absolute left-3" />
+          <img src={buscarAzul} alt="Buscar" className="absolute left-3" />
           <input
             type="text"
             placeholder="Buscar"
@@ -36,7 +36,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
           />
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
-            <img src={microphone} alt="Micrófono" />
+            <img src={microfonoBlanco} alt="microfonoBlanco" />
           </button>
         </div>
         <Opcion onChangeVista={handleVistaChange} />

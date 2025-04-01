@@ -5,6 +5,12 @@ import { Link } from "react-router-dom";
 import phoneBlue from "../../assets/icons/phoneBlue.png";
 import emailBlue from "../../assets/icons/emailBlue.png";
 import rolBlue from "../../assets/icons/rolBlue.png";
+
+import phoneWhite from "../../assets/icons/phoneWhite.png";
+import emailWhite from "../../assets/icons/emailWhite.png";
+import rolWhite from "../../assets/icons/rolWhite.png";
+import nombreWhite from "../../assets/icons/userWhite.png";
+import configWhite from "../../assets/icons/ajustesWhite.png"
 //iconos de las acciones
 import deletWhite from "../../assets/icons/deleteWhite.png";
 import editWhite from "../../assets/icons/editWhite.png";
@@ -28,7 +34,7 @@ import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png";
 import fotoPerfil from "../../assets/img/PerfilSuperAdmin.png";
 import Alerta from "../../assets/img/Alert.png";
 //endpoints para consumir api
-import { actualizarUsuario, eliminarUsuario, getUsuarios, insertarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
+import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estados para gestionar los usuarios y formularios
@@ -66,7 +72,7 @@ const Inicio = () => {
   };
 
   // Maneja el proceso de agregar un usuario
-  const handleInsertar = async (e) => {
+  const handleCrearUsuario = async (e) => {
     e.preventDefault();
     if (!nuevoUsuario.nombre || !nuevoUsuario.telefono || !nuevoUsuario.correo || !nuevoUsuario.clave || !nuevoUsuario.id_rol) {
       acctionSucessful.fire({
@@ -87,7 +93,7 @@ const Inicio = () => {
       return;
     }
     const telefonoExistente = await verificarExistenciaTelefono(nuevoUsuario.telefono);
-    if(telefonoExistente) {
+    if (telefonoExistente) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -132,7 +138,6 @@ const Inicio = () => {
       });
       return;
     }
-
     if (!/[a-z]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -141,7 +146,6 @@ const Inicio = () => {
       });
       return;
     }
-
     if (!/[0-9]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -166,14 +170,14 @@ const Inicio = () => {
       id_rol: Number(nuevoUsuario.id_rol)
     };
     try {
-      const data = await insertarUsuario(nuevo);
+      const data = await crearUsuario(nuevo);
       if (data) {
         setUsuarios([...usuarios, data]);
         setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: "Icono personalizado",
-          title: "¡Usuario agregado correctamente!"
+          title: "¡Usuario creado correctamente!"
         });
       }
       setModalInsertarAbierto(false);
@@ -188,31 +192,13 @@ const Inicio = () => {
   };
 
   // Maneja el proceso de editar
-  const handleEditar = async (e) => {
+  const handleEditarUsuario = async (e) => {
     e.preventDefault();
     if (!editarUsuario.nombre || !editarUsuario.telefono || !editarUsuario.correo || !editarUsuario.clave || !editarUsuario.id_rol) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
         title: "¡Por favor, complete todos los campos!"
-      });
-      return;
-    }
-    const correoExistente = await verificarExistenciaCorreo(editarUsuario.correo);
-    if (correoExistente) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡El correo ya existe!"
-      });
-      return;
-    }
-    const telefonoExistente = await verificarExistenciaTelefono(editarUsuario.telefono);
-    if(telefonoExistente) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡El teléfono ya existe!"
       });
       return;
     }
@@ -250,7 +236,6 @@ const Inicio = () => {
       });
       return;
     }
-
     if (!/[a-z]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -259,7 +244,6 @@ const Inicio = () => {
       });
       return;
     }
-
     if (!/[0-9]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -277,7 +261,7 @@ const Inicio = () => {
       return;
     }
     try {
-      await actualizarUsuario(Number(editarUsuario.id), editarUsuario);
+      await editarUsuario(Number(editarUsuario.id), editarUsuario);
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
@@ -309,11 +293,11 @@ const Inicio = () => {
   // Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon: phoneBlue },
-    { key: "telefono", label: "Teléfono", icon: phoneBlue },
-    { key: "correo", label: "Correo", icon: emailBlue },
-    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon: phoneBlue, icon2:nombreWhite },
+    { key: "telefono", label: "Teléfono", icon: phoneBlue, icon2:phoneWhite },
+    { key: "correo", label: "Correo", icon: emailBlue, icon2:emailWhite },
+    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol, icon2:rolWhite },
+    { key: "acciones", label: "Acciones", icon2:configWhite },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila
@@ -323,8 +307,7 @@ const Inicio = () => {
         <div className="relative group">
           <button
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-            onClick={() => abrirModalEditar(fila)}
-          >
+            onClick={() => abrirModalEditar(fila)}>
             <img src={editWhite} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -335,8 +318,7 @@ const Inicio = () => {
           <div className="relative group">
             <button
               onClick={() => setModalSinFincasAbierto(true)}
-              className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-            >
+              className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
               <img src={sinFincas} alt="Ver" />
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -359,8 +341,7 @@ const Inicio = () => {
         <div className="relative group">
           <button
             onClick={() => abrirModalEliminar(fila.id)}
-            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          >
+            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={deletWhite} alt="Eliminar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -406,12 +387,8 @@ const Inicio = () => {
   return (
     <div>
       <NavBar />
-      {/* Se renderiza la vista según lo que traiga en localStorage:
-          Si vistaActiva es "tabla", se muestra el componente Tabla;
-          de lo contrario, se muestra UserCards */}
-
       <MostrarInfo
-        titulo="Usuarios Registrados"
+        titulo="Usuarios registrados"
         columnas={columnas}
         datos={usuarios.map((u) => ({ ...u, id_rol: obtenerRol(u.id_rol) }))}
         acciones={acciones}
@@ -419,14 +396,13 @@ const Inicio = () => {
         mostrarAgregar={true}
       />
 
-
       {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Agregar Usuario</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Crear Usuario</h5>
             <hr />
-            <form onSubmit={handleInsertar}>
+            <form onSubmit={handleCrearUsuario}>
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -435,8 +411,7 @@ const Inicio = () => {
                   name="nombre"
                   placeholder="Nombre"
                   required
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -445,8 +420,7 @@ const Inicio = () => {
                   type="text"
                   name="telefono"
                   placeholder="Teléfono"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -455,8 +429,7 @@ const Inicio = () => {
                   type="text"
                   name="correo"
                   placeholder="Correo"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -465,8 +438,7 @@ const Inicio = () => {
                   type="text"
                   name="clave"
                   placeholder="Clave"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={rolGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -475,8 +447,7 @@ const Inicio = () => {
                   name="id_rol"
                   value={nuevoUsuario.id_rol}
                   onChange={handleChange}
-                  required
-                >
+                  required>
                   <option value=""> ID Rol </option>
                   <option value="1">Super Admin</option>
                   <option value="2">Administrador</option>
@@ -485,14 +456,12 @@ const Inicio = () => {
               <div className="flex gap-4 mt-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalInsertarAbierto(false)}
-                >
+                  onClick={() => setModalInsertarAbierto(false)}>
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                >
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Agregar
                 </button>
               </div>
@@ -507,7 +476,7 @@ const Inicio = () => {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Editar Usuario</h5>
             <hr />
-            <form onSubmit={handleEditar}>
+            <form onSubmit={handleEditarUsuario}>
               <div className="relative w-full mt-2">
                 <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
@@ -516,8 +485,7 @@ const Inicio = () => {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
@@ -527,8 +495,7 @@ const Inicio = () => {
                   type="text"
                   name="telefono"
                   placeholder="Teléfono"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
@@ -538,8 +505,7 @@ const Inicio = () => {
                   type="text"
                   name="correo"
                   placeholder="Correo electrónico"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
@@ -549,21 +515,18 @@ const Inicio = () => {
                   type="text"
                   name="clave"
                   placeholder="Clave"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="flex gap-4 mt-4">
                 <button
                   type="button"
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEditarAbierto(false)}
-                >
+                  onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                >
+                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                   Editar
                 </button>
               </div>
@@ -587,8 +550,7 @@ const Inicio = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalSinFincasAbierto(false)}
-                >
+                  onClick={() => setModalSinFincasAbierto(false)}>
                   Aceptar
                 </button>
               </div>
@@ -612,8 +574,7 @@ const Inicio = () => {
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}
-                >
+                  onClick={() => setModalEliminarAbierto(false)}>
                   Cancelar
                 </button>
                 <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">

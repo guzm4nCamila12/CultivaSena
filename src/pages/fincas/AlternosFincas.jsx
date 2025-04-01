@@ -1,10 +1,15 @@
-
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
 import phoneBlue from "../../assets/icons/phoneBlue.png"
 import emailBlue from "../../assets/icons/emailBlue.png"
+
+import userWhite from "../../assets/icons/userWhite.png"
+import phoneWhite from "../../assets/icons/phoneWhite.png"
+import emailWhite from "../../assets/icons/emailWhite.png"
+import configWhite from "../../assets/icons/ajustesWhite.png"
+
 //iconos de las acciones
 import editWhite from "../../assets/icons/editWhite.png";
 import deletWhite from "../../assets/icons/deleteWhite.png";
@@ -23,10 +28,10 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
 import Navbar from "../../components/navbar";
 //endpoints para consumir api
-import { getUsuarioByIdRol, eliminarUsuario, insertarUsuario, actualizarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
+import { getUsuarioByIdRol, eliminarUsuario, crearUsuario, editarUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 
-const Inicio = () => {
+const AlternosFinca = () => {
   //Obtiene el ID de la URL 
   const { id } = useParams();
   //Estado para almacenar los datos
@@ -40,8 +45,7 @@ const Inicio = () => {
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [alternoEditado, setAlternoEditado] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
-    const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
-
+  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   //Efecto que carga los datos
   useEffect(() => {
     //Obtiene los usuarios con el rol asociado al ID
@@ -64,10 +68,10 @@ const Inicio = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre" },
-    { key: "telefono", label: "Telefono", icon: phoneBlue },
-    { key: "correo", label: "Correo", icon: emailBlue },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre",icon2: userWhite },
+    { key: "telefono", label: "Telefono", icon: phoneBlue,icon2: phoneWhite  },
+    { key: "correo", label: "Correo", icon: emailBlue,icon2: emailWhite },
+    { key: "acciones", label: "Acciones",icon2: configWhite },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -89,24 +93,6 @@ const Inicio = () => {
       });
       return;
     }
-    const correoExistente = await verificarExistenciaCorreo(editarUsuario.correo);
-    if (correoExistente) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡El correo ya existe!"
-      });
-      return;
-    }
-    const telefonoExistente = await verificarExistenciaTelefono(editarUsuario.telefono);
-    if(telefonoExistente) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡El teléfono ya existe!"
-      });
-      return;
-    }
     // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(editarUsuario.correo);
     if (!correoValido) {
@@ -117,7 +103,6 @@ const Inicio = () => {
       });
       return;
     }
-
     // Validación del teléfono (puedes adaptarlo al formato que necesites)
     const telefonoValido = /^\d{10}$/.test(editarUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
@@ -128,7 +113,6 @@ const Inicio = () => {
       });
       return;
     }
-
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (editarUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -138,11 +122,11 @@ const Inicio = () => {
       });
       return;
     }
-    if(alternoEditado.nombre == editarUsuario.nombre && alternoEditado.telefono == editarUsuario.telefono && alternoEditado.correo == editarUsuario.correo){
+    if (alternoEditado.nombre == editarUsuario.nombre && alternoEditado.telefono == editarUsuario.telefono && alternoEditado.correo == editarUsuario.correo) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono",
-        title: "¡No se modificó la informacion del alterno"
+        title: "¡No se modificó la información del alterno"
       })
       return
     }
@@ -154,7 +138,6 @@ const Inicio = () => {
       });
       return;
     }
-    
     if (!/[a-z]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -163,7 +146,6 @@ const Inicio = () => {
       });
       return;
     }
-    
     if (!/[0-9]/.test(editarUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -171,8 +153,7 @@ const Inicio = () => {
         title: "¡La clave debe tener al menos un número!"
       });
       return;
-    }  
-
+    }
     if (editarUsuario.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -183,7 +164,7 @@ const Inicio = () => {
     }
 
     //Realiza la actualizacion
-    actualizarUsuario(editarUsuario.id, editarUsuario).then(() => {
+    editarUsuario(editarUsuario.id, editarUsuario).then(() => {
       //Actualiza la lista de usuarios
       setUsuarios(usuarios.map(u => u.id === editarUsuario.id ? editarUsuario : u));
       acctionSucessful.fire({
@@ -196,7 +177,7 @@ const Inicio = () => {
   };
 
   //Maneja la eliminacion de un usuario
-  const HandlEliminarAlterno = (e) => {
+  const HandleEliminarAlterno = (e) => {
     e.preventDefault();
     //Elimina el usuario
     eliminarUsuario(usuarioEliminar).then(() => {
@@ -236,7 +217,7 @@ const Inicio = () => {
       return;
     }
     const telefonoExistente = await verificarExistenciaTelefono(nuevoUsuario.telefono);
-    if(telefonoExistente) {
+    if (telefonoExistente) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -254,7 +235,6 @@ const Inicio = () => {
       });
       return;
     }
-
     // Validación del teléfono (puedes adaptarlo al formato que necesites)
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
     if (!telefonoValido) {
@@ -265,7 +245,6 @@ const Inicio = () => {
       });
       return;
     }
-
     // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
@@ -283,7 +262,6 @@ const Inicio = () => {
       });
       return;
     }
-    
     if (!/[a-z]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -292,7 +270,6 @@ const Inicio = () => {
       });
       return;
     }
-    
     if (!/[0-9]/.test(nuevoUsuario.clave)) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -300,8 +277,7 @@ const Inicio = () => {
         title: "¡La clave debe tener al menos un número!"
       });
       return;
-    }  
-
+    }
     if (nuevoUsuario.nombre.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -311,13 +287,13 @@ const Inicio = () => {
       return;
     }
     //Inserta el nuevo usuario
-    insertarUsuario(nuevoUsuario).then((data) => {
+    crearUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Alterno agregado correctamente!"
+        title: "¡Alterno creado correctamente!"
       });
     }).catch(console.error);
   }
@@ -328,8 +304,7 @@ const Inicio = () => {
       <div className="relative group">
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => HandleEditarAlterno(fila)}
-        >
+          onClick={() => HandleEditarAlterno(fila)}>
           <img src={editWhite} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -339,8 +314,7 @@ const Inicio = () => {
       <div className="relative group">
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => abrirModalEliminar(fila.id)}
-        >
+          onClick={() => abrirModalEliminar(fila.id)}>
           <img src={deletWhite} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -357,17 +331,14 @@ const Inicio = () => {
   return (
     <div >
       <Navbar />
-      {/* Se renderiza la vista según lo que traiga en localStorage:
-                Si vistaActiva es "tabla", se muestra el componente Tabla;
-                de lo contrario, se muestra UserCards */}
       <MostrarInfo
-          titulo={`Alternos de la finca: ${fincas.nombre}`}
-          columnas={columnas}
-          datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
-          acciones={acciones}
-          onAddUser={() => setModalInsertarAbierto(true)}
-          mostrarAgregar={true}
-        />
+        titulo={`Alternos de la finca: ${fincas.nombre}`}
+        columnas={columnas}
+        datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
+        acciones={acciones}
+        onAddUser={() => setModalInsertarAbierto(true)}
+        mostrarAgregar={true}
+      />
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -383,8 +354,7 @@ const Inicio = () => {
                   name="nombre"
                   placeholder="Nombre"
                   required
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -393,8 +363,7 @@ const Inicio = () => {
                   type="text"
                   name="telefono"
                   placeholder="Telefono"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -403,8 +372,7 @@ const Inicio = () => {
                   type="text"
                   name="correo"
                   placeholder="Correo"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -413,8 +381,7 @@ const Inicio = () => {
                   type="text"
                   name="clave"
                   placeholder="Clave"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="flex justify-end mt-4">
                 <button
@@ -446,8 +413,7 @@ const Inicio = () => {
                   value={editarUsuario.nombre}
                   type="text"
                   name="nombre"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -456,8 +422,7 @@ const Inicio = () => {
                   value={editarUsuario.telefono}
                   type="text"
                   name="telefono"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -466,8 +431,7 @@ const Inicio = () => {
                   value={editarUsuario.correo}
                   name="correo"
                   type="text"
-                  onChange={handleChangeEditar}
-                />
+                  onChange={handleChangeEditar} />
               </div>
               <div className="flex justify-end mt-4">
                 <button type="button"
@@ -490,7 +454,7 @@ const Inicio = () => {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar Alterno</h5>
             <hr />
-            <form onSubmit={HandlEliminarAlterno}>
+            <form onSubmit={HandleEliminarAlterno}>
               <div className="flex justify-center my-2">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
@@ -515,4 +479,4 @@ const Inicio = () => {
   );
 };
 
-export default Inicio;
+export default AlternosFinca;

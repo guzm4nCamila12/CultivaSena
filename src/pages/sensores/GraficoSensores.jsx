@@ -10,26 +10,25 @@ export default function GraficoSensor({ datos }) {
   return (
     <div className="bg-[#EEEEEE] w-10/12 shadow-lg p-5 my-20 mx-20 rounded-xl">
       <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
-      
       {/* ResponsiveContainer asegura que el gráfico se ajuste bien en diferentes tamaños de pantalla */}
       <ResponsiveContainer width="95%" height={300}>
         {/* LineChart es el componente principal para dibujar un gráfico de líneas */}
         <LineChart data={datos}>
           {/* CartesianGrid agrega una cuadrícula en el fondo del gráfico */}
           <CartesianGrid strokeDasharray="3 3" />
-          
+
           {/* XAxis es el eje horizontal, que usa la propiedad "fecha" de los datos */}
           <XAxis dataKey="fecha" />
-          
+
           {/* YAxis es el eje vertical, cuyo dominio (rango) se ajusta dinámicamente en función de los valores calculados */}
           <YAxis domain={[minValor - 1, maxValor + 1]} />
-          
+
           {/* Tooltip muestra información detallada al pasar el cursor sobre el gráfico */}
           <Tooltip />
-          
+
           {/* Legend agrega una leyenda para identificar qué línea representa qué dato */}
           <Legend />
-          
+
           {/* Línea principal del gráfico que muestra el valor de los sensores. Se personaliza con color y tamaño de los puntos */}
           <Line type="monotone" dataKey="valor" stroke="#3CB23C" strokeWidth={2} dot={{ r: 5 }} />
         </LineChart>

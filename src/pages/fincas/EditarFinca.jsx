@@ -4,7 +4,7 @@ import alertaIcon from "../../assets/img/Alert.png"
 //icono del input
 import userGray from "../../assets/icons/userGray.png"
 //endpoints para consumir api
-import { actualizarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
+import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
 import Mapa from "../../components/Mapa";
 import Navbar from "../../components/navbar"
@@ -13,18 +13,15 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 
-
 export default function EditarFinca() {
   //Obtener el ID de la URL
   const { id } = useParams();
-  
   //Declaracion de los estados que gestionan los valores
   const [nombreFinca, setNombreFinca] = useState("");
   const [fincas, setFincas] = useState({});
   const [ubicacion, setUbicacion] = useState(null);  // Asegúrate de que la ubicación es inicializada correctamente
   const [originalFinca, setOriginalFinca] = useState({});
   const navigate = useNavigate();
-
   //Funcion para navegar hacia atras 
   const irAtras = () => {
     navigate(-1);
@@ -46,20 +43,17 @@ export default function EditarFinca() {
   //Funcion que maneja el envio del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-
     //Compara si los valores son diferentes a los datos originales
     const nombreModificado = nombreFinca !== originalFinca.nombre;
     const ubicacionModificada = JSON.stringify(ubicacion) !== JSON.stringify(originalFinca.ubicacion);
-
     //Si no se ha modificado algun dato muestra un mensaje de alerta
     if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
-        imageUrl : alertaIcon,
+        imageUrl: alertaIcon,
         title: `No se modificó la información de la finca ${nombreFinca}`,
       });
       return
     }
-
     //Datos para actualizar la finca
     const fincaActualizada = {
       nombre: nombreFinca,
@@ -69,11 +63,11 @@ export default function EditarFinca() {
 
     try {
       //Intenta actualizar la finca
-      actualizarFinca(id, fincaActualizada)
+      editarFinca(id, fincaActualizada)
         .then(() => {
           acctionSucessful.fire({
             imageUrl: usuarioCreado,
-            title: `¡Finca ${fincaActualizada.nombre} actualizada correctamente!`,
+            title: `¡Finca ${fincaActualizada.nombre} editada correctamente!`,
           });
           irAtras();
         })
@@ -91,8 +85,7 @@ export default function EditarFinca() {
 
   return (
     <div>
-      {/* Componente de Barra de navegación */}
-      <Navbar></Navbar>
+      <Navbar />
       <div style={{ fontFamily: "work sans" }}
         className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
@@ -115,8 +108,7 @@ export default function EditarFinca() {
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                     backgroundSize: '15px',
-                  }}
-                />
+                  }} />
                 <button
                   type="submit"
                   className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14  mr-10 sm:mr-0 font-extrabold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-[14px] sm:text-[18px] w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none">
@@ -128,7 +120,7 @@ export default function EditarFinca() {
           <div className="m-0  rounded-b-3xl pt-24 sm:pt-3">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
-              <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />  
+              <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />
             ) : (
               <p className="text-gray-600">Cargando mapa...</p>
             )}

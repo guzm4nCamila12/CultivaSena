@@ -2,13 +2,11 @@
 import macAzul from "../../assets/icons/macAzul.png";
 import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import estadoAzul from "../../assets/icons/estadoAzul.png"
-
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
 import macBlanco from "../../assets/icons/macBlanco.png";
 import estadoBlanco from "../../assets/icons/estadoBlanco.png";
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
 import descripcionBlanco from "../../assets/icons/descripcionBlanco.png";
-
 //iconos de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png";
 import verBlanco from "../../assets/icons/verBlanco.png"

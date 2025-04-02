@@ -1,19 +1,17 @@
 //iconos de las columnas
 import descripcionAzul from "../../assets/icons/descripcionAzul.png"
-import macAzul from "../../assets/icons/macAzul.png";
-import estadoAzul from "../../assets/icons/estadoAzul.png";
+import descripcion from "../../assets/icons/descripcion.png"
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
-import macBlanco from "../../assets/icons/macBlanco.png";
-import estadoBlanco from "../../assets/icons/estadoBlanco.png";
+import mac from "../../assets/icons/mac.png";
+import sensorEstado from "../../assets/icons/estado.png";
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
-import zonaBlanco from "../../assets/icons/zonaBlanco.png";
+import zonaSensor from "../../assets/icons/zonas.png";
 //icons de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png"
 import verBlanco from "../../assets/icons/verBlanco.png"
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png"
 //icons de los modales
-import userGray from "../../assets/icons/usuarioGris.png";
-import descripcionWhite from "../../assets/icons/descripcionBlanco.png";
+import nombreSensor from "../../assets/icons/usuarioAzul.png";
 import zona from "../../assets/icons/zonaAzul.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
@@ -105,11 +103,11 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2:sensorBlanco },
-    { key: "mac", label: "MAC", icon: macAzul, icon2:macBlanco },
-    { key: "idzona", label: "Zona", icon: zona, icon2: zonaBlanco },
-    { key: "descripcion", label: "Descripción", icon: descripcionAzul, icon2:descripcionWhite },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoAzul, icon2:estadoBlanco },
+    { key: "nombre", label: "Nombre", icon:sensorBlanco },
+    { key: "mac", label: "MAC", icon: mac },
+    { key: "idzona", label: "Zona", icon: zonaSensor },
+    { key: "descripcion", label: "Descripción", icon: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado },
     { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
   ];
 
@@ -449,7 +447,7 @@ function ActivarSensores() {
             <form onSubmit={handleSubmit}>
               {asignarZona(handleChange)}
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreSensor} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -459,7 +457,7 @@ function ActivarSensores() {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={descripcionWhite} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -490,7 +488,7 @@ function ActivarSensores() {
             <form onSubmit={handleSensorEditar}>
               {asignarZona(handleChangeEditar)}
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreSensor} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
@@ -501,7 +499,7 @@ function ActivarSensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={descripcionWhite} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"

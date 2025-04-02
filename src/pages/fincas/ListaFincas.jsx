@@ -1,13 +1,10 @@
 //iconos de la columna
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
-import sensorBlanco from "../../assets/icons/sensorBlanco.png";
-import alternoBlanco from "../../assets/icons/alternoBlanco.png";
-import zonaBlanco from "../../assets/icons/zonaBlanco.png"
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
 //iconos de la data
-import zonaAzul from "../../assets/icons/zonas.png"
-import alternoAzul from "../../assets/icons/alternos.png";
-import sensorAzul from "../../assets/icons/sensores.png";
+import zonas from "../../assets/icons/zonas.png"
+import alternos from "../../assets/icons/alternos.png";
+import sensores from "../../assets/icons/sensores.png";
 //iconos de las acciones
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 import editarBlanco from "../../assets/icons/editarBlanco.png";
@@ -71,11 +68,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2: usuarioBlanco },
-    { key: "sensores", label: "Sensores",icon:sensorAzul  , icon2:sensorBlanco  },
-    { key: "alternos", label: "Alternos",icon:alternoAzul  , icon2: alternoBlanco },
-    { key: "zonas", label: "Zonas",icon: zonaAzul , icon2: zonaBlanco },
-    { key: "acciones", label: "Acciones",icon2: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon: usuarioBlanco },
+    { key: "sensores", label: "Sensores",icon:sensores },
+    { key: "alternos", label: "Alternos",icon:alternos },
+    { key: "zonas", label: "Zonas",icon: zonas },
+    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
   ];
 
   const acciones = (fila) => (
@@ -107,7 +104,7 @@ export default function ListaFincas() {
       <Link to={`/activar-sensores/${id}/${finca.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorAzul} alt="Sensores" />
+            <img src={sensores} alt="Sensores" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -119,7 +116,7 @@ export default function ListaFincas() {
       <Link to={`/alternos/${finca.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={alternoAzul} alt="Alternos" />
+            <img src={alternos} alt="Alternos" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -131,7 +128,7 @@ export default function ListaFincas() {
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={zonaAzul} alt="Zonas" />
+            <img src={zonas} alt="Zonas" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver

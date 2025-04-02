@@ -2,7 +2,7 @@
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
-import fincaNombre from "../../assets/icons/usuarioGris.png"
+import fincaNombre from "../../assets/icons/usuarioAzul.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
@@ -111,7 +111,6 @@ export default function EditarFinca() {
                     backgroundImage: `url(${fincaNombre})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                    backgroundSize: '20px',
                   }} />
                 <button
                   type="submit"

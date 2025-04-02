@@ -1,15 +1,15 @@
 // iconos de las columnas
 import zonaBlanco from "../../../assets/icons/zonaBlanco.png";
-import cantidadSensores from "../../../assets/icons/sensorBlanco.png";
-import sensorBlanco from "../../../assets/icons/sensorBlanco.png";
-import actividadesBlanco from "../../../assets/icons/actividadesBlanco.png";
-import ajustesBlanco from "../../../assets/icons/ajustesBlanco.png";
+import cantidadSensores from "../../../assets/icons/sensores.png";
+import sensores from "../../../assets/icons/sensores.png";
+import actividades from "../../../assets/icons/actividades.png";
+import ajustes from "../../../assets/icons/acciones.png";
 
 // iconos de las acciones
 import editarBlanco from "../../../assets/icons/editarBlanco.png";
 import eliminarBlanco from "../../../assets/icons/eliminarBlanco.png";
 // iconos de los modales
-import usuarioGris from "../../../assets/icons/usuarioGris.png";
+import nombreZona from "../../../assets/icons/usuarioAzul.png";
 import actividadesAzul from "../../../assets/icons/actividadesAzul.png";
 import sensorAzul from "../../../assets/icons/sensorAzul.png";
 // imgs de los modales
@@ -72,10 +72,10 @@ const Zonas = () => {
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
     { key: "nombre", label: "Nombre",icon2:zonaBlanco },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon2:cantidadSensores },
-    { key: "verSensores", label: "Sensores",icon2:sensorBlanco },
-    { key: "actividades", label: "Actividades",icon2:actividadesBlanco },
-    { key: "acciones", label: "Acciones",icon2: ajustesBlanco }
+    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores },
+    { key: "verSensores", label: "Sensores",icon:sensores },
+    { key: "actividades", label: "Actividades",icon:actividades },
+    { key: "acciones", label: "Acciones",icon: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -244,7 +244,7 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -280,7 +280,7 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2 " />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={zonaEditar.nombre}

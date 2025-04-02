@@ -117,7 +117,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                 </div>
 
                 {/* Contenido de la tarjeta */}
-                <div className="p-4 flex flex-col gap-2 relative">
+                <div className="p-4 flex flex-col gap-1 relative">
                   {columnas
                     .filter(
                       (columna) =>

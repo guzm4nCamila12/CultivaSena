@@ -6,7 +6,7 @@ import Mapa from "../../components/Mapa";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import Navbar from "../../components/navbar";
 //icono del input
-import nombreFinca from "../../assets/icons/usuarioGris.png"
+import nombreFinca from "../../assets/icons/usuarioAzul.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
 //importaciones necesarias de react
@@ -79,7 +79,6 @@ const Agregar = () => {
                     backgroundImage: `url(${nombreFinca})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                    backgroundSize: '20px',
                   }} />
                 <button
                   type="submit"

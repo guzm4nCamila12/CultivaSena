@@ -4,7 +4,7 @@ import descripcion from "../../assets/icons/descripcion.png"
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
 import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
+import ajustesBlanco from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
 //icons de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png"
@@ -202,6 +202,7 @@ function ActivarSensores() {
   };
 
   const abrirModalEliminar = (sensor) => {
+    
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -516,7 +517,7 @@ function ActivarSensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Guardar y Actualizar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>
@@ -534,7 +535,7 @@ function ActivarSensores() {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor  de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

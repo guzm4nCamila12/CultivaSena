@@ -1,11 +1,9 @@
 //iconos de las columnas
-import cultivoBlanco from '../../../assets/icons/cultivoBlanco.png'
-import cultivoAzul from '../../../assets/icons/cultivoAzul.png'
-import etapaBlanco from "../../../assets/icons/etapaBlanco.png"
+import cultivo from '../../../assets/icons/cultivo.png'
+import etapa from "../../../assets/icons/etapa.png"
 
-import ajustesBlanco from '../../../assets/icons/ajustesBlanco.png'
+import ajustesBlanco from '../../../assets/icons/acciones.png'
 
-import etapaAzul from "../../../assets/icons/etapaAzul.png"
 //iconos de las acciones
 import verActividad from '../../../assets/icons/sinFincas.png'
 import eliminarBlanco from '../../../assets/icons/eliminarBlanco.png'
@@ -102,9 +100,9 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivoAzul   ,icon2:cultivoBlanco },
-        { key: "etapa", label: "Etapa", icon:etapaAzul   ,icon2:etapaBlanco },
-        { key: "acciones", label: "Acciones", icon2: ajustesBlanco },
+        { key: "cultivo", label: "Cultivo", icon: cultivo },
+        { key: "etapa", label: "Etapa", icon: etapa },
+        { key: "acciones", label: "Acciones", icon: ajustesBlanco },
     ]
 
 
@@ -521,7 +519,7 @@ function ActividadesZonas() {
                                 <button
                                     type="submit"
                                     className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl">
-                                    Guardar y Actualizar
+                                    Guardar y actualizar
                                 </button>
                             </div>
                         </form>

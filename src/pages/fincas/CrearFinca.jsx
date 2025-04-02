@@ -6,7 +6,7 @@ import Mapa from "../../components/Mapa";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import Navbar from "../../components/navbar";
 //icono del input
-import usuarioGris from "../../assets/icons/usuarioGris.png"
+import nombreFinca from "../../assets/icons/usuarioGris.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
 //importaciones necesarias de react
@@ -76,10 +76,10 @@ const Agregar = () => {
                   placeholder="Ingrese el nombre"
                   autoComplete="off"
                   style={{
-                    backgroundImage: `url(${usuarioGris})`,
+                    backgroundImage: `url(${nombreFinca})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                    backgroundSize: '15px',
+                    backgroundSize: '20px',
                   }} />
                 <button
                   type="submit"

@@ -13,11 +13,11 @@ import editarBlanco from "../../assets/icons/editarBlanco.png";
 import verBlanco from "../../assets/icons/verBlanco.png";
 import sinFincas from "../../assets/icons/sinFincas.png";
 //iconos de modales
-import usuarioGris from "../../assets/icons/usuarioGris.png";
-import telefonoGris from "../../assets/icons/telefonoGris.png";
-import correoGris from "../../assets/icons/correoGris.png";
-import claveGris from "../../assets/icons/claveGris.svg";
-import rolGris from "../../assets/icons/rolGris.png";
+import usuarioAzul from "../../assets/icons/usuarioAzul.png";
+import telefonoAzul from "../../assets/icons/telefonoAzul.png";
+import correoAzul from "../../assets/icons/correoAzul.png";
+import claveAzul from "../../assets/icons/claveAzul.png";
+import rolAzul from "../../assets/icons/rolAzul.png";
 //componentes reutilizados
 import MostrarInfo from "../../components/mostrarInfo";
 import { acctionSucessful } from "../../components/alertSuccesful";
@@ -400,7 +400,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleCrearUsuario}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -410,7 +410,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -419,7 +419,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -428,7 +428,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={claveAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -437,7 +437,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={rolGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={rolAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <select
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="id_rol"
@@ -474,7 +474,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleUsuarioEditar}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.nombre}
@@ -484,7 +484,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.telefono}
@@ -494,7 +494,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.correo}
@@ -504,7 +504,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={claveAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.clave}

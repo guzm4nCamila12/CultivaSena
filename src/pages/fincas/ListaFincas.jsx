@@ -5,9 +5,9 @@ import alternoBlanco from "../../assets/icons/alternoBlanco.png";
 import zonaBlanco from "../../assets/icons/zonaBlanco.png"
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
 //iconos de la data
-import zonaAzul from "../../assets/icons/zonaAzul.png"
-import alternoAzul from "../../assets/icons/alternoAzul.png";
-import sensorAzul from "../../assets/icons/sensorAzul.png";
+import zonaAzul from "../../assets/icons/zonas.png"
+import alternoAzul from "../../assets/icons/alternos.png";
+import sensorAzul from "../../assets/icons/sensores.png";
 //iconos de las acciones
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 import editarBlanco from "../../assets/icons/editarBlanco.png";

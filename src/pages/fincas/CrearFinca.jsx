@@ -43,7 +43,7 @@ const Agregar = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Finca: ${nombre} creada correctamente!`
+        title: `¡Finca: <span style="color: green;">${nombre}</span> creada correctamente!`
 
       });
       irAtras();

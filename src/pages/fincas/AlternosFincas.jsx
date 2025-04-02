@@ -168,7 +168,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno ${alternoEditado} editado correctamente!`
+        title: `¡Alterno: ${usuarioEditar.nombre} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -356,6 +356,7 @@ const AlternosFinca = () => {
                   name="nombre"
                   placeholder="Nombre"
                   required
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
@@ -365,6 +366,7 @@ const AlternosFinca = () => {
                   type="text"
                   name="telefono"
                   placeholder="Telefono"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
@@ -374,6 +376,7 @@ const AlternosFinca = () => {
                   type="text"
                   name="correo"
                   placeholder="Correo"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
@@ -383,6 +386,7 @@ const AlternosFinca = () => {
                   type="text"
                   name="clave"
                   placeholder="Clave"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="flex justify-end mt-4">
@@ -415,6 +419,7 @@ const AlternosFinca = () => {
                   value={usuarioEditar.nombre}
                   type="text"
                   name="nombre"
+                  autoComplete="off"
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
@@ -423,6 +428,7 @@ const AlternosFinca = () => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.telefono}
                   type="text"
+                  autoComplete="off"
                   name="telefono"
                   onChange={handleChangeEditar} />
               </div>
@@ -432,6 +438,7 @@ const AlternosFinca = () => {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.correo}
                   name="correo"
+                  autoComplete="off"
                   type="text"
                   onChange={handleChangeEditar} />
               </div>

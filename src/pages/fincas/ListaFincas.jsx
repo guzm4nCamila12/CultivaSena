@@ -57,7 +57,7 @@ export default function ListaFincas() {
         acctionSucessful.fire({
           imageUrl: UsuarioEliminado,
           imageAlt: 'Icono personalizado',
-          title: `¡Finca: ${nombreFincaEliminar.nombre} eliminada correctamente!`
+          title: `¡Finca: <span style="color: red;">${nombreFincaEliminar.nombre}</span> eliminada correctamente!`
         });
       })
       .catch(console.error);

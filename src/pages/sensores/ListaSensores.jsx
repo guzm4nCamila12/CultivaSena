@@ -518,7 +518,7 @@ function ActivarSensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>

@@ -1,9 +1,8 @@
-import datosBlanco from "../../assets/icons/datosAzul.png";
-
+import datosBlanco from "../../assets/icons/datosBlanco.png";
 import datosAzul from "../../assets/icons/datosAzul.png";
 import horaBlanco from "../../assets/icons/horaBlanco.png";
 import horaAzul from "../../assets/icons/horaAzul.png";
-import fechaBlanco from  "../../assets/icons/fechaAzul.png";
+import fechaBlanco from  "../../assets/icons/fechaBlanco.png";
 import fechaAzul from "../../assets/icons/fechaAzul.png"
 
 import NavBar from '../../components/navbar';

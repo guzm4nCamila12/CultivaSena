@@ -76,9 +76,9 @@ export default function VerSensores() {
 
   const columnas = [
     { key: "#", label: "#" },
-    { key: "fecha", label: "Fecha", icon2: fechaIcon },
-    { key: "hora", label: "Hora", icon2: horaIcon },
-    { key: "valor", label: "Datos", icon2: data }
+    { key: "fecha", label: "Fecha" },
+    { key: "hora", label: "Hora" },
+    { key: "valor", label: "Datos" }
   ];
 
   // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo
@@ -90,12 +90,10 @@ export default function VerSensores() {
   }));
 
   return (
-
-    <div >
+    <div className='bg-white'>
       <NavBar />
       {/* Filtrar datos por fecha */}
       {/* <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
-
         <div className="flex justify-between items-center mb-4">
           <div className="p-4">
             <h3 className="mb-2 font-semibold">Filtrar por Fecha</h3>
@@ -115,7 +113,7 @@ export default function VerSensores() {
           datos={datosTabla} // Pasamos los datos ya procesados para la tabla
         />
       {/* </div> */}
-      <div className='flex flex-row justify-center '>
+      <div className='flex flex-row justify-center bg-white'>
         <GraficoSensor datos={datosFinales} />
       </div>
     </div>

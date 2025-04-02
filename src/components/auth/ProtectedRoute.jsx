@@ -9,11 +9,9 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
   if (!token) {
     return <Navigate to="/login" />;  // Redirigir a login si no hay token
   }
-
   try {
     const decodedToken = jwtDecode(token); // Decodificar el token
     const currentTime = Date.now() / 1000; // Tiempo actual en segundos
-
     // Verificar si el token ha expirado
     if (decodedToken.exp < currentTime) {
       localStorage.removeItem('token'); // Eliminar token expirado
@@ -24,7 +22,6 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     localStorage.removeItem('token');
     return <Navigate to="/login" />;  // Redirigir a login si ocurre un error
   }
-
   // Si el token es válido, renderiza el componente protegido
   return <Component {...rest} />;
 };

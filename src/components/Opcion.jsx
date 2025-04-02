@@ -6,7 +6,6 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
   // Inicializa 'vistaActiva' leyendo el valor desde localStorage, o por defecto 'tarjetas'
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem('vistaActiva') || 'tarjetas');
 
-
   // Cada vez que 'vistaActiva' cambie, se guarda en localStorage
   useEffect(() => {
     localStorage.setItem('vistaActiva', vistaActiva);

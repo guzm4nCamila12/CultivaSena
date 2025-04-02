@@ -8,7 +8,7 @@ import openEyeGray from "../../assets/icons/openEyeGray.png"
 import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
 import AtrasIcon from "../../assets/icons/Vector(1).png"
 import { acctionSucessful } from "../../components/alertSuccesful";
-import welcomeIcon from "../../assets/img/welcome.jpg"
+import welcomeIcon from "../../assets/img/iniciosesion.png"
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña
@@ -17,15 +17,11 @@ const Login = () => {
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
-
-
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = (e) => {
     e.preventDefault();
+    const inicioUsuario = { telefono, clave };
 
-    const inicioUsuario = {
-      telefono, clave
-    };
     // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
@@ -34,7 +30,6 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         // Guardar un dato en el localStorage
         localStorage.setItem('rol', user.id_rol);
-
         acctionSucessful.fire({
           imageUrl: welcomeIcon,
           imageAlt: 'Icono personalizado',
@@ -48,27 +43,22 @@ const Login = () => {
         } else if (user.id_rol === 3) {
           navigate(`/sensores-alterno/${user.id_finca}/${user.id}`);
         }
-
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
         acctionSucessful.fire({
-                icon: "error",
-                title: error.message,
-              }); // Almacena el mensaje de error en el estado error para mostrarlo al usuario
+          icon: "error",
+          title: error.message,
+        }); // Almacena el mensaje de error en el estado error para mostrarlo al usuario
         // Manejo de errores si la API falla
       });
   };
-
-
   //inicializa el estado con el tamaño actual del contenedor
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
-
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -89,18 +79,15 @@ const Login = () => {
     //si el tamaño de la pantalla es mayor a 768px se muestra una interfaz
     if (screenWidth > 768) {
       let bloque = <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: "url('/fondoC.svg')" }}
-      >
+        style={{ backgroundImage: "url('/fondoC.svg')" }}>
         <div className="absolute w-full h-full backdrop-blur-sm"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-        > </div>
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
+        </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
           <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
-
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
           <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
-            style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}
-          >
+            style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
             <h2 className="text-3xl text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
             <form onSubmit={handleSubmit} className="space-y-3">
               <input
@@ -114,8 +101,7 @@ const Login = () => {
                   backgroundImage: `url(${phoneGray})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
-                }}
-              />
+                }} />
               <div className="relative">
                 <input
                   type={mostrarClave ? "text" : "password"}
@@ -128,22 +114,17 @@ const Login = () => {
                     backgroundImage: `url(${passwordGray})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                  }}
-                />
+                  }} />
                 <div
                   onClick={handleToggle}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                >
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
-                    src={mostrarClave ? openEyeGray : closedEyeGray}
-                    alt="Toggle Visibility"
-                  />
+                    src={mostrarClave ? openEyeGray : closedEyeGray} alt="Toggle Visibility" />
                 </div>
               </div>
               <button
                 type="submit"
-                className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl"
-              >
+                className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
                 Iniciar Sesión
               </button>
             </form>
@@ -152,29 +133,21 @@ const Login = () => {
         </div>
       </div>
       return bloque;
-
     } else {
       //si el tamaño de la pantalla es menor a 768px se muestra otra interfaz
       let bloque =
         <div
           className="min-h-screen  bg-black">
-
-
-
           <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative"
             style={{ backgroundImage: "url('/cultivaBanner2.png')" }} >
             <div className="absolute w-full h-full backdrop-blur-sm"
-              style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
-            >
-                              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
-
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
+              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
-
                 <div className="absolute bottom-44 m-auto w-full p-2 z-20 gap-5 ">
                   <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
                   <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border  border-gray-500"
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
-                  >
+                    style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}>
                     <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
                     <form onSubmit={handleSubmit} className="space-y-3">
                       <input
@@ -188,8 +161,7 @@ const Login = () => {
                           backgroundImage: `url(${phoneGray})`,
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'left 12px center',
-                        }}
-                      />
+                        }} />
                       <div className="relative">
                         <input
                           type={mostrarClave ? "text" : "password"}
@@ -202,35 +174,25 @@ const Login = () => {
                             backgroundImage: `url(${passwordGray})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'left 12px center',
-                          }}
-                        />
+                          }} />
                         <div
                           onClick={handleToggle}
-                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                        >
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                           <img
                             src={mostrarClave ? openEyeGray : closedEyeGray}
-                            alt="Toggle Visibility"
-                          />
+                            alt="Toggle Visibility" />
                         </div>
                       </div>
                       <button
                         type="submit"
-                        className="w-full p-2 bg-[#39A900] hover:bg-[#005F00] shadow-black shadow-sm text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 text-2xl rounded-3xl font-bold drop-shadow-xl"
-                      >
+                        className="w-full p-2 bg-[#39A900] hover:bg-[#005F00] shadow-black shadow-sm text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 text-2xl rounded-3xl font-bold drop-shadow-xl">
                         Iniciar Sesión
                       </button>
                     </form>
-                          
                   </div>
                   <a href="#" className='m-auto text-white'>¿Olvidó su contraseña?</a>
                 </div>
-
               </div>
-
-
-            
-
             </div>
           </div>
           <div className="w-full flex justify-center py-4">
@@ -240,9 +202,7 @@ const Login = () => {
 
         </div>
       return bloque;
-
     }
-
   }
 
   //se llama el bloque de codigo que retorna la vista dependiendo del tamaño de la pantalla

@@ -2,6 +2,13 @@
 import descripcionBlue from "../../assets/icons/descripcionBlue.png"
 import macBlue from "../../assets/icons/macBlue.png";
 import estadoBlue from "../../assets/icons/estadoBlue.png";
+
+import nombreWhite from "../../assets/icons/sensorWhite.png"
+import macWhite from "../../assets/icons/macWhite.png";
+import estadoWhite from "../../assets/icons/estadoWhite.png";
+import configWhite from "../../assets/icons/ajustesWhite.png";
+import zonaWhite from "../../assets/icons/zonaWhite.png";
+
 //icons de las acciones
 import editWhite from "../../assets/icons/editWhite.png"
 import viewWhite from "../../assets/icons/viewWhite.png"
@@ -9,7 +16,7 @@ import deleteWhite from "../../assets/icons/deleteWhite.png"
 //icons de los modales
 import userGray from "../../assets/icons/userGray.png";
 import descripcionWhite from "../../assets/icons/descripcionWhite.png";
-import mapa from "../../assets/icons/mapa.png"
+import zona from "../../assets/icons/zonaBlue.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
 import usuarioCreado from "../../assets/img/UsuarioCreado.png"
@@ -18,7 +25,7 @@ import ConfirmarEliminar from "../../assets/img/Eliminar.png"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
 import Navbar from "../../components/navbar";//endpoints para consumir api
-import { getSensoresById, insertarSensor, actualizarSensor, eliminarSensores } from "../../services/sensores/ApiSensores";
+import { getSensoresById, crearSensor, editarSensor, eliminarSensores } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
 //libreria sweetalert para las alertas
@@ -34,7 +41,7 @@ function ActivarSensores() {
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [usuario, setUsuario] = useState({});
-  const [editarSensor, setEditarSensor] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
+  const [sensorEditar, setsensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -72,17 +79,13 @@ function ActivarSensores() {
       });
       getFincasByIdFincas(idUser).then((data) => {
         setFincas(data)
-
       });
       getZonasByIdFinca(idUser).then((data) => {
-
-        if (data == null){
+        if (data == null) {
           setZonas([])
           return
         }
         setZonas(data)
-
-
       })
     } catch (error) {
       console.error("Error: ", error);
@@ -104,12 +107,12 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "mac", label: "MAC", icon: macBlue },
-    { key: "idzona", label: "Zona", icon:mapa },
-    { key: "descripcion", label: "Descripción", icon: descripcionBlue },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon2:nombreWhite },
+    { key: "mac", label: "MAC", icon: macBlue, icon2:macWhite },
+    { key: "idzona", label: "Zona", icon: zona, icon2: zonaWhite },
+    { key: "descripcion", label: "Descripción", icon: descripcionBlue, icon2:descripcionWhite },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoBlue, icon2:estadoWhite },
+    { key: "acciones", label: "Acciones", icon2:configWhite },
   ];
 
   const acciones = (fila) => (
@@ -117,8 +120,7 @@ function ActivarSensores() {
       <div className="relative group">
         <button
           className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => enviarForm(fila.id)}
-        >
+          onClick={() => enviarForm(fila.id)}>
           <img src={editWhite} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -148,77 +150,68 @@ function ActivarSensores() {
     </div>
   );
 
-
-  const ActivarSensor = (idRol, sensor, index) =>{
-    if(idRol == "1"){
-      return (  
+  const ActivarSensor = (idRol, sensor, index) => {
+    if (idRol == "1") {
+      return (
         <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
-                  className="sr-only"
-                />
-                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
+          <label className="relative flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={sensor.estado} // Se mantiene el estado actual del sensor
+              onChange={() => handleSwitch(sensor.id, sensor.estado, index)}
+              className="sr-only" />
+            <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+              <div
+                className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}>
+              </div>
             </div>
-
+          </label>
+        </div>
       )
-    }else{
-      return(
-
+    } else {
+      return (
         <div className="flex justify-start items-center">
-              <label className="relative flex items-center cursor-not-allowed">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} // Se mantiene el estado actual del sensor
-                  disabled // Evita que el usuario lo modifique
-                  className="sr-only"
-                  />
-                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
+          <label className="relative flex items-center cursor-not-allowed">
+            <input
+              type="checkbox"
+              checked={sensor.estado} // Se mantiene el estado actual del sensor
+              disabled // Evita que el usuario lo modifique
+              className="sr-only" />
+            <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+              <div
+                className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+              ></div>
             </div>
-  )
+          </label>
+        </div>
+      )
     }
   }
   const asignarZona2 = (id) => {
-
     const nombre = zonas.find(zonas => zonas.id === id);
     return nombre ? nombre.nombre : "Sin zona";
-
-    
   }
 
   const sensoresDeFinca = sensores.map((sensor, index) => ({
     ...sensor, idzona: asignarZona2(sensor.idzona),
-
     estado: (
       ActivarSensor(rol, sensor, index)
-
     ),
   }))
 
 
   const abrirModalEditar = (sensor) => {
-    setEditarSensor(sensor);
+    setsensorEditar(sensor);
     setModalEditarAbierto(true);
   };
 
   const abrirModalEliminar = (sensor) => {
+    
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
 
-  const HandlEliminarSensor = (e) => {
+  const HandleEliminarSensor = (e) => {
     e.preventDefault();
     eliminarSensores(sensorAEliminar).then(() => {
       setSensores(sensores.filter(sensor => sensor.id !== sensorAEliminar));
@@ -237,18 +230,14 @@ function ActivarSensores() {
     setFormData({ ...formData, [e.target.name]: value });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    insertarSensor(formData).then((response) => {
+    crearSensor(formData).then((response) => {
       if (response) {
         if (sensores === null) {
-          console.log("hola",response)
           setSensores([response]);
         }
         else {
-          console.log("hola",response)
-
           setSensores([...sensores, response]);
         }
         setModalInsertarAbierto(false);
@@ -257,21 +246,22 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor agregado correctamente!"
+      title: "¡Sensor creado correctamente!"
+
     });
   };
 
-  const handleEditarSensor = (e) => {
+  const handleSensorEditar = (e) => {
     e.preventDefault();
-    actualizarSensor(editarSensor.id, editarSensor).then((data) => {
+    editarSensor(sensorEditar.id, sensorEditar).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
-      const index = nuevosSensores.findIndex(sensor => sensor.id === editarSensor.id); // Buscar el índice del sensor con el mismo id
+      const index = nuevosSensores.findIndex(sensor => sensor.id === sensorEditar.id); // Buscar el índice del sensor con el mismo id
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor: ${editarSensor.nombre} editado correctamente!`
       });
-      nuevosSensores[index] = editarSensor;
+      nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
     })
     setModalEditarAbierto(false);
@@ -279,12 +269,11 @@ function ActivarSensores() {
 
   const handleChangeEditar = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
-    setEditarSensor({ ...editarSensor, [e.target.name]: value });
+    setsensorEditar({ ...sensorEditar, [e.target.name]: value });
   };
 
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
-
     if (estado === true) {
       const newEstado = !estado;
       const updatedSensores = [...sensores];
@@ -301,11 +290,11 @@ function ActivarSensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       };
-      actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+      editarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
-         insertarDatos(updatedFormData.mac)
+        insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
 
@@ -324,17 +313,14 @@ function ActivarSensores() {
           estado: newEstado,
           idusuario: sensores[index].idusuario,
           idzona: sensores[index].idzona,
-
           idfinca: sensores[index].idfinca,
         }
 
-
-        actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+        editarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
           setSensores(nuevosSensores);
           if (updatedFormData.estado === true) {
-
             insertarDatos(updatedFormData.mac).then((data) => {
             })
           }
@@ -342,7 +328,6 @@ function ActivarSensores() {
         inputValue = '';
       }
     } else {
-
       const newEstado = !estado;
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
@@ -358,21 +343,16 @@ function ActivarSensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
-
-      actualizarSensor(sensores[index].id, updatedFormData).then((data) => {
+      editarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
         setSensores(nuevosSensores);
         if (updatedFormData.estado === true) {
-
           insertarDatos(updatedFormData.mac).then((data) => {
           })
         }
-
       })
-
     }
-
   };
   const enviarForm = (id) => {
     //se trae el id del sensor de la columna para traerlo y enviarlo como objeto
@@ -402,7 +382,7 @@ function ActivarSensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'OK',
+      confirmButtonText: 'Guardar y actualizar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -425,14 +405,11 @@ function ActivarSensores() {
           <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
             name="idzona"
             onChange={onChange}
-            required
-          >
+            required>
             <option value="">seleccionar zona </option>
             <option value=""> Sin zona </option>
-
           </select>
         </div>
-
       )
     }
 
@@ -441,14 +418,12 @@ function ActivarSensores() {
         <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
           name="idzona"
           onChange={onChange}
-          required
-        >
-          <option value="">seleccionar zona </option>
+          required>
+          <option value="">Seleccionar zona </option>
           <option value=""> Sin zona </option>
           {zonas.map((zona) => (
             <option key={zona.id} value={zona.id}>
               {zona.nombre}
-
             </option>
           ))}
         </select>
@@ -459,8 +434,6 @@ function ActivarSensores() {
   return (
     <div>
       <Navbar />
-      {/* El componente Opcion ya incluye la opción de cambiar la vista.
-                Su propiedad onChangeVista actualizará el estado y localStorage. */}
       <MostrarInfo
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
@@ -470,16 +443,14 @@ function ActivarSensores() {
         mostrarAgregar={true}
       />
 
-
       {/*Codigo modal insertar */}
-      {modalInsertarAbierto && (
+      { modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Agregar sensor</h5>
+            <h5 className="text-2xl font-bold mb-4 text-center">Crear sensor</h5>
             <hr />
             <form onSubmit={handleSubmit}>
-            {asignarZona(handleChange)}
-               
+              {asignarZona(handleChange)}
               <div className="relative w-full mt-2">
                 <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
@@ -488,8 +459,7 @@ function ActivarSensores() {
                   name="nombre"
                   placeholder="Nombre"
                   required
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
                 <img src={descripcionWhite} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
@@ -498,8 +468,7 @@ function ActivarSensores() {
                   type="text"
                   name="descripcion"
                   placeholder="Descripción"
-                  onChange={handleChange}
-                />
+                  onChange={handleChange} />
               </div>
               <div className="flex gap-4 mt-4">
                 <button
@@ -508,7 +477,7 @@ function ActivarSensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Agregar
+                  Crear
                 </button>
               </div>
             </form>
@@ -521,15 +490,14 @@ function ActivarSensores() {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
             <hr />
-            <form onSubmit={handleEditarSensor}>
-
+            <form onSubmit={handleSensorEditar}>
               {asignarZona(handleChangeEditar)}
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
-                  value={editarSensor.nombre}
+                  value={sensorEditar.nombre}
                   placeholder="Nombre"
                   type="text"
                   onChange={handleChangeEditar}
@@ -541,7 +509,7 @@ function ActivarSensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
-                  value={editarSensor.descripcion}
+                  value={sensorEditar.descripcion}
                   placeholder="Descripción"
                   onChange={handleChangeEditar}
                 />
@@ -566,13 +534,12 @@ function ActivarSensores() {
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
             <hr />
-            <form onSubmit={HandlEliminarSensor}>
+            <form onSubmit={HandleEliminarSensor}>
               <div className="flex justify-center my-4">
-                <img src={ConfirmarEliminar} alt="icono"
-                />
+                <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor  de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

@@ -3,14 +3,12 @@ import Gov from './gov';
 import BotonAtras from './botonAtras';
 import menuWhite from "../assets/icons/menuWhite.png";
 import cultivaSena from "../assets/icons/cultiva.png";
-
 //Importamos el componente que tiene la funcionalidad de cerrar sesion
 import CerrarSesion from "./auth/logOut";
 
 export default function Navbar() {
   const [menuVisible, setMenuVisible] = useState(false); // Estado para controlar la visibilidad de el menu lateral
   const idRol = Number(localStorage.getItem('rol'));
-
   // Función para mostrar el mensaje dependiendo del rol
   const rol = () => {
     if (idRol === 1) {
@@ -41,20 +39,17 @@ export default function Navbar() {
             src={menuWhite}
             alt="Menu"
             className={`h-3 pr-2 cursor-pointer transition-transform duration-300 ease-in-out ${menuVisible ? 'rotate-90 mt-2' : ''}`}
-            onClick={() => setMenuVisible(!menuVisible)} // Toggle visibility del modal
+            onClick={() => setMenuVisible(!menuVisible)} // Toggle visibility del modal}
           />
-
           <h2 className='font-extrabold text-white md:text-2xl text-xl'>{rol()}</h2>
           <BotonAtras />
-
           {/* Menu lateral*/}
           <div
-            className={`absolute mt-[172px] top-10 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
-          >
+            className={`absolute mt-[172px] top-10 w-64 bg-[#002A43] p-4 rounded-xl shadow-lg z-50 transition-opacity duration-300 ease-in-out ${menuVisible ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
             {/* Div con forma triangular*/}
             <div
-              className="absolute -top-2 xl:left-4 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]"
-            ></div>
+              className="absolute -top-2 xl:left-4 transform -translate-x-1/2 w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]">
+            </div>
             <div>
               <h3 className='w-full flex mb-3 text-white font-medium  border-b-2 pb-2 pl-2 border-white'>Menú Principal</h3>
               <div className='flex ml-3 pt-2 text-white'>
@@ -69,7 +64,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
       {/* Overlay oscuro que cubre toda la página cuando el menú está visible */}
       {menuVisible && (
         <div

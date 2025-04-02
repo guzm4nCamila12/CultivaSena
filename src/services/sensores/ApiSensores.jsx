@@ -13,7 +13,7 @@ export const getSensor = async (id) => {
 };
 
 //Funcion para agregar un sensor a su respectiva finca
-export const insertarSensor = async (nuevaFinca) => {
+export const crearSensor = async (nuevaFinca) => {
   const response = await fetch(`${API_URL}/api/sensores`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -22,7 +22,7 @@ export const insertarSensor = async (nuevaFinca) => {
   return response.json();
 };
 //Funcion para actualizar la informacion de un sensor ya existente
-export const actualizarSensor = async (id, fincaActualizada) => {
+export const editarSensor = async (id, fincaActualizada) => {
   const response = await fetch(`${API_URL}/api/sensores/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -74,7 +74,6 @@ export const getHistorialSensores = async (mac) => {
 
 export const activarDatosSensor = async (mac) => {
  await fetch (`${API_URL}/prueba/${mac}`);
-
 }
 
 // Función para obtener todos los sensores de la finca a la cual pertenece el ID

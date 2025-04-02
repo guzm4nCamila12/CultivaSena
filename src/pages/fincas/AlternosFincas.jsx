@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
-import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
+import nombre from "../../assets/icons/nombres.png"
 import telefono from "../../assets/icons/telefono.png"
 import correo from "../../assets/icons/correo.png"
 import ajustesBlanco from "../../assets/icons/acciones.png"
 
 //iconos de las acciones
-import editarBlanco from "../../assets/icons/editarBlanco.png";
-import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
+import editar from "../../assets/icons/editar.png";
+import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
 import usuarioAzul from "../../assets/icons/usuarioAzul.png"
 import telefonoAzul from "../../assets/icons/telefonoAzul.png"
@@ -66,7 +66,7 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: usuarioBlanco },
+    { key: "nombre", label: "Nombre",icon: nombre },
     { key: "telefono", label: "Telefono", icon: telefono  },
     { key: "correo", label: "Correo", icon: correo },
     { key: "acciones", label: "Acciones",icon: ajustesBlanco },
@@ -307,7 +307,7 @@ const AlternosFinca = () => {
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarAlterno(fila)}>
-          <img src={editarBlanco} alt="Editar" />
+          <img src={editar} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -317,7 +317,7 @@ const AlternosFinca = () => {
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminarBlanco} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar

@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import telefono from "../../assets/icons/telefono.png";
 import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
-import usuarioBlanco from "../../assets/icons/usuarioBlanco.png";
+import nombre from "../../assets/icons/nombres.png";
 import ajustesBlanco from "../../assets/icons/acciones.png"
 //iconos de las acciones
-import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
-import editarBlanco from "../../assets/icons/editarBlanco.png";
-import verBlanco from "../../assets/icons/verBlanco.png";
+import eliminar from "../../assets/icons/eliminar.png";
+import editar from "../../assets/icons/editar.png";
+import ver from "../../assets/icons/ver.png";
 import sinFincas from "../../assets/icons/sinFincas.png";
 //iconos de modales
 import usuarioAzul from "../../assets/icons/usuarioAzul.png";
@@ -289,7 +289,7 @@ const Inicio = () => {
   // Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon:usuarioBlanco },
+    { key: "nombre", label: "Nombre", icon:nombre },
     { key: "telefono", label: "Teléfono", icon:telefono },
     { key: "correo", label: "Correo", icon:correo },
     { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol },
@@ -304,7 +304,7 @@ const Inicio = () => {
           <button
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEditar(fila)}>
-            <img src={editarBlanco} alt="Editar" />
+            <img src={editar} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -326,7 +326,7 @@ const Inicio = () => {
           <div className="relative group">
             <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
               <button>
-                <img src={verBlanco} alt="Ver" />
+                <img src={ver} alt="Ver" />
               </button>
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
@@ -338,7 +338,7 @@ const Inicio = () => {
           <button
             onClick={() => abrirModalEliminar(fila.id)}
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={eliminarBlanco} alt="Eliminar" />
+            <img src={eliminar} alt="Eliminar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar

@@ -6,7 +6,7 @@ import ajustesBlanco from '../../../assets/icons/acciones.png'
 
 //iconos de las acciones
 import verActividad from '../../../assets/icons/sinFincas.png'
-import eliminarBlanco from '../../../assets/icons/eliminarBlanco.png'
+import eliminar from '../../../assets/icons/eliminar.png'
 //imgs de los modales
 import usuarioCreado from "../../../assets/img/usuarioCreado.png"
 import usuarioEliminado from "../../../assets/img/usuarioEliminado.png"
@@ -295,7 +295,7 @@ function ActividadesZonas() {
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
-                    <img src={eliminarBlanco} alt="Eliminar" />
+                    <img src={eliminar} alt="Eliminar" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Eliminar

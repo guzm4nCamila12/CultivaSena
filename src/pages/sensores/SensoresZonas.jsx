@@ -3,12 +3,12 @@ import mac from "../../assets/icons/mac.png";
 import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import descripcion from "../../assets/icons/descripcion.png"
 import estado from "../../assets/icons/estado.png"
-import sensorBlanco from "../../assets/icons/sensorBlanco.png"
+import nombre from "../../assets/icons/nombres.png"
 import ajustesBlanco from "../../assets/icons/acciones.png";
 //iconos de las acciones
-import editarBlanco from "../../assets/icons/editarBlanco.png";
-import verBlanco from "../../assets/icons/verBlanco.png"
-import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
+import editar from "../../assets/icons/editar.png";
+import ver from "../../assets/icons/ver.png"
+import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
 import nombreZona from "../../assets/icons/usuarioAzul.png";
 //librerias de alertas
@@ -94,7 +94,7 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon:sensorBlanco },
+    { key: "nombre", label: "Nombre", icon:nombre },
     { key: "mac", label: "MAC", icon: mac},
     { key: "descripcion", label: "Descripción", icon: descripcion},
     { key: "estado", label: "Inactivo/Activo", icon: estado },
@@ -116,7 +116,7 @@ function Sensores() {
         <button
           className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
-          <img src={editarBlanco} alt="Editar" />
+          <img src={editar} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -126,7 +126,7 @@ function Sensores() {
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
             className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={verBlanco} alt="Ver" />
+            <img src={ver} alt="Ver" />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -137,7 +137,7 @@ function Sensores() {
         <button
           className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminarBlanco} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>

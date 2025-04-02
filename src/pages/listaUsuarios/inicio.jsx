@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import telefono from "../../assets/icons/telefono.png";
 import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
-import nombre from "../../assets/icons/nombres.png";
-import ajustesBlanco from "../../assets/icons/acciones.png"
+import ajustes from "../../assets/icons/acciones.png"
+import alternosIcon from "../../assets/icons/alternos.png"
+import nombreIcon from "../../assets/icons/nombres.png"
 //iconos de las acciones
 import eliminar from "../../assets/icons/eliminar.png";
 import editar from "../../assets/icons/editar.png";
@@ -288,12 +289,12 @@ const Inicio = () => {
 
   // Define las columnas de la tabla
   const columnas = [
-    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon:nombre },
-    { key: "telefono", label: "Teléfono", icon:telefono },
-    { key: "correo", label: "Correo", icon:correo },
-    { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol },
-    { key: "acciones", label: "Acciones", icon:ajustesBlanco },
+    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil},
+    { key: "nombre", label: "Nombre", icon2:nombreIcon },
+    { key: "telefono", label: "Teléfono", icon:telefono, icon2: telefono },
+    { key: "correo", label: "Correo", icon:correo, icon2:correo },
+    { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol, icon2:rol },
+    { key: "acciones", label: "Acciones", icon2:ajustes },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila

@@ -4,8 +4,9 @@ import descripcion from "../../assets/icons/descripcion.png"
 import nombre from "../../assets/icons/nombres.png"
 import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
-import ajustesBlanco from "../../assets/icons/acciones.png";
+import ajustes from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
+import sensoresIcon from "../../assets/icons/sensores.png";
 //icons de las acciones
 import editar from "../../assets/icons/editar.png"
 import ver from "../../assets/icons/ver.png"
@@ -103,12 +104,13 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon:nombre },
-    { key: "mac", label: "MAC", icon: mac },
-    { key: "idzona", label: "Zona", icon: zonaSensor },
-    { key: "descripcion", label: "Descripción", icon: descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado },
-    { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
+
+    { key: "nombre", label: "Nombre", icon:nombre, icon2: nombre },
+    { key: "mac", label: "MAC", icon: mac , icon2: mac},
+    { key: "idzona", label: "Zona", icon: zonaSensor , icon2:zonaSensor},
+    { key: "descripcion", label: "Descripción", icon: descripcion , icon2: descripcion},
+    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado , icon2: sensorEstado},
+    { key: "acciones", label: "Acciones", icon2:ajustes },
   ];
 
   const acciones = (fila) => (

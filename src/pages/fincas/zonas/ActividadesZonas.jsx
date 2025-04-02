@@ -2,7 +2,7 @@
 import cultivo from '../../../assets/icons/cultivo.png'
 import etapa from "../../../assets/icons/etapa.png"
 
-import ajustesBlanco from '../../../assets/icons/acciones.png'
+import ajustes from '../../../assets/icons/acciones.png'
 
 //iconos de las acciones
 import verActividad from '../../../assets/icons/sinFincas.png'
@@ -100,9 +100,9 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivo },
-        { key: "etapa", label: "Etapa", icon: etapa },
-        { key: "acciones", label: "Acciones", icon: ajustesBlanco },
+        { key: "cultivo", label: "Cultivo", icon: cultivo , icon2: cultivo},
+        { key: "etapa", label: "Etapa", icon: etapa , icon2: etapa},
+        { key: "acciones", label: "Acciones", icon2: ajustes },
     ]
 
 

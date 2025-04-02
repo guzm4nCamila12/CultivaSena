@@ -1,6 +1,6 @@
 //iconos de la columna
 import nombre from "../../assets/icons/nombres.png"
-import ajustesBlanco from "../../assets/icons/acciones.png";
+import ajustes from "../../assets/icons/acciones.png";
 //iconos de la data
 import zonas from "../../assets/icons/zonas.png"
 import alternos from "../../assets/icons/alternos.png";
@@ -68,11 +68,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: nombre },
-    { key: "sensores", label: "Sensores",icon:sensores },
-    { key: "alternos", label: "Alternos",icon:alternos },
-    { key: "zonas", label: "Zonas",icon: zonas },
-    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon: nombre , icon2:nombre},
+    { key: "sensores", label: "Sensores",icon:sensores , icon2:sensores},
+    { key: "alternos", label: "Alternos",icon:alternos ,icon2: alternos},
+    { key: "zonas", label: "Zonas",icon: zonas , icon2:zonas},
+    { key: "acciones", label: "Acciones",icon2: ajustes },
   ];
 
   const acciones = (fila) => (

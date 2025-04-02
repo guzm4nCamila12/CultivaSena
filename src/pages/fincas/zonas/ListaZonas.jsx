@@ -71,11 +71,11 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre",icon:nombre },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores },
-    { key: "verSensores", label: "Sensores",icon:sensores },
-    { key: "actividades", label: "Actividades",icon:actividades },
-    { key: "acciones", label: "Acciones",icon: ajustes }
+    { key: "nombre", label: "Nombre",icon:nombre, icon2: nombre },
+    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores , icon2: cantidadSensores},
+    { key: "verSensores", label: "Sensores",icon:sensores , icon2: sensores},
+    { key: "actividades", label: "Actividades",icon:actividades , icon2: actividades},
+    { key: "acciones", label: "Acciones",icon2: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona

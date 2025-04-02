@@ -138,16 +138,16 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                         <strong>{columna.label}:</strong>{" "}
                         <span className="ml-1">
                           {columna.key === "descripcion" &&
-                          fila[columna.key]?.length > 15 ? (
+                          fila[columna.key]?.length > 0 ? (
                             <>
-                              {fila[columna.key].slice(0, 15)}...{" "}
+                              {fila[columna.key].slice(0, 0)}{" "}
                               <button
                                 className="text-blue-500"
                                 onClick={() =>
                                   handleVerMas(fila[columna.key])
                                 }
                               >
-                                Ver más
+                                Ver todo
                               </button>
                             </>
                           ) : (

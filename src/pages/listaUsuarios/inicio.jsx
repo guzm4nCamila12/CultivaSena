@@ -7,6 +7,7 @@ import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png";
 import ajustesBlanco from "../../assets/icons/acciones.png"
+import alternosIcon from "../../assets/icons/alternos.png"
 //iconos de las acciones
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 import editarBlanco from "../../assets/icons/editarBlanco.png";
@@ -288,9 +289,9 @@ const Inicio = () => {
 
   // Define las columnas de la tabla
   const columnas = [
-    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon:usuarioBlanco },
-    { key: "telefono", label: "Teléfono", icon:telefono },
+    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil},
+    { key: "nombre", label: "Nombre", icon:usuarioBlanco , icon2:rol },
+    { key: "telefono", label: "Teléfono", icon:telefono, icon2: alternosIcon },
     { key: "correo", label: "Correo", icon:correo },
     { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol },
     { key: "acciones", label: "Acciones", icon:ajustesBlanco },

@@ -6,6 +6,7 @@ import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
 import ajustesBlanco from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
+import sensoresIcon from "../../assets/icons/sensores.png";
 //icons de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png"
 import verBlanco from "../../assets/icons/verBlanco.png"
@@ -103,8 +104,8 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon:sensorBlanco },
-    { key: "mac", label: "MAC", icon: mac },
+    { key: "nombre", label: "Nombre", icon:sensorBlanco, icon2:sensoresIcon },
+    { key: "mac", label: "MAC", icon: mac,icon2:sensoresIcon },
     { key: "idzona", label: "Zona", icon: zonaSensor },
     { key: "descripcion", label: "Descripción", icon: descripcion },
     { key: "estado", label: "Inactivo/Activo", icon: sensorEstado },

@@ -4,7 +4,7 @@ import descripcion from "../../assets/icons/descripcion.png"
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
 import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
+import ajustesBlanco from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
 //icons de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png"
@@ -517,7 +517,7 @@ function ActivarSensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Guardar y Actualizar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>

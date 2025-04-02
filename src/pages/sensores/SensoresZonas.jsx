@@ -4,7 +4,7 @@ import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import descripcion from "../../assets/icons/descripcion.png"
 import estado from "../../assets/icons/estado.png"
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
+import ajustesBlanco from "../../assets/icons/acciones.png";
 //iconos de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png";
 import verBlanco from "../../assets/icons/verBlanco.png"
@@ -468,7 +468,7 @@ function Sensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Guardar y Actualizar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>

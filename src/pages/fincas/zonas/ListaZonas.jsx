@@ -1,15 +1,15 @@
 // iconos de las columnas
 import zonaBlanco from "../../../assets/icons/zonaBlanco.png";
-import cantidadSensores from "../../../assets/icons/sensorBlanco.png";
-import sensorBlanco from "../../../assets/icons/sensorBlanco.png";
-import actividadesBlanco from "../../../assets/icons/actividadesBlanco.png";
-import ajustesBlanco from "../../../assets/icons/ajustesBlanco.png";
+import cantidadSensores from "../../../assets/icons/sensores.png";
+import sensores from "../../../assets/icons/sensores.png";
+import actividades from "../../../assets/icons/actividades.png";
+import ajustes from "../../../assets/icons/acciones.png";
 
 // iconos de las acciones
 import editarBlanco from "../../../assets/icons/editarBlanco.png";
 import eliminarBlanco from "../../../assets/icons/eliminarBlanco.png";
 // iconos de los modales
-import usuarioGris from "../../../assets/icons/usuarioGris.png";
+import nombreZona from "../../../assets/icons/usuarioAzul.png";
 import actividadesAzul from "../../../assets/icons/actividadesAzul.png";
 import sensorAzul from "../../../assets/icons/sensorAzul.png";
 // imgs de los modales
@@ -35,12 +35,13 @@ const Zonas = () => {
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [nuevaZona, setNuevaZona] = useState({ nombre: "", idfinca: parseInt(id) });
-  const [editarZona, setEditarZona] = useState([]);
+  const [zonaEditar, setZonaEditar] = useState([]);
   const [zonaEliminar, setZonaEliminar] = useState(false);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [nombreModificado, setNombreModificado] = useState("");
+  const [zonaEliminada, setZonaEliminada] = useState()
 
   // Efecto que carga los datos
   useEffect(() => {
@@ -65,30 +66,30 @@ const Zonas = () => {
 
   // Maneja el cambio de valores para editar una zona
   const handleChangeEditar = (e) => {
-    setEditarZona({ ...editarZona, [e.target.name]: e.target.value });
+    setZonaEditar({ ...zonaEditar, [e.target.name]: e.target.value });
   };
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
     { key: "nombre", label: "Nombre",icon2:zonaBlanco },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon2:cantidadSensores },
-    { key: "verSensores", label: "Sensores",icon2:sensorBlanco },
-    { key: "actividades", label: "Actividades",icon2:actividadesBlanco },
-    { key: "acciones", label: "Acciones",icon2: ajustesBlanco }
+    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores },
+    { key: "verSensores", label: "Sensores",icon:sensores },
+    { key: "actividades", label: "Actividades",icon:actividades },
+    { key: "acciones", label: "Acciones",icon: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona
   const HandleEditarZona = (zona) => {
     const { "#": removed, ...edit } = zona;
     setNombreModificado(zona.nombre)
-    setEditarZona(edit);
+    setZonaEditar(edit);
     setModalEditarAbierto(true);
   };
 
   // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
-    if (nombreModificado == editarZona.nombre) {
+    if (nombreModificado == zonaEditar.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono",
@@ -96,7 +97,7 @@ const Zonas = () => {
       })
       return
     }
-    if (!editarZona.nombre) {
+    if (!zonaEditar.nombre) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
@@ -106,7 +107,7 @@ const Zonas = () => {
     }
     // Se limpia el objeto eliminando propiedades JSX
     const zonaParaActualizar = {
-      ...editarZona,
+      ...zonaEditar,
       cantidadSensores: undefined,
       verSensores: undefined,
       actividades: undefined
@@ -116,7 +117,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: ${zonaParaActualizar.nombre} editada correctamente!`
+        title: `¡Zona: <span style="color: #FBD000;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -131,12 +132,14 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: "Icono personalizado",
-        title: "¡Zona eliminada correctamente!"
+        title: `¡Zona: <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
       });
     }).catch(console.error);
   };
 
   const abrirModalEliminar = (id) => {
+    const zonaPrev = zonas.find(usuarios => usuarios.id === id)
+    setZonaEliminada(zonaPrev)
     setZonaEliminar(id);
     setModalEliminarAbierto(true);
   };
@@ -157,7 +160,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona ${nuevaZona.nombre} creada correctamente!`
+        title: `¡Zona: <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
       });
     }).catch(console.error);
   };
@@ -241,13 +244,14 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
                   required
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="flex justify-end mt-4">
@@ -276,13 +280,14 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2 " />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={editarZona.nombre}
+                  value={zonaEditar.nombre}
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
+                  autoComplete="off"
                   onChange={handleChangeEditar} />
               </div>
               <div className="flex justify-end mt-4">
@@ -295,7 +300,7 @@ const Zonas = () => {
                 <button
                   type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>
@@ -315,7 +320,7 @@ const Zonas = () => {
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
               <p className="text-gray-400 text-center text-lg">
-                Se eliminará la zona de manera permanente.
+                Se eliminará la zona <strong className="text-red-600">{zonaEliminada.nombre}</strong> de manera permanente.
               </p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button

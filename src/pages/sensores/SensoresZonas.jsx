@@ -1,19 +1,16 @@
 //iconos de las columnas
-import macAzul from "../../assets/icons/macAzul.png";
+import mac from "../../assets/icons/mac.png";
 import descripcionAzul from "../../assets/icons/descripcionAzul.png";
-import estadoAzul from "../../assets/icons/estadoAzul.png"
+import descripcion from "../../assets/icons/descripcion.png"
+import estado from "../../assets/icons/estado.png"
 import sensorBlanco from "../../assets/icons/sensorBlanco.png"
-import macBlanco from "../../assets/icons/macBlanco.png";
-import estadoBlanco from "../../assets/icons/estadoBlanco.png";
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
-import descripcionBlanco from "../../assets/icons/descripcionBlanco.png";
 //iconos de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png";
 import verBlanco from "../../assets/icons/verBlanco.png"
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 //iconos de los modales
-import userGray from "../../assets/icons/usuarioGris.png";
-import descripcionGray from "../../assets/icons/descripcionBlanco.png";
+import nombreZona from "../../assets/icons/usuarioAzul.png";
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
@@ -97,11 +94,11 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2:sensorBlanco },
-    { key: "mac", label: "MAC", icon: macAzul, icon2:macBlanco },
-    { key: "descripcion", label: "Descripción", icon: descripcionAzul, icon2:descripcionBlanco },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoAzul, icon2:estadoBlanco },
-    { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
+    { key: "nombre", label: "Nombre", icon:sensorBlanco },
+    { key: "mac", label: "MAC", icon: mac},
+    { key: "descripcion", label: "Descripción", icon: descripcion},
+    { key: "estado", label: "Inactivo/Activo", icon: estado },
+    { key: "acciones", label: "Acciones", icon:ajustesBlanco },
   ];
   
 
@@ -404,7 +401,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -414,7 +411,7 @@ function Sensores() {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={descripcionGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -445,7 +442,7 @@ function Sensores() {
             <hr />
             <form onSubmit={handlesensorEditar}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
@@ -455,7 +452,7 @@ function Sensores() {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={descripcionGray} alt="icono" className="bg-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -471,7 +468,7 @@ function Sensores() {
                   Cancelar
                 </button>
                 <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Editar
+                  Guardar y Actualizar
                 </button>
               </div>
             </form>

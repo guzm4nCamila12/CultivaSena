@@ -2,22 +2,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
-import telefonoAzul from "../../assets/icons/telefonoAzul.png"
-import correoAzul from "../../assets/icons/correoAzul.png"
-
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
-import telefonoBlanco from "../../assets/icons/telefonoBlanco.png"
-import correoBlanco from "../../assets/icons/correoBlanco.png"
+import telefono from "../../assets/icons/telefono.png"
+import correo from "../../assets/icons/correo.png"
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
 
 //iconos de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png";
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 //iconos de los modales
-import usuarioGris from "../../assets/icons/usuarioGris.png"
-import telefonoGris from "../../assets/icons/telefonoGris.png"
-import correoGris from "../../assets/icons/correoGris.png"
-import claveGris from "../../assets/icons/claveGris.svg"
+import usuarioAzul from "../../assets/icons/usuarioAzul.png"
+import telefonoAzul from "../../assets/icons/telefonoAzul.png"
+import correoAzul from "../../assets/icons/correoAzul.png"
+import claveAzul from "../../assets/icons/claveAzul.png"
 //imgs de los modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
@@ -69,10 +66,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2: usuarioBlanco },
-    { key: "telefono", label: "Telefono", icon: telefonoAzul,icon2: telefonoBlanco  },
-    { key: "correo", label: "Correo", icon: correoAzul,icon2: correoBlanco },
-    { key: "acciones", label: "Acciones",icon2: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon: usuarioBlanco },
+    { key: "telefono", label: "Telefono", icon: telefono  },
+    { key: "correo", label: "Correo", icon: correo },
+    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -171,7 +168,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno ${alternoEditado} editado correctamente!`
+        title: `¡Alterno: ${usuarioEditar.nombre} editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -352,40 +349,44 @@ const AlternosFinca = () => {
             <form onSubmit={handleSubmit}>
               {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
                   required
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="telefono"
                   placeholder="Telefono"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="correo"
                   placeholder="Correo"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={claveAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="clave"
                   placeholder="Clave"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="flex justify-end mt-4">
@@ -412,29 +413,32 @@ const AlternosFinca = () => {
             <form onSubmit={handleEditarAlterno}>
               {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.nombre}
                   type="text"
                   name="nombre"
+                  autoComplete="off"
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.telefono}
                   type="text"
+                  autoComplete="off"
                   name="telefono"
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.correo}
                   name="correo"
+                  autoComplete="off"
                   type="text"
                   onChange={handleChangeEditar} />
               </div>
@@ -446,7 +450,7 @@ const AlternosFinca = () => {
                 </button>
                 <button type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Guardar y Actualizar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>

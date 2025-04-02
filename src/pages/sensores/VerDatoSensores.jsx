@@ -1,9 +1,6 @@
-import datosBlanco from "../../assets/icons/datosBlanco.png";
-import datosAzul from "../../assets/icons/datosAzul.png";
-import horaBlanco from "../../assets/icons/horaBlanco.png";
-import horaAzul from "../../assets/icons/horaAzul.png";
-import fechaBlanco from  "../../assets/icons/fechaBlanco.png";
-import fechaAzul from "../../assets/icons/fechaAzul.png"
+import dato from "../../assets/icons/dato.png";
+import hora from "../../assets/icons/hora.png";
+import fecha from  "../../assets/icons/fecha.png";
 
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
@@ -81,9 +78,9 @@ export default function VerSensores() {
   const columnas = [
     { key: "#", label: "#" },
 
-    { key: "fecha", label: "Fecha", icon: fechaAzul, icon2: fechaBlanco },
-    { key: "hora", label: "Hora", icon: horaAzul, icon2: horaBlanco },
-    { key: "valor", label: "Datos", icon: datosAzul, icon2: datosBlanco }
+    { key: "fecha", label: "Fecha", icon: fecha },
+    { key: "hora", label: "Hora", icon: hora },
+    { key: "valor", label: "Datos", icon: dato }
 
   ];
 

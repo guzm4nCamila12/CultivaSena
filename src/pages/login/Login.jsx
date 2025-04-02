@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov';
 import telefonoGris from "../../assets/icons/telefonoGris.png"
-import claveGris from "../../assets/icons/claveGris.svg"
+import claveGris from "../../assets/icons/claveGris.png"
 import ojoAbiertoGris from "../../assets/icons/ojoAbiertoGris.png"
 import ojoCerradoGris from "../../assets/icons/ojoCerradoGris.png"
 import AtrasIcon from "../../assets/icons/volverVerde.png"

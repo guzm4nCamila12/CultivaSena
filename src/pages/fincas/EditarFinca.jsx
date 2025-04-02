@@ -2,7 +2,7 @@
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
-import usuarioGris from "../../assets/icons/usuarioGris.png"
+import fincaNombre from "../../assets/icons/usuarioAzul.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
@@ -70,7 +70,7 @@ export default function EditarFinca() {
           acctionSucessful.fire({
             imageUrl: usuarioCreado,
 
-            title: `¡Finca ${fincaActualizada.nombre} editada correctamente!`,
+            title: `¡Finca: <span style="color: #FBD000;">${fincaActualizada.nombre}</span> editada correctamente!`,
 
           });
           irAtras();
@@ -91,7 +91,7 @@ export default function EditarFinca() {
     <div>
       <Navbar />
       <div style={{ fontFamily: "work sans" }}
-        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-10 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
+        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
@@ -108,10 +108,9 @@ export default function EditarFinca() {
                   placeholder={originalFinca.nombre}
                   onChange={(e) => setNombreFinca(e.target.value)}
                   style={{
-                    backgroundImage: `url(${usuarioGris})`,
+                    backgroundImage: `url(${fincaNombre})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                    backgroundSize: '15px',
                   }} />
                 <button
                   type="submit"

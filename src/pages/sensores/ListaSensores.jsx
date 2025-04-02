@@ -202,6 +202,7 @@ function ActivarSensores() {
   };
 
   const abrirModalEliminar = (sensor) => {
+    
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -534,7 +535,7 @@ function ActivarSensores() {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor  de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

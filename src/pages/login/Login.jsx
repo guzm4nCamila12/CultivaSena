@@ -195,7 +195,11 @@ const Login = () => {
               </div>
             </div>
           </div>
-          <img src="sena-logo.svg" alt="" className='w-14 absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
+          <div className="w-full flex justify-center py-4">
+
+          <img src="sena-logo.svg" alt="" className='static m-auto w-16 ' />
+          </div>
+
         </div>
       return bloque;
     }

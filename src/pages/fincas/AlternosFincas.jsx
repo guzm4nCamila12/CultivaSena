@@ -2,12 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
-import telefonoAzul from "../../assets/icons/telefonoAzul.png"
-import correoAzul from "../../assets/icons/correoAzul.png"
-
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
-import telefonoBlanco from "../../assets/icons/telefonoBlanco.png"
-import correoBlanco from "../../assets/icons/correoBlanco.png"
+import telefono from "../../assets/icons/telefono.png"
+import correo from "../../assets/icons/correo.png"
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
 
 //iconos de las acciones
@@ -69,10 +66,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2: usuarioBlanco },
-    { key: "telefono", label: "Telefono", icon: telefonoAzul,icon2: telefonoBlanco  },
-    { key: "correo", label: "Correo", icon: correoAzul,icon2: correoBlanco },
-    { key: "acciones", label: "Acciones",icon2: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon: usuarioBlanco },
+    { key: "telefono", label: "Telefono", icon: telefono  },
+    { key: "correo", label: "Correo", icon: correo },
+    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario

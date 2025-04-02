@@ -2,13 +2,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //iconos de las columnas
-import telefonoAzul from "../../assets/icons/telefonoAzul.png";
-import correoAzul from "../../assets/icons/correoAzul.png";
-import rolAzul from "../../assets/icons/rolAzul.png";
-
-import telefonoBlanco from "../../assets/icons/telefonoBlanco.png";
-import correoBlanco from "../../assets/icons/correoBlanco.png";
-import rolBlanco from "../../assets/icons/rolBlanco.png";
+import telefono from "../../assets/icons/telefono.png";
+import correo from "../../assets/icons/correo.png";
+import rol from "../../assets/icons/rol.png";
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png";
 import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
 //iconos de las acciones
@@ -293,11 +289,11 @@ const Inicio = () => {
   // Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon: telefonoAzul, icon2:usuarioBlanco },
-    { key: "telefono", label: "Teléfono", icon: telefonoAzul, icon2:telefonoBlanco },
-    { key: "correo", label: "Correo", icon: correoAzul, icon2:correoBlanco },
-    { key: "id_rol", label: "Rol", icon: rolAzul, transform: obtenerRol, icon2:rolBlanco },
-    { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
+    { key: "nombre", label: "Nombre", icon:usuarioBlanco },
+    { key: "telefono", label: "Teléfono", icon:telefono },
+    { key: "correo", label: "Correo", icon:correo },
+    { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol },
+    { key: "acciones", label: "Acciones", icon:ajustesBlanco },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila

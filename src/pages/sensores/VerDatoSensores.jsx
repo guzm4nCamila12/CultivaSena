@@ -78,9 +78,9 @@ export default function VerSensores() {
   const columnas = [
     { key: "#", label: "#" },
 
-    { key: "fecha", label: "Fecha", icon: fecha },
-    { key: "hora", label: "Hora", icon: hora },
-    { key: "valor", label: "Datos", icon: dato }
+    { key: "fecha", label: "Fecha", icon: fecha, icon2: fecha },
+    { key: "hora", label: "Hora", icon: hora , icon2: hora},
+    { key: "valor", label: "Datos", icon: dato , icon2: dato}
 
   ];
 

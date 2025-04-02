@@ -1,16 +1,16 @@
 //iconos de las columnas
 import mac from "../../assets/icons/mac.png";
-import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import descripcion from "../../assets/icons/descripcion.png"
 import estado from "../../assets/icons/estado.png"
 import nombre from "../../assets/icons/nombres.png"
-import ajustesBlanco from "../../assets/icons/acciones.png";
+import ajustes from "../../assets/icons/acciones.png";
 //iconos de las acciones
 import editar from "../../assets/icons/editar.png";
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
 import nombreZona from "../../assets/icons/usuarioAzul.png";
+import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
@@ -94,13 +94,12 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon:nombre },
-    { key: "mac", label: "MAC", icon: mac},
-    { key: "descripcion", label: "Descripción", icon: descripcion},
-    { key: "estado", label: "Inactivo/Activo", icon: estado },
-    { key: "acciones", label: "Acciones", icon:ajustesBlanco },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estado, icon2: estado },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
-  
 
   //se trae el id del sensor para traerlo y editarlo
   const enviarForm = (id) => {
@@ -263,7 +262,6 @@ function Sensores() {
           idzona: sensores[index].idzona,
           idfinca: sensores[index].idfinca,
         }
-
         editarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
@@ -291,7 +289,6 @@ function Sensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
-
       editarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;

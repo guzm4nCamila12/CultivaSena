@@ -6,7 +6,6 @@ import telefono from "../../assets/icons/telefono.png";
 import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
 import ajustes from "../../assets/icons/acciones.png"
-import alternosIcon from "../../assets/icons/alternos.png"
 import nombreIcon from "../../assets/icons/nombres.png"
 //iconos de las acciones
 import eliminar from "../../assets/icons/eliminar.png";
@@ -28,7 +27,7 @@ import usuarioCreado from "../../assets/img/usuarioCreado.png";
 import sinFinca from "../../assets/img/sinFincas.png";
 import ConfirmarEliminar from "../../assets/img/eliminar.png";
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
-import fotoPerfil from "../../assets/img/PerfilSuperAdmin.png";
+import fotoPerfil from "../../assets/img/perfilSuperAdmin.png";
 import Alerta from "../../assets/img/alerta.png";
 //endpoints para consumir api
 import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";

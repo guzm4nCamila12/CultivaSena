@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom';
 import nombre from "../../assets/icons/nombres.png"
 import telefono from "../../assets/icons/telefono.png"
 import correo from "../../assets/icons/correo.png"
-import ajustesBlanco from "../../assets/icons/acciones.png"
-
 //iconos de las acciones
+import ajustes from "../../assets/icons/acciones.png"
 import editar from "../../assets/icons/editar.png";
 import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
@@ -66,10 +65,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: nombre },
-    { key: "telefono", label: "Telefono", icon: telefono  },
-    { key: "correo", label: "Correo", icon: correo },
-    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon2: nombre },
+    { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono  },
+    { key: "correo", label: "Correo", icon: correo, icon2: correo },
+    { key: "acciones", label: "Acciones",icon2: ajustes },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -293,9 +292,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-
         title: `¡Alterno: ${nuevoUsuario.nombre} creado correctamente!`
-
       });
     }).catch(console.error);
   }

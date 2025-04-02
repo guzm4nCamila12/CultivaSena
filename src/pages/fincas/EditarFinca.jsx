@@ -49,10 +49,8 @@ export default function EditarFinca() {
     //Si no se ha modificado algun dato muestra un mensaje de alerta
     if (!nombreModificado && !ubicacionModificada) {
       acctionSucessful.fire({
-
         imageUrl: alertaIcon,
         title: `No se modificó la información de la finca ${nombreFinca}`,
-
       });
       return
     }
@@ -69,9 +67,7 @@ export default function EditarFinca() {
         .then(() => {
           acctionSucessful.fire({
             imageUrl: usuarioCreado,
-
             title: `¡Finca: <span style="color: #FBD000;">${fincaActualizada.nombre}</span> editada correctamente!`,
-
           });
           irAtras();
         })

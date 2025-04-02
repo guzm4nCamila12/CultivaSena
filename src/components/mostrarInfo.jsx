@@ -33,8 +33,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             placeholder="Buscar"
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
-            className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
-          />
+            className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full" />
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
             <img src={microfono} alt="microfono" />
           </button>

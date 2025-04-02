@@ -4,14 +4,11 @@ import cantidadSensores from "../../../assets/icons/sensores.png";
 import sensores from "../../../assets/icons/sensores.png";
 import actividades from "../../../assets/icons/actividades.png";
 import ajustes from "../../../assets/icons/acciones.png";
-
 // iconos de las acciones
 import editar from "../../../assets/icons/editar.png";
 import eliminar from "../../../assets/icons/eliminar.png";
 // iconos de los modales
 import nombreZona from "../../../assets/icons/usuarioAzul.png";
-import actividadesAzul from "../../../assets/icons/actividades.png";
-import sensorAzul from "../../../assets/icons/sensores.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../../../assets/img/usuarioCreado.png";
@@ -71,7 +68,7 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre",icon:nombre, icon2: nombre },
+    { key: "nombre", label: "Nombre", icon2: nombre },
     { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores , icon2: cantidadSensores},
     { key: "verSensores", label: "Sensores",icon:sensores , icon2: sensores},
     { key: "actividades", label: "Actividades",icon:actividades , icon2: actividades},
@@ -200,11 +197,11 @@ const Zonas = () => {
     verSensores: (
       <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
           <span className="text-[#3366CC]  font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver sensores
           </span>
         </button>
       </Link>
@@ -212,11 +209,11 @@ const Zonas = () => {
     actividades: (
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver actividades
           </span>
         </button>
       </Link>

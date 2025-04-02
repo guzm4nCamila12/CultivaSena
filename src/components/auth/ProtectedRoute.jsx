@@ -31,7 +31,6 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
   if (!allowedRoles.includes(userRole)) {
     return;  // Redirigir si no tiene el rol adecuado
   }
-
   // Si el token es válido y el rol está permitido, renderiza el componente protegido
   return <Component {...rest} />;
 };

@@ -1,11 +1,10 @@
 //iconos de la columna
 import nombre from "../../assets/icons/nombres.png"
-import ajustes from "../../assets/icons/acciones.png";
-//iconos de la data
 import zonas from "../../assets/icons/zonas.png"
 import alternos from "../../assets/icons/alternos.png";
 import sensores from "../../assets/icons/sensores.png";
 //iconos de las acciones
+import ajustes from "../../assets/icons/acciones.png";
 import eliminar from "../../assets/icons/eliminar.png";
 import editar from "../../assets/icons/editar.png";
 //imgs de los modales
@@ -68,7 +67,7 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: nombre , icon2:nombre},
+    { key: "nombre", label: "Nombre", icon2:nombre},
     { key: "sensores", label: "Sensores",icon:sensores , icon2:sensores},
     { key: "alternos", label: "Alternos",icon:alternos ,icon2: alternos},
     { key: "zonas", label: "Zonas",icon: zonas , icon2:zonas},
@@ -103,11 +102,11 @@ export default function ListaFincas() {
     sensores: (
       <Link to={`/activar-sensores/${id}/${finca.id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver sensores
           </span>
         </button>
       </Link>
@@ -115,11 +114,11 @@ export default function ListaFincas() {
     alternos: (
       <Link to={`/alternos/${finca.id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver alternos
           </span>
         </button>
       </Link>
@@ -127,11 +126,11 @@ export default function ListaFincas() {
     zonas: (
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver zonas
           </span>
         </button>
       </Link>

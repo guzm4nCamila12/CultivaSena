@@ -1,7 +1,8 @@
+//icons de las culomnas
 import dato from "../../assets/icons/dato.png";
 import hora from "../../assets/icons/hora.png";
-import fecha from  "../../assets/icons/fecha.png";
-
+import fecha from "../../assets/icons/fecha.png";
+import idSensor from "../../assets/icons/id.png"
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
@@ -76,12 +77,10 @@ export default function VerSensores() {
   const datosFinales = filtrarDatos();
 
   const columnas = [
-    { key: "#", label: "#" },
-
-    { key: "fecha", label: "Fecha", icon: fecha },
-    { key: "hora", label: "Hora", icon: hora },
-    { key: "valor", label: "Datos", icon: dato }
-
+    { key: "#", icon2: idSensor },
+    { key: "fecha", label: "Fecha", icon: fecha, icon2: fecha },
+    { key: "hora", label: "Hora", icon: hora, icon2: hora },
+    { key: "valor", label: "Datos", icon: dato, icon2: dato }
   ];
 
   // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo
@@ -93,12 +92,10 @@ export default function VerSensores() {
   }));
 
   return (
-
     <div >
       <NavBar />
       {/* Filtrar datos por fecha */}
       {/* <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
-
         <div className="flex justify-between items-center mb-4">
           <div className="p-4">
             <h3 className="mb-2 font-semibold">Filtrar por Fecha</h3>
@@ -112,11 +109,11 @@ export default function VerSensores() {
             </div>
           </div>
         </div> */}
-        <MostrarInfo
-          titulo={`Datos del sensor: ${sensores.nombre}`}
-          columnas={columnas}
-          datos={datosTabla} // Pasamos los datos ya procesados para la tabla
-        />
+      <MostrarInfo
+        titulo={`Datos del sensor: ${sensores.nombre}`}
+        columnas={columnas}
+        datos={datosTabla} // Pasamos los datos ya procesados para la tabla
+      />
       {/* </div> */}
       <div className='flex flex-row justify-center '>
         <GraficoSensor datos={datosFinales} />

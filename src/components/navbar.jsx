@@ -31,7 +31,6 @@ export default function Navbar() {
           <img src="/logoC.svg" alt="Cultiva SENA" className="h-16 md:h-20" />
         </div>
       </nav>
-
       <div className='bg-[#002A43] h-12 w-full z-50 px-4'>
         <div className='container mx-auto py-1 flex flex-row items-center'>
           {/* Icono de menú con rotación condicional */}

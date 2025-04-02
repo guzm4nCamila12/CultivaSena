@@ -1,10 +1,8 @@
 //iconos de las columnas
 import cultivo from '../../../assets/icons/cultivo.png'
 import etapa from "../../../assets/icons/etapa.png"
-
-import ajustes from '../../../assets/icons/acciones.png'
-
 //iconos de las acciones
+import ajustes from '../../../assets/icons/acciones.png'
 import verActividad from '../../../assets/icons/sinFincas.png'
 import eliminar from '../../../assets/icons/eliminar.png'
 //imgs de los modales
@@ -100,12 +98,10 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivo , icon2: cultivo},
-        { key: "etapa", label: "Etapa", icon: etapa , icon2: etapa},
+        { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
+        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa },
         { key: "acciones", label: "Acciones", icon2: ajustes },
     ]
-
-
     // Handler general para actualizar el estado de la actividad
     const handleActividadChange = (e) => {
         const { name, value, tagName, selectedIndex } = e.target;
@@ -118,7 +114,6 @@ function ActividadesZonas() {
             [name]: newValue
         }));
     };
-
     const handleEditarActividadChange = (e) => {
         const { name, value, tagName, selectedIndex } = e.target;
         let newValue = value;
@@ -126,11 +121,8 @@ function ActividadesZonas() {
             newValue = e.target.options[selectedIndex].text;
         }
         console.log("nombre: " + newValue)
-
-
         setActividadEditar({ ...actividadEditar, [e.target.name]: newValue })
     }
-
     // Handler para la etapa; guarda el valor seleccionado (para filtrar las actividades) y también su texto
     const handleEtapaChange = (e) => {
         const { name, value, tagName, selectedIndex } = e.target;
@@ -146,7 +138,6 @@ function ActividadesZonas() {
         setActividadEditar({ ...actividadEditar, [e.target.name]: etapaText })
         setEtapaSeleccionada(value);
     };
-
     const handleEditarActividad = (e) => {
         e.preventDefault();
         const fechaInicio = new Date(actividadEditar.fechainicio);
@@ -214,7 +205,6 @@ function ActividadesZonas() {
             })
             .catch(console.error);
     };
-
     // Maneja la eliminación de una actividad
     const HandleEliminarActividad = (e) => {
         e.preventDefault();
@@ -259,8 +249,7 @@ function ActividadesZonas() {
                     className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                     name="etapa"
                     required
-                    onChange={handleEtapaChange}
-                >
+                    onChange={handleEtapaChange}>
                     <option value={valor.value}>{valor.label}</option>
                     {etapas.map((etapa) => {
                         return (
@@ -282,8 +271,7 @@ function ActividadesZonas() {
             <div className="relative group">
                 <button
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-                    onClick={() => abrirModalEditar(fila)}
-                >
+                    onClick={() => abrirModalEditar(fila)}>
                     <img src={verActividad} alt="Agregar Actividad" className="w-5 h-5" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -293,8 +281,7 @@ function ActividadesZonas() {
             <div className="relative group">
                 <button
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-                    onClick={() => abrirModalEliminar(fila.id)}
-                >
+                    onClick={() => abrirModalEliminar(fila.id)}>
                     <img src={eliminar} alt="Eliminar" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -473,7 +460,6 @@ function ActividadesZonas() {
                                     ))}
                                 </select>
                             </div>
-
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Descripción</label>
                                 <input

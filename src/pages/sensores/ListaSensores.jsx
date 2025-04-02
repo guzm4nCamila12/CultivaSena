@@ -1,18 +1,17 @@
 //iconos de las columnas
-import descripcionAzul from "../../assets/icons/descripcionAzul.png"
 import descripcion from "../../assets/icons/descripcion.png"
 import nombre from "../../assets/icons/nombres.png"
 import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
 import ajustes from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
-import sensoresIcon from "../../assets/icons/sensores.png";
 //icons de las acciones
 import editar from "../../assets/icons/editar.png"
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png"
 //icons de los modales
 import nombreSensor from "../../assets/icons/usuarioAzul.png";
+import descripcionAzul from "../../assets/icons/descripcionAzul.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
@@ -103,13 +102,12 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-
-    { key: "nombre", label: "Nombre", icon:nombre, icon2: nombre },
-    { key: "mac", label: "MAC", icon: mac , icon2: mac},
-    { key: "idzona", label: "Zona", icon: zonaSensor , icon2:zonaSensor},
-    { key: "descripcion", label: "Descripción", icon: descripcion , icon2: descripcion},
-    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado , icon2: sensorEstado},
-    { key: "acciones", label: "Acciones", icon2:ajustes },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "idzona", label: "Zona", icon: zonaSensor, icon2: zonaSensor },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado, icon2: sensorEstado },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   const acciones = (fila) => (
@@ -196,14 +194,12 @@ function ActivarSensores() {
     ),
   }))
 
-
   const abrirModalEditar = (sensor) => {
     setsensorEditar(sensor);
     setModalEditarAbierto(true);
   };
 
   const abrirModalEliminar = (sensor) => {
-    
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -244,7 +240,6 @@ function ActivarSensores() {
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
       title: "¡Sensor creado correctamente!"
-
     });
   };
 
@@ -312,7 +307,6 @@ function ActivarSensores() {
           idzona: sensores[index].idzona,
           idfinca: sensores[index].idfinca,
         }
-
         editarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
@@ -441,7 +435,7 @@ function ActivarSensores() {
       />
 
       {/*Codigo modal insertar */}
-      { modalInsertarAbierto && (
+      {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Crear sensor</h5>

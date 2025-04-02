@@ -44,7 +44,6 @@ const Agregar = () => {
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: `¡Finca: <span style="color: green;">${nombre}</span> creada correctamente!`
-
       });
       irAtras();
     } catch (error) {

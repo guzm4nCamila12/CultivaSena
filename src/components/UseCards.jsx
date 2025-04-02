@@ -1,17 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 // Imágenes de perfil según rol
-import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
-import adminIcon from "../assets/img/PerfilAdmin.png";
-import alternoIcon from "../assets/img/PerfilAlterno.png";
+import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
+import adminIcon from "../assets/img/perfilAdmin.png";
+import alternoIcon from "../assets/img/perfilAlterno.png";
 import cultivaIcon from "../assets/img/cultivaSena.png"
-
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   // Referencia al contenedor de tarjetas
   const containerRef = useRef(null);
   // Estado para saber si hay scroll visible
@@ -63,12 +62,11 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
     <div className="container mx-auto p-4 sm:px-0">
       {/* Contenedor de tarjetas con padding dinámico según scroll */}
       <div
-        ref={containerRef}  
-        className={`w-full overflow-y-auto max-h-[490px] grid gap-4 pb-1 ${
-          datosFiltrados.length === 0
+        ref={containerRef}
+        className={`w-full overflow-y-auto max-h-[490px] grid gap-4 pb-1 ${datosFiltrados.length === 0
             ? "grid-cols-1 place-items-center"
             : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        } ${isScrollable ? "pr-4" : "pr-0"}`}
+          } ${isScrollable ? "pr-4" : "pr-0"}`}
       >
         {/* Tarjeta para agregar usuario cuando no hay datos filtrados */}
         {datosFiltrados.length === 0 ? (
@@ -138,7 +136,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                         <strong>{columna.label}:</strong>{" "}
                         <span className="ml-1">
                           {columna.key === "descripcion" &&
-                          fila[columna.key]?.length > 0 ? (
+                            fila[columna.key]?.length > 0 ? (
                             <>
                               {fila[columna.key].slice(0, 0)}{" "}
                               <button
@@ -159,15 +157,15 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                 </div>
 
                 {/* Imagen de perfil */}
-                
-                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                    <img
-                      src={getRoleImage(fila.id_rol)}
-                      alt="Foto de perfil"
-                      className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
-                    />
-                  </div>
-                
+
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                  <img
+                    src={getRoleImage(fila.id_rol)}
+                    alt="Foto de perfil"
+                    className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
+                  />
+                </div>
+
 
                 <hr />
 

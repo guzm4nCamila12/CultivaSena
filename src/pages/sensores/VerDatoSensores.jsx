@@ -1,6 +1,10 @@
-import data from "../../assets/icons/dataWhite.png";
-import horaIcon from "../../assets/icons/relojWhite.png";
-import fechaIcon from  "../../assets/icons/fechaWhite.png";
+import datosBlanco from "../../assets/icons/datosBlanco.png";
+import datosAzul from "../../assets/icons/datosAzul.png";
+import horaBlanco from "../../assets/icons/horaBlanco.png";
+import horaAzul from "../../assets/icons/horaAzul.png";
+import fechaBlanco from  "../../assets/icons/fechaBlanco.png";
+import fechaAzul from "../../assets/icons/fechaAzul.png"
+
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
@@ -76,9 +80,11 @@ export default function VerSensores() {
 
   const columnas = [
     { key: "#", label: "#" },
-    { key: "fecha", label: "Fecha", icon2: fechaIcon },
-    { key: "hora", label: "Hora", icon2: horaIcon },
-    { key: "valor", label: "Datos", icon2: data }
+
+    { key: "fecha", label: "Fecha", icon: fechaAzul, icon2: fechaBlanco },
+    { key: "hora", label: "Hora", icon: horaAzul, icon2: horaBlanco },
+    { key: "valor", label: "Datos", icon: datosAzul, icon2: datosBlanco }
+
   ];
 
   // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo

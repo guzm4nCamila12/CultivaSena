@@ -1,16 +1,19 @@
 //iconos de las columnas
-import cultivoWhite from '../../../assets/icons/Vector.png'
-import cultivoBlue from '../../../assets/icons/cultivoBlue.png'
-import etapaWhite from "../../../assets/icons/etapaWhite.png"
-import configWhite from '../../../assets/icons/ajustesWhite.png'
+import cultivoBlanco from '../../../assets/icons/cultivoBlanco.png'
+import cultivoAzul from '../../../assets/icons/cultivoAzul.png'
+import etapaBlanco from "../../../assets/icons/etapaBlanco.png"
+
+import ajustesBlanco from '../../../assets/icons/ajustesBlanco.png'
+
+import etapaAzul from "../../../assets/icons/etapaAzul.png"
 //iconos de las acciones
-import viewWhite from '../../../assets/icons/sinFincas.png'
-import deleteWhite from '../../../assets/icons/deleteWhite.png'
+import verActividad from '../../../assets/icons/sinFincas.png'
+import eliminarBlanco from '../../../assets/icons/eliminarBlanco.png'
 //imgs de los modales
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png"
-import usuarioEliminado from "../../../assets/img/UsuarioEliminado.png"
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
-import Alerta from "../../../assets/img/Alert.png";
+import usuarioCreado from "../../../assets/img/usuarioCreado.png"
+import usuarioEliminado from "../../../assets/img/usuarioEliminado.png"
+import ConfirmarEliminar from "../../../assets/img/eliminar.png";
+import Alerta from "../../../assets/img/alerta.png";
 //componentes reutilizados
 import { acctionSucessful } from '../../../components/alertSuccesful'
 import Navbar from '../../../components/navbar';
@@ -99,10 +102,11 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivoBlue  ,icon2:cultivoWhite },
-        { key: "etapa", label: "Etapa", icon:cultivoBlue   ,icon2:etapaWhite },
-        { key: "acciones", label: "Acciones", icon2: configWhite },
-    ];
+        { key: "cultivo", label: "Cultivo", icon: cultivoAzul   ,icon2:cultivoBlanco },
+        { key: "etapa", label: "Etapa", icon:etapaAzul   ,icon2:etapaBlanco },
+        { key: "acciones", label: "Acciones", icon2: ajustesBlanco },
+    ]
+
 
     // Handler general para actualizar el estado de la actividad
     const handleActividadChange = (e) => {
@@ -282,7 +286,7 @@ function ActividadesZonas() {
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEditar(fila)}
                 >
-                    <img src={viewWhite} alt="Agregar Actividad" className="w-5 h-5" />
+                    <img src={verActividad} alt="Agregar Actividad" className="w-5 h-5" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Ver Todo
@@ -293,7 +297,7 @@ function ActividadesZonas() {
                     className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
-                    <img src={deleteWhite} alt="Eliminar" />
+                    <img src={eliminarBlanco} alt="Eliminar" />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Eliminar

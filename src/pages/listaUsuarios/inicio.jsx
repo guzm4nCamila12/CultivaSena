@@ -2,37 +2,37 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 //iconos de las columnas
-import phoneBlue from "../../assets/icons/phoneBlue.png";
-import emailBlue from "../../assets/icons/emailBlue.png";
-import rolBlue from "../../assets/icons/rolBlue.png";
+import telefonoAzul from "../../assets/icons/telefonoAzul.png";
+import correoAzul from "../../assets/icons/correoAzul.png";
+import rolAzul from "../../assets/icons/rolAzul.png";
 
-import phoneWhite from "../../assets/icons/phoneWhite.png";
-import emailWhite from "../../assets/icons/emailWhite.png";
-import rolWhite from "../../assets/icons/rolWhite.png";
-import nombreWhite from "../../assets/icons/userWhite.png";
-import configWhite from "../../assets/icons/ajustesWhite.png"
+import telefonoBlanco from "../../assets/icons/telefonoBlanco.png";
+import correoBlanco from "../../assets/icons/correoBlanco.png";
+import rolBlanco from "../../assets/icons/rolBlanco.png";
+import usuarioBlanco from "../../assets/icons/usuarioBlanco.png";
+import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
 //iconos de las acciones
-import deletWhite from "../../assets/icons/deleteWhite.png";
-import editWhite from "../../assets/icons/editWhite.png";
-import viewWhite from "../../assets/icons/viewWhite.png";
+import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
+import editarBlanco from "../../assets/icons/editarBlanco.png";
+import verBlanco from "../../assets/icons/verBlanco.png";
 import sinFincas from "../../assets/icons/sinFincas.png";
 //iconos de modales
-import nameGray from "../../assets/icons/userGray.png";
-import phoneGray from "../../assets/icons/phoneGray.png";
-import emailGray from "../../assets/icons/emailGray.png";
-import passwordGray from "../../assets/icons/passwordGray.svg";
-import rolGray from "../../assets/icons/rolGray.png";
+import usuarioGris from "../../assets/icons/usuarioGris.png";
+import telefonoGris from "../../assets/icons/telefonoGris.png";
+import correoGris from "../../assets/icons/correoGris.png";
+import claveGris from "../../assets/icons/claveGris.svg";
+import rolGris from "../../assets/icons/rolGris.png";
 //componentes reutilizados
 import MostrarInfo from "../../components/mostrarInfo";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
 //imgs modales
-import usuarioCreado from "../../assets/img/UsuarioCreado.png";
+import usuarioCreado from "../../assets/img/usuarioCreado.png";
 import sinFinca from "../../assets/img/sinFincas.png";
-import ConfirmarEliminar from "../../assets/img/Eliminar.png";
-import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png";
+import ConfirmarEliminar from "../../assets/img/eliminar.png";
+import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
 import fotoPerfil from "../../assets/img/PerfilSuperAdmin.png";
-import Alerta from "../../assets/img/Alert.png";
+import Alerta from "../../assets/img/alerta.png";
 //endpoints para consumir api
 import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
 
@@ -293,11 +293,11 @@ const Inicio = () => {
   // Define las columnas de la tabla
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
-    { key: "nombre", label: "Nombre", icon: phoneBlue, icon2:nombreWhite },
-    { key: "telefono", label: "Teléfono", icon: phoneBlue, icon2:phoneWhite },
-    { key: "correo", label: "Correo", icon: emailBlue, icon2:emailWhite },
-    { key: "id_rol", label: "Rol", icon: rolBlue, transform: obtenerRol, icon2:rolWhite },
-    { key: "acciones", label: "Acciones", icon2:configWhite },
+    { key: "nombre", label: "Nombre", icon: telefonoAzul, icon2:usuarioBlanco },
+    { key: "telefono", label: "Teléfono", icon: telefonoAzul, icon2:telefonoBlanco },
+    { key: "correo", label: "Correo", icon: correoAzul, icon2:correoBlanco },
+    { key: "id_rol", label: "Rol", icon: rolAzul, transform: obtenerRol, icon2:rolBlanco },
+    { key: "acciones", label: "Acciones", icon2:ajustesBlanco },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila
@@ -308,7 +308,7 @@ const Inicio = () => {
           <button
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEditar(fila)}>
-            <img src={editWhite} alt="Editar" />
+            <img src={editarBlanco} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -330,7 +330,7 @@ const Inicio = () => {
           <div className="relative group">
             <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
               <button>
-                <img src={viewWhite} alt="Ver" />
+                <img src={verBlanco} alt="Ver" />
               </button>
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
@@ -342,7 +342,7 @@ const Inicio = () => {
           <button
             onClick={() => abrirModalEliminar(fila.id)}
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={deletWhite} alt="Eliminar" />
+            <img src={eliminarBlanco} alt="Eliminar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
@@ -404,7 +404,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleCrearUsuario}>
               <div className="relative w-full mt-2">
-                <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -414,7 +414,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -423,7 +423,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -432,7 +432,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -441,7 +441,7 @@ const Inicio = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={rolGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={rolGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <select
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="id_rol"
@@ -478,7 +478,7 @@ const Inicio = () => {
             <hr />
             <form onSubmit={handleUsuarioEditar}>
               <div className="relative w-full mt-2">
-                <img src={nameGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.nombre}
@@ -488,7 +488,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.telefono}
@@ -498,7 +498,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.correo}
@@ -508,7 +508,7 @@ const Inicio = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.clave}

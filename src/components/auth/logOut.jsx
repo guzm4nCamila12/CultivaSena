@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import ConfirmarEliminar from '../../assets/img/eliminar.png'
 import { acctionSucessful } from "../../components/alertSuccesful";
 import goodBye from "../../assets/img/sesionfinalizada.png"
-import salir from "../../assets/icons/salirBlanco.png"
+import salir from "../../assets/icons/salir.png"
 
 const LogOut = () => {
   const navigate = useNavigate(); // Obtén el hook useNavigate

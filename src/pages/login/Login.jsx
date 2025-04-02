@@ -4,9 +4,9 @@ import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov';
 import telefonoGris from "../../assets/icons/telefonoGris.png"
 import claveGris from "../../assets/icons/claveGris.png"
-import ojoAbiertoGris from "../../assets/icons/ojoAbiertoGris.png"
-import ojoCerradoGris from "../../assets/icons/ojoCerradoGris.png"
-import AtrasIcon from "../../assets/icons/volverVerde.png"
+import verClave from "../../assets/icons/verClave.png"
+import noVerClave from "../../assets/icons/noVerClave.png"
+import volver from "../../assets/icons/volver.png"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import welcomeIcon from "../../assets/img/iniciosesion.png"
 
@@ -84,7 +84,7 @@ const Login = () => {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
         </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
-          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
+          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
           <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
@@ -119,7 +119,7 @@ const Login = () => {
                   onClick={handleToggle}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
-                    src={mostrarClave ? ojoAbiertoGris : ojoCerradoGris} alt="Toggle Visibility" />
+                    src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                 </div>
               </div>
               <button
@@ -142,7 +142,7 @@ const Login = () => {
             style={{ backgroundImage: "url('/cultivaBanner2.png')" }} >
             <div className="absolute w-full h-full backdrop-blur-sm"
               style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
-              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={AtrasIcon} alt="" className='w-2 m-auto' /></button>
+              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
                 <div className="absolute bottom-44 m-auto w-full p-2 z-20 gap-5 ">
                   <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
@@ -179,7 +179,7 @@ const Login = () => {
                           onClick={handleToggle}
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                           <img
-                            src={mostrarClave ? ojoAbiertoGris : ojoCerradoGris}
+                            src={mostrarClave ? verClave : noVerClave}
                             alt="Toggle Visibility" />
                         </div>
                       </div>

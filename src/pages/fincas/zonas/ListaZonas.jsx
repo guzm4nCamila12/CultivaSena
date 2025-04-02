@@ -1,17 +1,17 @@
 // iconos de las columnas
-import zonaBlanco from "../../../assets/icons/zonaBlanco.png";
+import nombre from "../../../assets/icons/nombres.png";
 import cantidadSensores from "../../../assets/icons/sensores.png";
 import sensores from "../../../assets/icons/sensores.png";
 import actividades from "../../../assets/icons/actividades.png";
 import ajustes from "../../../assets/icons/acciones.png";
 
 // iconos de las acciones
-import editarBlanco from "../../../assets/icons/editarBlanco.png";
-import eliminarBlanco from "../../../assets/icons/eliminarBlanco.png";
+import editar from "../../../assets/icons/editar.png";
+import eliminar from "../../../assets/icons/eliminar.png";
 // iconos de los modales
 import nombreZona from "../../../assets/icons/usuarioAzul.png";
 import actividadesAzul from "../../../assets/icons/actividades.png";
-import sensorAzul from "../../../assets/icons/sensorAzul.png";
+import sensorAzul from "../../../assets/icons/sensores.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../../../assets/img/usuarioCreado.png";
@@ -71,11 +71,11 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2:zonaBlanco },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores },
-    { key: "verSensores", label: "Sensores",icon:sensores },
-    { key: "actividades", label: "Actividades",icon:actividades },
-    { key: "acciones", label: "Acciones",icon: ajustes }
+    { key: "nombre", label: "Nombre",icon:nombre, icon2: nombre },
+    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores , icon2: cantidadSensores},
+    { key: "verSensores", label: "Sensores",icon:sensores , icon2: sensores},
+    { key: "actividades", label: "Actividades",icon:actividades , icon2: actividades},
+    { key: "acciones", label: "Acciones",icon2: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -172,7 +172,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarZona(fila)}>
-          <img src={editarBlanco} alt="Editar" />
+          <img src={editar} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -182,7 +182,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminarBlanco} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar

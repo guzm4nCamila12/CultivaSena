@@ -1,13 +1,13 @@
 //iconos de la columna
-import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
-import ajustesBlanco from "../../assets/icons/acciones.png";
+import nombre from "../../assets/icons/nombres.png"
+import ajustes from "../../assets/icons/acciones.png";
 //iconos de la data
 import zonas from "../../assets/icons/zonas.png"
 import alternos from "../../assets/icons/alternos.png";
 import sensores from "../../assets/icons/sensores.png";
 //iconos de las acciones
-import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
-import editarBlanco from "../../assets/icons/editarBlanco.png";
+import eliminar from "../../assets/icons/eliminar.png";
+import editar from "../../assets/icons/editar.png";
 //imgs de los modales
 import ConfirmarEliminar from "../../assets/img/eliminar.png";
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
@@ -68,11 +68,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: usuarioBlanco },
-    { key: "sensores", label: "Sensores",icon:sensores },
-    { key: "alternos", label: "Alternos",icon:alternos },
-    { key: "zonas", label: "Zonas",icon: zonas },
-    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
+    { key: "nombre", label: "Nombre",icon: nombre , icon2:nombre},
+    { key: "sensores", label: "Sensores",icon:sensores , icon2:sensores},
+    { key: "alternos", label: "Alternos",icon:alternos ,icon2: alternos},
+    { key: "zonas", label: "Zonas",icon: zonas , icon2:zonas},
+    { key: "acciones", label: "Acciones",icon2: ajustes },
   ];
 
   const acciones = (fila) => (
@@ -80,7 +80,7 @@ export default function ListaFincas() {
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={editarBlanco} alt="Editar" />
+            <img src={editar} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -89,7 +89,7 @@ export default function ListaFincas() {
       </div>
       <div className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={eliminarBlanco} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar

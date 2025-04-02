@@ -1,5 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import buscarAzul from "../assets/icons/buscarAzul.png";
+import microfono from "../assets/icons/microfono.png";
 import superAdminIcon from "../assets/img/PerfilSuperAdmin.png";
 import adminIcon from "../assets/img/PerfilAdmin.png";
 import alternoIcon from "../assets/img/PerfilAlterno.png";

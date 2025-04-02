@@ -1,9 +1,9 @@
 //iconos de las columnas
-import macAzul from "../../assets/icons/macAzul.png";
-import descripcionAzul from "../../assets/icons/descripcionAzul.png";
-import estadoAzul from "../../assets/icons/estadoAzul.png"
+import mac from "../../assets/icons/mac.png";
+import descripcion from "../../assets/icons/descripcion.png";
+import estado from "../../assets/icons/estado.png"
 //iconos de las acciones
-import verBlanco from "../../assets/icons/verBlanco.png";
+import ver from "../../assets/icons/ver.png";
 //componentes reutilizados
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -66,9 +66,9 @@ function SensoresAlterno() {
   //Define las columnas para la UseCards
   const columnas = [
     { key: "nombre", label: "Nombre" },
-    { key: "mac", label: "MAC", icon: macAzul },
-    { key: "descripcion", label: "Descripción", icon: descripcionAzul },
-    { key: "estado", label: "Inactivo/Activo", icon: estadoAzul },
+    { key: "mac", label: "MAC", icon: mac },
+    { key: "descripcion", label: "Descripción", icon: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estado },
     { key: "acciones", label: "Acciones" },
   ];
 
@@ -77,7 +77,7 @@ function SensoresAlterno() {
     <div className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={verBlanco} alt="Ver" />
+          <img src={ver} alt="Ver" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver Datos
           </span>

@@ -5,9 +5,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Importación de íconos personalizados para el mapa
 import locacionAzul from "../assets/icons/locacionAzul.png"
-import marcadorVerde from "../assets/icons/marcadorVerde.png"
-import ubiBlanco from "../assets/icons/ubiBlanco.png"
-import ubiActualAzul from "../assets/icons/ubiActualAzul.png"
+import marcador from "../assets/icons/marcador.png"
+import ubicacionMapa from "../assets/icons/ubicacion.png"
+import ubiActual from "../assets/icons/ubiActual.png"
 import acercar from "../assets/icons/acercar.png"
 import alejar from "../assets/icons/alejar.png"
 
@@ -35,9 +35,9 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     });
   }, []);
 
-  // Definición de un ícono personalizado para el marcador del mapa (usando la imagen "marcadorVerde")
+  // Definición de un ícono personalizado para el marcador del mapa (usando la imagen "marcador")
   const customIcon = new L.Icon({
-    iconUrl: marcadorVerde,
+    iconUrl: marcador,
     iconSize: [50, 65], // Tamaño del ícono
     iconAnchor: [25, 60], // Punto de anclaje del ícono
   });
@@ -99,7 +99,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   return (
     <div className='mb-10 relative lg:shadow-2xl lg:rounded-b-3xl'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
-        <img src={ubiBlanco} className='mr-2' alt='iconoUbicacion' />
+        <img src={ubicacionMapa} className='mr-2' alt='iconoUbicacion' />
         Seleccione una ubicación en el mapa
       </h2>
       <div className="flex justify-center relative">
@@ -117,7 +117,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
           <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
             <button type="button" onClick={getCurrentLocation} className='group relative'>
-              <img src={ubiActualAzul} alt="Ubicación Actual" />
+              <img src={ubiActual} alt="Ubicación Actual" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 w-48 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Mostrar tu ubicacion
               </span>

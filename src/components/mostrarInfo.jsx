@@ -3,7 +3,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 // Iconos utilizados en el buscador
 import buscarAzul from "../assets/icons/buscarAzul.png";
-import microfonoBlanco from "../assets/icons/microfonoBlanco.png";
+import microfono from "../assets/icons/microfono.png";
 import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
@@ -36,7 +36,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
           />
           <button className="absolute right-3 bg-[#00304D] text-white px-[10px] rounded-full">
-            <img src={microfonoBlanco} alt="microfonoBlanco" />
+            <img src={microfono} alt="microfono" />
           </button>
         </div>
         <Opcion onChangeVista={handleVistaChange} />

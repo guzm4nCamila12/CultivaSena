@@ -72,9 +72,9 @@ export default function ListaFincas() {
 
   const columnas = [
     { key: "nombre", label: "Nombre",icon2: usuarioBlanco },
-    { key: "sensores", label: "Sensores",icon2:sensorBlanco  },
-    { key: "alternos", label: "Alternos",icon2: alternoBlanco },
-    { key: "zonas", label: "Zonas",icon2: zonaBlanco },
+    { key: "sensores", label: "Sensores",icon:sensorAzul  , icon2:sensorBlanco  },
+    { key: "alternos", label: "Alternos",icon:alternoAzul  , icon2: alternoBlanco },
+    { key: "zonas", label: "Zonas",icon: zonaAzul , icon2: zonaBlanco },
     { key: "acciones", label: "Acciones",icon2: ajustesBlanco },
   ];
 

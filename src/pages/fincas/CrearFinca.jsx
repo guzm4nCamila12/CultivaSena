@@ -1,12 +1,12 @@
 //imgs de los modales
-import usuarioCreado from "../../assets/img/UsuarioCreado.png"
-import altertaIcon from "../../assets/img/Alert.png"
+import usuarioCreado from "../../assets/img/usuarioCreado.png"
+import altertaIcon from "../../assets/img/alerta.png"
 //componentes reutilizados
 import Mapa from "../../components/Mapa";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import Navbar from "../../components/navbar";
 //icono del input
-import userGray from "../../assets/icons/userGray.png"
+import usuarioGris from "../../assets/icons/usuarioGris.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
 //importaciones necesarias de react
@@ -76,7 +76,7 @@ const Agregar = () => {
                   placeholder="Ingrese el nombre"
                   autoComplete="off"
                   style={{
-                    backgroundImage: `url(${userGray})`,
+                    backgroundImage: `url(${usuarioGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                     backgroundSize: '15px',

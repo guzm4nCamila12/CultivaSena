@@ -1,22 +1,22 @@
 // iconos de las columnas
-import nombreWhite from "../../../assets/icons/zonaWhite.png";
-import cantidadSensores from "../../../assets/icons/sensorWhite.png";
-import sensorWhite from "../../../assets/icons/sensorWhite.png";
-import actividadesWhite from "../../../assets/icons/actividadesWhite.png";
-import configWhite from "../../../assets/icons/ajustesWhite.png";
+import zonaBlanco from "../../../assets/icons/zonaBlanco.png";
+import cantidadSensores from "../../../assets/icons/sensorBlanco.png";
+import sensorBlanco from "../../../assets/icons/sensorBlanco.png";
+import actividadesBlanco from "../../../assets/icons/actividadesBlanco.png";
+import ajustesBlanco from "../../../assets/icons/ajustesBlanco.png";
 
 // iconos de las acciones
-import editWhite from "../../../assets/icons/editWhite.png";
-import deletWhite from "../../../assets/icons/deleteWhite.png";
+import editarBlanco from "../../../assets/icons/editarBlanco.png";
+import eliminarBlanco from "../../../assets/icons/eliminarBlanco.png";
 // iconos de los modales
-import userGray from "../../../assets/icons/userGray.png";
-import actividadesIcon from "../../../assets/icons/actividades.png";
-import sensorIcon from "../../../assets/icons/sensorBlue.png";
+import usuarioGris from "../../../assets/icons/usuarioGris.png";
+import actividadesAzul from "../../../assets/icons/actividadesAzul.png";
+import sensorAzul from "../../../assets/icons/sensorAzul.png";
 // imgs de los modales
-import UsuarioEliminado from "../../../assets/img/UsuarioEliminado.png";
-import usuarioCreado from "../../../assets/img/UsuarioCreado.png";
-import ConfirmarEliminar from "../../../assets/img/Eliminar.png";
-import Alerta from "../../../assets/img/Alert.png";
+import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
+import usuarioCreado from "../../../assets/img/usuarioCreado.png";
+import ConfirmarEliminar from "../../../assets/img/eliminar.png";
+import Alerta from "../../../assets/img/alerta.png";
 // componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
@@ -71,11 +71,11 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2:nombreWhite },
+    { key: "nombre", label: "Nombre",icon2:zonaBlanco },
     { key: "cantidadSensores", label: "Cantidad sensores",icon2:cantidadSensores },
-    { key: "verSensores", label: "Sensores",icon2:sensorWhite },
-    { key: "actividades", label: "Actividades",icon2:actividadesWhite },
-    { key: "acciones", label: "Acciones",icon2: configWhite }
+    { key: "verSensores", label: "Sensores",icon2:sensorBlanco },
+    { key: "actividades", label: "Actividades",icon2:actividadesBlanco },
+    { key: "acciones", label: "Acciones",icon2: ajustesBlanco }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -172,7 +172,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarZona(fila)}>
-          <img src={editWhite} alt="Editar" />
+          <img src={editarBlanco} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -182,7 +182,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={deletWhite} alt="Eliminar" />
+          <img src={eliminarBlanco} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -201,7 +201,7 @@ const Zonas = () => {
       <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorIcon} alt="Sensores" />
+            <img src={sensorAzul} alt="Sensores" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -213,7 +213,7 @@ const Zonas = () => {
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
           <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesIcon} alt="Actividades" className="w-5 h-5" />
+            <img src={actividadesAzul} alt="Actividades" className="w-5 h-5" />
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -244,7 +244,7 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -280,7 +280,7 @@ const Zonas = () => {
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={zonaEditar.nombre}

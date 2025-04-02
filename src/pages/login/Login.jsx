@@ -2,11 +2,11 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../services/usuarios/ApiUsuarios"
 import Gov from '../../components/gov';
-import phoneGray from "../../assets/icons/phoneGray.png"
-import passwordGray from "../../assets/icons/passwordGray.svg"
-import openEyeGray from "../../assets/icons/openEyeGray.png"
-import closedEyeGray from "../../assets/icons/ClosedEyeGray.png"
-import AtrasIcon from "../../assets/icons/Vector(1).png"
+import telefonoGris from "../../assets/icons/telefonoGris.png"
+import claveGris from "../../assets/icons/claveGris.svg"
+import ojoAbiertoGris from "../../assets/icons/ojoAbiertoGris.png"
+import ojoCerradoGris from "../../assets/icons/ojoCerradoGris.png"
+import AtrasIcon from "../../assets/icons/volverVerde.png"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import welcomeIcon from "../../assets/img/iniciosesion.png"
 
@@ -98,7 +98,7 @@ const Login = () => {
                 required
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
-                  backgroundImage: `url(${phoneGray})`,
+                  backgroundImage: `url(${telefonoGris})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
                 }} />
@@ -111,7 +111,7 @@ const Login = () => {
                   required
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
-                    backgroundImage: `url(${passwordGray})`,
+                    backgroundImage: `url(${claveGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                   }} />
@@ -119,7 +119,7 @@ const Login = () => {
                   onClick={handleToggle}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
-                    src={mostrarClave ? openEyeGray : closedEyeGray} alt="Toggle Visibility" />
+                    src={mostrarClave ? ojoAbiertoGris : ojoCerradoGris} alt="Toggle Visibility" />
                 </div>
               </div>
               <button
@@ -158,7 +158,7 @@ const Login = () => {
                         required
                         className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                         style={{
-                          backgroundImage: `url(${phoneGray})`,
+                          backgroundImage: `url(${telefonoGris})`,
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'left 12px center',
                         }} />
@@ -171,7 +171,7 @@ const Login = () => {
                           required
                           className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                           style={{
-                            backgroundImage: `url(${passwordGray})`,
+                            backgroundImage: `url(${claveGris})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'left 12px center',
                           }} />
@@ -179,7 +179,7 @@ const Login = () => {
                           onClick={handleToggle}
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                           <img
-                            src={mostrarClave ? openEyeGray : closedEyeGray}
+                            src={mostrarClave ? ojoAbiertoGris : ojoCerradoGris}
                             alt="Toggle Visibility" />
                         </div>
                       </div>

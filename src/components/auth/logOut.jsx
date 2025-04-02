@@ -1,9 +1,9 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ConfirmarEliminar from '../../assets/img/Eliminar.png'
+import ConfirmarEliminar from '../../assets/img/eliminar.png'
 import { acctionSucessful } from "../../components/alertSuccesful";
 import goodBye from "../../assets/img/sesionfinalizada.png"
-import logOut from "../../assets/icons/logOut.png"
+import salir from "../../assets/icons/salirBlanco.png"
 
 const LogOut = () => {
   const navigate = useNavigate(); // Obtén el hook useNavigate
@@ -24,7 +24,7 @@ const LogOut = () => {
     <div>
       {/* Otros contenidos de tu componente */}
       <button onClick={() => setModallogoutAbierto(true)} className='text-white p-2 m-2 flex justify-items-start hover:bg-[#184a68]'>
-        <img src={logOut} alt="" className="mr-1 h-5" />
+        <img src={salir} alt="" className="mr-1 h-5" />
         Cerrar sesión</button>
 
       {modalLogoutAbierto && (

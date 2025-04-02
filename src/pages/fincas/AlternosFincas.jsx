@@ -2,27 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 //iconos de las columnas
-import phoneBlue from "../../assets/icons/phoneBlue.png"
-import emailBlue from "../../assets/icons/emailBlue.png"
+import telefonoAzul from "../../assets/icons/telefonoAzul.png"
+import correoAzul from "../../assets/icons/correoAzul.png"
 
-import userWhite from "../../assets/icons/userWhite.png"
-import phoneWhite from "../../assets/icons/phoneWhite.png"
-import emailWhite from "../../assets/icons/emailWhite.png"
-import configWhite from "../../assets/icons/ajustesWhite.png"
+import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
+import telefonoBlanco from "../../assets/icons/telefonoBlanco.png"
+import correoBlanco from "../../assets/icons/correoBlanco.png"
+import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
 
 //iconos de las acciones
-import editWhite from "../../assets/icons/editWhite.png";
-import deletWhite from "../../assets/icons/deleteWhite.png";
+import editarBlanco from "../../assets/icons/editarBlanco.png";
+import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 //iconos de los modales
-import userGray from "../../assets/icons/userGray.png"
-import phoneGray from "../../assets/icons/phoneGray.png"
-import emailGray from "../../assets/icons/emailGray.png"
-import passwordGray from "../../assets/icons/passwordGray.svg"
+import usuarioGris from "../../assets/icons/usuarioGris.png"
+import telefonoGris from "../../assets/icons/telefonoGris.png"
+import correoGris from "../../assets/icons/correoGris.png"
+import claveGris from "../../assets/icons/claveGris.svg"
 //imgs de los modales
-import UsuarioEliminado from "../../assets/img/UsuarioEliminado.png"
-import usuarioCreado from "../../assets/img/UsuarioCreado.png"
-import ConfirmarEliminar from "../../assets/img/Eliminar.png"
-import Alerta from "../../assets/img/Alert.png"
+import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
+import usuarioCreado from "../../assets/img/usuarioCreado.png"
+import ConfirmarEliminar from "../../assets/img/eliminar.png"
+import Alerta from "../../assets/img/alerta.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -69,10 +69,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2: userWhite },
-    { key: "telefono", label: "Telefono", icon: phoneBlue,icon2: phoneWhite  },
-    { key: "correo", label: "Correo", icon: emailBlue,icon2: emailWhite },
-    { key: "acciones", label: "Acciones",icon2: configWhite },
+    { key: "nombre", label: "Nombre",icon2: usuarioBlanco },
+    { key: "telefono", label: "Telefono", icon: telefonoAzul,icon2: telefonoBlanco  },
+    { key: "correo", label: "Correo", icon: correoAzul,icon2: correoBlanco },
+    { key: "acciones", label: "Acciones",icon2: ajustesBlanco },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -310,7 +310,7 @@ const AlternosFinca = () => {
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarAlterno(fila)}>
-          <img src={editWhite} alt="Editar" />
+          <img src={editarBlanco} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -320,7 +320,7 @@ const AlternosFinca = () => {
         <button
           className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={deletWhite} alt="Eliminar" />
+          <img src={eliminarBlanco} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -352,7 +352,7 @@ const AlternosFinca = () => {
             <form onSubmit={handleSubmit}>
               {/* Campos del formulario para agregar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -363,7 +363,7 @@ const AlternosFinca = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -373,7 +373,7 @@ const AlternosFinca = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -383,7 +383,7 @@ const AlternosFinca = () => {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={passwordGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={claveGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -416,7 +416,7 @@ const AlternosFinca = () => {
             <form onSubmit={handleEditarAlterno}>
               {/* Campos del formulario para editar un usuario */}
               <div className="relative w-full mt-2">
-                <img src={userGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={usuarioGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.nombre}
@@ -426,7 +426,7 @@ const AlternosFinca = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={phoneGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={telefonoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.telefono}
@@ -436,7 +436,7 @@ const AlternosFinca = () => {
                   onChange={handleChangeEditar} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={emailGray} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
+                <img src={correoGris} alt="icono" className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   value={usuarioEditar.correo}

@@ -1,8 +1,8 @@
 //imgs de los modales
-import usuarioCreado from "../../assets/img/UsuarioCreado.png"
-import alertaIcon from "../../assets/img/Alert.png"
+import usuarioCreado from "../../assets/img/usuarioCreado.png"
+import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
-import userGray from "../../assets/icons/userGray.png"
+import usuarioGris from "../../assets/icons/usuarioGris.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
@@ -108,7 +108,7 @@ export default function EditarFinca() {
                   placeholder={originalFinca.nombre}
                   onChange={(e) => setNombreFinca(e.target.value)}
                   style={{
-                    backgroundImage: `url(${userGray})`,
+                    backgroundImage: `url(${usuarioGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                     backgroundSize: '15px',

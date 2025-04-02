@@ -258,7 +258,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Sensor: <span style="color: #3366CC;">${editarSensor.nombre}</span> editado correctamente!`
+        title: `¡Sensor: <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);

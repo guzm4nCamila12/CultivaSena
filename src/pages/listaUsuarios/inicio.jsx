@@ -307,7 +307,7 @@ const Inicio = () => {
             <img src={editarBlanco} alt="Editar" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Editar
+            Guardar y ACtualizar
           </span>
         </div>
         {fila.id_rol !== "Admin" ? (

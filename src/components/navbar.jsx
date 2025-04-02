@@ -12,11 +12,11 @@ export default function Navbar() {
   // Función para mostrar el mensaje dependiendo del rol
   const rol = () => {
     if (idRol === 1) {
-      return "Hola, SuperAdmin!";
+      return "¡Hola SuperAdmin!";
     } else if (idRol === 2) {
-      return "Hola, Admin!";
+      return "¡Hola Admin!";
     } else {
-      return "Hola, Alterno!";
+      return "¡Hola Alterno!";
     }
   };
 

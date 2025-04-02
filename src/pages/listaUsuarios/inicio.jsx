@@ -42,6 +42,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [usuarioEliminado,setUsuarioEliminado] = useState();
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
@@ -282,7 +283,7 @@ const Inicio = () => {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: "Icono personalizado",
-      title: "¡Usuario eliminado correctamente!"
+      title: `¡Usuario <span style="color: red;">${usuarioEliminado.nombre}</span> eliminado correctamente!`
     });
   };
 
@@ -362,6 +363,8 @@ const Inicio = () => {
   };
 
   const abrirModalEliminar = (id) => {
+    const usuarioPrev = usuarios.find(usuario => usuario.id === id);
+    setUsuarioEliminado(usuarioPrev)
     setUsuarioEliminar(id);
     setModalEliminarAbierto(true);
   };
@@ -566,7 +569,7 @@ const Inicio = () => {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el usuario de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el usuario <strong className="text-red-600">{usuarioEliminado.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

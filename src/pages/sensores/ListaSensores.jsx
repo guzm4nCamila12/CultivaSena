@@ -40,6 +40,7 @@ function ActivarSensores() {
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+  const [sensorEliminado, setSensorEliminado] = useState();
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
@@ -200,6 +201,8 @@ function ActivarSensores() {
   };
 
   const abrirModalEliminar = (sensor) => {
+    const sensorPrev = sensores.find(sensores => sensores.id === sensor)
+    setSensorEliminado(sensorPrev)
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -213,7 +216,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor eliminado correctamente!"
+      title: `¡Sensor <span style="color: red;">${sensorEliminado.nombre}</span> eliminado correctamente!`
     });
   };
 
@@ -239,7 +242,7 @@ function ActivarSensores() {
     acctionSucessful.fire({
       imageUrl: usuarioCreado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor creado correctamente!"
+      title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
     });
   };
 
@@ -251,7 +254,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Sensor: ${editarSensor.nombre} editado correctamente!`
+        title: `¡Sensor: <span style="color: #3366CC;">${editarSensor.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
@@ -373,7 +376,7 @@ function ActivarSensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'Guardar y actualizar',
+      confirmButtonText: 'Guardar e Ingresar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -530,7 +533,7 @@ function ActivarSensores() {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor  de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

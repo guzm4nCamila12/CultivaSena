@@ -2,7 +2,7 @@
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
-import usuarioGris from "../../assets/icons/usuarioGris.png"
+import fincaNombre from "../../assets/icons/usuarioAzul.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
@@ -108,10 +108,9 @@ export default function EditarFinca() {
                   placeholder={originalFinca.nombre}
                   onChange={(e) => setNombreFinca(e.target.value)}
                   style={{
-                    backgroundImage: `url(${usuarioGris})`,
+                    backgroundImage: `url(${fincaNombre})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
-                    backgroundSize: '15px',
                   }} />
                 <button
                   type="submit"

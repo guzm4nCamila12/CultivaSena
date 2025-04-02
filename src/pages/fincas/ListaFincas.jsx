@@ -103,8 +103,8 @@ export default function ListaFincas() {
     sensores: (
       <Link to={`/activar-sensores/${id}/${finca.id}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensores} alt="Sensores" />
+          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -115,8 +115,8 @@ export default function ListaFincas() {
     alternos: (
       <Link to={`/alternos/${finca.id}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={alternos} alt="Alternos" />
+          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -127,8 +127,8 @@ export default function ListaFincas() {
     zonas: (
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={zonas} alt="Zonas" />
+          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver

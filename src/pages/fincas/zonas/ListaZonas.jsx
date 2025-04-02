@@ -117,7 +117,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: #FBD000;">${zonaParaActualizar.nombre}</span> editada correctamente!`
+        title: `¡Zona: <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -200,8 +200,8 @@ const Zonas = () => {
     verSensores: (
       <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorAzul} alt="Sensores" />
+          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+          <span className="text-[#3366CC]  font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -212,8 +212,8 @@ const Zonas = () => {
     actividades: (
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesAzul} alt="Actividades" className="w-5 h-5" />
+          <div className="w-20 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver

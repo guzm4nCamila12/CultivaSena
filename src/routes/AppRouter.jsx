@@ -22,7 +22,7 @@ function AppRouter() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
         <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={ListaUsuarios}  allowedRoles={["1"]}/>} />
-        <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} allowedRoles={["1","2","3"]}/>} />
+        <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} allowedRoles={["1","2"]}/>} />
         <Route path="/agregar-finca/:id" element={<ProtectedRoute element={CrearFinca} allowedRoles={["1","2"]}/>} />
         <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} allowedRoles={["1","2"]}/>} />
         <Route path="/alternos/:id" element={<ProtectedRoute element={AlternosFincas} allowedRoles={["1","2","3"]}/>} />

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
 import telefono from "../../assets/icons/telefono.png"
 import correo from "../../assets/icons/correo.png"
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
+import ajustesBlanco from "../../assets/icons/acciones.png"
 
 //iconos de las acciones
 import editarBlanco from "../../assets/icons/editarBlanco.png";

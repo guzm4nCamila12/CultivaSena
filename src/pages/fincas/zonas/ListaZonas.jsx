@@ -10,7 +10,7 @@ import editarBlanco from "../../../assets/icons/editarBlanco.png";
 import eliminarBlanco from "../../../assets/icons/eliminarBlanco.png";
 // iconos de los modales
 import nombreZona from "../../../assets/icons/usuarioAzul.png";
-import actividadesAzul from "../../../assets/icons/actividadesAzul.png";
+import actividadesAzul from "../../../assets/icons/actividades.png";
 import sensorAzul from "../../../assets/icons/sensorAzul.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
@@ -300,7 +300,7 @@ const Zonas = () => {
                 <button
                   type="submit"
                   className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Guardar y Actualizar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>

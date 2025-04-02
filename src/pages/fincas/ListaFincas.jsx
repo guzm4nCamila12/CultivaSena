@@ -1,6 +1,6 @@
 //iconos de la columna
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png"
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png";
+import ajustesBlanco from "../../assets/icons/acciones.png";
 //iconos de la data
 import zonas from "../../assets/icons/zonas.png"
 import alternos from "../../assets/icons/alternos.png";

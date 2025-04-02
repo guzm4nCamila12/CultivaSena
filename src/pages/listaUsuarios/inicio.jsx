@@ -6,7 +6,7 @@ import telefono from "../../assets/icons/telefono.png";
 import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
 import usuarioBlanco from "../../assets/icons/usuarioBlanco.png";
-import ajustesBlanco from "../../assets/icons/ajustesBlanco.png"
+import ajustesBlanco from "../../assets/icons/acciones.png"
 //iconos de las acciones
 import eliminarBlanco from "../../assets/icons/eliminarBlanco.png";
 import editarBlanco from "../../assets/icons/editarBlanco.png";
@@ -523,7 +523,7 @@ const Inicio = () => {
                 <button
                   type="submit"
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Editar
+                  Guardar y actualizar
                 </button>
               </div>
             </form>

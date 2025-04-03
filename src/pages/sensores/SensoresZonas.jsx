@@ -39,6 +39,7 @@ function Sensores() {
   const [zonas, setZonas] = useState({})
   const [fincas, setFincas] = useState({})
   const [usuarios, setUsuarios] = useState({})
+  const [sensorEliminado, setSensorEliminado] = useState();
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
@@ -153,6 +154,8 @@ function Sensores() {
 
   //modal para eliminar, se guarda el sensor traido en el estado de sensorAEliminar
   const abrirModalEliminar = (sensor) => {
+    const sensorPrev = sensores.find(sensores => sensores.id === sensor)
+    setSensorEliminado(sensorPrev)
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -168,7 +171,7 @@ function Sensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor eliminado correctamente!"
+      title: `¡Sensor <span style="color: red;">${sensorEliminado.nombre}</span> eliminado correctamente!`
     });
   };
 
@@ -186,7 +189,7 @@ function Sensores() {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
-          title: "¡Sensor creado correctamente!"
+          title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
         });
         setModalInsertarAbierto(false);
       }
@@ -202,7 +205,7 @@ function Sensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
@@ -323,7 +326,7 @@ function Sensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'Guardar y actualizar',
+      confirmButtonText: 'Guardar e insertar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -484,7 +487,7 @@ function Sensores() {
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

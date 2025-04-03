@@ -67,7 +67,7 @@ export default function EditarFinca() {
         .then(() => {
           acctionSucessful.fire({
             imageUrl: usuarioCreado,
-            title: `¡Finca: <span style="color: #FBD000;">${fincaActualizada.nombre}</span> editada correctamente!`,
+            title: `¡Finca: <span style="color: #3366CC;">${fincaActualizada.nombre}</span> editada correctamente!`,
           });
           irAtras();
         })

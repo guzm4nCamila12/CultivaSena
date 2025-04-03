@@ -114,7 +114,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
+        title: `¡Zona <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -129,7 +129,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
+        title: `¡Zona <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
       });
     }).catch(console.error);
   };
@@ -157,7 +157,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
+        title: `¡Zona <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
       });
     }).catch(console.error);
   };
@@ -273,7 +273,7 @@ const Zonas = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar zona</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Editar zona</h5>
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">

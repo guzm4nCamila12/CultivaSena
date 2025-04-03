@@ -174,7 +174,7 @@ const Inicio = () => {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: "Icono personalizado",
-          title: "¡Usuario creado correctamente!"
+          title: `¡Usuario <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
         });
       }
       setModalInsertarAbierto(false);
@@ -263,7 +263,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: "¡Usuario editado correctamente!"
+        title: `¡Usuario <span style="color: #3366CC;">${usuarioEditar.nombre}</span> editado correctamente!`
       });
       setModalEditarAbierto(false);
     } catch (error) {

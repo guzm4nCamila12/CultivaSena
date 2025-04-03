@@ -254,7 +254,7 @@ function ActivarSensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Sensor: <span style="color: #3366CC;">${editarSensor.nombre}</span> editado correctamente!`
+        title: `¡Sensor: <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
@@ -376,7 +376,7 @@ function ActivarSensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'Guardar e Ingresar',
+      confirmButtonText: 'Guardar e insertar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',

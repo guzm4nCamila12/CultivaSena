@@ -167,7 +167,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno: ${usuarioEditar.nombre} editado correctamente!`
+        title: `¡Alterno <span style="color: #3366CC;">${usuarioEditar.nombre} </span> editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -183,7 +183,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno: ${alternoEliminar.nombre} eliminado correctamente!`
+        title: `¡Alterno <span style="color: red;">${alternoEliminar.nombre}</span> eliminado correctamente!`
       });
     }).catch(console.error);
   }
@@ -292,7 +292,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno: ${nuevoUsuario.nombre} creado correctamente!`
+        title: `¡Alterno <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
       });
     }).catch(console.error);
   }

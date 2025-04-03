@@ -1,6 +1,6 @@
 //iconos de las columnas
 import descripcion from "../../assets/icons/descripcion.png"
-import nombre from "../../assets/icons/nombres.png"
+import nombre from "../../assets/icons/sensores.png"
 import mac from "../../assets/icons/mac.png";
 import sensorEstado from "../../assets/icons/estado.png";
 import ajustes from "../../assets/icons/acciones.png";
@@ -10,7 +10,7 @@ import editar from "../../assets/icons/editar.png"
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png"
 //icons de los modales
-import nombreSensor from "../../assets/icons/usuarioAzul.png";
+import nombreSensor from "../../assets/icons/sensorAzul.png";
 import descripcionAzul from "../../assets/icons/descripcionAzul.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"

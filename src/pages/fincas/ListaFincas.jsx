@@ -1,5 +1,5 @@
 //iconos de la columna
-import nombre from "../../assets/icons/nombres.png"
+import nombre from "../../assets/icons/fincas.png"
 import zonas from "../../assets/icons/zonas.png"
 import alternos from "../../assets/icons/alternos.png";
 import sensores from "../../assets/icons/sensores.png";

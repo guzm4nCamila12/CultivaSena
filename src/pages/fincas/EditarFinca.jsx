@@ -2,7 +2,7 @@
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
-import fincaNombre from "../../assets/icons/usuarioAzul.png"
+import fincaNombre from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados

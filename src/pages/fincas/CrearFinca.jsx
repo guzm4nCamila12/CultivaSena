@@ -6,7 +6,7 @@ import Mapa from "../../components/Mapa";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import Navbar from "../../components/navbar";
 //icono del input
-import nombreFinca from "../../assets/icons/usuarioAzul.png"
+import nombreFinca from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
 //importaciones necesarias de react

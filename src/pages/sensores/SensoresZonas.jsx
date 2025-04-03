@@ -2,14 +2,14 @@
 import mac from "../../assets/icons/mac.png";
 import descripcion from "../../assets/icons/descripcion.png"
 import estado from "../../assets/icons/estado.png"
-import nombre from "../../assets/icons/nombres.png"
+import nombre from "../../assets/icons/sensores.png"
 import ajustes from "../../assets/icons/acciones.png";
 //iconos de las acciones
 import editar from "../../assets/icons/editar.png";
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
-import nombreZona from "../../assets/icons/usuarioAzul.png";
+import nombreZona from "../../assets/icons/sensorAzul.png";
 import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 //librerias de alertas
 import Swal from "sweetalert2";

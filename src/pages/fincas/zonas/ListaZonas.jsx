@@ -1,6 +1,6 @@
 // iconos de las columnas
-import nombre from "../../../assets/icons/nombres.png";
-import cantidadSensores from "../../../assets/icons/sensores.png";
+import nombre from "../../../assets/icons/zonas.png";
+import cantidadSensores from "../../../assets/icons/cantidadSensores.png";
 import sensores from "../../../assets/icons/sensores.png";
 import actividades from "../../../assets/icons/actividades.png";
 import ajustes from "../../../assets/icons/acciones.png";
@@ -8,7 +8,7 @@ import ajustes from "../../../assets/icons/acciones.png";
 import editar from "../../../assets/icons/editar.png";
 import eliminar from "../../../assets/icons/eliminar.png";
 // iconos de los modales
-import nombreZona from "../../../assets/icons/usuarioAzul.png";
+import nombreZona from "../../../assets/icons/zonaAzul.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../../../assets/img/usuarioCreado.png";

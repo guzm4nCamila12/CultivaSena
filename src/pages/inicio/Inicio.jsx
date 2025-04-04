@@ -1,21 +1,27 @@
+//importaciones necesarias de react
 import React from 'react';
-import Gov from '../../components/gov';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+//componentes reutilizados
+import Gov from '../../components/gov';
 
 export default function Login() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
 
   useEffect(() => {
+    // Función para actualizar el ancho de la ventana cuando cambie el tamaño
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
+    // Agregamos un 'event listener' para detectar cambios en el tamaño de la ventana
     window.addEventListener('resize', handleResize);
+    // Limpiamos el event listener cuando el componente se desmonte
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
+  // Esta función renderiza el contenido dependiendo del tamaño de la pantalla
   const responsive = () => {
     if (screenWidth > 768) {
       let bloque = <div
@@ -39,6 +45,7 @@ export default function Login() {
       </div>
       return bloque
     } else {
+      // Si la pantalla es más pequeña
       let bloque = <div
         className="min-h-screen  bg-black">
         <div className='flex justify-center   items-center min-h-screen bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>

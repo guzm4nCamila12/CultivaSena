@@ -1,4 +1,6 @@
+//importaciones necesarias de react
 import { useState, useRef, useEffect } from "react";
+// Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
 // Imágenes de perfil según rol
 import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
@@ -203,6 +205,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   );
 };
 
+// Propiedades que se esperan para este componente
 UserCards.propTypes = {
   columnas: PropTypes.arrayOf(
     PropTypes.shape({

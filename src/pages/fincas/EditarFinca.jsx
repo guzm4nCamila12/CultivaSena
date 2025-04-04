@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router";
 //imgs de los modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import alertaIcon from "../../assets/img/alerta.png"
@@ -9,9 +12,6 @@ import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFinca
 import Mapa from "../../components/Mapa";
 import Navbar from "../../components/navbar"
 import { acctionSucessful } from "../../components/alertSuccesful";
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router";
 
 export default function EditarFinca() {
   //Obtener el ID de la URL
@@ -86,8 +86,7 @@ export default function EditarFinca() {
   return (
     <div>
       <Navbar />
-      <div style={{ fontFamily: "work sans" }}
-        className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
+      <div className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">

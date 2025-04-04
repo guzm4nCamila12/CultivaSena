@@ -1,6 +1,8 @@
+// importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 // iconos de las columnas
 import nombre from "../../../assets/icons/zonas.png";
-import cantidadSensores from "../../../assets/icons/cantidadSensores.png";
 import sensores from "../../../assets/icons/sensores.png";
 import actividades from "../../../assets/icons/actividades.png";
 import ajustes from "../../../assets/icons/acciones.png";
@@ -20,9 +22,6 @@ import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
 // endpoints para consumir api
 import { getFincasByIdFincas, getZonasByIdFinca, crearZona, editarZona, eliminarZonas } from "../../../services/fincas/ApiFincas";
-// importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
 
 const Zonas = () => {
   // Obtiene el ID de la URL 
@@ -69,10 +68,9 @@ const Zonas = () => {
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores , icon2: cantidadSensores},
-    { key: "verSensores", label: "Sensores",icon:sensores , icon2: sensores},
-    { key: "actividades", label: "Actividades",icon:actividades , icon2: actividades},
-    { key: "acciones", label: "Acciones",icon2: ajustes }
+    { key: "verSensores", label: "Sensores", icon: sensores, icon2: sensores },
+    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
+    { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -198,9 +196,10 @@ const Zonas = () => {
       <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
-          <span className="text-[#3366CC]  font-bold">Ver más...</span>
+            {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
+            <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
           </div>
-          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:bg-gray-700 group-hover:px-2 group-hover:py-1">
             Ver sensores
           </span>
         </button>
@@ -220,6 +219,7 @@ const Zonas = () => {
     )
   }));
 
+
   return (
     <div>
       <Navbar />
@@ -231,7 +231,7 @@ const Zonas = () => {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
       />
-      {/* Modal para insertar Zona */}
+
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -269,7 +269,6 @@ const Zonas = () => {
         </div>
       )}
 
-      {/* Modal para editar Zona */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -305,7 +304,6 @@ const Zonas = () => {
         </div>
       )}
 
-      {/* Modal para eliminar Zona */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

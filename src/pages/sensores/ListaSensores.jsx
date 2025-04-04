@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
 import descripcion from "../../assets/icons/descripcion.png"
 import nombre from "../../assets/icons/sensores.png"
@@ -19,17 +22,15 @@ import ConfirmarEliminar from "../../assets/img/eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
-import Navbar from "../../components/navbar";//endpoints para consumir api
+import Navbar from "../../components/navbar";
+//endpoints para consumir api
 import { getSensoresById, crearSensor, editarSensor, eliminarSensores } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
+import { insertarDatos } from "../../services/sensores/ApiSensores";
 //libreria sweetalert para las alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { insertarDatos } from "../../services/sensores/ApiSensores";
 
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
@@ -60,6 +61,7 @@ function ActivarSensores() {
 
   useEffect(() => {
     try {
+      // Obtiene los sensores por el id de usuario
       getSensoresById(idUser).then(
         (data) => {
           if (data == null) {
@@ -70,12 +72,15 @@ function ActivarSensores() {
           setEstado(data.map(({ id, estado }) => ({ id, estado })))
         }
       );
+      // Obtiene el usuario por el id
       getUsuarioById(id).then((data) => {
         setUsuario(data)
       });
+      // Obtiene las fincas del usuario
       getFincasByIdFincas(idUser).then((data) => {
         setFincas(data)
       });
+      // Obtiene las zonas por el id de finca
       getZonasByIdFinca(idUser).then((data) => {
         if (data == null) {
           setZonas([])
@@ -88,6 +93,7 @@ function ActivarSensores() {
     }
   }, [id, idUser]);
 
+  // useEffect que se ejecuta cuando cambian el usuario o las fincas
   useEffect(() => {
     if (usuario && fincas) {
       setFormData({
@@ -111,6 +117,7 @@ function ActivarSensores() {
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
+  // Función para las acciones que se pueden realizar en cada fila de la tabla
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       <div className="relative group">
@@ -146,6 +153,7 @@ function ActivarSensores() {
     </div>
   );
 
+  // Función para activar o desactivar un sensor según el rol del usuario
   const ActivarSensor = (idRol, sensor, index) => {
     if (idRol == "1") {
       return (
@@ -183,11 +191,13 @@ function ActivarSensores() {
       )
     }
   }
+  // Función para asignar un nombre de zona al sensor, según el id de la zona
   const asignarZona2 = (id) => {
     const nombre = zonas.find(zonas => zonas.id === id);
     return nombre ? nombre.nombre : "Sin zona";
   }
 
+  // Mapea los sensores y asigna la zona y el estado de cada uno
   const sensoresDeFinca = sensores.map((sensor, index) => ({
     ...sensor, idzona: asignarZona2(sensor.idzona),
     estado: (
@@ -201,12 +211,13 @@ function ActivarSensores() {
   };
 
   const abrirModalEliminar = (sensor) => {
-    const sensorPrev = sensores.find(sensores => sensores.id === sensor)
+    const sensorPrev = sensores.find(sensores => sensores.id === sensor) // Encuentra el sensor a eliminar
     setSensorEliminado(sensorPrev)
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
 
+  // Maneja la eliminación de un sensor
   const HandleEliminarSensor = (e) => {
     e.preventDefault();
     eliminarSensores(sensorAEliminar).then(() => {
@@ -220,6 +231,7 @@ function ActivarSensores() {
     });
   };
 
+  // Maneja los cambios de los inputs del formulario
   const handleChange = (e) => {
     // cambia el idzona de string a número entero
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
@@ -228,7 +240,7 @@ function ActivarSensores() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    crearSensor(formData).then((response) => {
+    crearSensor(formData).then((response) => { // Crea un nuevo sensor
       if (response) {
         if (sensores === null) {
           setSensores([response]);
@@ -246,6 +258,7 @@ function ActivarSensores() {
     });
   };
 
+  // Maneja el envío del formulario para editar un sensor
   const handleSensorEditar = (e) => {
     e.preventDefault();
     editarSensor(sensorEditar.id, sensorEditar).then((data) => {
@@ -257,20 +270,20 @@ function ActivarSensores() {
         title: `¡Sensor: <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
-      setSensores(nuevosSensores);
+      setSensores(nuevosSensores); // Establece los sensores actualizados
     })
     setModalEditarAbierto(false);
   };
 
   const handleChangeEditar = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
-    setsensorEditar({ ...sensorEditar, [e.target.name]: value });
+    setsensorEditar({ ...sensorEditar, [e.target.name]: value }); // Actualiza los datos del sensor editado
   };
 
   const handleSwitch = async (id, estado, index) => {
     const sensorcito = [...sensores]
-    if (estado === true) {
-      const newEstado = !estado;
+    if (estado === true) { // Si el sensor está activo
+      const newEstado = !estado; // Si el sensor está activo
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
       setSensores(updatedSensores);
@@ -292,8 +305,7 @@ function ActivarSensores() {
         insertarDatos(updatedFormData.mac)
       })
     } else if (sensorcito[index].mac === null) {
-
-      const confirmacion = await showSwal();
+      const confirmacion = await showSwal();  // Muestra un popup para ingresar la dirección MAC
       if (confirmacion.isConfirmed) {
         const newEstado = !estado;
         const updatedSensores = [...sensores];
@@ -302,7 +314,7 @@ function ActivarSensores() {
         setSensores(updatedSensores);
         const updatedFormData = {
           id: sensores[index].id,
-          mac: inputValue,
+          mac: inputValue, // Muestra un popup para ingresar la dirección MAC
           nombre: sensores[index].nombre,
           descripcion: sensores[index].descripcion,
           estado: newEstado,
@@ -322,7 +334,7 @@ function ActivarSensores() {
         inputValue = '';
       }
     } else {
-      const newEstado = !estado;
+      const newEstado = !estado; // Si el sensor ya tiene dirección MAC, cambia el estado
       const updatedSensores = [...sensores];
       updatedSensores[index].estado = newEstado;
 
@@ -348,12 +360,14 @@ function ActivarSensores() {
       })
     }
   };
+  // Función para abrir el modal de edición con los datos del sensor seleccionado
   const enviarForm = (id) => {
     //se trae el id del sensor de la columna para traerlo y enviarlo como objeto
     const sensorEnviado = sensores.find(sensor => sensor.id === id);
     abrirModalEditar(sensorEnviado);
   }
 
+  // Función para mostrar un popup de confirmación para ingresar la dirección MAC del sensor
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: (
@@ -389,9 +403,10 @@ function ActivarSensores() {
   };
 
   const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
+    setVistaActiva(vista); // Establece la vista activa
   };
 
+  // Función para asignar zonas a un formulario
   const asignarZona = (onChange) => {
     if (zonas == null) {
       return (
@@ -437,7 +452,6 @@ function ActivarSensores() {
         mostrarAgregar={true}
       />
 
-      {/*Codigo modal insertar */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

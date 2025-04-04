@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
 import mac from "../../assets/icons/mac.png";
 import descripcion from "../../assets/icons/descripcion.png"
@@ -26,9 +29,6 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
 
 function Sensores() {
   //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales
@@ -393,7 +393,6 @@ function Sensores() {
           ),
         }))} />
 
-      {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -434,7 +433,6 @@ function Sensores() {
         </div>
       )}
 
-      {/* Modal para editar un sensor*/}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -476,7 +474,6 @@ function Sensores() {
         </div>
       )}
 
-      {/* Modal para Eliminar un sensor*/}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

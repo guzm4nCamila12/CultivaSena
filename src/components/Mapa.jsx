@@ -1,10 +1,11 @@
+//importaciones necesarios de react
 import React, { useState, useEffect } from 'react';
 // Importaciones para el mapa
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Importación de íconos personalizados para el mapa
-import locacionAzul from "../assets/icons/locacionAzul.png"
+import locacion from "../assets/icons/locacion.png"
 import marcador from "../assets/icons/marcador.png"
 import ubicacionMapa from "../assets/icons/ubicacion.png"
 import ubiActual from "../assets/icons/ubiActual.png"
@@ -141,7 +142,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <div className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
             <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
-              <img src={locacionAzul} alt="Ubicacion actual" className='mr-1' />
+              <img src={locacion} alt="Ubicacion actual" className='mr-1' />
               Ubicación Actual:
             </h2>
           </div>

@@ -79,7 +79,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Verificar si el correo o teléfono ya existe
     const correoExistente = await verificarExistenciaCorreo(nuevoUsuario.correo);
     if (correoExistente) {
       acctionSucessful.fire({
@@ -98,7 +97,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -108,7 +106,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validación del teléfono (suponiendo 10 dígitos)
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
@@ -118,7 +115,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validaciones de la clave 
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -395,7 +391,6 @@ const Inicio = () => {
         mostrarAgregar={true}
       />
 
-      {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -469,7 +464,6 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Editar Usuario */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -534,7 +528,6 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Sin Fincas */}
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -558,7 +551,6 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Eliminar Usuario */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

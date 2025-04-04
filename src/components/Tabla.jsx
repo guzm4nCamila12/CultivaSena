@@ -1,5 +1,8 @@
+//importaciones necesarias de react
 import { useState } from "react";
+// Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
+//imgs de perfil según rol
 import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
 import adminIcon from "../assets/img/perfilAdmin.png";
 import alternoIcon from "../assets/img/perfilAlterno.png";
@@ -42,11 +45,13 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
             <tr className="text-white">
               {columnasAUsar.map((columna, index) => {
                 let borderClasses = "";
+                //combrobamos si se debe mostrar la foto de perfil o no
                 if (mostrarFotoPerfil) {
                   if (columna.key === "fotoPerfil") {
                     borderClasses = "rounded-l-full";
                   }
                 } else {
+                  // Si no se muestra la foto de perfil, las primeras columnas tendrán un borde redondeado
                   if (columna.key === "nombre" || columna.key === "cultivo"|| columna.key === "#") {
                     borderClasses = "rounded-l-full";
                   }
@@ -84,6 +89,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
           <tbody>
             {datosFiltrados.length > 0 ? (
               datosFiltrados.map((fila, index) => (
+                // Si hay datos filtrados, mostramos cada fila
                 <tr key={fila.id || index}>
                   {mostrarFotoPerfil && (
                     <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#ffffff] w-16">
@@ -94,6 +100,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       />
                     </td>
                   )}
+                  {/* Mapeamos las columnas sin foto y mostramos los datos */}
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
                     if (!mostrarFotoPerfil && columna.key === "nombre" || !mostrarFotoPerfil && columna.key === "cultivo"|| !mostrarFotoPerfil && columna.key === "#") {
@@ -109,6 +116,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       >
                         <div className="flex items-center justify-start">
                           <span className="flex-1">
+                            {/* Aquí mostramos el valor de la columna o un componente para acciones*/}
                             {columna.key === "#" ? (
                               index + 1
                             ) : columna.key === "acciones" ? (
@@ -133,7 +141,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
           </tbody>
         </table>
       </div>
-
+      {/* Botón para agregar un nuevo usuario si la opción está habilitada */}
       {mostrarAgregar && (
         <div
           className="w-full sm:w-[60%] mx-auto flex flex-row items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95 mb-4"
@@ -149,6 +157,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
   );
 };
 
+// Propiedades que se esperan para este componente
 Tabla.propTypes = {
   columnas: PropTypes.arrayOf(
     PropTypes.shape({

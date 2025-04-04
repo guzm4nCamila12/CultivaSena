@@ -1,14 +1,17 @@
-//icons de las culomnas
+//importaciones necesarios de react
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+//icons de las columnas
 import dato from "../../assets/icons/dato.png";
 import hora from "../../assets/icons/hora.png";
 import fecha from "../../assets/icons/fecha.png";
 import idSensor from "../../assets/icons/id.png"
+//componentes reutilizados
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
-import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
-import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
 import MostrarInfo from "../../components/mostrarInfo";
+//endpoint para consumir api
+import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
 
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {

@@ -1,8 +1,12 @@
+//importaciones necesarias de react
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+//imgs modales
 import ConfirmarEliminar from '../../assets/img/eliminar.png'
+import goodBye from "../../assets/img/sesionFinalizada.png"
+//componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
-import goodBye from "../../assets/img/sesionfinalizada.png"
+//icons
 import salir from "../../assets/icons/salir.png"
 
 const LogOut = () => {

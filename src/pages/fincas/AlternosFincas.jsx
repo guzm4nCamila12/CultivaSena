@@ -65,10 +65,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon2: nombre },
-    { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono  },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
-    { key: "acciones", label: "Acciones",icon2: ajustes },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -90,7 +90,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(usuarioEditar.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -100,8 +99,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -110,7 +108,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (usuarioEditar.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -224,7 +221,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -234,8 +230,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -244,7 +239,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,

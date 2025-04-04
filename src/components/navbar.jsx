@@ -1,6 +1,9 @@
+//importaciones necesarias de react
 import React, { useState } from 'react';
+//componentes reutilizados
 import Gov from './gov';
 import BotonAtras from './botonAtras';
+//icons
 import menu from "../assets/icons/menu.png";
 import cultivaSena from "../assets/icons/cultiva.png";
 //Importamos el componente que tiene la funcionalidad de cerrar sesion

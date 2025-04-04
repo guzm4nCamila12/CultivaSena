@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 //iconos de las columnas
 import cultivo from '../../../assets/icons/cultivo.png'
 import etapa from "../../../assets/icons/etapa.png"
@@ -16,9 +19,6 @@ import Navbar from '../../../components/navbar';
 import MostrarInfo from '../../../components/mostrarInfo';
 //endpoints para consumir api
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../../../services/fincas/ApiFincas'
-//importaciones necesarias de react
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 function ActividadesZonas() {
     //estados para almacenar la zona, las actividades de la zona y los estados de los modales
@@ -303,7 +303,6 @@ function ActividadesZonas() {
                 mostrarAgregar={true}
             />
 
-            {/* Modal para insertar Actividad */}
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -513,7 +512,6 @@ function ActividadesZonas() {
                 </div >
             )}
 
-            {/* Modal para eliminar Zona */}
             {modalEliminarAbierto && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

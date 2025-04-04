@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router";
 //imgs de los modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import altertaIcon from "../../assets/img/alerta.png"
@@ -9,9 +12,6 @@ import Navbar from "../../components/navbar";
 import nombreFinca from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
-//importaciones necesarias de react
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router";
 
 const Agregar = () => {
   //estados del id del usuario, nombre de la finca y ubicación

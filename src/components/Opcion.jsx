@@ -1,6 +1,8 @@
+//importaciones necesarias de react
 import React, { useState, useEffect } from 'react';
-import OpcionTabla from "../assets/icons/OpcionTabla.png";
-import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png";
+//componentes reutilizados
+import OpcionTabla from "../assets/icons/opcionTabla.png";
+import OpcionTarjeta from "../assets/icons/opcionTarjetas.png";
 
 function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
   // Inicializa 'vistaActiva' leyendo el valor desde localStorage, o por defecto 'tarjetas'

@@ -1,14 +1,19 @@
+//importaciones necesarias de react
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/usuarios/ApiUsuarios"
+//componentes reutilizados
 import Gov from '../../components/gov';
+import { acctionSucessful } from "../../components/alertSuccesful";
+//iconos de input
 import telefonoGris from "../../assets/icons/telefonoGris.png"
 import claveGris from "../../assets/icons/claveGris.png"
 import verClave from "../../assets/icons/verClave.png"
 import noVerClave from "../../assets/icons/noVerClave.png"
 import volver from "../../assets/icons/volver.png"
-import { acctionSucessful } from "../../components/alertSuccesful";
-import welcomeIcon from "../../assets/img/iniciosesion.png"
+//img alerta
+import welcomeIcon from "../../assets/img/inicioSesion.png"
+//endpoinst para consumir api
+import { login } from "../../services/usuarios/ApiUsuarios"
 
 const Login = () => {
   // Estados para almacenar el valor del telefono y la contraseña
@@ -197,7 +202,7 @@ const Login = () => {
           </div>
           <div className="w-full flex justify-center py-4">
 
-          <img src="sena-logo.svg" alt="" className='static m-auto w-16 ' />
+            <img src="sena-logo.svg" alt="" className='static m-auto w-16 ' />
           </div>
 
         </div>

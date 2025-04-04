@@ -199,7 +199,7 @@ const Zonas = () => {
             {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
             <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
           </div>
-          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:bg-gray-700 group-hover:px-2 group-hover:py-1">
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver sensores
           </span>
         </button>
@@ -289,13 +289,13 @@ const Zonas = () => {
               <div className="flex justify-end mt-4">
                 <button
                   type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
                   onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
                   Guardar y actualizar
                 </button>
               </div>

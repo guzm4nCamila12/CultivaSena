@@ -497,13 +497,13 @@ function ActividadesZonas() {
                             <div className="flex gap-4 mt-4">
                                 <button
                                     type="button"
-                                    className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
                                     onClick={() => setModalEditarActividad(false)}>
                                     Cancelar
                                 </button>
                                 <button
                                     type="submit"
-                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl">
+                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
                                     Guardar y actualizar
                                 </button>
                             </div>

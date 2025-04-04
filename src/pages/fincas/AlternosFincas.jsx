@@ -435,12 +435,12 @@ const AlternosFinca = () => {
               </div>
               <div className="flex justify-end mt-4">
                 <button type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
                   onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
                 <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
                   Guardar y actualizar
                 </button>
               </div>

@@ -1,11 +1,13 @@
-//importaciones necesarias de react
+// importaciones necesarias de react
 import { useState } from "react";
-// Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
-//imgs de perfil según rol
+
+// imgs de perfil según rol
 import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
 import adminIcon from "../assets/img/perfilAdmin.png";
 import alternoIcon from "../assets/img/perfilAlterno.png";
+// ícono para desplegar acciones en móvil
+import DropdownIcon from "../assets/icons/accionesMenu.png";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -22,6 +24,9 @@ const getRoleImage = (role) => {
 
 const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
+  // Estado para controlar la fila expandida en vista móvil
+  const [expandedRow, setExpandedRow] = useState(null);
+
   // Determinar si se debe mostrar la columna de fotoPerfil
   const mostrarFotoPerfil = columnas.some((columna) => columna.key === "fotoPerfil");
   // Filtrar columnas para usar en búsqueda y renderizado (sin fotoPerfil)
@@ -45,14 +50,13 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
             <tr className="text-white">
               {columnasAUsar.map((columna, index) => {
                 let borderClasses = "";
-                //combrobamos si se debe mostrar la foto de perfil o no
+                // Comprobamos si se debe mostrar la foto de perfil o no
                 if (mostrarFotoPerfil) {
                   if (columna.key === "fotoPerfil") {
-                    borderClasses = "rounded-l-full";
+                    borderClasses = "rounded-l-full px-7";
                   }
                 } else {
-                  // Si no se muestra la foto de perfil, las primeras columnas tendrán un borde redondeado
-                  if (columna.key === "nombre" || columna.key === "cultivo"|| columna.key === "#") {
+                  if (columna.key === "nombre" || columna.key === "cultivo" || columna.key === "#") {
                     borderClasses = "rounded-l-full";
                   }
                 }
@@ -73,23 +77,17 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                             className="mr-2"
                           />
                         )}
-                        <span>{columna.label}</span>
+                        <span className="mr-7">{columna.label}</span>
                       </div>
-                      {index !== columnasAUsar.length - 1 && columna.key !== "acciones" && (
-                        <div className="h-8 w-[1px] bg-gray-300" />
-                      )}
                     </div>
                   </th>
                 );
               })}
             </tr>
           </thead>
-
-
           <tbody>
             {datosFiltrados.length > 0 ? (
               datosFiltrados.map((fila, index) => (
-                // Si hay datos filtrados, mostramos cada fila
                 <tr key={fila.id || index}>
                   {mostrarFotoPerfil && (
                     <td className="rounded-l-full text-left p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-[#ffffff] w-16">
@@ -100,34 +98,90 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
                       />
                     </td>
                   )}
-                  {/* Mapeamos las columnas sin foto y mostramos los datos */}
                   {columnasSinFoto.map((columna, i) => {
                     let borderClasses = "";
-                    if (!mostrarFotoPerfil && columna.key === "nombre" || !mostrarFotoPerfil && columna.key === "cultivo"|| !mostrarFotoPerfil && columna.key === "#") {
+                    if (
+                      !mostrarFotoPerfil &&
+                      (columna.key === "nombre" ||
+                        columna.key === "cultivo" ||
+                        columna.key === "#")
+                    ) {
                       borderClasses = "rounded-l-full";
                     }
                     if (i === columnasSinFoto.length - 1) {
                       borderClasses += " rounded-r-full";
                     }
-                    return (
-                      <td
-                        key={i}
-                        className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#ffffff]`}
-                      >
-                        <div className="flex items-center justify-start">
-                          <span className="flex-1">
-                            {/* Aquí mostramos el valor de la columna o un componente para acciones*/}
-                            {columna.key === "#" ? (
-                              index + 1
-                            ) : columna.key === "acciones" ? (
-                              <div className="flex gap-2">{acciones(fila)}</div>
+
+                    // Para la columna "acciones" adaptamos la interfaz para responsive
+                    if (columna.key === "acciones") {
+                      return (
+                        <td
+                          key={i}
+                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#ffffff]`}
+                          style={{ right: "-20px" }}  // Desplaza la celda 20px hacia la derecha
+                        >
+                          {/* Vista de escritorio: muestra los botones directamente */}
+                          <div className="hidden md:flex justify-center gap-2">
+                            {acciones(fila)}
+                          </div>
+                          {/* Vista móvil: botón para desplegar acciones */}
+                          <div className="flex md:hidden relative justify-center">
+                            {expandedRow === index ? (
+                              <div
+                                className="right-full top-0 z-50 flex flex-row items-center gap-6 p-2 bg-[#ffffff] rounded-md "
+                                onClick={(e) => e.stopPropagation()}
+                                style={{
+                                  boxShadow: "-3px 0px 0px rgba(0, 0, 0, 0.15)", // sombra hacia la izquierda
+                                }}
+                              >
+                                {acciones(fila)}
+                                {/* Botón para cerrar el menú */}
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setExpandedRow(null);
+                                  }}
+                                  className="text-red hover:bg-gray-200 transition-all"
+                                  
+                                >
+                                  <img
+                                  src={DropdownIcon}
+                                  alt="Desplegar acciones"
+                                  className="absolute" 
+                                />
+                                </button>
+                              </div>
                             ) : (
-                              fila[columna.key]
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setExpandedRow(expandedRow === index ? null : index);
+                                }}
+                                className="p-2 rounded-full  text-white transition-all duration-300"
+                              >
+                                <img
+                                  src={DropdownIcon}
+                                  alt="Desplegar acciones"
+                                />
+                              </button>
                             )}
-                          </span>
-                        </div>
-                      </td>
-                    );
+                          </div>
+                        </td>
+                      );
+                    } else {
+                      return (
+                        <td
+                          key={i}
+                          className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${borderClasses} border-t border-b border-gray-300 bg-[#ffffff]`}
+                        >
+                          <div className="flex items-center justify-start">
+                            <span className="flex-1">
+                              {columna.key === "#" ? index + 1 : fila[columna.key]}
+                            </span>
+                          </div>
+                        </td>
+                      );
+                    }
                   })}
                 </tr>
               ))
@@ -141,7 +195,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
           </tbody>
         </table>
       </div>
-      {/* Botón para agregar un nuevo usuario si la opción está habilitada */}
       {mostrarAgregar && (
         <div
           className="w-full sm:w-[60%] mx-auto flex flex-row items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95 mb-4"
@@ -157,7 +210,6 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
   );
 };
 
-// Propiedades que se esperan para este componente
 Tabla.propTypes = {
   columnas: PropTypes.arrayOf(
     PropTypes.shape({

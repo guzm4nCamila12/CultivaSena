@@ -270,9 +270,9 @@ function ActividadesZonas() {
         <div className="flex justify-center gap-2">
             <div className="relative group">
                 <button
-                    className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+                    className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEditar(fila)}>
-                    <img src={verActividad} alt="Agregar Actividad" className="w-5 h-5" />
+                    <img src={verActividad} alt="Agregar Actividad" className='absolute' />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Ver Todo
@@ -280,9 +280,9 @@ function ActividadesZonas() {
             </div>
             <div className="relative group">
                 <button
-                    className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+                    className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEliminar(fila.id)}>
-                    <img src={eliminar} alt="Eliminar" />
+                    <img src={eliminar} alt="Eliminar" className='absolute' />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Eliminar

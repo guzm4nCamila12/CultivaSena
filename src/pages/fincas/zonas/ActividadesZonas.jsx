@@ -92,7 +92,6 @@ function ActividadesZonas() {
 
         getZonasById(id)
             .then((data) => {
-                console.log(data)
                 setZonas(data)
             })
     }, [id]);
@@ -120,7 +119,6 @@ function ActividadesZonas() {
         if (tagName === "SELECT") {
             newValue = e.target.options[selectedIndex].text;
         }
-        console.log("nombre: " + newValue)
         setActividadEditar({ ...actividadEditar, [e.target.name]: newValue })
     }
     // Handler para la etapa; guarda el valor seleccionado (para filtrar las actividades) y también su texto
@@ -236,7 +234,6 @@ function ActividadesZonas() {
     }
     const BuscarEtapa = () => {
         const valor = etapas.find(etapa => etapa.label == actividadEditar.etapa)
-        console.log("valor:", valor)
         if (valor && valor.value !== etapaSeleccionada) {
             // Si el valor encontrado no es igual al estado actual, actualizarlo
             setEtapaSeleccionada(valor.value);

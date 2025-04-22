@@ -26,7 +26,7 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
     localStorage.removeItem('token');
     return <Navigate to="/login" />;  // Redirigir a login si ocurre un error
   }
-  console.log (ubicacionActual)
+
   // Si el token es válido, renderiza el componente protegido
   if (!allowedRoles.includes(userRole)) {
     return;  // Redirigir si no tiene el rol adecuado

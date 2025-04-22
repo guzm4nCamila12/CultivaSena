@@ -339,7 +339,6 @@ function Sensores() {
   };
 
   const ActivarSensor = (idRol, sensor, index) => {
-    console.log("idrol:", idRol)
     if (idRol == "1") {
       return (
         <div className="flex justify-start items-center">

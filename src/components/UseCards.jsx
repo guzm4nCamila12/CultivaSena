@@ -184,15 +184,15 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
       {/* Modal para mostrar la descripción completa */}
       {modalOpen && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-5 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-1 text-center">
               Descripción
             </h5>
             <hr />
-            <p className="text-xl text-center font-normal">{descripcionModal}</p>
-            <div className="flex justify-between mt-6 space-x-4">
+            <p className="text-xl text-center mt-2 font-normal">{descripcionModal}</p>
+            <div className="flex justify-between mt-4 space-x-4">
               <button
-                className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-2 rounded-full text-lg"
                 onClick={handleCerrarModal}
               >
                 Cerrar

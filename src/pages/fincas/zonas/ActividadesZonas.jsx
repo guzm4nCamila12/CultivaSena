@@ -413,7 +413,7 @@ function ActividadesZonas() {
 
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+                    <div className="bg-white  rounded-3xl shadow-lg xl:w-full xl:mx-[400px] 2xl:mx-[500px] p-6 my-8 sm:my-12">
                         <h5 className="text-2xl font-bold mb-4 text-center">Ver actividad</h5>
                         <hr />
                         <form onSubmit={handleEditarActividad}>
@@ -493,16 +493,20 @@ function ActividadesZonas() {
                                         onChange={handleEditarActividadChange} />
                                 </div>
                             </div>
-                            <div className="flex gap-4 mt-4">
+                            <div className="flex gap-4 mt-4 sm:text-xl">
                                 <button
                                     type="button"
-                                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+
+                                    className="w-full sm:px-4 py-2 sm:py-3 bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+
                                     onClick={() => setModalEditarActividad(false)}>
                                     Cancelar
                                 </button>
                                 <button
                                     type="submit"
-                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+
+                                    className="w-full bg-[#009E00] lg:px-2 hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl ">
+
                                     Guardar y actualizar
                                 </button>
                             </div>

@@ -61,14 +61,14 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   };
 
   return (
-    <div className="container mx-auto p-4 sm:px-0">
+    <div className="container  sm:px-0 ">
       {/* Contenedor de tarjetas con padding dinámico según scroll */}
       <div
         ref={containerRef}
-        className={`w-full overflow-y-auto max-h-[490px] grid gap-4 pb-1 ${datosFiltrados.length === 0
+        className={`w-full mx-auto overflow-y-auto max-h-[490px] grid gap-4 pb-1 ${datosFiltrados.length === 0
             ? "grid-cols-1 place-items-center"
             : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          } ${isScrollable ? "pr-4" : "pr-0"}`}
+          } ${isScrollable ? "sm:pr-4" : "pr-0"}`}
       >
         {/* Tarjeta para agregar usuario cuando no hay datos filtrados */}
         {datosFiltrados.length === 0 ? (

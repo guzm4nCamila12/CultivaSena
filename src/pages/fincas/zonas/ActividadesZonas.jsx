@@ -290,7 +290,6 @@ function ActividadesZonas() {
             </div>
         </div>
     );
-
     return (
         <div>
             <Navbar />

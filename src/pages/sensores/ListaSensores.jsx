@@ -204,6 +204,7 @@ function ActivarSensores() {
       ActivarSensor(rol, sensor, index)
     ),
   }))
+  console.log("sensores finca:", sensoresDeFinca);
 
   const abrirModalEditar = (sensor) => {
     setsensorEditar(sensor);

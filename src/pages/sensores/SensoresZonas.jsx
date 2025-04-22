@@ -95,9 +95,9 @@ function Sensores() {
   //se declaran las columnas de la tabla
   const columnas = [
     { key: "nombre", label: "Nombre", icon:nombre },
-    { key: "mac", label: "MAC", icon: mac},
+    { key: "mac", label: "Mac", icon: mac},
     { key: "descripcion", label: "Descripción", icon: descripcion},
-    { key: "estado", label: "Inactivo/Activo", icon: estado },
+    { key: "estado", label: "Estado", icon: estado },
     { key: "acciones", label: "Acciones", icon:ajustesBlanco },
   ];
   
@@ -203,7 +203,7 @@ function Sensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);

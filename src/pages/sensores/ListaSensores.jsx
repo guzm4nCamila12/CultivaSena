@@ -105,11 +105,11 @@ function ActivarSensores() {
 
   const columnas = [
 
-    { key: "nombre", label: "Nombre", icon:nombre, icon2: nombre },
-    { key: "mac", label: "MAC", icon: mac , icon2: mac},
+    { key: "nombre", label: "Nombre", icon:nombre, icon2: nombre, },
+    { key: "mac", label: "Mac", icon: mac , icon2: mac,},
     { key: "idzona", label: "Zona", icon: zonaSensor , icon2:zonaSensor},
     { key: "descripcion", label: "Descripción", icon: descripcion , icon2: descripcion},
-    { key: "estado", label: "Inactivo/Activo", icon: sensorEstado , icon2: sensorEstado},
+    { key: "estado", label: "Estado", icon: sensorEstado , icon2: sensorEstado},
     { key: "acciones", label: "Acciones", icon2:ajustes },
   ];
 

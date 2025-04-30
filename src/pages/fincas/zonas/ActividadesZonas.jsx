@@ -500,10 +500,7 @@ function ActividadesZonas() {
                                     Cancelar
                                 </button>
                                 <button
-                                    type="submit"
-
-                                    className="w-full bg-[#009E00] lg:px-2 hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl ">
-
+                                    type="submit" className="w-full bg-[#009E00] lg:px-2 hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl ">
                                     Guardar y actualizar
                                 </button>
                             </div>

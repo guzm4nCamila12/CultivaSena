@@ -167,8 +167,6 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                     className="w-16 h-16 rounded-full border-4 border-white shadow-lg"
                   />
                 </div>
-
-
                 <hr />
 
                 {/* Botones de acción */}

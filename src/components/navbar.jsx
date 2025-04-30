@@ -27,7 +27,6 @@ export default function Navbar() {
     <div>
       <Gov />
       <nav className="relative bg-cover bg-center bg-no-repeat h-32 bg-orange-300" style={{ backgroundImage: "url('/banner.png')" }}>
-       
       </nav>
       <div className='bg-[#002A43] h-12 w-full z-50 px-4'>
         <div className='container mx-auto py-1 flex flex-row items-center'>

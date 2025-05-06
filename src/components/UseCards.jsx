@@ -66,21 +66,25 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
       <div
         ref={containerRef}
         className={`w-full mx-auto overflow-y-auto max-h-[490px] grid gap-4 pb-1 ${datosFiltrados.length === 0
-            ? "grid-cols-1 place-items-center"
-            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          ? "grid-cols-1 place-items-center"
+          : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           } ${isScrollable ? "sm:pr-4" : "pr-0"}`}
       >
         {/* Tarjeta para agregar usuario cuando no hay datos filtrados */}
         {datosFiltrados.length === 0 ? (
-          <div
-            className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95"
-            onClick={onAddUser}
-          >
-            <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
-            <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
-              <span className="text-white text-3xl font-bold">+</span>
+          mostrarAgregar ? (
+            <div
+              className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer transition duration-300 hover:shadow-md hover:shadow-black/25 hover:scale-95"
+              onClick={onAddUser}
+            >
+              <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
+              <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
+                <span className="text-white text-3xl font-bold">+</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <p className="text-center text-gray-500 col-span-full">No hay datos.</p>
+          )
         ) : (
           <>
             {/* Tarjeta de "Agregar Usuario" cuando hay datos */}

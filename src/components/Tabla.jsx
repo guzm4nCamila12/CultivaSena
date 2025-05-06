@@ -39,9 +39,9 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
     : columnasSinFoto;
 
   return (
-    <div className="container mx-auto px-0 py-4">
-      <div className="w-full overflow-x-auto overflow-y-auto max-h-[500px] pr-4 rounded-lg">
-        <table className="min-w-full border-separate border-spacing-y-4">
+    <div className="container  mx-auto px-0  pb-4">
+      <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px] pr-4 rounded-lg">
+        <table className="min-w-full border-separate border-spacing-y-4 ">
           <thead>
             <tr className="text-white">
               {columnasAUsar.map((columna, index) => {
@@ -162,7 +162,7 @@ const Tabla = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar })
       </div>
       {mostrarAgregar && (
         <div
-          className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 mb-4"
+          className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3 "
           onClick={onAddUser}
         >
           <span className="text-[#009E00] text-base font-semibold">Crear</span>

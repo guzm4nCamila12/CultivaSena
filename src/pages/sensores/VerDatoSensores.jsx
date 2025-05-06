@@ -98,7 +98,7 @@ export default function VerSensores() {
     <div >
       <NavBar />
       {/* Filtrar datos por fecha */}
-      {/* <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
+      <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5 bg-white">
         <div className="flex justify-between items-center mb-4">
           <div className="p-4">
             <h3 className="mb-2 font-semibold">Filtrar por Fecha</h3>
@@ -111,16 +111,17 @@ export default function VerSensores() {
               />
             </div>
           </div>
-        </div> */}
+        </div>
+        </div>
+      <div className='flex flex-row justify-center '>
+        <GraficoSensor datos={datosFinales} />
+      </div>
       <MostrarInfo
         titulo={`Datos del sensor: ${sensores.nombre}`}
         columnas={columnas}
         datos={datosTabla} // Pasamos los datos ya procesados para la tabla
       />
       {/* </div> */}
-      <div className='flex flex-row justify-center '>
-        <GraficoSensor datos={datosFinales} />
-      </div>
     </div>
   );
 }

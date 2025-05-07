@@ -1,83 +1,75 @@
 //importaciones necesarias de react
-import { React, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 //componentes reutilizados
 import Gov from '../../components/gov';
 import { acctionSucessful } from "../../components/alertSuccesful";
 //iconos de input
-import telefonoGris from "../../assets/icons/telefonoGris.png"
-import claveGris from "../../assets/icons/claveGris.png"
-import verClave from "../../assets/icons/verClave.png"
-import noVerClave from "../../assets/icons/noVerClave.png"
-import volver from "../../assets/icons/volver.png"
+import telefonoGris from "../../assets/icons/telefonoGris.png";
+import claveGris from "../../assets/icons/claveGris.png";
+import verClave from "../../assets/icons/verClave.png";
+import noVerClave from "../../assets/icons/noVerClave.png";
+import volver from "../../assets/icons/volver.png";
 //img alerta
-import welcomeIcon from "../../assets/img/inicioSesion.png"
-//endpoinst para consumir api
-import { login } from "../../services/usuarios/ApiUsuarios"
+import welcomeIcon from "../../assets/img/inicioSesion.png";
+//endpoints para consumir api
+import { login } from "../../services/usuarios/ApiUsuarios";
 
 const Login = () => {
-  // Estados para almacenar el valor del telefono y la contraseña
-  const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
-  const [clave, setClave] = useState("");  // Estado para la contraseña
-  const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
+  const [telefono, setTelefono] = useState("");
+  const [clave, setClave] = useState("");
+  const [mostrarClave, setMostrarClave] = useState(false);
   const navigate = useNavigate();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
-  // Función que maneja el envío del formulario de inicio de sesión
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const inicioUsuario = { telefono, clave };
 
-    // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
         const user = data.user;
-        //guarda el token en el almacenamiento local
         localStorage.setItem('token', data.token);
-        // Guardar un dato en el localStorage
         localStorage.setItem('rol', user.id_rol);
+
+        // Determinar y guardar ruta principal según el rol
+        let rutaPrincipal;
+        if (user.id_rol === 1) {
+          rutaPrincipal = "/inicio-SuperAdmin";
+        } else if (user.id_rol === 2) {
+          rutaPrincipal = `/lista-fincas/${user.id}`;
+        } else {
+          rutaPrincipal = `/sensores-alterno/${user.id_finca}/${user.id}`;
+        }
+        localStorage.setItem('principal', rutaPrincipal);
+
         acctionSucessful.fire({
           imageUrl: welcomeIcon,
           imageAlt: 'Icono personalizado',
           title: `Bienvenido(a) ${user.nombre}`
         });
-        // Lógica de navegación después de que se haya actualizado el estado
-        if (user.id_rol === 1) {
-          navigate("/inicio-SuperAdmin");
-        } else if (user.id_rol === 2) {
-          navigate(`/lista-fincas/${user.id}`);
-        } else if (user.id_rol === 3) {
-          navigate(`/sensores-alterno/${user.id_finca}/${user.id}`);
-        }
+
+        // Navegar siempre a la ruta principal guardada
+        navigate(rutaPrincipal, { state: { fromLogin: true } });
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
         acctionSucessful.fire({
           icon: "error",
           title: error.message,
-        }); // Almacena el mensaje de error en el estado error para mostrarlo al usuario
-        // Manejo de errores si la API falla
+        });
       });
   };
-  //inicializa el estado con el tamaño actual del contenedor
+
   useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
+    const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Alterna entre mostrar y ocultar la contraseña
-  const handleToggle = () => {
-    setMostrarClave(!mostrarClave);
-  };
+  const handleToggle = () => setMostrarClave(!mostrarClave);
+  const irAtras = () => navigate("/");
 
-  //Ir a la pagina anterior a la actual
-  const irAtras = () => {
-    navigate("/");
-  }
 
   //Dependiendo de el tamaño de la pantalla se utiliza una interfaz u otra.
   const responsive = () => {
@@ -130,7 +122,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
-                Iniciar Sesión
+                Iniciar sesión
               </button>
             </form>
           </div>
@@ -195,7 +187,7 @@ const Login = () => {
                       </button>
                     </form>
                   </div>
-                  <a href="#" className='m-auto text-white'>¿Olvidó su contraseña?</a>
+                  <a  className='m-auto text-white'>¿Olvidó su contraseña?</a>
                 </div>
               </div>
             </div>

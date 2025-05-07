@@ -219,7 +219,6 @@ const Zonas = () => {
     )
   }));
 
-
   return (
     <div>
       <Navbar />

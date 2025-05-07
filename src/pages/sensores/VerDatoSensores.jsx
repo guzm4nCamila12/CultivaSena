@@ -119,6 +119,7 @@ export default function VerSensores() {
       <MostrarInfo
         titulo={`Datos del sensor: ${sensores.nombre}`}
         columnas={columnas}
+        mostrarAgregar={false}
         datos={datosTabla} // Pasamos los datos ya procesados para la tabla
       />
       {/* </div> */}

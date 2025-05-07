@@ -1,48 +1,36 @@
-//importaciones necesarios de react
-import React from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+// components/BotonAtras.jsx
+import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import atras from "../assets/icons/Volver.png";
 
 export default function BotonAtras() {
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
-  const [mensaje, setMensaje] = useState('Regresar'); // Valor inicial
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Obtiene la ruta principal guardada en localStorage
+  const principal = localStorage.getItem("principal");
+
+  // Deshabilita si la ruta actual es exactamente la principal
+  const disableBack = location.pathname === principal;
+
   const irAtras = () => {
-    navigate(-1);
-  }
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (screenWidth < 768) {
-      setMensaje('<');
-    } else {
-      setMensaje('Regresar');
-    }
-  }, [screenWidth]);
-
-  const logout = () => {
-    // Eliminar el token del localStorage
-    localStorage.removeItem('token');
-    // Redirigir al usuario a la página de login
-    navigate('/login');
+    if (!disableBack) navigate(-1);
   };
 
   return (
-    <div className=" ml-auto mt-1 ">
-      <button
-        type="button"
-        className="bg-[#FBD000] hover:bg-[#BE9E00] font-extrabold text-lg text-[#00304D] top-0 right-0  md:rounded-3xl rounded-full lg:w-40 md:w-44 w-8 h-8"
-        onClick={irAtras}>
-        {mensaje}
-      </button>
-    </div>
-  )
+    <button
+      type="button"
+      onClick={irAtras}
+      disabled={disableBack}
+      className={`
+        font-extrabold text-lg text-[#00304D]
+        md:rounded-3xl rounded-full lg:w-10 md:w-6 pt-2
+        ${disableBack
+          ? "opacity-50 cursor-not-allowed"
+          : "hover:cursor-pointer"}
+      `}
+    >
+      <img src={atras} alt="btnRegresar" />
+    </button>
+  );
 }

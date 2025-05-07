@@ -32,7 +32,7 @@ export default function Login() {
           <button
             type="submit"
             className="w-40  h-8 absolute top-12 right-4  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
-            Iniciar Sesión
+            Iniciar sesión
           </button>
         </Link>
         <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black to-transparent opacity-80 font-sans text-center">
@@ -58,7 +58,7 @@ export default function Login() {
                 <button
                   type="submit"
                   className="w-full h-[45px] mb-2  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-black text-2xl drop-shadow-xl">
-                  Iniciar Sesión
+                  Iniciar sesión
                 </button>
               </Link>
               <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>

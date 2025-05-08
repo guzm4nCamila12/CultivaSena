@@ -399,7 +399,7 @@ const AlternosFinca = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar alterno</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Editar alterno</h5>
             <hr />
             <form onSubmit={handleEditarAlterno}>
               {/* Campos del formulario para editar un usuario */}

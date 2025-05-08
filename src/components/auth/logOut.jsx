@@ -27,7 +27,7 @@ const LogOut = () => {
   return (
     <div>
       {/* Otros contenidos de tu componente */}
-      <button onClick={() => setModallogoutAbierto(true)} className='text-white p-2 m-2 flex justify-items-start hover:bg-[#184a68]'>
+      <button onClick={() => setModallogoutAbierto(true)} className='text-white p-1 m-2 flex justify-items-start hover:bg-[#184a68]'>
         <img src={salir} alt="" className="mr-1 h-5" />
         Cerrar sesión
       </button>

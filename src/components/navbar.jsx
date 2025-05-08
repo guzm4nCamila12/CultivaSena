@@ -71,7 +71,7 @@ export default function Navbar() {
               </h3>
               <div className="flex ml-3 pt-1 text-white">
                 <img src={cultivaSena} alt="" className="w-5 h-5 mr-2" />
-                <h4>Ir a CultivaSena</h4>
+                <h4>Ir a <strong>CultivaSena</strong></h4>
               </div>
               <div className="flex rounded-3xl">
                 <CerrarSesion />

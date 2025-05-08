@@ -10,7 +10,9 @@ import ubicacionMapa from "../assets/icons/ubicacion.png"
 import ubiActual from "../assets/icons/ubiActual.png"
 import acercar from "../assets/icons/acercar.png"
 import alejar from "../assets/icons/alejar.png"
-
+import { acctionSucessful } from './alertSuccesful';
+import espera from '../assets/icons/esperar.png'
+import exito from '../assets/img/usuarioCreado.png'
 // Componente del Mapa
 const Mapa = ({ setUbicacion, ubicacion }) => {
   // Estado para la posición actual del mapa (latitud y longitud)
@@ -77,6 +79,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   // Función para obtener la ubicación actual del usuario (usando la geolocalización del navegador)
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
+      acctionSucessful.fire({
+        imageUrl: espera,
+        imageAlt: 'Icono personalizado',
+        title: `¡Estamos obteniendo tú ubicación...!`
+      });
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -85,6 +92,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           if (mapInstance) {
             mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación actual
           }
+          acctionSucessful.fire({
+            imageUrl: exito,
+            imageAlt: 'Icono personalizado',
+            title: `¡Ubicación obtenida con éxito!`
+          });
         },
         (error) => {
           console.error('Error al obtener la ubicación del usuario', error);

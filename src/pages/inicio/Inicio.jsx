@@ -66,7 +66,7 @@ export default function Login() {
 
   return (
     <div>
-      <Gov />
+      {/* <Gov /> */}
       {responsive()}
     </div>
   );

@@ -8,10 +8,10 @@ export default function GraficoSensor({ datos }) {
   const maxValor = Math.ceil(Math.max(...datos.map((item) => item.valor)));  // Redondeamos hacia arriba el valor máximo
 
   return (
-    <div className="bg-white w-10/12 shadow-lg my-8 mx-20 rounded-xl">
-      <h2 className="text-center text-lg font-semibold mb-4">Registro de sensores</h2>
+    <div className="bg-white w-[92%] shadow-lg my-2 mx-auto rounded-xl">
+      <h2 className="text-center text-xl font-semibold mb-2 mt-2">Registro de sensores</h2>
       {/* ResponsiveContainer asegura que el gráfico se ajuste bien en diferentes tamaños de pantalla */}
-      <ResponsiveContainer width="95%" height={300}>
+      <ResponsiveContainer width="100%" height={400}>
         {/* LineChart es el componente principal para dibujar un gráfico de líneas */}
         <LineChart data={datos}>
           {/* CartesianGrid agrega una cuadrícula en el fondo del gráfico */}

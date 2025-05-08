@@ -166,7 +166,7 @@ export default function ListaFincas() {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar finca</h5>
             <hr />
             <form onSubmit={handleEliminarFinca}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="Confirmar eliminar" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

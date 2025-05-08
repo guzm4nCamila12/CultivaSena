@@ -307,7 +307,7 @@ function ActividadesZonas() {
                         <form onSubmit={handleCrearActividad}>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Seleccione el tipo de cultivo</label>
-                                <div className="flex gap-4 mt-2">
+                                <div className="flex gap-4 mt-0">
                                     <label className="flex items-center gap-2">
                                         <input
                                             type="radio"
@@ -370,7 +370,7 @@ function ActividadesZonas() {
                             </div>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Fecha inicio</label>
-                                <div className="relative mt-2">
+                                <div className="relative mt-0">
                                     <input
                                         type="datetime-local"
                                         name="fechainicio"
@@ -381,7 +381,7 @@ function ActividadesZonas() {
                             </div>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Fecha finalización</label>
-                                <div className="relative mt-2">
+                                <div className="relative mt-0">
                                     <input
                                         type="datetime-local"
                                         name="fechafin"
@@ -416,7 +416,7 @@ function ActividadesZonas() {
                         <form onSubmit={handleEditarActividad}>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Tipo de cultivo</label>
-                                <div className="flex gap-4 mt-2">
+                                <div className="flex gap-4 mt-0">
                                     <label className="flex items-center gap-2">
                                         <input
                                             type="radio"
@@ -468,7 +468,7 @@ function ActividadesZonas() {
                             </div>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Fecha inicio</label>
-                                <div className="relative mt-2">
+                                <div className="relative mt-0">
                                     <input
                                         type="datetime-local"
                                         name="fechainicio"
@@ -480,7 +480,7 @@ function ActividadesZonas() {
                             </div>
                             <div className="relative w-full mt-2">
                                 <label className="font-semibold">Fecha finalización</label>
-                                <div className="relative mt-2">
+                                <div className="relative mt-0">
                                     <input
                                         type="datetime-local"
                                         name="fechafin"
@@ -515,7 +515,7 @@ function ActividadesZonas() {
                         <h5 className="text-2xl font-bold mb-4 text-center">Eliminar actividad</h5>
                         <hr />
                         <form onSubmit={HandleEliminarActividad}>
-                            <div className="flex justify-center my-2">
+                            <div className="flex justify-center my-0">
                                 <img src={ConfirmarEliminar} alt="icono" />
                             </div>
                             <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

@@ -543,7 +543,7 @@ function ActivarSensores() {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
             <hr />
             <form onSubmit={HandleEliminarSensor}>
-              <div className="flex justify-center my-4">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

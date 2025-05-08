@@ -309,7 +309,7 @@ const Zonas = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar zona</h5>
             <hr />
             <form onSubmit={HandleEliminarZonas}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

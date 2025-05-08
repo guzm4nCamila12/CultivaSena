@@ -555,7 +555,7 @@ const Inicio = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

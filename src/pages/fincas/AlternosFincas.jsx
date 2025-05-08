@@ -335,7 +335,7 @@ const AlternosFinca = () => {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Crear alterno</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Crear alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
               {/* Campos del formulario para agregar un usuario */}
@@ -455,7 +455,7 @@ const AlternosFinca = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar alterno</h5>
             <hr />
             <form onSubmit={HandleEliminarAlterno}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

@@ -5,26 +5,55 @@ import { useNavigate } from "react-router-dom";
 import Gov from '../../components/gov';
 import { acctionSucessful } from "../../components/alertSuccesful";
 //iconos de input
-import telefonoGris from "../../assets/icons/telefonoGris.png"
+import telefonoGris from "../../assets/icons/phone.png"
 import claveGris from "../../assets/icons/claveOculta.png"
-import verClave from "../../assets/icons/verClave.png"
+import verClave from "../../assets/icons/eye-open.png"
 import noVerClave from "../../assets/icons/eye-hidden.png"
 import volver from "../../assets/icons/volver.png"
 //img alerta
 import welcomeIcon from "../../assets/img/inicioSesion.png";
+import alerta from '../../assets/img/alerta.png'
 //endpoints para consumir api
 import { login } from "../../services/usuarios/ApiUsuarios";
+
 
 const Login = () => {
   const [telefono, setTelefono] = useState("");
   const [clave, setClave] = useState("");
   const [mostrarClave, setMostrarClave] = useState(false);
   const navigate = useNavigate();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
+  // Función que maneja el envío del formulario de inicio de sesión
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const inicioUsuario = { telefono, clave };
+    if(!telefono && !clave){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: "Todos los campos son obligatorios"
+      })
+      return
+    }
+    if(!telefono){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: 'Ingrese su número de telefono'
+      })
+      return
+    }
+    if(!clave){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: 'Ingrese su contraseña'
+      })
+      return
+    }
 
     login(inicioUsuario)
       .then((data) => {
@@ -54,10 +83,13 @@ const Login = () => {
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
+
+        // Manejo de errores si la API falla
         acctionSucessful.fire({
-          icon: "error",
-          title: error.message,
-        });
+          imageUrl: alerta,
+          title: "¡Usuario no encontrado!"
+        })
+
       });
   };
 
@@ -92,12 +124,12 @@ const Login = () => {
                 placeholder="Ingrese su número de teléfono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
-                required
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
                   backgroundImage: `url(${telefonoGris})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
+                  backgroundSize: '20px 20px'
                 }} />
               <div className="relative pb-3">
                 <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
@@ -106,12 +138,12 @@ const Login = () => {
                   placeholder="Ingrese su contraseña"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
-                  required
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
                     backgroundImage: `url(${claveGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
+                    backgroundSize: '20px 20px',
                   }} />
                 <div
                   onClick={handleToggle}

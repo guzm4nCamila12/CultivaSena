@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Gov from '../../components/gov';
 import { acctionSucessful } from "../../components/alertSuccesful";
 //iconos de input
-import telefonoGris from "../../assets/icons/telefonoGris.png";
-import claveGris from "../../assets/icons/claveGris.png";
-import verClave from "../../assets/icons/verClave.png";
-import noVerClave from "../../assets/icons/noVerClave.png";
-import volver from "../../assets/icons/volver.png";
+import telefonoGris from "../../assets/icons/telefonoGris.png"
+import claveGris from "../../assets/icons/claveOculta.png"
+import verClave from "../../assets/icons/verClave.png"
+import noVerClave from "../../assets/icons/eye-hidden.png"
+import volver from "../../assets/icons/volver.png"
 //img alerta
 import welcomeIcon from "../../assets/img/inicioSesion.png";
 //endpoints para consumir api
@@ -83,13 +83,13 @@ const Login = () => {
         <div className="flex flex-col items-center z-10 gap-16 px-5">
           <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
-          <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
+          <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
-            <h2 className="text-3xl text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
             <form onSubmit={handleSubmit} className="space-y-3">
+              <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
               <input
                 type="text"
-                placeholder="Número de teléfono"
+                placeholder="Ingrese su número de teléfono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 required
@@ -99,10 +99,11 @@ const Login = () => {
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
                 }} />
-              <div className="relative">
+              <div className="relative pb-3">
+                <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
                 <input
                   type={mostrarClave ? "text" : "password"}
-                  placeholder="Contraseña"
+                  placeholder="Ingrese su contraseña"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
                   required
@@ -114,7 +115,7 @@ const Login = () => {
                   }} />
                 <div
                   onClick={handleToggle}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                  className="absolute right-3 mt-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
                     src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                 </div>

@@ -145,7 +145,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: Alerta,
         imageAlt: "Icono personalizado",
-        title: "¡Por favor, complete todos los campos!"
+        title: "¡Ingrese el nombre de la zona!"
       });
       return;
     }
@@ -246,7 +246,6 @@ const Zonas = () => {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
-                  required
                   autoComplete="off"
                   onChange={handleChange} />
               </div>

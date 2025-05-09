@@ -5,7 +5,7 @@ import Gov from './gov';
 import Inicio from '../assets/icons/Inicio.png';
 //icons
 import menu from "../assets/icons/menu.png";
-import cultivaSena from "../assets/icons/cultiva.png";
+import cultivaSena from "../assets/icons/cultivaSena.png";
 //Cerrar sesión
 import CerrarSesion from "./auth/logOut";
 
@@ -63,7 +63,7 @@ export default function Navbar() {
             >
               {/* triángulo indicador */}
               <div
-                className="absolute -top-2 right-4  w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]"
+                className="absolute -top-2 right-2  w-0 h-0 border-l-[5px] border-r-[5px] border-b-[9px] border-l-transparent border-r-transparent border-b-[#00304D]"
               />
 
               <h3 className="w-full mb-2 text-white font-medium border-b-2 pb-1 pl-12 border-white">

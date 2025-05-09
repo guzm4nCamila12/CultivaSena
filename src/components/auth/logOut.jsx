@@ -7,7 +7,7 @@ import goodBye from "../../assets/img/sesionFinalizada.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
 //icons
-import salir from "../../assets/icons/salir.png"
+import salir from "../../assets/icons/log-out-1.png"
 
 const LogOut = () => {
   const navigate = useNavigate(); // Obtén el hook useNavigate
@@ -28,7 +28,7 @@ const LogOut = () => {
     <div>
       {/* Otros contenidos de tu componente */}
       <button onClick={() => setModallogoutAbierto(true)} className='text-white p-1 m-2 flex justify-items-start hover:bg-[#184a68]'>
-        <img src={salir} alt="" className="mr-1 h-5" />
+        <img src={salir} alt="" className="mr-2 h-6" />
         Cerrar sesión
       </button>
 

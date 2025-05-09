@@ -346,7 +346,6 @@ const AlternosFinca = () => {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
-                  required
                   autoComplete="off"
                   onChange={handleChange} />
               </div>

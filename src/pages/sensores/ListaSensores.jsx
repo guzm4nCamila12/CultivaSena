@@ -9,6 +9,7 @@ import sensorEstado from "../../assets/icons/estado.png";
 import ajustes from "../../assets/icons/acciones.png";
 import zonaSensor from "../../assets/icons/zonas.png";
 //icons de las acciones
+import alerta from '../../assets/img/alerta.png'
 import editar from "../../assets/icons/editar.png"
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png"
@@ -414,7 +415,7 @@ function ActivarSensores() {
           <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
             name="idzona"
             onChange={onChange}
-            required>
+            >
             <option value="">seleccionar zona </option>
             <option value=""> Sin zona </option>
           </select>
@@ -427,7 +428,7 @@ function ActivarSensores() {
         <select id="zonas" className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
           name="idzona"
           onChange={onChange}
-          required>
+          >
           <option value="">Seleccionar zona </option>
           <option value=""> Sin zona </option>
           {zonas.map((zona) => (
@@ -466,7 +467,6 @@ function ActivarSensores() {
                   type="text"
                   name="nombre"
                   placeholder="Nombre"
-                  required
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">

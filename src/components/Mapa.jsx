@@ -12,7 +12,7 @@ import ubiActual from "../assets/icons/ubiActual.png"
 import acercar from "../assets/icons/acercar.png"
 import alejar from "../assets/icons/alejar.png"
 import { acctionSucessful } from './alertSuccesful';
-import espera from '../assets/icons/esperar.png'
+import espera from '../assets/img/cargando.png'
 import exito from '../assets/img/usuarioCreado.png'
 // Componente del Mapa
 const Mapa = ({ setUbicacion, ubicacion }) => {

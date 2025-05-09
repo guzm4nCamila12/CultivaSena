@@ -17,6 +17,12 @@ const Login = () => {
   const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
+
+  // Verifica si hay un token en el almacenamiento local y lo elimina
+  // Esto se hace para evitar que el usuario permanezca en la página de inicio de sesión si ya ha iniciado sesión
+  if(localStorage.getItem('token')){
+    localStorage.removeItem('token');
+  }
   // Función que maneja el envío del formulario de inicio de sesión
   const handleSubmit = (e) => {
     e.preventDefault();

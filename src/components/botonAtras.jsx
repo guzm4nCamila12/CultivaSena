@@ -38,8 +38,8 @@ export default function BotonAtras() {
     <div className=" ml-auto mt-1 ">
       <button
         type="button"
-        className="bg-[#FBD000] hover:bg-[#BE9E00] font-extrabold text-lg text-[#00304D] top-0 right-0  md:rounded-3xl rounded-full lg:w-40 md:w-44 w-8 h-8"
         onClick={irAtras}>
+          
         {mensaje}
       </button>
     </div>

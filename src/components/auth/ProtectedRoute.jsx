@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
   const token = localStorage.getItem('token'); // Obtener el token del localStorage
-  const userRole = localStorage.getItem('rol'); // Obtener el rol del usuario
   const location = useLocation(); // Obtener la ubicación actual
   const {ubicacionActual, setUbicacionActual} = useState(location.pathname)
   // Verificar si no hay token
@@ -21,6 +20,13 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
       localStorage.removeItem('token'); // Eliminar token expirado
       return <Navigate to="/login" />;  // Redirigir a login si el token ha expirado
     }
+    const userRole =decodedToken.idRol; // Obtener el rol del usuario
+    console.log(userRole)
+    if (!allowedRoles.includes(userRole)) {
+      return;  // Redirigir si no tiene el rol adecuado
+    }
+
+
   } catch (error) {
     console.error("Error al decodificar el token:", error);
     localStorage.removeItem('token');
@@ -28,9 +34,7 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
   }
   console.log (ubicacionActual)
   // Si el token es válido, renderiza el componente protegido
-  if (!allowedRoles.includes(userRole)) {
-    return;  // Redirigir si no tiene el rol adecuado
-  }
+ 
 
   // Si el token es válido y el rol está permitido, renderiza el componente protegido
   return <Component {...rest} />;

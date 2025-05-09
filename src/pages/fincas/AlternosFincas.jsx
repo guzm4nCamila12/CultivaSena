@@ -5,9 +5,8 @@ import { useParams } from 'react-router-dom';
 import nombre from "../../assets/icons/nombres.png"
 import telefono from "../../assets/icons/telefono.png"
 import correo from "../../assets/icons/correo.png"
-import ajustesBlanco from "../../assets/icons/acciones.png"
-
 //iconos de las acciones
+import ajustes from "../../assets/icons/acciones.png"
 import editar from "../../assets/icons/editar.png";
 import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
@@ -66,10 +65,10 @@ const AlternosFinca = () => {
 
   //Definicion de las columnas de la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre",icon: nombre },
-    { key: "telefono", label: "Telefono", icon: telefono  },
-    { key: "correo", label: "Correo", icon: correo },
-    { key: "acciones", label: "Acciones",icon: ajustesBlanco },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono },
+    { key: "correo", label: "Correo", icon: correo, icon2: correo },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   //Abre el modal de edicion con los datos de ese usuario
@@ -91,7 +90,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(usuarioEditar.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -101,8 +99,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    const telefonoValido = /^\d{10}$/.test(usuarioEditar.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -111,7 +108,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (usuarioEditar.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -168,7 +164,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno: ${usuarioEditar.nombre} editado correctamente!`
+        title: `¡Alterno <span style="color: #3366CC;">${usuarioEditar.nombre} </span> editado correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -184,7 +180,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
-        title: `¡Alterno: ${alternoEliminar.nombre} eliminado correctamente!`
+        title: `¡Alterno <span style="color: red;">${alternoEliminar.nombre}</span> eliminado correctamente!`
       });
     }).catch(console.error);
   }
@@ -225,7 +221,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -235,8 +230,7 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación del teléfono (puedes adaptarlo al formato que necesites)
-    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);  // Suponiendo que el teléfono debe tener 10 dígitos
+    const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -245,7 +239,6 @@ const AlternosFinca = () => {
       });
       return;
     }
-    // Validación de la clave (mínimo 6 caracteres, puedes modificar la longitud mínima)
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -293,9 +286,7 @@ const AlternosFinca = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-
-        title: `¡Alterno: ${nuevoUsuario.nombre} creado correctamente!`
-
+        title: `¡Alterno <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
       });
     }).catch(console.error);
   }
@@ -305,9 +296,9 @@ const AlternosFinca = () => {
     <div className="flex justify-center gap-2">
       <div className="relative group">
         <button
-          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarAlterno(fila)}>
-          <img src={editar} alt="Editar" />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -315,9 +306,9 @@ const AlternosFinca = () => {
       </div>
       <div className="relative group">
         <button
-          className="px-8 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminar} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" className='absolute'/>
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -344,7 +335,7 @@ const AlternosFinca = () => {
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Crear alterno</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Crear alterno</h5>
             <hr />
             <form onSubmit={handleSubmit}>
               {/* Campos del formulario para agregar un usuario */}
@@ -408,7 +399,7 @@ const AlternosFinca = () => {
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar alterno</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Editar alterno</h5>
             <hr />
             <form onSubmit={handleEditarAlterno}>
               {/* Campos del formulario para editar un usuario */}
@@ -444,12 +435,12 @@ const AlternosFinca = () => {
               </div>
               <div className="flex justify-end mt-4">
                 <button type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
                   onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
                 <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
                   Guardar y actualizar
                 </button>
               </div>
@@ -464,7 +455,7 @@ const AlternosFinca = () => {
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar alterno</h5>
             <hr />
             <form onSubmit={HandleEliminarAlterno}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

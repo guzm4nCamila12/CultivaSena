@@ -1,16 +1,19 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
 import mac from "../../assets/icons/mac.png";
-import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import descripcion from "../../assets/icons/descripcion.png"
 import estado from "../../assets/icons/estado.png"
-import nombre from "../../assets/icons/nombres.png"
-import ajustesBlanco from "../../assets/icons/acciones.png";
+import nombre from "../../assets/icons/sensores.png"
+import ajustes from "../../assets/icons/acciones.png";
 //iconos de las acciones
 import editar from "../../assets/icons/editar.png";
 import ver from "../../assets/icons/ver.png"
 import eliminar from "../../assets/icons/eliminar.png";
 //iconos de los modales
-import nombreZona from "../../assets/icons/usuarioAzul.png";
+import nombreZona from "../../assets/icons/sensorAzul.png";
+import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
@@ -26,9 +29,6 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
 
 function Sensores() {
   //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales
@@ -39,6 +39,7 @@ function Sensores() {
   const [zonas, setZonas] = useState({})
   const [fincas, setFincas] = useState({})
   const [usuarios, setUsuarios] = useState({})
+  const [sensorEliminado, setSensorEliminado] = useState();
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
@@ -94,13 +95,12 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon:nombre },
-    { key: "mac", label: "MAC", icon: mac},
-    { key: "descripcion", label: "Descripción", icon: descripcion},
-    { key: "estado", label: "Inactivo/Activo", icon: estado },
-    { key: "acciones", label: "Acciones", icon:ajustesBlanco },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estado, icon2: estado },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
-  
 
   //se trae el id del sensor para traerlo y editarlo
   const enviarForm = (id) => {
@@ -114,9 +114,9 @@ function Sensores() {
     <div className="flex justify-center gap-4">
       <div className="relative group">
         <button
-          className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
-          <img src={editar} alt="Editar" />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -125,8 +125,8 @@ function Sensores() {
       <div className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
-            className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={ver} alt="Ver" />
+            className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={ver} alt="Ver" className='absolute'/>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -135,9 +135,9 @@ function Sensores() {
       </div>
       <div className="relative group">
         <button
-          className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminar} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
@@ -154,6 +154,8 @@ function Sensores() {
 
   //modal para eliminar, se guarda el sensor traido en el estado de sensorAEliminar
   const abrirModalEliminar = (sensor) => {
+    const sensorPrev = sensores.find(sensores => sensores.id === sensor)
+    setSensorEliminado(sensorPrev)
     setSensorAEliminar(sensor);
     setModalEliminarAbierto(true);
   };
@@ -169,7 +171,7 @@ function Sensores() {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: 'Icono personalizado',
-      title: "¡Sensor eliminado correctamente!"
+      title: `¡Sensor <span style="color: red;">${sensorEliminado.nombre}</span> eliminado correctamente!`
     });
   };
 
@@ -187,7 +189,7 @@ function Sensores() {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
-          title: "¡Sensor creado correctamente!"
+          title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
         });
         setModalInsertarAbierto(false);
       }
@@ -203,7 +205,7 @@ function Sensores() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
-        title: "¡Sensor editado correctamente!"
+        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
       nuevosSensores[index] = sensorEditar;
       setSensores(nuevosSensores);
@@ -263,7 +265,6 @@ function Sensores() {
           idzona: sensores[index].idzona,
           idfinca: sensores[index].idfinca,
         }
-
         editarSensor(sensores[index].id, updatedFormData).then((data) => {
           const nuevosSensores = [...sensores];
           nuevosSensores[index] = updatedFormData;
@@ -291,7 +292,6 @@ function Sensores() {
         idzona: sensores[index].idzona,
         idfinca: sensores[index].idfinca,
       }
-
       editarSensor(sensores[index].id, updatedFormData).then((data) => {
         const nuevosSensores = [...sensores];
         nuevosSensores[index] = updatedFormData;
@@ -326,7 +326,7 @@ function Sensores() {
         inputValue = value;
         return true;
       },
-      confirmButtonText: 'Guardar y actualizar',
+      confirmButtonText: 'Guardar e insertar',
       customClass: {
         popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
         title: 'text-gray-900',
@@ -339,7 +339,6 @@ function Sensores() {
   };
 
   const ActivarSensor = (idRol, sensor, index) => {
-    console.log("idrol:", idRol)
     if (idRol == "1") {
       return (
         <div className="flex justify-start items-center">
@@ -393,7 +392,6 @@ function Sensores() {
           ),
         }))} />
 
-      {/* Modal para Agregar un sensor */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -434,7 +432,6 @@ function Sensores() {
         </div>
       )}
 
-      {/* Modal para editar un sensor*/}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -476,18 +473,17 @@ function Sensores() {
         </div>
       )}
 
-      {/* Modal para Eliminar un sensor*/}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
             <hr />
             <form onSubmit={HandleEliminarSensor}>
-              <div className="flex justify-center my-4">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor de manera permanente.</p>
+              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

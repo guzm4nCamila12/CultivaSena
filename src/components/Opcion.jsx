@@ -1,6 +1,8 @@
+//importaciones necesarias de react
 import React, { useState, useEffect } from 'react';
-import OpcionTabla from "../assets/icons/OpcionTabla.png";
-import OpcionTarjeta from "../assets/icons/OpcionTarjetas.png";
+//componentes reutilizados
+import OpcionTabla from "../assets/icons/opcionTabla.png";
+import OpcionTarjeta from "../assets/icons/opcionTarjetas.png";
 
 function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
   // Inicializa 'vistaActiva' leyendo el valor desde localStorage, o por defecto 'tarjetas'
@@ -18,7 +20,7 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
 
   return (
     <div>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center">
         <div className="flex w-28 rounded-full border-4 border-gray-200 overflow-hidden">
           <button
             className={`flex-1 flex justify-center items-center p-2 ${vistaActiva === 'tabla' ? 'bg-[#93A6B2]' : 'bg-white'}`}

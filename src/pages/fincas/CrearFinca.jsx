@@ -1,3 +1,6 @@
+//importaciones necesarias de react
+import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router";
 //imgs de los modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import altertaIcon from "../../assets/img/alerta.png"
@@ -6,12 +9,9 @@ import Mapa from "../../components/Mapa";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import Navbar from "../../components/navbar";
 //icono del input
-import nombreFinca from "../../assets/icons/usuarioAzul.png"
+import nombreFinca from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
 import { crearFinca } from "../../services/fincas/ApiFincas";
-//importaciones necesarias de react
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router";
 
 const Agregar = () => {
   //estados del id del usuario, nombre de la finca y ubicación
@@ -37,14 +37,12 @@ const Agregar = () => {
     const nuevaFinca = { idUsuario: Number(id), nombre, ubicacion };
 
     try {
-
       const response = await crearFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
         title: `¡Finca: <span style="color: green;">${nombre}</span> creada correctamente!`
-
       });
       irAtras();
     } catch (error) {
@@ -64,7 +62,7 @@ const Agregar = () => {
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
             <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
               <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-                <h2 className="text-2xl sm:text-3xl font-semibold lg:pl-6">Crear finca</h2>
+                <h2 className="text-2xl sm:text-2xl font-semibold lg:pl-6">Crear finca</h2>
               </div>
               <div className="sm:pl-2 pr-4 flex justify-center items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12 xl: sm:rounded-full relative">
                 <input

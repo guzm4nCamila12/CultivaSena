@@ -1,21 +1,28 @@
-import { React, useState, useEffect } from "react";
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/usuarios/ApiUsuarios"
+//componentes reutilizados
 import Gov from '../../components/gov';
-import telefonoGris from "../../assets/icons/telefonoGris.png"
-import claveGris from "../../assets/icons/claveGris.png"
-import verClave from "../../assets/icons/verClave.png"
-import noVerClave from "../../assets/icons/noVerClave.png"
-import volver from "../../assets/icons/volver.png"
 import { acctionSucessful } from "../../components/alertSuccesful";
-import welcomeIcon from "../../assets/img/iniciosesion.png"
+//iconos de input
+import telefonoGris from "../../assets/icons/phone.png"
+import claveGris from "../../assets/icons/claveOculta.png"
+import verClave from "../../assets/icons/eye-open.png"
+import noVerClave from "../../assets/icons/eye-hidden.png"
+import volver from "../../assets/icons/volver.png"
+//img alerta
+import welcomeIcon from "../../assets/img/inicioSesion.png";
+import alerta from '../../assets/img/alerta.png'
+//endpoints para consumir api
+import { login } from "../../services/usuarios/ApiUsuarios";
+
 
 const Login = () => {
-  // Estados para almacenar el valor del telefono y la contraseña
-  const [telefono, setTelefono] = useState("");  // Estado para el correo electrónico
-  const [clave, setClave] = useState("");  // Estado para la contraseña
-  const [mostrarClave, setMostrarClave] = useState(false);  // Estado para alternar la visibilidad de la contraseña
+  const [telefono, setTelefono] = useState("");
+  const [clave, setClave] = useState("");
+  const [mostrarClave, setMostrarClave] = useState(false);
   const navigate = useNavigate();
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
 
   // Verifica si hay un token en el almacenamiento local y lo elimina
@@ -24,61 +31,83 @@ const Login = () => {
     localStorage.removeItem('token');
   }
   // Función que maneja el envío del formulario de inicio de sesión
+  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const inicioUsuario = { telefono, clave };
+    if(!telefono && !clave){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: "Todos los campos son obligatorios"
+      })
+      return
+    }
+    if(!telefono){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: 'Ingrese su número de telefono'
+      })
+      return
+    }
+    if(!clave){
+      acctionSucessful.fire({
+        imageUrl: alerta,
+        imageAlt: "Icono alerta",
+        title: 'Ingrese su contraseña'
+      })
+      return
+    }
 
-    // Llamada asincrónica a la API para obtener el usuario
     login(inicioUsuario)
       .then((data) => {
         const user = data.user;
-        //guarda el token en el almacenamiento local
         localStorage.setItem('token', data.token);
-        // Guardar un dato en el localStorage
         localStorage.setItem('rol', user.id_rol);
+
+        // Determinar y guardar ruta principal según el rol
+        let rutaPrincipal;
+        if (user.id_rol === 1) {
+          rutaPrincipal = "/inicio-SuperAdmin";
+        } else if (user.id_rol === 2) {
+          rutaPrincipal = `/lista-fincas/${user.id}`;
+        } else {
+          rutaPrincipal = `/sensores-alterno/${user.id_finca}/${user.id}`;
+        }
+        localStorage.setItem('principal', rutaPrincipal);
+
         acctionSucessful.fire({
           imageUrl: welcomeIcon,
           imageAlt: 'Icono personalizado',
           title: `Bienvenido(a) ${user.nombre}`
         });
-        // Lógica de navegación después de que se haya actualizado el estado
-        if (user.id_rol === 1) {
-          navigate("/inicio-SuperAdmin");
-        } else if (user.id_rol === 2) {
-          navigate(`/lista-fincas/${user.id}`);
-        } else if (user.id_rol === 3) {
-          navigate(`/sensores-alterno/${user.id_finca}/${user.id}`);
-        }
+
+        // Navegar siempre a la ruta principal guardada
+        navigate(rutaPrincipal, { state: { fromLogin: true } });
       })
       .catch((error) => {
         console.error("Error al iniciar sesión:", error);
-        acctionSucessful.fire({
-          icon: "error",
-          title: error.message,
-        }); // Almacena el mensaje de error en el estado error para mostrarlo al usuario
+
         // Manejo de errores si la API falla
+        acctionSucessful.fire({
+          imageUrl: alerta,
+          title: "¡Usuario no encontrado!"
+        })
+
       });
   };
-  //inicializa el estado con el tamaño actual del contenedor
+
   useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
+    const handleResize = () => setScreenWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Alterna entre mostrar y ocultar la contraseña
-  const handleToggle = () => {
-    setMostrarClave(!mostrarClave);
-  };
+  const handleToggle = () => setMostrarClave(!mostrarClave);
+  const irAtras = () => navigate("/");
 
-  //Ir a la pagina anterior a la actual
-  const irAtras = () => {
-    navigate("/");
-  }
 
   //Dependiendo de el tamaño de la pantalla se utiliza una interfaz u otra.
   const responsive = () => {
@@ -92,38 +121,39 @@ const Login = () => {
         <div className="flex flex-col items-center z-10 gap-16 px-5">
           <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
-          <div className="py-4 px-2 shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500"
+          <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
-            <h2 className="text-3xl text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
             <form onSubmit={handleSubmit} className="space-y-3">
+              <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
               <input
                 type="text"
-                placeholder="Número de teléfono"
+                placeholder="Ingrese su número de teléfono"
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
-                required
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
                   backgroundImage: `url(${telefonoGris})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
+                  backgroundSize: '20px 20px'
                 }} />
-              <div className="relative">
+              <div className="relative pb-3">
+                <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
                 <input
                   type={mostrarClave ? "text" : "password"}
-                  placeholder="Contraseña"
+                  placeholder="Ingrese su contraseña"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
-                  required
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
                     backgroundImage: `url(${claveGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
+                    backgroundSize: '20px 20px',
                   }} />
                 <div
                   onClick={handleToggle}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                  className="absolute right-3 mt-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
                     src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                 </div>
@@ -131,7 +161,7 @@ const Login = () => {
               <button
                 type="submit"
                 className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
-                Iniciar Sesión
+                Iniciar sesión
               </button>
             </form>
           </div>
@@ -196,14 +226,14 @@ const Login = () => {
                       </button>
                     </form>
                   </div>
-                  <a href="#" className='m-auto text-white'>¿Olvidó su contraseña?</a>
+                  <a  className='m-auto text-white'>¿Olvidó su contraseña?</a>
                 </div>
               </div>
             </div>
           </div>
           <div className="w-full flex justify-center py-4">
 
-          <img src="sena-logo.svg" alt="" className='static m-auto w-16 ' />
+            <img src="sena-logo.svg" alt="" className='static m-auto w-16 ' />
           </div>
 
         </div>

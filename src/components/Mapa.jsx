@@ -1,16 +1,19 @@
+//importaciones necesarios de react
 import React, { useState, useEffect } from 'react';
 // Importaciones para el mapa
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Importación de íconos personalizados para el mapa
-import locacionAzul from "../assets/icons/locacionAzul.png"
+import locacion from "../assets/icons/locacion.png"
 import marcador from "../assets/icons/marcador.png"
 import ubicacionMapa from "../assets/icons/ubicacion.png"
 import ubiActual from "../assets/icons/ubiActual.png"
 import acercar from "../assets/icons/acercar.png"
 import alejar from "../assets/icons/alejar.png"
-
+import { acctionSucessful } from './alertSuccesful';
+import espera from '../assets/icons/esperar.png'
+import exito from '../assets/img/usuarioCreado.png'
 // Componente del Mapa
 const Mapa = ({ setUbicacion, ubicacion }) => {
   // Estado para la posición actual del mapa (latitud y longitud)
@@ -77,6 +80,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   // Función para obtener la ubicación actual del usuario (usando la geolocalización del navegador)
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
+      acctionSucessful.fire({
+        imageUrl: espera,
+        imageAlt: 'Icono personalizado',
+        title: `¡Estamos obteniendo tú ubicación...!`
+      });
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -85,6 +93,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           if (mapInstance) {
             mapInstance.setView([latitude, longitude], 13); // Centra el mapa en la ubicación actual
           }
+          acctionSucessful.fire({
+            imageUrl: exito,
+            imageAlt: 'Icono personalizado',
+            title: `¡Ubicación obtenida con éxito!`
+          });
         },
         (error) => {
           console.error('Error al obtener la ubicación del usuario', error);
@@ -141,7 +154,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <div className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
             <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
-              <img src={locacionAzul} alt="Ubicacion actual" className='mr-1' />
+              <img src={locacion} alt="Ubicacion actual" className='mr-1' />
               Ubicación Actual:
             </h2>
           </div>

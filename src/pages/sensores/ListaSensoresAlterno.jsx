@@ -1,7 +1,12 @@
+//importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
 import mac from "../../assets/icons/mac.png";
 import descripcion from "../../assets/icons/descripcion.png";
 import estado from "../../assets/icons/estado.png"
+import nombre from "../../assets/icons/nombres.png"
+import ajustes from "../../assets/icons/acciones.png"
 //iconos de las acciones
 import ver from "../../assets/icons/ver.png";
 //componentes reutilizados
@@ -10,9 +15,6 @@ import MostrarInfo from "../../components/mostrarInfo";
 //endpoints para consumir el api
 import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
-//importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
@@ -37,7 +39,6 @@ function SensoresAlterno() {
     getFincasByIdFincas(id).then((data) => {
       setFincas(data);
     })
-
     //Obtiene los sensores asociados
     getSensoresById(id).then((data) => {
       if (data == null) {
@@ -65,11 +66,11 @@ function SensoresAlterno() {
 
   //Define las columnas para la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre" },
-    { key: "mac", label: "MAC", icon: mac },
-    { key: "descripcion", label: "Descripción", icon: descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: estado },
-    { key: "acciones", label: "Acciones" },
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estado, icon2: estado },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   //Funcion que define las acciones que se muestran en cada fila

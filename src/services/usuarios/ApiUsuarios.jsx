@@ -43,7 +43,6 @@ export const login = async (inicioUsuario) => {
 
   //Funcion para insertar un usuario
   export const crearUsuario = async (nuevoUsuario) => {
-    console.log(nuevoUsuario)
     const response = await fetch(`${API_URL}/api/usuario`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

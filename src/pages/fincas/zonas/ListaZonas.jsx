@@ -1,17 +1,16 @@
+// importaciones necesarias de react
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 // iconos de las columnas
-import nombre from "../../../assets/icons/nombres.png";
-import cantidadSensores from "../../../assets/icons/sensores.png";
+import nombre from "../../../assets/icons/zonas.png";
 import sensores from "../../../assets/icons/sensores.png";
 import actividades from "../../../assets/icons/actividades.png";
 import ajustes from "../../../assets/icons/acciones.png";
-
 // iconos de las acciones
 import editar from "../../../assets/icons/editar.png";
 import eliminar from "../../../assets/icons/eliminar.png";
 // iconos de los modales
-import nombreZona from "../../../assets/icons/usuarioAzul.png";
-import actividadesAzul from "../../../assets/icons/actividades.png";
-import sensorAzul from "../../../assets/icons/sensores.png";
+import nombreZona from "../../../assets/icons/zonaAzul.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../../../assets/img/usuarioCreado.png";
@@ -23,9 +22,6 @@ import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
 // endpoints para consumir api
 import { getFincasByIdFincas, getZonasByIdFinca, crearZona, editarZona, eliminarZonas } from "../../../services/fincas/ApiFincas";
-// importaciones necesarias de react
-import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
 
 const Zonas = () => {
   // Obtiene el ID de la URL 
@@ -71,11 +67,10 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre",icon:nombre, icon2: nombre },
-    { key: "cantidadSensores", label: "Cantidad sensores",icon:cantidadSensores , icon2: cantidadSensores},
-    { key: "verSensores", label: "Sensores",icon:sensores , icon2: sensores},
-    { key: "actividades", label: "Actividades",icon:actividades , icon2: actividades},
-    { key: "acciones", label: "Acciones",icon2: ajustes }
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "verSensores", label: "Sensores", icon: sensores, icon2: sensores },
+    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
+    { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
 
   // Abre el modal de edición con los datos de esa zona
@@ -117,7 +112,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: #FBD000;">${zonaParaActualizar.nombre}</span> editada correctamente!`
+        title: `¡Zona <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
       setModalEditarAbierto(false);
     });
@@ -132,7 +127,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
+        title: `¡Zona <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
       });
     }).catch(console.error);
   };
@@ -160,7 +155,7 @@ const Zonas = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: `¡Zona: <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
+        title: `¡Zona <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
       });
     }).catch(console.error);
   };
@@ -170,9 +165,9 @@ const Zonas = () => {
     <div className="flex justify-center gap-2">
       <div className="relative group">
         <button
-          className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarZona(fila)}>
-          <img src={editar} alt="Editar" />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -180,9 +175,9 @@ const Zonas = () => {
       </div>
       <div className="relative group">
         <button
-          className="xl:px-8 px-5 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminar} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -200,11 +195,12 @@ const Zonas = () => {
     verSensores: (
       <Link to={`/sensoresZonas/${zona.id}/${idUser}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={sensorAzul} alt="Sensores" />
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+            {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
+            <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver sensores
           </span>
         </button>
       </Link>
@@ -212,11 +208,11 @@ const Zonas = () => {
     actividades: (
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button className="group relative">
-          <div className="w-9 h-9 rounded-full bg-white hover:bg-[#93A6B2] flex items-center justify-center">
-            <img src={actividadesAzul} alt="Actividades" className="w-5 h-5" />
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Ver
+            Ver actividades
           </span>
         </button>
       </Link>
@@ -234,7 +230,7 @@ const Zonas = () => {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
       />
-      {/* Modal para insertar Zona */}
+
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -272,11 +268,10 @@ const Zonas = () => {
         </div>
       )}
 
-      {/* Modal para editar Zona */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-xl font-semibold text-center mb-4">Editar zona</h5>
+            <h5 className="text-2xl font-semibold text-center mb-4">Editar zona</h5>
             <hr />
             <form onSubmit={handleEditarZona}>
               <div className="relative w-full mt-2">
@@ -293,13 +288,13 @@ const Zonas = () => {
               <div className="flex justify-end mt-4">
                 <button
                   type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
                   onClick={() => setModalEditarAbierto(false)}>
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
+                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
                   Guardar y actualizar
                 </button>
               </div>
@@ -308,14 +303,13 @@ const Zonas = () => {
         </div>
       )}
 
-      {/* Modal para eliminar Zona */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar zona</h5>
             <hr />
             <form onSubmit={HandleEliminarZonas}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>

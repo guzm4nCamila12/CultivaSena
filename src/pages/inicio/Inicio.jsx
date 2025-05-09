@@ -1,21 +1,27 @@
+//importaciones necesarias de react
 import React from 'react';
-import Gov from '../../components/gov';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+//componentes reutilizados
+import Gov from '../../components/gov';
 
 export default function Login() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana
 
   useEffect(() => {
+    // Función para actualizar el ancho de la ventana cuando cambie el tamaño
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };
+    // Agregamos un 'event listener' para detectar cambios en el tamaño de la ventana
     window.addEventListener('resize', handleResize);
+    // Limpiamos el event listener cuando el componente se desmonte
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
+  // Esta función renderiza el contenido dependiendo del tamaño de la pantalla
   const responsive = () => {
     if (screenWidth > 768) {
       let bloque = <div
@@ -26,7 +32,7 @@ export default function Login() {
           <button
             type="submit"
             className="w-40  h-8 absolute top-12 right-4  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
-            Iniciar Sesión
+            Iniciar sesión
           </button>
         </Link>
         <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-black to-transparent opacity-80 font-sans text-center">
@@ -39,6 +45,7 @@ export default function Login() {
       </div>
       return bloque
     } else {
+      // Si la pantalla es más pequeña
       let bloque = <div
         className="min-h-screen  bg-black">
         <div className='flex justify-center   items-center min-h-screen bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>
@@ -51,7 +58,7 @@ export default function Login() {
                 <button
                   type="submit"
                   className="w-full h-[45px] mb-2  bg-[#39A900] hover:bg-[#005F00]  text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-black text-2xl drop-shadow-xl">
-                  Iniciar Sesión
+                  Iniciar sesión
                 </button>
               </Link>
               <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>
@@ -66,7 +73,7 @@ export default function Login() {
 
   return (
     <div>
-      <Gov />
+      {/* <Gov /> */}
       {responsive()}
     </div>
   );

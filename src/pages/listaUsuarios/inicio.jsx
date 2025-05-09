@@ -6,7 +6,6 @@ import telefono from "../../assets/icons/telefono.png";
 import correo from "../../assets/icons/correo.png";
 import rol from "../../assets/icons/rol.png";
 import ajustes from "../../assets/icons/acciones.png"
-import alternosIcon from "../../assets/icons/alternos.png"
 import nombreIcon from "../../assets/icons/nombres.png"
 //iconos de las acciones
 import eliminar from "../../assets/icons/eliminar.png";
@@ -28,7 +27,7 @@ import usuarioCreado from "../../assets/img/usuarioCreado.png";
 import sinFinca from "../../assets/img/sinFincas.png";
 import ConfirmarEliminar from "../../assets/img/eliminar.png";
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
-import fotoPerfil from "../../assets/img/PerfilSuperAdmin.png";
+import fotoPerfil from "../../assets/img/perfilSuperAdmin.png";
 import Alerta from "../../assets/img/alerta.png";
 //endpoints para consumir api
 import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
@@ -43,6 +42,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [usuarioEliminado,setUsuarioEliminado] = useState();
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
@@ -79,7 +79,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Verificar si el correo o teléfono ya existe
     const correoExistente = await verificarExistenciaCorreo(nuevoUsuario.correo);
     if (correoExistente) {
       acctionSucessful.fire({
@@ -98,7 +97,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validación del formato del correo
     const correoValido = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(nuevoUsuario.correo);
     if (!correoValido) {
       acctionSucessful.fire({
@@ -108,7 +106,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validación del teléfono (suponiendo 10 dígitos)
     const telefonoValido = /^\d{10}$/.test(nuevoUsuario.telefono);
     if (!telefonoValido) {
       acctionSucessful.fire({
@@ -118,7 +115,6 @@ const Inicio = () => {
       });
       return;
     }
-    // Validaciones de la clave 
     if (nuevoUsuario.clave.length < 6) {
       acctionSucessful.fire({
         imageUrl: Alerta,
@@ -174,7 +170,7 @@ const Inicio = () => {
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: "Icono personalizado",
-          title: "¡Usuario creado correctamente!"
+          title: `¡Usuario <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
         });
       }
       setModalInsertarAbierto(false);
@@ -263,7 +259,7 @@ const Inicio = () => {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
-        title: "¡Usuario editado correctamente!"
+        title: `¡Usuario <span style="color: #3366CC;">${usuarioEditar.nombre}</span> editado correctamente!`
       });
       setModalEditarAbierto(false);
     } catch (error) {
@@ -283,7 +279,7 @@ const Inicio = () => {
     acctionSucessful.fire({
       imageUrl: UsuarioEliminado,
       imageAlt: "Icono personalizado",
-      title: "¡Usuario eliminado correctamente!"
+      title: `¡Usuario <span style="color: red;">${usuarioEliminado.nombre}</span> eliminado correctamente!`
     });
   };
 
@@ -303,9 +299,9 @@ const Inicio = () => {
       <div className="flex justify-center gap-4">
         <div className="relative group">
           <button
-            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEditar(fila)}>
-            <img src={editar} alt="Editar" />
+            <img src={editar} alt="Editar" className="absolute" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -315,8 +311,8 @@ const Inicio = () => {
           <div className="relative group">
             <button
               onClick={() => setModalSinFincasAbierto(true)}
-              className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-              <img src={sinFincas} alt="Ver" />
+              className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+              <img src={sinFincas} alt="Ver" className="absolute"/>
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver
@@ -325,10 +321,8 @@ const Inicio = () => {
         ) : null}
         {fila.id_rol === "Admin" && (
           <div className="relative group">
-            <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-              <button>
-                <img src={ver} alt="Ver" />
-              </button>
+            <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+                <img src={ver} alt="Ver" className="absolute"/>
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
               </span>
@@ -338,8 +332,8 @@ const Inicio = () => {
         <div className="relative group">
           <button
             onClick={() => abrirModalEliminar(fila.id)}
-            className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={eliminar} alt="Eliminar" />
+            className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={eliminar} alt="Eliminar" className="absolute"/>
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
@@ -363,6 +357,8 @@ const Inicio = () => {
   };
 
   const abrirModalEliminar = (id) => {
+    const usuarioPrev = usuarios.find(usuario => usuario.id === id);
+    setUsuarioEliminado(usuarioPrev)
     setUsuarioEliminar(id);
     setModalEliminarAbierto(true);
   };
@@ -393,7 +389,6 @@ const Inicio = () => {
         mostrarAgregar={true}
       />
 
-      {/* Modal Insertar Usuario */}
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -467,7 +462,6 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Editar Usuario */}
       {modalEditarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -532,7 +526,6 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Sin Fincas */}
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
@@ -556,18 +549,17 @@ const Inicio = () => {
         </div>
       )}
 
-      {/* Modal Eliminar Usuario */}
       {modalEliminarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
             <h5 className="text-2xl font-bold mb-4 text-center">Eliminar usuario</h5>
             <hr />
             <form onSubmit={handleEliminarUsuario}>
-              <div className="flex justify-center my-2">
+              <div className="flex justify-center my-0">
                 <img src={ConfirmarEliminar} alt="icono" />
               </div>
               <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el usuario de manera permanente.</p>
+              <p className="text-gray-400 text-center text-lg">Se eliminará el usuario <strong className="text-red-600">{usuarioEliminado.nombre}</strong> de manera permanente.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"

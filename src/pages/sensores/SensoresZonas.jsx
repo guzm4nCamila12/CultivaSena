@@ -1,6 +1,7 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 //iconos de las columnas
 import mac from "../../assets/icons/mac.png";
 import descripcion from "../../assets/icons/descripcion.png"
@@ -18,7 +19,6 @@ import descripcionAzul from "../../assets/icons/descripcionAzul.png";
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 //imgs de los modales
-import ConfirmarEliminar from "../../assets/img/eliminar.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 //componentes reutilizados
@@ -126,7 +126,7 @@ function Sensores() {
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={ver} alt="Ver" className='absolute'/>
+            <img src={ver} alt="Ver" className='absolute' />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -472,32 +472,19 @@ function Sensores() {
           </div>
         </div>
       )}
-
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-            <hr />
-            <form onSubmit={HandleEliminarSensor}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="icono" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={HandleEliminarSensor}
+        title="Eliminar Sensor"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
     </div>
   );
 }

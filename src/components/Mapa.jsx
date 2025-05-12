@@ -83,8 +83,15 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       acctionSucessful.fire({
         imageUrl: espera,
         imageAlt: 'Icono personalizado',
-        title: `¡Estamos obteniendo tú ubicación...!`
+        title: '¡Estamos obteniendo tu ubicación...!',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          acctionSucessful.showLoading();
+        }
       });
+  
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;

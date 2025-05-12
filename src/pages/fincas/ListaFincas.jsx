@@ -11,7 +11,6 @@ import ajustes from "../../assets/icons/acciones.png";
 import eliminar from "../../assets/icons/eliminar.png";
 import editar from "../../assets/icons/editar.png";
 //imgs de los modales
-import ConfirmarEliminar from "../../assets/img/eliminar.png";
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
 //componentes reutilizados
 import Navbar from '../../components/navbar';
@@ -20,6 +19,7 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 //endpoints para consumir api
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
 import { getFincasById, eliminarFincas } from '../../services/fincas/ApiFincas';
+import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -93,7 +93,7 @@ export default function ListaFincas() {
       </div>
       <div className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={eliminar} alt="Eliminar" className='absolute'/>
+          <img src={eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -160,31 +160,19 @@ export default function ListaFincas() {
         onAddUser={() => navigate(`/agregar-finca/${usuario.id}`)}
         mostrarAgregar={true}
       />
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar finca</h5>
-            <hr />
-            <form onSubmit={handleEliminarFinca}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="Confirmar eliminar" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará la finca <strong className="text-red-600"> {nombreFincaEliminar.nombre}</strong>  de manera permanente.</p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" type="submit">
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={handleEliminarFinca}
+        title="Eliminar finca"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará la finca <strong className="text-red-600">{nombreFincaEliminar?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
     </div>
   );
 }

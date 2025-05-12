@@ -1,6 +1,7 @@
 // importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
 // iconos de las columnas
 import nombre from "../../../assets/icons/zonas.png";
 import sensores from "../../../assets/icons/sensores.png";
@@ -14,7 +15,6 @@ import nombreZona from "../../../assets/icons/zonaAzul.png";
 // imgs de los modales
 import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../../../assets/img/usuarioCreado.png";
-import ConfirmarEliminar from "../../../assets/img/eliminar.png";
 import Alerta from "../../../assets/img/alerta.png";
 // componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
@@ -301,37 +301,21 @@ const Zonas = () => {
           </div>
         </div>
       )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={HandleEliminarZonas}
+        title="Eliminar finca"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará la zona <strong className="text-red-600">{zonaEliminada?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
 
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar zona</h5>
-            <hr />
-            <form onSubmit={HandleEliminarZonas}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="icono" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">
-                Se eliminará la zona <strong className="text-red-600">{zonaEliminada.nombre}</strong> de manera permanente.
-              </p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  type="button"
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 };

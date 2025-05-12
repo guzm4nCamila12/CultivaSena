@@ -42,7 +42,7 @@ const Login = () => {
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
-        title: 'Ingrese su número de telefono'
+        title: '¡Por favor, ingrese su número de telefono!'
       })
       return
     }
@@ -50,7 +50,7 @@ const Login = () => {
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
-        title: 'Ingrese su contraseña'
+        title: '¡Por favor, ingrese su contraseña!'
       })
       return
     }

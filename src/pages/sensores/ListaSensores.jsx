@@ -19,7 +19,6 @@ import descripcionAzul from "../../assets/icons/descripcionAzul.png"
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
-import ConfirmarEliminar from "../../assets/img/eliminar.png"
 //componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -32,6 +31,7 @@ import { insertarDatos } from "../../services/sensores/ApiSensores";
 //libreria sweetalert para las alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
+import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
@@ -192,6 +192,7 @@ function ActivarSensores() {
       )
     }
   }
+
   // Función para asignar un nombre de zona al sensor, según el id de la zona
   const asignarZona2 = (id) => {
     const nombre = zonas.find(zonas => zonas.id === id);
@@ -200,7 +201,7 @@ function ActivarSensores() {
 
   // Mapea los sensores y asigna la zona y el estado de cada uno
   const sensoresDeFinca = sensores.map((sensor, index) => ({
-    ...sensor, idzona: asignarZona2(sensor.idzona),
+    ...sensor, idzona: asignarZona2(sensor.idzona), mac: (sensor.mac ? sensor.mac : "Sin mac"),
     estado: (
       ActivarSensor(rol, sensor, index)
     ),
@@ -536,32 +537,19 @@ function ActivarSensores() {
           </div>
         </div>
       )}
-
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-            <hr />
-            <form onSubmit={HandleEliminarSensor}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="icono" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)} >
-                  Cancelar
-                </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg" >
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={HandleEliminarSensor}
+        title="Eliminar Sensor"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
     </div>
   )
 }

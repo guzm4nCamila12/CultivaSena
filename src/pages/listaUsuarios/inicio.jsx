@@ -22,10 +22,10 @@ import rolAzul from "../../assets/icons/rolAzul.png";
 import MostrarInfo from "../../components/mostrarInfo";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
+import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 //imgs modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png";
 import sinFinca from "../../assets/img/sinFincas.png";
-import ConfirmarEliminar from "../../assets/img/eliminar.png";
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
 import fotoPerfil from "../../assets/img/perfilSuperAdmin.png";
 import Alerta from "../../assets/img/alerta.png";
@@ -42,7 +42,7 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [usuarioEliminado,setUsuarioEliminado] = useState();
+  const [usuarioEliminado, setUsuarioEliminado] = useState();
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
@@ -285,12 +285,12 @@ const Inicio = () => {
 
   // Define las columnas de la tabla
   const columnas = [
-    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil},
-    { key: "nombre", label: "Nombre", icon2:nombreIcon },
-    { key: "telefono", label: "Teléfono", icon:telefono, icon2: telefono },
-    { key: "correo", label: "Correo", icon:correo, icon2:correo },
-    { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol, icon2:rol },
-    { key: "acciones", label: "Acciones", icon2:ajustes },
+    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
+    { key: "nombre", label: "Nombre", icon2: nombreIcon },
+    { key: "telefono", label: "Teléfono", icon: telefono, icon2: telefono },
+    { key: "correo", label: "Correo", icon: correo, icon2: correo },
+    { key: "id_rol", label: "Rol", transform: obtenerRol, icon: rol, icon2: rol },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila
@@ -312,7 +312,7 @@ const Inicio = () => {
             <button
               onClick={() => setModalSinFincasAbierto(true)}
               className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-              <img src={sinFincas} alt="Ver" className="absolute"/>
+              <img src={sinFincas} alt="Ver" className="absolute" />
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver
@@ -322,7 +322,7 @@ const Inicio = () => {
         {fila.id_rol === "Admin" && (
           <div className="relative group">
             <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-                <img src={ver} alt="Ver" className="absolute"/>
+              <img src={ver} alt="Ver" className="absolute" />
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
               </span>
@@ -333,7 +333,7 @@ const Inicio = () => {
           <button
             onClick={() => abrirModalEliminar(fila.id)}
             className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={eliminar} alt="Eliminar" className="absolute"/>
+            <img src={eliminar} alt="Eliminar" className="absolute" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
@@ -548,32 +548,19 @@ const Inicio = () => {
           </div>
         </div>
       )}
-
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar usuario</h5>
-            <hr />
-            <form onSubmit={handleEliminarUsuario}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="icono" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-400 text-center text-lg">Se eliminará el usuario <strong className="text-red-600">{usuarioEliminado.nombre}</strong> de manera permanente.</p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={handleEliminarUsuario}
+        title="Eliminar Sensor"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará el usuario <strong className="text-red-600">{usuarioEliminado?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
     </div>
   );
 };

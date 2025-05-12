@@ -70,7 +70,7 @@ const Agregar = () => {
                   name="nombre"
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
-                  className="w-[80%] text-[18px] placeholder-black sm:w-full h-10 xl:h-14 rounded-full  focus:outline-none focus:ring-2 focus:ring-[#10314669] ml-5 sm:ml-0 pl-10 pr-36 sm:pl-10 sm:pr-48 "
+                  className="w-[80%] text-[18px]  placeholder-black sm:w-full h-10 xl:h-14 rounded-full  focus:outline-none ml-5 sm:ml-0 pl-10 pr-36 sm:pl-10 sm:pr-48 "
                   placeholder="Ingrese el nombre"
                   autoComplete="off"
                   style={{

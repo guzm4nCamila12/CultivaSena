@@ -467,6 +467,7 @@ function ActivarSensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
+                  autoComplete="off"
                   placeholder="Nombre"
                   onChange={handleChange} />
               </div>
@@ -476,6 +477,7 @@ function ActivarSensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
+                  autoComplete="off"
                   placeholder="Descripción"
                   onChange={handleChange} />
               </div>
@@ -507,6 +509,7 @@ function ActivarSensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
                   value={sensorEditar.nombre}
+                  autoComplete="off"
                   placeholder="Nombre"
                   type="text"
                   onChange={handleChangeEditar}
@@ -519,6 +522,7 @@ function ActivarSensores() {
                   type="text"
                   name="descripcion"
                   value={sensorEditar.descripcion}
+                  autoComplete="off"
                   placeholder="Descripción"
                   onChange={handleChangeEditar}
                 />

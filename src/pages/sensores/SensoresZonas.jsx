@@ -404,6 +404,7 @@ function Sensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
+                  autoComplete="off"
                   placeholder="Nombre"
                   required
                   onChange={handleChange} />
@@ -415,6 +416,7 @@ function Sensores() {
                   type="text"
                   name="descripcion"
                   placeholder="Descripción"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="flex gap-4 mt-4">
@@ -444,6 +446,7 @@ function Sensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
                   placeholder="Nombre"
+                  autoComplete="off"
                   value={sensorEditar.nombre}
                   type="text"
                   onChange={handleChangeEditar} />
@@ -454,6 +457,7 @@ function Sensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
+                  autoComplete="off"
                   placeholder="Descripción"
                   value={sensorEditar.descripcion}
                   onChange={handleChangeEditar} />

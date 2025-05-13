@@ -5,12 +5,7 @@ import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Importación de íconos personalizados para el mapa
-import locacion from "../assets/icons/locacion.png"
-import marcador from "../assets/icons/marcador.png"
-import ubicacionMapa from "../assets/icons/ubicacion.png"
-import ubiActual from "../assets/icons/ubiActual.png"
-import acercar from "../assets/icons/acercar.png"
-import alejar from "../assets/icons/alejar.png"
+import * as Icons from "../assets/icons/IconsExportation" 
 import { acctionSucessful } from './alertSuccesful';
 import espera from '../assets/img/cargando.png'
 import exito from '../assets/img/usuarioCreado.png'
@@ -40,7 +35,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
 
   // Definición de un ícono personalizado para el marcador del mapa (usando la imagen "marcador")
   const customIcon = new L.Icon({
-    iconUrl: marcador,
+    iconUrl: Icons.marcador,
     iconSize: [50, 65], // Tamaño del ícono
     iconAnchor: [25, 60], // Punto de anclaje del ícono
   });
@@ -119,7 +114,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
   return (
     <div className='mb-10 relative lg:shadow-2xl lg:rounded-b-3xl'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
-        <img src={ubicacionMapa} className='mr-2' alt='iconoUbicacion' />
+        <img src={Icons.ubicacionMapa} className='mr-2' alt='iconoUbicacion' />
         Seleccione una ubicación en el mapa
       </h2>
       <div className="flex justify-center relative">
@@ -137,7 +132,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
           <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
             <button type="button" onClick={getCurrentLocation} className='group relative'>
-              <img src={ubiActual} alt="Ubicación Actual" />
+              <img src={Icons.ubiActual} alt="Ubicación Actual" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 w-48 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Mostrar tu ubicacion
               </span>
@@ -145,13 +140,13 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           </div>
           <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 lg:shadow-xl shadow-md'>
             <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2] group relative'>
-              <img src={alejar} alt="Zoom Out" />
+              <img src={Icons.alejar} alt="Zoom Out" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Alejar
               </span>
             </button>
             <button type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2] group relative'>
-              <img src={acercar} alt="Zoom In" />
+              <img src={Icons.acercar} alt="Zoom In" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Acercar
               </span>
@@ -161,7 +156,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         <div className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
             <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
-              <img src={locacion} alt="Ubicacion actual" className='mr-1' />
+              <img src={Icons.locacion} alt="Ubicacion actual" className='mr-1' />
               Ubicación Actual:
             </h2>
           </div>

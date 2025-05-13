@@ -365,6 +365,7 @@ function ActividadesZonas() {
                                     type="text"
                                     name="descripcion"
                                     required
+                                    autoComplete="off"
                                     placeholder="Escriba una breve descripción"
                                     onChange={handleActividadChange} />
                             </div>

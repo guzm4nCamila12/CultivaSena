@@ -24,16 +24,21 @@ const Agregar = () => {
     navigate(-1);
   };
 
-  // Maneja el envío del formulario con validación
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const validarFormulario = () => {
     if (!nombre || !ubicacion.lat || !ubicacion.lng) {
       acctionSucessful.fire({
         imageUrl: altertaIcon,
         title: "Debe ingresar un nombre y seleccionar una ubicación",
       });
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!validarFormulario())return;
+
     const nuevaFinca = { idUsuario: Number(id), nombre, ubicacion };
 
     try {
@@ -87,12 +92,7 @@ const Agregar = () => {
             </div>
           </div>
           <div className="m-0  rounded-b-3xl pt-24 sm:pt-3">
-            {/* Solo renderizamos el mapa si la ubicación no es null */}
-            {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} />
-            ) : (
-              <p className="text-gray-600">Cargando mapa...</p>
-            )}
           </div>
         </form>
       </div>

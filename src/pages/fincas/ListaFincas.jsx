@@ -1,15 +1,7 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-//iconos de la columna
-import nombre from "../../assets/icons/fincas.png"
-import zonas from "../../assets/icons/zonas.png"
-import alternos from "../../assets/icons/alternos.png";
-import sensores from "../../assets/icons/sensores.png";
-//iconos de las acciones
-import ajustes from "../../assets/icons/acciones.png";
-import eliminar from "../../assets/icons/eliminar.png";
-import editar from "../../assets/icons/editar.png";
+import * as Icons from '../../assets/icons/IconsExportation'
 //imgs de los modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
 //componentes reutilizados
@@ -71,11 +63,11 @@ export default function ListaFincas() {
   };
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: nombre },
-    { key: "zonas", label: "Zonas", icon: zonas, icon2: zonas },
-    { key: "sensores", label: "Sensores", icon: sensores, icon2: sensores },
-    { key: "alternos", label: "Alternos", icon: alternos, icon2: alternos },
-    { key: "acciones", label: "Acciones", icon2: ajustes },
+    { key: "nombre", label: "Nombre", icon2: Icons.fincas },
+    { key: "zonas", label: "Zonas", icon: Icons.zonas, icon2: Icons.zonas },
+    { key: "sensores", label: "Sensores", icon: Icons.sensores, icon2: Icons.sensores },
+    { key: "alternos", label: "Alternos", icon: Icons.alternos, icon2: Icons.alternos },
+    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
   ];
 
   // Aquí definimos las acciones que se pueden realizar sobre cada finca
@@ -84,7 +76,7 @@ export default function ListaFincas() {
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={editar} alt="Editar" className='absolute' />
+            <img src={Icons.editar} alt="Editar" className='absolute' />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -93,7 +85,7 @@ export default function ListaFincas() {
       </div>
       <div className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={eliminar} alt="Eliminar" className='absolute' />
+          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar

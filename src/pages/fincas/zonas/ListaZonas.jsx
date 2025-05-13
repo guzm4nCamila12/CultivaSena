@@ -25,8 +25,7 @@ import { getFincasByIdFincas, getZonasByIdFinca, crearZona, editarZona, eliminar
 
 const Zonas = () => {
   // Obtiene el ID de la URL 
-  const { idUser } = useParams();
-  const { id } = useParams();
+  const { idUser, id } = useParams();
   // Estado para almacenar los datos
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
@@ -73,6 +72,36 @@ const Zonas = () => {
     { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
 
+  //Función para validar que se haya modificado la información de la zona y que todos los campos estén llenos
+  const validarZonaEditada = () => {
+    if (nombreModificado === zonaEditar.nombre) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono",
+        title: `¡No se modificó la información de la zona ${nombreModificado}!`
+      });
+      return false;
+    }
+  
+    if (!zonaEditar.nombre) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡Por favor, complete todos los campos!"
+      });
+      return false;
+    }
+  
+    return true;
+  };
+  
+  //Función para limpiar el formulario
+  const limpiarZonaEditada = (zona) => {
+    const { cantidadSensores, verSensores, actividades, ...zonaLimpia } = zona;
+    return zonaLimpia;
+  };
+  
+
   // Abre el modal de edición con los datos de esa zona
   const HandleEditarZona = (zona) => {
     const { "#": removed, ...edit } = zona;
@@ -84,39 +113,23 @@ const Zonas = () => {
   // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
-    if (nombreModificado == zonaEditar.nombre) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono",
-        title: `¡No se modificó la información de la zona ${nombreModificado}!`
-      })
-      return
-    }
-    if (!zonaEditar.nombre) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡Por favor, complete todos los campos!"
-      });
-      return;
-    }
-    // Se limpia el objeto eliminando propiedades JSX
-    const zonaParaActualizar = {
-      ...zonaEditar,
-      cantidadSensores: undefined,
-      verSensores: undefined,
-      actividades: undefined
-    };
+  
+    if (!validarZonaEditada()) return;
+  
+    const zonaParaActualizar = limpiarZonaEditada(zonaEditar);
+  
     editarZona(zonaParaActualizar.id, zonaParaActualizar).then(() => {
       setZonas(zonas.map(u => u.id === zonaParaActualizar.id ? zonaParaActualizar : u));
+  
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "Icono personalizado",
         title: `¡Zona <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
+  
       setModalEditarAbierto(false);
     });
-  };
+  };  
 
   // Maneja la eliminación de una zona
   const HandleEliminarZonas = (e) => {
@@ -230,7 +243,6 @@ const Zonas = () => {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
       />
-
       {modalInsertarAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">

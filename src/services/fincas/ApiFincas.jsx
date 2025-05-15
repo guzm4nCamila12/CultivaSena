@@ -1,5 +1,5 @@
 //URL donde esta alojado el servidor
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Consumo al api para obtener todas las fincas de un usuario por su id
 export const getFincasById = async (id) => {

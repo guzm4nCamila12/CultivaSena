@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import MostrarInfo from "../../components/mostrarInfo";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
+import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import UsuarioFormModal from "../../components/modals/UsuarioFormModal"
 //Iconos e imagenes
 import * as Icons from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
@@ -52,6 +52,10 @@ const Inicio = () => {
 
     if (!usuario.nombre && !usuario.telefono && !usuario.correo && !usuario.clave && !usuario.id_rol) {
       errores.push("Todos los campos son obligatorios")
+    }
+
+    if(!usuario.nombre){
+      errores.push("Ingrese un nombre")
     }
 
     if (!usuario.nombre || usuario.nombre.length < 6) {
@@ -119,7 +123,6 @@ const Inicio = () => {
 
     const credencialesValidas = await comprobarCredenciales(nuevoUsuario);
     if (!credencialesValidas) return;
-
 
     const nuevo = {
       nombre: nuevoUsuario.nombre,
@@ -318,23 +321,45 @@ const Inicio = () => {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
       />
-
-      <UsuarioFormModal
+      <FormularioModal
+        titulo={"Crear Usuario"}
         isOpen={modalInsertarAbierto}
         onClose={() => setModalInsertarAbierto(false)}
         onSubmit={handleCrearUsuario}
-        usuario={nuevoUsuario}
+        valores={nuevoUsuario}
         onChange={handleChange}
-        modo="crear"
+        textoBoton="Crear"
+        campos={[
+          { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
+          { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
+          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul, type: "password" },
+          {
+            name: "id_rol",
+            placeholder: "Seleccione un rol",
+            type: "select",
+            options: [
+              { value: 1, label: "SuperAdmin" },
+              { value: 2, label: "Admin" },
+            ],
+          }
+        ]}
       />
 
-      <UsuarioFormModal
+      <FormularioModal
         isOpen={modalEditarAbierto}
+        titulo={"Editar Usuario"}
         onClose={() => setModalEditarAbierto(false)}
         onSubmit={handleUsuarioEditar}
-        usuario={usuarioEditar}
+        valores={usuarioEditar}
+        textoBoton="Guardar y actualizar"
         onChange={handleChangeEditar}
-        modo="editar"
+        campos={[
+          { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
+          { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
+          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul},
+        ]}
       />
 
       {modalSinFincasAbierto && (

@@ -1,4 +1,5 @@
 import acercar from "./acercar.png"
+import actividades from "./actividades.png";
 import alejar from "./alejar.png"
 import ajustes from './acciones.png';
 import alternos from './alternos.png';
@@ -6,7 +7,10 @@ import claveAzul from './claveAzul.png';
 import claveGris from './claveOculta.png';
 import correo from './correo.png';
 import correoAzul from './correoAzul.png';
+import cultivo from './cultivo.png'
+import descripcionAzul from './descripcionAzul.png'
 import editar from './editar.png';
+import etapa from "./etapa.png"
 import eliminar from './eliminar.png';
 import fincas from './fincas.png';
 import nombreIcon from './nombres.png';
@@ -27,26 +31,42 @@ import locacion from "./locacion.png"
 import marcador from "./marcador.png"
 import ubicacionMapa from "./ubicacion.png"
 import ubiActual from "./ubiActual.png"
+import mac from "./mac.png";
+import descripcion from "./descripcion.png"
+import estado from "./estado.png"
+import sensorAzul from "./sensorAzul.png"
+import nombre from "./nombres.png"
+import nombreZona from "./zonaAzul.png";
+import dato from "./dato.png";
+import hora from "./hora.png";
+import fecha from "./fecha.png";
+import idSensor from "./id.png"
 
 export {
   ajustes,
   alternos,
+  actividades,
   acercar,
   alejar,
   claveAzul,
   claveGris,
   correo,
   correoAzul,
+  cultivo,
   editar,
   eliminar,
+  etapa,
   fincas,
   locacion,
   marcador,
+  nombre,
   nombreIcon,
   noVerClave,
+  nombreZona,
   rol,
   rolAzul,
   sensores,
+  sensorAzul,
   sinFincas,
   telefono,
   telefonoAzul,
@@ -58,4 +78,12 @@ export {
   verClave,
   volver,
   zonas,
+  mac,
+  descripcion,
+  estado,
+  descripcionAzul,
+  dato,
+  hora,
+  idSensor,
+  fecha
 };

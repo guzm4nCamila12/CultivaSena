@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
 // imgs de perfil según rol
-import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
-import adminIcon from "../assets/img/perfilAdmin.png";
-import alternoIcon from "../assets/img/perfilAlterno.png";
+import * as Images from "../assets/img/imagesExportation"
 // íconos
 import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
@@ -13,13 +10,13 @@ import accionesIcon from "../assets/icons/acciones.png";
 const getRoleImage = (role) => {
   switch (role) {
     case "SuperAdmin":
-      return superAdminIcon;
+      return Images.superAdminIcon;
     case "Admin":
-      return adminIcon;
+      return Images.adminIcon;
     case "Alterno":
-      return alternoIcon;
+      return Images.alternoIcon;
     default:
-      return adminIcon;
+      return Images.adminIcon;
   }
 };
 

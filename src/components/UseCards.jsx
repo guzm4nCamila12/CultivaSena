@@ -3,10 +3,7 @@ import { useState, useRef, useEffect } from "react";
 // Importación necesaria para recibir props o parámetros en el componente
 import PropTypes from "prop-types";
 // Imágenes de perfil según rol
-import superAdminIcon from "../assets/img/perfilSuperAdmin.png";
-import adminIcon from "../assets/img/perfilAdmin.png";
-import alternoIcon from "../assets/img/perfilAlterno.png";
-import cultivaIcon from "../assets/img/cultivaSena.png"
+import * as Images from '../assets/img/imagesExportation'
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -38,13 +35,13 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const getRoleImage = (role) => {
     switch (role) {
       case "SuperAdmin":
-        return superAdminIcon;
+        return Images.superAdminIcon;
       case "Admin":
-        return adminIcon;
+        return Images.adminIcon;
       case "Alterno":
-        return alternoIcon;
+        return Images.alternoIcon;
       default:
-        return cultivaIcon;
+        return Images.cultivaIcon;
     }
   };
 

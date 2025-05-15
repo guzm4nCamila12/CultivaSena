@@ -2,13 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
-import mac from "../../assets/icons/mac.png";
-import descripcion from "../../assets/icons/descripcion.png";
-import estado from "../../assets/icons/estado.png"
-import nombre from "../../assets/icons/nombres.png"
-import ajustes from "../../assets/icons/acciones.png"
-//iconos de las acciones
-import ver from "../../assets/icons/ver.png";
+import * as Icons from "../../assets/icons/IconsExportation"
 //componentes reutilizados
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -66,11 +60,11 @@ function SensoresAlterno() {
 
   //Define las columnas para la UseCards
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: nombre },
-    { key: "mac", label: "MAC", icon: mac, icon2: mac },
-    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: estado, icon2: estado },
-    { key: "acciones", label: "Acciones", icon2: ajustes },
+    { key: "nombre", label: "Nombre", icon2: Icons.nombre },
+    { key: "mac", label: "MAC", icon: Icons.mac, icon2: Icons.mac },
+    { key: "descripcion", label: "Descripción", icon: Icons.descripcion, icon2: Icons.descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: Icons.estado, icon2: Icons.estado },
+    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
   ];
 
   //Funcion que define las acciones que se muestran en cada fila
@@ -78,7 +72,7 @@ function SensoresAlterno() {
     <div className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={ver} alt="Ver" />
+          <img src={Icons.ver} alt="Ver" />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver Datos
           </span>

@@ -2,20 +2,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
-// iconos de las columnas
-import nombre from "../../../assets/icons/zonas.png";
-import sensores from "../../../assets/icons/sensores.png";
-import actividades from "../../../assets/icons/actividades.png";
-import ajustes from "../../../assets/icons/acciones.png";
-// iconos de las acciones
-import editar from "../../../assets/icons/editar.png";
-import eliminar from "../../../assets/icons/eliminar.png";
-// iconos de los modales
-import nombreZona from "../../../assets/icons/zonaAzul.png";
-// imgs de los modales
-import UsuarioEliminado from "../../../assets/img/usuarioEliminado.png";
-import usuarioCreado from "../../../assets/img/usuarioCreado.png";
-import Alerta from "../../../assets/img/alerta.png";
+import FormularioModal from "../../../components/modals/FormularioModal";
+//importacion de iconos
+import * as Icons from '../../../assets/icons/IconsExportation'
+//importacion de imagenes para alertas
+import * as Images from '../../../assets/img/imagesExportation'
 // componentes reutilizados
 import { acctionSucessful } from "../../../components/alertSuccesful";
 import Navbar from "../../../components/navbar";
@@ -66,41 +57,32 @@ const Zonas = () => {
 
   // Definición de las columnas para el componente MostrarInfo
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: nombre },
-    { key: "verSensores", label: "Sensores", icon: sensores, icon2: sensores },
-    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
-    { key: "acciones", label: "Acciones", icon2: ajustes }
+    { key: "nombre", label: "Nombre", icon2: Icons.zonas },
+    { key: "verSensores", label: "Sensores", icon: Icons.sensores, icon2: Icons.sensores },
+    { key: "actividades", label: "Actividades", icon: Icons.actividades, icon2: Icons.actividades },
+    { key: "acciones", label: "Acciones", icon2: Icons.ajustes }
   ];
 
   //Función para validar que se haya modificado la información de la zona y que todos los campos estén llenos
   const validarZonaEditada = () => {
     if (nombreModificado === zonaEditar.nombre) {
       acctionSucessful.fire({
-        imageUrl: Alerta,
+        imageUrl: Images.Alerta,
         imageAlt: "Icono",
         title: `¡No se modificó la información de la zona ${nombreModificado}!`
       });
       return false;
     }
-  
-    if (!zonaEditar.nombre) {
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡Por favor, complete todos los campos!"
-      });
-      return false;
-    }
-  
+
     return true;
   };
-  
+
   //Función para limpiar el formulario
   const limpiarZonaEditada = (zona) => {
     const { cantidadSensores, verSensores, actividades, ...zonaLimpia } = zona;
     return zonaLimpia;
   };
-  
+
 
   // Abre el modal de edición con los datos de esa zona
   const HandleEditarZona = (zona) => {
@@ -113,23 +95,23 @@ const Zonas = () => {
   // Maneja la edición al enviar el formulario
   const handleEditarZona = (e) => {
     e.preventDefault();
-  
+
     if (!validarZonaEditada()) return;
-  
+
     const zonaParaActualizar = limpiarZonaEditada(zonaEditar);
-  
+
     editarZona(zonaParaActualizar.id, zonaParaActualizar).then(() => {
       setZonas(zonas.map(u => u.id === zonaParaActualizar.id ? zonaParaActualizar : u));
-  
+
       acctionSucessful.fire({
-        imageUrl: usuarioCreado,
+        imageUrl: Images.usuarioCreado,
         imageAlt: "Icono personalizado",
         title: `¡Zona <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
       });
-  
+
       setModalEditarAbierto(false);
     });
-  };  
+  };
 
   // Maneja la eliminación de una zona
   const HandleEliminarZonas = (e) => {
@@ -138,7 +120,7 @@ const Zonas = () => {
       setZonas(prevZonas => prevZonas.filter(zona => zona.id !== zonaEliminar));
       setModalEliminarAbierto(false);
       acctionSucessful.fire({
-        imageUrl: UsuarioEliminado,
+        imageUrl: Images.UsuarioEliminado,
         imageAlt: "Icono personalizado",
         title: `¡Zona <span style="color: red;">${zonaEliminada.nombre}</span> eliminada correctamente!`
       });
@@ -154,19 +136,21 @@ const Zonas = () => {
   // Maneja el envío del formulario para agregar una zona
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (!nuevaZona.nombre) {
       acctionSucessful.fire({
-        imageUrl: Alerta,
+        imageUrl: Images.Alerta,
         imageAlt: "Icono personalizado",
         title: "¡Ingrese el nombre de la zona!"
       });
       return;
     }
+    
     crearZona(nuevaZona).then((data) => {
       setZonas([...zonas, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({
-        imageUrl: usuarioCreado,
+        imageUrl: Images.usuarioCreado,
         imageAlt: "Icono personalizado",
         title: `¡Zona <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
       });
@@ -180,7 +164,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => HandleEditarZona(fila)}>
-          <img src={editar} alt="Editar" className='absolute' />
+          <img src={Icons.editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -190,7 +174,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={eliminar} alt="Eliminar" className='absolute' />
+          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -244,80 +228,48 @@ const Zonas = () => {
         mostrarAgregar={true}
       />
       {modalInsertarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-semibold text-center mb-4">
-              Crear zona en finca {fincas.nombre}
-            </h5>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              <div className="relative w-full mt-2">
-                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  autoComplete="off"
-                  onChange={handleChange} />
-              </div>
-              <div className="flex justify-end mt-4">
-                <button
-                  type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                  onClick={() => setModalInsertarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Crear
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <FormularioModal
+          isOpen={modalInsertarAbierto}
+          onClose={() => setModalInsertarAbierto(false)}
+          onSubmit={handleSubmit}
+          titulo={`Crear zona en finca ${fincas.nombre}`}
+          textoBoton="Crear"
+          valores={nuevaZona} // ejemplo: { nombre: "" }
+          onChange={handleChange}
+          campos={[
+            {
+              name: "nombre",
+              placeholder: "Nombre",
+              icono: Icons.nombreZona
+            }
+          ]}
+        />
       )}
 
       {modalEditarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-semibold text-center mb-4">Editar zona</h5>
-            <hr />
-            <form onSubmit={handleEditarZona}>
-              <div className="relative w-full mt-2">
-                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2 " />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={zonaEditar.nombre}
-                  type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  autoComplete="off"
-                  onChange={handleChangeEditar} />
-              </div>
-              <div className="flex justify-end mt-4">
-                <button
-                  type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
-                  onClick={() => setModalEditarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
-                  Guardar y actualizar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <FormularioModal
+          isOpen={modalEditarAbierto}
+          onClose={() => setModalEditarAbierto(false)}
+          onSubmit={handleEditarZona}
+          titulo="Editar zona"
+          textoBoton="Guardar y actualizar"
+          valores={zonaEditar}
+          onChange={handleChangeEditar}
+          campos={[
+            {
+              name: "nombre",
+              placeholder: "Nombre",
+              icono: Icons.nombreZona
+            }
+          ]}
+        />
       )}
+
       <ConfirmationModal
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}
         onConfirm={HandleEliminarZonas}
-        title="Eliminar finca"
+        title="Eliminar Zona"
         message={
           <>
             ¿Estás seguro?<br />
@@ -326,8 +278,6 @@ const Zonas = () => {
         }
         confirmText="Sí, eliminar"
       />
-
-
     </div>
   );
 };

@@ -1,18 +1,10 @@
 //importaciones necesarias de react
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-//iconos de las columnas
-import cultivo from '../../../assets/icons/cultivo.png'
-import etapa from "../../../assets/icons/etapa.png"
-//iconos de las acciones
-import ajustes from '../../../assets/icons/acciones.png'
-import verActividad from '../../../assets/icons/sinFincas.png'
-import eliminar from '../../../assets/icons/eliminar.png'
+import ConfirmationModal from '../../../components/confirmationModal/confirmationModal'
+import * as Icons from '../../../assets/icons/IconsExportation'
 //imgs de los modales
-import usuarioCreado from "../../../assets/img/usuarioCreado.png"
-import usuarioEliminado from "../../../assets/img/usuarioEliminado.png"
-import ConfirmarEliminar from "../../../assets/img/eliminar.png";
-import Alerta from "../../../assets/img/alerta.png";
+import * as Images from '../../../assets/img/imagesExportation'
 //componentes reutilizados
 import { acctionSucessful } from '../../../components/alertSuccesful'
 import Navbar from '../../../components/navbar';
@@ -97,9 +89,9 @@ function ActividadesZonas() {
     }, [id]);
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
-        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa },
-        { key: "acciones", label: "Acciones", icon2: ajustes },
+        { key: "cultivo", label: "Cultivo", icon: Icons.cultivo, icon2: Icons.cultivo },
+        { key: "etapa", label: "Etapa", icon: Icons.etapa, icon2: Icons.etapa },
+        { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
     ]
     // Handler general para actualizar el estado de la actividad
     const handleActividadChange = (e) => {
@@ -143,7 +135,7 @@ function ActividadesZonas() {
         // Validar que la fecha de fin no sea anterior a la fecha de inicio
         if (fechaFin < fechaInicio) {
             acctionSucessful.fire({
-                imageUrl: Alerta,
+                imageUrl: Images.Alerta,
                 imageAlt: "Icono personalizado",
                 title: "¡La fecha de fin no puede ser antes de la fecha de inicio!"
             });
@@ -156,7 +148,7 @@ function ActividadesZonas() {
             setModalEditarActividad(false)
             setActividades(nuevoact);
             acctionSucessful.fire({
-                imageUrl: usuarioCreado,
+                imageUrl: Images.usuarioCreado,
                 imageAlt: 'Icono personalizado',
                 title: "¡Actividad editada correctamente!"
             });
@@ -179,7 +171,7 @@ function ActividadesZonas() {
         // Validar que la fecha de fin no sea anterior a la fecha de inicio
         if (fechaFin < fechaInicio) {
             acctionSucessful.fire({
-                imageUrl: Alerta,
+                imageUrl: Images.Alerta,
                 imageAlt: "Icono personalizado",
                 title: "¡La fecha de fin no puede ser antes de la fecha de inicio!"
             });
@@ -196,7 +188,7 @@ function ActividadesZonas() {
                     .catch(console.error);
                 setModalActividadInsertar(false);
                 acctionSucessful.fire({
-                    imageUrl: usuarioCreado,
+                    imageUrl: Images.usuarioCreado,
                     imageAlt: "Icono personalizado",
                     title: "¡Actividad creada correctamente!"
                 });
@@ -210,7 +202,7 @@ function ActividadesZonas() {
             setActividades(prevActividades => prevActividades.filter(actividad => actividad.id !== actividadEliminar));
             setModalEliminarAbierto(false);
             acctionSucessful.fire({
-                imageUrl: usuarioEliminado,
+                imageUrl: Images.UsuarioEliminado,
                 imageAlt: "Icono personalizado",
                 title: "¡Actividad eliminada correctamente!"
             });
@@ -269,7 +261,7 @@ function ActividadesZonas() {
                 <button
                     className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEditar(fila)}>
-                    <img src={verActividad} alt="Agregar Actividad" className='absolute' />
+                    <img src={Icons.sinFincas} alt="Agregar Actividad" className='absolute' />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Ver Todo
@@ -279,7 +271,7 @@ function ActividadesZonas() {
                 <button
                     className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
                     onClick={() => abrirModalEliminar(fila.id)}>
-                    <img src={eliminar} alt="Eliminar" className='absolute' />
+                    <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
                 </button>
                 <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     Eliminar
@@ -412,7 +404,7 @@ function ActividadesZonas() {
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                    <h5 className="text-2xl font-bold mb-4 text-center">Ver actividad</h5>
+                        <h5 className="text-2xl font-bold mb-4 text-center">Ver actividad</h5>
                         <hr />
                         <form onSubmit={handleEditarActividad}>
                             <div className="relative w-full mt-2">
@@ -510,36 +502,19 @@ function ActividadesZonas() {
                 </div >
             )}
 
-            {modalEliminarAbierto && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Eliminar actividad</h5>
-                        <hr />
-                        <form onSubmit={HandleEliminarActividad}>
-                            <div className="flex justify-center my-0">
-                                <img src={ConfirmarEliminar} alt="icono" />
-                            </div>
-                            <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-                            <p className="text-gray-400 text-center text-lg">
-                                Se eliminará la actividad de manera permanente.
-                            </p>
-                            <div className="flex justify-between mt-6 space-x-4">
-                                <button
-                                    type="button"
-                                    className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                                    onClick={() => setModalEliminarAbierto(false)}>
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                                    Sí, eliminar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            <ConfirmationModal
+                isOpen={modalEliminarAbierto}
+                onCancel={() => setModalEliminarAbierto(false)}
+                onConfirm={HandleEliminarActividad}
+                title="Eliminar Actividad"
+                message={
+                    <>
+                        ¿Estás seguro?<br />
+                        <h4 className='text-gray-400'>Se eliminará la actividad de manera permanente.</h4>
+                    </>
+                }
+                confirmText="Sí, eliminar"
+            />
         </div >
     )
 }

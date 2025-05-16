@@ -92,8 +92,7 @@ export const validarSinCambios = (original, editado) => {
     editado.nombre === original.nombre &&
     editado.telefono === original.telefono &&
     editado.correo === original.correo &&
-    editado.clave === original.clave &&
-    editado.id_rol === original.id_rol
+    editado.clave === original.clave
   ) {
     acctionSucessful.fire({
       imageUrl: Images.Alerta,

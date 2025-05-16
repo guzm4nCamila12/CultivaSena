@@ -6,14 +6,15 @@ import MostrarInfo from "../../components/mostrarInfo";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
 import FormularioModal from "../../components/modals/FormularioModal";
+//Importacion de modal para confirmar elmiminacion
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+//Importacvion de archivo de validaciones
 import * as Validaciones from '../../utils/validaciones'
 //Iconos e imagenes
 import * as Icons from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
-
 //endpoints para consumir api
-import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
+import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario} from "../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estados para gestionar los usuarios y formularios
@@ -66,25 +67,6 @@ const Inicio = () => {
     return true;
   };
 
-
-  // const comprobarCredenciales = async (usuario, idIgnorar = null) => {
-  //   const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
-  //   if (telefonoExistente) {
-  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El teléfono ya existe!" });
-  //     return false;
-  //   }
-
-  //   const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
-  //   if (correoExistente) {
-  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El correo ya existe!" });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
-
-
-
   // Maneja el cambio en los campos para agregar un nuevo usuario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
@@ -98,6 +80,7 @@ const Inicio = () => {
 
     const credencialesValidas = await Validaciones.comprobarCredenciales(nuevoUsuario);
     if (!credencialesValidas) return;
+
 
     const nuevo = {
       nombre: nuevoUsuario.nombre,
@@ -132,8 +115,8 @@ const Inicio = () => {
   const handleUsuarioEditar = async (e) => {
     e.preventDefault();
 
-    if (!validarUsuario(usuarioEditar)) return
-
+    if(!Validaciones.validarSinCambios(usuarioOriginal, usuarioEditar)) return false
+    if (!validarUsuario(usuarioEditar)) return false
     const credencialesValidas = await Validaciones.comprobarCredenciales(usuarioEditar,usuarioEditar.id);
     if (!credencialesValidas) return;
 

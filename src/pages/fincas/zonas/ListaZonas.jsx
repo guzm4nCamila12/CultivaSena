@@ -65,17 +65,6 @@ const Zonas = () => {
     setModalFormularioAbierto(true);
   };
 
-
-  // Maneja el cambio de valores para agregar una nueva zona
-  const handleChange = (e) => {
-    setNuevaZona({ ...nuevaZona, [e.target.name]: e.target.value });
-  };
-
-  // Maneja el cambio de valores para editar una zona
-  const handleChangeEditar = (e) => {
-    setZonaEditar({ ...zonaEditar, [e.target.name]: e.target.value });
-  };
-
   const handleChangeZona = (e) => {
     setZonaFormulario({ ...zonaFormulario, [e.target.name]: e.target.value });
   };
@@ -106,36 +95,6 @@ const Zonas = () => {
   const limpiarZonaEditada = (zona) => {
     const { cantidadSensores, verSensores, actividades, ...zonaLimpia } = zona;
     return zonaLimpia;
-  };
-
-
-  // Abre el modal de edición con los datos de esa zona
-  const HandleEditarZona = (zona) => {
-    const { "#": removed, ...edit } = zona;
-    setNombreModificado(zona.nombre)
-    setZonaEditar(edit);
-    setModalEditarAbierto(true);
-  };
-
-  // Maneja la edición al enviar el formulario
-  const handleEditarZona = (e) => {
-    e.preventDefault();
-
-    if (!validarZonaEditada()) return;
-
-    const zonaParaActualizar = limpiarZonaEditada(zonaEditar);
-
-    editarZona(zonaParaActualizar.id, zonaParaActualizar).then(() => {
-      setZonas(zonas.map(u => u.id === zonaParaActualizar.id ? zonaParaActualizar : u));
-
-      acctionSucessful.fire({
-        imageUrl: Images.usuarioCreado,
-        imageAlt: "Icono personalizado",
-        title: `¡Zona <span style="color: #3366CC;">${zonaParaActualizar.nombre}</span> editada correctamente!`
-      });
-
-      setModalEditarAbierto(false);
-    });
   };
 
   // Maneja la eliminación de una zona
@@ -197,6 +156,7 @@ const Zonas = () => {
           imageUrl: Images.usuarioCreado,
           title: `¡Zona <span style="color: #3366CC;">${zonaFormulario.nombre}</span> editada correctamente!`,
         });
+        limpiarZonaEditada()
       } catch (error) {
         console.error(error);
       }

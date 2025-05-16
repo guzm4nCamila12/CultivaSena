@@ -11,10 +11,11 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
 import Navbar from "../../components/navbar";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+import FormularioModal from "../../components/modals/FormularioModal";
 //endpoints para consumir api
 import { getUsuarioByIdRol, eliminarUsuario, crearUsuario, editarUsuario } from "../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
-//importacion de validociones para los formularios
+//importacion de validaciones para los formularios
 import * as Validaciones from "../../utils/validaciones";
 
 const AlternosFinca = () => {
@@ -180,121 +181,37 @@ const AlternosFinca = () => {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
       />
-      {modalInsertarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-semibold text-center mb-4">Crear alterno</h5>
-            <hr />
-            <form onSubmit={handleSubmit}>
-              {/* Campos del formulario para agregar un usuario */}
-              <div className="relative w-full mt-2">
-                <img src={Icons.usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  type="text"
-                  name="nombre"
-                  placeholder="Nombre"
-                  autoComplete="off"
-                  onChange={handleChange} />
-              </div>
-              <div className="relative w-full mt-2">
-                <img src={Icons.telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  type="text"
-                  name="telefono"
-                  placeholder="Telefono"
-                  autoComplete="off"
-                  onChange={handleChange} />
-              </div>
-              <div className="relative w-full mt-2">
-                <img src={Icons.correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  type="text"
-                  name="correo"
-                  placeholder="Correo"
-                  autoComplete="off"
-                  onChange={handleChange} />
-              </div>
-              <div className="relative w-full mt-2">
-                <img src={Icons.claveAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  type="text"
-                  name="clave"
-                  placeholder="Clave"
-                  autoComplete="off"
-                  onChange={handleChange} />
-              </div>
-              <div className="flex justify-end mt-4">
-                <button
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-                  onClick={() => setModalInsertarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-3xl">
-                  Crear
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <FormularioModal
+        titulo={"Crear Alterno"}
+        isOpen={modalInsertarAbierto}
+        onClose={() => setModalInsertarAbierto(false)}
+        onSubmit={handleSubmit}
+        valores={nuevoUsuario}
+        onChange={handleChange}
+        textoBoton="Crear"
+        campos={[
+          { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
+          { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
+          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul, type: "password" },
+        ]}
+      />
 
-      {modalEditarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-semibold text-center mb-4">Editar alterno</h5>
-            <hr />
-            <form onSubmit={handleEditarAlterno}>
-              {/* Campos del formulario para editar un usuario */}
-              <div className="relative w-full mt-2">
-                <img src={Icons.usuarioAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={usuarioEditar.nombre}
-                  type="text"
-                  name="nombre"
-                  autoComplete="off"
-                  onChange={handleChangeEditar} />
-              </div>
-              <div className="relative w-full mt-2">
-                <img src={Icons.telefonoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={usuarioEditar.telefono}
-                  type="text"
-                  autoComplete="off"
-                  name="telefono"
-                  onChange={handleChangeEditar} />
-              </div>
-              <div className="relative w-full mt-2">
-                <img src={Icons.correoAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
-                <input
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                  value={usuarioEditar.correo}
-                  name="correo"
-                  autoComplete="off"
-                  type="text"
-                  onChange={handleChangeEditar} />
-              </div>
-              <div className="flex justify-end mt-4">
-                <button type="button"
-                  className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-full mr-2"
-                  onClick={() => setModalEditarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button type="submit"
-                  className="w-full px-4 py-3 text-lg font-bold bg-[#009E00] hover:bg-[#005F00] text-white rounded-full">
-                  Guardar y actualizar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <FormularioModal
+        isOpen={modalEditarAbierto}
+        titulo={"Editar Alterno"}
+        onClose={() => setModalEditarAbierto(false)}
+        onSubmit={handleEditarAlterno}
+        valores={usuarioEditar}
+        textoBoton="Guardar y actualizar"
+        onChange={handleChangeEditar}
+        campos={[
+          { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
+          { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
+          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul },
+        ]}
+      />
 
       <ConfirmationModal
         isOpen={modalEliminarAbierto}

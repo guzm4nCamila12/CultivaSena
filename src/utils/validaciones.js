@@ -105,23 +105,25 @@ export const validarSinCambios = (original, editado) => {
 };
 
 export const comprobarCredenciales = async (usuario, idIgnorar = null) => {
-    const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
-    if (telefonoExistente) {
-      await acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: "¡El teléfono ya existe!"
-      });
-      return ;
-    }
-  
-    const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
-    if (correoExistente) {
-      await acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: "¡El correo ya existe!"
-      });
-      return ;
-    }
-  
-    return true;
-  };
+
+  const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
+  if (correoExistente) {
+    await acctionSucessful.fire({
+      imageUrl: Images.Alerta,
+      title: "¡El correo ya existe!"
+    });
+    return false;
+  }
+
+  const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
+  if (telefonoExistente) {
+    await acctionSucessful.fire({
+      imageUrl: Images.Alerta,
+      title: "¡El teléfono ya existe!"
+    });
+    return false;
+  }
+
+
+  return true;
+};

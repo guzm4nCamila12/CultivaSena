@@ -70,7 +70,7 @@ export const validarClave = (clave) => {
 };
 
 export const validarNombre = (nombre) => {
-  if (nombre.length <= 0) {
+  if (!nombre) {
     acctionSucessful.fire({
       imageUrl: Images.Alerta,
       title: "¡Ingrese un nombre!"

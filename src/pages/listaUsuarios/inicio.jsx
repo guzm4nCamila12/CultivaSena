@@ -7,6 +7,7 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+import * as Validaciones from '../../utils/validaciones'
 //Iconos e imagenes
 import * as Icons from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
@@ -47,43 +48,27 @@ const Inicio = () => {
   };
 
   //Validar los campos de el usuario
-  const validarUsuario = (usuario = true) => {
-    const errores = [];
-
-    if (!usuario.nombre && !usuario.telefono && !usuario.correo && !usuario.clave && !usuario.id_rol) {
-      errores.push("Todos los campos son obligatorios")
+  const validarUsuario = (usuario) => {
+    // 1. Validar que todos los campos estén llenos
+    if (!usuario.nombre || !usuario.telefono || !usuario.correo || !usuario.clave || !usuario.id_rol) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        title: "¡Por favor, complete todos los campos!"
+      });
+      return false;
     }
-
-    if(!usuario.nombre){
-      errores.push("Ingrese un nombre")
-    }
-
-    if (!usuario.nombre || usuario.nombre.length < 6) {
-      errores.push("¡El nombre debe tener más de 6 caracteres!");
-    }
-
-    if (!usuario.telefono || !/^\d{10}$/.test(usuario.telefono)) {
-      errores.push("¡El número de teléfono no es válido!");
-    }
-
-    if (!usuario.correo || !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(usuario.correo)) {
-      errores.push("¡El correo electrónico no es válido!");
-    }
-
-    if (!usuario.clave || usuario.clave.length < 6) {
-      errores.push("¡La clave debe tener más de 6 caracteres!");
-    } else {
-      if (!/[A-Z]/.test(usuario.clave)) errores.push("¡La clave debe tener al menos una letra mayúscula!");
-      if (!/[a-z]/.test(usuario.clave)) errores.push("¡La clave debe tener al menos una letra minúscula!");
-      if (!/[0-9]/.test(usuario.clave)) errores.push("¡La clave debe tener al menos un número!");
-    }
-
-    if (!usuario.id_rol) {
-      errores.push("¡Debe seleccionar un rol!");
-    }
-
-    return errores;
+  
+    // 2. Validaciones individuales (se ejecutan en orden si todo está lleno)
+    if (!Validaciones.validarNombre(usuario.nombre)) return false;
+    if (!Validaciones.validarCorreo(usuario.correo)) return false;
+    if (!Validaciones.validarTelefono(usuario.telefono)) return false;
+    if (!Validaciones.validarClave(usuario.clave)) return false;
+  
+    // Todo pasó
+    return true;
   };
+  
+  
 
   const comprobarCredenciales = async (usuario, idIgnorar = null) => {
     const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
@@ -111,15 +96,15 @@ const Inicio = () => {
   // Maneja el proceso de agregar un usuario
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
-    const errores = validarUsuario(nuevoUsuario, true);
 
-    if (errores.length > 0) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: errores[0] // Mostrar solo el primer error
-      });
-      return;
-    }
+    if (!validarUsuario(nuevoUsuario)) return
+    // if (errores.length > 0) {
+    //   acctionSucessful.fire({
+    //     imageUrl: Images.Alerta,
+    //     title: errores[0] // Mostrar solo el primer error
+    //   });
+    //   return;
+    // }
 
     const credencialesValidas = await comprobarCredenciales(nuevoUsuario);
     if (!credencialesValidas) return;
@@ -358,7 +343,7 @@ const Inicio = () => {
           { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
           { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
-          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul},
+          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul },
         ]}
       />
 

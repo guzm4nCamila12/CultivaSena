@@ -29,6 +29,12 @@ const Zonas = () => {
   const [nombreModificado, setNombreModificado] = useState("");
   const [zonaEliminada, setZonaEliminada] = useState()
 
+  const [modalFormularioAbierto, setModalFormularioAbierto] = useState(false);
+  const [modoFormulario, setModoFormulario] = useState("crear");
+  const [zonaFormulario, setZonaFormulario] = useState({ nombre: "", idfinca: parseInt(id) });
+  const [zonaOriginal, setZonaOriginal] = useState(null); // para comparar en modo edición
+
+
   // Efecto que carga los datos
   useEffect(() => {
     // Obtiene las zonas de la finca por el id
@@ -45,6 +51,21 @@ const Zonas = () => {
       .catch(error => console.error("Error: ", error));
   }, [id]);
 
+  const abrirModalCrear = () => {
+    setZonaFormulario({ nombre: "", idfinca: parseInt(id) });
+    setModoFormulario("crear");
+    setModalFormularioAbierto(true);
+  };
+
+  const abrirModalEditar = (zona) => {
+    const { cantidadSensores, verSensores, actividades, "#": removed, ...limpia } = zona;
+    setZonaFormulario(limpia);
+    setZonaOriginal(limpia); // para comparar si se modificó
+    setModoFormulario("editar");
+    setModalFormularioAbierto(true);
+  };
+
+
   // Maneja el cambio de valores para agregar una nueva zona
   const handleChange = (e) => {
     setNuevaZona({ ...nuevaZona, [e.target.name]: e.target.value });
@@ -53,6 +74,10 @@ const Zonas = () => {
   // Maneja el cambio de valores para editar una zona
   const handleChangeEditar = (e) => {
     setZonaEditar({ ...zonaEditar, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeZona = (e) => {
+    setZonaFormulario({ ...zonaFormulario, [e.target.name]: e.target.value });
   };
 
   // Definición de las columnas para el componente MostrarInfo
@@ -134,28 +159,52 @@ const Zonas = () => {
     setModalEliminarAbierto(true);
   };
   // Maneja el envío del formulario para agregar una zona
-  const handleSubmit = (e) => {
+  const handleSubmitFormulario = async (e) => {
     e.preventDefault();
 
-    if (!nuevaZona.nombre) {
-      acctionSucessful.fire({
+    if (!zonaFormulario.nombre) {
+      return acctionSucessful.fire({
         imageUrl: Images.Alerta,
-        imageAlt: "Icono personalizado",
-        title: "¡Ingrese el nombre de la zona!"
+        title: "¡Ingrese el nombre de la zona!",
       });
-      return;
     }
-    
-    crearZona(nuevaZona).then((data) => {
-      setZonas([...zonas, data]);
-      setModalInsertarAbierto(false);
-      acctionSucessful.fire({
-        imageUrl: Images.usuarioCreado,
-        imageAlt: "Icono personalizado",
-        title: `¡Zona <span style="color: green;">${nuevaZona.nombre}</span> creada correctamente!`
-      });
-    }).catch(console.error);
+
+    if (modoFormulario === "crear") {
+      try {
+        const nueva = await crearZona(zonaFormulario);
+        setZonas([...zonas, nueva]);
+        acctionSucessful.fire({
+          imageUrl: Images.usuarioCreado,
+          title: `¡Zona <span style="color: green;">${nueva.nombre}</span> creada correctamente!`,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (modoFormulario === "editar") {
+      if (zonaOriginal == zonaEditar) {
+        return acctionSucessful.fire({
+          imageUrl: Images.Alerta,
+          title: `¡No se modificó la información de la zona ${zonaFormulario.nombre}!`,
+        });
+      }
+
+      try {
+        await editarZona(zonaFormulario.id, zonaFormulario);
+        setZonas(zonas.map(z => z.id === zonaFormulario.id ? zonaFormulario : z));
+        acctionSucessful.fire({
+          imageUrl: Images.usuarioCreado,
+          title: `¡Zona <span style="color: #3366CC;">${zonaFormulario.nombre}</span> editada correctamente!`,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    setModalFormularioAbierto(false);
   };
+
 
   // Define las acciones para cada fila de la tabla
   const acciones = (fila) => (
@@ -163,7 +212,8 @@ const Zonas = () => {
       <div className="relative group">
         <button
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => HandleEditarZona(fila)}>
+
+          onClick={() => abrirModalEditar(fila)}>
           <img src={Icons.editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -224,47 +274,28 @@ const Zonas = () => {
         columnas={columnas}
         datos={Array.isArray(zonaszonas) ? zonaszonas : []}
         acciones={acciones}
-        onAddUser={() => setModalInsertarAbierto(true)}
+        onAddUser={abrirModalCrear}
         mostrarAgregar={true}
       />
-      {modalInsertarAbierto && (
+      {modalFormularioAbierto && (
         <FormularioModal
-          isOpen={modalInsertarAbierto}
-          onClose={() => setModalInsertarAbierto(false)}
-          onSubmit={handleSubmit}
-          titulo={`Crear zona en finca ${fincas.nombre}`}
-          textoBoton="Crear"
-          valores={nuevaZona} // ejemplo: { nombre: "" }
-          onChange={handleChange}
+          isOpen={modalFormularioAbierto}
+          onClose={() => setModalFormularioAbierto(false)}
+          onSubmit={handleSubmitFormulario}
+          titulo={modoFormulario === "crear" ? `Crear zona en finca ${fincas.nombre}` : "Editar zona"}
+          textoBoton={modoFormulario === "crear" ? "Crear" : "Guardar y actualizar"}
+          valores={zonaFormulario}
+          onChange={handleChangeZona}
           campos={[
             {
               name: "nombre",
               placeholder: "Nombre",
-              icono: Icons.nombreZona
-            }
+              icono: Icons.nombreZona,
+            },
           ]}
         />
       )}
-
-      {modalEditarAbierto && (
-        <FormularioModal
-          isOpen={modalEditarAbierto}
-          onClose={() => setModalEditarAbierto(false)}
-          onSubmit={handleEditarZona}
-          titulo="Editar zona"
-          textoBoton="Guardar y actualizar"
-          valores={zonaEditar}
-          onChange={handleChangeEditar}
-          campos={[
-            {
-              name: "nombre",
-              placeholder: "Nombre",
-              icono: Icons.nombreZona
-            }
-          ]}
-        />
-      )}
-
+      
       <ConfirmationModal
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}

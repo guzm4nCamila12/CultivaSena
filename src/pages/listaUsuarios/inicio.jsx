@@ -7,13 +7,13 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import NavBar from "../../components/navbar";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+//importacion de validaciones para los formularios
 import * as Validaciones from '../../utils/validaciones'
 //Iconos e imagenes
 import * as Icons from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
-
 //endpoints para consumir api
-import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario, verificarExistenciaCorreo, verificarExistenciaTelefono } from "../../services/usuarios/ApiUsuarios";
+import { editarUsuario, eliminarUsuario, getUsuarios, crearUsuario } from "../../services/usuarios/ApiUsuarios";
 
 const Inicio = () => {
   // Estados para gestionar los usuarios y formularios
@@ -33,57 +33,16 @@ const Inicio = () => {
     getUsuarios().then((data) => setUsuarios(data));
   }, []);
 
-  // Función para convertir el id_rol a su nombre correspondiente
-  const obtenerRol = (id_rol) => {
-    switch (id_rol) {
-      case 1:
-        return "SuperAdmin";
-      case 2:
-        return "Admin";
-      case 3:
-        return "Alterno";
-      default:
-        return "Desconocido";
-    }
-  };
-
-  //Validar los campos de el usuario
+  //Funcion genereal de validaciones en los formularios
   const validarUsuario = (usuario) => {
-
-    if (!usuario.nombre || !usuario.telefono || !usuario.correo || !usuario.clave || !usuario.id_rol) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: "¡Por favor, complete todos los campos!"
-      });
-      return false;
-    }
+    if (!Validaciones.validarCamposUsuario(usuario)) return false;
     if (!Validaciones.validarNombre(usuario.nombre)) return false;
     if (!Validaciones.validarTelefono(usuario.telefono)) return false;
     if (!Validaciones.validarCorreo(usuario.correo)) return false;
     if (!Validaciones.validarClave(usuario.clave)) return false;
-
     // Todo pasó
     return true;
   };
-
-
-  // const comprobarCredenciales = async (usuario, idIgnorar = null) => {
-  //   const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
-  //   if (telefonoExistente) {
-  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El teléfono ya existe!" });
-  //     return false;
-  //   }
-
-  //   const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
-  //   if (correoExistente) {
-  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El correo ya existe!" });
-  //     return false;
-  //   }
-
-  //   return true;
-  // };
-
-
 
   // Maneja el cambio en los campos para agregar un nuevo usuario
   const handleChange = (e) => {
@@ -93,7 +52,6 @@ const Inicio = () => {
   // Maneja el proceso de agregar un usuario
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
-
     if (!validarUsuario(nuevoUsuario)) return
 
     const credencialesValidas = await Validaciones.comprobarCredenciales(nuevoUsuario);
@@ -131,10 +89,11 @@ const Inicio = () => {
   // Maneja el proceso de editar
   const handleUsuarioEditar = async (e) => {
     e.preventDefault();
+    if (!Validaciones.validarSinCambios(usuarioOriginal, usuarioEditar)) return false
 
-    if (!validarUsuario(usuarioEditar)) return
+    if (!validarUsuario(usuarioEditar)) return false
 
-    const credencialesValidas = await Validaciones.comprobarCredenciales(usuarioEditar,usuarioEditar.id);
+    const credencialesValidas = await Validaciones.comprobarCredenciales(usuarioEditar, usuarioEditar.id);
     if (!credencialesValidas) return;
 
     try {
@@ -165,6 +124,20 @@ const Inicio = () => {
       imageAlt: "Icono personalizado",
       title: `¡Usuario <span style="color: red;">${usuarioEliminado.nombre}</span> eliminado correctamente!`
     });
+  };
+
+  // Función para convertir el id_rol a su nombre correspondiente
+  const obtenerRol = (id_rol) => {
+    switch (id_rol) {
+      case 1:
+        return "SuperAdmin";
+      case 2:
+        return "Admin";
+      case 3:
+        return "Alterno";
+      default:
+        return "Desconocido";
+    }
   };
 
   // Define las columnas de la tabla

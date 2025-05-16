@@ -31,6 +31,7 @@ const AlternosFinca = () => {
   const [usuarioEliminar, setUsuarioEliminar] = useState(false)
   const [alternoEditado, setAlternoEditado] = useState()
   const [alternoEliminar, setAlternoEliminar] = useState()
+  const [usuarioOriginal, setUsuarioOriginal] = useState()
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   //Efecto que carga los datos
@@ -44,9 +45,9 @@ const AlternosFinca = () => {
   }, [id]);
   //Funcion genereal de validaciones en los formularios
   const validarUsuario = (usuario) => {
+    if (!Validaciones.validarCamposUsuario(usuario)) return;
     if (!Validaciones.validarNombre(usuario.nombre)) return;
     if (!Validaciones.validarTelefono(usuario.telefono)) return;
-    if (!Validaciones.validarCamposUsuario(usuario)) return;
     if (!Validaciones.validarCorreo(usuario.correo)) return;
     if (!Validaciones.validarClave(usuario.clave)) return;
     return true;
@@ -56,32 +57,44 @@ const AlternosFinca = () => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
   };
 
+  //Maneja el envio del formulario para agregar un usuario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validarUsuario(nuevoUsuario)) return
+    //Inserta el nuevo usuario
+    crearUsuario(nuevoUsuario).then((data) => {
+      setUsuarios([...usuarios, data]);
+      setModalInsertarAbierto(false);
+      setNuevoUsuario({nombre: '', telefono:'', correo: '', clave:''});
+      acctionSucessful.fire({
+        imageUrl: usuarioCreado,
+        imageAlt: 'Icono personalizado',
+        title: `¡Alterno <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
+      });
+    }).catch(console.error);
+  }
+
   //Maneja el cambio de valores para editar un usuario
   const handleChangeEditar = (e) => {
     setusuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value });
   };
-
-  //Definicion de las columnas de la UseCards
-  const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.nombre },
-    { key: "telefono", label: "Telefono", icon: Icons.telefono, icon2: Icons.telefono },
-    { key: "correo", label: "Correo", icon: Icons.correo, icon2: Icons.correo },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
-  ];
 
   //Abre el modal de edicion con los datos de ese usuario
   const HandleEditarAlterno = (alterno) => {
     const { "#": removed, ...edit } = alterno;
     setusuarioEditar(edit);
     setAlternoEditado(alterno)
+    setUsuarioOriginal({ ...alterno })
     setModalEditarAbierto(true);
   }
 
   //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = async (e) => {
     e.preventDefault();
+    if (!Validaciones.validarSinCambios(usuarioOriginal, usuarioEditar)) return
     if (!validarUsuario(usuarioEditar)) return
-    if (!Validaciones.validarSinCambios(alternoEditado, usuarioEditar)) return;
+    const credencialesValidas = await Validaciones.comprobarCredenciales(usuarioEditar, usuarioEditar.id);
+    if (!credencialesValidas) return;
     //Realiza la actualizacion
     editarUsuario(usuarioEditar.id, usuarioEditar).then(() => {
       //Actualiza la lista de usuarios
@@ -95,20 +108,12 @@ const AlternosFinca = () => {
     });
   };
 
-  //Maneja el envio del formulario para agregar un usuario
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validarUsuario(nuevoUsuario)) return
-    //Inserta el nuevo usuario
-    crearUsuario(nuevoUsuario).then((data) => {
-      setUsuarios([...usuarios, data]);
-      setModalInsertarAbierto(false);
-      acctionSucessful.fire({
-        imageUrl: usuarioCreado,
-        imageAlt: 'Icono personalizado',
-        title: `¡Alterno <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
-      });
-    }).catch(console.error);
+  //Abre el modal para eliminar un usuario
+  const abrirModalEliminar = (id) => {
+    const alternoPrev = usuarios.find(usuarios => usuarios.id === id)
+    setAlternoEliminar(alternoPrev)
+    setUsuarioEliminar(id);
+    setModalEliminarAbierto(true)
   }
 
   //Maneja la eliminacion de un usuario
@@ -126,12 +131,13 @@ const AlternosFinca = () => {
     }).catch(console.error);
   }
 
-  const abrirModalEliminar = (id) => {
-    const alternoPrev = usuarios.find(usuarios => usuarios.id === id)
-    setAlternoEliminar(alternoPrev)
-    setUsuarioEliminar(id);
-    setModalEliminarAbierto(true)
-  }
+  //Definicion de las columnas de la UseCards
+  const columnas = [
+    { key: "nombre", label: "Nombre", icon2: Icons.nombre },
+    { key: "telefono", label: "Telefono", icon: Icons.telefono, icon2: Icons.telefono },
+    { key: "correo", label: "Correo", icon: Icons.correo, icon2: Icons.correo },
+    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+  ];
 
   //Define las acciones que se pueden hacer en cada fila
   const acciones = (fila) => (

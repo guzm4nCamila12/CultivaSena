@@ -49,7 +49,7 @@ const Inicio = () => {
 
   //Validar los campos de el usuario
   const validarUsuario = (usuario) => {
-    // 1. Validar que todos los campos estén llenos
+
     if (!usuario.nombre || !usuario.telefono || !usuario.correo || !usuario.clave || !usuario.id_rol) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -57,34 +57,31 @@ const Inicio = () => {
       });
       return false;
     }
-  
-    // 2. Validaciones individuales (se ejecutan en orden si todo está lleno)
     if (!Validaciones.validarNombre(usuario.nombre)) return false;
-    if (!Validaciones.validarCorreo(usuario.correo)) return false;
     if (!Validaciones.validarTelefono(usuario.telefono)) return false;
+    if (!Validaciones.validarCorreo(usuario.correo)) return false;
     if (!Validaciones.validarClave(usuario.clave)) return false;
-  
+
     // Todo pasó
     return true;
   };
-  
-  
 
-  const comprobarCredenciales = async (usuario, idIgnorar = null) => {
-    const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
-    if (telefonoExistente) {
-      await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El teléfono ya existe!" });
-      return false;
-    }
 
-    const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
-    if (correoExistente) {
-      await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El correo ya existe!" });
-      return false;
-    }
+  // const comprobarCredenciales = async (usuario, idIgnorar = null) => {
+  //   const telefonoExistente = await verificarExistenciaTelefono(usuario.telefono, idIgnorar);
+  //   if (telefonoExistente) {
+  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El teléfono ya existe!" });
+  //     return false;
+  //   }
 
-    return true;
-  };
+  //   const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);
+  //   if (correoExistente) {
+  //     await acctionSucessful.fire({ imageUrl: Images.Alerta, title: "¡El correo ya existe!" });
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
 
 
 
@@ -98,15 +95,8 @@ const Inicio = () => {
     e.preventDefault();
 
     if (!validarUsuario(nuevoUsuario)) return
-    // if (errores.length > 0) {
-    //   acctionSucessful.fire({
-    //     imageUrl: Images.Alerta,
-    //     title: errores[0] // Mostrar solo el primer error
-    //   });
-    //   return;
-    // }
 
-    const credencialesValidas = await comprobarCredenciales(nuevoUsuario);
+    const credencialesValidas = await Validaciones.comprobarCredenciales(nuevoUsuario);
     if (!credencialesValidas) return;
 
     const nuevo = {
@@ -141,33 +131,10 @@ const Inicio = () => {
   // Maneja el proceso de editar
   const handleUsuarioEditar = async (e) => {
     e.preventDefault();
-    // Comprobar si la información fue modificada
-    const sinCambios =
-      usuarioEditar.nombre === usuarioOriginal.nombre &&
-      usuarioEditar.telefono === usuarioOriginal.telefono &&
-      usuarioEditar.correo === usuarioOriginal.correo &&
-      usuarioEditar.clave === usuarioOriginal.clave &&
-      Number(usuarioEditar.id_rol) === Number(enviarRol(usuarioOriginal.id_rol))
-      ;
-    if (sinCambios) {
-      await acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: "No se modificó la información del usuario"
-      });
-      return;
-    }
-    const errores = validarUsuario(usuarioEditar, false);
 
-    if (errores.length > 0) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        title: errores[0]
-      });
-      return;
-    }
+    if (!validarUsuario(usuarioEditar)) return
 
-    const credencialesValidas = await comprobarCredenciales(usuarioEditar, Number(usuarioEditar.id));
-
+    const credencialesValidas = await Validaciones.comprobarCredenciales(usuarioEditar,usuarioEditar.id);
     if (!credencialesValidas) return;
 
     try {

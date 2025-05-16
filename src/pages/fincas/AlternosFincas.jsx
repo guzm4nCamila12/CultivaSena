@@ -1,8 +1,6 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import { validarCamposUsuario, validarCorreo, validarTelefono, validarClave, validarNombre, validarSinCambios, comprobarCredenciales } from "../../utils/validaciones";
 //importacion de iconos
 import * as Icons from "../../assets/icons/IconsExportation"
 //imgs de los modales
@@ -12,9 +10,12 @@ import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";
 import Navbar from "../../components/navbar";
+import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 //endpoints para consumir api
 import { getUsuarioByIdRol, eliminarUsuario, crearUsuario, editarUsuario } from "../../services/usuarios/ApiUsuarios";
 import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
+//importacion de validociones para los formularios
+import * as Validaciones from "../../utils/validaciones";
 
 const AlternosFinca = () => {
   //Obtiene el ID de la URL 
@@ -41,7 +42,15 @@ const AlternosFinca = () => {
       setFincas(data)
     });
   }, [id]);
-
+  //Funcion genereal de validaciones en los formularios
+  const validarUsuario = (usuario) => {
+    if (!Validaciones.validarNombre(usuario.nombre)) return;
+    if (!Validaciones.validarTelefono(usuario.telefono)) return;
+    if (!Validaciones.validarCamposUsuario(usuario)) return;
+    if (!Validaciones.validarCorreo(usuario.correo)) return;
+    if (!Validaciones.validarClave(usuario.clave)) return;
+    return true;
+  }
   //Maneja el cambio de valores para agregar un nuevo usuario
   const handleChange = (e) => {
     setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value });
@@ -71,18 +80,8 @@ const AlternosFinca = () => {
   //Maneja la edicion cuando se envia el formulario
   const handleEditarAlterno = async (e) => {
     e.preventDefault();
-
-    if (!validarCamposUsuario(usuarioEditar)) return;
-    if (!validarCorreo(usuarioEditar.correo)) return;
-    if (!validarTelefono(usuarioEditar.telefono)) return;
-    if (!validarClave(usuarioEditar.clave)) return;
-    if (!validarNombre(usuarioEditar.nombre)) return;
-    if (!validarSinCambios(alternoEditado, usuarioEditar)) return;
-
-    const credencialesValidas = await comprobarCredenciales(usuarioEditar,usuarioEditar.id);
-    if (!credencialesValidas) return;
-
-
+    if (!validarUsuario(usuarioEditar)) return
+    if (!Validaciones.validarSinCambios(alternoEditado, usuarioEditar)) return;
     //Realiza la actualizacion
     editarUsuario(usuarioEditar.id, usuarioEditar).then(() => {
       //Actualiza la lista de usuarios
@@ -96,21 +95,10 @@ const AlternosFinca = () => {
     });
   };
 
-  
   //Maneja el envio del formulario para agregar un usuario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validarCamposUsuario(nuevoUsuario)) return;
-    if (!validarCorreo(nuevoUsuario.correo)) return;
-    if (!validarTelefono(nuevoUsuario.telefono)) return;
-    if (!validarClave(nuevoUsuario.clave)) return;
-    if (!validarNombre(nuevoUsuario.nombre)) return;
-    
-    
-    const credencialesValidas = await comprobarCredenciales(nuevoUsuario);
-    if (!credencialesValidas) return;
-    
+    if (!validarUsuario(nuevoUsuario)) return
     //Inserta el nuevo usuario
     crearUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);
@@ -306,7 +294,6 @@ const AlternosFinca = () => {
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}
         onConfirm={HandleEliminarAlterno}
-
         title="Eliminar Alterno"
         message={
           <>

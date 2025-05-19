@@ -1,66 +1,25 @@
-//importaciones necesarias de react
-import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import * as Icons from '../../assets/icons/IconsExportation'
-//imgs de los modales
-import UsuarioEliminado from "../../assets/img/usuarioEliminado.png";
-//componentes reutilizados
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import MostrarInfo from '../../components/mostrarInfo';
 import { acctionSucessful } from "../../components/alertSuccesful";
-//endpoints para consumir api
-import { getUsuarioById } from "../../services/usuarios/ApiUsuarios";
-import { getFincasById, eliminarFincas } from '../../services/fincas/ApiFincas';
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
-
+import { useFincas } from '../../hooks/useFincas';
+import * as Icons from '../../assets/icons/IconsExportation';
+import { Link } from 'react-router-dom';
 export default function ListaFincas() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [fincas, setFincas] = useState([]);
-  const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [fincaEliminar, setFincaEliminar] = useState(false);
-  const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-  const idRol = Number(localStorage.getItem('rol'));
-  const [nombreFincaEliminar, setNombreFincaEliminar] = useState();
 
-  // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
-  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
-
-  useEffect(() => {
-    //obtenemos los datos del usuario usando el ID
-    getUsuarioById(id)
-      .then(data => setUsuario(data))
-      .catch(error => console.error('Error: ', error));
-
-    //obtenemos las fincas usando el ID
-    getFincasById(id)
-      .then(data => setFincas(data || []))
-      .catch(error => console.error('Error: ', error));
-  }, [id]); // Esto se ejecuta cada vez que cambia el 'id'
-
-  const handleEliminarFinca = (e) => {
-    e.preventDefault();
-    eliminarFincas(fincaEliminar)
-      .then(() => {
-        // Si la eliminación es exitosa, actualizamos la lista de fincas y cerramos el modal
-        setFincas(fincas.filter(finca => finca.id !== fincaEliminar));
-        setModalEliminarAbierto(false);
-        acctionSucessful.fire({
-          imageUrl: UsuarioEliminado,
-          imageAlt: 'Icono personalizado',
-          title: `¡Finca: <span style="color: red;">${nombreFincaEliminar.nombre}</span> eliminada correctamente!`
-        });
-      })
-      .catch(console.error);
-  };
-
-  const abrirModalEliminar = (id) => {
-    // Buscamos la finca que corresponde al 'id' que se quiere eliminar
-    const fincaPrev = fincas.find(fincas => fincas.id === id)
-    setNombreFincaEliminar(fincaPrev)
-    setFincaEliminar(id);
-    setModalEliminarAbierto(true);
-  };
+  const {
+    fincas,
+    usuario,
+    modalEliminarAbierto,
+    nombreFincaEliminar,
+    abrirModalEliminar,
+    handleEliminarFinca,
+    setModalEliminarAbierto,
+  } = useFincas(id);
 
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: Icons.fincas },
@@ -70,7 +29,6 @@ export default function ListaFincas() {
     { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
   ];
 
-  // Aquí definimos las acciones que se pueden realizar sobre cada finca
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       <div className="relative group">
@@ -94,9 +52,8 @@ export default function ListaFincas() {
     </div>
   );
 
-  // Mapeamos las fincas para agregar los botones "ver más" con enlaces a otras páginas
   const fincasConSensores = fincas.map(finca => ({
-    ...finca, // Mantenemos toda la información de la finca
+    ...finca,
     sensores: (
       <Link to={`/activar-sensores/${id}/${finca.id}`}>
         <button className="group relative">
@@ -135,12 +92,6 @@ export default function ListaFincas() {
     )
   }));
 
-  // La función que se pasa a Opcion actualizará la vista y la guardará en localStorage.
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-    localStorage.setItem("vistaActiva", vista);
-  };
-
   return (
     <div>
       <Navbar />
@@ -160,7 +111,9 @@ export default function ListaFincas() {
         message={
           <>
             ¿Estás seguro?<br />
-            <h4 className='text-gray-400'>Se eliminará la finca <strong className="text-red-600">{nombreFincaEliminar?.nombre}</strong> de manera permanente.</h4>
+            <h4 className='text-gray-400'>
+              Se eliminará la finca <strong className="text-red-600">{nombreFincaEliminar}</strong> de manera permanente.
+            </h4>
           </>
         }
         confirmText="Sí, eliminar"

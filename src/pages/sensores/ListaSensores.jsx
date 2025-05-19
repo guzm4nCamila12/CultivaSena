@@ -19,6 +19,7 @@ import { insertarDatos } from "../../services/sensores/ApiSensores";
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+import { validarSinCambios } from "../../utils/validaciones";
 
 function ActivarSensores() {
   const [sensores, setSensores] = useState([]);
@@ -31,6 +32,7 @@ function ActivarSensores() {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [sensorEliminado, setSensorEliminado] = useState();
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
+  const [sensorOriginal, setSensorOriginal] = useState(null)
   const { id, idUser } = useParams();
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
@@ -197,6 +199,7 @@ function ActivarSensores() {
   const abrirModalEditar = (sensor) => {
     setsensorEditar(sensor);
     setModalEditarAbierto(true);
+    setSensorOriginal(sensor)
   };
 
   const abrirModalEliminar = (sensor) => {
@@ -250,6 +253,9 @@ function ActivarSensores() {
   // Maneja el envío del formulario para editar un sensor
   const handleSensorEditar = (e) => {
     e.preventDefault();
+
+    if(!validarSinCambios(sensorEditar,sensorOriginal,"el sensor")) return
+
     editarSensor(sensorEditar.id, sensorEditar).then((data) => {
       const nuevosSensores = [...sensores]; // Copiar el arreglo de sensores
       const index = nuevosSensores.findIndex(sensor => sensor.id === sensorEditar.id); // Buscar el índice del sensor con el mismo id

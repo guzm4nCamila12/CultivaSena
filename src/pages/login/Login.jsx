@@ -9,6 +9,7 @@ import * as Icons from "../../assets/icons/IconsExportation"
 //img alerta
 import welcomeIcon from "../../assets/img/inicioSesion.png";
 import alerta from '../../assets/img/alerta.png'
+import { validarTelefono } from "../../utils/validaciones";
 //endpoints para consumir api
 import { login } from "../../services/usuarios/ApiUsuarios";
 
@@ -32,14 +33,8 @@ const Login = () => {
       })
       return
     }
-    if(!telefono){
-      acctionSucessful.fire({
-        imageUrl: alerta,
-        imageAlt: "Icono alerta",
-        title: '¡Por favor, ingrese su número de telefono!'
-      })
-      return
-    }
+    if(!validarTelefono(telefono))return
+    
     if(!clave){
       acctionSucessful.fire({
         imageUrl: alerta,

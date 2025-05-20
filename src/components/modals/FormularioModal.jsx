@@ -9,7 +9,8 @@ const FormularioModal = ({
   campos,
   valores,
   onChange,
-  textoBoton
+  textoBoton,
+  children
 }) => {
   return (
     <FormModal isOpen={isOpen} onClose={onClose}>
@@ -52,6 +53,8 @@ const FormularioModal = ({
             )}
           </div>
         ))}
+
+        {children}
 
         <div className="flex gap-4 mt-4">
           <button

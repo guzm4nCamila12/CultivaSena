@@ -4,7 +4,7 @@ import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
 import FormularioModal from "../../../components/modals/FormularioModal";
 import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
-import * as Icons from '../../../assets/icons/IconsExportation';
+import {zonasIcon,actividades,ajustes,editar,eliminar,nombreZona, sensoresIcon} from '../../../assets/icons/IconsExportation';
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -16,10 +16,10 @@ const Zonas = () => {
   } = useZonas(id, idUser);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.zonas },
-    { key: "verSensores", label: "Sensores", icon: Icons.sensores, icon2: Icons.sensores },
-    { key: "actividades", label: "Actividades", icon: Icons.actividades, icon2: Icons.actividades },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes }
+    { key: "nombre", label: "Nombre", icon2: zonasIcon },
+    { key: "verSensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
+    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
+    { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
 
   const acciones = (fila) => (
@@ -29,7 +29,7 @@ const Zonas = () => {
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
 
           onClick={() => abrirModalEditar(fila)}>
-          <img src={Icons.editar} alt="Editar" className='absolute' />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -39,7 +39,7 @@ const Zonas = () => {
         <button
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -82,7 +82,7 @@ const Zonas = () => {
         textoBoton={modoFormulario === "crear" ? "Crear" : "Guardar y actualizar"}
         valores={zonaFormulario}
         onChange={handleChangeZona}
-        campos={[{ name: "nombre", placeholder: "Nombre", icono: Icons.nombreZona }]}
+        campos={[{ name: "nombre", placeholder: "Nombre", icono: nombreZona }]}
       />
 
       <ConfirmationModal

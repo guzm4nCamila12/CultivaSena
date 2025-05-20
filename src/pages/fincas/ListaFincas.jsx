@@ -5,7 +5,7 @@ import MostrarInfo from '../../components/mostrarInfo';
 import { acctionSucessful } from "../../components/alertSuccesful";
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
 import { useFincas } from '../../hooks/useFincas';
-import * as Icons from '../../assets/icons/IconsExportation';
+import {fincasIcon,zonasIcon,sensoresIcon,alternos,ajustes,editar,eliminar} from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
 export default function ListaFincas() {
   const { id } = useParams();
@@ -22,11 +22,11 @@ export default function ListaFincas() {
   } = useFincas(id);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.fincas },
-    { key: "zonas", label: "Zonas", icon: Icons.zonas, icon2: Icons.zonas },
-    { key: "sensores", label: "Sensores", icon: Icons.sensores, icon2: Icons.sensores },
-    { key: "alternos", label: "Alternos", icon: Icons.alternos, icon2: Icons.alternos },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+    { key: "nombre", label: "Nombre", icon2: fincasIcon },
+    { key: "zonas", label: "Zonas", icon: zonasIcon, icon2: zonasIcon },
+    { key: "sensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
+    { key: "alternos", label: "Alternos", icon: alternos, icon2: alternos },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   const acciones = (fila) => (
@@ -34,7 +34,7 @@ export default function ListaFincas() {
       <div className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={Icons.editar} alt="Editar" className='absolute' />
+            <img src={editar} alt="Editar" className='absolute' />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Editar
@@ -43,7 +43,7 @@ export default function ListaFincas() {
       </div>
       <div className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar

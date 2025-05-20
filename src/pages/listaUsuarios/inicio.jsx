@@ -5,7 +5,7 @@ import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { useUsuarios } from "../../hooks/useUsuarios";
-import * as Icons from "../../assets/icons/IconsExportation";
+import {nombreIcon,telefono,correo,rol,ajustes,editar,sinFincas,ver,eliminar,telefonoAzul,correoAzul,claveAzul,usuarioAzul} from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { useRoles } from "../../utils/useRoles";
@@ -26,11 +26,11 @@ const Inicio = () => {
 
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
-    { key: "nombre", label: "Nombre", icon2: Icons.nombreIcon },
-    { key: "telefono", label: "Teléfono", icon: Icons.telefono ,icon2: Icons.telefono },
-    { key: "correo", label: "Correo", icon: Icons.correo, icon2: Icons.correo },
-    { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: Icons.rol, icon2: Icons.rol },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+    { key: "nombre", label: "Nombre", icon2: nombreIcon },
+    { key: "telefono", label: "Teléfono", icon: telefono ,icon2: telefono },
+    { key: "correo", label: "Correo", icon: correo, icon2: correo },
+    { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: rol, icon2: rol },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   const handleCrearUsuario = async (e) => {
@@ -78,7 +78,7 @@ const Inicio = () => {
           onClick={() => abrirModalEditar(fila)}
           className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
         >
-          <img src={Icons.editar} alt="Editar" />
+          <img src={editar} alt="Editar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -92,7 +92,7 @@ const Inicio = () => {
             onClick={() => setModalSinFincasAbierto(true)}
             className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           >
-            <img src={Icons.sinFincas} alt="Ver" />
+            <img src={sinFincas} alt="Ver" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -104,7 +104,7 @@ const Inicio = () => {
             to={`/lista-fincas/${fila.id}`}
             className="px-6 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           >
-            <img src={Icons.ver} alt="Ver" />
+            <img src={ver} alt="Ver" />
           </Link>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Ver
@@ -118,7 +118,7 @@ const Inicio = () => {
           onClick={() => abrirModalEliminar(fila)}
           className="px-6 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
         >
-          <img src={Icons.eliminar} alt="Eliminar" />
+          <img src={eliminar} alt="Eliminar" />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Eliminar
@@ -161,10 +161,10 @@ const Inicio = () => {
         onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value })}
         textoBoton="Crear"
         campos={[
-          { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
-          { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
-          { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
-          { name: "clave", placeholder: "Clave", icono: Icons.claveAzul, type: "password" },
+          { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+          { name: "correo", placeholder: "Correo", icono: correoAzul },
+          { name: "clave", placeholder: "Clave", icono: claveAzul, type: "password" },
           {
             name: "id_rol",
             placeholder: "Seleccione un rol",
@@ -188,10 +188,10 @@ const Inicio = () => {
           onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
           textoBoton="Guardar y actualizar"
           campos={[
-            { name: "nombre", placeholder: "Nombre", icono: Icons.usuarioAzul },
-            { name: "telefono", placeholder: "Teléfono", icono: Icons.telefonoAzul },
-            { name: "correo", placeholder: "Correo", icono: Icons.correoAzul },
-            { name: "clave", placeholder: "Clave", icono: Icons.claveAzul },
+            { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
+            { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+            { name: "correo", placeholder: "Correo", icono: correoAzul },
+            { name: "clave", placeholder: "Clave", icono: claveAzul },
           ]}
         />
       )}

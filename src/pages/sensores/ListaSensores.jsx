@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 //importacion de iconos
-import * as Icons from '../../assets/icons/IconsExportation'
+import {sensoresIcon,mac,zonasIcon,descripcion,estadoIcon,ajustes,editar,ver,eliminar,sensorAzul,descripcionAzul} from '../../assets/icons/IconsExportation'
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
@@ -99,12 +99,12 @@ function ActivarSensores() {
   }, [usuario, fincas]);
 
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.sensores },
-    { key: "mac", label: "MAC", icon: Icons.mac, icon2: Icons.mac },
-    { key: "idzona", label: "Zona", icon: Icons.zonas, icon2: Icons.zonas },
-    { key: "descripcion", label: "Descripción", icon: Icons.descripcion, icon2: Icons.descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: Icons.estado, icon2: Icons.estado },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+    { key: "nombre", label: "Nombre", icon2: sensoresIcon },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "idzona", label: "Zona", icon: zonasIcon, icon2: zonasIcon },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   // Función para las acciones que se pueden realizar en cada fila de la tabla
@@ -114,7 +114,7 @@ function ActivarSensores() {
         <button
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
-          <img src={Icons.editar} alt="Editar" className='absolute' />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -123,7 +123,7 @@ function ActivarSensores() {
       <div className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
           <button className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={Icons.ver} alt="Ver" className='absolute' />
+            <img src={ver} alt="Ver" className='absolute' />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -134,7 +134,7 @@ function ActivarSensores() {
         <button
           onClick={() => abrirModalEliminar(fila.id)}
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
@@ -455,7 +455,7 @@ function ActivarSensores() {
             <form onSubmit={handleSubmit}>
               {asignarZona(handleChange)}
               <div className="relative w-full mt-2">
-                <img src={Icons.sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -465,7 +465,7 @@ function ActivarSensores() {
                   onChange={handleChange} />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Icons.descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
@@ -497,7 +497,7 @@ function ActivarSensores() {
             <form onSubmit={handleSensorEditar}>
               {asignarZona(handleChangeEditar)}
               <div className="relative w-full mt-2">
-                <img src={Icons.sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
@@ -509,7 +509,7 @@ function ActivarSensores() {
                 />
               </div>
               <div className="relative w-full mt-2">
-                <img src={Icons.descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"

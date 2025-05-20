@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 //imgs de los modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
-import alertaIcon from "../../assets/img/alerta.png"
 //icono del input
 import fincaNombre from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
@@ -12,6 +11,7 @@ import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFinca
 import Mapa from "../../components/Mapa";
 import Navbar from "../../components/navbar"
 import { acctionSucessful } from "../../components/alertSuccesful";
+import { validarSinCambios } from "../../utils/validaciones";
 
 export default function EditarFinca() {
   //Obtener el ID de la URL
@@ -43,23 +43,14 @@ export default function EditarFinca() {
   //Funcion que maneja el envio del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-    //Compara si los valores son diferentes a los datos originales
-    const nombreModificado = nombreFinca !== originalFinca.nombre;
-    const ubicacionModificada = JSON.stringify(ubicacion) !== JSON.stringify(originalFinca.ubicacion);
-    //Si no se ha modificado algun dato muestra un mensaje de alerta
-    if (!nombreModificado && !ubicacionModificada) {
-      acctionSucessful.fire({
-        imageUrl: alertaIcon,
-        title: `No se modificó la información de la finca ${nombreFinca}`,
-      });
-      return
-    }
-    //Datos para actualizar la finca
+
     const fincaActualizada = {
       nombre: nombreFinca,
       idUsuario: fincas.idusuario,
       ubicacion,
     };
+
+    if (!validarSinCambios(originalFinca, fincaActualizada, "la finca", ["idusuario","id"])) return
 
     try {
       //Intenta actualizar la finca

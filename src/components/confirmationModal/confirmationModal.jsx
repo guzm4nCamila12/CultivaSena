@@ -17,9 +17,9 @@ const ConfirmationModal = ({
       <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/4 p-6 mx-4 my-8 sm:my-12">
         <h5 className="text-3xl font-bold mb-2 text-center">{title}</h5>
         <hr />
-          <div className="flex justify-center my-2">
-            <img src={ConfirmarEliminar} alt="modal-icon" />
-          </div>
+        <div className="flex justify-center my-2">
+          <img src={ConfirmarEliminar} alt="modal-icon" />
+        </div>
         <p className="text-2xl text-center font-semibold">{message}</p>
         <div className="flex justify-between mt-6 space-x-4">
           <button

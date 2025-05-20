@@ -83,10 +83,10 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.sensores },
+    { key: "nombre", label: "Nombre", icon2: Icons.sensoresIcon },
     { key: "mac", label: "MAC", icon: Icons.mac, icon2: Icons.mac },
     { key: "descripcion", label: "Descripción", icon: Icons.descripcion, icon2: Icons.descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: Icons.estado, icon2: Icons.estado },
+    { key: "estado", label: "Inactivo/Activo", icon: Icons.estadoIcon, icon2: Icons.estadoIcon },
     { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
   ];
 

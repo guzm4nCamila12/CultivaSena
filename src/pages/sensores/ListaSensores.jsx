@@ -457,8 +457,8 @@ function ActivarSensores() {
         onChange={handleChange}
         textoBoton="Crear"
         campos={[
-          { name: "nombre", placeholder: "Nombre", icono: Icons.sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: Icons.descripcionAzul },
+          { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
+          { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
         ]}
       >
         {asignarZona(handleChange)}
@@ -473,8 +473,8 @@ function ActivarSensores() {
         textoBoton="Guardar y actualizar"
         onChange={handleChangeEditar}
         campos={[
-          { name: "nombre", placeholder: "Nombre", icono: Icons.sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: Icons.descripcionAzul },
+          { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
+          { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
         ]}
       >
         {asignarZona(handleChangeEditar)}

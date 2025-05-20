@@ -39,7 +39,7 @@ const Login = () => {
       })
       return
     }
-    if(!validarTelefono(telefono))return
+    // if(!validarTelefono(telefono))return
     
     if(!clave){
       acctionSucessful.fire({

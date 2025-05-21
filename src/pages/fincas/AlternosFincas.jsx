@@ -62,6 +62,8 @@ const AlternosFinca = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validarUsuario(nuevoUsuario)) return
+    const credencialesValidas = await Validaciones.comprobarCredenciales(nuevoUsuario);
+    if (!credencialesValidas) return;
     //Inserta el nuevo usuario
     crearUsuario(nuevoUsuario).then((data) => {
       setUsuarios([...usuarios, data]);

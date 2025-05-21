@@ -8,6 +8,9 @@ import GraficoSensor from './GraficoSensores';
 import MostrarInfo from "../../components/mostrarInfo";
 //endpoint para consumir api
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
+//menu scroll
+import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
+import 'react-horizontal-scrolling-menu/dist/styles.css';
 
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {
@@ -34,14 +37,25 @@ export default function VerSensores() {
   const [sensores, setSensores] = useState({});
   const [fechaFiltro, setFechaFiltro] = useState('');
   const { id } = useParams();
+  const [cargando, SetCargando] = useState(true);
+  const [hayDatos, setHayDatos] = useState(true);
 
   useEffect(() => {
+    SetCargando(true)
+
+
+
     getSensor(id)
       .then(data => {
+        console.log("Datos del sensor:", data);
         setSensores(data);
         setDatosSensores(data.datos || []);
+        console.log("datos mac:", data.mac);
         getHistorialSensores(data.mac)
           .then(historial => {
+            if (!historial || historial.length === 0) {
+              setHayDatos(false);
+            }
             const datosGrafico = historial.map(item => {
               const { fecha, hora } = formatearFechaYHora(item.fecha);
               return {
@@ -53,8 +67,9 @@ export default function VerSensores() {
             setDatosSensores(datosGrafico || []);
           })
           .catch(error => console.error("Error al obtener el historial de sensores", error));
+      }).finally(() => {
+        SetCargando(false)
       })
-      .catch(error => console.error("Error al obtener los datos del sensor", error));
   }, [id]);
 
   const filtrarDatos = () => {
@@ -90,6 +105,8 @@ export default function VerSensores() {
     valor: fila.valor + " °C"
   }));
 
+
+
   return (
     <div >
       <NavBar />
@@ -99,7 +116,9 @@ export default function VerSensores() {
           <div className="flex-grow text-left">
             <h3 className='text-2xl font-semibold -ml-6'> Datos del sensor: {sensores.nombre}</h3>
           </div>
+
           <div className='text-right -mr-20'>
+
             <h3 className="mb-1 font-semibold text-center">Filtrar por fecha</h3>
             <input
               type="date"
@@ -110,15 +129,27 @@ export default function VerSensores() {
           </div>
         </div>
       </div>
-      <div className='flex flex-row justify-center '>
-        <GraficoSensor datos={datosFinales} />
-      </div>
-      <MostrarInfo
-        columnas={columnas}
-        mostrarAgregar={false}
-        datos={datosTabla} // Pasamos los datos ya procesados para la tabla
-      />
-      {/* </div> */}
+      {cargando ? (
+        <div className="flex justify-center items-center">
+          <p>Cargando datos...</p>
+        </div>
+      ) : hayDatos ? (
+        <div>
+          <div className='flex flex-row justify-center'>
+
+            <GraficoSensor datos={datosFinales} />
+          </div>
+
+          <MostrarInfo
+            columnas={columnas}
+            mostrarAgregar={false}
+            datos={datosTabla} // Pasamos los datos ya procesados para la tabla
+          />
+        </div>
+      ) : (
+        <div className='flex flex-row justify-center '><p className='m-0'>no hay datos</p></div>
+      )}
+
     </div>
   );
 }

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import * as Icons from '../../assets/icons/IconsExportation'
+import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,editar,eliminar,descripcionAzul,sensorAzul} from '../../assets/icons/IconsExportation'
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
@@ -13,7 +13,6 @@ import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import MostrarInfo from "../../components/mostrarInfo";
 import NavBar from "../../components/navbar"
 import { acctionSucessful } from "../../components/alertSuccesful";
-import FormularioModal from "../../components/modals/FormularioModal";
 //endpoints para consumir api
 import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
@@ -84,11 +83,11 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: Icons.sensoresIcon },
-    { key: "mac", label: "MAC", icon: Icons.mac, icon2: Icons.mac },
-    { key: "descripcion", label: "Descripción", icon: Icons.descripcion, icon2: Icons.descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: Icons.estadoIcon, icon2: Icons.estadoIcon },
-    { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+    { key: "nombre", label: "Nombre", icon2: sensoresIcon },
+    { key: "mac", label: "MAC", icon: mac, icon2: mac },
+    { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   //se trae el id del sensor para traerlo y editarlo
@@ -105,7 +104,7 @@ function Sensores() {
         <button
           className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
-          <img src={Icons.editar} alt="Editar" className='absolute' />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
@@ -115,7 +114,7 @@ function Sensores() {
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={Icons.ver} alt="Ver" className='absolute' />
+            <img src={ver} alt="Ver" className='absolute' />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -126,7 +125,7 @@ function Sensores() {
         <button
           className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEliminar(fila.id)}>
-          <img src={Icons.eliminar} alt="Eliminar" className='absolute' />
+          <img src={eliminar} alt="Eliminar" className='absolute' />
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
@@ -381,34 +380,90 @@ function Sensores() {
           ),
         }))} />
 
-      <FormularioModal
-        titulo={"Crear Sensor"}
-        isOpen={modalInsertarAbierto}
-        onClose={() => setModalInsertarAbierto(false)}
-        onSubmit={handleSubmit}
-        valores={formData}
-        onChange={handleChange}
-        textoBoton="Crear"
-        campos={[
-          { name: "nombre", placeholder: "Nombre", icono: Icons.sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: Icons.descripcionAzul },
-        ]}
-      />
+      {modalInsertarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Crear sensor</h5>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              <div className="relative w-full mt-2">
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="nombre"
+                  autoComplete="off"
+                  placeholder="Nombre"
+                  required
+                  onChange={handleChange} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="descripcion"
+                  placeholder="Descripción"
+                  autoComplete="off"
+                  onChange={handleChange} />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalInsertarAbierto(false)}>
+                  Cancelar
+                </button>
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Crear
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
-      <FormularioModal
-        isOpen={modalEditarAbierto}
-        titulo={"Editar Sensor"}
-        onClose={() => setModalEditarAbierto(false)}
-        onSubmit={handlesensorEditar}
-        valores={sensorEditar}
-        textoBoton="Guardar y actualizar"
-        onChange={handleChangeEditar}
-        campos={[
-          { name: "nombre", placeholder: "Nombre", icono: Icons.sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: Icons.descripcionAzul },
-        ]}
-      />
-
+      {modalEditarAbierto && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+            <h5 className="text-2xl font-bold mb-4 text-center">Editar sensor</h5>
+            <hr />
+            <form onSubmit={handlesensorEditar}>
+              <div className="relative w-full mt-2">
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  name="nombre"
+                  placeholder="Nombre"
+                  autoComplete="off"
+                  value={sensorEditar.nombre}
+                  type="text"
+                  onChange={handleChangeEditar} />
+              </div>
+              <div className="relative w-full mt-2">
+                <img src={descripcionAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <input
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
+                  type="text"
+                  name="descripcion"
+                  autoComplete="off"
+                  placeholder="Descripción"
+                  value={sensorEditar.descripcion}
+                  onChange={handleChangeEditar} />
+              </div>
+              <div className="flex gap-4 mt-4">
+                <button
+                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
+                  onClick={() => setModalEditarAbierto(false)}>
+                  Cancelar
+                </button>
+                <button type="submit" className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
+                  Guardar y actualizar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       <ConfirmationModal
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}

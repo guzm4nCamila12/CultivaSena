@@ -5,7 +5,7 @@ import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { useUsuarios } from "../../hooks/useUsuarios";
-import {nombreIcon,telefono,correo,rol,ajustes,editar,sinFincas,ver,eliminar,telefonoAzul,correoAzul,claveAzul,usuarioAzul} from "../../assets/icons/IconsExportation";
+import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, eliminar, telefonoAzul, correoAzul, claveAzul, usuarioAzul } from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { useRoles } from "../../utils/useRoles";
@@ -24,10 +24,14 @@ const Inicio = () => {
   const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
   const { obtenerNombreRol, obtenerIdRol } = useRoles();
 
+  const [mostrarClave, setMostrarClave] = useState(false);
+  const handleToggleClave = () => setMostrarClave(!mostrarClave);
+
+
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
     { key: "nombre", label: "Nombre", icon2: nombreIcon },
-    { key: "telefono", label: "Teléfono", icon: telefono ,icon2: telefono },
+    { key: "telefono", label: "Teléfono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
     { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: rol, icon2: rol },
     { key: "acciones", label: "Acciones", icon2: ajustes },
@@ -84,7 +88,7 @@ const Inicio = () => {
           Editar
         </span>
       </div>
-  
+
       {/* Botón Ver (sin fincas o con link) */}
       {fila.id_rol !== "Admin" ? (
         <div className="relative group">
@@ -111,7 +115,7 @@ const Inicio = () => {
           </span>
         </div>
       )}
-  
+
       {/* Botón Eliminar */}
       <div className="relative group">
         <button
@@ -126,7 +130,7 @@ const Inicio = () => {
       </div>
     </div>
   );
-  
+
 
   const abrirModalEditar = (usuario) => {
     setUsuarioEditar({ ...usuario, id_rol: obtenerIdRol(usuario.id_rol) });
@@ -164,7 +168,16 @@ const Inicio = () => {
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
           { name: "correo", placeholder: "Correo", icono: correoAzul },
-          { name: "clave", placeholder: "Clave", icono: claveAzul, type: "password" },
+          {
+            name: "clave",
+            placeholder: "Clave",
+            icono: claveAzul,
+            type: "password",
+            mostrarClave: mostrarClave,
+            onToggleClave: handleToggleClave,
+            iconoVisible: verClaveAzul,
+            iconoOculto: noVerClaveAzul,
+          },
           {
             name: "id_rol",
             placeholder: "Seleccione un rol",
@@ -191,7 +204,16 @@ const Inicio = () => {
             { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
             { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
             { name: "correo", placeholder: "Correo", icono: correoAzul },
-            { name: "clave", placeholder: "Clave", icono: claveAzul },
+            {
+              name: "clave",
+              placeholder: "Clave",
+              icono: claveAzul,
+              type: "password",
+              mostrarClave: mostrarClave,
+              onToggleClave: handleToggleClave,
+              iconoVisible: verClaveAzul,
+              iconoOculto: noVerClaveAzul,
+            },
           ]}
         />
       )}

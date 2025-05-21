@@ -41,6 +41,8 @@ import dato from "./dato.png";
 import hora from "./hora.png";
 import fecha from "./fecha.png";
 import idSensor from "./id.png"
+import noVerClaveAzul from "./NoVerClaveAzul.png"
+import verClaveAzul from './verClaveAzul1.png'
 
 export {
   ajustes,
@@ -85,5 +87,7 @@ export {
   dato,
   hora,
   idSensor,
-  fecha
+  fecha,
+  noVerClaveAzul,
+  verClaveAzul
 };

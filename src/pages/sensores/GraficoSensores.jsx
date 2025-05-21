@@ -8,8 +8,12 @@ export default function GraficoSensor({ datos }) {
   const maxValor = Math.ceil(Math.max(...datos.map((item) => item.valor)));  // Redondeamos hacia arriba el valor máximo
 
   return (
-    <div className="bg-white w-[92%] shadow-lg my-2 mx-auto rounded-xl">
-      <h2 className="text-center text-xl font-semibold mb-2 mt-2">Registro de sensores</h2>
+    <div className="bg-white w-[92%] shadow-lg my-2 mx-auto rounded-xl ">
+      <h2 className="text-center text-xl font-semibold mb-2 mt-2 ">Registro de sensores</h2>
+      <div className="overflow-x-auto w-full">
+      <div style={{ width: `${datos.length * 50}px`, minWidth: "100%" }}>
+
+
       {/* ResponsiveContainer asegura que el gráfico se ajuste bien en diferentes tamaños de pantalla */}
       <ResponsiveContainer width="100%" height={400}>
         {/* LineChart es el componente principal para dibujar un gráfico de líneas */}
@@ -33,6 +37,8 @@ export default function GraficoSensor({ datos }) {
           <Line type="monotone" dataKey="valor" stroke="#3CB23C" strokeWidth={2} dot={{ r: 5 }} />
         </LineChart>
       </ResponsiveContainer>
+      </div>
+      </div>
     </div>
   );
 }

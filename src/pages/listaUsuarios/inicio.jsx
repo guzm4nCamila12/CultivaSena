@@ -42,11 +42,16 @@ const Inicio = () => {
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [usuarioEliminado,setUsuarioEliminado] = useState();
+  const [usuarioEliminado, setUsuarioEliminado] = useState();
 
   // Obtiene los usuarios al cargar el componente 
   useEffect(() => {
-    getUsuarios().then((data) => setUsuarios(data));
+    getUsuarios().then((data) => {
+
+      const usuariosFiltrados = data.filter(usuario => usuario.id_rol !== 3);
+
+      setUsuarios(usuariosFiltrados)
+    });
   }, []);
 
   // Función para convertir el id_rol a su nombre correspondiente
@@ -285,12 +290,12 @@ const Inicio = () => {
 
   // Define las columnas de la tabla
   const columnas = [
-    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil},
-    { key: "nombre", label: "Nombre", icon2:nombreIcon },
-    { key: "telefono", label: "Teléfono", icon:telefono, icon2: telefono },
-    { key: "correo", label: "Correo", icon:correo, icon2:correo },
-    { key: "id_rol", label: "Rol", transform: obtenerRol, icon:rol, icon2:rol },
-    { key: "acciones", label: "Acciones", icon2:ajustes },
+    { key: "fotoPerfil", label: "Foto", icon: fotoPerfil },
+    { key: "nombre", label: "Nombre", icon2: nombreIcon },
+    { key: "telefono", label: "Teléfono", icon: telefono, icon2: telefono },
+    { key: "correo", label: "Correo", icon: correo, icon2: correo },
+    { key: "id_rol", label: "Rol", transform: obtenerRol, icon: rol, icon2: rol },
+    { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
   // Definición de las acciones que se pueden hacer en una fila
@@ -312,7 +317,7 @@ const Inicio = () => {
             <button
               onClick={() => setModalSinFincasAbierto(true)}
               className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-              <img src={sinFincas} alt="Ver" className="absolute"/>
+              <img src={sinFincas} alt="Ver" className="absolute" />
             </button>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver
@@ -322,7 +327,7 @@ const Inicio = () => {
         {fila.id_rol === "Admin" && (
           <div className="relative group">
             <Link to={`/lista-fincas/${fila.id}`} className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-                <img src={ver} alt="Ver" className="absolute"/>
+              <img src={ver} alt="Ver" className="absolute" />
               <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                 Ver
               </span>
@@ -333,7 +338,7 @@ const Inicio = () => {
           <button
             onClick={() => abrirModalEliminar(fila.id)}
             className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={eliminar} alt="Eliminar" className="absolute"/>
+            <img src={eliminar} alt="Eliminar" className="absolute" />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar

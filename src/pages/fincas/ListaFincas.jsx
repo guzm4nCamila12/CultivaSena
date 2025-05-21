@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import MostrarInfo from '../../components/mostrarInfo';
-import { acctionSucessful } from "../../components/alertSuccesful";
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
 import { useFincas } from '../../hooks/useFincas';
 import {fincasIcon,zonasIcon,sensoresIcon,alternos,ajustes,editar,eliminar} from '../../assets/icons/IconsExportation';

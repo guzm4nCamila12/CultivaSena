@@ -13,6 +13,7 @@ import SensoresZona from "../pages/sensores/SensoresZonas"
 import ListaSensores from "../pages/sensores/ListaSensores";
 import VerDatoSensor from '../pages/sensores/VerDatoSensores'
 import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
+import inicioAlterno from "../pages/listaUsuarios/inicioAlterno";
 
 
 function AppRouter() {
@@ -25,6 +26,7 @@ function AppRouter() {
         <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} allowedRoles={[1,2]}/>} />
         <Route path="/agregar-finca/:id" element={<ProtectedRoute element={CrearFinca} allowedRoles={[1,2]}/>} />
         <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} allowedRoles={[1,2]}/>} />
+        <Route path="/inicio-alterno" element={<ProtectedRoute element={inicioAlterno} allowedRoles={[3]}/>} />
         <Route path="/alternos/:id" element={<ProtectedRoute element={AlternosFincas} allowedRoles={[1,2,3]}/>} />
         <Route path="/zonas/:id/:idUser" element={<ProtectedRoute element={ListaZonas} allowedRoles={[1,2,3]}/>} />
         <Route path="/actividadesZonas/:id" element={<ProtectedRoute element={ActividadesZonas} allowedRoles={[1,2,3]}/>} />

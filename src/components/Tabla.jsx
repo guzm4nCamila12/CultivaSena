@@ -185,7 +185,7 @@ Tabla.propTypes = {
   ).isRequired,
   datos: PropTypes.array.isRequired,
   titulo: PropTypes.string.isRequired,
-  acciones: PropTypes.func.isRequired,
+  acciones: PropTypes.func,
   onAddUser: PropTypes.func,
   mostrarAgregar: PropTypes.bool,
 };

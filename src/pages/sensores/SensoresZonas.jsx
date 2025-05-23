@@ -110,8 +110,10 @@ function Sensores() {
   }
 
   //se declaran las acciones de la tabla
+  
   const acciones = (fila) => (
-    <div className="flex justify-center gap-4">
+    rol !== "3" ? (
+      <div className="flex justify-center gap-4">
       <div className="relative group">
         <button
           className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -144,6 +146,23 @@ function Sensores() {
         </button>
       </div>
     </div>
+    ) : (
+      <div className="flex justify-center gap-4">
+      <div className="relative group">
+        <Link to={`/datos-sensor/${fila.id}`}>
+          <button
+            className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={ver} alt="Ver" className='absolute'/>
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver Datos
+            </span>
+          </button>
+        </Link>
+      </div>
+     
+    </div>
+    )
+   
   );
 
   //modal para editar, se guarda el sensor traido en el estado de sensorEditar
@@ -375,16 +394,18 @@ function Sensores() {
       )
     }
   }
+  const agregar = rol !== "3";
 
   return (
     <div>
       <NavBar />
+      
       <MostrarInfo
         titulo={`Sensores de la zona: ${zonas.nombre}`}
         columnas={columnas}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true}
+        mostrarAgregar={agregar}
         datos={sensores.map((sensor, index) => ({
           ...sensor, "#": index + 1,
           estado: (

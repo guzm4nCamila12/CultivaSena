@@ -18,6 +18,7 @@ import FormularioModal from "../../components/modals/FormularioModal";
 import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
 import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
+import { Alerta } from "../../assets/img/imagesExportation";
 
 function Sensores() {
   //estados para almacenar el usuario, su finca, los sensores de la finca, los sensores a eliminar o editar y los estados de los modales
@@ -307,9 +308,21 @@ function Sensores() {
       showCancelButton: true,
       inputValue,
       preConfirm: () => {
-        const value = Swal.getInput()?.value;
+        const value = Swal.getInput()?.value.trim();
         if (!value) {
-          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡Este campo es obligatorio!`
+          });
+          return false;
+        }
+        if (/\s/.test(value)) {
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡La MAC no puede contener espacios!`
+          });
           return false;
         }
         inputValue = value;

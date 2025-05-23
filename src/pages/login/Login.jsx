@@ -22,7 +22,7 @@ const Login = () => {
 
   // Verifica si hay un token en el almacenamiento local y lo elimina
   // Esto se hace para evitar que el usuario permanezca en la página de inicio de sesión si ya ha iniciado sesión
-  if(localStorage.getItem('token')){
+  if (localStorage.getItem('token')) {
     localStorage.removeItem('token');
   }
   // Función que maneja el envío del formulario de inicio de sesión
@@ -30,7 +30,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const inicioUsuario = { telefono, clave };
-    if(!telefono && !clave){
+    if (!telefono && !clave) {
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
@@ -38,7 +38,7 @@ const Login = () => {
       })
       return
     }
-    if(!telefono){
+    if (!telefono) {
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
@@ -46,7 +46,7 @@ const Login = () => {
       })
       return
     }
-    if(!clave){
+    if (!clave) {
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
@@ -121,9 +121,16 @@ const Login = () => {
               <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
               <input
                 type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 placeholder="Ingrese su número de teléfono"
                 value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value)) {
+                    setTelefono(value)
+                  }
+                }}
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
                   backgroundImage: `url(${Icons.telefonoGris})`,
@@ -154,7 +161,7 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold drop-shadow-xl">
+                className="w-full p-3 bg-[#39A900] hover:bg-[#005F00] text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 rounded-3xl font-bold text-xl drop-shadow-xl">
                 Iniciar sesión
               </button>
             </form>
@@ -182,9 +189,16 @@ const Login = () => {
                     <form onSubmit={handleSubmit} className="space-y-3">
                       <input
                         type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         placeholder="Número de teléfono"
                         value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (/^\d*$/.test(value)) {
+                            setTelefono(value)
+                          }
+                        }}
                         required
                         className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                         style={{
@@ -216,11 +230,11 @@ const Login = () => {
                       <button
                         type="submit"
                         className="w-full p-2 bg-[#39A900] hover:bg-[#005F00] shadow-black shadow-sm text-white hover:bg-white-600 focus:outline-none focus:ring-2 focus:ring-white-500 text-2xl rounded-3xl font-bold drop-shadow-xl">
-                        Iniciar Sesión
+                        Iniciar sesión
                       </button>
                     </form>
                   </div>
-                  <a  className='m-auto text-white'>¿Olvidó su contraseña?</a>
+                  <a className='m-auto text-white'>¿Olvidó su contraseña?</a>
                 </div>
               </div>
             </div>

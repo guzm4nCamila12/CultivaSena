@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 //importacion de iconos
 import * as Icons from '../../assets/icons/IconsExportation'
+import {Alerta} from '../../assets/img/imagesExportation'
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
@@ -371,10 +372,23 @@ function ActivarSensores() {
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       inputValue,
-      preConfirm: () => {
-        const value = Swal.getInput()?.value;
+      preConfirm: async () => {
+        const value = Swal.getInput()?.value.trim();
         if (!value) {
-          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡Este campo es obligatorio!`
+          });
+          return false;
+        }
+
+        if(/\s/.test(value)){
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡La MAC no puede contener espacios!`
+          });
           return false;
         }
         inputValue = value;

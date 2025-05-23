@@ -1,3 +1,4 @@
+// File: src/pages/actividades/zonas/ActividadesZonas.jsx
 
 import React from 'react';
 import { useParams } from 'react-router-dom';
@@ -14,9 +15,12 @@ export default function ActividadesZonas() {
     const { id } = useParams();
 
     const {
-        actividades = [], zonas = {}, etapas, actividadesPorEtapa, etapaSeleccionada, actividadEditar, modalEliminarAbierto, modalActividadInsertar,
-        modalEditarActividad, setModalEliminarAbierto, setModalEditarActividad, handleEditarActividadChange, handleEtapaChange,
-        handleEditarActividad, handleEliminarActividad, abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear
+        actividades, zonas, etapas, actividadesPorEtapa, etapaSeleccionada, nuevaActividad, actividadEditar,
+        modalEliminarAbierto, modalActividadInsertar, modalEditarActividad,
+        setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad,
+        handleActividadChange, handleEtapaChange, handleCrearActividad,
+        handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
+        abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear
     } = useActividadesZona(Number(id));
 
     const columnas = [
@@ -42,6 +46,8 @@ export default function ActividadesZonas() {
         </div>
     );
 
+    const activ = actividadesPorEtapa[etapaSeleccionada] || [];
+
     return (
         <>
             <Navbar />
@@ -54,135 +60,206 @@ export default function ActividadesZonas() {
                 onAddUser={() => handleAbrirModalCrear(Number(id))}
             />
 
-            {/* Crear Actividad Overlay */}
+            {/* Modal Crear */}
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    {/* formulario de creación (sin cambios) */}
-                </div>
-            )}
-
-            {/* Editar Actividad Overlay */}
-            {modalEditarActividad && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Ver actividad</h5>
-                        <hr />
-                        <form onSubmit={handleEditarActividad}>
-                            {/* Tipo de cultivo */}
-                            <div className="relative w-full mt-2">
+                        <h5 className="text-2xl font-bold mb-4 text-center">Crear actividad</h5>
+                        <form onSubmit={handleCrearActividad}>
+                            <div className="mb-2">
                                 <label className="font-semibold">Tipo de cultivo</label>
-                                <div className="flex gap-4 mt-2">
-                                    <label className="flex items-center gap-2">
-                                        <input
-                                            type="radio"
-                                            name="cultivo"
-                                            value="Café"
-                                            checked={actividadEditar.cultivo === 'Café'}
-                                            onChange={handleEditarActividadChange}
-                                            required
-                                        />
-                                        Café
-                                    </label>
-                                    <label className="flex items-center gap-2">
-                                        <input
-                                            type="radio"
-                                            name="cultivo"
-                                            value="Mora"
-                                            checked={actividadEditar.cultivo === 'Mora'}
-                                            onChange={handleEditarActividadChange}
-                                            required
-                                        />
-                                        Mora
-                                    </label>
+                                <div className="flex gap-4 mt-1">
+                                    {["Café", "Mora"].map(cultivo => (
+                                        <label key={cultivo} className="flex items-center gap-2">
+                                            <input
+                                                type="radio"
+                                                name="cultivo"
+                                                value={cultivo}
+                                                required
+                                                onChange={handleActividadChange}
+                                            />
+                                            {cultivo}
+                                        </label>
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Etapa */}
-                            <div className="relative w-full mt-4">
+                            <div className="mb-2">
                                 <label className="font-semibold">Etapa</label>
-                                <select
-                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
-                                    name="etapa"
-                                    value={actividadEditar.etapa || ''}
-                                    onChange={handleEtapaChange}
-                                    required
-                                >
-                                    <option value="">Selecciona etapa</option>
-                                    {etapas.map(e => (
-                                        <option key={e.value} value={e.label}>{e.label}</option>
+                                <select name="etapa" required onChange={handleEtapaChange} className="w-full border p-2 rounded-3xl">
+                                    <option value="">Seleccione etapa</option>
+                                    {etapas.map(et => (
+                                        <option key={et.value} value={et.value}>{et.label}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            {/* Actividad */}
-                            <div className="relative w-full mt-4">
+                            <div className="mb-2">
+                                <label className="font-semibold">Actividad</label>
+                                <select name="actividad" required onChange={handleActividadChange} className="w-full border p-2 rounded-3xl">
+                                    <option value="">Seleccione actividad</option>
+                                    {activ.map(act => (
+                                        <option key={act.value} value={act.label}>{act.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mb-2">
+                                <label className="font-semibold">Descripción</label>
+                                <input
+                                    type="text"
+                                    name="descripcion"
+                                    placeholder="Describa la actividad"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
+                                    onChange={handleActividadChange}
+                                />
+                            </div>
+
+                            <div className="mb-2">
+                                <label className="font-semibold">Fecha Inicio</label>
+                                <input
+                                    type="datetime-local"
+                                    name="fechainicio"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
+                                    onChange={handleActividadChange}
+                                />
+                            </div>
+
+                            <div className="mb-4">
+                                <label className="font-semibold">Fecha Fin</label>
+                                <input
+                                    type="datetime-local"
+                                    name="fechafin"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
+                                    onChange={handleActividadChange}
+                                />
+                            </div>
+
+                            <div className="flex gap-4">
+                                <button
+                                    type="button"
+                                    className="w-full px-4 py-3 text-lg bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+                                    onClick={() => setModalActividadInsertar(false)}>
+                                    Cancelar
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-2 rounded-full text-xl">
+                                    Crear
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Editar */}
+            {modalEditarActividad && (
+                <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-3xl w-[90%] sm:w-1/2 md:w-1/3">
+                        <h2 className="text-xl font-bold mb-4 text-center">Editar Actividad</h2>
+                        <form onSubmit={handleEditarActividad}>
+                            <div className="mb-2">
+                                <label className="font-semibold">Tipo de cultivo</label>
+                                <div className="flex gap-4 mt-1">
+                                    {["Café", "Mora"].map(cultivo => (
+                                        <label key={cultivo} className="flex items-center gap-2">
+                                            <input
+                                                type="radio"
+                                                name="cultivo"
+                                                value={cultivo}
+                                                checked={actividadEditar.cultivo === cultivo}
+                                                onChange={handleEditarActividadChange}
+                                                required
+                                            />
+                                            {cultivo}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mb-2">
+                                <label className="font-semibold">Etapa</label>
+                                <select
+                                    name="etapa"
+                                    required
+                                    onChange={handleEtapaChange}
+                                    value={actividadEditar.etapa || ''}
+                                    className="w-full border p-2 rounded-3xl"
+                                >
+                                    <option value="">Seleccione etapa</option>
+                                    {etapas.map(et => (
+                                        <option key={et.value} value={et.label}>{et.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mb-2">
                                 <label className="font-semibold">Actividad</label>
                                 <select
-                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
                                     name="actividad"
+                                    required
                                     value={actividadEditar.actividad || ''}
                                     onChange={handleEditarActividadChange}
-                                    required
+                                    className="w-full border p-2 rounded-3xl"
                                 >
-                                    <option value="">Selecciona actividad</option>
+                                    <option value="">Seleccione actividad</option>
                                     {(actividadesPorEtapa[etapaSeleccionada] || []).map(act => (
                                         <option key={act.value} value={act.label}>{act.label}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            {/* Descripción */}
-                            <div className="relative w-full mt-4">
+                            <div className="mb-2">
                                 <label className="font-semibold">Descripción</label>
                                 <input
-                                    className="w-full pl-3 py-2 border border-gray-300 rounded-3xl"
                                     type="text"
                                     name="descripcion"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
                                     value={actividadEditar.descripcion || ''}
                                     onChange={handleEditarActividadChange}
-                                    required
                                 />
                             </div>
 
-                            {/* Fecha inicio */}
-                            <div className="relative w-full mt-4">
-                                <label className="font-semibold">Fecha inicio</label>
+                            <div className="mb-2">
+                                <label className="font-semibold">Fecha Inicio</label>
                                 <input
                                     type="datetime-local"
                                     name="fechainicio"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
                                     value={actividadEditar.fechainicio ? new Date(actividadEditar.fechainicio).toISOString().slice(0, 16) : ''}
                                     onChange={handleEditarActividadChange}
-                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
-                                    required
                                 />
                             </div>
 
-                            {/* Fecha fin */}
-                            <div className="relative w-full mt-4">
-                                <label className="font-semibold">Fecha finalización</label>
+                            <div className="mb-4">
+                                <label className="font-semibold">Fecha Fin</label>
                                 <input
                                     type="datetime-local"
                                     name="fechafin"
+                                    required
+                                    className="w-full border p-2 rounded-3xl"
                                     value={actividadEditar.fechafin ? new Date(actividadEditar.fechafin).toISOString().slice(0, 16) : ''}
                                     onChange={handleEditarActividadChange}
-                                    className="w-full pl-3 pr-4 py-2 border border-gray-300 rounded-3xl"
-                                    required
                                 />
                             </div>
 
-                            {/* Botones */}
-                            <div className="flex gap-4 mt-6 sm:text-xl">
+                            <div className="flex gap-4">
                                 <button
                                     type="button"
-                                    className="w-full px-4 py-3 bg-[#00304D] text-white rounded-3xl"
-                                    onClick={() => setModalEditarActividad(false)}
-                                >
+
+                                    className="w-full sm:px-4 py-2 sm:py-3 bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
+
+                                    onClick={() => setModalEditarActividad(false)}>
                                     Cancelar
                                 </button>
                                 <button
-                                    type="submit"
-                                    className="w-full bg-[#009E00] text-white rounded-3xl"
-                                >
+                                    type="submit" className="w-full bg-[#009E00] lg:px-2 hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl ">
                                     Guardar y actualizar
                                 </button>
                             </div>
@@ -191,14 +268,12 @@ export default function ActividadesZonas() {
                 </div>
             )}
 
-            {/* Eliminar Actividad */}
+            {/* Modal Confirmación Eliminar */}
             <ConfirmationModal
                 isOpen={modalEliminarAbierto}
-                title="Eliminar Actividad"
-                message="¿Seguro que deseas eliminar esta actividad?"
                 onCancel={() => setModalEliminarAbierto(false)}
                 onConfirm={handleEliminarActividad}
-                confirmText="Sí, eliminar"
+                message="¿Estás seguro de que deseas eliminar esta actividad?"
             />
         </>
     );

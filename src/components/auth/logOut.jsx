@@ -1,22 +1,37 @@
-//importaciones necesarias de react
-import { React, useState } from 'react';
+// Importación del hook useState para manejar estado local
+import React, { useState } from 'react';
+
+// Hook de React Router para redirigir a otras rutas
 import { useNavigate } from 'react-router-dom';
-//imgs modales
-import ConfirmarEliminar from '../../assets/img/eliminar.png'
-import goodBye from "../../assets/img/sesionFinalizada.png"
-//componentes reutilizados
+
+// Imagen mostrada al cerrar sesión (para la alerta visual)
+import goodBye from "../../assets/img/sesionFinalizada.png";
+
+// Función personalizada para mostrar alertas tipo "éxito"
 import { acctionSucessful } from "../../components/alertSuccesful";
-//icons
-import salir from "../../assets/icons/salir.png"
+
+// Ícono del botón de cerrar sesión
+import salir from "../../assets/icons/log-out-1.png";
+
+// Componente modal de confirmación que aparece antes de cerrar sesión
+import ConfirmationModal from '../confirmationModal/confirmationModal';
 
 const LogOut = () => {
-  const navigate = useNavigate(); // Obtén el hook useNavigate
-  const [modalLogoutAbierto, setModallogoutAbierto] = useState(false);
+  // Hook para manejar navegación programática
+  const navigate = useNavigate();
+
+  // Estado para controlar si el modal de confirmación está visible
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Función que maneja el cierre de sesión
   const handleLogout = () => {
-    // Eliminar el token del localStorage
+    // Eliminar el token del localStorage (fin de sesión)
     localStorage.removeItem('token');
-    // Redirigir al usuario a la página de login
+
+    // Redirigir al usuario al inicio (o página de login)
     navigate('/');
+
+    // Mostrar una alerta visual 
     acctionSucessful.fire({
       imageUrl: goodBye,
       imageAlt: 'Icono personalizado',
@@ -26,38 +41,25 @@ const LogOut = () => {
 
   return (
     <div>
-      {/* Otros contenidos de tu componente */}
-      <button onClick={() => setModallogoutAbierto(true)} className='text-white p-1 m-2 flex justify-items-start hover:bg-[#184a68]'>
-        <img src={salir} alt="" className="mr-1 h-5" />
+      {/* Botón que abre el modal de confirmación */}
+      <button
+        onClick={() => setModalOpen(true)}
+        className='text-white p-1 m-2 flex justify-items-start hover:bg-[#184a68]'
+      >
+        <img src={salir} alt="" className="mr-2 h-6" />
         Cerrar sesión
       </button>
 
-      {modalLogoutAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/4 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-3xl font-bold mb-2 text-center">Cerrar sesión</h5>
-            <hr />
-            <div className="flex justify-center my-2">
-              <img src={ConfirmarEliminar} alt="icono" />
-            </div>
-            <p className="text-2xl text-center font-semibold">¿Seguro que quieres salir?</p>
-            <div className="flex justify-between mt-6 space-x-4">
-              <button
-                className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                onClick={() => setModallogoutAbierto(false)}
-              >
-                Cancelar
-              </button>
-              <button
-                className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-3 rounded-full text-lg"
-                onClick={handleLogout}
-              >
-                Sí, salir
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Modal de confirmación para evitar cierre accidental */}
+      <ConfirmationModal
+        isOpen={modalOpen}                      // Estado para mostrar/ocultar modal
+        onCancel={() => setModalOpen(false)}   // Acción al cancelar
+        onConfirm={handleLogout}               // Acción al confirmar
+        title="Cerrar sesión"                  // Título del modal
+        message="¿Seguro que quieres salir?"   // Mensaje del modal
+        confirmText="Sí, salir"                // Texto del botón de confirmación
+        cancelText="Cancelar"                  // Texto del botón de cancelar
+      />
     </div>
   );
 };

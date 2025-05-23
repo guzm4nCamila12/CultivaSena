@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 //componentes reutilizados
-import Gov from '../../components/gov';
+// import Gov from '../../components/gov';
 
 export default function Login() {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth); // Iniciamos con el tamaño actual de la ventana

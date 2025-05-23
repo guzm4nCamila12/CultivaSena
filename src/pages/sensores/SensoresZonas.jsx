@@ -1,24 +1,12 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-//iconos de las columnas
-import mac from "../../assets/icons/mac.png";
-import descripcion from "../../assets/icons/descripcion.png"
-import estado from "../../assets/icons/estado.png"
-import nombre from "../../assets/icons/sensores.png"
-import ajustes from "../../assets/icons/acciones.png";
-//iconos de las acciones
-import editar from "../../assets/icons/editar.png";
-import ver from "../../assets/icons/ver.png"
-import eliminar from "../../assets/icons/eliminar.png";
-//iconos de los modales
-import nombreZona from "../../assets/icons/sensorAzul.png";
-import descripcionAzul from "../../assets/icons/descripcionAzul.png";
+import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
+import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,editar,eliminar,descripcionAzul,sensorAzul} from '../../assets/icons/IconsExportation'
 //librerias de alertas
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content'
 //imgs de los modales
-import ConfirmarEliminar from "../../assets/img/eliminar.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 //componentes reutilizados
@@ -95,10 +83,10 @@ function Sensores() {
 
   //se declaran las columnas de la tabla
   const columnas = [
-    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "nombre", label: "Nombre", icon2: sensoresIcon },
     { key: "mac", label: "MAC", icon: mac, icon2: mac },
     { key: "descripcion", label: "Descripción", icon: descripcion, icon2: descripcion },
-    { key: "estado", label: "Inactivo/Activo", icon: estado, icon2: estado },
+    { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
@@ -128,7 +116,7 @@ function Sensores() {
         <Link to={`/datos-sensor/${fila.id}`}>
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-            <img src={ver} alt="Ver" className='absolute'/>
+            <img src={ver} alt="Ver" className='absolute' />
             <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               Ver Datos
             </span>
@@ -420,11 +408,12 @@ function Sensores() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="relative w-full mt-2">
-                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="nombre"
+                  autoComplete="off"
                   placeholder="Nombre"
                   required
                   onChange={handleChange} />
@@ -436,6 +425,7 @@ function Sensores() {
                   type="text"
                   name="descripcion"
                   placeholder="Descripción"
+                  autoComplete="off"
                   onChange={handleChange} />
               </div>
               <div className="flex gap-4 mt-4">
@@ -460,11 +450,12 @@ function Sensores() {
             <hr />
             <form onSubmit={handlesensorEditar}>
               <div className="relative w-full mt-2">
-                <img src={nombreZona} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
+                <img src={sensorAzul} alt="icono" className="absolute left-4 top-1/2 transform -translate-y-1/2" />
                 <input
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   name="nombre"
                   placeholder="Nombre"
+                  autoComplete="off"
                   value={sensorEditar.nombre}
                   type="text"
                   onChange={handleChangeEditar} />
@@ -475,6 +466,7 @@ function Sensores() {
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
                   type="text"
                   name="descripcion"
+                  autoComplete="off"
                   placeholder="Descripción"
                   value={sensorEditar.descripcion}
                   onChange={handleChangeEditar} />
@@ -493,32 +485,19 @@ function Sensores() {
           </div>
         </div>
       )}
-
-      {modalEliminarAbierto && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-            <h5 className="text-2xl font-bold mb-4 text-center">Eliminar sensor</h5>
-            <hr />
-            <form onSubmit={HandleEliminarSensor}>
-              <div className="flex justify-center my-0">
-                <img src={ConfirmarEliminar} alt="icono" />
-              </div>
-              <p className="text-2xl text-center font-semibold">¿Estás seguro?</p>
-              <p className="text-gray-500 text-center text-lg">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado.nombre}</strong> de manera permanente.</p>
-              <div className="flex justify-between mt-6 space-x-4">
-                <button
-                  className="w-full bg-[#00304D] hover:bg-[#021926] text-white font-bold py-3 rounded-full text-lg"
-                  onClick={() => setModalEliminarAbierto(false)}>
-                  Cancelar
-                </button>
-                <button className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg">
-                  Sí, eliminar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <ConfirmationModal
+        isOpen={modalEliminarAbierto}
+        onCancel={() => setModalEliminarAbierto(false)}
+        onConfirm={HandleEliminarSensor}
+        title="Eliminar Sensor"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className='text-gray-400'>Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</h4>
+          </>
+        }
+        confirmText="Sí, eliminar"
+      />
     </div>
   );
 }

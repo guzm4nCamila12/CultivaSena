@@ -1,11 +1,7 @@
 //importaciones necesarios de react
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-//icons de las columnas
-import dato from "../../assets/icons/dato.png";
-import hora from "../../assets/icons/hora.png";
-import fecha from "../../assets/icons/fecha.png";
-import idSensor from "../../assets/icons/id.png"
+import * as Icons from '../../assets/icons/IconsExportation'
 //componentes reutilizados
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
@@ -95,10 +91,10 @@ export default function VerSensores() {
   const datosFinales = filtrarDatos();
 
   const columnas = [
-    { key: "#", icon2: idSensor },
-    { key: "fecha", label: "Fecha", icon: fecha, icon2: fecha },
-    { key: "hora", label: "Hora", icon: hora, icon2: hora },
-    { key: "valor", label: "Datos", icon: dato, icon2: dato }
+    { key: "#", icon2: Icons.idSensor },
+    { key: "fecha", label: "Fecha", icon: Icons.fecha, icon2: Icons.fecha },
+    { key: "hora", label: "Hora", icon: Icons.hora, icon2: Icons.hora },
+    { key: "valor", label: "Datos", icon: Icons.dato, icon2: Icons.dato }
   ];
 
   // En lugar de datosTabla con lógica de JSX, devolver los datos simples para que los renderice MostrarInfo

@@ -18,7 +18,6 @@ export default function BotonAtras() {
   };
 
   return (
-
     <button
       type="button"
       onClick={irAtras}

@@ -5,17 +5,13 @@ import { useNavigate } from "react-router-dom";
 import Gov from '../../components/gov';
 import { acctionSucessful } from "../../components/alertSuccesful";
 //iconos de input
-import telefonoGris from "../../assets/icons/phone.png"
-import claveGris from "../../assets/icons/claveOculta.png"
-import verClave from "../../assets/icons/eye-open.png"
-import noVerClave from "../../assets/icons/eye-hidden.png"
-import volver from "../../assets/icons/volver.png"
+import {volver,telefonoGris,claveGris,verClave,noVerClave} from "../../assets/icons/IconsExportation"
 //img alerta
 import welcomeIcon from "../../assets/img/inicioSesion.png";
 import alerta from '../../assets/img/alerta.png'
+import { validarTelefono } from "../../utils/validaciones";
 //endpoints para consumir api
 import { login } from "../../services/usuarios/ApiUsuarios";
-
 
 const Login = () => {
   const [telefono, setTelefono] = useState("");
@@ -31,7 +27,6 @@ const Login = () => {
     localStorage.removeItem('token');
   }
   // Función que maneja el envío del formulario de inicio de sesión
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,19 +39,13 @@ const Login = () => {
       })
       return
     }
-    if(!telefono){
-      acctionSucessful.fire({
-        imageUrl: alerta,
-        imageAlt: "Icono alerta",
-        title: 'Ingrese su número de telefono'
-      })
-      return
-    }
+    // if(!validarTelefono(telefono))return
+    
     if(!clave){
       acctionSucessful.fire({
         imageUrl: alerta,
         imageAlt: "Icono alerta",
-        title: 'Ingrese su contraseña'
+        title: '¡Por favor, ingrese su contraseña!'
       })
       return
     }

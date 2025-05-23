@@ -1,5 +1,5 @@
 //URL base de la api
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 //Funcion para obtener todos los usuarios
 export const getUsuarios = async () => {
@@ -68,14 +68,18 @@ export const eliminarUsuario = async (id) => {
 };
 
 // Función para verificar si el correo o teléfono ya existe
-export const verificarExistenciaCorreo = async (correo) => {
+export const verificarExistenciaCorreo = async (correo, idIgnorar = null) => {
   const usuarios = await getUsuarios();
-  const correoExistente = usuarios.find(usuario => usuario.correo === correo);
+  const correoExistente = usuarios.find(
+    usuario => usuario.correo === correo && Number(usuario.id) !== Number(idIgnorar)
+  );
   return correoExistente;
 };
 
-export const verificarExistenciaTelefono = async (telefono) => {
+export const verificarExistenciaTelefono = async (telefono, idIgnorar = null) => {
   const usuarios = await getUsuarios();
-  const telefonoExistente = usuarios.find(usuario => usuario.telefono === telefono);
+  const telefonoExistente = usuarios.find(
+    usuario => usuario.telefono === telefono && Number(usuario.id) !== Number(idIgnorar)
+  );
   return telefonoExistente;
-}
+};

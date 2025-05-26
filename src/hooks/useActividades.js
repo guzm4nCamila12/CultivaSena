@@ -3,16 +3,23 @@ import { useEffect, useState } from 'react';
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import * as Images from '../assets/img/imagesExportation';
+import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
 
 export const useActividadesZona = (idZona) => {
+  const token = localStorage.getItem('token'); // Obtener el token del localStorage
+  const decodedToken = jwtDecode(token); // Decodificar el token
+  console.log("tokens", decodedToken.id, decodedToken.idRol)
+  const idusuario = decodedToken.id;
+  const rolusuario = decodedToken.idRol;
+
   const [actividades, setActividades] = useState([]);
   const [zonas, setZonas] = useState({});
   const [actividadEliminar, setActividadEliminar] = useState(null);
-  
+
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [modalActividadInsertar, setModalActividadInsertar] = useState(false);
   const [modalEditarActividad, setModalEditarActividad] = useState(false);
-  
+
   const [actividadEditar, setActividadEditar] = useState({});
   const [nuevaActividad, setNuevaActividad] = useState({
     idzona: null,
@@ -36,11 +43,11 @@ export const useActividadesZona = (idZona) => {
   ];
 
   const actividadesPorEtapa = {
-    "1": [ { value: "1", label: "Arar o remover el suelo" }, { value: "2", label: "Limpiar las malas hierbas" }, { value: "3", label: "Abonar el campo" }, { value: "4", label: "Otros" } ],
-    "2": [ { value: "1", label: "Poner las semillas en la tierra" }, { value: "2", label: "Regar después de sembrar" }, { value: "3", label: "Cubrir las semillas con tierra" }, { value: "4", label: "Otros" } ],
-    "3": [ { value: "1", label: "Regar para que crezcan bien" }, { value: "2", label: "Aplicar fertilizante" }, { value: "3", label: "Deshierbar el cultivo" }, { value: "4", label: "Otros" } ],
-    "4": [ { value: "1", label: "Recoger los frutos" }, { value: "2", label: "Clasificar la cosecha" }, { value: "3", label: "Empacar lo recolectado" }, { value: "4", label: "Otros" } ],
-    "5": [ { value: "1", label: "Preparar la venta o distribución" }, { value: "2", label: "Organizar el empaque para la venta" }, { value: "3", label: "Llevar los productos al mercado" }, { value: "4", label: "Otros" } ]
+    "1": [{ value: "1", label: "Arar o remover el suelo" }, { value: "2", label: "Limpiar las malas hierbas" }, { value: "3", label: "Abonar el campo" }, { value: "4", label: "Otros" }],
+    "2": [{ value: "1", label: "Poner las semillas en la tierra" }, { value: "2", label: "Regar después de sembrar" }, { value: "3", label: "Cubrir las semillas con tierra" }, { value: "4", label: "Otros" }],
+    "3": [{ value: "1", label: "Regar para que crezcan bien" }, { value: "2", label: "Aplicar fertilizante" }, { value: "3", label: "Deshierbar el cultivo" }, { value: "4", label: "Otros" }],
+    "4": [{ value: "1", label: "Recoger los frutos" }, { value: "2", label: "Clasificar la cosecha" }, { value: "3", label: "Empacar lo recolectado" }, { value: "4", label: "Otros" }],
+    "5": [{ value: "1", label: "Preparar la venta o distribución" }, { value: "2", label: "Organizar el empaque para la venta" }, { value: "3", label: "Llevar los productos al mercado" }, { value: "4", label: "Otros" }]
   };
 
   useEffect(() => {
@@ -104,6 +111,16 @@ export const useActividadesZona = (idZona) => {
 
   const handleEditarActividad = (e) => {
     e.preventDefault();
+
+    // Validar si el usuario con rol 3 quiere editar una actividad que no creó
+    if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        imageAlt: 'Icono personalizado',
+        title: '¡No tienes permiso para editar esta actividad!'
+      });
+      return;
+    }
     const inicio = new Date(actividadEditar.fechainicio);
     const fin = new Date(actividadEditar.fechafin);
     if (fin < inicio) {
@@ -127,6 +144,20 @@ export const useActividadesZona = (idZona) => {
 
   const handleEliminarActividad = (e) => {
     e.preventDefault();
+  
+    const actividad = actividades.find(a => a.id === actividadEliminar);
+  
+    // Verificación de permisos
+    if (rolusuario === 3 && actividad?.idusuario !== idusuario) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        imageAlt: 'Icono personalizado',
+        title: '¡No tienes permiso para eliminar esta actividad!'
+      });
+      setModalEliminarAbierto(false);
+      return;
+    }
+  
     eliminarActividad(actividadEliminar)
       .then(() => setActividades(prev => prev.filter(a => a.id !== actividadEliminar)))
       .catch(console.error);
@@ -137,6 +168,7 @@ export const useActividadesZona = (idZona) => {
       title: '¡Actividad eliminada correctamente!'
     });
   };
+  
 
   const abrirModalEliminar = (id) => {
     setActividadEliminar(id);
@@ -149,7 +181,7 @@ export const useActividadesZona = (idZona) => {
   };
 
   const handleAbrirModalCrear = (idZone) => {
-    setNuevaActividad(prev => ({ ...prev, idzona: idZone }));
+    setNuevaActividad(prev => ({ ...prev, idzona: idZone, idusuario:idusuario }));
     setModalActividadInsertar(true);
   };
 

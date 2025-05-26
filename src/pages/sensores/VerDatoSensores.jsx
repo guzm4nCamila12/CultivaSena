@@ -40,6 +40,8 @@ export default function VerSensores() {
   const { id } = useParams();
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
+  const [paginaActual, setPaginaActual] = useState(1);
+
 
   useEffect(() => {
     SetCargando(true)
@@ -64,7 +66,7 @@ export default function VerSensores() {
 
             const historialFiltrado = historial
               .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) // Ordenar del más reciente al más antiguo
-              .slice(0, 10); // Tomar los 10 más recientes
+              .slice(0, 24); // Tomar los 10 más recientes
 
             console.log("Historial filtrado (últimos 5 min):", historialFiltrado);
 
@@ -122,6 +124,12 @@ export default function VerSensores() {
   }));
 
 
+  const itemsPorPagina = 12;
+  const totalPaginas = Math.ceil(datosTabla.length / itemsPorPagina);
+  const inicio = (paginaActual - 1) * itemsPorPagina;
+  const fin = inicio + itemsPorPagina;
+  const datosPaginados = datosTabla.slice(inicio, fin);
+
 
   return (
     <div >
@@ -145,6 +153,8 @@ export default function VerSensores() {
           </div>
         </div>
       </div>
+
+
       {cargando ? (
         <div className="flex justify-center items-center">
           <p>Cargando datos...</p>
@@ -152,19 +162,35 @@ export default function VerSensores() {
       ) : hayDatos ? (
         <div>
           <div className='flex flex-row justify-center'>
-
             <GraficoSensor datos={datosFinales} />
           </div>
 
           <MostrarInfo
             columnas={columnas}
             mostrarAgregar={false}
-            datos={datosTabla} // Pasamos los datos ya procesados para la tabla
+            datos={datosTabla.slice((paginaActual - 1) * 12, paginaActual * 12)}
           />
+
+          {datosTabla.length > 12 && (
+            <div className="flex justify-center mt-4 space-x-2">
+              {[...Array(Math.ceil(datosTabla.length / 12))].map((_, i) => (
+                <button
+                  key={i}
+                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+                  onClick={() => setPaginaActual(i + 1)}
+                >
+                  Página {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       ) : (
-        <div className='flex flex-row justify-center '><p className='m-0'>no hay datos</p></div>
+        <div className='flex flex-row justify-center '>
+          <p className='m-0'>No hay datos</p>
+        </div>
       )}
+
 
     </div>
   );

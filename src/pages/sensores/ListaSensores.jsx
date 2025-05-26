@@ -377,10 +377,23 @@ function ActivarSensores() {
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
       inputValue,
-      preConfirm: () => {
-        const value = Swal.getInput()?.value;
+      preConfirm: async () => {
+        const value = Swal.getInput()?.value.trim();
         if (!value) {
-          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡Este campo es obligatorio!`
+          });
+          return false;
+        }
+
+        if(/\s/.test(value)){
+          acctionSucessful.fire({
+            imageUrl: Alerta,
+            imageAlt: 'Icono personalizado',
+            title: `¡La MAC no puede contener espacios!`
+          });
           return false;
         }
         inputValue = value;

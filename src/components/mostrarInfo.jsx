@@ -8,7 +8,7 @@ import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
 
-function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar }) {
+function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras=true }) {
   const [busqueda, setBusqueda] = useState("");
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem('vistaActiva') || 'tarjetas');
   const handleVistaChange = (vista) => { setVistaActiva(vista) };
@@ -27,10 +27,9 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4 mx-auto">
         {/* IZQUIERDA */}
         <div className="flex items-center ">
-          <BotonAtras />
-          <h1 className="text-2xl font-semibold pl-4">{titulo}</h1>
+        {mostrarBotonAtras && <BotonAtras />} {/* Mostrar solo si se permite */}
+        <h1 className="text-2xl font-semibold pl-4">{titulo}</h1>
         </div>
-
         {/* DERECHA */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">

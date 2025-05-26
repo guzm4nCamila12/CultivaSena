@@ -21,7 +21,8 @@ export const useActividadesZona = (idZona) => {
     actividad: "",
     descripcion: "",
     fechainicio: "",
-    fechafin: ""
+    fechafin: "",
+    idusuario: null
   });
 
   const [etapaSeleccionada, setEtapaSeleccionada] = useState("");

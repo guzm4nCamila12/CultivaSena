@@ -412,7 +412,6 @@ function ActivarSensores() {
             onChange={onChange}
           >
             <option value="">Seleccionar zona </option>
-            <option value=""> Sin zona </option>
           </select>
         </div>
       )
@@ -425,7 +424,6 @@ function ActivarSensores() {
           onChange={onChange}
         >
           <option value="">Seleccionar zona </option>
-          <option value=""> Sin zona </option>
           {zonas.map((zona) => (
             <option key={zona.id} value={zona.id}>
               {zona.nombre}

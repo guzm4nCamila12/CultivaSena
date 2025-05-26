@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Gov from '../../components/gov';
 import { acctionSucessful } from "../../components/alertSuccesful";
 //iconos de input
-import * as Icons from "../../assets/icons/IconsExportation"
+import {volver,telefonoGris,claveGris,verClave,noVerClave} from "../../assets/icons/IconsExportation"
 //img alerta
 import welcomeIcon from "../../assets/img/inicioSesion.png";
 import alerta from '../../assets/img/alerta.png'
+import { validarTelefono } from "../../utils/validaciones";
 //endpoints para consumir api
 import { login } from "../../services/usuarios/ApiUsuarios";
 
@@ -113,7 +114,7 @@ const Login = () => {
           style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}>
         </div>
         <div className="flex flex-col items-center z-10 gap-16 px-5">
-          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={Icons.volver} alt="" className='w-2 m-auto' /></button>
+          <button className='absolute p-2 rounded-full w-7   text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
           <img src="logoC.svg" alt="" className="h-24 md:h-[120px] transition-all" />
           <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500"
             style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
@@ -133,7 +134,7 @@ const Login = () => {
                 }}
                 className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                 style={{
-                  backgroundImage: `url(${Icons.telefonoGris})`,
+                  backgroundImage: `url(${telefonoGris})`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'left 12px center',
                   backgroundSize: '20px 20px'
@@ -147,7 +148,7 @@ const Login = () => {
                   onChange={(e) => setClave(e.target.value)}
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{
-                    backgroundImage: `url(${Icons.claveGris})`,
+                    backgroundImage: `url(${claveGris})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundPosition: 'left 12px center',
                     backgroundSize: '20px 20px',
@@ -156,7 +157,7 @@ const Login = () => {
                   onClick={handleToggle}
                   className="absolute right-3 mt-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                   <img
-                    src={mostrarClave ? Icons.verClave : Icons.noVerClave} alt="Toggle Visibility" />
+                    src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                 </div>
               </div>
               <button
@@ -179,7 +180,7 @@ const Login = () => {
             style={{ backgroundImage: "url('/cultivaBanner2.png')" }} >
             <div className="absolute w-full h-full backdrop-blur-sm"
               style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
-              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={Icons.volver} alt="" className='w-2 m-auto' /></button>
+              <button className='absolute p-2 rounded-full w-7   text-white top-5 left-2 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
                 <div className="absolute bottom-44 m-auto w-full p-2 z-20 gap-5 ">
                   <img src="logoC.svg" alt="" className="h-[100px] m-auto mb-3 transition-all" />
@@ -202,7 +203,7 @@ const Login = () => {
                         required
                         className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                         style={{
-                          backgroundImage: `url(${Icons.telefonoGris})`,
+                          backgroundImage: `url(${telefonoGris})`,
                           backgroundRepeat: 'no-repeat',
                           backgroundPosition: 'left 12px center',
                         }} />
@@ -215,7 +216,7 @@ const Login = () => {
                           required
                           className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                           style={{
-                            backgroundImage: `url(${Icons.claveGris})`,
+                            backgroundImage: `url(${claveGris})`,
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'left 12px center',
                           }} />
@@ -223,7 +224,7 @@ const Login = () => {
                           onClick={handleToggle}
                           className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                           <img
-                            src={mostrarClave ? Icons.verClave : Icons.noVerClave}
+                            src={mostrarClave ? verClave : noVerClave}
                             alt="Toggle Visibility" />
                         </div>
                       </div>

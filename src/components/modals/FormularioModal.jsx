@@ -41,15 +41,42 @@ const FormularioModal = ({
                 ))}
               </select>
             ) : (
-              <input
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl"
-                type={campo.type || "text"}
-                name={campo.name}
-                value={valores[campo.name] || ""}
-                placeholder={campo.placeholder}
-                autoComplete="off"
-                onChange={onChange}
-              />
+              <div className="relative w-full mt-2">
+                {campo.icono && (
+                  <img
+                    src={campo.icono}
+                    alt="icono"
+                    className="absolute left-4 top-1/2 -translate-y-1/2"
+                  />
+                )}
+
+                <input
+                  className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-3xl"
+                  type={
+                    campo.name === "clave" && campo.mostrarClave !== undefined
+                      ? (campo.mostrarClave ? "text" : "password")
+                      : campo.type || "text"
+                  }
+                  name={campo.name}
+                  value={valores[campo.name] || ""}
+                  placeholder={campo.placeholder}
+                  autoComplete="off"
+                  onChange={onChange}
+                />
+
+                {/* Mostrar icono para toggle de contraseña si se pasa */}
+                {campo.name === "clave" && campo.onToggleClave && (
+                  <div
+                    onClick={campo.onToggleClave}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  >
+                    <img
+                      src={campo.mostrarClave ? campo.iconoVisible : campo.iconoOculto}
+                      alt="Toggle Visibility"
+                    />
+                  </div>
+                )}
+              </div>
             )}
           </div>
         ))}

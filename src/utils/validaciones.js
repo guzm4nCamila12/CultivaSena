@@ -87,23 +87,21 @@ export const validarNombre = (nombre) => {
   return true;
 };
 
-export const validarSinCambios = (original, editado) => {
-  if (
-    editado.nombre === original.nombre &&
-    editado.telefono === original.telefono &&
-    editado.correo === original.correo &&
-    editado.clave === original.clave &&
-    editado.id_rol === original.id_rol
-  ) {
+export const validarSinCambios = (original, editado, tipo = "la zona",ignorar = []) => {
+  const originalKeys = Object.keys(original).filter(key => !ignorar.includes(key));
+
+  const sinCambios = originalKeys.every(key => original[key] === editado[key]);
+
+  if (sinCambios) {
     acctionSucessful.fire({
       imageUrl: Images.Alerta,
-      title: "¡No se modificó la información de el alterno!"
+      title: `¡No se modificó la información de ${tipo}!`,
     });
     return false;
   }
+
   return true;
 };
-
 export const comprobarCredenciales = async (usuario, idIgnorar = null) => {
 
   const correoExistente = await verificarExistenciaCorreo(usuario.correo, idIgnorar);

@@ -1,13 +1,9 @@
-import {React, useState} from 'react';
-import {Route } from 'react-router-dom';
+import {React} from 'react';
 import { Navigate } from 'react-router-dom'; // Para redirigir al login
 import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
-import { useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
   const token = localStorage.getItem('token'); // Obtener el token del localStorage
-  const location = useLocation(); // Obtener la ubicación actual
-  const {ubicacionActual, setUbicacionActual} = useState(location.pathname)
   // Verificar si no hay token
   if (!token) {
     return <Navigate to="/login" />;  // Redirigir a login si no hay token

@@ -12,12 +12,12 @@ import descripcionAzul from './descripcionAzul.png'
 import editar from './editar.png';
 import etapa from "./etapa.png"
 import eliminar from './eliminar.png';
-import fincas from './fincas.png';
+import fincasIcon from './fincas.png';
 import nombreIcon from './nombres.png';
 import noVerClave from './eye-hidden.png';
 import rol from './rol.png';
 import rolAzul from './rolAzul.png';
-import sensores from './sensores.png';
+import sensoresIcon from './sensores.png';
 import sinFincas from './sinFincas.png';
 import telefono from './telefono.png';
 import telefonoAzul from './telefonoAzul.png';
@@ -26,14 +26,14 @@ import usuarioAzul from './usuarioAzul.png';
 import ver from './ver.png';
 import verClave from './eye-open.png';
 import volver from './volver.png';
-import zonas from './zonas.png';
+import zonasIcon from './zonas.png';
 import locacion from "./locacion.png"
 import marcador from "./marcador.png"
 import ubicacionMapa from "./ubicacion.png"
 import ubiActual from "./ubiActual.png"
 import mac from "./mac.png";
 import descripcion from "./descripcion.png"
-import estado from "./estado.png"
+import estadoIcon from "./estado.png"
 import sensorAzul from "./sensorAzul.png"
 import nombre from "./nombres.png"
 import nombreZona from "./zonaAzul.png";
@@ -41,6 +41,8 @@ import dato from "./dato.png";
 import hora from "./hora.png";
 import fecha from "./fecha.png";
 import idSensor from "./id.png"
+import noVerClaveAzul from "./NoVerClaveAzul.png"
+import verClaveAzul from './verClaveAzul1.png'
 
 export {
   ajustes,
@@ -56,7 +58,7 @@ export {
   editar,
   eliminar,
   etapa,
-  fincas,
+  fincasIcon,
   locacion,
   marcador,
   nombre,
@@ -65,7 +67,7 @@ export {
   nombreZona,
   rol,
   rolAzul,
-  sensores,
+  sensoresIcon,
   sensorAzul,
   sinFincas,
   telefono,
@@ -77,13 +79,15 @@ export {
   ver,
   verClave,
   volver,
-  zonas,
+  zonasIcon,
   mac,
   descripcion,
-  estado,
+  estadoIcon,
   descripcionAzul,
   dato,
   hora,
   idSensor,
-  fecha
+  fecha,
+  noVerClaveAzul,
+  verClaveAzul
 };

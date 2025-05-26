@@ -3,12 +3,11 @@ import { useEffect, useState } from 'react';
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import * as Images from '../assets/img/imagesExportation';
-import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
+import {jwtDecode} from 'jwt-decode';
 
 export const useActividadesZona = (idZona) => {
-  const token = localStorage.getItem('token'); // Obtener el token del localStorage
-  const decodedToken = jwtDecode(token); // Decodificar el token
-  console.log("tokens", decodedToken.id, decodedToken.idRol)
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
   const idusuario = decodedToken.id;
   const rolusuario = decodedToken.idRol;
 
@@ -43,11 +42,36 @@ export const useActividadesZona = (idZona) => {
   ];
 
   const actividadesPorEtapa = {
-    "1": [{ value: "1", label: "Arar o remover el suelo" }, { value: "2", label: "Limpiar las malas hierbas" }, { value: "3", label: "Abonar el campo" }, { value: "4", label: "Otros" }],
-    "2": [{ value: "1", label: "Poner las semillas en la tierra" }, { value: "2", label: "Regar después de sembrar" }, { value: "3", label: "Cubrir las semillas con tierra" }, { value: "4", label: "Otros" }],
-    "3": [{ value: "1", label: "Regar para que crezcan bien" }, { value: "2", label: "Aplicar fertilizante" }, { value: "3", label: "Deshierbar el cultivo" }, { value: "4", label: "Otros" }],
-    "4": [{ value: "1", label: "Recoger los frutos" }, { value: "2", label: "Clasificar la cosecha" }, { value: "3", label: "Empacar lo recolectado" }, { value: "4", label: "Otros" }],
-    "5": [{ value: "1", label: "Preparar la venta o distribución" }, { value: "2", label: "Organizar el empaque para la venta" }, { value: "3", label: "Llevar los productos al mercado" }, { value: "4", label: "Otros" }]
+    "1": [
+      { value: "1", label: "Arar o remover el suelo" },
+      { value: "2", label: "Limpiar las malas hierbas" },
+      { value: "3", label: "Abonar el campo" },
+      { value: "4", label: "Otros" }
+    ],
+    "2": [
+      { value: "1", label: "Poner las semillas en la tierra" },
+      { value: "2", label: "Regar después de sembrar" },
+      { value: "3", label: "Cubrir las semillas con tierra" },
+      { value: "4", label: "Otros" }
+    ],
+    "3": [
+      { value: "1", label: "Regar para que crezcan bien" },
+      { value: "2", label: "Aplicar fertilizante" },
+      { value: "3", label: "Deshierbar el cultivo" },
+      { value: "4", label: "Otros" }
+    ],
+    "4": [
+      { value: "1", label: "Recoger los frutos" },
+      { value: "2", label: "Clasificar la cosecha" },
+      { value: "3", label: "Empacar lo recolectado" },
+      { value: "4", label: "Otros" }
+    ],
+    "5": [
+      { value: "1", label: "Preparar la venta o distribución" },
+      { value: "2", label: "Organizar el empaque para la venta" },
+      { value: "3", label: "Llevar los productos al mercado" },
+      { value: "4", label: "Otros" }
+    ]
   };
 
   useEffect(() => {
@@ -60,29 +84,28 @@ export const useActividadesZona = (idZona) => {
   }, [idZona]);
 
   const handleActividadChange = (e) => {
-    const { name, value, tagName, selectedIndex } = e.target;
-    const newValue = tagName === 'SELECT'
-      ? e.target.options[selectedIndex].text
-      : value;
-    setNuevaActividad(prev => ({ ...prev, [name]: newValue }));
+    const { name, value } = e.target;
+    setNuevaActividad(prev => ({ ...prev, [name]: value }));
   };
 
   const handleEtapaChange = (e) => {
-    const { name, value, tagName, selectedIndex } = e.target;
-    const etapaText = tagName === 'SELECT'
-      ? e.target.options[selectedIndex].text
-      : value;
-    setNuevaActividad(prev => ({ ...prev, [name]: etapaText }));
-    setActividadEditar(prev => ({ ...prev, [name]: etapaText }));
+    const { name, value, options, selectedIndex } = e.target;
+    const etapaLabel = options[selectedIndex].text;
     setEtapaSeleccionada(value);
+    setNuevaActividad(prev => ({ ...prev, [name]: etapaLabel }));
+    setActividadEditar(prev => ({ ...prev, [name]: etapaLabel }));
   };
 
   const handleEditarActividadChange = (e) => {
-    const { name, value, tagName, selectedIndex } = e.target;
-    const newValue = tagName === 'SELECT'
-      ? e.target.options[selectedIndex].text
-      : value;
-    setActividadEditar(prev => ({ ...prev, [name]: newValue }));
+    const { name, value, options, selectedIndex } = e.target;
+    if (name === 'actividad') {
+      const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
+      if (actividadObj) {
+        setActividadEditar(prev => ({ ...prev, [name]: actividadObj.label }));
+        return;
+      }
+    }
+    setActividadEditar(prev => ({ ...prev, [name]: value }));
   };
 
   const handleCrearActividad = (e) => {
@@ -111,8 +134,6 @@ export const useActividadesZona = (idZona) => {
 
   const handleEditarActividad = (e) => {
     e.preventDefault();
-
-    // Validar si el usuario con rol 3 quiere editar una actividad que no creó
     if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -144,10 +165,7 @@ export const useActividadesZona = (idZona) => {
 
   const handleEliminarActividad = (e) => {
     e.preventDefault();
-  
     const actividad = actividades.find(a => a.id === actividadEliminar);
-  
-    // Verificación de permisos
     if (rolusuario === 3 && actividad?.idusuario !== idusuario) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -157,7 +175,6 @@ export const useActividadesZona = (idZona) => {
       setModalEliminarAbierto(false);
       return;
     }
-  
     eliminarActividad(actividadEliminar)
       .then(() => setActividades(prev => prev.filter(a => a.id !== actividadEliminar)))
       .catch(console.error);
@@ -168,7 +185,6 @@ export const useActividadesZona = (idZona) => {
       title: '¡Actividad eliminada correctamente!'
     });
   };
-  
 
   const abrirModalEliminar = (id) => {
     setActividadEliminar(id);
@@ -177,11 +193,13 @@ export const useActividadesZona = (idZona) => {
 
   const abrirModalEditar = (actividad) => {
     setActividadEditar(actividad);
+    const etapaObj = etapas.find(et => et.label === actividad.etapa);
+    setEtapaSeleccionada(etapaObj ? etapaObj.value : '');
     setModalEditarActividad(true);
   };
 
   const handleAbrirModalCrear = (idZone) => {
-    setNuevaActividad(prev => ({ ...prev, idzona: idZone, idusuario:idusuario }));
+    setNuevaActividad(prev => ({ ...prev, idzona: idZone, idusuario }));
     setModalActividadInsertar(true);
   };
 
@@ -208,5 +226,7 @@ export const useActividadesZona = (idZona) => {
     abrirModalEliminar,
     abrirModalEditar,
     handleAbrirModalCrear,
+    idusuario,
+    rolusuario
   };
 };

@@ -1,26 +1,39 @@
-// File: src/pages/actividades/zonas/ActividadesZonas.jsx
-
+/* File: src/pages/actividades/zonas/ActividadesZonas.jsx */
 import React from 'react';
 import { useParams } from 'react-router-dom';
-
 import Navbar from '../../../components/navbar';
 import MostrarInfo from '../../../components/mostrarInfo';
 import ConfirmationModal from '../../../components/confirmationModal/confirmationModal';
-
 import * as Icons from '../../../assets/icons/IconsExportation';
-
 import { useActividadesZona } from '../../../hooks/useActividades';
 
 export default function ActividadesZonas() {
     const { id } = useParams();
-
     const {
-        actividades, zonas, etapas, actividadesPorEtapa, etapaSeleccionada, nuevaActividad, actividadEditar,
-        modalEliminarAbierto, modalActividadInsertar, modalEditarActividad,
-        setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad,
-        handleActividadChange, handleEtapaChange, handleCrearActividad,
-        handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
-        abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear
+        actividades,
+        zonas,
+        etapas,
+        actividadesPorEtapa,
+        etapaSeleccionada,
+        nuevaActividad,
+        actividadEditar,
+        modalEliminarAbierto,
+        modalActividadInsertar,
+        modalEditarActividad,
+        setModalEliminarAbierto,
+        setModalActividadInsertar,
+        setModalEditarActividad,
+        handleActividadChange,
+        handleEtapaChange,
+        handleCrearActividad,
+        handleEditarActividadChange,
+        handleEditarActividad,
+        handleEliminarActividad,
+        abrirModalEliminar,
+        abrirModalEditar,
+        handleAbrirModalCrear,
+        idusuario,
+        rolusuario
     } = useActividadesZona(Number(id));
 
     const columnas = [
@@ -37,16 +50,18 @@ export default function ActividadesZonas() {
             >
                 <img src={Icons.sinFincas} alt="Ver detalle" />
             </button>
-            <button
-                className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
-                onClick={() => abrirModalEliminar(fila.id)}
-            >
-                <img src={Icons.eliminar} alt="Eliminar" />
-            </button>
+            {!(rolusuario === 3 && fila.idusuario !== idusuario) && (
+                <button
+                    className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
+                    onClick={() => abrirModalEliminar(fila.id)}
+                >
+                    <img src={Icons.eliminar} alt="Eliminar" />
+                </button>
+            )}
         </div>
     );
 
-    const activ = actividadesPorEtapa[etapaSeleccionada] || [];
+    const actividadesOptions = actividadesPorEtapa[etapaSeleccionada] || [];
 
     return (
         <>
@@ -88,9 +103,7 @@ export default function ActividadesZonas() {
                                 <label className="font-semibold">Etapa</label>
                                 <select name="etapa" required onChange={handleEtapaChange} className="w-full border p-2 rounded-3xl">
                                     <option value="">Seleccione etapa</option>
-                                    {etapas.map(et => (
-                                        <option key={et.value} value={et.value}>{et.label}</option>
-                                    ))}
+                                    {etapas.map(et => <option key={et.value} value={et.value}>{et.label}</option>)}
                                 </select>
                             </div>
 
@@ -98,9 +111,7 @@ export default function ActividadesZonas() {
                                 <label className="font-semibold">Actividad</label>
                                 <select name="actividad" required onChange={handleActividadChange} className="w-full border p-2 rounded-3xl">
                                     <option value="">Seleccione actividad</option>
-                                    {activ.map(act => (
-                                        <option key={act.value} value={act.label}>{act.label}</option>
-                                    ))}
+                                    {actividadesOptions.map(act => <option key={act.value} value={act.value}>{act.label}</option>)}
                                 </select>
                             </div>
 
@@ -187,13 +198,11 @@ export default function ActividadesZonas() {
                                     name="etapa"
                                     required
                                     onChange={handleEtapaChange}
-                                    value={actividadEditar.etapa || ''}
+                                    value={etapaSeleccionada}
                                     className="w-full border p-2 rounded-3xl"
                                 >
                                     <option value="">Seleccione etapa</option>
-                                    {etapas.map(et => (
-                                        <option key={et.value} value={et.label}>{et.label}</option>
-                                    ))}
+                                    {etapas.map(et => <option key={et.value} value={et.value}>{et.label}</option>)}
                                 </select>
                             </div>
 
@@ -202,14 +211,12 @@ export default function ActividadesZonas() {
                                 <select
                                     name="actividad"
                                     required
-                                    value={actividadEditar.actividad || ''}
+                                    value={actividadesOptions.find(a => a.label === actividadEditar.actividad)?.value || ''}
                                     onChange={handleEditarActividadChange}
                                     className="w-full border p-2 rounded-3xl"
                                 >
                                     <option value="">Seleccione actividad</option>
-                                    {(actividadesPorEtapa[etapaSeleccionada] || []).map(act => (
-                                        <option key={act.value} value={act.label}>{act.label}</option>
-                                    ))}
+                                    {actividadesOptions.map(act => <option key={act.value} value={act.value}>{act.label}</option>)}
                                 </select>
                             </div>
 
@@ -252,14 +259,15 @@ export default function ActividadesZonas() {
                             <div className="flex gap-4">
                                 <button
                                     type="button"
-
                                     className="w-full sm:px-4 py-2 sm:py-3 bg-[#00304D] hover:bg-[#021926] font-bold text-white rounded-3xl mr-2"
-
                                     onClick={() => setModalEditarActividad(false)}>
                                     Cancelar
                                 </button>
                                 <button
-                                    type="submit" className="w-full bg-[#009E00] lg:px-2 hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl ">
+                                    type="submit"
+                                    disabled={rolusuario === 3 && actividadEditar.idusuario !== idusuario}
+                                    className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold sm:py-2 rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
                                     Guardar y actualizar
                                 </button>
                             </div>
@@ -268,12 +276,13 @@ export default function ActividadesZonas() {
                 </div>
             )}
 
-            {/* Modal Confirmación Eliminar */}
             <ConfirmationModal
                 isOpen={modalEliminarAbierto}
                 onCancel={() => setModalEliminarAbierto(false)}
                 onConfirm={handleEliminarActividad}
                 message="¿Estás seguro de que deseas eliminar esta actividad?"
+                confirmText="Sí, eliminar"
+                title={"Eliminar Actividad"}
             />
         </>
     );

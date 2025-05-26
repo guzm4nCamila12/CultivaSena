@@ -70,6 +70,7 @@ const Login = () => {
           rutaPrincipal = `/lista-fincas/${user.id}`;
         } else {
           rutaPrincipal = `/sensores-alterno/${user.id_finca}/${user.id}`;
+          localStorage.setItem('Alternar', true);
         }
         localStorage.setItem('principal', rutaPrincipal);
 

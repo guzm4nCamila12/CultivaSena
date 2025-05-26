@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import * as Icons from '../../assets/icons/IconsExportation'
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 //componentes reutilizados
 import NavBar from '../../components/navbar';
 import GraficoSensor from './GraficoSensores';
 import MostrarInfo from "../../components/mostrarInfo";
+import BotonAtras from '../../components/botonAtras';
 //endpoint para consumir api
 import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
 
@@ -75,6 +78,19 @@ export default function VerSensores() {
 
   const datosFinales = filtrarDatos();
 
+  const exportarExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(datosTabla);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos Sensor');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const file = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    saveAs(file, `sensor_${sensores.nombre || 'datos'}.xlsx`);
+  };
+
   const columnas = [
     { key: "#", icon2: Icons.idSensor },
     { key: "fecha", label: "Fecha", icon: Icons.fecha, icon2: Icons.fecha },
@@ -94,28 +110,37 @@ export default function VerSensores() {
     <div >
       <NavBar />
       {/* Filtrar datos por fecha */}
-      <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5">
+      <div className="w-auto pt-2 xl:mx-36 ml-5 lg:ml-16 sm:ml-5">
         <div className="flex justify-between items-center mb-1 px-1">
-          <div className="flex-grow text-left">
-            <h3 className='text-2xl font-semibold -ml-6'> Datos del sensor: {sensores.nombre}</h3>
+          <div className="flex items-center">
+            <BotonAtras/>
+            <h3 className='text-2xl font-semibold pl-3'> Datos del sensor: {sensores.nombre}</h3>
           </div>
           <div className='text-right -mr-20'>
-            <h3 className="mb-1 font-semibold text-center">Filtrar por fecha</h3>
+            <h3 className="mb-1 font-semibold text-left ml-4">Filtrar por fecha</h3>
             <input
               type="date"
               value={fechaFiltro}
               onChange={e => setFechaFiltro(e.target.value)}
               className="mb-2 p-2 border rounded-xl"
             />
+            <button
+              onClick={exportarExcel}
+              className='ml-2 px-4 py-2 bg-[#39A900] text-white rounded-xl hover:bg-green-700'
+            >
+              Exportar Excel
+            </button>
           </div>
         </div>
       </div>
+
       <div className='flex flex-row justify-center '>
         <GraficoSensor datos={datosFinales} />
       </div>
       <MostrarInfo
         columnas={columnas}
         mostrarAgregar={false}
+        mostrarBotonAtras={false}
         datos={datosTabla} // Pasamos los datos ya procesados para la tabla
       />
       {/* </div> */}

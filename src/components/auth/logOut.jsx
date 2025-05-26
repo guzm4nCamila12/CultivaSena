@@ -23,10 +23,10 @@ const LogOut = () => {
     <div>
       <button
         onClick={() => setModalOpen(true)}
-        className='text-white p-1 m-2 flex justify-items-start hover:bg-[#184a68]'
+        className='text-white p-2 w-full rounded-3xl m-2 flex justify-items-start bg-red-600'
       >
-        <img src={salir} alt="" className="mr-2 h-6" />
-        Cerrar sesión
+        <img src={salir} alt="" className="mr-2 h-7" />
+        <h3>Cerrar sesión</h3>
       </button>
 
       <ConfirmationModal

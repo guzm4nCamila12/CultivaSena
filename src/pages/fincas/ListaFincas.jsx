@@ -54,7 +54,7 @@ export default function ListaFincas() {
   const fincasConSensores = fincas.map(finca => ({
     ...finca,
     sensores: (
-      <Link to={`/activar-sensores/${id}/${finca.id}`}>
+      <Link to={`/activar-sensores/${finca.id}/${id}`}>
         <button className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>

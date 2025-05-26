@@ -18,10 +18,12 @@ import { useSensores } from "../../hooks/useSensores";
 
 function ActivarSensores() {
   const { id, idUser } = useParams();
+  console.log("ID de la finca:", id);
+  console.log("ID del usuario:", idUser);
+
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
 
   const {
     sensores, formData, handleChange, crearNuevoSensor,
@@ -30,6 +32,7 @@ function ActivarSensores() {
     eliminarSensor, cambiarEstadoSensor,
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
+
 
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },

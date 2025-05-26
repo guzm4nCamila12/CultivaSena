@@ -30,7 +30,7 @@ function AppRouter() {
         <Route path="/alternos/:id" element={<ProtectedRoute element={AlternosFincas} allowedRoles={[1,2,3]}/>} />
         <Route path="/zonas/:id/:idUser" element={<ProtectedRoute element={ListaZonas} allowedRoles={[1,2,3]}/>} />
         <Route path="/actividadesZonas/:id" element={<ProtectedRoute element={ActividadesZonas} allowedRoles={[1,2,3]}/>} />
-        <Route path="/sensoresZonas/:id/:idUser" element={<ProtectedRoute element={SensoresZona} allowedRoles={[1,2,3]}/>} />
+        <Route path="/sensoresZonas/:id/:idUser/" element={<ProtectedRoute element={SensoresZona} allowedRoles={[1,2,3]}/>} />
         <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ListaSensores} allowedRoles={[1,2,3]}/>} />
         <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} allowedRoles={[1,2,3]}/>} />
         <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={ListaSensoresAlterno} allowedRoles={[3]}/>} />

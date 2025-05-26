@@ -4,13 +4,14 @@ import withReactContent from 'sweetalert2-react-content';
 
 import {
   getSensoresById,
+  getSensoresZonasById,
   crearSensor,
   editarSensor,
   eliminarSensores,
   insertarDatos
 } from "../services/sensores/ApiSensores";
 
-import { getFincasByIdFincas, getZonasByIdFinca } from "../services/fincas/ApiFincas";
+import { getFincasByIdFincas, getZonasByIdFinca, getZonasById } from "../services/fincas/ApiFincas";
 import { getUsuarioById } from "../services/usuarios/ApiUsuarios";
 
 import { acctionSucessful } from "../components/alertSuccesful";
@@ -19,9 +20,9 @@ import usuarioCreado from "../assets/img/usuarioCreado.png";
 import { validarSinCambios } from "../utils/validaciones";
 
 const MySwal = withReactContent(Swal);
-
 export function useSensores(id, idUser) {
   const [sensores, setSensores] = useState([]);
+  const [sensoresZona, setSensoresZona] = useState([]);
   const [formData, setFormData] = useState({
     mac: null,
     nombre: "",
@@ -31,47 +32,85 @@ export function useSensores(id, idUser) {
     idzona: null,
     idfinca: "",
   });
-
   const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
   const [sensorOriginal, setSensorOriginal] = useState(null);
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [sensorEliminado, setSensorEliminado] = useState(null);
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
+  const [zona, setZona] = useState({});
   const [usuario, setUsuario] = useState({});
   const rol = localStorage.getItem("rol");
   let inputValue = "";
 
   useEffect(() => {
+    console.log("ID de la finca:", idUser);
     const fetchData = async () => {
+      // Sensores
       try {
-        const sensoresData = await getSensoresById(idUser);
+        const sensoresData = await getSensoresById(id);
         setSensores(sensoresData || []);
-
-        const usuarioData = await getUsuarioById(id);
-        setUsuario(usuarioData);
-
-        const fincasData = await getFincasByIdFincas(idUser);
-        setFincas(fincasData);
-
-        const zonasData = await getZonasByIdFinca(idUser);
+      } catch (err) {
+        console.error("❌ Error al obtener sensores:", err);
+      }
+      // Sensores por zona
+      try {
+        const sensoresZonasData = await getSensoresZonasById(id);
+        setSensoresZona(sensoresZonasData || []);
+      } catch (err) {
+        console.error("❌ Error al obtener sensores de la zona:", err);
+      }
+      // Usuario
+      try {
+        const usuarioData = await getUsuarioById(idUser);
+        setUsuario(usuarioData || {});
+        console.log("user data:", usuarioData);
+      } catch (err) {
+        console.error("❌ Error al obtener usuario:", err);
+      }
+      // Finca (NO es necesaria — la ignoramos si falla)
+      try {
+        const fincasData = await getFincasByIdFincas(id);
+        setFincas(fincasData || {});
+      } catch (err) {
+        console.warn("⚠️ No se pudo obtener finca (opcional):", err);
+      }
+      // Zonas de la finca (a partir del usuario, opcional también)
+      try {
+        const zonasData = await getZonasByIdFinca(id);
         setZonas(zonasData || []);
       } catch (err) {
-        console.error("Error al cargar datos:", err);
+        console.warn("⚠️ No se pudo obtener zonas de finca:", err);
+      }
+      // Zona individual
+      try {
+        const zonaData = await getZonasById(id);
+        setZona(zonaData || {});
+      } catch (err) {
+        console.error("❌ Error al obtener zona:", err);
       }
     };
-    fetchData();
+    if (id && idUser) {
+      fetchData();
+    }
   }, [id, idUser]);
-
+  
   useEffect(() => {
-    if (usuario && fincas) {
+    if (usuario && fincas?.id) {
       setFormData((prev) => ({
         ...prev,
         idusuario: usuario.id,
         idfinca: fincas.id,
       }));
+    } else if (usuario && zona?.idfinca) {
+      setFormData((prev) => ({
+        ...prev,
+        idusuario: usuario.id,
+        idfinca: zona.idfinca,
+        idzona: zona.id,
+      }));
     }
-  }, [usuario, fincas]);
+  }, [usuario, fincas, zona]);
 
   const handleChange = (e) => {
     const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
@@ -86,8 +125,15 @@ export function useSensores(id, idUser) {
   const crearNuevoSensor = async () => {
     try {
       const response = await crearSensor(formData);
+      console.log("FormData:", formData);
       if (response) {
         setSensores((prev) => [...prev, response]);
+        try {
+            const sensoresZonasData = await getSensoresZonasById(id);
+            setSensoresZona(sensoresZonasData || []);
+          } catch (err) {
+            console.error("❌ Error al obtener sensores de la zona:", err);
+          }
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
           imageAlt: 'Icono personalizado',
@@ -107,6 +153,12 @@ export function useSensores(id, idUser) {
         sensor.id === sensorEditar.id ? sensorEditar : sensor
       );
       setSensores(nuevosSensores);
+      try {
+        const sensoresZonasData = await getSensoresZonasById(sensorEditar.idzona);
+        setSensoresZona(sensoresZonasData || []);
+      } catch (errZona) {
+        console.warn("⚠️ Error al refrescar sensoresZona:", errZona);
+      }
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: 'Icono personalizado',
@@ -121,6 +173,13 @@ export function useSensores(id, idUser) {
     try {
       await eliminarSensores(sensorAEliminar);
       setSensores((prev) => prev.filter(s => s.id !== sensorAEliminar));
+      try {
+        const sensoresZonasData = await getSensoresZonasById(id);
+        setSensoresZona(sensoresZonasData || []);
+        
+      } catch (errZona) {
+        console.warn("⚠️ Error al refrescar sensoresZona:", errZona);
+      }
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
         imageAlt: 'Icono personalizado',
@@ -171,10 +230,16 @@ export function useSensores(id, idUser) {
       const nuevosSensores = [...sensores];
       nuevosSensores[index] = updatedSensor;
       setSensores(nuevosSensores);
-
-      if (newEstado && updatedSensor.mac) {
-        await insertarDatos(updatedSensor.mac);
+      try {
+        const sensoresZonasData = await getSensoresZonasById(id);
+        setSensoresZona(sensoresZonasData || []);
+        
+      } catch (errZona) {
+        console.warn("⚠️ Error al refrescar sensoresZona:", errZona);
       }
+
+        await insertarDatos(updatedSensor.mac);
+      
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }
@@ -182,12 +247,13 @@ export function useSensores(id, idUser) {
 
   return {
     sensores, setSensores,
+    sensoresZona,setSensoresZona,
     formData, setFormData,
     sensorEditar, setSensorEditar,
     sensorOriginal, setSensorOriginal,
     sensorAEliminar, setSensorAEliminar,
     sensorEliminado, setSensorEliminado,
-    fincas, zonas, rol,
+    fincas, zonas, zona,rol,
     crearNuevoSensor,
     actualizarSensor,
     eliminarSensor,

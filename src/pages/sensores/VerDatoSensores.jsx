@@ -15,17 +15,18 @@ import 'react-horizontal-scrolling-menu/dist/styles.css';
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {
   const date = new Date(fecha);
-  const dia = String(date.getDate()).padStart(2, '0');
-  const mes = String(date.getMonth() + 1).padStart(2, '0');
-  const año = date.getFullYear();
-  const horas = String(date.getHours()).padStart(2, '0');
-  const minutos = String(date.getMinutes()).padStart(2, '0');
-  const segundos = String(date.getSeconds()).padStart(2, '0');
+  const dia = String(date.getUTCDate()).padStart(2, '0');
+  const mes = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const año = date.getUTCFullYear();
+  const horas = String(date.getUTCHours()).padStart(2, '0');
+  const minutos = String(date.getUTCMinutes()).padStart(2, '0');
+  const segundos = String(date.getUTCSeconds()).padStart(2, '0');
   return {
     fecha: `${dia}/${mes}/${año}`,
     hora: `${horas}:${minutos}:${segundos}`,
   };
 };
+
 
 // Función para limitar los decimales del valor
 const limitarValor = (valor, decimales = 4) => {
@@ -43,8 +44,6 @@ export default function VerSensores() {
   useEffect(() => {
     SetCargando(true)
 
-
-
     getSensor(id)
       .then(data => {
         console.log("Datos del sensor:", data);
@@ -53,10 +52,24 @@ export default function VerSensores() {
         console.log("datos mac:", data.mac);
         getHistorialSensores(data.mac)
           .then(historial => {
+            console.log("Historial completo:", historial);
+
             if (!historial || historial.length === 0) {
               setHayDatos(false);
             }
-            const datosGrafico = historial.map(item => {
+
+            const ahora = new Date(); // Fecha actual
+            const hace12Horas = new Date(ahora.getTime() - (10 * 60 * 1000)); // 12 horas antes
+            console.log("hora actual:", hace12Horas);
+
+            const historialFiltrado = historial
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) // Ordenar del más reciente al más antiguo
+              .slice(0, 10); // Tomar los 10 más recientes
+
+            console.log("Historial filtrado (últimos 5 min):", historialFiltrado);
+
+
+            const datosGrafico = historialFiltrado.map(item => {
               const { fecha, hora } = formatearFechaYHora(item.fecha);
               return {
                 fecha,
@@ -64,13 +77,16 @@ export default function VerSensores() {
                 valor: limitarValor(item.valor),
               };
             });
+
             setDatosSensores(datosGrafico || []);
           })
+
           .catch(error => console.error("Error al obtener el historial de sensores", error));
       }).finally(() => {
         SetCargando(false)
       })
   }, [id]);
+
 
   const filtrarDatos = () => {
     return datosSensor.filter(item => {

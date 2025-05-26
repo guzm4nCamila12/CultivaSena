@@ -6,6 +6,7 @@ import {sensoresIcon,mac,zonasIcon,descripcion,estadoIcon,ajustes,editar,ver,eli
 // imgs modales
 import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
+import { Alerta } from "../../assets/img/imagesExportation";
 //componentes reutilizados
 import { acctionSucessful } from "../../components/alertSuccesful";
 import MostrarInfo from "../../components/mostrarInfo";

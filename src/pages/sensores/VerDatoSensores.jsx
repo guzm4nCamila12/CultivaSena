@@ -110,11 +110,11 @@ export default function VerSensores() {
     <div >
       <NavBar />
       {/* Filtrar datos por fecha */}
-      <div className="w-auto pt-2 xl:mx-36 ml-5 lg:ml-16 sm:ml-5">
+      <div className="w-auto pt-2 xl:mx-36 mx-5 lg:mx-16 sm:mx-5">
         <div className="flex justify-between items-center mb-1 px-1">
-          <div className="flex items-center">
+          <div className="flex items-center ml-[-80px]">
             <BotonAtras/>
-            <h3 className='text-2xl font-semibold pl-3'> Datos del sensor: {sensores.nombre}</h3>
+            <h3 className='text-2xl font-semibold pl-4'> Datos del sensor: {sensores.nombre}</h3>
           </div>
           <div className='text-right -mr-20'>
             <h3 className="mb-1 font-semibold text-left ml-4">Filtrar por fecha</h3>

@@ -32,6 +32,7 @@ export function useSensores(id, idUser) {
     idusuario: "",
     idzona: null,
     idfinca: "",
+    tipo_id:null
   });
   const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
   const [sensorOriginal, setSensorOriginal] = useState(null);
@@ -46,11 +47,11 @@ export function useSensores(id, idUser) {
   let inputValue = "";
 
   useEffect(() => {
-    console.log("ID de la finca:", idUser);
     const fetchData = async () => {
       // Sensores
       try {
         const sensoresData = await getSensoresById(id);
+        console.log("Datos de sensores:", sensoresData);
         setSensores(sensoresData || []);
       } catch (err) {
         console.error("❌ Error al obtener sensores:", err);

@@ -27,7 +27,7 @@ function Sensores() {
   const { id, idUser } = useParams();
 
   const {
-    sensoresZona, formData, handleChange, crearNuevoSensor,
+    sensoresZona, tiposSensores, formData, handleChange, crearNuevoSensor,
     sensorEditar, setSensorEditar, handleChangeEditar,
     actualizarSensor, setSensorAEliminar, setSensorEliminado,
     eliminarSensor, cambiarEstadoSensor,
@@ -135,6 +135,18 @@ function Sensores() {
 
   const agregar = rol !== "3";
 
+  const tipoSensor = (onChange) => (
+    <div className="relative w-full mt-2">
+      <select name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+        <option value="">Tipo de sensor</option>
+
+        {tiposSensores.map((tipo) => (
+          <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
+        ))}
+      </select>
+    </div>
+  );
+
   return (
     <div>
       <NavBar />
@@ -164,7 +176,12 @@ function Sensores() {
           { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
           { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
         ]}
-      />
+      >
+        {tipoSensor(handleChange)}
+
+      </FormularioModal>
+
+
 
 
       <FormularioModal
@@ -179,7 +196,10 @@ function Sensores() {
           { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
           { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
         ]}
-      />
+      >
+        {tipoSensor(handleChangeEditar)}
+
+      </FormularioModal>
 
       <ConfirmationModal
         isOpen={modalEliminarAbierto}

@@ -18,22 +18,20 @@ import { useSensores } from "../../hooks/useSensores";
 
 function ActivarSensores() {
   const { id, idUser } = useParams();
-  console.log("ID de la finca:", id);
-  console.log("ID del usuario:", idUser);
 
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
 
   const {
-    sensores, tiposSensores,formData, handleChange, crearNuevoSensor,
+    sensores, tiposSensores, formData, handleChange, crearNuevoSensor,
     sensorEditar, setSensorEditar, handleChangeEditar,
     actualizarSensor, setSensorAEliminar, setSensorEliminado,
     eliminarSensor, cambiarEstadoSensor,
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-
+  console.log("Sensores:", sensores);
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },
     { key: "mac", label: "MAC", icon: mac, icon2: mac },
@@ -126,6 +124,7 @@ function ActivarSensores() {
   const asignarZona = (onChange) => (
     <div className="relative w-full mt-2">
       <select name="idzona" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+        
         {zonas.map((zona) => (
           <option key={zona.id} value={zona.id}>{zona.nombre}</option>
         ))}
@@ -135,9 +134,9 @@ function ActivarSensores() {
 
   const tipoSensor = (onChange) => (
     <div className="relative w-full mt-2">
-      <select name="idzona" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+      <select name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
         <option value="">Tipo de sensor</option>
-       
+
         {tiposSensores.map((tipo) => (
           <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
         ))}
@@ -188,6 +187,7 @@ function ActivarSensores() {
         ]}
       >
         {asignarZona(handleChangeEditar)}
+        {tipoSensor(handleChangeEditar)}
       </FormularioModal>
 
       <ConfirmationModal

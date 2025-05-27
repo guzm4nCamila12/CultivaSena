@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import CerrarSesion from "../auth/logOut";
 import Inicio from "../../assets/icons/pagina-de-inicio.png"
 import cultivaSena from "../../assets/icons/cultivaSena.png"
@@ -9,8 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 export default function Sidebar() {
-      const navigate = useNavigate();
-    const [submenuOpen, setSubmenuOpen] = useState(false);
+    const navigate = useNavigate();
     const token = localStorage.getItem('token');
     const decodedToken = jwtDecode(token);
 

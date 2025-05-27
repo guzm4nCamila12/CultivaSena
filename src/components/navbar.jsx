@@ -35,8 +35,8 @@ export default function Navbar() {
         style={{ backgroundImage: "url('/banner.png')" }}
       />
 
-      <div className="bg-[#002A43] h-12 w-full z-50 flex items-center">
-        <div className="container py-1 flex flex-row items-center relative">
+      <div className="bg-[#002A43] h-12 w-full z-50 flex justify-center">
+        <div className="w-full container py-2 flex">
           {/* Menú lateral visible a la izquierda */}
           <div
             className={`fixed top-0 left-0 h-screen w-64 z-50 bg-[#002A43] transition-transform duration-300 ease-in-out transform ${menuVisible ? 'translate-x-0' : '-translate-x-full'
@@ -46,24 +46,30 @@ export default function Navbar() {
           </div>
 
           {/* Botón del menú */}
+          <div className=''>
+
           <img
             src={menu}
             alt="Menu"
-            className={`mr-5 ml-[138px] cursor-pointer`}
+            className={`mr-7 mt-2 cursor-pointer`}
             onClick={() => setMenuVisible(!menuVisible)}
           />
+          </div>
 
           {/* Título de rol */}
+          <div className='w-3/4 mr-60'>
+
           <h2 className="font-extrabold text-white md:text-2xl text-xl">
             {rol()}
           </h2>
+          </div>
 
           {/* Botón de Inicio a la derecha */}
-          <div className="ml-auto">
+          <div className="ml-14">
             <img
               src={Inicio}
               alt="Inicio"
-              className="pr-7 cursor-pointer"
+              className="cursor-pointer"
               onClick={InicioRol}
             />
           </div>

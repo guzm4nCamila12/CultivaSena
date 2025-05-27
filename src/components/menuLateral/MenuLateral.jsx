@@ -1,4 +1,3 @@
-
 import CerrarSesion from "../auth/logOut";
 import Inicio from "../../assets/icons/pagina-de-inicio.png"
 import cultivaSena from "../../assets/icons/cultivaSena.png"
@@ -7,6 +6,7 @@ import Reporte from "../../assets/icons/reporteActividades.png"
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
     const navigate = useNavigate();
@@ -64,32 +64,22 @@ export default function Sidebar() {
                         <img src={Estadisticas} alt="" className='h-6 w-7 mr-2' />
                         <h3 className='mt-1'>Estadísticas</h3>
                     </div>
-                    <div className='flex border-b-[0.5px] pb-6 cursor-pointer hover:text-[#39A900]  hover:translate-x-3 transition-transform duration-300 ease-in-out'>
+                    <div className='flex pb-6 cursor-pointer hover:text-[#39A900]  hover:translate-x-3 transition-transform duration-300 ease-in-out'>
                         <img src={Reporte} alt="" className='h-8 w-8 mr-2' />
                         <h3 className='mt-1'>Reporte Actividades</h3>
                     </div>
                 </div>
 
                 {/* Settings */}
-                <div className="flex items-center px-6 w-full cursor-pointer py-2 ">
+                <Link to={"/perfil-usuario"}>
+                <div className="flex items-center px-6 w-full cursor-pointer py-2 hover:font-bold">
                     <img className="rounded-md size-12" src={obtenerRol()} alt="Perfil" />
                     <div className="flex flex-col ml-3">
                         <span className="text-base font-bold">{decodedToken.nombre}</span>
                         <span>Ver perfil</span>
                     </div>
                 </div>
-                {/* <nav className="flex-1 px-6 pt-4 space-y-2">
-                    <div className="px-2 space-y-2">
-                        <div className="px-6 py-2 text-lg">Ajustes</div>
-                        <div className='flex cursor-pointer'>
-                            <img src={Inicio} alt="" className='h-6 w-7 mr-2' />
-                            <h3>Inicio</h3>
-                        </div>
-                        <SidebarLink href="/accesibilidad" icon="/images/accesi.svg" label="Accesibilidad" />
-                        <SidebarLink href="/centroAyuda" icon="/images/preg.svg" label="Centro de Ayuda" />
-                    </div>
-                </nav> */}
-
+                </Link>
                 {/* Profile */}
                 <div className="mt-0 px-6 mb-10">
                     <div className="flex mt-10">

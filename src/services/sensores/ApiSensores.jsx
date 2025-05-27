@@ -1,5 +1,5 @@
 //Variable que almacena la url base del localhost para concatenar a los endpoints
-const API_URL = "http://localhost:3000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Función para obtener todos los sensores de la finca a la cual pertenece el ID
 export const getSensoresById = async (id) => {

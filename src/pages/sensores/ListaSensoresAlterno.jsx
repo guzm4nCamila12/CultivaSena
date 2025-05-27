@@ -2,19 +2,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
-import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver} from "../../assets/icons/IconsExportation"
+import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,actividades,nombre} from "../../assets/icons/IconsExportation"
 //componentes reutilizados
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
 //endpoints para consumir el api
-import { getFincasByIdFincas } from "../../services/fincas/ApiFincas";
+import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
+
 
 function SensoresAlterno() {
   //Estado para almacenar datos
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [sensores, setSensores] = useState([]);
+  const [zonas, setZonas] = useState([]);
+
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
   const [formData, setFormData] = useState({
@@ -25,6 +28,14 @@ function SensoresAlterno() {
     idusuario: "",
     idfinca: "",
   });
+
+  //se alterna entre los sensores y las zonas
+  const [Alternar, setAlternar] = useState(() => {
+    const alternarGuardado = localStorage.getItem("Alternar");
+    return alternarGuardado === "true"; // convierte a booleano
+  });;
+  console.log(Alternar);
+
   //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();
 
@@ -42,6 +53,12 @@ function SensoresAlterno() {
         setSensores(data);
       }
     })
+
+    getZonasByIdFinca(id)
+      .then(data => {
+        setZonas(data || [])
+      })
+      .catch(error => console.error("Error: ", error));
   }, []);
 
   //Se ejecuta cuando cambia el usuario o la finca, ajustando los datos
@@ -58,6 +75,13 @@ function SensoresAlterno() {
     }
   }, [usuario, fincas]);
 
+  //columnas para la tabla de zonas
+  const columnasZonas = [
+    { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "verSensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
+    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades }
+  ];
+
   //Define las columnas para la UseCards
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },
@@ -66,6 +90,7 @@ function SensoresAlterno() {
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
+
 
   //Funcion que define las acciones que se muestran en cada fila
   const acciones = (fila) => (
@@ -81,13 +106,52 @@ function SensoresAlterno() {
     </div>
   );
 
-  const handleVistaChange = (vista) => {
-    setVistaActiva(vista);
-  };
+   const zonaszonas = zonas.map(zona => ({
+      ...zona,
+      cantidadSensores: (
+        <h2>{zona.cantidad_sensores}</h2>
+      ),
+      verSensores: (
+        <Link to={`/sensoresZonas/${zona.id}/${fincas.idusuario}`}>
+          <button className="group relative">
+            <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+              {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
+              <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
+            </div>
+            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver sensores
+            </span>
+          </button>
+        </Link>
+      ),
+      actividades: (
+        <Link to={`/actividadesZonas/${zona.id}`}>
+          <button className="group relative">
+            <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+              <span className="text-[#3366CC] font-bold">Ver más...</span>
+            </div>
+            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver actividades
+            </span>
+          </button>
+        </Link>
+      )
+    }));
+
+    const AlternarTabla = (estado) => {
+      setAlternar(estado);
+      localStorage.setItem("Alternar", estado);
+    }
+
   return (
     <div >
       <Navbar />
-      <MostrarInfo
+      <div className="w-auto p-4 xl:mx-36 lg:mx-16 sm:mx-5 flex mx-auto text-xl font-semibold ">
+        <button className={`px-7 py-[9px] w-40 rounded-full flex items-center justify-center transition-all  ${Alternar ?  "bg-[#00304D] hover:bg-[#002438] text-white" : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(true)}>Sensores</button>
+        <button className={`w-40 px-7 py-[9px] rounded-full  flex items-center justify-center transition-all ${!Alternar ? "bg-[#00304D] hover:bg-[#002438] text-white " : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(false)}>Zonas</button>
+      </div>
+      {Alternar ? (
+        <MostrarInfo
         titulo={`Sensores de la finca: ${fincas.nombre}`}
         columnas={columnas}
         acciones={acciones}
@@ -113,6 +177,15 @@ function SensoresAlterno() {
           ),
         }))}
       />
+      ) : (
+        <MostrarInfo
+        titulo={`Zonas de la finca: ${fincas.nombre}`}
+        columnas={columnasZonas}
+        mostrarAgregar={false}
+        datos={zonaszonas}
+      />
+      )}
+      
     </div>
   );
 }

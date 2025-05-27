@@ -12,6 +12,11 @@ export const getSensor = async (id) => {
   return response.json();
 };
 
+export const getTiposSensor = async (id) => {
+  const response = await fetch(`${API_URL}/api/tipos_sensores`);
+  return response.json();
+};
+
 //Funcion para agregar un sensor a su respectiva finca
 export const crearSensor = async (nuevaFinca) => {
   const response = await fetch(`${API_URL}/api/sensores`, {

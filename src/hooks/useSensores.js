@@ -6,6 +6,7 @@ import {
   getSensoresById,
   getSensoresZonasById,
   crearSensor,
+  getTiposSensor,
   editarSensor,
   eliminarSensores,
   insertarDatos
@@ -40,6 +41,7 @@ export function useSensores(id, idUser) {
   const [zonas, setZonas] = useState([]);
   const [zona, setZona] = useState({});
   const [usuario, setUsuario] = useState({});
+  const [tiposSensores, setTiposSensores] = useState([]);
   const rol = localStorage.getItem("rol");
   let inputValue = "";
 
@@ -59,6 +61,14 @@ export function useSensores(id, idUser) {
         setSensoresZona(sensoresZonasData || []);
       } catch (err) {
         console.error("❌ Error al obtener sensores de la zona:", err);
+      }
+
+      // Tipos de sensores (opcional, si se necesita)
+      try {
+        const tiposData = await getTiposSensor();
+        setTiposSensores(tiposData || []);
+      } catch (err) {
+        console.error("❌ Error al obtener tipos de sensores:", err);
       }
       // Usuario
       try {
@@ -257,6 +267,7 @@ export function useSensores(id, idUser) {
   return {
     sensores, setSensores,
     sensoresZona,setSensoresZona,
+    tiposSensores,
     formData, setFormData,
     sensorEditar, setSensorEditar,
     sensorOriginal, setSensorOriginal,

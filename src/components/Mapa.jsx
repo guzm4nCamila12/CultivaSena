@@ -128,7 +128,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
         </MapContainer>
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-white h-28 z-30 lg:bg-none"></div>
       </div>
-      <div className='p-2 shadow-2xl rounded-b-3xl flex flex-wrap lg:shadow-none lg:absolute lg:-bottom-0 lg:bg-transparent bg-white lg:w-full lg:flex lg:flex-row z-50'>
+      <div className='p-2 shadow-2xl rounded-b-3xl flex flex-wrap lg:shadow-none lg:absolute lg:-bottom-0 lg:bg-transparent bg-white lg:w-full lg:flex lg:flex-row z-30'>
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
           <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
             <button type="button" onClick={getCurrentLocation} className='group relative'>

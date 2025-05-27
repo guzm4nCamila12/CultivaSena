@@ -1,90 +1,76 @@
-import CerrarSesion from "../auth/logOut";
-import Inicio from "../../assets/icons/pagina-de-inicio.png"
-import cultivaSena from "../../assets/icons/cultivaSena.png"
-import Estadisticas from "../../assets/icons/grafico-de-barras.png"
-import Reporte from "../../assets/icons/reporteActividades.png"
-import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
+// src/components/menuLateral/MenuLateral.jsx
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { Link } from 'react-router-dom';
 
-export default function Sidebar() {
+// Iconos
+import Inicio from "../../assets/icons/pagina-de-inicio.png";
+import cultivaSena from "../../assets/icons/cultivaSena.png";
+import Estadisticas from "../../assets/icons/grafico-de-barras.png";
+import Reporte from "../../assets/icons/reporteActividades.png";
+import cerrarSesionIcon from "../../assets/icons/log-out-1.png"
+import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
+
+export default function MenuLateral({ onLogoutClick }) {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
-    const decodedToken = jwtDecode(token);
+    const decodedToken = token ? jwtDecode(token) : {};
 
     const obtenerRol = () => {
-
         switch (decodedToken.idRol) {
-            case 1:
-                return superAdminIcon;
-            case 2:
-                return adminIcon;
-            case 3:
-                return alternoIcon;
-            default:
-                return alternoIcon;
+            case 1: return superAdminIcon;
+            case 2: return adminIcon;
+            case 3: return alternoIcon;
+            default: return alternoIcon;
         }
+    };
 
-    }
-
-    const InicioRol = () => {
+    const goInicio = () => {
         const ruta = localStorage.getItem('principal') || '/';
         navigate(ruta);
     };
 
-
-
     return (
-        <div className="relative flex w-64 min-h-screen  z-40">
-            <div className="w-64 flex flex-col transition-all duration-1000 text-white flex-shrink-0 overflow-y-auto">
-                {/* Header */}
-                <div className="flex items-center mt-3 justify-between py-3">
-                    <div className="flex items-center shrink-0">
-                        <a href="/dashboard">
-                            <img src="/logoC.svg" alt="Logo" className="block w-auto h-9 ml-2" />
-                        </a>
-                    </div>
-                    <div>
-                        <h2 className='bg-[#39A900] mr-3 rounded-full px-2'>x</h2>
-                    </div>
-                </div>
+        <div className="flex flex-col h-full w-64 bg-[#002A43] text-white z-50">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                <a href="/dashboard">
+                    <img src="/logoC.svg" alt="Logo" className="h-9" />
+                </a>
+                <button className="text-white">x</button>
+            </div>
 
-                {/* Navigation */}
-                <div className="flex-1 px-4 pt-4 mt-7 space-y-7">
-                    <div onClick={InicioRol} className='flex cursor-pointer hover:text-[#39A900] hover:translate-x-3 transition-transform duration-300 ease-in-out'>
-                        <img src={Inicio} alt="" className='h-6 w-6 mr-3' />
-                        <h3>Inicio</h3>
-                    </div>
-                    <div className='flex cursor-pointer hover:text-[#39A900]  hover:translate-x-3 transition-transform duration-300 ease-in-out'>
-                        <img src={cultivaSena} alt="" className='h-6 w-7 mr-1' />
-                        <h3>Ir a Cultiva<strong>Sena</strong></h3>
-                    </div>
-                    <div className='flex cursor-pointer hover:text-[#39A900]  hover:translate-x-3 transition-transform duration-300 ease-in-out'>
-                        <img src={Estadisticas} alt="" className='h-6 w-7 mr-2' />
-                        <h3 className='mt-1'>Estadísticas</h3>
-                    </div>
-                    <div className='flex pb-6 cursor-pointer hover:text-[#39A900]  hover:translate-x-3 transition-transform duration-300 ease-in-out'>
-                        <img src={Reporte} alt="" className='h-8 w-8 mr-2' />
-                        <h3 className='mt-1'>Reporte Actividades</h3>
+            {/* Navegación */}
+            <div className="flex-1 px-4 pt-6 space-y-7">
+                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                    <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
+                    <span>Inicio</span>
+                </div>
+                <div onClick={() => window.open('https://cultivasena.edu.co', '_blank')} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                    <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
+                    <span>Ir a <strong>CultivaSena</strong></span>
+                </div>
+                <div onClick={() => navigate('/estadisticas')} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                    <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
+                    <span>Estadísticas</span>
+                </div>
+                <div onClick={() => navigate('/reporte-actividades')} className="flex items-center pb-6 cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                    <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
+                    <span>Reporte Actividades</span>
+                </div>
+            </div>
+            {/* Perfil y Cerrar Sesión */}
+            <div className="px-6 py-4 border-t border-gray-700">
+                <div className="flex items-center mb-4">
+                    <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
+                    <div className="ml-3">
+                        <span className="block font-bold">{decodedToken.nombre || 'Usuario'}</span>
+                        <span className="text-sm">Ver perfil</span>
                     </div>
                 </div>
-
-                {/* Settings */}
-                <Link to={"/perfil-usuario"}>
-                <div className="flex items-center px-6 w-full cursor-pointer py-2 hover:font-bold">
-                    <img className="rounded-md size-12" src={obtenerRol()} alt="Perfil" />
-                    <div className="flex flex-col ml-3">
-                        <span className="text-base font-bold">{decodedToken.nombre}</span>
-                        <span>Ver perfil</span>
-                    </div>
-                </div>
-                </Link>
-                {/* Profile */}
-                <div className="mt-0 px-6 mb-10">
-                    <div className="flex mt-10">
-                        <CerrarSesion />
-                    </div>
+                <div onClick={onLogoutClick} className="mb-2 p-2 px-5 rounded-full flex items-center cursor-pointer hover:bg-red-500">
+                    <img src={cerrarSesionIcon} alt="" className='mr-2' />
+                    <span>Cerrar sesión</span>
                 </div>
             </div>
         </div>

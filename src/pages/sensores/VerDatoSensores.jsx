@@ -18,17 +18,18 @@ import 'react-horizontal-scrolling-menu/dist/styles.css';
 // Función para formatear la fecha
 const formatearFechaYHora = (fecha) => {
   const date = new Date(fecha);
-  const dia = String(date.getDate()).padStart(2, '0');
-  const mes = String(date.getMonth() + 1).padStart(2, '0');
-  const año = date.getFullYear();
-  const horas = String(date.getHours()).padStart(2, '0');
-  const minutos = String(date.getMinutes()).padStart(2, '0');
-  const segundos = String(date.getSeconds()).padStart(2, '0');
+  const dia = String(date.getUTCDate()).padStart(2, '0');
+  const mes = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const año = date.getUTCFullYear();
+  const horas = String(date.getUTCHours()).padStart(2, '0');
+  const minutos = String(date.getUTCMinutes()).padStart(2, '0');
+  const segundos = String(date.getUTCSeconds()).padStart(2, '0');
   return {
     fecha: `${dia}/${mes}/${año}`,
     hora: `${horas}:${minutos}:${segundos}`,
   };
 };
+
 
 // Función para limitar los decimales del valor
 const limitarValor = (valor, decimales = 4) => {
@@ -42,11 +43,11 @@ export default function VerSensores() {
   const { id } = useParams();
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
+  const [paginaActual, setPaginaActual] = useState(1);
+
 
   useEffect(() => {
     SetCargando(true)
-
-
 
     getSensor(id)
       .then(data => {
@@ -56,10 +57,24 @@ export default function VerSensores() {
         console.log("datos mac:", data.mac);
         getHistorialSensores(data.mac)
           .then(historial => {
+            console.log("Historial completo:", historial);
+
             if (!historial || historial.length === 0) {
               setHayDatos(false);
             }
-            const datosGrafico = historial.map(item => {
+
+            const ahora = new Date(); // Fecha actual
+            const hace12Horas = new Date(ahora.getTime() - (10 * 60 * 1000)); // 12 horas antes
+            console.log("hora actual:", hace12Horas);
+
+            const historialFiltrado = historial
+              .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) // Ordenar del más reciente al más antiguo
+              .slice(0, 24); // Tomar los 10 más recientes
+
+            console.log("Historial filtrado (últimos 5 min):", historialFiltrado);
+
+
+            const datosGrafico = historialFiltrado.map(item => {
               const { fecha, hora } = formatearFechaYHora(item.fecha);
               return {
                 fecha,
@@ -67,13 +82,16 @@ export default function VerSensores() {
                 valor: limitarValor(item.valor),
               };
             });
+
             setDatosSensores(datosGrafico || []);
           })
+
           .catch(error => console.error("Error al obtener el historial de sensores", error));
       }).finally(() => {
         SetCargando(false)
       })
   }, [id]);
+
 
   const filtrarDatos = () => {
     return datosSensor.filter(item => {
@@ -122,6 +140,12 @@ export default function VerSensores() {
   }));
 
 
+  const itemsPorPagina = 12;
+  const totalPaginas = Math.ceil(datosTabla.length / itemsPorPagina);
+  const inicio = (paginaActual - 1) * itemsPorPagina;
+  const fin = inicio + itemsPorPagina;
+  const datosPaginados = datosTabla.slice(inicio, fin);
+
 
   return (
     <div >
@@ -152,16 +176,44 @@ export default function VerSensores() {
         </div>
       </div>
 
-      <div className='flex flex-row justify-center '>
-        <GraficoSensor datos={datosFinales} />
-      </div>
-      <MostrarInfo
-        columnas={columnas}
-        mostrarAgregar={false}
-        mostrarBotonAtras={false}
-        datos={datosTabla} // Pasamos los datos ya procesados para la tabla
-      />
-      {/* </div> */}
+
+      {cargando ? (
+        <div className="flex justify-center items-center">
+          <p>Cargando datos...</p>
+        </div>
+      ) : hayDatos ? (
+        <div>
+          <div className='flex flex-row justify-center'>
+            <GraficoSensor datos={datosFinales} />
+          </div>
+
+          <MostrarInfo
+            columnas={columnas}
+            mostrarAgregar={false}
+            datos={datosTabla.slice((paginaActual - 1) * 12, paginaActual * 12)}
+          />
+
+          {datosTabla.length > 12 && (
+            <div className="flex justify-center mt-4 space-x-2">
+              {[...Array(Math.ceil(datosTabla.length / 12))].map((_, i) => (
+                <button
+                  key={i}
+                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+                  onClick={() => setPaginaActual(i + 1)}
+                >
+                  Página {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className='flex flex-row justify-center '>
+          <p className='m-0'>No hay datos</p>
+        </div>
+      )}
+
+
     </div>
   );
 }

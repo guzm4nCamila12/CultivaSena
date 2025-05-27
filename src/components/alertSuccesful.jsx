@@ -38,7 +38,12 @@ style.innerHTML = `
 .my-toast-popup img { 
   width: 80px !important; /* Ajusta el tamaño de la imagen */
   height: 80px !important;
-  margin: 10px !important
+  margin: 10px !important2025
+26/05/2025
+-11
+4
+32
+
 }
 .my-toast-title {
   color: black;

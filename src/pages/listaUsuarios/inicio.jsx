@@ -5,7 +5,7 @@ import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { useUsuarios } from "../../hooks/useUsuarios";
-import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, eliminar, telefonoAzul, correoAzul, claveAzul, usuarioAzul } from "../../assets/icons/IconsExportation";
+import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, eliminar, telefonoAzul, correoAzul, claveAzul, usuarioAzul, rolAzul } from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { useRoles } from "../../utils/useRoles";
@@ -182,6 +182,7 @@ const Inicio = () => {
             name: "id_rol",
             placeholder: "Seleccione un rol",
             type: "select",
+            icono: rolAzul,
             options: [
               { value: 1, label: "SuperAdmin" },
               { value: 2, label: "Admin" },

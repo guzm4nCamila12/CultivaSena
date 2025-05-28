@@ -6,6 +6,7 @@ import {
   getSensoresById,
   getSensoresZonasById,
   crearSensor,
+  getTiposSensor,
   editarSensor,
   eliminarSensores,
   insertarDatos
@@ -31,8 +32,9 @@ export function useSensores(id, idUser) {
     idusuario: "",
     idzona: null,
     idfinca: "",
+    tipo_id: null
   });
-  const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null });
+  const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null, tipo_id: null });
   const [sensorOriginal, setSensorOriginal] = useState(null);
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [sensorEliminado, setSensorEliminado] = useState(null);
@@ -40,49 +42,54 @@ export function useSensores(id, idUser) {
   const [zonas, setZonas] = useState([]);
   const [zona, setZona] = useState({});
   const [usuario, setUsuario] = useState({});
+  const [tiposSensores, setTiposSensores] = useState([]);
   const rol = localStorage.getItem("rol");
   let inputValue = "";
 
   useEffect(() => {
-    console.log("ID de la finca:", idUser);
     const fetchData = async () => {
-      // Sensores
       try {
         const sensoresData = await getSensoresById(id);
         setSensores(sensoresData || []);
       } catch (err) {
         console.error("❌ Error al obtener sensores:", err);
       }
-      // Sensores por zona
       try {
         const sensoresZonasData = await getSensoresZonasById(id);
         setSensoresZona(sensoresZonasData || []);
       } catch (err) {
         console.error("❌ Error al obtener sensores de la zona:", err);
       }
-      // Usuario
+      try {
+        const tiposData = await getTiposSensor();
+        setTiposSensores(tiposData || []);
+      } catch (err) {
+        console.error("❌ Error al obtener tipos de sensores:", err);
+      }
       try {
         const usuarioData = await getUsuarioById(idUser);
         setUsuario(usuarioData || {});
-        console.log("user data:", usuarioData);
       } catch (err) {
         console.error("❌ Error al obtener usuario:", err);
       }
-      // Finca (NO es necesaria — la ignoramos si falla)
       try {
         const fincasData = await getFincasByIdFincas(id);
         setFincas(fincasData || {});
       } catch (err) {
         console.warn("⚠️ No se pudo obtener finca (opcional):", err);
       }
-      // Zonas de la finca (a partir del usuario, opcional también)
       try {
         const zonasData = await getZonasByIdFinca(id);
         setZonas(zonasData || []);
+        if (zonasData && zonasData.length > 0) {
+          setFormData(prev => ({
+            ...prev,
+            idzona: prev.idzona ?? zonasData[0].id
+          }));
+        }
       } catch (err) {
         console.warn("⚠️ No se pudo obtener zonas de finca:", err);
       }
-      // Zona individual
       try {
         const zonaData = await getZonasById(id);
         setZona(zonaData || {});
@@ -90,20 +97,18 @@ export function useSensores(id, idUser) {
         console.error("❌ Error al obtener zona:", err);
       }
     };
-    if (id && idUser) {
-      fetchData();
-    }
+    if (id && idUser) fetchData();
   }, [id, idUser]);
-  
+
   useEffect(() => {
     if (usuario && fincas?.id) {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         idusuario: usuario.id,
         idfinca: fincas.id,
       }));
     } else if (usuario && zona?.idfinca) {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         idusuario: usuario.id,
         idfinca: zona.idfinca,
@@ -113,31 +118,38 @@ export function useSensores(id, idUser) {
   }, [usuario, fincas, zona]);
 
   const handleChange = (e) => {
-    const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
+    const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
+      ? parseInt(e.target.value, 10)
+      : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleChangeEditar = (e) => {
-    const value = e.target.name === 'idzona' ? parseInt(e.target.value, 10) : e.target.value;
+    const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
+      ? parseInt(e.target.value, 10)
+      : e.target.value;
     setSensorEditar({ ...sensorEditar, [e.target.name]: value });
   };
 
   const crearNuevoSensor = async () => {
+    // Validación tipo_id obligatorio
+    if (!formData.tipo_id) {
+      await MySwal.fire({
+        icon: 'warning',
+        title: 'Selecciona un tipo de sensor',
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
     try {
       const response = await crearSensor(formData);
-      console.log("FormData:", formData);
       if (response) {
-        setSensores((prev) => [...prev, response]);
-        try {
-            const sensoresZonasData = await getSensoresZonasById(id);
-            setSensoresZona(sensoresZonasData || []);
-          } catch (err) {
-            console.error(" Error al obtener sensores de la zona:", err);
-          }
+        setSensores(prev => [...prev, response]);
+        const sensoresZonasData = await getSensoresZonasById(id);
+        setSensoresZona(sensoresZonasData || []);
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
-          imageAlt: 'Icono personalizado',
-          title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
+          title: `¡Sensor <span style=\"color: green;\">${formData.nombre}</span> creado correctamente!`
         });
       }
     } catch (err) {
@@ -149,20 +161,12 @@ export function useSensores(id, idUser) {
     if (!validarSinCambios(sensorEditar, sensorOriginal, "el sensor")) return;
     try {
       await editarSensor(sensorEditar.id, sensorEditar);
-      const nuevosSensores = sensores.map(sensor =>
-        sensor.id === sensorEditar.id ? sensorEditar : sensor
-      );
-      setSensores(nuevosSensores);
-      try {
-        const sensoresZonasData = await getSensoresZonasById(sensorEditar.idzona);
-        setSensoresZona(sensoresZonasData || []);
-      } catch (errZona) {
-        console.warn(" Error al refrescar sensoresZona:", errZona);
-      }
+      setSensores(prev => prev.map(s => s.id === sensorEditar.id ? sensorEditar : s));
+      const sensoresZonasData = await getSensoresZonasById(sensorEditar.idzona);
+      setSensoresZona(sensoresZonasData || []);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
-        imageAlt: 'Icono personalizado',
-        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
+        title: `¡Sensor <span style=\"color: #3366CC;\">${sensorEditar.nombre}</span> editado correctamente!`
       });
     } catch (err) {
       console.error("Error al actualizar sensor:", err);
@@ -170,21 +174,18 @@ export function useSensores(id, idUser) {
   };
 
   const eliminarSensor = async () => {
+    if (!sensorAEliminar) return;
     try {
       await eliminarSensores(sensorAEliminar);
-      setSensores((prev) => prev.filter(s => s.id !== sensorAEliminar));
-      try {
-        const sensoresZonasData = await getSensoresZonasById(id);
-        setSensoresZona(sensoresZonasData || []);
-        
-      } catch (errZona) {
-        console.warn(" Error al refrescar sensoresZona:", errZona);
-      }
+      setSensores(prev => prev.filter(s => s.id !== sensorAEliminar));
+      const sensoresZonasData = await getSensoresZonasById(id);
+      setSensoresZona(sensoresZonasData || []);
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
-        imageAlt: 'Icono personalizado',
-        title: `¡Sensor <span style="color: red;">${sensorEliminado?.nombre}</span> eliminado correctamente!`
+        title: `¡Sensor <span style=\"color: red;\">${sensorEliminado?.nombre}</span> eliminado correctamente!`
       });
+      setSensorAEliminar(null);
+      setSensorEliminado(null);
     } catch (err) {
       console.error("Error al eliminar sensor:", err);
     }
@@ -231,42 +232,41 @@ export function useSensores(id, idUser) {
   const cambiarEstadoSensor = async (sensor, index) => {
     const newEstado = !sensor.estado;
     const updatedSensor = { ...sensor, estado: newEstado };
-
     if (!sensor.mac && newEstado) {
-      const confirmacion = await showSwal();
-      if (!confirmacion.isConfirmed) return;
+      const confirm = await showSwal();
+      if (!confirm.isConfirmed) return;
       updatedSensor.mac = inputValue;
     }
-
     try {
       await editarSensor(sensor.id, updatedSensor);
-      const nuevosSensores = [...sensores];
-      nuevosSensores[index] = updatedSensor;
-      setSensores(nuevosSensores);
-      try {
-        const sensoresZonasData = await getSensoresZonasById(id);
-        setSensoresZona(sensoresZonasData || []);
-        
-      } catch (errZona) {
-        console.warn("Error al refrescar sensoresZona:", errZona);
-      }
-
-        await insertarDatos(updatedSensor.mac);
-      
+      setSensores(prev => {
+        const arr = [...prev]; arr[index] = updatedSensor; return arr;
+      });
+      const sensoresZonasData = await getSensoresZonasById(id);
+      setSensoresZona(sensoresZonasData || []);
+      await insertarDatos(updatedSensor.mac);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }
   };
 
   return {
-    sensores, setSensores,
-    sensoresZona,setSensoresZona,
-    formData, setFormData,
-    sensorEditar, setSensorEditar,
-    sensorOriginal, setSensorOriginal,
-    sensorAEliminar, setSensorAEliminar,
-    sensorEliminado, setSensorEliminado,
-    fincas, zonas, zona,rol,
+    sensores,
+    sensoresZona,
+    tiposSensores,
+    formData,
+    sensorEditar,
+    setSensorEditar,
+    sensorOriginal,
+    setSensorOriginal,
+    sensorAEliminar,
+    setSensorAEliminar,
+    sensorEliminado,
+    setSensorEliminado,
+    fincas,
+    zonas,
+    zona,
+    rol,
     crearNuevoSensor,
     actualizarSensor,
     eliminarSensor,

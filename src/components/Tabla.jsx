@@ -1,4 +1,3 @@
-// Tabla.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
@@ -6,6 +5,7 @@ import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
 import accionesIcon from "../assets/icons/acciones.png";
 import ModalFechaRango from "./modals/FechaRango";
+import { useNavigate } from "react-router-dom";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -26,11 +26,12 @@ const Tabla = ({
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
-  const allIds = datos.map(fila => fila.id);
-  const mostrarFotoPerfil = columnas.some(col => col.key === "fotoPerfil");
-  const columnasSinFoto = columnas.filter(col => col.key !== "fotoPerfil");
+  const allIds = datos.map((fila) => fila.id);
+  const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
+  const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
+  const navigate = useNavigate();
 
   // Construcción de encabezados
   const encabezados = [];
@@ -51,16 +52,18 @@ const Tabla = ({
     );
   };
 
-  // Función de procesamiento de seleccionados
+  // Procesar solo IDs seleccionados
   const procesarSeleccionados = () => {
-    const seleccionData = datos.filter(d => seleccionados.includes(d.id));
-    console.log('Datos seleccionados:', seleccionData);
+    // `seleccionados` ya es un array de IDs
+    console.log('IDs seleccionados:', seleccionados);
+    // Navegar enviando únicamente los IDs
     setModalAbierto(true);
   };
-
+  
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
     console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
-  }
+    navigate('/estadistica', { state: { ids: seleccionados } });
+  };
 
   return (
     <div className="container mx-auto px-0 pb-4">

@@ -7,6 +7,7 @@ import superAdminIcon from "./perfilSuperAdmin.png";
 import adminIcon from "./perfilAdmin.png";
 import alternoIcon from "./perfilAlterno.png";
 import cultivaIcon from "./cultivaSena.png"
+import finca from "./finca.png"
 
 export {
   usuarioCreado,
@@ -17,5 +18,6 @@ export {
   superAdminIcon,
   adminIcon,
   alternoIcon,
-  cultivaIcon
+  cultivaIcon,
+  finca
 };

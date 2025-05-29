@@ -5,10 +5,11 @@ import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { useUsuarios } from "../../hooks/useUsuarios";
-import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, eliminar, telefonoAzul, correoAzul, claveAzul, usuarioAzul, rolAzul } from "../../assets/icons/IconsExportation";
+import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, eliminar, telefonoAzul, correoAzul, claveAzul, usuarioAzul, rolAzul, tipoDocumento } from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { useRoles } from "../../utils/useRoles";
+import { type } from "@testing-library/user-event/dist/type";
 
 const Inicio = () => {
   const { usuarios, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId } = useUsuarios();
@@ -162,11 +163,31 @@ const Inicio = () => {
         onClose={() => setModalInsertarAbierto(false)}
         onSubmit={handleCrearUsuario}
         valores={nuevoUsuario}
-        onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value })}
+        onChange={(e) => {
+          const { name, value } = e.target;
+          if (name === "numero_documento" || name === "telefono") {
+            const soloNumeros = value.replace(/\D/g, "")
+            setNuevoUsuario({ ...nuevoUsuario, [name]: soloNumeros });
+          }
+        }}
         textoBoton="Crear"
         campos={[
+          {
+            name: "tipo_documento",
+            placeholder: "Seleccione tipo de documento",
+            type: "select",
+            icono: tipoDocumento,
+            options: [
+              { value: 1, label: "Cédula de ciudadanía" },
+              { value: 2, label: "Tarjeta de identidad" },
+              { value: 3, label: "Cédula de extranjería" },
+              { value: 4, label: "PEP" },
+              { value: 5, label: "Permiso por protección temporal" }
+            ]
+          },
+          { name: "numero_documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
-          { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+          { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "correo", placeholder: "Correo", icono: correoAzul },
           {
             name: "clave",

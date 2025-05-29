@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import {nombre,telefono,correo,ajustes,editar,eliminar,usuarioAzul,telefonoAzul,correoAzul,claveAzul,verClaveAzul,noVerClaveAzul} from "../../assets/icons/IconsExportation";
+import { nombre, telefono, correo, ajustes, editar, eliminar, usuarioAzul, telefonoAzul, correoAzul, claveAzul, verClaveAzul, noVerClaveAzul, tipoDocumento } from "../../assets/icons/IconsExportation";
 
 const AlternosFinca = () => {
   const {
@@ -74,6 +74,20 @@ const AlternosFinca = () => {
         onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value })}
         textoBoton="Crear"
         campos={[
+          {
+            name: "tipo_documento",
+            placeholder: "Seleccione tipo de documento",
+            type: "select",
+            icono: tipoDocumento,
+            options: [
+              { value: 1, label: "Cédula de ciudadanía" },
+              { value: 2, label: "Tarjeta de identidad" },
+              { value: 3, label: "Cédula de extranjería" },
+              { value: 4, label: "PEP" },
+              { value: 5, label: "Permiso por protección temporal" }
+            ]
+          },
+          { name: "numero_documento", placeholder: "Número de documento", icono: claveAzul },
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
           { name: "correo", placeholder: "Correo", icono: correoAzul },

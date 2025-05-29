@@ -5,6 +5,7 @@ import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
 import accionesIcon from "../assets/icons/acciones.png";
+import ModalFechaRango from "./modals/FechaRango";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -28,6 +29,8 @@ const Tabla = ({
   const allIds = datos.map(fila => fila.id);
   const mostrarFotoPerfil = columnas.some(col => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter(col => col.key !== "fotoPerfil");
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [rangoFechas, setRangoFechas] = useState(null);
 
   // Construcción de encabezados
   const encabezados = [];
@@ -52,7 +55,12 @@ const Tabla = ({
   const procesarSeleccionados = () => {
     const seleccionData = datos.filter(d => seleccionados.includes(d.id));
     console.log('Datos seleccionados:', seleccionData);
+    setModalAbierto(true);
   };
+
+  const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
+    console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
+  }
 
   return (
     <div className="container mx-auto px-0 pb-4">
@@ -100,7 +108,7 @@ const Tabla = ({
                 <tr key={fila.id || ridx}>
                   {enableSelection && (() => {
                     const isFirst = colIdx === 0;
-                    const classes = `p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle ${isFirst?'rounded-l-full':''}`;
+                    const classes = `p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''}`;
                     colIdx++;
                     return (
                       <td className={classes}>
@@ -116,7 +124,7 @@ const Tabla = ({
                   {mostrarFotoPerfil && (() => {
                     const isFirst = colIdx === 0;
                     const isLast = colIdx === totalCols - 1;
-                    const classes = `p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst?'rounded-l-full':''} ${isLast?'rounded-r-full':''}`;
+                    const classes = `p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''} ${isLast ? 'rounded-r-full' : ''}`;
                     colIdx++;
                     return (
                       <td className={classes}>
@@ -127,7 +135,7 @@ const Tabla = ({
                   {columnasSinFoto.map((col, cidx) => {
                     if (col.key === 'acciones') {
                       const isLast = colIdx === totalCols - 1;
-                      const classes = `sticky right-0 z-10 p-2 md:p-3 border-t border-b border-gray-300 bg-white align-middle ${isLast?'rounded-r-full':''}`;
+                      const classes = `sticky right-0 z-10 p-2 md:p-3 border-t border-b border-gray-300 bg-white align-middle ${isLast ? 'rounded-r-full' : ''}`;
                       colIdx++;
                       return (
                         <td key={cidx} className={classes} style={{ right: '-1rem' }}>
@@ -153,7 +161,7 @@ const Tabla = ({
                     }
                     const isFirst = colIdx === 0;
                     const isLast = colIdx === totalCols - 1;
-                    const classes = `p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst?'rounded-l-full':''} ${isLast?'rounded-r-full':''}`;
+                    const classes = `p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''} ${isLast ? 'rounded-r-full' : ''}`;
                     colIdx++;
                     return (
                       <td key={cidx} className={classes}>
@@ -171,7 +179,7 @@ const Tabla = ({
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-3 py-2 rounded-3xl"
           >
             Procesar seleccionados
           </button>
@@ -185,6 +193,12 @@ const Tabla = ({
           </div>
         </div>
       )}
+
+      <ModalFechaRango
+        isOpen={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+        onConfirm={handleConfirmRango}
+      />
     </div>
   );
 };

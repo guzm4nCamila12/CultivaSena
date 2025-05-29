@@ -2,12 +2,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
+import ModalFechaRango from "./modals/FechaRango";
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [rangoFechas, setRangoFechas] = useState(null);
 
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -48,7 +51,12 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const procesarSeleccionados = () => {
     const seleccionData = datosFiltrados.filter(d => seleccionados.includes(d.id));
     console.log('Datos seleccionados:', seleccionData);
+    setModalAbierto(true)
   };
+
+  const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
+    console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
+  }
 
   return (
     <div className="container sm:px-0">
@@ -135,6 +143,12 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
           </div>
         </div>
       )}
+
+      <ModalFechaRango
+      isOpen={modalAbierto}
+      onClose={() => setModalAbierto(false)}
+      onConfirm={handleConfirmRango}
+      />
     </div>
   );
 };

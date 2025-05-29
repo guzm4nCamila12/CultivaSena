@@ -13,6 +13,7 @@ import cerrarSesionIcon from "../../assets/icons/log-out-1.png"
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/logOutRed.png"
 import cerrarIcon from "../../assets/icons/cerrar.png"
+import sensor from "../../assets/icons/reportesSensor.png"
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
@@ -52,25 +53,25 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
             {/* Navegación */}
             <div className="flex-1 px-4 pt-6 space-y-7">
-                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
                     <span>Inicio</span>
                 </div>
                 <div className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
-                    <span>Ir a <strong>CultivaSena</strong></span>
+                    <span>Ir a Cultiva<strong>Sena</strong></span>
                 </div>
                 {/* Estadísticas */}
                 <div>
                     <div
                         onClick={() => setMostrarSubmenuEstadisticas(!mostrarSubmenuEstadisticas)}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                     >
                         <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                         <span>Estadísticas</span>
                     </div>
                     <div
-                        className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
+                        className={`pl-10 mt-2 flex flex-col text-sm space-y-3 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
                             }`}
                     >
                         <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Finca La Nueva</span>
@@ -82,18 +83,22 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 <div>
                     <div
                         onClick={() => setMostrarSubmenuReporte(!mostrarSubmenuReporte)}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                     >
                         <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                         <span>Reporte Actividades</span>
                     </div>
                     <div
-                        className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuReporte ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
+                        className={`pl-10 mt-2 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuReporte ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
                             }`}
                     >
                         <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Sensores</span>
                         <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">ACtividades</span>
                     </div>
+                </div>
+                <div className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
+                    <img src={sensor} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
+                    <span>Reporte Sensores</span>
                 </div>
 
             </div>

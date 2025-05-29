@@ -191,23 +191,39 @@ export function useSensores(id, idUser) {
     }
   };
 
-  const showSwal = () => MySwal.fire({
-    title: <h5 className="text-2xl font-extrabold mb-4 text-center">Ingrese la dirección MAC del sensor:</h5>,
-    input: 'text',
-    inputPlaceholder: 'Digite la dirección MAC',
-    showCancelButton: true,
-    inputValue,
-    preConfirm: () => {
-      const val = Swal.getInput()?.value;
-      if (!val) {
-        Swal.showValidationMessage('¡Este campo es obligatorio!');
-        return false;
-      }
-      inputValue = val;
-      return true;
-    },
-    confirmButtonText: 'Guardar e insertar',
-  });
+  const showSwal = () => {
+    return withReactContent(Swal).fire({
+      title: (
+        <h5 className="text-2xl font-extrabold mb-4 text-center">
+          Ingrese la dirección MAC <br />
+          del sensor:
+        </h5>
+      ),
+      input: 'text',
+      inputPlaceholder: 'Digite la dirección MAC',
+      cancelButtonText: 'Cancelar',
+      showCancelButton: true,
+      inputValue,
+      preConfirm: () => {
+        const value = Swal.getInput()?.value;
+        if (!value) {
+          Swal.showValidationMessage('¡Este campo es obligatorio!');
+          return false;
+        }
+        inputValue = value;
+        return true;
+      },
+      confirmButtonText: 'Guardar e insertar',
+      customClass: {
+        popup: 'rounded-3xl shadow-lg w-full sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 my-8 sm:my-12',
+        title: 'text-gray-900',
+        input: 'flex py-2 border-gray rounded-3xl',
+        actions: 'flex justify-center space-x-4 max-w-[454px] mx-auto',
+        cancelButton: 'w-[210px] p-3 text-center bg-[#00304D] hover:bg-[#021926] text-white font-bold rounded-full text-lg',
+        confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
+      },
+    });
+  };
 
   const cambiarEstadoSensor = async (sensor, index) => {
     const newEstado = !sensor.estado;

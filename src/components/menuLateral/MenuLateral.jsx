@@ -99,7 +99,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
               : fincas.map(finca => (
                 <Link
                   key={finca.id}
-                  to={`/estadisticas/${finca.id}`}
+                  to={`/zonas/${finca.id}/${decodedToken.id}`}
                   className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                 >
                   {finca.nombre}

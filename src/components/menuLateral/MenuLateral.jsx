@@ -10,8 +10,9 @@ import Estadisticas from "../../assets/icons/grafico-de-barras.png";
 import Reporte from "../../assets/icons/reporteActividades.png";
 import cerrarSesionIcon from "../../assets/icons/log-out-1.png";
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
-import cerrarRojo from "../../assets/icons/logOutRed.png";
-import cerrarIcon from "../../assets/icons/cerrar.png";
+import cerrarRojo from "../../assets/icons/logOutRed.png"
+import cerrarIcon from "../../assets/icons/cerrar.png"
+import sensor from "../../assets/icons/reportesSensor.png"
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const [mostrarSubmenuReporte, setMostrarSubmenuReporte] = useState(false);
     const [mostrarSubmenuEstadisticas, setMostrarSubmenuEstadisticas] = useState(false);
     const [fincas, setFincas] = useState([]);
+    const [mostrarSubmenuSensores, setMostrarSubmenuSensores] = useState(false)
     const [cargandoFincas, setCargandoFincas] = useState(true);
 
     // Obtener ícono según rol
@@ -75,7 +77,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
             {/* Navegación */}
             <div className="flex-1 px-4 pt-6 space-y-7">
-                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
                     <span>Inicio</span>
                 </div>
@@ -88,7 +90,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 <div>
                     <div
                         onClick={() => setMostrarSubmenuEstadisticas(!mostrarSubmenuEstadisticas)}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                     >
                         <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                         <span>Estadísticas</span>
@@ -97,7 +99,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}
@@ -111,14 +113,47 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 <div>
                     <div
                         onClick={() => setMostrarSubmenuReporte(!mostrarSubmenuReporte)}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                     >
                         <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                         <span>Reporte Actividades</span>
                     </div>
-                    <div className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuReporte ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Sensores</span>
-                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Actividades</span>
+                    <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuReporte ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                        {cargandoFincas
+                            ? <span>Cargando...</span>
+                            : fincas.map(finca => (
+                                <Link
+                                    key={finca.id}
+                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                    className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                >
+                                    {finca.nombre}
+                                </Link>
+                            ))
+                        }
+                    </div>
+                </div>
+                <div>
+                    <div
+                        onClick={() => setMostrarSubmenuSensores(!mostrarSubmenuSensores)}
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                    >
+                        <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
+                        <span>Reporte Sensores</span>
+                    </div>
+                    <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuSensores ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                        {cargandoFincas
+                            ? <span>Cargando...</span>
+                            : fincas.map(finca => (
+                                <Link
+                                    key={finca.id}
+                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                    className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                >
+                                    {finca.nombre}
+                                </Link>
+                            ))
+                        }
                     </div>
                 </div>
             </div>

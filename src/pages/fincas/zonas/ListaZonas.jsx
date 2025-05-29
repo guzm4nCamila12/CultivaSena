@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { useZonas } from "../../../hooks/useZonas"; // nuevo hook
 import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
@@ -8,12 +8,16 @@ import {zonasIcon,actividades,ajustes,editar,eliminar,nombreZona, sensoresIcon} 
 
 const Zonas = () => {
   const { idUser, id } = useParams();
+  const { state } = useLocation();
+  const enableSelectionButton = state?.enableSelectionButton ?? false;
+  console.log("seleccion",enableSelectionButton)
   const {
     fincas, zonas, abrirModalCrear, abrirModalEditar, abrirModalEliminar,
     modalFormularioAbierto, setModalFormularioAbierto, handleSubmitFormulario,
     zonaFormulario, handleChangeZona, modoFormulario,
     modalEliminarAbierto, setModalEliminarAbierto, handleEliminarZona, zonaEliminada
   } = useZonas(id, idUser);
+
 
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: zonasIcon },
@@ -83,6 +87,7 @@ const Zonas = () => {
         acciones={acciones}
         onAddUser={abrirModalCrear}
         mostrarAgregar
+        enableSelectionButton={enableSelectionButton}
       />
 
       <FormularioModal

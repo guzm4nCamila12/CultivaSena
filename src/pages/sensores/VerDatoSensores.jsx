@@ -191,6 +191,7 @@ export default function VerSensores() {
             columnas={columnas}
             mostrarAgregar={false}
             datos={datosTabla.slice((paginaActual - 1) * 12, paginaActual * 12)}
+            mostrarBotonAtras={false}
           />
 
           {datosTabla.length > 12 && (

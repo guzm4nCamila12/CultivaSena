@@ -2,7 +2,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 // Iconos
 import Inicio from "../../assets/icons/pagina-de-inicio.png";
 import cultivaSena from "../../assets/icons/cultivaSena.png";
@@ -10,14 +11,21 @@ import Estadisticas from "../../assets/icons/grafico-de-barras.png";
 import Reporte from "../../assets/icons/reporteActividades.png";
 import cerrarSesionIcon from "../../assets/icons/log-out-1.png"
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
+import cerrarRojo from "../../assets/icons/logOutRed.png"
+import cerrarIcon from "../../assets/icons/cerrar.png"
 
-export default function MenuLateral({ onLogoutClick }) {
+export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
+
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : {};
+    const [hoverCerrar, setHoverCerrar] = useState(false);
+    const [mostrarSubmenuReporte, setMostrarSubmenuReporte] = useState(false);
+    const [mostrarSubmenuEstadisticas, setMostrarSubmenuEstadisticas] = useState(false);
 
     const obtenerRol = () => {
-        switch (decodedToken.idRol) {
+        const rol = decodedToken.idRol
+        switch (rol) {
             case 1: return superAdminIcon;
             case 2: return adminIcon;
             case 3: return alternoIcon;
@@ -31,13 +39,15 @@ export default function MenuLateral({ onLogoutClick }) {
     };
 
     return (
-        <div className="flex flex-col h-full w-64 bg-[#002A43] text-white z-50">
+        <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px]  border-gray-700 text-white z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <a href="/dashboard">
                     <img src="/logoC.svg" alt="Logo" className="h-9" />
                 </a>
-                <button className="text-white">x</button>
+                <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 p-2">
+                    <img src={cerrarIcon} alt="" className='w-2 h-2' />
+                </button>
             </div>
 
             {/* Navegación */}
@@ -46,32 +56,68 @@ export default function MenuLateral({ onLogoutClick }) {
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
                     <span>Inicio</span>
                 </div>
-                <div onClick={() => window.open('https://cultivasena.edu.co', '_blank')} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
+                <div className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
                     <span>Ir a <strong>CultivaSena</strong></span>
                 </div>
-                <div onClick={() => navigate('/estadisticas')} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
-                    <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
-                    <span>Estadísticas</span>
+                {/* Estadísticas */}
+                <div>
+                    <div
+                        onClick={() => setMostrarSubmenuEstadisticas(!mostrarSubmenuEstadisticas)}
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                    >
+                        <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
+                        <span>Estadísticas</span>
+                    </div>
+                    <div
+                        className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
+                            }`}
+                    >
+                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Finca La Nueva</span>
+                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">La esperanza</span>
+                    </div>
                 </div>
-                <div onClick={() => navigate('/reporte-actividades')} className="flex items-center pb-6 cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">
-                    <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
-                    <span>Reporte Actividades</span>
+
+                {/* Reporte Actividades */}
+                <div>
+                    <div
+                        onClick={() => setMostrarSubmenuReporte(!mostrarSubmenuReporte)}
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                    >
+                        <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
+                        <span>Reporte Actividades</span>
+                    </div>
+                    <div
+                        className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuReporte ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'
+                            }`}
+                    >
+                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">Sensores</span>
+                        <span className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition">ACtividades</span>
+                    </div>
                 </div>
+
             </div>
             {/* Perfil y Cerrar Sesión */}
             <div className="px-6 py-4 border-t border-gray-700">
-                <div className="flex items-center mb-4">
-                    <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
-                    <div className="ml-3">
-                        <span className="block font-bold">{decodedToken.nombre || 'Usuario'}</span>
-                        <span className="text-sm">Ver perfil</span>
+                <Link to={`/perfil-usuario`}>
+                    <div className="flex items-center mb-4">
+                        <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
+                        <div className="ml-3">
+                            <span className="block font-bold">{decodedToken.nombre || 'Usuario'}</span>
+                            <span className="text-sm">Ver perfil</span>
+                        </div>
                     </div>
-                </div>
-                <div onClick={onLogoutClick} className="mb-2 p-2 px-5 rounded-full flex items-center cursor-pointer hover:bg-red-500">
-                    <img src={cerrarSesionIcon} alt="" className='mr-2' />
+                </Link>
+                <div
+                    onClick={onLogoutClick}
+                    onMouseEnter={() => setHoverCerrar(true)}
+                    onMouseLeave={() => setHoverCerrar(false)}
+                    className="mb-2 p-2 rounded-full flex justify-center cursor-pointer hover:text-red-500"
+                >
+                    <img src={hoverCerrar ? cerrarRojo : cerrarSesionIcon} alt="Cerrar sesión" className='mr-1 w-6 h-6' />
                     <span>Cerrar sesión</span>
                 </div>
+
             </div>
         </div>
     );

@@ -75,7 +75,7 @@ const useAlternosFinca = () => {
     if (!validarTelefono(usuarioEditar.telefono)) return;
     if (!validarClave(usuarioEditar.clave)) return;
     if (!validarNombre(usuarioEditar.nombre)) return;
-    if (!validarSinCambios(usuarioEditar, alternoEditado, "el usuario")) return;
+    if (!validarSinCambios(usuarioEditar, alternoEditado, "el alterno")) return;
 
     const credencialesValidas = await comprobarCredenciales(usuarioEditar, usuarioEditar.id);
     if (!credencialesValidas) return;

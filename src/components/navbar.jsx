@@ -43,7 +43,7 @@ export default function Navbar() {
               menuVisible ? 'translate-x-0' : '-translate-x-full'
             }`}
           >
-            <MenuLateral onLogoutClick={openLogoutModal} />
+            <MenuLateral onLogoutClick={openLogoutModal} onCloseMenu={() => setMenuVisible(false)}/>
           </div>
         </div>
       </div>

@@ -205,12 +205,16 @@ export function useSensores(id, idUser) {
       showCancelButton: true,
       inputValue,
       preConfirm: () => {
-        const value = Swal.getInput()?.value;
-        if (!value) {
+        const val = Swal.getInput()?.value.trim();
+        if (!val) {
           Swal.showValidationMessage('¡Este campo es obligatorio!');
           return false;
         }
-        inputValue = value;
+        if(/\s/.test(val)){
+          Swal.showValidationMessage('¡No se permiten espacios al ingresar la MAC!');
+            return false;
+        }
+        inputValue = val;
         return true;
       },
       confirmButtonText: 'Guardar e insertar',

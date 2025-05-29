@@ -79,11 +79,12 @@ export default function ActividadesZonas() {
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
-                        <h5 className="text-2xl font-bold mb-4 text-center">Crear actividad</h5>
+                        <h5 className="text-2xl font-bold mb-2 text-center">Crear actividad</h5>
+                        <hr/>
                         <form onSubmit={handleCrearActividad}>
-                            <div className="mb-2">
-                                <label className="font-semibold">Tipo de cultivo</label>
-                                <div className="flex gap-4 mt-1">
+                            <div className="mb-2 my-2">
+                                <label className="font-semibold">Seleccione el tipo de cultivo</label>
+                                <div className="flex gap-4 mt-0">
                                     {["Café", "Mora"].map(cultivo => (
                                         <label key={cultivo} className="flex items-center gap-2">
                                             <input
@@ -100,7 +101,7 @@ export default function ActividadesZonas() {
                             </div>
 
                             <div className="mb-2">
-                                <label className="font-semibold">Etapa</label>
+                                <label className="font-semibold">Seleccione la etapa del cultivo</label>
                                 <select name="etapa" required onChange={handleEtapaChange} className="w-full border p-2 rounded-3xl">
                                     <option value="">Seleccione etapa</option>
                                     {etapas.map(et => <option key={et.value} value={et.value}>{et.label}</option>)}
@@ -108,7 +109,7 @@ export default function ActividadesZonas() {
                             </div>
 
                             <div className="mb-2">
-                                <label className="font-semibold">Actividad</label>
+                                <label className="font-semibold">Seleccione la actividad que realizó</label>
                                 <select name="actividad" required onChange={handleActividadChange} className="w-full border p-2 rounded-3xl">
                                     <option value="">Seleccione actividad</option>
                                     {actividadesOptions.map(act => <option key={act.value} value={act.value}>{act.label}</option>)}
@@ -122,13 +123,13 @@ export default function ActividadesZonas() {
                                     name="descripcion"
                                     placeholder="Describa la actividad"
                                     required
-                                    className="w-full border p-2 rounded-3xl"
+                                    className="w-full border p-2 rounded-3xl py-5"
                                     onChange={handleActividadChange}
                                 />
                             </div>
 
                             <div className="mb-2">
-                                <label className="font-semibold">Fecha Inicio</label>
+                                <label className="font-semibold">Fecha de inicio</label>
                                 <input
                                     type="datetime-local"
                                     name="fechainicio"
@@ -139,7 +140,7 @@ export default function ActividadesZonas() {
                             </div>
 
                             <div className="mb-4">
-                                <label className="font-semibold">Fecha Fin</label>
+                                <label className="font-semibold">Fecha de finalización</label>
                                 <input
                                     type="datetime-local"
                                     name="fechafin"
@@ -171,11 +172,12 @@ export default function ActividadesZonas() {
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-3xl w-[90%] sm:w-1/2 md:w-1/3">
-                        <h2 className="text-xl font-bold mb-4 text-center">Editar Actividad</h2>
+                        <h2 className="text-2xl font-bold mb-2 text-center">Editar Actividad</h2>
+                        <hr/>
                         <form onSubmit={handleEditarActividad}>
-                            <div className="mb-2">
+                            <div className="mb-2 my-2">
                                 <label className="font-semibold">Tipo de cultivo</label>
-                                <div className="flex gap-4 mt-1">
+                                <div className="flex gap-4 mt-0">
                                     {["Café", "Mora"].map(cultivo => (
                                         <label key={cultivo} className="flex items-center gap-2">
                                             <input
@@ -226,7 +228,7 @@ export default function ActividadesZonas() {
                                     type="text"
                                     name="descripcion"
                                     required
-                                    className="w-full border p-2 rounded-3xl"
+                                    className="w-full border p-2 rounded-3xl py-5"
                                     value={actividadEditar.descripcion || ''}
                                     onChange={handleEditarActividadChange}
                                 />
@@ -245,7 +247,7 @@ export default function ActividadesZonas() {
                             </div>
 
                             <div className="mb-4">
-                                <label className="font-semibold">Fecha Fin</label>
+                                <label className="font-semibold">Fecha Finalización</label>
                                 <input
                                     type="datetime-local"
                                     name="fechafin"

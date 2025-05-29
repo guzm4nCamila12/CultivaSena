@@ -13,6 +13,7 @@ import SensoresZona from "../pages/sensores/SensoresZonas"
 import ListaSensores from "../pages/sensores/ListaSensores";
 import VerDatoSensor from '../pages/sensores/VerDatoSensores'
 import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
+import PerfilUsuario from "../pages/Perfil/PerfilUsuario";
 
 
 function AppRouter() {
@@ -32,6 +33,7 @@ function AppRouter() {
         <Route path="/activar-sensores/:id/:idUser" element={<ProtectedRoute element={ListaSensores} allowedRoles={[1,2,3]}/>} />
         <Route path="datos-sensor/:id" element={<ProtectedRoute element={VerDatoSensor} allowedRoles={[1,2,3]}/>} />
         <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={ListaSensoresAlterno} allowedRoles={[3]}/>} />
+        <Route path="/perfil-usuario" element={<ProtectedRoute element={PerfilUsuario} allowedRoles={[1,2,3]}/>} />
       </Routes>
     </Router>
   )

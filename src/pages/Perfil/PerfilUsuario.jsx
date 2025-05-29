@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { superAdminIcon, adminIcon, alternoIcon,finca } from '../../assets/img/imagesExportation';
 import { fincasIcon, sensoresIcon,editar } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
+import Tabla from '../../components/Tabla';
 
 function PerfilUsuario() {
 
@@ -19,6 +20,12 @@ function PerfilUsuario() {
       default: return alternoIcon;
     }
   }
+
+  const columnas = [
+    { key: "finca", label: "Finca" },
+    { key: "actividad", label: "Actividad" },
+    { key: "fecha", label: "Fecha" }
+  ];
 
   console.log("token", decodedToken)
 
@@ -58,8 +65,14 @@ function PerfilUsuario() {
             </div>
           </div>
           <div className='bg-green-300 flex flex-col py-7 items-center w-1/2'>
-            <div className='bg-[#002A43] w-3/4 h-full rounded-3xl flex flex-col items-center text-white'>
+            <div className='bg-[#002A43] w-3/4 h-full rounded-3xl flex flex-col items-center text-white p-4'>
               <h3 className='font-bold text-xl mt-1'>Registro Actividades</h3>
+              <Tabla
+              titulo={"probando"}
+              columnas={columnas}
+              datos={[]}
+              acciones={[]}
+              />
             </div>
           </div>
         </div>

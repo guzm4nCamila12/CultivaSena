@@ -3,9 +3,9 @@ import sinFinca from './sinFincas.png';
 import UsuarioEliminado from './usuarioEliminado.png';
 import fotoPerfil from './perfilSuperAdmin.png';
 import Alerta from './alerta.png';
-import superAdminIcon from "./perfilSuperAdmin.png";
-import adminIcon from "./perfilAdmin.png";
-import alternoIcon from "./perfilAlterno.png";
+import superAdminIcon from "./SuperAdmin.svg";
+import adminIcon from "./Admin.svg";
+import alternoIcon from "./Alterno.svg";
 import cultivaIcon from "./cultivaSena.png"
 import finca from "./finca.png"
 

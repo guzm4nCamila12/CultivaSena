@@ -17,13 +17,7 @@ const getRoleImage = (role) => {
   }
 };
 
-const Tabla = ({
-  columnas,
-  datos,
-  acciones,
-  onAddUser,
-  mostrarAgregar,
-  enableSelection = false,
+const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista,
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
@@ -57,11 +51,15 @@ const Tabla = ({
   const procesarSeleccionados = () => {
     setModalAbierto(true);
   };
-  
+
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
     // Guardamos el rango y navegamos con IDs y fechas
     setRangoFechas({ fechaInicio, fechaFin });
-    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    if (vista == "/reporte") {
+
+    } else if (vista == "/estadistica") {
+      navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    }
   };
 
   return (
@@ -200,6 +198,7 @@ const Tabla = ({
         isOpen={modalAbierto}
         onClose={() => setModalAbierto(false)}
         onConfirm={handleConfirmRango}
+        vista={vista}
       />
     </div>
   );

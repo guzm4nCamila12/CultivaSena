@@ -1,10 +1,15 @@
-// ModalFechaRango.jsx
+// src/components/ModalFechaRango.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-const ModalFechaRango = ({ isOpen, onClose, onConfirm }) => {
+const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
+
+  // Determinar texto del botón según la vista
+  let btnText = "Generar gráfico";
+  if (vista === "/reporte") btnText = "Generar reporte";
+  else if (vista === "/estadistica") btnText = "Generar estadística";
 
   const handleConfirm = () => {
     if (!fechaInicio || !fechaFin) {
@@ -55,7 +60,7 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm }) => {
             onClick={handleConfirm}
             className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"
           >
-            Generar gráfico
+            {btnText}
           </button>
         </div>
       </div>
@@ -67,6 +72,11 @@ ModalFechaRango.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onConfirm: PropTypes.func.isRequired,
+  vista: PropTypes.string,
+};
+
+ModalFechaRango.defaultProps = {
+  vista: "",
 };
 
 export default ModalFechaRango;

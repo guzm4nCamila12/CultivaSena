@@ -5,14 +5,7 @@ import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
 
-function MostrarInfo({
-  columnas,
-  datos,
-  titulo,
-  acciones,
-  onAddUser,
-  mostrarAgregar,
-  enableSelectionButton = false, // nuevo prop para mostrar el botón
+function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelectionButton = false, vista, 
 }) {
   const [busqueda, setBusqueda] = useState("");
   const [vistaActiva, setVistaActiva] = useState(
@@ -67,6 +60,7 @@ function MostrarInfo({
           onAddUser={onAddUser}
           mostrarAgregar={mostrarAgregar}
           enableSelection={seleccionEnabled}
+          vista={vista}
         />
       ) : (
         <Tarjetas
@@ -77,6 +71,7 @@ function MostrarInfo({
           onAddUser={onAddUser}
           mostrarAgregar={mostrarAgregar}
           enableSelection={seleccionEnabled}
+          vista={vista}
         />
       )}
     </div>

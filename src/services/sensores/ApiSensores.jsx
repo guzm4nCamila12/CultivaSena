@@ -36,6 +36,11 @@ export const editarSensor = async (id, fincaActualizada) => {
   
 };
 
+export const getCantidadSensores = async (id) => {
+  const response = await fetch(`${API_URL}/cantidad/sensores/${id}`);
+  return response.json();
+};
+
 //Funcion para eliminar un sensor de la finca
 export const eliminarSensores = async (id) => {
   await fetch(`${API_URL}/api/sensores/${id}`, { method: "DELETE" });

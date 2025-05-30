@@ -98,3 +98,8 @@ export const getActividadesByZona = async (id) => {
   const response = await fetch(`${API_URL}/zonas/actividades/${id}`);
   return response.json();
 };
+
+export const getActividadesTotales = async (id)  =>{
+  const response = await fetch (`${API_URL}/actividades/totales/${id}`);
+  return response.json();
+};

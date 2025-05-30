@@ -95,13 +95,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                         <span>Estadísticas</span>
                     </div>
-                    <div className={`pl-12 mt-2 flex flex-col text-md space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                    <div className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link
-                                    key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                <Link to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}

@@ -1,14 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar'
-import { useParams } from 'react-router-dom';
-import { superAdminIcon, adminIcon, alternoIcon,finca } from '../../assets/img/imagesExportation';
-import { fincasIcon, sensoresIcon,editar } from '../../assets/icons/IconsExportation';
+import { data, useParams } from 'react-router-dom';
+import { superAdminIcon, adminIcon, alternoIcon, finca } from '../../assets/img/imagesExportation';
+import { fincasIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, nombre, telefono, correo } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
+import { getCantidadSensores } from '../../services/sensores/ApiSensores';
+import Tabla from '../../components/Tabla';
+import { getFincasById } from '../../services/fincas/ApiFincas';
+import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
+import FormularioModal from '../../components/modals/FormularioModal';
 
 function PerfilUsuario() {
 
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : {};
+  const [cantidadSensores, setCantidadSensores] = useState({})
+  const [usuario, setUsuario] = useState({})
+  const [modalEditarAbierto, setModalEditarAbierto] = useState(false)
+  const [usuarioEditar, setUsuarioEditar] = useState({ nombre: usuario.nombre, telefono: usuario.telefono, correo: usuario.correo });
+
+  console.log(decodedToken)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        getCantidadSensores(decodedToken.id)
+          .then(data => setCantidadSensores(data))
+        getUsuarioById(decodedToken.id)
+          .then(data => setUsuario(data))
+      } catch (err) {
+        console.error("Error cargando sensores", err);
+      }
+    };
+    fetchData();
+  }, []);
 
 
   const obtenerRol = () => {
@@ -20,51 +45,93 @@ function PerfilUsuario() {
     }
   }
 
-  console.log("token", decodedToken)
+  const columnas = [
+    { key: "finca", label: "Finca" },
+    { key: "actividad", label: "Actividad" },
+    { key: "fecha", label: "Fecha" }
+  ];
 
   return (
-    <>
+    <div className=' flex flex-col h-screen'>
       <Navbar />
-      <div className='flex bg-purple-300'>
-        <div className='flex p-3 h-full w-full bg-yellow-200 pl-[188px] '>
-          <div className='bg-slate-500 p-3 w-1/4 '>
-            <div className='bg-blue-400 h-64 w-8/12 flex justify-center items-center'>
+      <div className='flex h-full'>
+        <div className='flex w-full  h-full ml-[156px] '>
+          <div className='w-1/4 '>
+            <div className=' h-64 mt-9 w-8/12 flex justify-center items-center'>
               <img src={obtenerRol()} alt="" className='w-56 h-56' />
             </div>
-            <div className='bg-orange-300 px-5 w-8/12 border-b-2 border-t-2 mt-3 h-64 space-y-3 text-center flex-col justify-center'>
-              <h2 className='bg-amber-600 border-b border-gray-700'>{decodedToken.nombre}</h2>
-              <h2 className='bg-green-600 border-b border-gray-700'>{decodedToken.telefono}</h2>
-              <h2 className='bg-rose-400 border-b border-gray-700'>{decodedToken.correo}</h2>
-              <button className='bg-green-600 px-4 py-1 rounded-3xl'>
-                <img src={editar} alt="" />
+            <div className='px-5 text-lg w-8/12 border-b-2 border-[#D9D9D9] border-t-2 mt-3 space-y-3 text-center flex-col justify-center'>
+              <h2 className=''>{usuario.nombre}</h2>
+              <h2 className=''>{usuario.telefono}</h2>
+              <h2 className=''>{usuario.correo}</h2>
+              <button className='bg-[#39A900] px-5 py-1 rounded-3xl' onClick={() => setModalEditarAbierto(true)}>
+                <img src={editar} alt="" className='w-5 h-5' />
               </button>
             </div>
           </div>
-          <div className='bg-red-400 flex flex-col items-center text-white font-semibold justify-around w-1/4'>
-            <div className='bg-[#002A43] h-1/2 w-4/6 p-2 flex flex-col items-center justify-around rounded-3xl'>
-              <div className='w-full flex bg-yellow-500'>
-                <img src={fincasIcon} alt="" className='mr-1 w-5 h-6' />
-                <h2>Contenedor Fincas</h2>
+
+          {/**Contenedor de cartas: cantidad fincas y cantidad sensores */}
+          <div className=' flex flex-col items-center text-white font-semibold justify-around w-1/4'>
+            <div className='bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
+              <div className='w-full flex'>
+                <img src={fincasIcon} alt="" className='mr-1' />
+                <h3>Cantidad de Fincas</h3>
               </div>
-                <div className='bg-red-500'>
-                  <img src={finca} alt="" />
-                </div>
+              <div className=' h-56 w-full flex items-center justify-center'>
+                <img src={finca} alt="" />
+              </div>
+              <div className='pl-2 w-full'>
+                <h2 className='text-3xl'>{usuario.cantidad_fincas ?? 0}</h2>
+              </div>
             </div>
-            <div className='bg-[#002A43] h-2/5 p-2 w-4/6 rounded-3xl'>
-              <div className='flex bg-yellow-500'>
-                <img src={sensoresIcon} alt="" className='mr-1 w-5 h-6' />
-                <h2>Contenedor fincas</h2>
+
+            <div className='bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
+              <div className=' flex w-full'>
+                <img src={sensoresIcon} alt="" className='mr-1' />
+                <h3>Cantidad de Sensores</h3>
+              </div>
+              <div className='h-56 w-full flex items-center justify-center'>
+                <img src={finca} alt="" />
+              </div>
+              <div className='pl-2 w-full'>
+                <h2 className='text-3xl'>{usuario.total_sensores ?? 0}</h2>
               </div>
             </div>
           </div>
-          <div className='bg-green-300 flex flex-col py-7 items-center w-1/2'>
-            <div className='bg-[#002A43] w-3/4 h-full rounded-3xl flex flex-col items-center text-white'>
+
+          {/**Contenedor tabla actividades */}
+          <div className='flex flex-col py-7 items-center w-1/2'>
+            <div className='bg-[#002A43] w-3/4 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center cursor-pointer text-white p-4'>
               <h3 className='font-bold text-xl mt-1'>Registro Actividades</h3>
+              <Tabla
+                titulo={"probando"}
+                columnas={columnas}
+                datos={[]}
+                acciones={[]}
+              />
             </div>
           </div>
         </div>
       </div>
-    </>
+
+      {usuarioEditar && (
+        <FormularioModal
+          titulo="Editar Información"
+          isOpen={modalEditarAbierto}
+          onClose={() => setModalEditarAbierto(false)}
+          // onSubmit={handleEditarUsuario}
+          valores={usuarioEditar}
+          onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
+          textoBoton="Guardar y actualizar"
+          campos={[
+            { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
+            { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+            { name: "correo", placeholder: "Correo", icono: correoAzul },
+          ]}
+        />
+      )}
+
+    </div>
   )
 }
 

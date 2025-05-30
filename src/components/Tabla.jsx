@@ -1,3 +1,4 @@
+// Tabla.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
@@ -30,7 +31,7 @@ const Tabla = ({
   const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [rangoFechas, setRangoFechas] = useState(null);
+  const [rangoFechas, setRangoFechas] = useState({ fechaInicio: null, fechaFin: null });
   const navigate = useNavigate();
 
   // Construcción de encabezados
@@ -52,17 +53,15 @@ const Tabla = ({
     );
   };
 
-  // Procesar solo IDs seleccionados
+  // Abrir modal para confirmar selección
   const procesarSeleccionados = () => {
-    // `seleccionados` ya es un array de IDs
-    console.log('IDs seleccionados:', seleccionados);
-    // Navegar enviando únicamente los IDs
     setModalAbierto(true);
   };
   
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
-    console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
-    navigate('/estadistica', { state: { ids: seleccionados } });
+    // Guardamos el rango y navegamos con IDs y fechas
+    setRangoFechas({ fechaInicio, fechaFin });
+    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
   };
 
   return (

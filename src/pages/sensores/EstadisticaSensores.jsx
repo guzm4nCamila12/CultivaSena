@@ -1,31 +1,58 @@
 // Estadistica.jsx
 import React, { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
-import { getSensor, getHistorialSensores } from "../../services/sensores/ApiSensores"; // Ajusta la ruta según corresponda
+import { getSensor, getHistorialSensores } from "../../services/sensores/ApiSensores";
 import GraficoSensores from "./GraficoSensores";
+import Navbar from "../../components/navbar";
+import BotonAtras from "../../components/botonAtras";
 
 const Estadistica = () => {
-  const location = useLocation();
-  const ids = location.state?.ids || [];
+  const { state } = useLocation();
+  const { ids = [], fechaInicio, fechaFin } = state || {};
 
   const [sensoresData, setSensoresData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (ids.length === 0) return;
+    if (!ids.length || !fechaInicio || !fechaFin) return;
 
     const fetchData = async () => {
       setLoading(true);
       setError(null);
+
       try {
+        const isSameDay = fechaInicio === fechaFin;
+        const start = new Date(fechaInicio);
+        const end = new Date(fechaFin);
+
+        if (!isSameDay) {
+          start.setHours(0, 0, 0, 0);
+          end.setHours(23, 59, 59, 999);
+        }
+
         const resultados = await Promise.all(
           ids.map(async (id) => {
             const sensor = await getSensor(id);
-            const historial = await getHistorialSensores(sensor.mac);
+            const historialRaw = await getHistorialSensores(sensor.mac);
+
+            const historial = historialRaw.filter(item => {
+              // Use raw string to avoid timezone shifts
+              const raw = item.fecha || item.timestamp;
+              const itemDay = raw.slice(0, 10);
+
+              if (isSameDay) {
+                return itemDay === fechaInicio;
+              }
+
+              const date = new Date(raw);
+              return date >= start && date <= end;
+            });
+
             return { sensor, historial };
           })
         );
+
         setSensoresData(resultados);
       } catch (err) {
         console.error(err);
@@ -36,22 +63,24 @@ const Estadistica = () => {
     };
 
     fetchData();
-  }, [ids]);
+  }, [ids, fechaInicio, fechaFin]);
 
-  if (ids.length === 0) {
-    return <Navigate to="/" replace />;
-  }
+  if (!ids.length) return <Navigate to="/" replace />;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Estadísticas de Sensores</h1>
-
-      {loading && <p>Cargando datos...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-
-      {!loading && !error && sensoresData.length > 0 && (
-        <GraficoSensores sensoresData={sensoresData} />
-      )}
+    <div>
+      <Navbar />
+      <div className="px-5 xl:mx-[10.5rem] lg:mx-18 sm:mx-6 pt-4">
+        <div className="flex items-end">
+          <BotonAtras />
+          <h3 className="text-2xl font-semibold ml-3">Estadísticas de Sensores</h3>
+        </div>
+        {loading && <p>Cargando datos...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        {!loading && !error && sensoresData.length > 0 && (
+          <GraficoSensores sensoresData={sensoresData} rangoFechas={{ fechaInicio, fechaFin }} />
+        )}
+      </div>
     </div>
   );
 };

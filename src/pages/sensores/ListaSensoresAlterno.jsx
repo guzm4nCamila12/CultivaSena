@@ -34,7 +34,6 @@ function SensoresAlterno() {
     const alternarGuardado = localStorage.getItem("Alternar");
     return alternarGuardado === "true"; // convierte a booleano
   });;
-  console.log(Alternar);
 
   //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();

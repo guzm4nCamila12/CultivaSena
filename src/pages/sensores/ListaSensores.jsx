@@ -32,7 +32,6 @@ function ActivarSensores() {
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  console.log("Sensores:", sensores);
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },
     { key: "mac", label: "MAC", icon: mac, icon2: mac },

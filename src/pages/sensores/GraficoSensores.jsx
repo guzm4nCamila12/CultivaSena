@@ -29,7 +29,6 @@ function formatFecha(isoString) {
 }
 
 export default function GraficoSensores({ sensoresData = [] }) {
-  console.log("SensoresData en GraficoSensores:", sensoresData);
 
   if (!Array.isArray(sensoresData) || sensoresData.length === 0) {
     return (

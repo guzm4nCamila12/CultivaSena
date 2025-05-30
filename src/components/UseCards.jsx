@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
 import ModalFechaRango from "./modals/FechaRango";
+import { useNavigate } from "react-router-dom";
 
 const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -11,6 +12,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const [seleccionados, setSeleccionados] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
+  const navigate = useNavigate();
 
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -50,12 +52,12 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   };
   const procesarSeleccionados = () => {
     const seleccionData = datosFiltrados.filter(d => seleccionados.includes(d.id));
-    console.log('Datos seleccionados:', seleccionData);
     setModalAbierto(true)
   };
 
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
-    console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
+    setRangoFechas({ fechaInicio, fechaFin });
+    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
   }
 
   return (

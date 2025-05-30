@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar'
-import { data, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation';
 import { fincasIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, nombre, telefono, correo } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
@@ -13,6 +13,7 @@ import { acctionSucessful } from '../../components/alertSuccesful';
 
 function PerfilUsuario() {
 
+  const navigate = useNavigate()
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : {};
   const [cantidadSensores, setCantidadSensores] = useState({})
@@ -53,9 +54,8 @@ function PerfilUsuario() {
 
 
   const abrirModalEditar = (usuario) => {
-    setUsuarioEditar({ ...usuario});
+    setUsuarioEditar({ ...usuario });
     setUsuarioOriginal({ ...usuario });
-    console.log("aaaaaaaa",usuario)
     setModalEditarAbierto(true);
   };
 
@@ -101,17 +101,17 @@ function PerfilUsuario() {
 
           {/**Contenedor de cartas: cantidad fincas y cantidad sensores */}
           <div className=' flex flex-col items-center text-white font-semibold justify-around w-1/4'>
-            <div className='bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
-              <div className='w-full flex'>
-                <img src={fincasIcon} alt="" className='mr-1' />
-                <h3>Cantidad de Fincas</h3>
-              </div>
-              <div className=' h-56 w-full flex items-center justify-center'>
-                <img src={finca} alt="" />
-              </div>
-              <div className='pl-2 w-full'>
-                <h2 className='text-3xl'>{usuario.cantidad_fincas ?? 0}</h2>
-              </div>
+            <div onClick={() => navigate(`/lista-fincas/${usuario.id}`)} className='bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
+                <div className='w-full flex'>
+                  <img src={fincasIcon} alt="" className='mr-1' />
+                  <h3>Cantidad de Fincas</h3>
+                </div>
+                <div className=' h-56 w-full flex items-center justify-center'>
+                  <img src={finca} alt="" />
+                </div>
+                <div className='pl-2 w-full'>
+                  <h2 className='text-3xl'>{usuario.cantidad_fincas ?? 0}</h2>
+                </div>
             </div>
 
             <div className='bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>

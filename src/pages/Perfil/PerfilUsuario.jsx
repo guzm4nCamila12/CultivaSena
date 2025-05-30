@@ -27,8 +27,6 @@ function PerfilUsuario() {
     { key: "fecha", label: "Fecha" }
   ];
 
-  console.log("token", decodedToken)
-
   return (
     <>
       <Navbar />

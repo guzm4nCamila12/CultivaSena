@@ -47,9 +47,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
-                console.log(decodedToken.id)
                 const response = await getFincasById(decodedToken.id);
-                console.log("la data", response)
                 setFincas(response || []);
             } catch (error) {
                 console.error('Error al cargar fincas:', error);

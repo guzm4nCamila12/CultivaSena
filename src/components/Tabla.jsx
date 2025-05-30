@@ -6,6 +6,7 @@ import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
 import accionesIcon from "../assets/icons/acciones.png";
 import ModalFechaRango from "./modals/FechaRango";
+import { useNavigate } from "react-router-dom";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -26,11 +27,12 @@ const Tabla = ({
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
-  const allIds = datos.map(fila => fila.id);
-  const mostrarFotoPerfil = columnas.some(col => col.key === "fotoPerfil");
-  const columnasSinFoto = columnas.filter(col => col.key !== "fotoPerfil");
+  const allIds = datos.map((fila) => fila.id);
+  const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
+  const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [rangoFechas, setRangoFechas] = useState(null);
+  const [rangoFechas, setRangoFechas] = useState({ fechaInicio: null, fechaFin: null });
+  const navigate = useNavigate();
 
   // Construcción de encabezados
   const encabezados = [];
@@ -51,16 +53,16 @@ const Tabla = ({
     );
   };
 
-  // Función de procesamiento de seleccionados
+  // Abrir modal para confirmar selección
   const procesarSeleccionados = () => {
-    const seleccionData = datos.filter(d => seleccionados.includes(d.id));
-    console.log('Datos seleccionados:', seleccionData);
     setModalAbierto(true);
   };
-
+  
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
-    console.log("Fechas seleccionadas:", fechaInicio, fechaFin);
-  }
+    // Guardamos el rango y navegamos con IDs y fechas
+    setRangoFechas({ fechaInicio, fechaFin });
+    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
+  };
 
   return (
     <div className="container mx-auto px-0 pb-4">

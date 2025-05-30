@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar'
 import { data, useParams } from 'react-router-dom';
-import { superAdminIcon, adminIcon, alternoIcon, finca } from '../../assets/img/imagesExportation';
+import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation';
 import { fincasIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, nombre, telefono, correo } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
 import { getCantidadSensores } from '../../services/sensores/ApiSensores';
 import Tabla from '../../components/Tabla';
-import { getFincasById } from '../../services/fincas/ApiFincas';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 import FormularioModal from '../../components/modals/FormularioModal';
+import { useUsuarios } from '../../hooks/useUsuarios'
+import { acctionSucessful } from '../../components/alertSuccesful';
 
 function PerfilUsuario() {
 
@@ -17,7 +18,9 @@ function PerfilUsuario() {
   const [cantidadSensores, setCantidadSensores] = useState({})
   const [usuario, setUsuario] = useState({})
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false)
-  const [usuarioEditar, setUsuarioEditar] = useState({ nombre: usuario.nombre, telefono: usuario.telefono, correo: usuario.correo });
+  const [usuarioEditar, setUsuarioEditar] = useState({});
+  const { actualizarUsuario } = useUsuarios();
+  const [usuarioOriginal, setUsuarioOriginal] = useState(null);
 
   console.log(decodedToken)
 
@@ -27,7 +30,10 @@ function PerfilUsuario() {
         getCantidadSensores(decodedToken.id)
           .then(data => setCantidadSensores(data))
         getUsuarioById(decodedToken.id)
-          .then(data => setUsuario(data))
+          .then(data => {
+            setUsuario(data)
+            setUsuarioEditar(data)
+          })
       } catch (err) {
         console.error("Error cargando sensores", err);
       }
@@ -44,6 +50,29 @@ function PerfilUsuario() {
       default: return alternoIcon;
     }
   }
+
+
+  const abrirModalEditar = (usuario) => {
+    setUsuarioEditar({ ...usuario});
+    setUsuarioOriginal({ ...usuario });
+    console.log("aaaaaaaa",usuario)
+    setModalEditarAbierto(true);
+  };
+
+  const handleEditarUsuario = async (e) => {
+    e.preventDefault();
+    const exito = await actualizarUsuario(usuarioEditar, usuarioOriginal);
+    if (exito) {
+      acctionSucessful.fire({
+        imageUrl: usuarioCreado,
+        imageAlt: "usuario editado",
+        title: `¡Usuario <span style="color: #3366CC;">${usuarioEditar.nombre}</span> editado correctamente!`,
+      });
+      setUsuario(usuarioEditar)
+      setModalEditarAbierto(false);
+    }
+  };
+
 
   const columnas = [
     { key: "finca", label: "Finca" },
@@ -64,7 +93,7 @@ function PerfilUsuario() {
               <h2 className=''>{usuario.nombre}</h2>
               <h2 className=''>{usuario.telefono}</h2>
               <h2 className=''>{usuario.correo}</h2>
-              <button className='bg-[#39A900] px-5 py-1 rounded-3xl' onClick={() => setModalEditarAbierto(true)}>
+              <button className='bg-[#39A900] px-5 py-1 rounded-3xl' onClick={() => abrirModalEditar(usuario)}>
                 <img src={editar} alt="" className='w-5 h-5' />
               </button>
             </div>
@@ -94,7 +123,7 @@ function PerfilUsuario() {
                 <img src={finca} alt="" />
               </div>
               <div className='pl-2 w-full'>
-                <h2 className='text-3xl'>{usuario.total_sensores ?? 0}</h2>
+                <h2 className='text-3xl'>{cantidadSensores.total_sensores ?? 0}</h2>
               </div>
             </div>
           </div>
@@ -119,7 +148,7 @@ function PerfilUsuario() {
           titulo="Editar Información"
           isOpen={modalEditarAbierto}
           onClose={() => setModalEditarAbierto(false)}
-          // onSubmit={handleEditarUsuario}
+          onSubmit={handleEditarUsuario}
           valores={usuarioEditar}
           onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
           textoBoton="Guardar y actualizar"

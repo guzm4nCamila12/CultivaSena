@@ -17,7 +17,6 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
       return <Navigate to="/login" />;  // Redirigir a login si el token ha expirado
     }
     const userRole =decodedToken.idRol; // Obtener el rol del usuario
-    console.log(userRole)
     if (!allowedRoles.includes(userRole)) {
       return;  // Redirigir si no tiene el rol adecuado
     }

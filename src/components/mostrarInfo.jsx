@@ -50,7 +50,7 @@ function MostrarInfo({
           {enableSelectionButton && (
             <button
               onClick={() => setSeleccionEnabled((prev) => !prev)}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
+              className="bg-blue-500 text-white px-3 py-2 rounded-3xl"
             >
               {seleccionEnabled ? 'Cancelar selección' : 'Seleccionar varios'}
             </button>

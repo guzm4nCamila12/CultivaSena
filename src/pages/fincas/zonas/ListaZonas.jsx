@@ -10,7 +10,6 @@ const Zonas = () => {
   const { idUser, id } = useParams();
   const { state } = useLocation();
   const enableSelectionButton = state?.enableSelectionButton ?? false;
-  console.log("seleccion",enableSelectionButton)
   const {
     fincas, zonas, abrirModalCrear, abrirModalEditar, abrirModalEliminar,
     modalFormularioAbierto, setModalFormularioAbierto, handleSubmitFormulario,

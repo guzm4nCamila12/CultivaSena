@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 
 // Componentes reutilizables
 import Navbar from "../../components/navbar";
@@ -18,7 +18,8 @@ import { useSensores } from "../../hooks/useSensores";
 
 function ActivarSensores() {
   const { id, idUser } = useParams();
-
+  const { state } = useLocation();
+  const enableSelectionButton = state?.enableSelectionButton ?? false;
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
@@ -31,7 +32,6 @@ function ActivarSensores() {
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  console.log("Sensores:", sensores);
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },
     { key: "mac", label: "MAC", icon: mac, icon2: mac },
@@ -154,6 +154,7 @@ function ActivarSensores() {
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={true}
+        enableSelectionButton={enableSelectionButton}
       />
 
       <FormularioModal

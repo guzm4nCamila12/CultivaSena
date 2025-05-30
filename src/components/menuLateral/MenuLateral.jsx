@@ -47,9 +47,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
-                console.log(decodedToken.id)
                 const response = await getFincasById(decodedToken.id);
-                console.log("la data", response)
                 setFincas(response || []);
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
@@ -99,7 +97,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}

@@ -28,19 +28,6 @@ const Inicio = () => {
   const [mostrarClave, setMostrarClave] = useState(false);
   const handleToggleClave = () => setMostrarClave(!mostrarClave);
 
-  const tipoDocumentoOptions = [
-    { value: 1, label: "Cédula de ciudadanía" },
-    { value: 2, label: "Tarjeta de identidad" },
-    { value: 3, label: "Cédula de extranjería" },
-    { value: 4, label: "PEP" },
-    { value: 5, label: "Permiso por protección temporal" }
-  ];
-  
-  // Obtener label dinámico para la columna "documento"
-  const labelDocumento = tipoDocumentoOptions.find(
-    (opt) => opt.value === nuevoUsuario.tipo_documento
-  )?.label || "Número documento";
-
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
     { key: "nombre", label: "Nombre", icon2: nombreIcon },
@@ -185,11 +172,11 @@ const Inicio = () => {
             type: "select",
             icono: tipoDocumento,
             options: [
-              { value: 1, label: "Cédula de ciudadanía" },
-              { value: 2, label: "Tarjeta de identidad" },
-              { value: 3, label: "Cédula de extranjería" },
-              { value: 4, label: "PEP" },
-              { value: 5, label: "Permiso por protección temporal" }
+              { value: "Cédula de ciudadanía", label: "Cédula de ciudadanía" },
+              { value: "Tarjeta de identidad", label: "Tarjeta de identidad" },
+              { value: "Cédula de extranjería", label: "Cédula de extranjería" },
+              { value: "PEP", label: "PEP" },
+              { value: "Permiso por protección temporal", label: "Permiso por protección temporal" }
             ]
           },
           { name: "documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
@@ -230,6 +217,19 @@ const Inicio = () => {
           onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
           textoBoton="Guardar y actualizar"
           campos={[
+            {
+              name: "tipo_documento",
+              placeholder: "Seleccione tipo de documento",
+              type: "select",
+              icono: tipoDocumento,
+              options: [
+                { value: "Cédula de ciudadanía", label: "Cédula de ciudadanía" },
+                { value: "Tarjeta de identidad", label: "Tarjeta de identidad" },
+                { value: "Cédula de extranjería", label: "Cédula de extranjería" },
+                { value: "PEP", label: "PEP" },
+                { value: "Permiso por protección temporal", label: "Permiso por protección temporal" }
+              ]
+            },
             { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
             { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
             { name: "correo", placeholder: "Correo", icono: correoAzul },

@@ -81,11 +81,11 @@ const AlternosFinca = () => {
             type: "select",
             icono: tipoDocumento,
             options: [
-              { value: 1, label: "Cédula de ciudadanía" },
-              { value: 2, label: "Tarjeta de identidad" },
-              { value: 3, label: "Cédula de extranjería" },
-              { value: 4, label: "PEP" },
-              { value: 5, label: "Permiso por protección temporal" }
+              { value: "Cédula de ciudadanía", label: "Cédula de ciudadanía" },
+              { value: "Tarjeta de identidad", label: "Tarjeta de identidad" },
+              { value: "Cédula de extranjería", label: "Cédula de extranjería" },
+              { value: "PEP", label: "PEP" },
+              { value: "Permiso por protección temporal", label: "Permiso por protección temporal" }
             ]
           },
           { name: "documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
@@ -114,6 +114,19 @@ const AlternosFinca = () => {
         onChange={(e) => setusuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
         textoBoton="Guardar y Actualizar"
         campos={[
+          {
+            name: "tipo_documento",
+            placeholder: "Seleccione tipo de documento",
+            type: "select",
+            icono: tipoDocumento,
+            options: [
+              { value: "Cédula de ciudadanía", label: "Cédula de ciudadanía" },
+              { value: "Tarjeta de identidad", label: "Tarjeta de identidad" },
+              { value: "Cédula de extranjería", label: "Cédula de extranjería" },
+              { value: "PEP", label: "PEP" },
+              { value: "Permiso por protección temporal", label: "Permiso por protección temporal" }
+            ]
+          },
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
           { name: "correo", placeholder: "Correo", icono: correoAzul },

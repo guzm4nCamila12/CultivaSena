@@ -3,7 +3,7 @@ import * as Images from "../assets/img/imagesExportation";
 import { verificarExistenciaTelefono, verificarExistenciaCorreo } from "../services/usuarios/ApiUsuarios";
 
 export const validarCamposUsuario = (usuario) => {
-  if (!usuario.nombre || !usuario.telefono || !usuario.correo || !usuario.clave || !usuario.id_rol) {
+  if (!usuario.tipo_documento || !usuario.documento || !usuario.nombre || !usuario.telefono || !usuario.correo || !usuario.clave || !usuario.id_rol) {
     acctionSucessful.fire({
       imageUrl: Images.Alerta,
       title: "¡Por favor, complete todos los campos!"

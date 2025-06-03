@@ -57,7 +57,11 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
 
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-    navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    if(vista === "/reporte"){
+      console.log("reporte cartas generado")
+      return
+    }
+    else if(vista === "/estadistica")  navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
   }
 
   return (
@@ -68,7 +72,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
           <button
             onClick={procesarSeleccionados}
             className="bg-[#39A900] rounded-3xl text-white px-4 py-2"
-          >Generar gráfico</button>
+          >Procesar</button>
         </div>
       )}
 

@@ -1,6 +1,6 @@
 // hooks/useUsuarios.js
 import { useEffect, useState } from "react";
-import { getUsuarios, crearUsuario, editarUsuario, eliminarUsuario } from "../services/usuarios/ApiUsuarios";
+import { getUsuarios, crearUsuario, editarUsuario, eliminarUsuario, getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import * as Validaciones from '../utils/validaciones';
 
 export const useUsuarios = () => {
@@ -28,6 +28,7 @@ export const useUsuarios = () => {
     if (data) setUsuarios(prev => [...prev, data]);
     return data;
   };
+
 
   const actualizarUsuario = async (usuarioEditado, original) => {
     const huboCambios = Validaciones.validarSinCambios(usuarioEditado, original, "el usuario", ["id_rol"]);

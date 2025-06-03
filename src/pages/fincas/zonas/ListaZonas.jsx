@@ -94,6 +94,7 @@ const Zonas = () => {
         mostrarAgregar={!isReporte}
         enableSelectionButton={enableSelectionButton}
         {...(!isReporte && { acciones })}
+        vista={vista}
       />
 
       <FormularioModal

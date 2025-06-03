@@ -32,6 +32,7 @@ const AlternosFinca = () => {
 
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
+    { key: "documento", label: "Número documento", icon: nombre, icon2: nombre},
     { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
     { key: "acciones", label: "Acciones", icon2: ajustes },
@@ -71,13 +72,7 @@ const AlternosFinca = () => {
         onClose={() => setModalInsertarAbierto(false)}
         onSubmit={handleSubmit}
         valores={nuevoUsuario}
-        onChange={(e) => {
-          const { name, value } = e.target;
-          if (name === "numero_documento" || name === "telefono") {
-            const soloNumeros = value.replace(/\D/g, "")
-            setNuevoUsuario({ ...nuevoUsuario, [name]: soloNumeros });
-          }
-        }}
+        onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value })}
         textoBoton="Crear"
         campos={[
           {
@@ -93,7 +88,7 @@ const AlternosFinca = () => {
               { value: 5, label: "Permiso por protección temporal" }
             ]
           },
-          { name: "numero_documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
+          { name: "documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "correo", placeholder: "Correo", icono: correoAzul },

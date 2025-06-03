@@ -26,7 +26,7 @@ const useAlternosFinca = () => {
 
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
-  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+  const [nuevoUsuario, setNuevoUsuario] = useState({ tipo_documento: "", documento: "", nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
   const [usuarioEditar, setusuarioEditar] = useState({ id, nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
 
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
@@ -64,7 +64,7 @@ const useAlternosFinca = () => {
         title: `¡Alterno <span style="color: green;">${nuevoUsuario.nombre}</span> creado correctamente!`
       });
     }).catch(console.error);
-    setNuevoUsuario({nombre: "", telefono: "", correo: "", clave: "", id_rol: 3})
+    setNuevoUsuario({tipo_documento: "", documento:"", nombre: "", telefono: "", correo: "", clave: "", id_rol: 3})
   };
 
   const handleEditarAlterno = async (e) => {

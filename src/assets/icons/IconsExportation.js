@@ -44,6 +44,7 @@ import idSensor from "./id.png"
 import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
 import tipoDocumento from './tipoDocumento.png'
+import fincasBlancas from './fincas.svg'
 
 export {
   ajustes,
@@ -60,6 +61,7 @@ export {
   eliminar,
   etapa,
   fincasIcon,
+  fincasBlancas,
   locacion,
   marcador,
   nombre,

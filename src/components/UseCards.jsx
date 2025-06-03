@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
 import ModalFechaRango from "./modals/FechaRango";
 import { useNavigate } from "react-router-dom";
+import { useExportarExcel } from "../hooks/useReportes";
+import { acctionSucessful } from "./alertSuccesful";
+import { Alerta } from "../assets/img/imagesExportation";
 
 const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -13,6 +16,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
   const navigate = useNavigate();
+  const {obtenerRangoFecha} = useExportarExcel()
 
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -51,18 +55,35 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x!==id) : [...prev, id]);
   };
   const procesarSeleccionados = () => {
+    if(seleccionados.length == 0){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: `¡Seleccione al menos 1 item!`
+      });
+      return
+    }
     const seleccionData = datosFiltrados.filter(d => seleccionados.includes(d.id));
     setModalAbierto(true)
   };
 
-  const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
+  const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-    if(vista === "/reporte"){
-      console.log("reporte cartas generado")
-      return
+  
+    if (vista === "/reporte") {
+      // Transformar seleccionados (ids) a objetos {id, nombre} usando los datos completos
+      const seleccionadosConNombre = seleccionados.map(id => {
+        const item = datos.find(d => d.id === id);
+        return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
+      });
+  
+      console.log("Seleccionados con nombre:", seleccionadosConNombre);
+  
+      const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
+      // aquí actividades es según la función, ya ajusta según necesites
+    } else if (vista === "/estadistica") {
+      navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     }
-    else if(vista === "/estadistica")  navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
-  }
+  };
 
   return (
     <div className="container sm:px-0">

@@ -4,7 +4,7 @@ import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
-import Seleccionar from "../assets/icons/seleccionar.png"
+import Seleccionar from "../assets/icons/seleccion.png"
 import Cancelar from "../assets/icons/cancelar.png"
 
 function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras = true, enableSelectionButton = false, vista, 

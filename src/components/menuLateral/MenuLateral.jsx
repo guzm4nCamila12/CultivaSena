@@ -97,7 +97,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}
@@ -122,7 +122,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             : fincas.map(finca => (
                                 <Link
                                     key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                    to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}
@@ -143,10 +143,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link
-                                    key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
-                                    className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/reporte" }}
+                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     {finca.nombre}
                                 </Link>

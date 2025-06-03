@@ -5,7 +5,7 @@ import * as Images from '../assets/img/imagesExportation';
 import ModalFechaRango from "./modals/FechaRango";
 import { useNavigate } from "react-router-dom";
 
-const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
+const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -57,7 +57,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
 
   const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
   }
 
   return (
@@ -150,6 +150,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
       isOpen={modalAbierto}
       onClose={() => setModalAbierto(false)}
       onConfirm={handleConfirmRango}
+      vista={vista}
       />
     </div>
   );

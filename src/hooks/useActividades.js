@@ -1,9 +1,8 @@
-/* File: src/hooks/useActividadesZona.js */
 import { useEffect, useState } from 'react';
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import * as Images from '../assets/img/imagesExportation';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export const useActividadesZona = (idZona) => {
   const token = localStorage.getItem('token');
@@ -84,7 +83,15 @@ export const useActividadesZona = (idZona) => {
   }, [idZona]);
 
   const handleActividadChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, options, selectedIndex } = e.target;
+    // Si cambia la actividad, guardamos la etiqueta en lugar del valor
+    if (name === 'actividad') {
+      const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
+      if (actividadObj) {
+        setNuevaActividad(prev => ({ ...prev, [name]: actividadObj.label }));
+        return;
+      }
+    }
     setNuevaActividad(prev => ({ ...prev, [name]: value }));
   };
 
@@ -97,7 +104,8 @@ export const useActividadesZona = (idZona) => {
   };
 
   const handleEditarActividadChange = (e) => {
-    const { name, value, options, selectedIndex } = e.target;
+    const { name, value } = e.target;
+    // Si cambia la actividad, guardamos la etiqueta
     if (name === 'actividad') {
       const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
       if (actividadObj) {
@@ -110,6 +118,7 @@ export const useActividadesZona = (idZona) => {
 
   const handleCrearActividad = (e) => {
     e.preventDefault();
+    // Validación fechas
     const inicio = new Date(nuevaActividad.fechainicio);
     const fin = new Date(nuevaActividad.fechafin);
     if (fin < inicio) {
@@ -142,6 +151,7 @@ export const useActividadesZona = (idZona) => {
       });
       return;
     }
+    // Validación fechas
     const inicio = new Date(actividadEditar.fechainicio);
     const fin = new Date(actividadEditar.fechafin);
     if (fin < inicio) {
@@ -192,9 +202,14 @@ export const useActividadesZona = (idZona) => {
   };
 
   const abrirModalEditar = (actividad) => {
-    setActividadEditar(actividad);
+    // Convertimos value a label para mostrar correctamente
     const etapaObj = etapas.find(et => et.label === actividad.etapa);
-    setEtapaSeleccionada(etapaObj ? etapaObj.value : '');
+    const etapaValue = etapaObj ? etapaObj.value : '';
+    setEtapaSeleccionada(etapaValue);
+    const actividadArr = actividadesPorEtapa[etapaValue] || [];
+    const actividadObj = actividadArr.find(act => act.value === actividad.actividad);
+    const actividadLabel = actividadObj ? actividadObj.label : actividad.actividad;
+    setActividadEditar({ ...actividad, actividad: actividadLabel });
     setModalEditarActividad(true);
   };
 

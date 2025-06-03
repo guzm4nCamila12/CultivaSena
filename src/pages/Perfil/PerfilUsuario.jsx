@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation';
-import { fincasIcon,nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul } from '../../assets/icons/IconsExportation';
+import { fincasIcon,nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul,ajustes, actividadesIcon, fecha, ver } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
 import { getCantidadSensores } from '../../services/sensores/ApiSensores';
 import Tabla from '../../components/Tabla';
 import { getUsuarioById, getUsuarios } from '../../services/usuarios/ApiUsuarios';
+import { getActividadesTotales } from '../../services/fincas/ApiFincas';
 import FormularioModal from '../../components/modals/FormularioModal';
 import { useUsuarios } from '../../hooks/useUsuarios'
 import { acctionSucessful } from '../../components/alertSuccesful';
@@ -23,8 +24,22 @@ function PerfilUsuario() {
   const { actualizarUsuario } = useUsuarios();
   const [usuarioOriginal, setUsuarioOriginal] = useState(null);
   const {usuarios} = useUsuarios();
+  const [actividades, setActividades] = useState([])
 
   console.log(decodedToken)
+
+    // Formatea ISO a 'DD/MM/YYYY HH:mm' usando hora UTC para evitar desfase local
+    const formatFecha = (iso) => {
+      if (!iso) return '';
+      const d = new Date(iso);
+      const pad = (n) => String(n).padStart(2, '0');
+      const dia = pad(d.getUTCDate());
+      const mes = pad(d.getUTCMonth() + 1);
+      const año = d.getUTCFullYear();
+      const hora = pad(d.getUTCHours());
+      const min = pad(d.getUTCMinutes());
+      return `${dia}/${mes}/${año} ${hora}:${min}`;
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +59,21 @@ function PerfilUsuario() {
       }
     };
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    getActividadesTotales(decodedToken.id)
+      .then(data => {
+        // Aplicar formato de fecha antes de guardar
+        const formatted = Array.isArray(data)
+          ? data.map(item => ({
+              ...item,
+              fechafin: formatFecha(item.fechafin)
+            }))
+          : [];
+        setActividades(formatted);
+      })
+      .catch(console.error);
   }, []);
 
 
@@ -103,13 +133,29 @@ function PerfilUsuario() {
       setModalEditarAbierto(false);
     }
   };
+  
 
 
   const columnas = [
-    { key: "finca", label: "Finca" },
-    { key: "actividad", label: "Actividad" },
-    { key: "fecha", label: "Fecha" }
+    { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
+    { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+    { key: "fechafin", label: "Fecha", icon2: fecha },
+    { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
+  const acciones = (fila) => (
+    <div className="flex justify-center gap-4">
+      <div className="relative group">
+        <Link to={`/actividadesZonas/${fila.idzona}`}>
+          <button className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={ver} alt="Ver" className='absolute' />
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver Datos
+            </span>
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
 
   const ruta =
   decodedToken.idRol === 1
@@ -172,13 +218,13 @@ function PerfilUsuario() {
 
           {/**Contenedor tabla actividades */}
           <div className='flex flex-col py-7 items-center w-1/2'>
-            <div className='bg-[#002A43] w-3/4 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center cursor-pointer text-white p-4'>
-              <h3 className='font-bold text-xl mt-1'>Registro Actividades</h3>
+            <div className='bg-[#002A43] w-4/5 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center cursor-pointer  p-4'>
+              <h3 className='font-bold text-xl mt-1 text-white'>Registro Actividades</h3>
               <Tabla
                 titulo={"probando"}
                 columnas={columnas}
-                datos={[]}
-                acciones={[]}
+                datos={Array.isArray(actividades) ? actividades : []}
+                acciones={acciones}
               />
             </div>
           </div>

@@ -67,6 +67,12 @@ export const eliminarUsuario = async (id) => {
   await fetch(`${API_URL}/api/usuario/${id}`, { method: "DELETE" });
 };
 
+//Funcion para obtener todo el historial
+export const getHistorial = async () => {
+  const response = await fetch(`${API_URL}/api/historial`);
+  return response.json();
+};
+
 // Función para verificar si el correo o teléfono ya existe
 export const verificarExistenciaCorreo = async (correo, idIgnorar = null) => {
   const usuarios = await getUsuarios();

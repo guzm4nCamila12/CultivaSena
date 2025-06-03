@@ -19,7 +19,7 @@ const Inicio = () => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
 
-  const [nuevoUsuario, setNuevoUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+  const [nuevoUsuario, setNuevoUsuario] = useState({ tipo_documento: "", documento: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
   const [usuarioEditar, setUsuarioEditar] = useState(null);
   const [usuarioOriginal, setUsuarioOriginal] = useState(null);
   const [usuarioAEliminar, setUsuarioAEliminar] = useState(null);
@@ -28,10 +28,23 @@ const Inicio = () => {
   const [mostrarClave, setMostrarClave] = useState(false);
   const handleToggleClave = () => setMostrarClave(!mostrarClave);
 
+  const tipoDocumentoOptions = [
+    { value: 1, label: "Cédula de ciudadanía" },
+    { value: 2, label: "Tarjeta de identidad" },
+    { value: 3, label: "Cédula de extranjería" },
+    { value: 4, label: "PEP" },
+    { value: 5, label: "Permiso por protección temporal" }
+  ];
+  
+  // Obtener label dinámico para la columna "documento"
+  const labelDocumento = tipoDocumentoOptions.find(
+    (opt) => opt.value === nuevoUsuario.tipo_documento
+  )?.label || "Número documento";
 
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
     { key: "nombre", label: "Nombre", icon2: nombreIcon },
+    { key: "documento", label: "Número documento", icon: nombreIcon, icon2: nombreIcon},
     { key: "telefono", label: "Teléfono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
     { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: rol, icon2: rol },
@@ -47,7 +60,7 @@ const Inicio = () => {
         imageAlt: "usuario creado",
         title: `¡Usuario <span style="color: green;">${data.nombre}</span> creado correctamente!`,
       });
-      setNuevoUsuario({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+      setNuevoUsuario({ tipo_documento: "", documento: "", nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
       setModalInsertarAbierto(false);
     }
   };
@@ -163,13 +176,7 @@ const Inicio = () => {
         onClose={() => setModalInsertarAbierto(false)}
         onSubmit={handleCrearUsuario}
         valores={nuevoUsuario}
-        onChange={(e) => {
-          const { name, value } = e.target;
-          if (name === "numero_documento" || name === "telefono") {
-            const soloNumeros = value.replace(/\D/g, "")
-            setNuevoUsuario({ ...nuevoUsuario, [name]: soloNumeros });
-          }
-        }}
+        onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, [e.target.name]: e.target.value })}
         textoBoton="Crear"
         campos={[
           {
@@ -185,7 +192,7 @@ const Inicio = () => {
               { value: 5, label: "Permiso por protección temporal" }
             ]
           },
-          { name: "numero_documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
+          { name: "documento", placeholder: "Número de documento", icono: claveAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
           { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul, inputMode: "numeric", pattern: "[0-9]*" },
           { name: "correo", placeholder: "Correo", icono: correoAzul },

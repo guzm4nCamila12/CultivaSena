@@ -67,8 +67,8 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
         <div className="flex justify-end mb-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >Procesar seleccionados</button>
+            className="bg-[#39A900] rounded-3xl text-white px-4 py-2"
+          >Generar gráfico</button>
         </div>
       )}
 
@@ -103,7 +103,7 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
                     type="checkbox"
                     checked={seleccionados.includes(fila.id)}
                     onChange={()=>toggleSeleccion(fila.id)}
-                    className="absolute top-2 left-2 w-5 h-5"
+                    className="absolute top-5 left-5 w-5 h-5 cursor-pointer rounded-full "
                   />
                 )}
                 <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center">

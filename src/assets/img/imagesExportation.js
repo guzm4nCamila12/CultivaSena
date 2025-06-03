@@ -7,7 +7,7 @@ import superAdminIcon from "./SuperAdmin.svg";
 import adminIcon from "./Admin.svg";
 import alternoIcon from "./Alterno.svg";
 import cultivaIcon from "./cultivaSena.png"
-import finca from "./finca.png"
+import finca from "./finca.svg"
 
 export {
   usuarioCreado,

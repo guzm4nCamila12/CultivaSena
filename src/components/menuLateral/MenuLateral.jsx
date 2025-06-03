@@ -93,7 +93,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                         <span>Estadísticas</span>
                     </div>
-                    <div className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                    <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (

@@ -4,6 +4,8 @@ import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
+import Seleccionar from "../assets/icons/seleccionar.png"
+import Cancelar from "../assets/icons/cancelar.png"
 
 function MostrarInfo({
   columnas,
@@ -50,9 +52,14 @@ function MostrarInfo({
           {enableSelectionButton && (
             <button
               onClick={() => setSeleccionEnabled((prev) => !prev)}
-              className="bg-blue-500 text-white px-3 py-2 rounded-3xl"
+              className={`flex ${ seleccionEnabled ? 'bg-red-500' : 'bg-[#39A900]'} text-white px-3 py-2 rounded-3xl`}
             >
-              {seleccionEnabled ? 'Cancelar selección' : 'Seleccionar varios'}
+              <img
+                src={seleccionEnabled ? Cancelar : Seleccionar}
+                alt="ícono selección"
+                className="w-6 h-6 mr-1"
+              />
+              {seleccionEnabled ? 'Cancelar' : 'Seleccionar'}
             </button>
           )}
         </div>

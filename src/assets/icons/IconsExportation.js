@@ -1,5 +1,5 @@
 import acercar from "./acercar.png"
-import actividades from "./actividades.png";
+import actividadesIcon from "./actividades.png";
 import alejar from "./alejar.png"
 import ajustes from './acciones.png';
 import alternos from './alternos.png';
@@ -48,7 +48,7 @@ import tipoDocumento from './tipoDocumento.png'
 export {
   ajustes,
   alternos,
-  actividades,
+  actividadesIcon,
   acercar,
   alejar,
   claveAzul,

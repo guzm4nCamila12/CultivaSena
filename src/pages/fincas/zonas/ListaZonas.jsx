@@ -6,7 +6,7 @@ import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
 import FormularioModal from "../../../components/modals/FormularioModal";
 import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
-import { zonasIcon, actividades, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
+import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -28,7 +28,7 @@ const Zonas = () => {
   const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: zonasIcon },
     { key: "verSensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
-    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
+    { key: "actividades", label: "Actividades", icon: actividadesIcon, icon2: actividadesIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
   // Filtrar columnas para reporte
@@ -94,6 +94,7 @@ const Zonas = () => {
         mostrarAgregar={!isReporte}
         enableSelectionButton={enableSelectionButton}
         {...(!isReporte && { acciones })}
+        vista={vista}
       />
 
       <FormularioModal

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
-import accionesIcon from "../assets/icons/acciones.png";
 import ModalFechaRango from "./modals/FechaRango";
 import { useNavigate } from "react-router-dom";
 
@@ -56,7 +55,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
     // Guardamos el rango y navegamos con IDs y fechas
     setRangoFechas({ fechaInicio, fechaFin });
     if (vista == "/reporte") {
-
+      console.log("Reporte de tabla generado")
     } else if (vista == "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     }
@@ -179,9 +178,9 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-blue-500 text-white px-3 py-2 rounded-3xl"
+            className="bg-[#39A900] text-white px-3 py-2 rounded-3xl"
           >
-            Procesar seleccionados
+            Procesar
           </button>
         </div>
       )}

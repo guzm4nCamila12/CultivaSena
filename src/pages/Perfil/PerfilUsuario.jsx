@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../../components/navbar'
 import { useNavigate, Link } from 'react-router-dom';
 import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation';
-import { fincasIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, ver } from '../../assets/icons/IconsExportation';
+import { fincasIcon,nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul,ajustes, actividadesIcon, fecha, ver } from '../../assets/icons/IconsExportation';
 import { jwtDecode } from 'jwt-decode';
 import { getCantidadSensores } from '../../services/sensores/ApiSensores';
 import Tabla from '../../components/Tabla';
-import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
+import { getUsuarioById, getUsuarios } from '../../services/usuarios/ApiUsuarios';
 import { getActividadesTotales } from '../../services/fincas/ApiFincas';
 import FormularioModal from '../../components/modals/FormularioModal';
 import { useUsuarios } from '../../hooks/useUsuarios'
@@ -23,6 +23,7 @@ function PerfilUsuario() {
   const [usuarioEditar, setUsuarioEditar] = useState({});
   const { actualizarUsuario } = useUsuarios();
   const [usuarioOriginal, setUsuarioOriginal] = useState(null);
+  const {usuarios} = useUsuarios();
   const [actividades, setActividades] = useState([])
 
   console.log(decodedToken)
@@ -44,11 +45,14 @@ function PerfilUsuario() {
     const fetchData = async () => {
       try {
         getCantidadSensores(decodedToken.id)
-          .then(data => setCantidadSensores(data))
+          .then(data => {
+            setCantidadSensores(data)
+          console.log("sensores",data)})
         getUsuarioById(decodedToken.id)
           .then(data => {
             setUsuario(data)
             setUsuarioEditar(data)
+            console.log("data",data)
           })
       } catch (err) {
         console.error("Error cargando sensores", err);
@@ -73,12 +77,39 @@ function PerfilUsuario() {
   }, []);
 
 
-  const obtenerRol = () => {
-    switch (decodedToken?.idRol) {
-      case 1: return superAdminIcon;
-      case 2: return adminIcon;
-      case 3: return alternoIcon;
-      default: return alternoIcon;
+  const cartas = (tipo) => {
+
+    if(tipo == "perfil"){
+      switch (decodedToken?.idRol) {
+        case 1: return superAdminIcon;
+        case 2: return adminIcon;
+        case 3: return alternoIcon;
+        default: return alternoIcon;
+      }
+    }
+
+    if(tipo == "imagen"){
+      switch (decodedToken?.idRol) {
+        case 1: return nombreIcon;
+        case 2: return fincasIcon;
+        case 3: return sensoresIcon
+      }
+    }
+
+    if(tipo == "texto"){
+      switch (decodedToken?.idRol) {
+        case 1: return "Cantidad de Usuarios";
+        case 2: return "Cantidad de Fincas";
+        case 3: return "Cantidad de Sensores"
+      }
+    }
+
+    if(tipo == "texto2"){
+      switch (decodedToken?.idRol) {
+        case 1: return "Cantidad de Sensores";
+        case 2: return "Cantidad de Sensores";
+        case 3: return "Actividades Realizadas"
+      }
     }
   }
 
@@ -96,7 +127,7 @@ function PerfilUsuario() {
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
         imageAlt: "usuario editado",
-        title: `¡Usuario <span style="color: #3366CC;">${usuarioEditar.nombre}</span> editado correctamente!`,
+        title: `¡Tú información se ha editado con éxito!`,
       });
       setUsuario(usuarioEditar)
       setModalEditarAbierto(false);
@@ -106,10 +137,10 @@ function PerfilUsuario() {
 
 
   const columnas = [
-    { key: "finca_nombre", label: "Finca" },
-    { key: "actividad", label: "Actividad" },
-    { key: "fechafin", label: "Fecha" },
-    { key: "acciones", label: "Acciones" }
+    { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
+    { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+    { key: "fechafin", label: "Fecha", icon2: fecha },
+    { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
@@ -126,6 +157,17 @@ function PerfilUsuario() {
     </div>
   );
 
+  const ruta =
+  decodedToken.idRol === 1
+    ? `/inicio-SuperAdmin`
+    : decodedToken.idRol === 2
+    ? `/lista-fincas/${usuario.id}`
+    : decodedToken.idRol === 3
+    ? `/sensores-alterno/${usuario.id_finca}/${usuario.id}`
+    : '/';
+
+
+
   return (
     <div className=' flex flex-col h-screen'>
       <Navbar />
@@ -133,7 +175,7 @@ function PerfilUsuario() {
         <div className='flex w-full  h-full ml-[156px] '>
           <div className='w-1/4 '>
             <div className=' h-64 mt-9 w-8/12 flex justify-center items-center'>
-              <img src={obtenerRol()} alt="" className='w-56 h-56' />
+              <img src={cartas("perfil")} alt="" className='w-56 h-56' />
             </div>
             <div className='px-5 text-lg w-8/12 border-b-2 border-[#D9D9D9] border-t-2 mt-3 space-y-3 text-center flex-col justify-center'>
               <h2 className=''>{usuario.nombre}</h2>
@@ -147,23 +189,23 @@ function PerfilUsuario() {
 
           {/**Contenedor de cartas: cantidad fincas y cantidad sensores */}
           <div className=' flex flex-col items-center text-white font-semibold justify-around w-1/4'>
-            <div onClick={() => navigate(`/lista-fincas/${usuario.id}`)} className='bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
+            <div onClick={() => navigate(ruta)} className='bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
               <div className='w-full flex'>
-                <img src={fincasIcon} alt="" className='mr-1' />
-                <h3>Cantidad de Fincas</h3>
+                <img src={cartas("imagen")} alt="" className='mr-1' />
+                <h3>{cartas("texto")}</h3>
               </div>
               <div className=' h-56 w-full flex items-center justify-center'>
                 <img src={finca} alt="" />
               </div>
-              <div className='pl-2 w-full'>
-                <h2 className='text-3xl'>{usuario.cantidad_fincas ?? 0}</h2>
+              <div className='pl-2 w-full text-3xl'>
+                {decodedToken.idRol === 1 ? <h2>{usuarios.length}</h2> : decodedToken.idRol === 3 ? <h2>{cantidadSensores.total_sensores}</h2> : decodedToken.idRol === 2 ? <h2>{usuario.cantidad_fincas}</h2> : null}
               </div>
             </div>
 
             <div className='bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl'>
               <div className=' flex w-full'>
                 <img src={sensoresIcon} alt="" className='mr-1' />
-                <h3>Cantidad de Sensores</h3>
+                <h3>{cartas("texto2")}</h3>
               </div>
               <div className='h-56 w-full flex items-center justify-center'>
                 <img src={finca} alt="" />
@@ -176,7 +218,7 @@ function PerfilUsuario() {
 
           {/**Contenedor tabla actividades */}
           <div className='flex flex-col py-7 items-center w-1/2'>
-            <div className='bg-[#002A43] w-3/4 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center cursor-pointer  p-4'>
+            <div className='bg-[#002A43] w-4/5 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center cursor-pointer  p-4'>
               <h3 className='font-bold text-xl mt-1 text-white'>Registro Actividades</h3>
               <Tabla
                 titulo={"probando"}

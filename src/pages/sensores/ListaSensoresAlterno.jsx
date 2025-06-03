@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 //iconos de las columnas
-import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,actividades,nombre} from "../../assets/icons/IconsExportation"
+import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,actividadesIcon,nombre} from "../../assets/icons/IconsExportation"
 //componentes reutilizados
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -78,7 +78,7 @@ function SensoresAlterno() {
   const columnasZonas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
     { key: "verSensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
-    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades }
+    { key: "actividades", label: "Actividades", icon: actividadesIcon, icon2: actividadesIcon }
   ];
 
   //Define las columnas para la UseCards

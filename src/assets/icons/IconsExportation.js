@@ -43,6 +43,7 @@ import fecha from "./fecha.png";
 import idSensor from "./id.png"
 import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
+import tipoDocumento from './tipoDocumento.png'
 
 export {
   ajustes,
@@ -89,5 +90,6 @@ export {
   idSensor,
   fecha,
   noVerClaveAzul,
-  verClaveAzul
+  verClaveAzul,
+  tipoDocumento
 };

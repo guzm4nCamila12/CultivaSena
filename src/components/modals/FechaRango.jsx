@@ -1,6 +1,8 @@
 // src/components/ModalFechaRango.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import * as Images from "../../assets/img/imagesExportation"
+import { acctionSucessful } from "../alertSuccesful";
 
 const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
   const [fechaInicio, setFechaInicio] = useState("");
@@ -13,11 +15,17 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
 
   const handleConfirm = () => {
     if (!fechaInicio || !fechaFin) {
-      alert("Por favor selecciona ambas fechas.");
+      acctionSucessful.fire({
+            imageUrl: Images.Alerta,
+            title: `¡Por favor selecciona ambas fechas!`,
+          });
       return;
     }
     if (new Date(fechaInicio) > new Date(fechaFin)) {
-      alert("La fecha de inicio no puede ser mayor que la fecha de fin.");
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        title: `¡La fecha de inicio no puede ser mayor que la fecha de fin!`,
+      });
       return;
     }
     onConfirm({ fechaInicio, fechaFin });

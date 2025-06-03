@@ -5,7 +5,7 @@ import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
 
-function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelectionButton = false, vista, 
+function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras = true, enableSelectionButton = false, vista, 
 }) {
   const [busqueda, setBusqueda] = useState("");
   const [vistaActiva, setVistaActiva] = useState(
@@ -25,7 +25,7 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
     <div className="container mx-auto p-4 sm:px-0 ">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-4 mx-auto">
         <div className="flex items-center ">
-          <BotonAtras />
+          {mostrarBotonAtras && <BotonAtras />}
           <h1 className="text-2xl font-semibold pl-4">{titulo}</h1>
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">

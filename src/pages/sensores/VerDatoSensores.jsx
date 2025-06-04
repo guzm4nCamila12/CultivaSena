@@ -10,7 +10,7 @@ import GraficoSensor from './GraficoSensores';
 import MostrarInfo from "../../components/mostrarInfo";
 import BotonAtras from '../../components/botonAtras';
 //endpoint para consumir api
-import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
+import { getSensor, getHistorialSensores, getTipoSensorById } from '../../services/sensores/ApiSensores';
 //menu scroll
 import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
@@ -44,6 +44,7 @@ export default function VerSensores() {
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
+  const [tipoSensor, setTipoSensor] = useState({});
 
 
   useEffect(() => {
@@ -82,6 +83,12 @@ export default function VerSensores() {
                 valor: limitarValor(item.valor),
               };
             });
+
+            getTipoSensorById(data.tipo_id)
+            .then((data) => {
+              setTipoSensor(data);
+            })
+            
 
             setDatosSensores(datosGrafico || []);
           })
@@ -136,16 +143,14 @@ export default function VerSensores() {
     "#": index + 1,
     fecha: fila.fecha,
     hora: fila.hora,
-    valor: fila.valor + " °C"
+    valor: fila.valor + ` ${tipoSensor.unidad || ''}` // Agregar unidad si existe
   }));
-
 
   const itemsPorPagina = 12;
   const totalPaginas = Math.ceil(datosTabla.length / itemsPorPagina);
   const inicio = (paginaActual - 1) * itemsPorPagina;
   const fin = inicio + itemsPorPagina;
   const datosPaginados = datosTabla.slice(inicio, fin);
-
 
   return (
     <div >

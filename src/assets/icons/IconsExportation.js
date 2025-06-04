@@ -43,6 +43,8 @@ import fecha from "./fecha.png";
 import idSensor from "./id.png"
 import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
+import intercambio from './IntercambioIcon.png';
+import buscar from './buscar.png';
 
 export {
   ajustes,
@@ -89,5 +91,7 @@ export {
   idSensor,
   fecha,
   noVerClaveAzul,
-  verClaveAzul
+  verClaveAzul,
+  intercambio,
+  buscar
 };

@@ -143,6 +143,8 @@ function SensoresAlterno() {
       localStorage.setItem("Alternar", estado);
     }
 
+    
+
   return (
     <div >
       <Navbar />

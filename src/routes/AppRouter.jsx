@@ -14,6 +14,7 @@ import ListaSensores from "../pages/sensores/ListaSensores";
 import VerDatoSensor from '../pages/sensores/VerDatoSensores'
 import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
 import PerfilUsuario from "../pages/Perfil/PerfilUsuario";
+import TransferirFInca from "../pages/fincas/TransferirFInca";
 
 
 function AppRouter() {
@@ -23,6 +24,7 @@ function AppRouter() {
         <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
         <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={ListaUsuarios}  allowedRoles={[1]}/>} />
+        <Route path="/transferir-finca" element={<ProtectedRoute element={TransferirFInca} allowedRoles={[1]}/>} />
         <Route path="/lista-fincas/:id" element={<ProtectedRoute element={ListaFincas} allowedRoles={[1,2]}/>} />
         <Route path="/agregar-finca/:id" element={<ProtectedRoute element={CrearFinca} allowedRoles={[1,2]}/>} />
         <Route path="/editar-finca/:id" element={<ProtectedRoute element={EditarFinca} allowedRoles={[1,2]}/>} />

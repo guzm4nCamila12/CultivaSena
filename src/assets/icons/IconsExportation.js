@@ -47,6 +47,7 @@ import tipoDocumento from './tipoDocumento.png'
 import intercambio from './IntercambioIcon.png';
 import buscar from './buscar.png';
 import fincasBlancas from './fincas.svg'
+import TransferirFinca from "./TransferirIcon.png";
 
 export {
   ajustes,
@@ -97,5 +98,6 @@ export {
   verClaveAzul,
   tipoDocumento,
   intercambio,
-  buscar
+  buscar,
+  TransferirFinca
 };

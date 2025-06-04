@@ -4,16 +4,10 @@ import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
 import Tarjetas from "./UseCards";
 import BotonAtras from "./botonAtras";
+import Seleccionar from "../assets/icons/seleccion.png"
+import Cancelar from "../assets/icons/cancelar.png"
 
-function MostrarInfo({
-  columnas,
-  datos,
-  titulo,
-  acciones,
-  onAddUser,
-  mostrarAgregar,
-  mostrarBotonAtras = true,
-  enableSelectionButton = false, // nuevo prop para mostrar el botón
+function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras = true, enableSelectionButton = false, vista, 
 }) {
   const [busqueda, setBusqueda] = useState("");
   const [vistaActiva, setVistaActiva] = useState(
@@ -51,9 +45,14 @@ function MostrarInfo({
           {enableSelectionButton && (
             <button
               onClick={() => setSeleccionEnabled((prev) => !prev)}
-              className="bg-blue-500 text-white px-3 py-2 rounded-3xl"
+              className={`flex w-36 ${ seleccionEnabled ? 'bg-red-500' : 'bg-[#39A900]'} text-white px-3 py-2 rounded-3xl`}
             >
-              {seleccionEnabled ? 'Cancelar selección' : 'Seleccionar varios'}
+              <img
+                src={seleccionEnabled ? Cancelar : Seleccionar}
+                alt="ícono selección"
+                className="w-6 h-6 mr-1"
+              />
+              {seleccionEnabled ? 'Cancelar' : 'Seleccionar'}
             </button>
           )}
         </div>
@@ -68,6 +67,7 @@ function MostrarInfo({
           onAddUser={onAddUser}
           mostrarAgregar={mostrarAgregar}
           enableSelection={seleccionEnabled}
+          vista={vista}
         />
       ) : (
         <Tarjetas
@@ -78,6 +78,7 @@ function MostrarInfo({
           onAddUser={onAddUser}
           mostrarAgregar={mostrarAgregar}
           enableSelection={seleccionEnabled}
+          vista={vista}
         />
       )}
     </div>

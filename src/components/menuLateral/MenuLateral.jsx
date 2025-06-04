@@ -13,6 +13,8 @@ import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesE
 import cerrarRojo from "../../assets/icons/logOutRed.png"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
+import { fincasBlancas } from '../../assets/icons/IconsExportation';
+import { TransferirFinca } from '../../assets/icons/IconsExportation';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -93,14 +95,17 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                         <span>Estadísticas</span>
                     </div>
-                    <div className={`pl-10 flex flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                    <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${mostrarSubmenuEstadisticas ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
-                                    {finca.nombre}
+                                    <div className='flex'>
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
+                                        <h3> {finca.nombre}</h3>
+                                    </div>
                                 </Link>
                             ))
                         }
@@ -122,10 +127,13 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             : fincas.map(finca => (
                                 <Link
                                     key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                    to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
-                                    {finca.nombre}
+                                    <div className='flex'>
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
+                                        <h3> {finca.nombre}</h3>
+                                    </div>
                                 </Link>
                             ))
                         }
@@ -143,17 +151,24 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link
-                                    key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
-                                    {finca.nombre}
+                                    <div className='flex'>
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
+                                        <h3> {finca.nombre}</h3>
+                                    </div>
                                 </Link>
                             ))
                         }
                     </div>
                 </div>
+                <div onClick={() => navigate("/transferir-finca")} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
+                    <img src={TransferirFinca} alt="Cultiva Sena" className="h-8 w-9 mr-2" />
+                    <span>Transferir Fincas</span>
+
+                </div>
+                
             </div>
 
             {/* Perfil y Cerrar Sesión */}

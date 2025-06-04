@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 //Variable que almacena la url base del localhost para concatenar a los endpoints
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,14 +13,22 @@ export const getSensor = async (id) => {
   return response.json();
 };
 
-export const getTiposSensor = async (id) => {
+export const getTiposSensor = async () => {
   const response = await fetch(`${API_URL}/api/tipos_sensores`);
+  return response.json();
+};
+
+export const getTipoSensor = async (id) => {
+  const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
   return response.json();
 };
 
 //Funcion para agregar un sensor a su respectiva finca
 export const crearSensor = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/api/sensores`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/sensores/${idUsuario}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
@@ -28,7 +37,10 @@ export const crearSensor = async (nuevaFinca) => {
 };
 //Funcion para actualizar la informacion de un sensor ya existente
 export const editarSensor = async (id, fincaActualizada) => {
-  const response = await fetch(`${API_URL}/api/sensores/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/sensores/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
@@ -36,9 +48,17 @@ export const editarSensor = async (id, fincaActualizada) => {
   
 };
 
+export const getCantidadSensores = async (id) => {
+  const response = await fetch(`${API_URL}/cantidad/sensores/${id}`);
+  return response.json();
+};
+
 //Funcion para eliminar un sensor de la finca
 export const eliminarSensores = async (id) => {
-  await fetch(`${API_URL}/api/sensores/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/sensores/${id}/${idUsuario}`, { method: "DELETE" });
 };
 
 //Funcion para simular la lectura de datos del sensor a partir de su MAC

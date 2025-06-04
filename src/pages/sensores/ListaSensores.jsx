@@ -1,3 +1,4 @@
+// src/screens/ActivarSensores.jsx
 import React, { useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 
@@ -20,10 +21,13 @@ function ActivarSensores() {
   const { id, idUser } = useParams();
   const { state } = useLocation();
   const enableSelectionButton = state?.enableSelectionButton ?? false;
+  const vista = state?.vista ?? "";
+  const isEstadistica = vista === "/estadistica" || vista === "/reporte" || vista === "/sensores";
+
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-
+  
   const {
     sensores, tiposSensores, formData, handleChange, crearNuevoSensor,
     sensorEditar, setSensorEditar, handleChangeEditar,
@@ -32,7 +36,10 @@ function ActivarSensores() {
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  const columnas = [
+  const tituloMostrar = state?.titulo || `Sensores de la finca: ${fincas?.nombre || "..."}`;
+
+  // Columnas base
+  const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: sensoresIcon },
     { key: "mac", label: "MAC", icon: mac, icon2: mac },
     { key: "idzona", label: "Zona", icon: zonasIcon, icon2: zonasIcon },
@@ -40,28 +47,30 @@ function ActivarSensores() {
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
+  // Filtrar columna "acciones" si es vista estadística
+  const columnas = isEstadistica
+    ? columnasBase.filter(col => col.key !== "acciones")
+    : columnasBase;
 
   const asignarZonaNombre = (id) => {
     const zona = zonas.find(z => z.id === id);
     return zona ? zona.nombre : "Sin zona";
   };
 
-  const ActivarSensor = (sensor, index) => {
-    return (
-      <label className="relative flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          checked={sensor.estado}
-          disabled={rol !== "1"}
-          onChange={() => rol === "1" && cambiarEstadoSensor(sensor, index)}
-          className="sr-only"
-        />
-        <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-          <div className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}></div>
-        </div>
-      </label>
-    );
-  };
+  const ActivarSensor = (sensor, index) => (
+    <label className="relative flex items-center cursor-pointer">
+      <input
+        type="checkbox"
+        checked={sensor.estado}
+        disabled={rol !== "1"}
+        onChange={() => rol === "1" && cambiarEstadoSensor(sensor, index)}
+        className="sr-only"
+      />
+      <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+        <div className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}></div>
+      </div>
+    </label>
+  );
 
   const sensoresDeFinca = sensores.map((sensor, index) => ({
     ...sensor,
@@ -124,7 +133,6 @@ function ActivarSensores() {
   const asignarZona = (onChange) => (
     <div className="relative w-full mt-2">
       <select name="idzona" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
-        
         {zonas.map((zona) => (
           <option key={zona.id} value={zona.id}>{zona.nombre}</option>
         ))}
@@ -136,7 +144,6 @@ function ActivarSensores() {
     <div className="relative w-full mt-2">
       <select name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
         <option value="">Tipo de sensor</option>
-
         {tiposSensores.map((tipo) => (
           <option key={tipo.id} value={tipo.id}>{tipo.nombre}</option>
         ))}
@@ -148,13 +155,14 @@ function ActivarSensores() {
     <div>
       <Navbar />
       <MostrarInfo
-        titulo={`Sensores de la finca: ${fincas?.nombre || "..."}`}
+        titulo={tituloMostrar}
         columnas={columnas}
         datos={sensoresDeFinca}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={true}
+        mostrarAgregar={!isEstadistica}
         enableSelectionButton={enableSelectionButton}
+        vista={vista}
       />
 
       <FormularioModal

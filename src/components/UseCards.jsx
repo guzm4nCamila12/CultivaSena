@@ -4,8 +4,12 @@ import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
 import ModalFechaRango from "./modals/FechaRango";
 import { useNavigate } from "react-router-dom";
+import { useExportarExcel } from "../hooks/useReportes";
+import { acctionSucessful } from "./alertSuccesful";
+import { Alerta } from "../assets/img/imagesExportation";
+import Procesar from "../assets/icons/procesar.png"
 
-const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
+const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -13,6 +17,8 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
   const navigate = useNavigate();
+  const { obtenerRangoFecha } = useExportarExcel();
+  const { reporteSensores } = useExportarExcel();
 
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -48,17 +54,40 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
 
   // Selección
   const toggleSeleccion = (id) => {
-    setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x!==id) : [...prev, id]);
+    setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
   const procesarSeleccionados = () => {
+    if (seleccionados.length == 0) {
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: `¡Seleccione al menos 1 item!`
+      });
+      return
+    }
     const seleccionData = datosFiltrados.filter(d => seleccionados.includes(d.id));
     setModalAbierto(true)
   };
 
-  const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
+  const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-    navigate('/estadistica', { state: { ids: seleccionados, fechaInicio, fechaFin } });
-  }
+
+    if (vista === "/reporte") {
+      // Transformar seleccionados (ids) a objetos {id, nombre} usando los datos completos
+      const seleccionadosConNombre = seleccionados.map(id => {
+        const item = datos.find(d => d.id === id);
+        return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
+      });
+
+      console.log("Seleccionados con nombre:", seleccionadosConNombre);
+
+      const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
+      // aquí actividades es según la función, ya ajusta según necesites
+    } else if (vista === "/estadistica") {
+      navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    } else if (vista === "/sensores") {
+      const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
+    }
+  };
 
   return (
     <div className="container sm:px-0">
@@ -67,16 +96,18 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
         <div className="flex justify-end mb-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >Procesar seleccionados</button>
+            className="bg-[#39A900] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
+          >
+            <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
+            Procesar</button>
         </div>
       )}
 
       <div
         ref={containerRef}
-        className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length===0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} ${isScrollable? 'sm:pr-4':'pr-0'}`}
+        className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length === 0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} ${isScrollable ? 'sm:pr-4' : 'pr-0'}`}
       >
-        {datosFiltrados.length===0 ? (
+        {datosFiltrados.length === 0 ? (
           mostrarAgregar ? (
             <div onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer hover:scale-95">
               <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
@@ -97,33 +128,33 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
             )}
 
             {datosFiltrados.map((fila, idx) => (
-              <div key={fila.id||idx} className="relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95">
+              <div key={fila.id || idx} className="relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95">
                 {enableSelection && (
                   <input
                     type="checkbox"
                     checked={seleccionados.includes(fila.id)}
-                    onChange={()=>toggleSeleccion(fila.id)}
-                    className="absolute top-2 left-2 w-5 h-5"
+                    onChange={() => toggleSeleccion(fila.id)}
+                    className="absolute top-5 left-5 w-5 h-5 cursor-pointer rounded-full "
                   />
                 )}
                 <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center">
-                  {fila.nombre || `Dato ${idx+1}`}
+                  {fila.nombre || `Dato ${idx + 1}`}
                 </div>
                 <div className="p-4 flex flex-col gap-1">
-                  {columnas.filter(c=>!['acciones','#','nombre','fotoPerfil'].includes(c.key)).map((col,i)=>(
+                  {columnas.filter(c => !['acciones', '#', 'nombre', 'fotoPerfil'].includes(c.key)).map((col, i) => (
                     <div key={i} className="text-sm flex items-center">
-                      {col.icon && <img src={col.icon} alt={col.label} className="mr-2"/>}
+                      {col.icon && <img src={col.icon} alt={col.label} className="mr-2" />}
                       <strong>{col.label}:</strong>
                       <span className="ml-1">
-                        {col.key==='descripcion' && fila[col.key]?.length>0 ? (
-                          <button onClick={()=>handleVerMas(fila[col.key])} className="text-blue-500">Ver todo</button>
+                        {col.key === 'descripcion' && fila[col.key]?.length > 0 ? (
+                          <button onClick={() => handleVerMas(fila[col.key])} className="text-blue-500">Ver todo</button>
                         ) : fila[col.key]}
                       </span>
                     </div>
                   ))}
                 </div>
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                  <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg"/>
+                  <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg" />
                 </div>
                 <hr />
                 <div className="flex items-center justify-center p-3">
@@ -147,9 +178,10 @@ const UserCards = ({ columnas, datos, titulo, acciones, onAddUser, mostrarAgrega
       )}
 
       <ModalFechaRango
-      isOpen={modalAbierto}
-      onClose={() => setModalAbierto(false)}
-      onConfirm={handleConfirmRango}
+        isOpen={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+        onConfirm={handleConfirmRango}
+        vista={vista}
       />
     </div>
   );

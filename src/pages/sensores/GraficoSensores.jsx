@@ -16,20 +16,19 @@ const DEFAULT_COLORS = ["#3CB23C", "#FF5733", "#3375FF", "#FFC300", "#8E44AD"];
 
 /**
  * Toma una fecha en formato ISO y devuelve un string "DD/MM/YYYY H:mm"
- * (sin ceros a la izquierda en hora, pero sí en día, mes y minuto).
+ * (en formato UTC).
  */
 function formatFecha(isoString) {
-  const date = new Date(isoString); // se convierte a hora local
-  const dd = String(date.getDate()).padStart(2, "0");
-  const MM = String(date.getMonth() + 1).padStart(2, "0");
-  const yyyy = date.getFullYear();
-  const H = date.getHours(); // sin padStart para no forzar dos dígitos
-  const mm = String(date.getMinutes()).padStart(2, "0");
+  const date = new Date(isoString); // fecha en formato ISO
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  const MM = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const yyyy = date.getUTCFullYear();
+  const H = date.getUTCHours(); // obtener hora en UTC
+  const mm = String(date.getUTCMinutes()).padStart(2, "0");
   return `${dd}/${MM}/${yyyy} ${H}:${mm}`;
 }
 
 export default function GraficoSensores({ sensoresData = [] }) {
-
   if (!Array.isArray(sensoresData) || sensoresData.length === 0) {
     return (
       <div className="p-4 bg-yellow-100 rounded">
@@ -56,7 +55,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
     lastValues[key] = 0;
   });
 
-  // Construir mergedData con fechas ya formateadas
+  // Construir mergedData con fechas formateadas en UTC
   const mergedData = allFechasISO.map(fechaISO => {
     const point = {
       fecha: formatFecha(fechaISO)

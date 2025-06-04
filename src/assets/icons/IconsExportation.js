@@ -1,5 +1,5 @@
 import acercar from "./acercar.png"
-import actividades from "./actividades.png";
+import actividadesIcon from "./actividades.png";
 import alejar from "./alejar.png"
 import ajustes from './acciones.png';
 import alternos from './alternos.png';
@@ -44,11 +44,15 @@ import idSensor from "./id.png"
 import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
 import tipoDocumento from './tipoDocumento.png'
+import intercambio from './IntercambioIcon.png';
+import buscar from './buscar.png';
+import fincasBlancas from './fincas.svg'
+import TransferirFinca from "./TransferirIcon.png";
 
 export {
   ajustes,
   alternos,
-  actividades,
+  actividadesIcon,
   acercar,
   alejar,
   claveAzul,
@@ -60,6 +64,7 @@ export {
   eliminar,
   etapa,
   fincasIcon,
+  fincasBlancas,
   locacion,
   marcador,
   nombre,
@@ -91,5 +96,8 @@ export {
   fecha,
   noVerClaveAzul,
   verClaveAzul,
-  tipoDocumento
+  tipoDocumento,
+  intercambio,
+  buscar,
+  TransferirFinca
 };

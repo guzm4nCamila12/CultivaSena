@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 //URL donde esta alojado el servidor
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -13,7 +14,10 @@ export const getFincasByIdFincas = async (id) => {
   };
 // Consumo al api para crear una finca
 export const crearFinca = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/api/fincas`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/fincas/${idUsuario}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
@@ -22,7 +26,10 @@ export const crearFinca = async (nuevaFinca) => {
 };
 // Consumo al api para actualizar una finca
 export const editarFinca = async (id, fincaActualizada) => {
-  const response = await fetch(`${API_URL}/api/fincas/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/fincas/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
@@ -32,7 +39,10 @@ export const editarFinca = async (id, fincaActualizada) => {
 };
 // Consumo al api para eliminar una finca
 export const eliminarFincas = async (id) => {
-  await fetch(`${API_URL}/api/fincas/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/fincas/${id}/${idUsuario}`, { method: "DELETE" });
 };
 // Consumo al api para obtener una zona por el id de la finca
 export const getZonasByIdFinca = async (id) => {
@@ -41,7 +51,10 @@ export const getZonasByIdFinca = async (id) => {
 };
 // Consumo al api para crear una zona
 export const crearZona = async (nuevaZona) => {
-const response = await fetch(`${API_URL}/api/zonas`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+const response = await fetch(`${API_URL}/api/zonas/${idUsuario}`, {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(nuevaZona),
@@ -51,7 +64,10 @@ return response.json();
 
 
 export const editarZona = async (id, zonaActualizada) => {
-  const response = await fetch(`${API_URL}/api/zonas/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/zonas/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(zonaActualizada),
@@ -61,12 +77,18 @@ export const editarZona = async (id, zonaActualizada) => {
 };
 
 export const eliminarZonas = async (id) => {
-  await fetch(`${API_URL}/api/zonas/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/zonas/${id}/${idUsuario}`, { method: "DELETE" });
 };
 
 //Consumo al api para crear una actividad
 export const crearActividad = async (nuevaActividad) => {
-  const response = await fetch(`${API_URL}/api/registro_actividades`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/registro_actividades/${idUsuario}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaActividad),
@@ -76,7 +98,10 @@ export const crearActividad = async (nuevaActividad) => {
 
 // Consumo al api para actualizar una actividad
 export const editarActividad = async (id, actividadActualizada) => {
-  const response = await fetch(`${API_URL}/api/registro_actividades/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/registro_actividades/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(actividadActualizada),
@@ -86,7 +111,10 @@ export const editarActividad = async (id, actividadActualizada) => {
 };
 
 export const eliminarActividad = async (id) => {
-  await fetch(`${API_URL}/api/registro_actividades/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/registro_actividades/${id}/${idUsuario}`, { method: "DELETE" });
 }
 
 export const getZonasById = async (id) => {
@@ -98,6 +126,11 @@ export const getActividadesByZona = async (id) => {
   const response = await fetch(`${API_URL}/zonas/actividades/${id}`);
   return response.json();
 };
+
+export const getActividadesByUsuario = async (id) =>{
+  const response = await fetch(`${API_URL}/actividades/usuario/${id}`);
+  return response.json();
+}
 
 export const getActividadesTotales = async (id)  =>{
   const response = await fetch (`${API_URL}/actividades/totales/${id}`);

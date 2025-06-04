@@ -1,3 +1,5 @@
+import { jwtDecode } from 'jwt-decode'
+
 //URL base de la api
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -41,20 +43,26 @@ export const login = async (inicioUsuario) => {
 };
 
 
-  //Funcion para insertar un usuario
-  export const crearUsuario = async (nuevoUsuario) => {
-    const response = await fetch(`${API_URL}/api/usuario`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(nuevoUsuario),
-    });
-    return response.json();
-  };
+//Funcion para insertar un usuario
+export const crearUsuario = async (nuevoUsuario) => {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/usuario/${idUsuario}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(nuevoUsuario),
+  });
+  return response.json();
+};
 
 
 //Funcion para actualizar un usuario existente
 export const editarUsuario = async (id, usuarioActualizado) => {
-  const response = await fetch(`${API_URL}/api/usuario/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/usuario/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(usuarioActualizado),
@@ -64,7 +72,16 @@ export const editarUsuario = async (id, usuarioActualizado) => {
 
 //Funcion para eliminar un usuario
 export const eliminarUsuario = async (id) => {
-  await fetch(`${API_URL}/api/usuario/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/usuario/${id}/${idUsuario}`, { method: "DELETE" });
+};
+
+//Funcion para obtener todo el historial
+export const getHistorial = async () => {
+  const response = await fetch(`${API_URL}/api/historial`);
+  return response.json();
 };
 
 // Función para verificar si el correo o teléfono ya existe

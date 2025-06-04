@@ -1,15 +1,20 @@
+// src/screens/Zonas.jsx
+import React from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useZonas } from "../../../hooks/useZonas"; // nuevo hook
 import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
 import FormularioModal from "../../../components/modals/FormularioModal";
 import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
-import {zonasIcon,actividades,ajustes,editar,eliminar,nombreZona, sensoresIcon} from '../../../assets/icons/IconsExportation';
+import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 
 const Zonas = () => {
   const { idUser, id } = useParams();
   const { state } = useLocation();
   const enableSelectionButton = state?.enableSelectionButton ?? false;
+  const vista = state?.vista ?? "";
+  const isReporte = vista === "/reporte";
+
   const {
     fincas, zonas, abrirModalCrear, abrirModalEditar, abrirModalEliminar,
     modalFormularioAbierto, setModalFormularioAbierto, handleSubmitFormulario,
@@ -17,59 +22,61 @@ const Zonas = () => {
     modalEliminarAbierto, setModalEliminarAbierto, handleEliminarZona, zonaEliminada
   } = useZonas(id, idUser);
 
+  const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
 
-  const columnas = [
+  // Columnas base
+  const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: zonasIcon },
     { key: "verSensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon },
-    { key: "actividades", label: "Actividades", icon: actividades, icon2: actividades },
+    { key: "actividades", label: "Actividades", icon: actividadesIcon, icon2: actividadesIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes }
   ];
+  // Filtrar columnas para reporte
+  const columnas = isReporte
+    ? columnasBase.filter(col => !["verSensores", "acciones"].includes(col.key))
+    : columnasBase;
 
-  const acciones = (fila) => {
-    const puedeEliminar = fila.nombre !== "Zona general";
-  
-    return (
-      <div className="flex justify-center gap-2">
-        {/* Editar siempre disponible */}
+  // Acciones solo si no es reporte
+  const acciones = (fila) => (
+    <div className="flex justify-center gap-2">
+      <div className="relative group">
+        <button
+          className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+          onClick={() => abrirModalEditar(fila)}
+        >
+          <img src={editar} alt="Editar" className='absolute' />
+        </button>
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Editar
+        </span>
+      </div>
+
+      {fila.nombre !== "Zona general" && (
         <div className="relative group">
           <button
             className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-            onClick={() => abrirModalEditar(fila)}
+            onClick={() => abrirModalEliminar(fila.id)}
           >
-            <img src={editar} alt="Editar" className='absolute' />
+            <img src={eliminar} alt="Eliminar" className='absolute' />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Editar
+            Eliminar
           </span>
         </div>
-  
-        {/* Eliminar solo si no es "Zona general" */}
-        {puedeEliminar && (
-          <div className="relative group">
-            <button
-              className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-              onClick={() => abrirModalEliminar(fila.id)}
-            >
-              <img src={eliminar} alt="Eliminar" className='absolute' />
-            </button>
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Eliminar
-            </span>
-          </div>
-        )}
-      </div>
-    );
-  };
-  
+      )}
+    </div>
+  );
 
   const zonasMapeadas = zonas.map(z => ({
     ...z,
-    verSensores: (
+    verSensores: !isReporte ? (
       <Link className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
         ({z.cantidad_sensores ?? 0}) Ver más...
       </Link>
-    ),
-    actividades: (
+    ) : undefined,
+    actividades: isReporte ? (
+      <span className="font-bold">Seleccione para generar reporte</span>
+    ) : (
       <Link className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
         Ver más...
       </Link>
@@ -80,13 +87,14 @@ const Zonas = () => {
     <div>
       <Navbar />
       <MostrarInfo
-        titulo={`Zonas de la finca: ${fincas.nombre}`}
+        titulo={tituloMostrar}
         columnas={columnas}
         datos={zonasMapeadas}
-        acciones={acciones}
         onAddUser={abrirModalCrear}
-        mostrarAgregar
+        mostrarAgregar={!isReporte}
         enableSelectionButton={enableSelectionButton}
+        {...(!isReporte && { acciones })}
+        vista={vista}
       />
 
       <FormularioModal

@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 //URL donde esta alojado el servidor
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -13,7 +14,10 @@ export const getFincasByIdFincas = async (id) => {
   };
 // Consumo al api para crear una finca
 export const crearFinca = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/api/fincas`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/fincas/${idUsuario}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
@@ -22,7 +26,10 @@ export const crearFinca = async (nuevaFinca) => {
 };
 // Consumo al api para actualizar una finca
 export const editarFinca = async (id, fincaActualizada) => {
-  const response = await fetch(`${API_URL}/api/fincas/${id}`, {
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  const response = await fetch(`${API_URL}/api/fincas/${id}/${idUsuario}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
@@ -32,7 +39,10 @@ export const editarFinca = async (id, fincaActualizada) => {
 };
 // Consumo al api para eliminar una finca
 export const eliminarFincas = async (id) => {
-  await fetch(`${API_URL}/api/fincas/${id}`, { method: "DELETE" });
+  const token = localStorage.getItem('token')
+  const decodedToken = token ? jwtDecode(token) : {}
+  const idUsuario = decodedToken.id
+  await fetch(`${API_URL}/api/fincas/${id}/${idUsuario}`, { method: "DELETE" });
 };
 // Consumo al api para obtener una zona por el id de la finca
 export const getZonasByIdFinca = async (id) => {

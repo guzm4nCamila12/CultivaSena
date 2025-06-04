@@ -365,7 +365,7 @@ function PerfilUsuario() {
               <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
               <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
               <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
-              <p><strong>Usuario ID:</strong> {historialSeleccionado.usuario_id}</p>
+              <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
               <div className="mt-4">
                 <h3 className="font-semibold">Datos:</h3>
                 <pre className="bg-gray-100 p-3 rounded">

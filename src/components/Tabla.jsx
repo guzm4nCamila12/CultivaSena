@@ -6,6 +6,10 @@ import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
 import ModalFechaRango from "./modals/FechaRango";
 import { useNavigate } from "react-router-dom";
+import { useExportarExcel } from "../hooks/useReportes";
+import { acctionSucessful } from "./alertSuccesful";
+import { Alerta } from "../assets/img/imagesExportation";
+import Procesar from "../assets/icons/procesar.png"
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -26,6 +30,8 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState({ fechaInicio: null, fechaFin: null });
   const navigate = useNavigate();
+
+  const {obtenerRangoFecha} = useExportarExcel()
 
   // Construcción de encabezados
   const encabezados = [];
@@ -48,19 +54,42 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
 
   // Abrir modal para confirmar selección
   const procesarSeleccionados = () => {
+    if(seleccionados.length == 0){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: `¡Seleccione al menos 1 item!`
+      });
+      return
+    }
     setModalAbierto(true);
   };
 
-  const handleConfirmRango = ({ fechaInicio, fechaFin }) => {
-    // Guardamos el rango y navegamos con IDs y fechas
+  const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-    if (vista == "/reporte") {
-      console.log("Reporte de tabla generado")
-    } else if (vista == "/estadistica") {
+  
+    if (vista === "/reporte") {
+      // Transformar seleccionados (ids) a objetos {id, nombre} usando los datos completos
+      const seleccionadosConNombre = seleccionados.map(id => {
+        const item = datos.find(d => d.id === id);
+        return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
+      });
+  
+      console.log("Seleccionados con nombre:", seleccionadosConNombre);
+  
+      const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
+      // aquí actividades es según la función, ya ajusta según necesites
+    } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     }
+    else if(vista === "/sensores"){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'Informe de sensores generado'
+      });
+      return
+    }
   };
-
+  
   return (
     <div className="container mx-auto px-0 pb-4">
       <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px] pr-4 rounded-lg">
@@ -178,8 +207,9 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-[#39A900] text-white px-3 py-2 rounded-3xl"
+            className="bg-[#39A900] text-white w-36 flex px-3 py-2 rounded-3xl"
           >
+            <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
             Procesar
           </button>
         </div>

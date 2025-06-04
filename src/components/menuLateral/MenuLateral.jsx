@@ -13,7 +13,7 @@ import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesE
 import cerrarRojo from "../../assets/icons/logOutRed.png"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
-import { fincasIcon } from '../../assets/icons/IconsExportation';
+import { fincasBlancas,fincasIcon } from '../../assets/icons/IconsExportation';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -102,7 +102,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>
@@ -130,7 +130,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>
@@ -150,11 +150,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/reporte" }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>

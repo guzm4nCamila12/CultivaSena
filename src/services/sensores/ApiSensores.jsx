@@ -18,7 +18,7 @@ export const getTiposSensor = async () => {
   return response.json();
 };
 
-export const getTipoSensorById = async (id) => {
+export const getTipoSensor = async (id) => {
   const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
   return response.json();
 };

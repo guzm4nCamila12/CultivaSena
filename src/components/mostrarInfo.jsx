@@ -45,7 +45,7 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
           {enableSelectionButton && (
             <button
               onClick={() => setSeleccionEnabled((prev) => !prev)}
-              className={`flex ${ seleccionEnabled ? 'bg-red-500' : 'bg-[#39A900]'} text-white px-3 py-2 rounded-3xl`}
+              className={`flex w-36 ${ seleccionEnabled ? 'bg-red-500' : 'bg-[#39A900]'} text-white px-3 py-2 rounded-3xl`}
             >
               <img
                 src={seleccionEnabled ? Cancelar : Seleccionar}

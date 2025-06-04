@@ -150,7 +150,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/reporte" }}
+                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>

@@ -22,7 +22,7 @@ function ActivarSensores() {
   const { state } = useLocation();
   const enableSelectionButton = state?.enableSelectionButton ?? false;
   const vista = state?.vista ?? "";
-  const isEstadistica = vista === "/estadistica" || vista === "/reporte";
+  const isEstadistica = vista === "/estadistica" || vista === "/reporte" || vista === "/sensores";
 
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);

@@ -12,8 +12,13 @@ export const getSensor = async (id) => {
   return response.json();
 };
 
-export const getTiposSensor = async (id) => {
+export const getTiposSensor = async () => {
   const response = await fetch(`${API_URL}/api/tipos_sensores`);
+  return response.json();
+};
+
+export const getTipoSensor = async (id) => {
+  const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
   return response.json();
 };
 

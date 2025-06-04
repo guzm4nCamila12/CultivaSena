@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
+import Procesar from "../assets/icons/procesar.png"
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -79,6 +80,13 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
       // aquí actividades es según la función, ya ajusta según necesites
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
+    }
+    else if(vista === "/sensores"){
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'Informe de sensores generado'
+      });
+      return
     }
   };
   
@@ -199,8 +207,9 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-[#39A900] text-white px-3 py-2 rounded-3xl"
+            className="bg-[#39A900] text-white w-36 flex px-3 py-2 rounded-3xl"
           >
+            <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
             Procesar
           </button>
         </div>

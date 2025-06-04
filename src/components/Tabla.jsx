@@ -1,5 +1,5 @@
 // Tabla.jsx
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
@@ -32,6 +32,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   const navigate = useNavigate();
 
   const {obtenerRangoFecha} = useExportarExcel()
+  const { reporteSensores } = useExportarExcel()
 
   // Construcción de encabezados
   const encabezados = [];
@@ -81,12 +82,8 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     }
-    else if(vista === "/sensores"){
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        title: 'Informe de sensores generado'
-      });
-      return
+    else if (vista === "/sensores") {
+      const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
     }
   };
   

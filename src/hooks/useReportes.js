@@ -92,7 +92,7 @@ export const useExportarExcel = () => {
       sensoresValidos.map(async sensor => {
         const tipo = await getTipoSensor(sensor.tipo_id);
         const zona = await getZonasById(sensor.idzona); // <- Aquí traes el nombre de la zona
-    
+
         return {
           ...sensor,
           tipo: {
@@ -103,7 +103,7 @@ export const useExportarExcel = () => {
         };
       })
     );
-    
+
     console.log("Sensores con tipo:", sensoresConTipo);
     console.log("Sensores con tipo:", sensoresConTipo);
 
@@ -122,6 +122,8 @@ export const useExportarExcel = () => {
 
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
+    fin.setHours(23, 59, 59, 999); // Incluye todo el día
+
 
     // Filtramos los historiales para que contengan solo los registros en el rango
     const historialesFiltrados = historiales.map(sensorHistorial => {
@@ -142,13 +144,13 @@ export const useExportarExcel = () => {
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {
       const sensor = sensoresConTipo[index]; // Emparejar con el sensor correspondiente
-    
+
       return sensorHistorial.historial.map(registro => {
         const fechaOriginal = registro.fecha; // ejemplo: "2025-05-29T09:55:39.1214Z"
         const [fecha, tiempo] = fechaOriginal.split('T');
         const [anio, mes, dia] = fecha.split('-');
         const hora = tiempo.split('.')[0]; // "09:55:39"
-    
+
         return {
           ID: sensor.id,
           MAC: sensor.mac,
@@ -165,7 +167,7 @@ export const useExportarExcel = () => {
         };
       });
     });
-  
+
     if (datosParaExportar.length === 0) {
       acctionSucessful.fire({
         imageUrl: Alerta,

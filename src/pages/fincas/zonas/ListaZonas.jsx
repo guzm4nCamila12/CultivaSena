@@ -82,7 +82,7 @@ const Zonas = () => {
       </Link>
     ),
   }));
-
+  
   return (
     <div>
       <Navbar />

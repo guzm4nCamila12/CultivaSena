@@ -45,6 +45,8 @@ import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
 import tipoDocumento from './tipoDocumento.png'
 import fincasBlancas from './fincas.svg'
+import intercambio from './IntercambioIcon.png';
+import buscar from './buscar.png';
 
 export {
   ajustes,
@@ -93,5 +95,7 @@ export {
   fecha,
   noVerClaveAzul,
   verClaveAzul,
-  tipoDocumento
+  tipoDocumento,
+  intercambio,
+  buscar
 };

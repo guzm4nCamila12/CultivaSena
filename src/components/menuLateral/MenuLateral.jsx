@@ -14,6 +14,7 @@ import cerrarRojo from "../../assets/icons/logOutRed.png"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasIcon } from '../../assets/icons/IconsExportation';
+import { TransferirFinca } from '../../assets/icons/IconsExportation';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -163,7 +164,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     </div>
                 </div>
                 <div onClick={() => navigate("/transferir-finca")} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
-                    <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
+                    <img src={TransferirFinca} alt="Cultiva Sena" className="h-8 w-9 mr-2" />
                     <span>Transferir Fincas</span>
 
                 </div>

@@ -46,6 +46,7 @@ import verClaveAzul from './verClaveAzul1.png'
 import tipoDocumento from './tipoDocumento.png'
 import intercambio from './IntercambioIcon.png';
 import buscar from './buscar.png';
+import TransferirFinca from "./TransferirIcon.png";
 
 export {
   ajustes,
@@ -95,5 +96,6 @@ export {
   verClaveAzul,
   tipoDocumento,
   intercambio,
-  buscar
+  buscar,
+  TransferirFinca
 };

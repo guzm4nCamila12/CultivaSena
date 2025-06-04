@@ -162,6 +162,12 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         }
                     </div>
                 </div>
+                <div onClick={() => navigate("/transferir-finca")} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
+                    <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
+                    <span>Transferir Fincas</span>
+
+                </div>
+                
             </div>
 
             {/* Perfil y Cerrar Sesión */}

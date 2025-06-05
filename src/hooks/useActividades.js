@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import * as Images from '../assets/img/imagesExportation';
-import { jwtDecode } from 'jwt-decode';
+import { obtenerIdUsuario, obtenerRol } from './useDecodeToken';
 
 export const useActividadesZona = (idZona) => {
-  const token = localStorage.getItem('token');
-  const decodedToken = jwtDecode(token);
-  const idusuario = decodedToken.id;
-  const rolusuario = decodedToken.idRol;
+  const idusuario = obtenerIdUsuario();
+  const rolusuario = obtenerRol();
 
   const [actividades, setActividades] = useState([]);
   const [zonas, setZonas] = useState({});

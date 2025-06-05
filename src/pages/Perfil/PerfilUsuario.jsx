@@ -1,37 +1,28 @@
+//importaciones necesarias de react
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../components/navbar'
 import { useNavigate, Link } from 'react-router-dom'
-import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation'
-import {
-  fincasIcon,
-  nombreIcon,
-  sensoresIcon,
-  editar,
-  usuarioAzul,
-  correoAzul,
-  telefonoAzul,
-  ajustes,
-  actividadesIcon,
-  fecha as fechaIcon,
-  ver
-} from '../../assets/icons/IconsExportation'
-import { jwtDecode } from 'jwt-decode'
-import { getCantidadSensores } from '../../services/sensores/ApiSensores'
+//Componentes reutilizados
+import Navbar from '../../components/navbar'
 import Tabla from '../../components/Tabla'
-import { getUsuarioById, getHistorial } from '../../services/usuarios/ApiUsuarios'
-import {
-  getActividadesTotales,
-  getActividadesByUsuario, getZonasById
-} from '../../services/fincas/ApiFincas'
 import FormularioModal from '../../components/modals/FormularioModal'
-import { useUsuarios } from '../../hooks/useUsuarios'
 import { acctionSucessful } from '../../components/alertSuccesful'
+//Importacion de icono e imagenes
+import {fincasIcon, nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, ajustes, actividadesIcon, fecha as fechaIcon, ver, zonasIcon} from '../../assets/icons/IconsExportation'
+import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation'
+//Endpoints para consumir el api
+import { getCantidadSensores, getCountSensoresByFinca } from '../../services/sensores/ApiSensores'
+import { getUsuarioById, getHistorial } from '../../services/usuarios/ApiUsuarios'
+import {getActividadesTotales, getActividadesByUsuario, getZonasById, getCountFincas, getCountZonasByFinca} from '../../services/fincas/ApiFincas'
+//Hooks
+import { useUsuarios } from '../../hooks/useUsuarios'
+import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
 
 function PerfilUsuario() {
   const navigate = useNavigate()
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
   const [cantidadSensores, setCantidadSensores] = useState({})
+  const [cantidadFincas, setCantidadFincas] = useState({})
+  const [cantidadZonas, setCantidadZonas] = useState({})
+  const [cantidadSensoresFinca, setCantidadSensoresFinca] = useState({})
   const [usuario, setUsuario] = useState({})
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false)
   const [usuarioEditar, setUsuarioEditar] = useState({})
@@ -60,10 +51,19 @@ function PerfilUsuario() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        getCantidadSensores(decodedToken.id)
+        getCantidadSensores(obtenerIdUsuario())
           .then(data => setCantidadSensores(data))
 
-        getUsuarioById(decodedToken.id)
+          getCountFincas()
+          .then(data => setCantidadFincas(data))
+
+          getCountZonasByFinca()
+          .then(data => setCantidadZonas(data))
+
+          getCountSensoresByFinca()
+          .then(data => setCantidadSensoresFinca(data))
+
+        getUsuarioById(obtenerIdUsuario())
           .then(data => {
             setUsuario(data)
             setUsuarioEditar(data)
@@ -73,11 +73,11 @@ function PerfilUsuario() {
       }
     }
     fetchData()
-  }, [decodedToken.id])
+  }, [obtenerIdUsuario()])
 
   useEffect(() => {
     const fetchTabla = async () => {
-      if (decodedToken.idRol === 1) {
+      if (obtenerRol() === 1) {
         // SuperAdmin: historial
         getHistorial()
           .then(data => {
@@ -98,9 +98,9 @@ function PerfilUsuario() {
             setDatosTabla(formatted)
           })
           .catch(console.error)
-      } else if (decodedToken.idRol === 2) {
+      } else if (obtenerRol() === 2) {
         // Admin: actividades totales
-        getActividadesTotales(decodedToken.id)
+        getActividadesTotales(obtenerIdUsuario())
           .then(data => {
             const formatted = Array.isArray(data)
               ? data.map(item => ({
@@ -111,9 +111,9 @@ function PerfilUsuario() {
             setDatosTabla(formatted)
           })
           .catch(console.error)
-      } else if (decodedToken.idRol === 3) {
+      } else if (obtenerRol() === 3) {
         // Alterno: actividades por usuario
-        const actividades = await getActividadesByUsuario(decodedToken.id)
+        const actividades = await getActividadesByUsuario(obtenerIdUsuario())
 
         if (Array.isArray(actividades)) {
           const actividadesConZona = await Promise.all(
@@ -144,11 +144,12 @@ function PerfilUsuario() {
       }
     }
     fetchTabla()
-  }, [decodedToken.idRol, decodedToken.id])
+  }, [obtenerRol(), obtenerIdUsuario()])
+
 
   const cartas = (tipo) => {
     if (tipo === "perfil") {
-      switch (decodedToken?.idRol) {
+      switch (obtenerRol()) {
         case 1: return superAdminIcon
         case 2: return adminIcon
         case 3: return alternoIcon
@@ -156,26 +157,34 @@ function PerfilUsuario() {
       }
     }
     if (tipo === "imagen") {
-      switch (decodedToken?.idRol) {
+      switch (obtenerRol()) {
         case 1: return nombreIcon
         case 2: return fincasIcon
+        case 3: return zonasIcon
+        default: return sensoresIcon
+      }
+    }
+    if (tipo === "imagen2") {
+      switch (obtenerRol()) {
+        case 1: return fincasIcon
+        case 2: return sensoresIcon
         case 3: return sensoresIcon
         default: return sensoresIcon
       }
     }
     if (tipo === "texto") {
-      switch (decodedToken?.idRol) {
+      switch (obtenerRol()) {
         case 1: return "Cantidad de Usuarios"
         case 2: return "Cantidad de Fincas"
-        case 3: return "Cantidad de Sensores"
+        case 3: return "Zonas de la finca"
         default: return ""
       }
     }
     if (tipo === "texto2") {
-      switch (decodedToken?.idRol) {
-        case 1: return "Cantidad de Sensores"
+      switch (obtenerRol()) {
+        case 1: return "Cantidad de Fincas"
         case 2: return "Cantidad de Sensores"
-        case 3: return "Actividades Realizadas"
+        case 3: return "Sensores de la Finca"
         default: return ""
       }
     }
@@ -206,7 +215,7 @@ function PerfilUsuario() {
   // - Rol 2: redirige a actividadesZonas con idzona
   // - Rol 3: misma acción que rol 2
   const acciones = (fila) => {
-    if (decodedToken.idRol === 1) {
+    if (obtenerRol() === 1) {
       return (
         <div className="flex justify-center gap-4">
           <div className="relative group">
@@ -225,7 +234,7 @@ function PerfilUsuario() {
           </div>
         </div>
       )
-    } else if (decodedToken.idRol === 2 || decodedToken.idRol === 3) {
+    } else if (obtenerRol() === 2 || obtenerRol() === 3) {
       return (
         <div className="flex justify-center gap-4">
           <div className="relative group">
@@ -245,14 +254,14 @@ function PerfilUsuario() {
   }
 
   // Columnas dinámicas:
-  const columnas = decodedToken.idRol === 1
+  const columnas = obtenerRol() === 1
     ? [
       { key: "operacion", label: "Operación", icon2: ajustes },
       { key: "tabla", label: "Tabla", icon2: ajustes },
       { key: "fecha", label: "Fecha", icon2: fechaIcon },
       { key: "acciones", label: "Acciones", icon2: ajustes }
     ]
-    : decodedToken.idRol === 2
+    : obtenerRol() === 2
       ? [
         { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
         { key: "actividad", label: "Actividad", icon2: actividadesIcon },
@@ -267,11 +276,11 @@ function PerfilUsuario() {
       ]
 
   const ruta =
-    decodedToken.idRol === 1
+    obtenerRol() === 1
       ? `/inicio-SuperAdmin`
-      : decodedToken.idRol === 2
+      : obtenerRol() === 2
         ? `/lista-fincas/${usuario.id}`
-        : decodedToken.idRol === 3
+        : obtenerRol() === 3
           ? `/sensores-alterno/${usuario.id_finca}/${usuario.id}`
           : '/'
 
@@ -311,11 +320,11 @@ function PerfilUsuario() {
                 <img src={finca} alt="" />
               </div>
               <div className="pl-2 w-full text-3xl">
-                {decodedToken.idRol === 1 ? (
+                {obtenerRol() === 1 ? (
                   <h2>{usuarios.length}</h2>
-                ) : decodedToken.idRol === 3 ? (
-                  <h2>{cantidadSensores.total_sensores}</h2>
-                ) : decodedToken.idRol === 2 ? (
+                ) : obtenerRol() === 3 ? (
+                  <h2>{cantidadZonas.total_zonas}</h2>
+                ) : obtenerRol() === 2 ? (
                   <h2>{usuario.cantidad_fincas}</h2>
                 ) : null}
               </div>
@@ -323,7 +332,7 @@ function PerfilUsuario() {
 
             <div className="bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl">
               <div className="flex w-full">
-                <img src={sensoresIcon} alt="" className="mr-1" />
+              <img src={cartas("imagen2")} alt="" className="mr-1" />
                 <h3>{cartas("texto2")}</h3>
               </div>
               <div className="h-56 w-full flex items-center justify-center">
@@ -331,7 +340,14 @@ function PerfilUsuario() {
               </div>
               <div className="pl-2 w-full">
                 <h2 className="text-3xl">
-                  {cantidadSensores.total_sensores ?? 0}
+                {obtenerRol() === 1 ? (
+                  <h2>{cantidadFincas.total_fincas}</h2>
+                ) : obtenerRol() === 3 ? (
+                  <h2>{cantidadSensoresFinca.total_sensores_finca}</h2>
+                ) : obtenerRol() === 2 ? (
+                  <h2>{cantidadSensores.total_sensores ?? 0}</h2>
+                ) : null}
+                  
                 </h2>
               </div>
             </div>
@@ -341,10 +357,10 @@ function PerfilUsuario() {
           <div className="flex flex-col py-7 items-center w-1/2">
             <div className="bg-[#002A43] w-4/5 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center p-4">
               <h3 className="font-bold text-xl mt-1 text-white">
-                {decodedToken.idRol === 1 ? 'Historial' : 'Registro Actividades'}
+                {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}
               </h3>
               <Tabla
-                titulo={decodedToken.idRol === 1 ? 'Historial de Cambios' : 'Actividades'}
+                titulo={obtenerRol() === 1 ? 'Historial de Cambios' : 'Actividades'}
                 columnas={columnas}
                 datos={Array.isArray(datosTabla) ? datosTabla : []}
                 acciones={acciones}

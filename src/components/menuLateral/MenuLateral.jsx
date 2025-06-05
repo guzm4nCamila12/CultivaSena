@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 import { getFincasById } from '../../services/fincas/ApiFincas';
+import { obtenerIdUsuario, obtenerNombre, obtenerRol as rolToken } from '../../hooks/useDecodeToken';
 
 // Iconos
 import Inicio from "../../assets/icons/pagina-de-inicio.png";
@@ -13,13 +13,11 @@ import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesE
 import cerrarRojo from "../../assets/icons/logOutRed.png"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
-import { fincasIcon } from '../../assets/icons/IconsExportation';
+import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
-    const token = localStorage.getItem('token');
-    const decodedToken = token ? jwtDecode(token) : {};
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [mostrarSubmenuReporte, setMostrarSubmenuReporte] = useState(false);
@@ -30,7 +28,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
     // Obtener ícono según rol
     const obtenerRol = () => {
-        switch (decodedToken.idRol) {
+        switch (rolToken()) {
             case 1: return superAdminIcon;
             case 2: return adminIcon;
             case 3: return alternoIcon;
@@ -49,7 +47,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
-                const response = await getFincasById(decodedToken.id);
+                const response = await getFincasById(obtenerIdUsuario());
                 setFincas(response || []);
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
@@ -58,10 +56,10 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
             }
         };
 
-        if (decodedToken.id) {
+        if (obtenerIdUsuario()) {
             fetchFincas();
         }
-    }, [decodedToken.id]);
+    }, [obtenerIdUsuario()]);
 
     return (
         <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px] border-gray-700 text-white z-50">
@@ -99,11 +97,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
+                                <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>
@@ -127,11 +125,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             : fincas.map(finca => (
                                 <Link
                                     key={finca.id}
-                                    to={`/zonas/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte" }}
+                                    to={`/zonas/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>
@@ -151,11 +149,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         {cargandoFincas
                             ? <span>Cargando...</span>
                             : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${decodedToken.id}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/reporte" }}
+                                <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
                                     className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
                                 >
                                     <div className='flex'>
-                                        <img src={fincasIcon} alt="" srcset="" className='mr-1' />
+                                        <img src={fincasBlancas} alt="" srcset="" className='mr-1 w-5' />
                                         <h3> {finca.nombre}</h3>
                                     </div>
                                 </Link>
@@ -163,12 +161,16 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         }
                     </div>
                 </div>
-                <div onClick={() => navigate("/transferir-finca")} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
-                    <img src={TransferirFinca} alt="Cultiva Sena" className="h-8 w-9 mr-2" />
-                    <span>Transferir Fincas</span>
+                {rolToken() === 1 && (
+                    <div
+                        onClick={() => navigate("/transferir-finca")}
+                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                    >
+                        <img src={TransferirFinca} alt="Transferir Fincas" className="h-8 w-9 mr-2" />
+                        <span>Transferir Fincas</span>
+                    </div>
+                )}
 
-                </div>
-                
             </div>
 
             {/* Perfil y Cerrar Sesión */}
@@ -177,7 +179,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     <div className="flex items-center mb-4">
                         <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
-                            <span className="block font-bold">{decodedToken.nombre || 'Usuario'}</span>
+                            <span className="block font-bold">{obtenerNombre() || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>
                         </div>
                     </div>

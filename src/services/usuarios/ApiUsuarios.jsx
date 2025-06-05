@@ -1,5 +1,4 @@
-import { jwtDecode } from 'jwt-decode'
-
+import { obtenerIdUsuario } from '../../hooks/useDecodeToken';
 //URL base de la api
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -45,10 +44,7 @@ export const login = async (inicioUsuario) => {
 
 //Funcion para insertar un usuario
 export const crearUsuario = async (nuevoUsuario) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  const response = await fetch(`${API_URL}/api/usuario/${idUsuario}`, {
+  const response = await fetch(`${API_URL}/api/usuario/${obtenerIdUsuario()}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevoUsuario),
@@ -59,10 +55,7 @@ export const crearUsuario = async (nuevoUsuario) => {
 
 //Funcion para actualizar un usuario existente
 export const editarUsuario = async (id, usuarioActualizado) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  const response = await fetch(`${API_URL}/api/usuario/${id}/${idUsuario}`, {
+  const response = await fetch(`${API_URL}/api/usuario/${id}/${obtenerIdUsuario()}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(usuarioActualizado),
@@ -72,10 +65,7 @@ export const editarUsuario = async (id, usuarioActualizado) => {
 
 //Funcion para eliminar un usuario
 export const eliminarUsuario = async (id) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  await fetch(`${API_URL}/api/usuario/${id}/${idUsuario}`, { method: "DELETE" });
+  await fetch(`${API_URL}/api/usuario/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
 };
 
 //Funcion para obtener todo el historial

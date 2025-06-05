@@ -12,6 +12,7 @@ import Mapa from "../../components/Mapa";
 import Navbar from "../../components/navbar"
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { validarSinCambios } from "../../utils/validaciones";
+import BotonAtras from "../../components/botonAtras";
 
 export default function EditarFinca() {
   //Obtener el ID de la URL
@@ -80,9 +81,10 @@ export default function EditarFinca() {
       <div className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-11 md:mx-16 lg:mx-16 2xl:mx-32">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
-            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
-              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex  bg-transparent ">
-                <h2 className="text-2xl sm:text-3xl font-semibold">Editar finca</h2>
+            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent mx-auto w-[95%]">
+              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex items-end bg-transparent pl-2 ">
+                <BotonAtras/>
+                <h2 className="text-2xl sm:text-2xl font-semibold lg:pl-6">Editar finca</h2>
               </div>
               {/* Contenedor del input y botón */}
               <div className="sm:pl-2 pr-4 flex justify-center items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12 xl: sm:rounded-full relative">
@@ -106,7 +108,7 @@ export default function EditarFinca() {
               </div>
             </div>
           </div>
-          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3">
+          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3 mx-auto w-[95%]">
             {/* Solo renderizamos el mapa si la ubicación no es null */}
             {ubicacion ? (
               <Mapa setUbicacion={setUbicacion} ubicacion={ubicacion} />

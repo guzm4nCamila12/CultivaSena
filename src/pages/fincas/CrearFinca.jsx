@@ -66,8 +66,8 @@ const Agregar = () => {
         className="mt-1 p-1 mb-auto rounded-3xl w-auto mx-3 sm:w-auto sm:mx-2 md:mx-10 lg:mx-16 2xl:mx-36 ">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative sm:m-1">
-            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent">
-              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex items-end bg-transparent pl-2">
+            <div className=" flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent mx-auto w-[97%]">
+              <div className="mb-2 ml-11 sm:ml-0 w-full sm:w-auto flex-grow self-center flex items-end bg-transparent pl-2 ">
                 <BotonAtras/>
                 <h2 className="text-2xl sm:text-2xl font-semibold lg:pl-6">Crear finca</h2>
               </div>
@@ -93,7 +93,7 @@ const Agregar = () => {
               </div>
             </div>
           </div>
-          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3">
+          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3  mx-auto ">
               <Mapa setUbicacion={setUbicacion} />
           </div>
         </form>

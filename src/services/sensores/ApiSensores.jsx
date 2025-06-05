@@ -1,4 +1,4 @@
-import { jwtDecode } from 'jwt-decode'
+import { obtenerIdUsuario, obtenerFinca } from '../../hooks/useDecodeToken';
 //Variable que almacena la url base del localhost para concatenar a los endpoints
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -12,23 +12,25 @@ export const getSensor = async (id) => {
   const response = await fetch(`${API_URL}/api/sensores/${id}`);
   return response.json();
 };
+//Funcion que obtiene la cantidad de sensores que hay en una finca
+export const getCountSensoresByFinca = async () => {
+  const response = await fetch(`${API_URL}/api/sensores/count/${obtenerFinca()}`);
+  return response.json();
+};
 
 export const getTiposSensor = async () => {
   const response = await fetch(`${API_URL}/api/tipos_sensores`);
   return response.json();
 };
 
-export const getTipoSensorById = async (id) => {
+export const getTipoSensor = async (id) => {
   const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
   return response.json();
 };
 
 //Funcion para agregar un sensor a su respectiva finca
 export const crearSensor = async (nuevaFinca) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  const response = await fetch(`${API_URL}/api/sensores/${idUsuario}`, {
+  const response = await fetch(`${API_URL}/api/sensores/${obtenerIdUsuario()}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
@@ -37,10 +39,7 @@ export const crearSensor = async (nuevaFinca) => {
 };
 //Funcion para actualizar la informacion de un sensor ya existente
 export const editarSensor = async (id, fincaActualizada) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  const response = await fetch(`${API_URL}/api/sensores/${id}/${idUsuario}`, {
+  const response = await fetch(`${API_URL}/api/sensores/${id}/${obtenerIdUsuario()}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
@@ -55,10 +54,7 @@ export const getCantidadSensores = async (id) => {
 
 //Funcion para eliminar un sensor de la finca
 export const eliminarSensores = async (id) => {
-  const token = localStorage.getItem('token')
-  const decodedToken = token ? jwtDecode(token) : {}
-  const idUsuario = decodedToken.id
-  await fetch(`${API_URL}/api/sensores/${id}/${idUsuario}`, { method: "DELETE" });
+  await fetch(`${API_URL}/api/sensores/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
 };
 
 //Funcion para simular la lectura de datos del sensor a partir de su MAC

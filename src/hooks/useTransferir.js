@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react'
 import { getFincasById } from '../services/fincas/ApiFincas';
 import { editarFinca } from '../services/fincas/ApiFincas';
+//traer los sensores de las fincas
+import { getSensoresById, editarSensor } from '../services/sensores/ApiSensores';
 
 export const useTransferir = () => {
     // El propietario es el usuario que tiene las fincas que se van a transferir
@@ -35,7 +37,7 @@ export const useTransferir = () => {
         }
     }
     // Funcion para transferir la finca seleccionada al usuario seleccionado
-    const transferirFinca = () => {
+    const transferirFinca = async () => {
         if (!usuarioSeleccionado || !fincaTransferir) {
             console.error('Debe seleccionar un usuario y una finca para transferir.');
             return;
@@ -49,7 +51,17 @@ export const useTransferir = () => {
                 // Se actualizan ambas listas de fincas
                 setFincasPropias(nuevasFincasPropias);
                 setFincasAlternas(prev => [...prev, fincaActualizada]);
+                
             })
+            // Obtener sensores asociados a la finca
+        const sensores = await getSensoresById(fincaTransferir);
+        console.log('Sensores asociados a la finca:', sensores);
+
+        // Actualizar cada sensor con el nuevo idusuario
+        await Promise.all(sensores.map(sensor => {
+            const sensorActualizado = { ...sensor, idusuario: usuarioSeleccionado.id };
+            return editarSensor(sensor.id, sensorActualizado);
+        }));
         } catch (error) {
             console.log('Error al transferir la finca:', error);
         }

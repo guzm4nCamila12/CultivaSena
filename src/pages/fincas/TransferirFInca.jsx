@@ -1,6 +1,5 @@
 import { React, useState } from 'react'
 import Navbar from '../../components/navbar'
-
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal'
 //importar hook
 import { useUsuarios } from '../../hooks/useUsuarios'
@@ -21,12 +20,10 @@ export default function TransferirFInca() {
     //hooks de estado para la busqueda
     const [abrirModalBuscar, setAbrirModalBuscar] = useState(false);
     const [busqueda, setBusqueda] = useState('');
-
     const usuariosFiltrados = usuariosAdmin.filter(u =>
         (propietario === null || u.id !== propietario.id) &&
         u.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
-
     return (
         <div className='text-center h-screen'>
             <Navbar />
@@ -35,22 +32,21 @@ export default function TransferirFInca() {
                 <div className="absolute left-0 top-1/2 -translate-y-1/2">
                     <BotonAtras />
                 </div>
-
                 {/* Título centrado */}
                 <h2 className="text-2xl font-semibold ">
                     Transferir Fincas
                 </h2>
             </div>
-
             <div className='flex justify-center items-center pb-14 pt-5 w-[80%] rounded-3xl shadow-2xl m-auto min-h-[30%]'>
-
                 {/*Contenedor para las fincas del Primer usuario*/}
                 {propietario !== null ? (
                     <div className=''>
                         <p className='font-semibold text-xl my-1'>{propietario.nombre}</p>
-                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px]'>
+                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px] max-h-[500px] overflow-y-auto'>
                             <h2 className='text-white font-semibold text-xl'>Fincas</h2>
                             <hr />
+                            <button className='flex rounded-3xl px-2 py-2 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar...</button>
+
                             {fincasPropias.length > 0 ? (
                                 fincasPropias.map((finca) => (
                                     <div
@@ -58,19 +54,12 @@ export default function TransferirFInca() {
                                         onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
                                         className={`flex rounded-3xl px-2 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-white'}`} >
                                         <h2 key={finca.id}>{finca.nombre}</h2>
-
-
                                     </div>
                                 ))
                             ) : (
-
                                 <p className="text-gray-400 py-2">No tiene fincas.</p>
-
                             )}
-                            <button className='flex rounded-3xl px-2 py-1 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar...</button>
-
                         </div>
-
                     </div>
                 ) : (
                     <div>
@@ -80,7 +69,6 @@ export default function TransferirFInca() {
                     </div>
                 )}
                 <div className='flex flex-col items-center justify-center mx-5'>
-
                     <button
                         onClick={() => (fincaTransferir !== null &&
                             setModalTransferirAbierto(true))}
@@ -88,38 +76,33 @@ export default function TransferirFInca() {
                     <p className="text-gray-700 py-2 cursor-default">Transferir Finca.</p>
                 </div>
 
-
                 {/*Contenedor para las fincas del segundo usuario*/}
                 {usuarioSeleccionado !== null ? (
                     <div className=''>
                         {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
                         <p className='font-semibold text-xl my-1'>{usuarioSeleccionado.nombre}</p>
-                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px]'>
+                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px] max-h-[500px] overflow-y-auto'>
                             <h2 className='text-white font-semibold text-xl'>Fincas</h2>
                             <hr />
+                            <button className='flex rounded-3xl px-2 py-2 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar...</button>
+
                             {fincasAlternas.length > 0 ? (
                                 fincasAlternas.map((finca) => (
                                     <div className='flex rounded-3xl px-2 py-2 my-3 bg-white w-full'>
                                         <h2 key={finca.id}>{finca.nombre}</h2>
-
                                     </div>
                                 ))
                             ) : (
                                 <p className="text-gray-400 py-2">No tiene fincas.</p>
                             )}
-                            <button className='flex rounded-3xl px-2 py-2 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar...</button>
-
                         </div>
-
                     </div>
                 ) : (
                     <div>
                         <button className='flex rounded-3xl px-2 py-1 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
                         <p className="text-gray-400 py-2">Seleccione un Administrador.</p>
-
                     </div>
                 )}
-
             </div>
 
             {/* modal de busqueda */}
@@ -128,7 +111,6 @@ export default function TransferirFInca() {
                     <div className="bg-white flex flex-col rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/4 p-6 mx-4 my-8 sm:my-12">
                         <h5 className="text-xl font-bold mb-2 text-black text-center">Seleccionar Usuario</h5>
                         <hr />
-
                         <div className="relative flex items-center my-2 w-full rounded-full border border-gray-300">
                             <img src={Icons.buscar} alt="Buscar" className="absolute left-3" />
                             <input
@@ -139,8 +121,6 @@ export default function TransferirFInca() {
                                 className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
                             />
                         </div>
-
-
                         <div className="flex flex-col items-center mb-4 space-y-2">
                             {usuariosFiltrados.map((u) => (
                                 <div
@@ -172,7 +152,7 @@ export default function TransferirFInca() {
                 message={
                     <>
                         ¿Estás seguro?<br />
-                        <span className='text-gray-400'>Si transfieres la finca <strong className="text-[#39A900]">{usuarioSeleccionado !== null ? `${usuarioSeleccionado.nombre}` : ""}</strong> perderás el acceso a ella.</span>
+                        <span className='text-gray-400'>Vas a transfierir la finca a <strong className="text-[#39A900]">{usuarioSeleccionado !== null ? `${usuarioSeleccionado.nombre}` : ""}</strong>.</span>
                     </>
                 }
                 confirmText="Sí, Transferir"

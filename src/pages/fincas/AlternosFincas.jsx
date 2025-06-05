@@ -32,7 +32,7 @@ const AlternosFinca = () => {
 
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
-    { key: "documento", label: "Número documento", icon: nombre, icon2: nombre},
+    { key: "documento", label: "Documento", icon: nombre, icon2: nombre},
     { key: "telefono", label: "Telefono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
     { key: "acciones", label: "Acciones", icon2: ajustes },

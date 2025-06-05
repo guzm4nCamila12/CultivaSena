@@ -31,7 +31,7 @@ const Inicio = () => {
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
     { key: "nombre", label: "Nombre", icon2: nombreIcon },
-    { key: "documento", label: "Número documento", icon: nombreIcon, icon2: nombreIcon},
+    { key: "documento", label: "Documento", icon: nombreIcon, icon2: nombreIcon },
     { key: "telefono", label: "Teléfono", icon: telefono, icon2: telefono },
     { key: "correo", label: "Correo", icon: correo, icon2: correo },
     { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: rol, icon2: rol },
@@ -276,8 +276,14 @@ const Inicio = () => {
         onCancel={() => setModalEliminarAbierto(false)}
         onConfirm={handleEliminarUsuario}
         title="Eliminar Usuario"
-        message={<>¿Estás seguro? <br /> El usuario <strong className="text-red-600">{usuarioAEliminar?.nombre}</strong> será eliminado permanentemente.</>}
-        confirmText="Sí, eliminar"
+        message={
+          <>
+            ¿Estás seguro?<br />
+            <h4 className="text-gray-400">
+              Se eliminará el usuario <strong className="text-red-600">{usuarioAEliminar?.nombre}</strong> de manera permanente.
+            </h4>
+          </>
+        } confirmText="Sí, eliminar"
       />
     </div>
   );

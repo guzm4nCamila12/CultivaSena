@@ -147,8 +147,8 @@ function SensoresAlterno() {
   return (
     <div >
       <Navbar />
-      <div className="w-auto p-4 xl:mx-36 lg:mx-16 sm:mx-5 flex mx-auto text-xl font-semibold ">
-        <button className={`px-7 py-[9px] w-40 rounded-full flex items-center justify-center transition-all  ${Alternar ?  "bg-[#00304D] hover:bg-[#002438] text-white" : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(true)}>Sensores</button>
+      <div className="w-[80%] py-4 xl:mx-auto lg:mx-16 sm:mx-5 flex mx-auto text-xl font-semibold  ">
+        <button className={`px-7 mr-2 py-[9px] w-40 rounded-full flex items-center justify-center transition-all  ${Alternar ?  "bg-[#00304D] hover:bg-[#002438] text-white" : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(true)}>Sensores</button>
         <button className={`w-40 px-7 py-[9px] rounded-full  flex items-center justify-center transition-all ${!Alternar ? "bg-[#00304D] hover:bg-[#002438] text-white " : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(false)}>Zonas</button>
       </div>
       {Alternar ? (

@@ -4,7 +4,7 @@ import { getActividadesByZona, getZonasById } from '../services/fincas/ApiFincas
 import { acctionSucessful } from '../components/alertSuccesful';
 import { Alerta } from '../assets/img/imagesExportation';
 import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sensores/ApiSensores';
-import { Description } from '@headlessui/react';
+import { getUsuarioById } from '../services/usuarios/ApiUsuarios' 
 
 export const useExportarExcel = () => {
   const exportarExcel = (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
@@ -22,70 +22,76 @@ export const useExportarExcel = () => {
 
   const obtenerRangoFecha = async (zonasSeleccionadas, fechaInicio, fechaFin) => {
     try {
-      // zonasSeleccionadas ahora es array de objetos {id, nombre}
-
-      // Obtenemos las actividades de cada zona usando solo el id
       const actividadesPorZona = await Promise.all(
         zonasSeleccionadas.map(zona => getActividadesByZona(zona.id))
       );
-
+  
       const todasLasActividades = actividadesPorZona
         .filter(Boolean)
         .flat();
-
+  
       const rangoInicio = new Date(fechaInicio);
       const rangoFin = new Date(fechaFin);
-
+  
       const actividadesEnRango = todasLasActividades.filter(act => {
         const inicio = new Date(act.fechainicio);
         const fin = new Date(act.fechafin);
         return fin >= rangoInicio && inicio <= rangoFin;
       });
-      console.log("enrango", actividadesEnRango)
-
-      if (actividadesEnRango.length == 0) {
+  
+      if (actividadesEnRango.length === 0) {
         acctionSucessful.fire({
           imageUrl: Alerta,
           title: `¡No se encontraron actividades en el rango de fechas!`
         });
-        return
+        return;
       }
-
-      // Aquí mapeamos para preparar datos para exportar
-      // Buscamos el nombre de la zona para cada actividad usando el idzona en zonasSeleccionadas
+  
+      // Obtener usuarios únicos por ID para evitar llamadas repetidas
+      const usuariosUnicosIds = [...new Set(actividadesEnRango.map(act => act.idusuario))];
+  
+      // Obtener los datos de los usuarios
+      const usuarios = await Promise.all(
+        usuariosUnicosIds.map(id => getUsuarioById(id))
+      );
+  
+      // Mapear por ID para acceso rápido
+      const usuariosMap = {};
+      usuarios.forEach(user => {
+        usuariosMap[user.id] = user.nombre || "Usuario desconocido";
+      });
+  
       const datosParaExportar = actividadesEnRango.map(act => {
         const zona = zonasSeleccionadas.find(z => z.id === act.idzona);
         return {
+          ID: act.id,
           Etapa: act.etapa,
           Actividad: act.actividad,
           Cultivo: act.cultivo,
+          Zona: zona ? zona.nombre : act.idzona,
           Descripcion: act.descripcion,
+          Usuario: usuariosMap[act.idusuario] || act.idusuario,
           FechaInicio: act.fechainicio,
           FechaFin: act.fechafin,
-          ID: act.id,
-          IDUsuario: act.idusuario,
-          Zona: zona ? zona.nombre : act.idzona,  // Aquí en vez de idzona mostramos nombre
         };
       });
-
+  
       exportarExcel(datosParaExportar, 'ActividadesFiltradas');
-
+  
       return actividadesEnRango;
     } catch (error) {
       console.error("Error obteniendo actividades por zonas:", error);
       return [];
     }
   };
+  
 
   const reporteSensores = async (sensoresSeleccionados, fechaInicio, fechaFin) => {
+
     const sensoresFinca = await Promise.all(
       sensoresSeleccionados.map(id => getSensor(id))
     );
-
-    // Filtramos sensores válidos
     const sensoresValidos = sensoresFinca.filter(Boolean);
-
-    console.log("sensores", sensoresFinca)
 
     // Obtener tipo de sensor para cada uno
     const sensoresConTipo = await Promise.all(
@@ -104,9 +110,6 @@ export const useExportarExcel = () => {
       })
     );
 
-    console.log("Sensores con tipo:", sensoresConTipo);
-    console.log("Sensores con tipo:", sensoresConTipo);
-
     const historiales = await Promise.all(
       sensoresConTipo.map(async sensor => {
         console.log("sensor", sensor)
@@ -117,8 +120,6 @@ export const useExportarExcel = () => {
         }
       })
     )
-
-    console.log("historiales", historiales)
 
     const inicio = new Date(fechaInicio);
     const fin = new Date(fechaFin);
@@ -137,9 +138,6 @@ export const useExportarExcel = () => {
         historial: registrosFiltrados
       };
     });
-
-
-    console.log("Historiales filtrados por rango:", historialesFiltrados);
 
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {
@@ -178,8 +176,6 @@ export const useExportarExcel = () => {
 
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
-
-    // Aquí puedes continuar con exportarExcel o lo que desees hacer con sensoresConTipo
   };
   return { exportarExcel, obtenerRangoFecha, reporteSensores };
 };

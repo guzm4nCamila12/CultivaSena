@@ -9,9 +9,9 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
   const [fechaFin, setFechaFin] = useState("");
 
   // Determinar texto del botón según la vista
-  let btnText = "Generar";
+  let btnText = "Generar Reporte";
   if (vista === "/reporte") btnText = "Generar Reporte";
-  else if (vista === "/estadistica") btnText = "Generar estadística";
+  else if (vista === "/estadistica") btnText = "Generar Gráfica";
 
   const handleConfirm = () => {
     if (!fechaInicio || !fechaFin) {

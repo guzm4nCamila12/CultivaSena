@@ -276,131 +276,132 @@ function PerfilUsuario() {
           : '/'
 
   return (
-    <div className="flex flex-col h-screen">
-      <Navbar />
-      <div className="flex h-full">
-        <div className="flex w-full h-full ml-[156px]">
-          <div className="w-1/4">
-            <div className="h-64 mt-9 w-8/12 flex justify-center items-center">
-              <img src={cartas("perfil")} alt="" className="w-56 h-56" />
-            </div>
-            <div className="px-5 text-lg w-8/12 border-b-2 border-[#D9D9D9] border-t-2 mt-3 space-y-3 text-center flex-col justify-center">
-              <h2>{usuario.nombre}</h2>
-              <h2>{usuario.telefono}</h2>
-              <h2>{usuario.correo}</h2>
-              <button
-                className="bg-[#39A900] px-5 py-1 rounded-3xl"
-                onClick={() => abrirModalEditar(usuario)}
-              >
-                <img src={editar} alt="" className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+<div className="flex flex-col min-h-screen">
+  <Navbar />
 
-          {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
-          <div className="flex flex-col items-center text-white font-semibold justify-around w-1/4">
-            <div
-              onClick={() => navigate(ruta)}
-              className="bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl"
-            >
-              <div className="w-full flex">
-                <img src={cartas("imagen")} alt="" className="mr-1" />
-                <h3>{cartas("texto")}</h3>
-              </div>
-              <div className="h-56 w-full flex items-center justify-center">
-                <img src={finca} alt="" />
-              </div>
-              <div className="pl-2 w-full text-3xl">
-                {decodedToken.idRol === 1 ? (
-                  <h2>{usuarios.length}</h2>
-                ) : decodedToken.idRol === 3 ? (
-                  <h2>{cantidadSensores.total_sensores}</h2>
-                ) : decodedToken.idRol === 2 ? (
-                  <h2>{usuario.cantidad_fincas}</h2>
-                ) : null}
-              </div>
-            </div>
+  <div className="flex flex-col lg:flex-row flex-1 px-4 py-6 gap-5">
+    {/* Perfil Usuario */}
+    <div className=" w-full lg:w-1/4 sm:flex sm:flex-col flex flex-row sm:items-center justify-between">
+      <div className="sm:w-40 sm:h-40 sm:mb-4 w-24 h-28 flex flex-row items-start justify-start">
+        <img src={cartas("perfil")} alt="Perfil" className="sm:w-full  sm:h-full object-cover rounded-full" />
+      </div>
+      <div className="text-center md:text-lg xl:text-xl space-y-2 sm:border-y-2 py-4 w-1/2 sm:w-full max-w-xs">
+        <h2>{usuario.nombre}</h2>
+        <h2>{usuario.telefono}</h2>
+        <h2>{usuario.correo}</h2>
+      </div>
+      <div className='w-24 sm:w-auto mt-2 sm:mb-4 sm:block flex flex-1 items-center justify-end'>
+        <button
+          className="bg-[#39A900] px-4 py-1 rounded-full inline-flex justify-center items-center"
+          onClick={() => abrirModalEditar(usuario)}
+        >
+          <img src={editar} alt="Editar" className="sm:w-5 w-6 h-6 sm:h-5" />
+        </button>
+      </div>
+    </div>
 
-            <div className="bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl">
-              <div className="flex w-full">
-                <img src={sensoresIcon} alt="" className="mr-1" />
-                <h3>{cartas("texto2")}</h3>
-              </div>
-              <div className="h-56 w-full flex items-center justify-center">
-                <img src={finca} alt="" />
-              </div>
-              <div className="pl-2 w-full">
-                <h2 className="text-3xl">
-                  {cantidadSensores.total_sensores ?? 0}
-                </h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Contenedor tabla actividades / historial */}
-          <div className="flex flex-col py-7 items-center w-1/2">
-            <div className="bg-[#002A43] w-4/5 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center p-4">
-              <h3 className="font-bold text-xl mt-1 text-white">
-                {decodedToken.idRol === 1 ? 'Historial' : 'Registro Actividades'}
-              </h3>
-              <Tabla
-                titulo={decodedToken.idRol === 1 ? 'Historial de Cambios' : 'Actividades'}
-                columnas={columnas}
-                datos={Array.isArray(datosTabla) ? datosTabla : []}
-                acciones={acciones}
-              />
-            </div>
-          </div>
+    {/* Tarjetas */}
+    <div className="w-full md:space-y-0 md:justify-center md:gap-24 lg:gap-36 2xl:gap-40 lg:w-1/4  md:flex-row lg:flex lg:flex-col  flex flex-col gap-6 items-center">
+      <div
+        onClick={() => navigate(ruta)}
+        className="bg-[#002A43] rounded-full flex items-center justify-between sm:mt-0  sm:block md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-4  shadow-lg hover:scale-95 transition cursor-pointer"
+      >
+        <div className="flex items-center mb-3">
+          <img src={cartas("imagen")} alt="Icono" className="w-6 h-6 mr-2" />
+          <h3>{cartas("texto")}</h3>
+        </div>
+        <div className="h-40 sm:flex items-center justify-center hidden">
+          <img src={finca} alt="Finca"  className=''/>
+        </div>
+        <div className="text-3xl mr-10 border-s-2 pl-2 sm:pl-0 sm:border-none sm:mt-4">
+          {decodedToken.idRol === 1
+            ? usuarios.length
+            : decodedToken.idRol === 3
+            ? cantidadSensores.total_sensores
+            : usuario.cantidad_fincas}
         </div>
       </div>
 
-      {/* Modal para mostrar datos completos del historial */}
-      {modalHistorialAbierto && historialSeleccionado && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white w-11/12 max-w-2xl p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold mb-4">Detalle de Historial</h2>
-            <div className="overflow-y-auto max-h-96">
-              <p><strong>Id Historial:</strong> {historialSeleccionado.id_historial}</p>
-              <p><strong>Operación:</strong> {historialSeleccionado.operacion}</p>
-              <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
-              <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
-              <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
-              <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
-              <div className="mt-4">
-                <h3 className="font-semibold">Datos:</h3>
-                <pre className="bg-gray-100 p-3 rounded">
-                  {JSON.stringify(historialSeleccionado.datos, null, 2)}
-                </pre>
-              </div>
-            </div>
-            <button
-              className="mt-6 bg-[#002A43] text-white px-4 py-2 rounded hover:bg-[#001a2a]"
-              onClick={() => setModalHistorialAbierto(false)}
-            >
-              Cerrar
-            </button>
+      <div className="bg-[#002A43] rounded-full flex items-center justify-between sm:mt-0  sm:block md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-4  shadow-lg hover:scale-95 transition cursor-pointer">
+        <div className="flex items-center mb-3">
+          <img src={sensoresIcon} alt="Sensores" className="w-6 h-6 mr-2" />
+          <h3>{cartas("texto2")}</h3>
+        </div>
+        <div className="h-40 sm:flex items-center justify-center hidden">
+          <img src={finca} alt="Finca" className='hidden sm:block'/>
+        </div>
+        <div className="text-3xl mr-10 border-s-2 pl-2 sm:pl-0 sm:border-none sm:mt-4">
+          {cantidadSensores.total_sensores ?? 0}
+        </div>
+      </div>
+    </div>
+
+    {/* Tabla Actividades o Historial */}
+    <div className="w-full lg:w-1/2 flex flex-col items-center">
+      <div className="bg-[#002A43] w-full h-full lg:mb-0 lg:mt-0 mb-8 mt-8 max-w-3xl text-white rounded-3xl p-4 shadow-lg">
+        <h3 className="font-bold text-xl text-center mb-4">
+          {decodedToken.idRol === 1 ? 'Historial' : 'Registro Actividades'}
+        </h3>
+        <div className="overflow-x-auto text-black">
+          <Tabla
+            titulo={decodedToken.idRol === 1 ? 'Historial de Cambios' : 'Actividades'}
+            columnas={columnas}
+            datos={Array.isArray(datosTabla) ? datosTabla : []}
+            acciones={acciones}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Modal Historial */}
+  {modalHistorialAbierto && historialSeleccionado && (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white w-11/12 max-w-2xl p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Detalle de Historial</h2>
+        <div className="overflow-y-auto max-h-96">
+          <p><strong>Id Historial:</strong> {historialSeleccionado.id_historial}</p>
+          <p><strong>Operación:</strong> {historialSeleccionado.operacion}</p>
+          <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
+          <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
+          <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
+          <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
+          <div className="mt-4">
+            <h3 className="font-semibold">Datos:</h3>
+            <pre className="bg-gray-100 p-3 rounded">
+              {JSON.stringify(historialSeleccionado.datos, null, 2)}
+            </pre>
           </div>
         </div>
-      )}
-
-      {/* Modal para editar usuario */}
-      {usuarioEditar && (
-        <FormularioModal
-          titulo="Editar Información"
-          isOpen={modalEditarAbierto}
-          onClose={() => setModalEditarAbierto(false)}
-          onSubmit={handleEditarUsuario}
-          valores={usuarioEditar}
-          onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
-          textoBoton="Guardar y actualizar"
-          campos={[
-            { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
-            { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
-            { name: "correo", placeholder: "Correo", icono: correoAzul }
-          ]}
-        />
-      )}
+        <button
+          className="mt-6 bg-[#002A43] text-white px-4 py-2 rounded hover:bg-[#001a2a]"
+          onClick={() => setModalHistorialAbierto(false)}
+        >
+          Cerrar
+        </button>
+      </div>
     </div>
+  )}
+
+  {/* Modal Editar */}
+  {usuarioEditar && (
+    <FormularioModal
+      titulo="Editar Información"
+      isOpen={modalEditarAbierto}
+      onClose={() => setModalEditarAbierto(false)}
+      onSubmit={handleEditarUsuario}
+      valores={usuarioEditar}
+      onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
+      textoBoton="Guardar y actualizar"
+      campos={[
+        { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
+        { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+        { name: "correo", placeholder: "Correo", icono: correoAzul }
+      ]}
+    />
+  )}
+</div>
+
   )
 }
 

@@ -19,7 +19,7 @@ export default function ActividadesZonas() {
 
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
-        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa },
+        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa }, 
         { key: "acciones", label: "Acciones", icon2: ajustes },
     ];
 

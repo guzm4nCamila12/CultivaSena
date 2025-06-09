@@ -5,7 +5,6 @@ import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '..
 import {
   fincasIcon,
   nombreIcon,
-  sensoresIcon,
   editar,
   usuarioAzul,
   correoAzul,
@@ -13,7 +12,8 @@ import {
   ajustes,
   actividadesIcon,
   fecha as fechaIcon,
-  ver
+  ver,
+  fincasBlancas
 } from '../../assets/icons/IconsExportation'
 import { jwtDecode } from 'jwt-decode'
 import { getCantidadSensores } from '../../services/sensores/ApiSensores'
@@ -25,6 +25,13 @@ import {
 } from '../../services/fincas/ApiFincas'
 import FormularioModal from '../../components/modals/FormularioModal'
 import { useUsuarios } from '../../hooks/useUsuarios'
+import fincaPerfil from '../../assets/img/fincaPerfil.svg'
+import fincaTarjeta from '../../assets/img/fincaTarjeta.svg'
+import sensoresIcon from '../../assets/icons/zona.svg' 
+import fincaBlanca from '../../assets/icons/fincaTarjeta.svg'
+import usuarioTarjeta from '../../assets/img/usuarioTarjeta.svg'
+import vacaTarjeta from '../../assets/img/vacaTarjeta.svg'
+import sensoresTarjeta from '../../assets/icons/sensores.svg'
 import { acctionSucessful } from '../../components/alertSuccesful'
 
 function PerfilUsuario() {
@@ -158,25 +165,47 @@ function PerfilUsuario() {
     if (tipo === "imagen") {
       switch (decodedToken?.idRol) {
         case 1: return nombreIcon
-        case 2: return fincasIcon
+        case 2: return fincaBlanca
+        case 3: return sensoresIcon
+        default: return sensoresIcon
+      }
+    }
+    if (tipo === "imagen2") {
+      switch (decodedToken?.idRol) {
+        case 1: return nombreIcon
+        case 2: return sensoresTarjeta
         case 3: return sensoresIcon
         default: return sensoresIcon
       }
     }
     if (tipo === "texto") {
       switch (decodedToken?.idRol) {
-        case 1: return "Cantidad de Usuarios"
-        case 2: return "Cantidad de Fincas"
+        case 1: return "Cantidad Usuarios"
+        case 2: return "Cantidad Fincas"
         case 3: return "Cantidad de Sensores"
         default: return ""
       }
     }
     if (tipo === "texto2") {
       switch (decodedToken?.idRol) {
-        case 1: return "Cantidad de Sensores"
-        case 2: return "Cantidad de Sensores"
+        case 1: return "Cantidad Fincas"
+        case 2: return "Cantidad Sensores"
         case 3: return "Actividades Realizadas"
         default: return ""
+      }
+    }
+    if (tipo === "tarjeta") {
+      switch (decodedToken?.idRol) {
+        case 1: return usuarioTarjeta
+        case 2: return vacaTarjeta
+        case 3: return fincaTarjeta
+      }
+    }
+    if (tipo === "tarjeta2") {
+      switch (decodedToken?.idRol) {
+        case 1: return fincaTarjeta
+        case 2: return fincaTarjeta
+        case 3: return vacaTarjeta
       }
     }
   }
@@ -247,7 +276,7 @@ function PerfilUsuario() {
   // Columnas dinámicas:
   const columnas = decodedToken.idRol === 1
     ? [
-      { key: "operacion", label: "Operación", icon2: ajustes },
+      { key: "operacion", label: "Operación", icon2: fincasIcon },
       { key: "tabla", label: "Tabla", icon2: ajustes },
       { key: "fecha", label: "Fecha", icon2: fechaIcon },
       { key: "acciones", label: "Acciones", icon2: ajustes }
@@ -276,131 +305,137 @@ function PerfilUsuario() {
           : '/'
 
   return (
-<div className="flex flex-col min-h-screen">
-  <Navbar />
-
-  <div className="flex flex-col lg:flex-row flex-1 px-4 py-6 gap-5">
-    {/* Perfil Usuario */}
-    <div className=" w-full lg:w-1/4 sm:flex sm:flex-col flex flex-row sm:items-center justify-between">
-      <div className="sm:w-40 sm:h-40 sm:mb-4 w-24 h-28 flex flex-row items-start justify-start">
-        <img src={cartas("perfil")} alt="Perfil" className="sm:w-full  sm:h-full object-cover rounded-full" />
-      </div>
-      <div className="text-center md:text-lg xl:text-xl space-y-2 sm:border-y-2 py-4 w-1/2 sm:w-full max-w-xs">
-        <h2>{usuario.nombre}</h2>
-        <h2>{usuario.telefono}</h2>
-        <h2>{usuario.correo}</h2>
-      </div>
-      <div className='w-24 sm:w-auto mt-2 sm:mb-4 sm:block flex flex-1 items-center justify-end'>
-        <button
-          className="bg-[#39A900] px-4 py-1 rounded-full inline-flex justify-center items-center"
-          onClick={() => abrirModalEditar(usuario)}
-        >
-          <img src={editar} alt="Editar" className="sm:w-5 w-6 h-6 sm:h-5" />
-        </button>
-      </div>
-    </div>
-
-    {/* Tarjetas */}
-    <div className="w-full md:space-y-0 md:justify-center md:gap-24 lg:gap-36 2xl:gap-40 lg:w-1/4  md:flex-row lg:flex lg:flex-col  flex flex-col gap-6 items-center">
-      <div
-        onClick={() => navigate(ruta)}
-        className="bg-[#002A43] rounded-full flex items-center justify-between sm:mt-0  sm:block md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-4  shadow-lg hover:scale-95 transition cursor-pointer"
-      >
-        <div className="flex items-center mb-3">
-          <img src={cartas("imagen")} alt="Icono" className="w-6 h-6 mr-2" />
-          <h3>{cartas("texto")}</h3>
-        </div>
-        <div className="h-40 sm:flex items-center justify-center hidden">
-          <img src={finca} alt="Finca"  className=''/>
-        </div>
-        <div className="text-3xl mr-10 border-s-2 pl-2 sm:pl-0 sm:border-none sm:mt-4">
-          {decodedToken.idRol === 1
-            ? usuarios.length
-            : decodedToken.idRol === 3
-            ? cantidadSensores.total_sensores
-            : usuario.cantidad_fincas}
-        </div>
-      </div>
-
-      <div className="bg-[#002A43] rounded-full flex items-center justify-between sm:mt-0  sm:block md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-4  shadow-lg hover:scale-95 transition cursor-pointer">
-        <div className="flex items-center mb-3">
-          <img src={sensoresIcon} alt="Sensores" className="w-6 h-6 mr-2" />
-          <h3>{cartas("texto2")}</h3>
-        </div>
-        <div className="h-40 sm:flex items-center justify-center hidden">
-          <img src={finca} alt="Finca" className='hidden sm:block'/>
-        </div>
-        <div className="text-3xl mr-10 border-s-2 pl-2 sm:pl-0 sm:border-none sm:mt-4">
-          {cantidadSensores.total_sensores ?? 0}
-        </div>
-      </div>
-    </div>
-
-    {/* Tabla Actividades o Historial */}
-    <div className="w-full lg:w-1/2 flex flex-col items-center">
-      <div className="bg-[#002A43] w-full h-full lg:mb-0 lg:mt-0 mb-8 mt-8 max-w-3xl text-white rounded-3xl p-4 shadow-lg">
-        <h3 className="font-bold text-xl text-center mb-4">
-          {decodedToken.idRol === 1 ? 'Historial' : 'Registro Actividades'}
-        </h3>
-        <div className="overflow-x-auto text-black">
-          <Tabla
-            titulo={decodedToken.idRol === 1 ? 'Historial de Cambios' : 'Actividades'}
-            columnas={columnas}
-            datos={Array.isArray(datosTabla) ? datosTabla : []}
-            acciones={acciones}
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {/* Modal Historial */}
-  {modalHistorialAbierto && historialSeleccionado && (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white w-11/12 max-w-2xl p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4">Detalle de Historial</h2>
-        <div className="overflow-y-auto max-h-96">
-          <p><strong>Id Historial:</strong> {historialSeleccionado.id_historial}</p>
-          <p><strong>Operación:</strong> {historialSeleccionado.operacion}</p>
-          <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
-          <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
-          <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
-          <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
-          <div className="mt-4">
-            <h3 className="font-semibold">Datos:</h3>
-            <pre className="bg-gray-100 p-3 rounded">
-              {JSON.stringify(historialSeleccionado.datos, null, 2)}
-            </pre>
+    <div className="flex flex-col bg-orange-400 min-h-screen">
+      <Navbar />
+      <div className="flex flex-col bg-purple-500 lg:flex-row flex-1 px-4 py-6 gap-5">
+        {/* Perfil Usuario */}
+        <div className="bg-white p-2 w-full lg:w-1/4 sm:flex sm:flex-col flex flex-row sm:items-center justify-between">
+          <div className="bg-[#002A43] rounded-full sm:w-40 sm:h-40 sm:mb-4 w-24 h-28 flex flex-row items-start justify-start">
+            <img src={fincaPerfil} alt="Perfil" className="sm:w-full  sm:h-full object-cover rounded-full" />
+          </div>
+          <div className="text-center md:text-lg xl:text-xl space-y-2 sm:border-y-2 py-4 w-1/2 sm:w-full max-w-xs">
+            <h2>{usuario.nombre}</h2>
+            <h2>{usuario.telefono}</h2>
+            <h2>{usuario.correo}</h2>
+          </div>
+          <div className='w-24 sm:w-auto mt-2 sm:mb-4 sm:block flex flex-1 items-center justify-end'>
+            <button
+              className="bg-[#39A900] px-4 py-1 rounded-full inline-flex justify-center items-center"
+              onClick={() => abrirModalEditar(usuario)}
+            >
+              <img src={editar} alt="Editar" className="sm:w-5 w-6 h-6 sm:h-5" />
+            </button>
           </div>
         </div>
-        <button
-          className="mt-6 bg-[#002A43] text-white px-4 py-2 rounded hover:bg-[#001a2a]"
-          onClick={() => setModalHistorialAbierto(false)}
-        >
-          Cerrar
-        </button>
-      </div>
-    </div>
-  )}
 
-  {/* Modal Editar */}
-  {usuarioEditar && (
-    <FormularioModal
-      titulo="Editar Información"
-      isOpen={modalEditarAbierto}
-      onClose={() => setModalEditarAbierto(false)}
-      onSubmit={handleEditarUsuario}
-      valores={usuarioEditar}
-      onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
-      textoBoton="Guardar y actualizar"
-      campos={[
-        { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
-        { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
-        { name: "correo", placeholder: "Correo", icono: correoAzul }
-      ]}
-    />
-  )}
-</div>
+        {/* Tarjetas */}
+        <div className="w-full bg-yellow-400 md:space-y-0 md:justify-center md:gap-24 lg:gap-36 2xl:gap-40 lg:w-1/4  md:flex-row lg:flex lg:flex-col  flex flex-col gap-6 items-center">
+          <div
+            onClick={() => navigate(ruta)}
+            className="bg-cover border-4 text-lg rounded-full flex flex-wrap sm:mt-0 md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-5  shadow-lg hover:scale-95 transition cursor-pointer"
+            style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
+          >
+            <div className='bg-green-600 font-bold text-4xl w-2/3 h-1/2'>
+              <h3>{cartas("texto")}</h3>
+            </div>
+            <div className="bg-red-600 flex items-center justify-end w-1/3 h-1/2 p-1">
+              <img src={cartas("imagen")} alt="Icono" className="" />
+            </div>
+            <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end bg-purple-600 h-1/2 p-1">
+              {decodedToken.idRol === 1
+                ? usuarios.length
+                : decodedToken.idRol === 3
+                  ? cantidadSensores.total_sensores
+                  : usuario.cantidad_fincas}
+            </div>
+          </div>
+
+          <div
+            onClick={() => navigate(ruta)}
+            className="bg-cover border-4 text-lg rounded-full flex flex-wrap sm:mt-0 md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-5  shadow-lg hover:scale-95 transition cursor-pointer"
+            style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
+          >
+            <div className='bg-green-600 font-bold text-4xl w-2/3 h-1/2'>
+              <h3>{cartas("texto2")}</h3>
+            </div>
+            <div className="bg-red-600 flex items-center justify-end w-1/3 h-1/2 p-1">
+              <img src={cartas("imagen2")} alt="Icono" className="h-20" />
+            </div>
+            <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end bg-purple-600 h-1/2 p-1">
+              {decodedToken.idRol === 1
+                ? usuarios.length
+                : decodedToken.idRol === 3
+                  ? cantidadSensores.total_sensores
+                  : usuario.cantidad_fincas}
+            </div>
+          </div>
+        </div>
+
+        {/* Tabla Actividades o Historial */}
+        <div className="w-full bg-orange-950 lg:w-1/2 flex flex-col items-center">
+          <div className="bg-[#002A43] w-full h-full lg:mb-0 lg:mt-0 mb-8 mt-8 max-w-3xl text-white rounded-3xl p-4 shadow-lg">
+            <h3 className="font-bold text-xl text-center mb-4">
+              {decodedToken.idRol === 1 ? 'Historial' : 'Registro Actividades'}
+            </h3>
+            <div className="overflow-x-auto text-black">
+              <Tabla
+                titulo={decodedToken.idRol === 1 ? 'Historial de Cambios' : 'Actividades'}
+                columnas={columnas}
+                datos={Array.isArray(datosTabla) ? datosTabla : []}
+                acciones={acciones}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal Historial */}
+      {modalHistorialAbierto && historialSeleccionado && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-11/12 max-w-2xl p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-bold mb-4">Detalle de Historial</h2>
+            <div className="overflow-y-auto max-h-96">
+              <p><strong>Id Historial:</strong> {historialSeleccionado.id_historial}</p>
+              <p><strong>Operación:</strong> {historialSeleccionado.operacion}</p>
+              <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
+              <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
+              <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
+              <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
+              <div className="mt-4">
+                <h3 className="font-semibold">Datos:</h3>
+                <pre className="bg-gray-100 p-3 rounded">
+                  {JSON.stringify(historialSeleccionado.datos, null, 2)}
+                </pre>
+              </div>
+            </div>
+            <button
+              className="mt-6 bg-[#002A43] text-white px-4 py-2 rounded hover:bg-[#001a2a]"
+              onClick={() => setModalHistorialAbierto(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar */}
+      {usuarioEditar && (
+        <FormularioModal
+          titulo="Editar Información"
+          isOpen={modalEditarAbierto}
+          onClose={() => setModalEditarAbierto(false)}
+          onSubmit={handleEditarUsuario}
+          valores={usuarioEditar}
+          onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
+          textoBoton="Guardar y actualizar"
+          campos={[
+            { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
+            { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
+            { name: "correo", placeholder: "Correo", icono: correoAzul }
+          ]}
+        />
+      )}
+    </div>
 
   )
 }

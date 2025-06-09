@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { getFincasById } from '../../services/fincas/ApiFincas';
-
 // Iconos
 import Inicio from "../../assets/icons/pagina-de-inicio.png";
 import cultivaSena from "../../assets/icons/cultivaSena.png";
@@ -15,6 +14,7 @@ import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
+import ayuda from '../../assets/icons/ayuda.png'
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -168,7 +168,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     <span>Transferir Fincas</span>
 
                 </div>
-                
+
+                <div className='flex cursor-help items-center'>
+                    <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
+                    <span>Ayuda</span>
+                </div>
             </div>
 
             {/* Perfil y Cerrar Sesión */}

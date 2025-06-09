@@ -29,7 +29,7 @@ export default function Navbar() {
       />
 
       <div className="bg-[#002A43] h-12 w-full z-50">
-        <div className="container mx-auto h-full flex items-center relative">
+        <div className="bg-green-500 container mx-auto h-full flex items-center relative">
           <img
             src={menuIcon}
             alt="Menu"

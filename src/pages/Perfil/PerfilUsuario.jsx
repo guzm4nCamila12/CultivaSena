@@ -295,10 +295,11 @@ function PerfilUsuario() {
           : '/'
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="bg-orange-500 flex flex-col h-screen">
       <Navbar />
-      <div className="flex h-full ">
-        <div className=" flex w-full h-full ml-[11.60rem]">
+      <div className="flex h-full justify-end bg-purple-500 container mx-auto">
+
+        <div className=" flex w-full h-full">
           <div className=" w-[32rem] flex flex-col items-center bg-white my-10 rounded-3xl ">
             <div className=" mt-9  flex justify-center items-center bg-[#00304D] rounded-full">
               <img src={fincaPerfil} alt="" className="w-56 h-56" />

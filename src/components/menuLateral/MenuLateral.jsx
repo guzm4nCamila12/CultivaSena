@@ -8,13 +8,14 @@ import Inicio from "../../assets/icons/pagina-de-inicio.png";
 import cultivaSena from "../../assets/icons/cultivaSena.png";
 import Estadisticas from "../../assets/icons/grafico-de-barras.png";
 import Reporte from "../../assets/icons/reporteActividades.png";
-import cerrarSesionIcon from "../../assets/icons/log-out-1.png";
+import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
-import cerrarRojo from "../../assets/icons/logOutRed.png"
+import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
+import ayuda from '../../assets/icons/ayuda.png'
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -171,6 +172,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     </div>
                 )}
 
+                <div className='flex cursor-help items-center'>
+                    <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
+                    <span>Ayuda</span>
+                </div>
+
             </div>
 
             {/* Perfil y Cerrar Sesión */}
@@ -188,7 +194,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     onClick={onLogoutClick}
                     onMouseEnter={() => setHoverCerrar(true)}
                     onMouseLeave={() => setHoverCerrar(false)}
-                    className="mb-2 p-2 rounded-full flex justify-center cursor-pointer hover:text-red-500"
+                    className="mb-2 p-2 rounded-full hover:translate-x-2 transition duration-300 ease-in-out flex justify-center cursor-pointer hover:text-red-500"
                 >
                     <img src={hoverCerrar ? cerrarRojo : cerrarSesionIcon} alt="Cerrar sesión" className='mr-1 w-6 h-6' />
                     <span>Cerrar sesión</span>

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import goodBye from "../../assets/img/sesionFinalizada.png";
 import { acctionSucessful } from "../../components/alertSuccesful";
-import salir from "../../assets/icons/log-out-1.png";
+import salir from "../../assets/icons/cerrarRojo.svg";
 import ConfirmationModal from '../confirmationModal/confirmationModal';
 
 export default function CerrarSesion({ onClose }) {

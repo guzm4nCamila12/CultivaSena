@@ -7,12 +7,15 @@ import Tabla from '../../components/Tabla'
 import FormularioModal from '../../components/modals/FormularioModal'
 import { acctionSucessful } from '../../components/alertSuccesful'
 //Importacion de icono e imagenes
-import {fincasIcon, nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, ajustes, actividadesIcon, fecha as fechaIcon, ver, zonasIcon} from '../../assets/icons/IconsExportation'
-import { superAdminIcon, adminIcon, alternoIcon, finca, usuarioCreado } from '../../assets/img/imagesExportation'
+import {
+  fincasIcon, nombreIcon, sensoresIcon, editar, usuarioAzul, correoAzul, telefonoAzul, ajustes, actividadesIcon, fecha as fechaIcon, ver, zonasIcon,
+  sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon
+} from '../../assets/icons/IconsExportation'
+import { fincaPerfil, finca, usuarioCreado, usuarioTarjeta, vacaTarjeta, fincaTarjeta } from '../../assets/img/imagesExportation'
 //Endpoints para consumir el api
 import { getCantidadSensores, getCountSensoresByFinca } from '../../services/sensores/ApiSensores'
 import { getUsuarioById, getHistorial } from '../../services/usuarios/ApiUsuarios'
-import {getActividadesTotales, getActividadesByUsuario, getZonasById, getCountFincas, getCountZonasByFinca} from '../../services/fincas/ApiFincas'
+import { getActividadesTotales, getActividadesByUsuario, getZonasById, getCountFincas, getCountZonasByFinca } from '../../services/fincas/ApiFincas'
 //Hooks
 import { useUsuarios } from '../../hooks/useUsuarios'
 import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
@@ -54,13 +57,13 @@ function PerfilUsuario() {
         getCantidadSensores(obtenerIdUsuario())
           .then(data => setCantidadSensores(data))
 
-          getCountFincas()
+        getCountFincas()
           .then(data => setCantidadFincas(data))
 
-          getCountZonasByFinca()
+        getCountZonasByFinca()
           .then(data => setCantidadZonas(data))
 
-          getCountSensoresByFinca()
+        getCountSensoresByFinca()
           .then(data => setCantidadSensoresFinca(data))
 
         getUsuarioById(obtenerIdUsuario())
@@ -148,28 +151,21 @@ function PerfilUsuario() {
 
 
   const cartas = (tipo) => {
-    if (tipo === "perfil") {
-      switch (obtenerRol()) {
-        case 1: return superAdminIcon
-        case 2: return adminIcon
-        case 3: return alternoIcon
-        default: return alternoIcon
-      }
-    }
+
     if (tipo === "imagen") {
       switch (obtenerRol()) {
-        case 1: return nombreIcon
-        case 2: return fincasIcon
-        case 3: return zonasIcon
+        case 1: return usuarioTarjetaIcon
+        case 2: return fincaTarjetaIcon
+        case 3: return zonaTarjeta
         default: return sensoresIcon
       }
     }
     if (tipo === "imagen2") {
       switch (obtenerRol()) {
-        case 1: return fincasIcon
-        case 2: return sensoresIcon
-        case 3: return sensoresIcon
-        default: return sensoresIcon
+        case 1: return fincaTarjetaIcon
+        case 2: return sensoresTarjeta
+        case 3: return sensoresTarjeta
+        default: return sensoresTarjeta
       }
     }
     if (tipo === "texto") {
@@ -186,6 +182,20 @@ function PerfilUsuario() {
         case 2: return "Cantidad de Sensores"
         case 3: return "Sensores de la Finca"
         default: return ""
+      }
+    }
+    if (tipo === "tarjeta") {
+      switch (obtenerRol()) {
+        case 1: return usuarioTarjeta
+        case 2: return vacaTarjeta
+        case 3: return fincaTarjeta
+      }
+    }
+    if (tipo === "tarjeta2") {
+      switch (obtenerRol()) {
+        case 1: return fincaTarjeta
+        case 2: return fincaTarjeta
+        case 3: return vacaTarjeta
       }
     }
   }
@@ -287,39 +297,81 @@ function PerfilUsuario() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex h-full">
-        <div className="flex w-full h-full ml-[156px]">
-          <div className="w-1/4">
-            <div className="h-64 mt-9 w-8/12 flex justify-center items-center">
-              <img src={cartas("perfil")} alt="" className="w-56 h-56" />
+      <div className="flex h-full ">
+        <div className=" flex w-full h-full ml-[11.60rem]">
+          <div className=" w-[32rem] flex flex-col items-center bg-white my-10 rounded-3xl ">
+            <div className=" mt-9  flex justify-center items-center bg-[#00304D] rounded-full">
+              <img src={fincaPerfil} alt="" className="w-56 h-56" />
             </div>
-            <div className="px-5 text-lg w-8/12 border-b-2 border-[#D9D9D9] border-t-2 mt-3 space-y-3 text-center flex-col justify-center">
-              <h2>{usuario.nombre}</h2>
-              <h2>{usuario.telefono}</h2>
-              <h2>{usuario.correo}</h2>
+            <div className="w-full px-4  mt-12 space-y-4 flex flex-col justify-end ">
+              {/* Nombre */}
+              <div>
+                <label className="block text-gray-600 mb-1">Nombre</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    readOnly
+                    value={usuario.nombre || ""}
+                    className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                  />
+                </div>
+              </div>
+
+              {/* Teléfono */}
+              <div>
+                <label className="block text-gray-600 mb-1">Número de contacto</label>
+                <div className="relative">
+
+                  <input
+                    type="text"
+                    readOnly
+                    value={usuario.telefono || ""}
+                    className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                  />
+                </div>
+              </div>
+
+              {/* Correo */}
+              <div>
+                <label className="block text-gray-600 mb-1">Correo</label>
+                <div className="relative">
+                
+                  <input
+                    type="email"
+                    readOnly
+                    value={usuario.correo || ""}
+                    className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                  />
+                </div>
+              </div>
+
+              {/* Botón editar */}
               <button
-                className="bg-[#39A900] px-5 py-1 rounded-3xl"
+                className="flex items-center justify-center w-full bg-[#39A900] hover:bg-[#005F00] transition py-2 rounded-full text-white font-semibold h-12"
                 onClick={() => abrirModalEditar(usuario)}
               >
-                <img src={editar} alt="" className="w-5 h-5" />
+                <img src={editar} alt="editar" className="w-5 h-5 mr-2" />
+                Actualizar Datos
               </button>
             </div>
+
           </div>
 
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
-          <div className="flex flex-col items-center text-white font-semibold justify-around w-1/4">
+          <div className=" md:space-y-0 md:justify-center md:gap-24 lg:gap-36 2xl:gap-32 lg:w-1/4  md:flex-row lg:flex lg:flex-col  flex flex-col gap-6 items-center">
             <div
               onClick={() => navigate(ruta)}
-              className="bg-[#002A43] shadow-slate-700 shadow-lg cursor-pointer w-11/12 transition duration-300 ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl"
+              className="bg-cover h-[37%] border-4 text-lg rounded-full flex flex-wrap sm:mt-0 md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-5 shadow-lg hover:scale-95 transition cursor-pointer "
+              style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
             >
-              <div className="w-full flex">
-                <img src={cartas("imagen")} alt="" className="mr-1" />
+              <div className=' font-bold text-4xl w-2/3 h-1/2'>
                 <h3>{cartas("texto")}</h3>
               </div>
-              <div className="h-56 w-full flex items-center justify-center">
-                <img src={finca} alt="" />
+              <div className=" flex items-start justify-end w-1/3 h-1/2 p-1">
+                <img src={cartas("imagen")} alt="Icono" className="h-14" />
               </div>
-              <div className="pl-2 w-full text-3xl">
+
+              <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end h-1/2 p-1">
                 {obtenerRol() === 1 ? (
                   <h2>{usuarios.length}</h2>
                 ) : obtenerRol() === 3 ? (
@@ -329,17 +381,20 @@ function PerfilUsuario() {
                 ) : null}
               </div>
             </div>
-
-            <div className="bg-[#002A43] shadow-slate-700 shadow-lg w-11/12 transition duration-300 cursor-pointer ease-in-out hover:scale-95 p-2 flex flex-col items-center rounded-3xl">
-              <div className="flex w-full">
-              <img src={cartas("imagen2")} alt="" className="mr-1" />
+                
+            <div
+              onClick={() => navigate(ruta)}
+              className="bg-cover h-[37%] border-4 text-lg rounded-full flex flex-wrap sm:mt-0 md:mt-0 text-white w-full sm:rounded-3xl sm:max-w-xs p-5  shadow-lg hover:scale-95 transition cursor-pointer"
+              style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
+            >
+              <div className='font-bold text-4xl w-2/3 h-1/2'>
                 <h3>{cartas("texto2")}</h3>
               </div>
-              <div className="h-56 w-full flex items-center justify-center">
-                <img src={finca} alt="" />
+              <div className="flex items-start justify-end  w-1/3 h-1/2 p-1 ">
+                <img src={cartas("imagen2")} alt="Icono" className="h-16 " />
               </div>
-              <div className="pl-2 w-full">
-                <h2 className="text-3xl">
+
+              <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end  h-1/2 p-1">
                 {obtenerRol() === 1 ? (
                   <h2>{cantidadFincas.total_fincas}</h2>
                 ) : obtenerRol() === 3 ? (
@@ -347,14 +402,13 @@ function PerfilUsuario() {
                 ) : obtenerRol() === 2 ? (
                   <h2>{cantidadSensores.total_sensores ?? 0}</h2>
                 ) : null}
-                  
-                </h2>
+
               </div>
             </div>
           </div>
 
           {/* Contenedor tabla actividades / historial */}
-          <div className="flex flex-col py-7 items-center w-1/2">
+          <div className=" flex flex-col py-7 items-start w-2/3">
             <div className="bg-[#002A43] w-4/5 shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center p-4">
               <h3 className="font-bold text-xl mt-1 text-white">
                 {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}

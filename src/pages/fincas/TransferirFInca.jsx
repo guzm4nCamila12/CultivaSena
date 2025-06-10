@@ -12,7 +12,7 @@ export default function TransferirFInca() {
 
     //hooks personalizados
     const { usuariosAdmin } = useUsuarios();
-    const { propietario, fincasPropias, usuarioSeleccionado, fincaTransferir, fincasAlternas, seleccionarUsuario, setFincaTransferir, transferirFinca, setIndex } = useTransferir();
+    const { propietario, fincasPropias, usuarioSeleccionado, fincaTransferir, fincasAlternas, girando, manejarClick, seleccionarUsuario, setFincaTransferir, transferirFinca, setIndex } = useTransferir();
     console.log("propietario", propietario);
     console.log("transferir finca", fincaTransferir);
     //modal
@@ -27,32 +27,41 @@ export default function TransferirFInca() {
     return (
         <div className='text-center h-screen'>
             <Navbar />
-            <div className="relative w-[80%] mx-auto h-12 mb-3 mt-5 ">
+            <div className="relative w-[91%] mx-auto h-12  mt-5 ">
                 {/* Botón de regreso, posicionado absolutamente a la izquierda */}
                 <div className="absolute left-0 top-1/2 -translate-y-1/2">
                     <BotonAtras />
                 </div>
                 {/* Título centrado */}
-                <h2 className="text-2xl font-semibold ">
+                <h2 className="text-2xl font-semibold text-left pl-11">
                     Transferir Fincas
                 </h2>
             </div>
-            <div className='flex justify-center items-center pb-14 pt-5 w-[80%] rounded-3xl shadow-2xl m-auto min-h-[30%]'>
+            <div className='bg-white flex justify-center items-center pb-9 pt-7 w-[91%] rounded-3xl shadow-2xl m-auto min-h-[30%]'>
                 {/*Contenedor para las fincas del Primer usuario*/}
                 {propietario !== null ? (
-                    <div className=''>
-                        <p className='font-semibold text-xl my-1'>{propietario.nombre}</p>
-                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px] max-h-[500px] overflow-y-auto'>
-                            <h2 className='text-white font-semibold text-xl'>Fincas</h2>
-                            <hr />
-                            <button className='flex rounded-3xl px-2 py-2 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar...</button>
+                    <div className='w-[40%]'>
+                        <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador</p>
+                        <div className='min-w-[500px] px-4'>
+                            <button
+                                className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg'
+                                onClick={() => {
+                                    setAbrirModalBuscar(true);
+                                    setIndex(1);
+                                }}
+                            >
+                                {propietario != null ? propietario.nombre : "Seleccionar..."}
+                            </button>
+                        </div>                            
+                        <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas</h2>
+                        <div className='w-full rounded-3xl px-4 min-h-[350px] min-w-[500px] max-h-[350px] overflow-y-auto'>
 
                             {fincasPropias.length > 0 ? (
                                 fincasPropias.map((finca) => (
                                     <div
                                         key={finca.id}
                                         onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
-                                        className={`flex rounded-3xl px-2 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-white'}`} >
+                                        className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-100 hover:bg-gray-200'}`} >
                                         <h2 key={finca.id}>{finca.nombre}</h2>
                                     </div>
                                 ))
@@ -62,33 +71,34 @@ export default function TransferirFInca() {
                         </div>
                     </div>
                 ) : (
-                    <div>
-                        <button className='flex rounded-3xl px-2 py-1 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar</button>
-                        <p className="text-gray-400 py-2">Seleccione un Administrador.</p>
+                    <div className='w-[40%] px-4'>
+                        <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
+                        <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar</button>
 
                     </div>
                 )}
-                <div className='flex flex-col items-center justify-center mx-5'>
+                <div className='flex flex-col items-center justify-center mx-5 '>
                     <button
                         onClick={() => (fincaTransferir !== null &&
                             setModalTransferirAbierto(true))}
-                        className='bg-[#39A900] w-10 h-10 mx-3 rounded-full   flex items-center justify-center' ><img src={Icons.intercambio} alt="intercambiar" className='w-5' /></button>
+                        className='flex items-center justify-center m-auto' ><img src={Icons.intercambio} alt="intercambiar" className={`w-28 ${girando ? 'spin-once' : ''}`} /></button>
                     <p className="text-gray-700 py-2 cursor-default">Transferir Finca.</p>
                 </div>
 
                 {/*Contenedor para las fincas del segundo usuario*/}
                 {usuarioSeleccionado !== null ? (
-                    <div className=''>
+                    <div className='w-[40%]'>
                         {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
-                        <p className='font-semibold text-xl my-1'>{usuarioSeleccionado.nombre}</p>
-                        <div className='bg-[#002A43] w-full rounded-3xl p-2 min-h-[500px] min-w-[400px] max-h-[500px] overflow-y-auto'>
-                            <h2 className='text-white font-semibold text-xl'>Fincas</h2>
-                            <hr />
-                            <button className='flex rounded-3xl px-2 py-2 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar...</button>
+                        <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador</p>
+                        <div className='min-w-[500px] px-4'>
+                            <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 font-medium hover:bg-gray-300  w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>{`${usuarioSeleccionado != null ? (`${usuarioSeleccionado.nombre}`) : ("Seleccionar...")}`}</button>
+                            </div>
+                            <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas</h2>
+                        <div className='w-full rounded-3xl px-4 min-h-[350px] min-w-[500px] max-h-[350px] overflow-y-auto'>
 
                             {fincasAlternas.length > 0 ? (
                                 fincasAlternas.map((finca) => (
-                                    <div className='flex rounded-3xl px-2 py-2 my-3 bg-white w-full'>
+                                    <div className='flex rounded-3xl font-medium px-5 py-2 my-3 bg-gray-100 w-full'>
                                         <h2 key={finca.id}>{finca.nombre}</h2>
                                     </div>
                                 ))
@@ -98,9 +108,9 @@ export default function TransferirFInca() {
                         </div>
                     </div>
                 ) : (
-                    <div>
-                        <button className='flex rounded-3xl px-2 py-1 my-2 bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
-                        <p className="text-gray-400 py-2">Seleccione un Administrador.</p>
+                    <div className='w-[40%] px-4'>
+                        <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
+                        <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
                     </div>
                 )}
             </div>
@@ -147,14 +157,15 @@ export default function TransferirFInca() {
             <ConfirmationModal
                 isOpen={modalTransferirAbierto}
                 onCancel={() => setModalTransferirAbierto(false)}
-                onConfirm={() => { transferirFinca(); setModalTransferirAbierto(false) }}
+                onConfirm={() => { transferirFinca(); setModalTransferirAbierto(false); manejarClick() }}
                 title="Transferir Finca"
                 message={
                     <>
                         ¿Estás seguro?<br />
-                        <span className='text-gray-400'>Vas a transfierir la finca a <strong className="text-[#39A900]">{usuarioSeleccionado !== null ? `${usuarioSeleccionado.nombre}` : ""}</strong>.</span>
+                        <span className='text-gray-400'>Vas a transferir la finca a <strong className="text-[#39A900]">{usuarioSeleccionado !== null ? `${usuarioSeleccionado.nombre}` : ""}</strong>.</span>
                     </>
                 }
+                confirmButton={true}
                 confirmText="Sí, Transferir"
             />
         </div>

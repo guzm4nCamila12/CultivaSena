@@ -1,6 +1,9 @@
-import { React, useState, useEffect } from 'react'
+import { useState } from 'react'
 import { getFincasById } from '../services/fincas/ApiFincas';
 import { editarFinca } from '../services/fincas/ApiFincas';
+import { acctionSucessful } from "../components/alertSuccesful";
+import { usuarioCreado } from '../assets/img/imagesExportation';
+
 //traer los sensores de las fincas
 import { getSensoresById, editarSensor } from '../services/sensores/ApiSensores';
 
@@ -46,22 +49,27 @@ export const useTransferir = () => {
             const finca = fincasPropias.find(finca => finca.id === fincaTransferir);
             const fincaActualizada = { ...finca, idusuario: usuarioSeleccionado.id };
             editarFinca(fincaTransferir, fincaActualizada).then(() => {
+                
                 // Actualizar lista de fincas propias (removerla si ya no pertenece al usuario actual)
                 const nuevasFincasPropias = fincasPropias.filter(f => f.id !== fincaTransferir);
+
                 // Se actualizan ambas listas de fincas
                 setFincasPropias(nuevasFincasPropias);
                 setFincasAlternas(prev => [...prev, fincaActualizada]);
-                
+                acctionSucessful.fire({
+                    imageUrl: usuarioCreado,
+                    title: `¡Finca transferida correctamente!`
+                });
             })
             // Obtener sensores asociados a la finca
-        const sensores = await getSensoresById(fincaTransferir);
-        console.log('Sensores asociados a la finca:', sensores);
+            const sensores = await getSensoresById(fincaTransferir);
+            console.log('Sensores asociados a la finca:', sensores);
 
-        // Actualizar cada sensor con el nuevo idusuario
-        await Promise.all(sensores.map(sensor => {
-            const sensorActualizado = { ...sensor, idusuario: usuarioSeleccionado.id };
-            return editarSensor(sensor.id, sensorActualizado);
-        }));
+            // Actualizar cada sensor con el nuevo idusuario
+            await Promise.all(sensores.map(sensor => {
+                const sensorActualizado = { ...sensor, idusuario: usuarioSeleccionado.id };
+                return editarSensor(sensor.id, sensorActualizado);
+            }));
         } catch (error) {
             console.log('Error al transferir la finca:', error);
         }
@@ -69,12 +77,25 @@ export const useTransferir = () => {
         setFincaTransferir(null);
     }
 
+    const [girando, setGirando] = useState(false);
+    const manejarClick = () => {
+        if (fincaTransferir !== null) {
+            setGirando(true); // Activa animación
+            // Desactiva animación después de que termine (600ms)
+            setTimeout(() => {
+                setGirando(false);
+            }, 600);
+        }
+    };
+
     return {
         propietario,
         fincasPropias,
         usuarioSeleccionado,
         fincasAlternas,
         fincaTransferir,
+        girando,
+        manejarClick,
         setFincaTransferir,
         seleccionarUsuario,
         transferirFinca,

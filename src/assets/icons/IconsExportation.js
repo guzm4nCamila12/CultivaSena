@@ -44,7 +44,7 @@ import idSensor from "./id.png"
 import noVerClaveAzul from "./NoVerClaveAzul.png"
 import verClaveAzul from './verClaveAzul1.png'
 import tipoDocumento from './tipoDocumento.png'
-import intercambio from './IntercambioIcon.png';
+import intercambio from './IntercambioIcon.svg';
 import buscar from './buscar.png';
 import fincasBlancas from './fincas.svg'
 import TransferirFinca from "./TransferirIcon.png";

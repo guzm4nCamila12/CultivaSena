@@ -20,7 +20,7 @@ const getRoleImage = (role) => {
   }
 };
 
-const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista,
+const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista, colorEncabezado = "#00304D", colorTextoEncabezado = "#FFFFFF",
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
@@ -104,7 +104,11 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
                   <th
                     key={idx}
                     className={`${base} ${textAlign} ${sticky} ${roundedLeft} ${roundedRight} h-14`}
-                    style={isAcc ? { right: '-1rem' } : undefined}
+                    style={{
+                      ...(isAcc ? { right: '-1rem' } : {}),
+                      backgroundColor: colorEncabezado,
+                      color: colorTextoEncabezado,
+                    }}
                   >
                     {col.key === 'seleccionar' ? (
                       <input
@@ -237,6 +241,7 @@ Tabla.propTypes = {
   onAddUser: PropTypes.func,
   mostrarAgregar: PropTypes.bool,
   enableSelection: PropTypes.bool,
+  colorEncabezado: PropTypes.string,
 };
 
 export default Tabla;

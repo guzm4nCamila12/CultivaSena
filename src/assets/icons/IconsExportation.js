@@ -52,6 +52,11 @@ import fincaTarjeta from "./fincaTarjeta.svg"
 import sensoresTarjeta from "./sensores.svg"
 import zonaTarjeta from "./zona.svg"
 import usuarioTarjeta from "./usuarioTarjeta.svg"
+import fincaA from "./fincaA.png"
+import ajustesA from "./ajustesA.png"
+import fechaA from "./fechaA.png"
+import actividadesA from "./actividadesA.png"
+import zonaA from "./zonaA.png"
 
 export {
   ajustes,
@@ -107,5 +112,10 @@ export {
   fincaTarjeta,
   sensoresTarjeta,
   zonaTarjeta,
-  usuarioTarjeta
+  usuarioTarjeta,
+  fincaA,
+  fechaA,
+  ajustesA,
+  actividadesA,
+  zonaA
 };

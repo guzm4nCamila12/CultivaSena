@@ -1,0 +1,365 @@
+--Tabla: roles
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    rol VARCHAR(255) NOT NULL
+);
+
+INSERT INTO roles (rol) VALUES ('SuperAdmin');
+INSERT INTO roles (rol) VALUES ('Admin');
+INSERT INTO roles (rol) VALUES ('Alterno');
+
+-- Tabla: usuario
+CREATE TABLE usuario (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    correo VARCHAR(255) UNIQUE NOT NULL,
+    clave VARCHAR(255) NOT NULL,
+    cantidad_fincas INTEGER DEFAULT 0,
+    id_rol INTEGER NOT NULL REFERENCES roles(id),
+    tipo_documento VARCHAR(255) NOT NULL,
+    documento VARCHAR(255) NOT NULL
+);
+
+-- Tabla: fincas
+CREATE TABLE fincas (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    idusuario INTEGER NOT NULL REFERENCES usuario(id) ON DELETE CASCADE,
+    ubicacion JSONB NOT NULL 
+);
+
+-- Modificación de usuario: agregar id_finca
+ALTER TABLE usuario ADD COLUMN id_finca INTEGER REFERENCES fincas(id) ON DELETE CASCADE;
+
+-- Tabla: zonas
+CREATE TABLE zonas (
+    id SERIAL PRIMARY KEY,
+    idfinca INTEGER NOT NULL REFERENCES fincas(id) ON DELETE CASCADE,
+    nombre VARCHAR(255) NOT NULL,
+    cantidad_sensores INTEGER DEFAULT 0
+);
+
+-- Tabla: tipos_sensores
+CREATE TABLE tipos_sensores (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    unidad VARCHAR(255) NOT NULL
+);
+
+INSERT INTO tipos_sensores (id, nombre, unidad) VALUES
+(1,  'Temperatura del aire',    '°C'),
+(2,  'Humedad relativa',        '%'),
+(3,  'pH del suelo',            'pH'),
+(4,  'Conductividad eléctrica', 'µS/cm'),
+(5,  'Nivel de CO2',            'ppm'),
+(6,  'Radiación solar',         'W/m²'),
+(7,  'Velocidad del viento',    'm/s'),
+(8,  'Dirección del viento',    '°'),
+(9,  'Precipitación',           'mm'),
+(10, 'Nivel de agua en suelo',  '%'),
+(11, 'Presión atmosférica',     'hPa'),
+(12, 'Temperatura del suelo',   '°C');
+
+-- Tabla: sensores
+CREATE TABLE sensores (
+    id SERIAL PRIMARY KEY,
+    mac VARCHAR(50) UNIQUE,
+    nombre VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    estado BOOLEAN DEFAULT TRUE,
+    idusuario INTEGER NOT NULL REFERENCES usuario(id) ON DELETE CASCADE,
+    idzona INTEGER REFERENCES zonas(id) ON DELETE CASCADE,
+    idfinca INTEGER NOT NULL REFERENCES fincas(id) ON DELETE CASCADE,
+    tipo_id INTEGER NOT NULL REFERENCES tipos_sensores(id)
+);
+
+-- Tabla: historial_sensores
+CREATE TABLE historial_sensores (
+    id SERIAL PRIMARY KEY,
+    mac VARCHAR(50) NOT NULL REFERENCES sensores(mac) ON DELETE CASCADE,
+    valor NUMERIC NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: valor_sensor_actual
+CREATE TABLE valor_sensor_actual (
+    id SERIAL PRIMARY KEY,
+    mac VARCHAR(50) NOT NULL REFERENCES sensores(mac) ON DELETE CASCADE,
+    valor NUMERIC NOT NULL,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: registro_actividades
+CREATE TABLE registro_actividades (
+    id SERIAL PRIMARY KEY,
+    idzona INTEGER NOT NULL REFERENCES zonas(id) ON DELETE CASCADE,
+    idusuario INTEGER NOT NULL REFERENCES usuario(id),
+    cultivo VARCHAR(255) NOT NULL,
+    etapa VARCHAR(255) NOT NULL,
+    actividad VARCHAR(255) NOT NULL,
+    descripcion VARCHAR(255) NOT NULL,
+    fechainicio TIMESTAMP NOT NULL,
+    fechafin TIMESTAMP NOT NULL
+);
+
+-- Tabla genérica de historial de cambios
+ CREATE TABLE historial (
+   id_historial    BIGSERIAL PRIMARY KEY,
+   tabla           TEXT          NOT NULL,
+   registro_id     INTEGER       NOT NULL,
+   operacion       TEXT          NOT NULL CHECK (operacion IN ('INSERT','UPDATE','DELETE')),
+   datos           JSONB         NULL,
+   fecha           TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+   usuario         TEXT          NULL
+ );
+
+-- Incrementar cantidad_fincas al insertar finca
+CREATE OR REPLACE FUNCTION incrementar_cantidad_fincas()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE usuario
+    SET cantidad_fincas = cantidad_fincas + 1
+    WHERE id = NEW.idusuario;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_incrementar_fincas
+AFTER INSERT ON fincas
+FOR EACH ROW
+EXECUTE FUNCTION incrementar_cantidad_fincas();
+
+-- Decrementar cantidad_fincas al eliminar finca
+CREATE OR REPLACE FUNCTION decrementar_cantidad_fincas()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE usuario
+    SET cantidad_fincas = cantidad_fincas - 1
+    WHERE id = OLD.idusuario;
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_decrementar_fincas
+AFTER DELETE ON fincas
+FOR EACH ROW
+EXECUTE FUNCTION decrementar_cantidad_fincas();
+
+-- Actualizar FK en historial_sensores si cambia el MAC en sensores
+CREATE OR REPLACE FUNCTION actualizar_fk_cascade()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE historial_sensores
+    SET mac = NEW.mac
+    WHERE mac = OLD.mac;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_actualizar_fk
+AFTER UPDATE ON sensores
+FOR EACH ROW
+WHEN (OLD.mac IS DISTINCT FROM NEW.mac)
+EXECUTE FUNCTION actualizar_fk_cascade();
+
+-- Actualizar cantidad_sensores en zonas al insertar/eliminar/cambiar zona de sensor
+CREATE OR REPLACE FUNCTION actualizar_cantidad_sensores()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        UPDATE zonas SET cantidad_sensores = cantidad_sensores + 1 WHERE id = NEW.idzona;
+    ELSIF TG_OP = 'DELETE' THEN
+        UPDATE zonas SET cantidad_sensores = cantidad_sensores - 1 WHERE id = OLD.idzona;
+    ELSIF TG_OP = 'UPDATE' AND OLD.idzona IS DISTINCT FROM NEW.idzona THEN
+        -- Restar en la zona anterior
+        UPDATE zonas SET cantidad_sensores = cantidad_sensores - 1 WHERE id = OLD.idzona;
+        -- Sumar en la nueva zona
+        UPDATE zonas SET cantidad_sensores = cantidad_sensores + 1 WHERE id = NEW.idzona;
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_actualizar_cantidad_sensores
+AFTER INSERT OR DELETE OR UPDATE OF idzona
+ON sensores
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_cantidad_sensores();
+
+-- Crear zona general al insertar una nueva finca
+CREATE OR REPLACE FUNCTION crear_zona_general_al_insertar_finca()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO zonas (idfinca, nombre)
+    VALUES (NEW.id, 'Zona general');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_crear_zona_general
+AFTER INSERT ON fincas
+FOR EACH ROW
+EXECUTE FUNCTION crear_zona_general_al_insertar_finca();
+
+-- Función para obtener cantidad de sensores por usuario
+CREATE OR REPLACE FUNCTION get_sensor_count(p_usuario_id INT)
+RETURNS INT AS $$
+  SELECT COUNT(*) 
+  FROM sensores 
+  WHERE idusuario = p_usuario_id;
+$$ LANGUAGE sql IMMUTABLE;
+
+-- Función para listar actividades de un usuario
+CREATE OR REPLACE FUNCTION listar_actividades_usuario(
+  p_usuario_id INT
+)
+RETURNS TABLE(
+  finca_nombre VARCHAR,
+  actividad     VARCHAR,
+  idzona        INT,
+  fechafin      TIMESTAMP
+) AS $$
+  SELECT
+    f.nombre    AS finca_nombre,
+    ra.actividad,
+    ra.idzona,
+    ra.fechafin
+  FROM registro_actividades ra
+  JOIN zonas z   ON ra.idzona = z.id
+  JOIN fincas f  ON z.idfinca = f.id
+  WHERE f.idusuario = p_usuario_id
+  ORDER BY ra.fechafin DESC;
+$$ LANGUAGE sql STABLE;
+
+-- Reemplaza la función existente para usar “Viejo” y “Nuevo” en lugar de “old” y “new”
+CREATE OR REPLACE FUNCTION fn_registrar_historial() RETURNS TRIGGER AS $$
+DECLARE
+  registro_pk  INTEGER;
+  data_cambios JSONB;
+  usr_id       INTEGER;
+  usr_nombre   TEXT;
+BEGIN
+  -- Intentar leer el ID de usuario desde la variable de sesión
+  BEGIN
+    usr_id := current_setting('app.current_user_id')::INTEGER;
+  EXCEPTION WHEN OTHERS THEN
+    usr_id := NULL;
+  END;
+
+  -- Si usr_id no es NULL, buscar el nombre en la tabla usuario
+  IF usr_id IS NOT NULL THEN
+    SELECT nombre
+      INTO usr_nombre
+      FROM usuario
+     WHERE id = usr_id;
+    -- Si no existe, usr_nombre será NULL
+  ELSE
+    usr_nombre := NULL;
+  END IF;
+
+  -- Construir el JSON con “Viejo”/“Nuevo” según operación
+  IF TG_OP = 'INSERT' THEN
+    registro_pk := NEW.id;
+    data_cambios := jsonb_build_object(
+      'Nuevo', row_to_json(NEW)
+    );
+
+  ELSIF TG_OP = 'UPDATE' THEN
+    registro_pk := NEW.id;
+    data_cambios := jsonb_build_object(
+      'Viejo', row_to_json(OLD),
+      'Nuevo', row_to_json(NEW)
+    );
+
+  ELSIF TG_OP = 'DELETE' THEN
+    registro_pk := OLD.id;
+    data_cambios := jsonb_build_object(
+      'Viejo', row_to_json(OLD)
+    );
+  ELSE
+    RETURN NULL;
+  END IF;
+
+  -- Insertar en la tabla historial usando usr_nombre en lugar de ID
+  INSERT INTO historial (
+    tabla,
+    registro_id,
+    operacion,
+    datos,
+    usuario
+  ) VALUES (
+    TG_TABLE_NAME,
+    registro_pk,
+    TG_OP,
+    data_cambios,
+    usr_nombre
+  );
+
+  -- Devolver la fila adecuada para AFTER trigger
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    RETURN NEW;
+  ELSE
+    RETURN OLD;
+  END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Triggers “historial” en cada tabla de negocio
+
+-- roles
+CREATE TRIGGER trg_historial_roles
+  AFTER INSERT OR UPDATE OR DELETE
+  ON roles
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- usuario
+CREATE TRIGGER trg_historial_usuario
+  AFTER INSERT OR UPDATE OR DELETE
+  ON usuario
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- fincas
+CREATE TRIGGER trg_historial_fincas
+  AFTER INSERT OR UPDATE OR DELETE
+  ON fincas
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- zonas
+CREATE TRIGGER trg_historial_zonas
+  AFTER INSERT OR UPDATE OR DELETE
+  ON zonas
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- tipos_sensores
+CREATE TRIGGER trg_historial_tipos_sensores
+  AFTER INSERT OR UPDATE OR DELETE
+  ON tipos_sensores
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- sensores
+CREATE TRIGGER trg_historial_sensores
+  AFTER INSERT OR UPDATE OR DELETE
+  ON sensores
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+
+
+-- registro_actividades
+CREATE TRIGGER trg_historial_registro_actividades
+  AFTER INSERT OR UPDATE OR DELETE
+  ON registro_actividades
+  FOR EACH ROW
+  EXECUTE FUNCTION fn_registrar_historial();
+

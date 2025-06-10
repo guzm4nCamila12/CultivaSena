@@ -8,6 +8,11 @@ import adminIcon from "./Admin.svg";
 import alternoIcon from "./Alterno.svg";
 import cultivaIcon from "./cultivaSena.png"
 import finca from "./finca.svg"
+import fincaPerfil from "./fincaPerfil.svg"
+import fincaTarjeta from "./fincaTarjeta.svg"
+import usuarioTarjeta from "./usuarioTarjeta.svg"
+import vacaTarjeta from "./vacaTarjeta.svg"
+
 
 export {
   usuarioCreado,
@@ -19,5 +24,9 @@ export {
   adminIcon,
   alternoIcon,
   cultivaIcon,
-  finca
+  finca,
+  fincaPerfil,
+  fincaTarjeta,
+  usuarioTarjeta,
+  vacaTarjeta
 };

@@ -1,45 +1,26 @@
-/* File: src/pages/actividades/zonas/ActividadesZonas.jsx */
+//importaciones necesarias de react
 import React from 'react';
 import { useParams } from 'react-router-dom';
+//componentes reutilizados
 import Navbar from '../../../components/navbar';
 import MostrarInfo from '../../../components/mostrarInfo';
 import ConfirmationModal from '../../../components/confirmationModal/confirmationModal';
-import * as Icons from '../../../assets/icons/IconsExportation';
+//Importacion de iconos
+import { sinFincas, cultivo, etapa, ajustes, eliminar } from '../../../assets/icons/IconsExportation';
+//Hooks
 import { useActividadesZona } from '../../../hooks/useActividades';
 
 export default function ActividadesZonas() {
     const { id } = useParams();
-    const {
-        actividades,
-        zonas,
-        etapas,
-        actividadesPorEtapa,
-        etapaSeleccionada,
-        nuevaActividad,
-        actividadEditar,
-        modalEliminarAbierto,
-        modalActividadInsertar,
-        modalEditarActividad,
-        setModalEliminarAbierto,
-        setModalActividadInsertar,
-        setModalEditarActividad,
-        handleActividadChange,
-        handleEtapaChange,
-        handleCrearActividad,
-        handleEditarActividadChange,
-        handleEditarActividad,
-        handleEliminarActividad,
-        abrirModalEliminar,
-        abrirModalEditar,
-        handleAbrirModalCrear,
-        idusuario,
-        rolusuario
-    } = useActividadesZona(Number(id));
+    const { actividades, zonas, etapas, actividadesPorEtapa, etapaSeleccionada, actividadEditar, modalEliminarAbierto, modalActividadInsertar,
+        modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange, 
+        handleEtapaChange, handleCrearActividad, handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
+        abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear, } = useActividadesZona(Number(id));
 
     const columnas = [
-        { key: "cultivo", label: "Cultivo", icon: Icons.cultivo, icon2: Icons.cultivo },
-        { key: "etapa", label: "Etapa", icon: Icons.etapa, icon2: Icons.etapa },
-        { key: "acciones", label: "Acciones", icon2: Icons.ajustes },
+        { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
+        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa }, 
+        { key: "acciones", label: "Acciones", icon2: ajustes },
     ];
 
     const acciones = fila => (
@@ -48,14 +29,14 @@ export default function ActividadesZonas() {
                 className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                 onClick={() => abrirModalEditar(fila)}
             >
-                <img src={Icons.sinFincas} alt="Ver detalle" />
+                <img src={sinFincas} alt="Ver detalle" />
             </button>
             {!(rolusuario === 3 && fila.idusuario !== idusuario) && (
                 <button
                     className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
-                    <img src={Icons.eliminar} alt="Eliminar" />
+                    <img src={eliminar} alt="Eliminar" />
                 </button>
             )}
         </div>
@@ -80,7 +61,7 @@ export default function ActividadesZonas() {
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
                         <h5 className="text-2xl font-bold mb-2 text-center">Crear actividad</h5>
-                        <hr/>
+                        <hr />
                         <form onSubmit={handleCrearActividad}>
                             <div className="mb-2 my-2">
                                 <label className="font-semibold">Seleccione el tipo de cultivo</label>
@@ -173,7 +154,7 @@ export default function ActividadesZonas() {
                 <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
                     <div className="bg-white p-6 rounded-3xl w-[90%] sm:w-1/2 md:w-1/3">
                         <h2 className="text-2xl font-bold mb-2 text-center">Editar Actividad</h2>
-                        <hr/>
+                        <hr />
                         <form onSubmit={handleEditarActividad}>
                             <div className="mb-2 my-2">
                                 <label className="font-semibold">Tipo de cultivo</label>

@@ -48,6 +48,10 @@ import intercambio from './IntercambioIcon.png';
 import buscar from './buscar.png';
 import fincasBlancas from './fincas.svg'
 import TransferirFinca from "./TransferirIcon.png";
+import fincaTarjeta from "./fincaTarjeta.svg"
+import sensoresTarjeta from "./sensores.svg"
+import zonaTarjeta from "./zona.svg"
+import usuarioTarjeta from "./usuarioTarjeta.svg"
 
 export {
   ajustes,
@@ -99,5 +103,9 @@ export {
   tipoDocumento,
   intercambio,
   buscar,
-  TransferirFinca
+  TransferirFinca,
+  fincaTarjeta,
+  sensoresTarjeta,
+  zonaTarjeta,
+  usuarioTarjeta
 };

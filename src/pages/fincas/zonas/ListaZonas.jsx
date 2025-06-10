@@ -1,12 +1,15 @@
-// src/screens/Zonas.jsx
+//importaciones necesarias de react
 import React from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
-import { useZonas } from "../../../hooks/useZonas"; // nuevo hook
+//componentes reutilizados
 import Navbar from "../../../components/navbar";
 import MostrarInfo from "../../../components/mostrarInfo";
-import FormularioModal from "../../../components/modals/FormularioModal";
 import ConfirmationModal from "../../../components/confirmationModal/confirmationModal";
+import FormularioModal from "../../../components/modals/FormularioModal";
+//Importacion de iconos
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
+//Hooks
+import { useZonas } from "../../../hooks/useZonas"; 
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -15,12 +18,8 @@ const Zonas = () => {
   const vista = state?.vista ?? "";
   const isReporte = vista === "/reporte";
 
-  const {
-    fincas, zonas, abrirModalCrear, abrirModalEditar, abrirModalEliminar,
-    modalFormularioAbierto, setModalFormularioAbierto, handleSubmitFormulario,
-    zonaFormulario, handleChangeZona, modoFormulario,
-    modalEliminarAbierto, setModalEliminarAbierto, handleEliminarZona, zonaEliminada
-  } = useZonas(id, idUser);
+  const {fincas, zonas,  modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar, 
+    abrirModalEliminar, setModalFormularioAbierto, handleSubmitFormulario, handleChangeZona, setModalEliminarAbierto, handleEliminarZona, } = useZonas(id, idUser);
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
 

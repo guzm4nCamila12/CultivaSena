@@ -78,8 +78,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
 
-      console.log("Seleccionados con nombre:", seleccionadosConNombre);
-
       const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
       // aquí actividades es según la función, ya ajusta según necesites
     } else if (vista === "/estadistica") {

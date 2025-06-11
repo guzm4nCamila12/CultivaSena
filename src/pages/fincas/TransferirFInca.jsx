@@ -13,8 +13,7 @@ export default function TransferirFInca() {
     //hooks personalizados
     const { usuariosAdmin } = useUsuarios();
     const { propietario, fincasPropias, usuarioSeleccionado, fincaTransferir, fincasAlternas, girando, manejarClick, seleccionarUsuario, setFincaTransferir, transferirFinca, setIndex } = useTransferir();
-    console.log("propietario", propietario);
-    console.log("transferir finca", fincaTransferir);
+   
     //modal
     const [modalTransferirAbierto, setModalTransferirAbierto] = useState(false);
     //hooks de estado para la busqueda
@@ -27,17 +26,17 @@ export default function TransferirFInca() {
     return (
         <div className='text-center h-screen'>
             <Navbar />
-            <div className="relative w-[91%] mx-auto h-12  mt-5 ">
+            <div className="flex flex-row items-center w-[80%] mx-auto h-12  my-5 ">
                 {/* Botón de regreso, posicionado absolutamente a la izquierda */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2">
+                <div className="">
                     <BotonAtras />
                 </div>
                 {/* Título centrado */}
-                <h2 className="text-2xl font-semibold text-left pl-11">
+                <h2 className="text-2xl font-semibold text-left pl-2 ">
                     Transferir Fincas
                 </h2>
             </div>
-            <div className='bg-white flex justify-center items-center pb-9 pt-7 w-[91%] rounded-3xl shadow-2xl m-auto min-h-[30%]'>
+            <div className='bg-white flex justify-center items-center pb-9 pt-7 w-[80%] rounded-3xl shadow-2xl m-auto min-h-[30%]'>
                 {/*Contenedor para las fincas del Primer usuario*/}
                 {propietario !== null ? (
                     <div className='w-[40%]'>

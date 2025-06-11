@@ -63,7 +63,6 @@ export const useTransferir = () => {
             })
             // Obtener sensores asociados a la finca
             const sensores = await getSensoresById(fincaTransferir);
-            console.log('Sensores asociados a la finca:', sensores);
 
             // Actualizar cada sensor con el nuevo idusuario
             await Promise.all(sensores.map(sensor => {

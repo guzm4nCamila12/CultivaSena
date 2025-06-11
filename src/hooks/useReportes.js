@@ -112,9 +112,7 @@ export const useExportarExcel = () => {
 
     const historiales = await Promise.all(
       sensoresConTipo.map(async sensor => {
-        console.log("sensor", sensor)
         const historial = await getHistorialSensores(sensor.mac);
-        console.log("Sensores con historial:", historial);
         return {
           historial: historial ?? []
         }

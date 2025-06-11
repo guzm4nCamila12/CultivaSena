@@ -8,6 +8,7 @@ const ConfirmationModal = ({
   title,
   message,
   confirmText,
+  confirmButton= false,
   cancelText = "Cancelar",
 }) => {
   if (!isOpen) return null;
@@ -29,7 +30,7 @@ const ConfirmationModal = ({
             {cancelText}
           </button>
           <button
-            className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-3 rounded-full text-lg"
+            className={`w-full  ${confirmButton ? ("bg-[#39A900] hover:bg-[#007832]"): ("bg-red-500 hover:bg-red-700")} text-white font-bold py-3 rounded-full text-lg`}
             onClick={onConfirm}
           >
             {confirmText}

@@ -86,6 +86,8 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
       const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
     }
   };
+
+  console.log("jojojoj",enableSelection)
   
   return (
     <div className="container mx-auto px-0 pb-4">

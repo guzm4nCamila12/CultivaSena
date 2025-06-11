@@ -13,7 +13,9 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
   const [vistaActiva, setVistaActiva] = useState(
     () => localStorage.getItem('vistaActiva') || 'tarjetas'
   );
-  const [seleccionEnabled, setSeleccionEnabled] = useState(false);
+
+  const [seleccionEnabled, setSeleccionEnabled] = useState();
+
 
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((col) =>
@@ -22,6 +24,9 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
         .includes(busqueda.toLowerCase())
     )
   );
+
+  console.log("lallalala",enableSelectionButton)
+  console.log("ayayaya",seleccionEnabled)
 
   return (
     <div className="container mx-auto p-4 sm:px-0 ">

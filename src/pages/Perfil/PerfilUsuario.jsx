@@ -329,7 +329,7 @@ function PerfilUsuario() {
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.telefono || "" : usuario.telefono || ""}
                     onChange={(e) =>
-                      setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value})
+                      setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value })
                     }
                     className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
                   />
@@ -346,7 +346,7 @@ function PerfilUsuario() {
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.correo || "" : usuario.correo || ""}
                     onChange={(e) =>
-                      setUsuarioEditar({ ...usuarioEditar, correo: e.target.value})
+                      setUsuarioEditar({ ...usuarioEditar, correo: e.target.value })
                     }
                     className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
                   />

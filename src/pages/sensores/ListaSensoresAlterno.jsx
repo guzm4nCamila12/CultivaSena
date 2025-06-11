@@ -1,8 +1,8 @@
 //importaciones necesarias de react
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 //iconos de las columnas
-import {sensoresIcon,mac,descripcion,estadoIcon,ajustes,ver,actividadesIcon,nombre} from "../../assets/icons/IconsExportation"
+import { sensoresIcon, mac, descripcion, estadoIcon, ajustes, ver, actividadesIcon, nombre } from "../../assets/icons/IconsExportation"
 //componentes reutilizados
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -14,9 +14,20 @@ import { getSensoresById } from "../../services/sensores/ApiSensores";
 function SensoresAlterno() {
   //Estado para almacenar datos
   // Inicializa la vista leyendo del localStorage (por defecto "tarjeta")
-  const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem("vistaActiva") || "tarjeta");
   const [sensores, setSensores] = useState([]);
   const [zonas, setZonas] = useState([]);
+
+  const location = useLocation()
+  const { state } = useLocation();
+  const vista = state?.vista ?? '';
+  
+  const enableSelectionButton =
+    (vista === '/reporte' || vista === '/sensores')
+      ? (state.enableSelectionButton ?? false)
+      : false;
+  
+  const isEstadistica = vista === "/estadistica" || vista === "/reporte" || vista === "/sensores";
+  const tipo = location.state?.tipo ?? "";
 
   const [fincas, setFincas] = useState({});
   const [usuario, setUsuario] = useState({});
@@ -30,13 +41,35 @@ function SensoresAlterno() {
   });
 
   //se alterna entre los sensores y las zonas
-  const [Alternar, setAlternar] = useState(() => {
-    const alternarGuardado = localStorage.getItem("Alternar");
-    return alternarGuardado === "true"; // convierte a booleano
-  });;
 
   //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();
+
+  const [hideTabs, setHideTabs] = useState(false);
+  const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
+  
+  useEffect(() => {
+    const nuevaVista = location.state?.vista ?? '';
+    const nuevoTipo = location.state?.tipo ?? '';
+  
+    const newHide = nuevaVista === '/reporte' || nuevaVista === '/sensores';
+    setHideTabs(newHide);
+  
+    if (nuevoTipo === '/reporteZonas') {
+      setAlternar(false);
+    } else if (nuevoTipo === '/reporteSensores') {
+      setAlternar(true);
+    } else if (!newHide) {
+      setAlternar(localStorage.getItem("Alternar") === "true");
+    }
+  }, [location]);
+  
+
+
+
+  console.log("1", enableSelectionButton)
+  console.log("2", vista)
+  console.log("3", isEstadistica)
 
   useEffect(() => {
     //Obtiene la informacion de las fincas por ID 
@@ -74,6 +107,35 @@ function SensoresAlterno() {
     }
   }, [usuario, fincas]);
 
+  const getTitulo = () => {
+    const nombreFinca = fincas?.nombre || '...';
+
+    if(tipo === "/reporteSensores"){
+      return location.state?.titulo
+    }
+    else{
+      return `Sensores de la finca: ${nombreFinca}`
+    }
+  
+  };
+
+  const getTitulo2 = () => {
+    const nombreFinca = fincas?.nombre || '...';
+
+    if(tipo === "/reporteZonas"){
+      return location.state?.titulo
+    }
+    else{
+      return `Zonas de la finca: ${nombreFinca}`
+    }
+  
+  };
+  
+  const tituloMostrar = getTitulo();
+
+  const tituloMostrar2 = getTitulo2()
+  
+
   //columnas para la tabla de zonas
   const columnasZonas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
@@ -105,88 +167,107 @@ function SensoresAlterno() {
     </div>
   );
 
-   const zonaszonas = zonas.map(zona => ({
-      ...zona,
-      cantidadSensores: (
-        <h2>{zona.cantidad_sensores}</h2>
-      ),
-      verSensores: (
-        <Link to={`/sensoresZonas/${zona.id}/${fincas.idusuario}`}>
-          <button className="group relative">
-            <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
-              {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
-              <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
-            </div>
-            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Ver sensores
-            </span>
-          </button>
-        </Link>
-      ),
-      actividades: (
-        <Link to={`/actividadesZonas/${zona.id}`}>
-          <button className="group relative">
-            <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
-              <span className="text-[#3366CC] font-bold">Ver más...</span>
-            </div>
-            <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Ver actividades
-            </span>
-          </button>
-        </Link>
-      )
-    }));
+  const zonaszonas = zonas.map(zona => ({
+    ...zona,
+    cantidadSensores: (
+      <h2>{zona.cantidad_sensores}</h2>
+    ),
+    verSensores: (
+      <Link to={`/sensoresZonas/${zona.id}/${fincas.idusuario}`}>
+        <button className="group relative">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+            {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
+            <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver sensores
+          </span>
+        </button>
+      </Link>
+    ),
+    actividades: (
+      <Link to={`/actividadesZonas/${zona.id}`}>
+        <button className="group relative">
+          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
+            <span className="text-[#3366CC] font-bold">Ver más...</span>
+          </div>
+          <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Ver actividades
+          </span>
+        </button>
+      </Link>
+    )
+  }));
 
-    const AlternarTabla = (estado) => {
-      setAlternar(estado);
-      localStorage.setItem("Alternar", estado);
-    }
+  console.log("alternar", Alternar)
 
-    
+  const AlternarTabla = (estado) => {
+    setAlternar(estado);
+    localStorage.setItem("Alternar", estado);
+    console.log("ele", estado)
+  }
+
+  console.log("selecciom",enableSelectionButton)
 
   return (
     <div >
       <Navbar />
-      <div className="w-[80%] py-4 xl:mx-auto lg:mx-16 sm:mx-5 flex mx-auto text-xl font-semibold  ">
-        <button className={`px-7 mr-2 py-[9px] w-40 rounded-full flex items-center justify-center transition-all  ${Alternar ?  "bg-[#00304D] hover:bg-[#002438] text-white" : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(true)}>Sensores</button>
-        <button className={`w-40 px-7 py-[9px] rounded-full  flex items-center justify-center transition-all ${!Alternar ? "bg-[#00304D] hover:bg-[#002438] text-white " : "bg-white text-[#00304D] hover:bg-gray"}`} onClick={() => AlternarTabla(false)}>Zonas</button>
-      </div>
+      {!hideTabs && (
+        <div className="flex justify-center mx-auto my-4 w-[80%] space-x-4">
+          <button
+            className={`px-7 py-2 rounded-full transition ${Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}
+          >
+            Sensores
+          </button>
+          <button
+            className={`px-7 py-2 rounded-full transition ${!Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            onClick={() => { setAlternar(false); localStorage.setItem("Alternar", "false"); }}
+          >
+            Zonas
+          </button>
+        </div>
+      )}
       {Alternar ? (
         <MostrarInfo
-        titulo={`Sensores de la finca: ${fincas.nombre}`}
-        columnas={columnas}
-        acciones={acciones}
-        mostrarAgregar={false}
-        datos={sensores.map((sensor, index) => ({
-          ...sensor,
-          "#": index + 1,
-          estado: (
-            <div className="flex justify-center items-center">
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={sensor.estado} //Muestra el estado del sensor
-                  disabled
-                  className="sr-only" />
-                <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
-                  <div
-                    className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
-                  ></div>
-                </div>
-              </label>
-            </div>
-          ),
-        }))}
-      />
+          titulo={tituloMostrar}
+          columnas={columnas}
+          acciones={acciones}
+          mostrarAgregar={false}
+          vista={vista}
+          enableSelectionButton={enableSelectionButton}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor,
+            "#": index + 1,
+            estado: (
+              <div className="flex justify-center items-center">
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    checked={sensor.estado} //Muestra el estado del sensor
+                    disabled
+                    className="sr-only" />
+                  <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? 'bg-green-500' : 'bg-gray-400'}`}>
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? 'translate-x-6' : 'translate-x-0'}`}
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
       ) : (
         <MostrarInfo
-        titulo={`Zonas de la finca: ${fincas.nombre}`}
-        columnas={columnasZonas}
-        mostrarAgregar={false}
-        datos={zonaszonas}
-      />
+          titulo={tituloMostrar2}
+          columnas={columnasZonas}
+          mostrarAgregar={false}
+          datos={zonaszonas}
+          vista={vista}
+          enableSelectionButton={enableSelectionButton}
+        />
       )}
-      
+
     </div>
   );
 }

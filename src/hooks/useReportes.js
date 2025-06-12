@@ -1,4 +1,5 @@
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { getActividadesByZona, getZonasById } from '../services/fincas/ApiFincas'; // ajusta la ruta según tu proyecto
 import { acctionSucessful } from '../components/alertSuccesful';
@@ -7,17 +8,50 @@ import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sens
 import { getUsuarioById } from '../services/usuarios/ApiUsuarios' 
 
 export const useExportarExcel = () => {
-  const exportarExcel = (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
+  const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
     if (!Array.isArray(datos) || datos.length === 0) {
       console.warn("No hay datos para exportar");
       return;
     }
 
-    const ws = XLSX.utils.json_to_sheet(datos);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, nombreHoja);
-    const buf = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    saveAs(new Blob([buf], { type: 'application/octet-stream' }), `${nombreArchivo}.xlsx`);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(nombreHoja);
+
+    const columnas = Object.keys(datos[0]).map(key => ({
+      header: key,
+      key: key,
+      width: ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22
+    }));
+
+    worksheet.columns = columnas;
+
+    datos.forEach(dato => {
+      worksheet.addRow(dato);
+    });
+
+    // Estiliza encabezado
+    worksheet.getRow(1).eachCell(cell => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '00304D' },
+      };
+      cell.font = {
+        name: 'Work Sans',
+        bold: true,
+        color: { argb: 'FFFFFFFF' },
+      };
+      cell.alignment = { horizontal: 'center', vertical: 'middle' };
+      cell.border = {
+        top: { style: 'medium' },
+        left: { style: 'medium' },
+        bottom: { style: 'medium' },
+        right: { style: 'medium' }
+      };
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), `${nombreArchivo}.xlsx`);
   };
 
   const obtenerRangoFecha = async (zonasSeleccionadas, fechaInicio, fechaFin) => {
@@ -69,14 +103,14 @@ export const useExportarExcel = () => {
           Actividad: act.actividad,
           Cultivo: act.cultivo,
           Zona: zona ? zona.nombre : act.idzona,
-          Descripcion: act.descripcion,
+          Descripción: act.descripcion,
           Usuario: usuariosMap[act.idusuario] || act.idusuario,
           FechaInicio: act.fechainicio,
           FechaFin: act.fechafin,
         };
       });
   
-      exportarExcel(datosParaExportar, 'ActividadesFiltradas');
+      await exportarExcel(datosParaExportar, 'ActividadesFiltradas');
   
       return actividadesEnRango;
     } catch (error) {
@@ -153,7 +187,7 @@ export const useExportarExcel = () => {
           ID: sensor.id,
           MAC: sensor.mac,
           Nombre: sensor.nombre,
-          Descripcion: sensor.descripcion,
+          Descripción: sensor.descripcion,
           Tipo: sensor.tipo.nombre,
           Unidad: sensor.tipo.unidad,
           Zona: sensor.zonaNombre,

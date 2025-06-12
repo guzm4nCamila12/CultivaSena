@@ -206,7 +206,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-[#39A900] text-white w-36 flex px-3 py-2 rounded-3xl"
+            className="bg-[#39A900] justify-center hover:bg-[#005F00] text-white w-36 flex px-3 py-2 rounded-3xl"
           >
             <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
             Procesar

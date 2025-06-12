@@ -87,7 +87,7 @@ const Agregar = () => {
                   }} />
                 <button
                   type="submit"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14  mr-10 sm:mr-0 font-extrabold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-[14px] sm:text-[18px] w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none">
+                  className="absolute right-1 top-1/2 transform -translate-y-1/2 h-10 xl:h-14 mr-10 sm:mr-0 font-bold bg-[rgba(0,_158,_0,_1)] text-white xl:w-1/6 lg:w-1/3 text-xl sm:text-2xl w-[8rem] sm:w-[14rem] rounded-full hover:bg-green-800 focus:outline-none">
                   Crear
                 </button>
               </div>

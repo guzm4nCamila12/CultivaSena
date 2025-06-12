@@ -29,7 +29,7 @@ const ConfirmationModal = ({
             {cancelText}
           </button>
           <button
-            className="w-full bg-red-500 hover:bg-red-700 text-white font-bold py-3 rounded-full text-lg"
+            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-full text-lg"
             onClick={onConfirm}
           >
             {confirmText}

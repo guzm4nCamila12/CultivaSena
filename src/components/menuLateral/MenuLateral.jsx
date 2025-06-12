@@ -123,7 +123,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         // Rol 3: botón directo que lleva a selección de zonas sin desplegable
                         <Link
                             to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
-                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte", tipo: "/reporteZonas" }}
+                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte", tipo: "/reporteZonas" }}
                             className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                         >
                             <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
@@ -151,7 +151,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                         <Link
                                             key={finca.id}
                                             to={`/zonas/${finca.id}/${obtenerIdUsuario()}`}
-                                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte.", vista: "/reporte" }}
+                                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte" }}
                                             className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition flex items-center"
                                         >
                                             <img src={fincasBlancas} alt="" className='mr-1 w-5' />

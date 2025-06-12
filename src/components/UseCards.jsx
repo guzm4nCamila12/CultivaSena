@@ -96,7 +96,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         <div className="flex justify-end mb-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-[#39A900] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
+            className="bg-[#39A900] justify-center hover:bg-[#005F00] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
           >
             <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
             Procesar</button>

@@ -37,10 +37,10 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">Seleccionar rango de fechas</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Seleccionar Rango de Fechas</h2>
         <hr/>
         <div className="mb-4 my-2">
-          <label className="block text-lg font-medium mb-1 pl-3">Fecha de inicio:</label>
+          <label className="block text-lg font-medium mb-1 pl-3">Fecha de Inicio:</label>
           <input
             type="date"
             value={fechaInicio}
@@ -49,7 +49,7 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-medium mb-1 pl-3">Fecha de fin:</label>
+          <label className="block text-lg font-medium mb-1 pl-3">Fecha de Fin:</label>
           <input
             type="date"
             value={fechaFin}

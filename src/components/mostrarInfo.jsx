@@ -7,7 +7,7 @@ import BotonAtras from "./botonAtras";
 import Seleccionar from "../assets/icons/seleccion.png"
 import Cancelar from "../assets/icons/cancelar.png"
 
-function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras = true, enableSelectionButton = false, vista, 
+function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgregar, mostrarBotonAtras = true, enableSelectionButton = false, vista,
 }) {
   const [busqueda, setBusqueda] = useState("");
   const [vistaActiva, setVistaActiva] = useState(
@@ -25,8 +25,8 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
     )
   );
 
-  console.log("lallalala",enableSelectionButton)
-  console.log("ayayaya",seleccionEnabled)
+  console.log("lallalala", enableSelectionButton)
+  console.log("ayayaya", seleccionEnabled)
 
   return (
     <div className="container mx-auto p-4 sm:px-0 ">
@@ -36,21 +36,21 @@ function MostrarInfo({columnas, datos, titulo, acciones, onAddUser, mostrarAgreg
           <h1 className="text-2xl font-semibold pl-4">{titulo}</h1>
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          <div className="relative flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
-            <img src={buscar} alt="Buscar" className="absolute left-3" />
+          <div className="relative  flex items-center w-full sm:w-80 bg-gray-100 rounded-full border border-gray-300">
+              <img src={buscar} alt="Buscar" className="absolute left-3 border-r-[1px] pr-1 border-gray-500" />
             <input
               type="text"
               placeholder="Buscar"
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
+              className="w-full pl-10 pr-10  py-2 bg-transparent outline-none text-gray-700 rounded-full"
             />
           </div>
           <Opcion onChangeVista={setVistaActiva} />
           {enableSelectionButton && (
             <button
               onClick={() => setSeleccionEnabled((prev) => !prev)}
-              className={`flex w-36 ${ seleccionEnabled ? 'bg-red-500' : 'bg-[#39A900]'} text-white px-3 py-2 rounded-3xl`}
+              className={`flex w-36 justify-center ${seleccionEnabled ? 'bg-red-600  hover:bg-red-700' : 'bg-[#39A900] hover:bg-[#005F00]'} text-white px-3 py-2 rounded-3xl`}
             >
               <img
                 src={seleccionEnabled ? Cancelar : Seleccionar}

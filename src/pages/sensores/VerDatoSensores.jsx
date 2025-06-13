@@ -87,7 +87,7 @@ export default function VerSensores() {
 
   // Preparar datos de la tabla
   const datosTabla = datosFinales.map((fila, i) => ({
-    "#": i + 1,
+    "ID": i + 1,
     fecha: fila.fecha,
     hora: fila.hora,
     valor: fila.valor + " °C"

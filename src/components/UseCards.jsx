@@ -53,7 +53,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     setDescripcionModal("");
   };
 
-  console.log("Seleccionados",seleccionados)
   // Selección
   const toggleSeleccion = (id) => {
     setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);

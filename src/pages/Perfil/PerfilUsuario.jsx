@@ -262,6 +262,57 @@ function PerfilUsuario() {
     return null
   }
 
+  const renderValorTabla = (valor) => {
+    if (valor === null) return "null";
+    if (Array.isArray(valor)) {
+      return (
+        <ul className="list-disc pl-4">
+          {valor.map((item, index) => (
+            <li key={index}>{renderValorTabla(item)}</li>
+          ))}
+        </ul>
+      );
+    }
+    if (typeof valor === 'object') {
+      return (
+        <table className="table-auto border border-gray-200 ml-2 mt-1">
+          <tbody>
+            {Object.entries(valor)
+              .filter(([k]) => k.trim().toLowerCase() !== 'clave')
+              .map(([k, v]) => (
+                <tr key={k}>
+                  <td className="border px-2 py-1 font-semibold bg-gray-100">{formatearClave(k)}</td>
+                  <td className="border px-2 py-1">{renderValorTabla(v)}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      );
+    }
+    return String(valor);
+  };
+
+  const formatearClave = (clave) => {
+    const traducciones = {
+      id: "ID",
+      cantidad_fincas: "Cantidad de Fincas",
+      id_rol: "ID Rol",
+      id_finca: "ID Finca",
+      tipo_documento: "Tipo de Documento",
+      documento: "Documento",
+      telefono: "Teléfono",
+      correo: "Correo",
+      nombre: "Nombre",
+    }
+    if (traducciones[clave])
+      return traducciones[clave];
+
+    return clave
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase())
+  }
+
+
   // Columnas dinámicas:
   const columnas = obtenerRol() === 1
     ? [
@@ -329,7 +380,7 @@ function PerfilUsuario() {
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.telefono || "" : usuario.telefono || ""}
                     onChange={(e) =>
-                      setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value})
+                      setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value })
                     }
                     className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
                   />
@@ -346,7 +397,7 @@ function PerfilUsuario() {
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.correo || "" : usuario.correo || ""}
                     onChange={(e) =>
-                      setUsuarioEditar({ ...usuarioEditar, correo: e.target.value})
+                      setUsuarioEditar({ ...usuarioEditar, correo: e.target.value })
                     }
                     className="w-full py-2 pl-3 pr-4 bg-[#EEEEEE] font-bold rounded-full border focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
                   />
@@ -449,8 +500,8 @@ function PerfilUsuario() {
                 columnas={columnas}
                 datos={Array.isArray(datosTabla) ? datosTabla : []}
                 acciones={acciones}
-                colorEncabezado= "#FFFFFF"
-                colorTextoEncabezado= '#00304D'
+                colorEncabezado="#FFFFFF"
+                colorTextoEncabezado='#00304D'
               />
             </div>
           </div>
@@ -471,13 +522,36 @@ function PerfilUsuario() {
               <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
               <div className="mt-4">
                 <h3 className="font-semibold">Datos:</h3>
-                <pre className="bg-gray-100 p-3 rounded">
-                  {JSON.stringify(historialSeleccionado.datos, null, 2)}
-                </pre>
+                <div className="overflow-x-auto mt-4">
+                  <table className="min-w-full border-collapse border border-gray-200 rounded-md shadow-sm">
+                    <thead>
+                      <tr className="bg-[#00304D] text-white">
+                        <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Campo</th>
+                        <th className="border border-gray-300 px-4 py-3 text-left font-semibold">Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(historialSeleccionado.datos).map(([clave, valor], index) => (
+                        <tr
+                          key={clave}
+                          className={index % 2 === 0 ? "bg-white" : "bg-white transition-colors"}
+                        >
+                          <td className="border border-gray-200 px-4 py-2 font-medium text-sm text-gray-800">
+                            {clave}
+                          </td>
+                          <td className="border border-gray-200 px-4 py-2 text-sm text-gray-700">
+                            {renderValorTabla(valor)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
               </div>
             </div>
             <button
-              className="mt-6 bg-[#002A43] text-white px-4 py-2 rounded hover:bg-[#001a2a]"
+              className="mt-6 bg-[#00304D] text-white px-4 py-2 rounded-3xl hover:bg-[#021926]"
               onClick={() => setModalHistorialAbierto(false)}
             >
               Cerrar

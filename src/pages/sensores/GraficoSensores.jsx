@@ -88,7 +88,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
   const maxValor = valores.length > 0 ? Math.ceil(Math.max(...valores)) : 0;
 
   return (
-    <div className="bg-white w-full shadow-lg my-2 mx-auto rounded-xl">
+    <div className="bg-white w-full shadow-lg my-2 rounded-xl">
       <h2 className="text-center text-xl font-semibold mb-2 mt-2">
         Registro de sensores
       </h2>

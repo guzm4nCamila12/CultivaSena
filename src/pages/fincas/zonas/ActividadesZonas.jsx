@@ -59,7 +59,7 @@ export default function ActividadesZonas() {
             {/* Modal Crear */}
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+                    <div className="bg-white rounded-3xl shadow-lg w-auto mx-4 sm:m-0 p-6">
                         <h5 className="text-2xl font-bold mb-2 text-center">Crear actividad</h5>
                         <hr />
                         <form onSubmit={handleCrearActividad}>

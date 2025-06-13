@@ -10,6 +10,7 @@ import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 import Procesar from "../assets/icons/procesar.png"
+import { useEffect } from "react";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -20,10 +21,11 @@ const getRoleImage = (role) => {
   }
 };
 
-const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista, colorEncabezado = "#00304D", colorTextoEncabezado = "#FFFFFF",
+const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista, colorEncabezado = "#00304D", colorTextoEncabezado = "#FFFFFF", seleccionados, setSeleccionados
+
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
-  const [seleccionados, setSeleccionados] = useState([]);
+  
   const allIds = datos.map((fila) => fila.id);
   const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
@@ -40,6 +42,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   if (mostrarFotoPerfil) encabezados.push({ key: 'fotoPerfil', label: '' });
   encabezados.push(...columnasSinFoto);
   const totalCols = encabezados.length;
+  
 
   // Select all toggle
   const toggleAll = () => {
@@ -75,6 +78,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
   
+
       const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
       // aquí actividades es según la función, ya ajusta según necesites
     } else if (vista === "/estadistica") {
@@ -84,12 +88,10 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
       const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
     }
   };
-
-  console.log("jojojoj",enableSelection)
   
   return (
-    <div className="container mx-auto px-0 pb-4">
-      <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px] pr-4 rounded-lg">
+    <div className="pb-4 w-full">
+      <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px] rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4">
           <thead>
             <tr className="text-white">
@@ -208,9 +210,9 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
         <div className="flex justify-end mt-2">
           <button
             onClick={procesarSeleccionados}
-            className="bg-[#39A900] text-white w-36 flex px-3 py-2 rounded-3xl"
+            className="bg-[#39A900] justify-center hover:bg-[#005F00] text-white w-36 flex px-3 py-2 rounded-3xl"
           >
-            <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
+            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />
             Procesar
           </button>
         </div>

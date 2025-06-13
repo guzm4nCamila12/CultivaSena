@@ -70,10 +70,12 @@ const Estadistica = () => {
   return (
     <div>
       <Navbar />
-      <div className="px-5 xl:mx-[10.5rem] lg:mx-18 sm:mx-6 pt-4">
-        <div className="flex items-end">
+      <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mt-4">
+        <div className="flex w-auto items-center">
           <BotonAtras />
-          <h3 className="text-2xl font-semibold ml-3">Estadísticas de Sensores</h3>
+          <h1 className="sm:text-2xl w-full text-lg font-semibold">
+            Estadistícas de Sensores
+          </h1>
         </div>
         {loading && <p>Cargando datos...</p>}
         {error && <p className="text-red-500">{error}</p>}

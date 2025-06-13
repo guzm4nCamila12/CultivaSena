@@ -40,14 +40,14 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
 
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 bg-red-300 mx-auto">
-      <div className="flex flex-col-reverse lg:flex-row justify-between lg:items-center mb-4 gap-4 mx-auto bg-yellow-400">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mx-auto">
+      <div className="flex flex-col-reverse lg:flex-row justify-between lg:items-center mb-4 gap-4 mx-auto">
         {/* IZQUIERDA: Botón atrás + título + barra de búsqueda */}
-        <div className="flex flex-col bg-cyan-300 my-2 w-full lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div className="flex justify-between bg-orange-400">
-            <div className="flex">
+        <div className="flex flex-col my-2 w-full lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex justify-between">
+            <div className="flex w-auto items-center">
               {mostrarBotonAtras && <BotonAtras />}
-              <h1 className="sm:text-2xl w-auto text-lg bg-white font-semibold">{titulo}</h1>
+              <h1 className="sm:text-2xl w-full text-lg font-semibold">{titulo}</h1>
             </div>
             {/* Mover Opción aquí en móviles */}
             <div className="block lg:hidden">
@@ -66,7 +66,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             />
           </div>
           {enableSelectionButton && (
-            <div className="flex w-full justify-end">
+            <div className="flex w-auto justify-end">
               <button
                 onClick={() => setSeleccionEnabled((prev) => !prev)}
                 className={`flex w-36 justify-center  ${seleccionEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-[#39A900] hover:bg-[#005F00]'} text-white px-3 py-2 rounded-3xl`}
@@ -83,7 +83,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
         </div>
 
         {/* DERECHA: Botón seleccionar + Opción (visible solo en sm+) */}
-        <div className="flex bg-blue-500 flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
           {/* Opción solo visible en sm+ */}
           <div className="hidden lg:block bg-">
             <Opcion onChangeVista={setVistaActiva} />

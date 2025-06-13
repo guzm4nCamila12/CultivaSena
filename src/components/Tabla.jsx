@@ -88,7 +88,7 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   };
   
   return (
-    <div className="bg-red-500 pb-4">
+    <div className="pb-4 w-full">
       <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px]rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4">
           <thead>

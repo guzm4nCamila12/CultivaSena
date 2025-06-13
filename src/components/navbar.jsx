@@ -29,14 +29,14 @@ export default function Navbar() {
       />
 
       <div className="bg-[#002A43] h-12 w-full z-50">
-        <div className="bg-purple-400 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 h-full flex items-center relative">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 h-full flex items-center relative">
           <img
             src={menuIcon}
             alt="Menu"
-            className="cursor-pointer mr-4 bg-black"
+            className="cursor-pointer mr-4"
             onClick={() => setMenuVisible(v => !v)}
           />
-          <h2 className="font-extrabold text-white text-2xl bg-black">{rol()}</h2>
+          <h2 className="font-extrabold text-white text-2xl">{rol()}</h2>
 
           <div
             className={`fixed top-0 left-0 h-screen w-64 bg-[#002A43] transition-transform duration-300 ease-in-out transform z-50 ${

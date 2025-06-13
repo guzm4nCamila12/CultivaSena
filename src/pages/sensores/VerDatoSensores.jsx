@@ -112,11 +112,11 @@ export default function VerSensores() {
       <div className='mb-4'>
         <div className="px-4 mt-2 mb-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
           <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center">
+            <div className="flex w-auto items-center">
               <BotonAtras />
-              <h3 className="text-2xl font-semibold ml-4">
+              <h1 className="sm:text-2xl w-full text-lg font-semibold">
                 Datos del sensor: {sensores.nombre || `ID ${id}`}
-              </h3>
+              </h1>
             </div>
             <div className="flex items-end">
               {/* <input
@@ -163,12 +163,12 @@ export default function VerSensores() {
             </>
           )}
         </div>
-      <MostrarInfo
-        columnas={columnas}
-        datos={datosPaginados}
-        mostrarAgregar={false}
-        mostrarBotonAtras={false}
-      />
+        <MostrarInfo
+          columnas={columnas}
+          datos={datosPaginados}
+          mostrarAgregar={false}
+          mostrarBotonAtras={false}
+        />
       </div>
     </div >
   );

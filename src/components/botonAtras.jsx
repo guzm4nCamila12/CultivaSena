@@ -23,7 +23,7 @@ export default function BotonAtras() {
       onClick={irAtras}
       disabled={disableBack}
       className={`
-        font-extrabold text-lg text-[#00304D] flex mr-4 items-center  bg-green-400
+        font-extrabold text-lg text-[#00304D] flex mr-4 items-center 
         ${disableBack
           ? "opacity-50 cursor-not-allowed"
           : "hover:cursor-pointer"}

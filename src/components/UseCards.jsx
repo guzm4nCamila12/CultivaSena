@@ -90,7 +90,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
   };
 
   return (
-    <div className="bg-red-600">
+    <div className="">
 
       {enableSelection && (
         <div className="flex justify-end mb-2">

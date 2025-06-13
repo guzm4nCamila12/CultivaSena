@@ -109,65 +109,67 @@ export default function VerSensores() {
   return (
     <div>
       <NavBar />
-      <div className="px-5 xl:mx-36 lg:mx-16 sm:mx-5 pt-2">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center">
-            <BotonAtras />
-            <h3 className="text-2xl font-semibold ml-4">
-              Datos del sensor: {sensores.nombre || `ID ${id}`}
-            </h3>
-          </div>
-          <div className="flex items-end">
-            <input
+      <div className='mb-4'>
+        <div className="px-4 mt-2 mb-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center">
+              <BotonAtras />
+              <h3 className="text-2xl font-semibold ml-4">
+                Datos del sensor: {sensores.nombre || `ID ${id}`}
+              </h3>
+            </div>
+            <div className="flex items-end">
+              {/* <input
               type="date"
               value={fechaFiltro}
               onChange={e => setFechaFiltro(e.target.value)}
               className="p-2 border rounded-xl mr-2"
-            />
-            <button
-              onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
-            className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
-            >
-            Exportar Excel
-          </button>
-        </div>
-      </div>
-
-      {cargando ? (
-        <p className="text-center">Cargando datos…</p>
-      ) : !hayDatos ? (
-        <p className="text-center text-red-500">No hay datos para este sensor.</p>
-      ) : (
-        <>
-          {/* Gráfico individual */}
-          <div className="flex justify-center mb-8">
-            <GraficoSensores sensoresData={[{ sensor: sensores, historial: rawHistorial }]} />
+            /> */}
+              <button
+                onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
+                className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+              >
+                Exportar
+              </button>
+            </div>
           </div>
 
-          {/* Tabla paginada */}
-          <MostrarInfo
-            columnas={columnas}
-            datos={datosPaginados}
-            mostrarAgregar={false}
-            mostrarBotonAtras={false}
-          />
-          {totalPaginas > 1 && (
-            <div className="flex justify-center space-x-2 mt-4">
-              {Array.from({ length: totalPaginas }).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPaginaActual(i + 1)}
-                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+          {cargando ? (
+            <p className="text-center">Cargando datos…</p>
+          ) : !hayDatos ? (
+            <p className="text-center text-red-500">No hay datos para este sensor.</p>
+          ) : (
+            <>
+              {/* Gráfico individual */}
+              <div className="flex justify-center mb-8">
+                <GraficoSensores sensoresData={[{ sensor: sensores, historial: rawHistorial }]} />
+              </div>
 
-                >
-                  Página {i + 1}
-                </button>
-              ))}
-            </div>
+              {/* Tabla paginada */}
+              {totalPaginas > 1 && (
+                <div className="flex justify-center space-x-2 mt-4">
+                  {Array.from({ length: totalPaginas }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setPaginaActual(i + 1)}
+                      className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+
+                    >
+                      Página {i + 1}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
-    </div>
+        </div>
+      <MostrarInfo
+        columnas={columnas}
+        datos={datosPaginados}
+        mostrarAgregar={false}
+        mostrarBotonAtras={false}
+      />
+      </div>
     </div >
   );
 }

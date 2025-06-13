@@ -9,11 +9,11 @@ import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 import Procesar from "../assets/icons/procesar.png"
 
-const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false }) => {
+const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false,seleccionados, setSeleccionados
+ }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [seleccionados, setSeleccionados] = useState([]);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       setIsScrollable(container.scrollHeight > container.clientHeight);
     }
   }, [datos, busqueda]);
+  
 
   const datosFiltrados = datos.filter(fila =>
     columnas.some(col => String(fila[col.key] || "").toLowerCase().includes(busqueda.toLowerCase()))
@@ -52,6 +53,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     setDescripcionModal("");
   };
 
+  console.log("Seleccionados",seleccionados)
   // Selección
   const toggleSeleccion = (id) => {
     setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
@@ -78,8 +80,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
 
-      console.log("Seleccionados con nombre:", seleccionadosConNombre);
-
       const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
       // aquí actividades es según la función, ya ajusta según necesites
     } else if (vista === "/estadistica") {
@@ -90,7 +90,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
   };
 
   return (
-    <div className="container sm:px-0">
+    <div className="bg-red-600">
 
       {enableSelection && (
         <div className="flex justify-end mb-2">
@@ -98,7 +98,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             onClick={procesarSeleccionados}
             className="bg-[#39A900] justify-center hover:bg-[#005F00] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
           >
-            <img src={Procesar} alt="" srcset="" className="w-6 h-6 mr-1" />
+            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />
             Procesar</button>
         </div>
       )}

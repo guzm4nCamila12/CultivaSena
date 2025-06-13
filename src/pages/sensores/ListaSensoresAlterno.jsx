@@ -64,13 +64,6 @@ function SensoresAlterno() {
     }
   }, [location]);
   
-
-
-
-  console.log("1", enableSelectionButton)
-  console.log("2", vista)
-  console.log("3", isEstadistica)
-
   useEffect(() => {
     //Obtiene la informacion de las fincas por ID 
     getFincasByIdFincas(id).then((data) => {
@@ -198,16 +191,6 @@ function SensoresAlterno() {
       </Link>
     )
   }));
-
-  console.log("alternar", Alternar)
-
-  const AlternarTabla = (estado) => {
-    setAlternar(estado);
-    localStorage.setItem("Alternar", estado);
-    console.log("ele", estado)
-  }
-
-  console.log("selecciom",enableSelectionButton)
 
   return (
     <div >

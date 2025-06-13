@@ -23,14 +23,13 @@ export default function BotonAtras() {
       onClick={irAtras}
       disabled={disableBack}
       className={`
-        font-extrabold text-lg text-[#00304D]
-        md:rounded-3xl rounded-full lg:w-10 md:w-6 pt-2
+        font-extrabold text-lg text-[#00304D] flex mr-4 items-center  bg-green-400
         ${disableBack
           ? "opacity-50 cursor-not-allowed"
           : "hover:cursor-pointer"}
       `}
     >
-      <img src={atras} alt="btnRegresar" />
+      <img src={atras} alt="btnRegresar" className="w-full "/>
     </button>
   );
 }

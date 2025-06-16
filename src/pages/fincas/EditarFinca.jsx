@@ -80,13 +80,13 @@ export default function EditarFinca() {
     <div>
       <Navbar />
       <div style={{ fontFamily: "work sans" }}
-        className="mt-1 p-1 mb-auto  w-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 ">
+        className="mt-1 p-1 mb-auto  w-auto px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 ">
         <form onSubmit={handleSubmit} className="space-y-6 mt-0">
           <div className="absolute w-full left-0 sm:flex sm:flex-col xl:flex  gap-4 sm:relative ">
             <div className=" px-4 sm:px-0 flex flex-wrap justify-center mt-[-20px] sm:mt-3 bg-transparent mx-auto w-full">
               <div className="mb-2  ml-0  w-full sm:w-full md:w-auto flex-grow self-center flex items-end bg-transparent ">
                 <BotonAtras />
-                <h2 className="text-2xl font-semibold">Crear finca</h2>
+                <h2 className="text-2xl font-semibold">Editar finca</h2>
               </div>
               <div className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
                 <img src={finca} alt="" srcset="" className="pr-1 border-r-2" />

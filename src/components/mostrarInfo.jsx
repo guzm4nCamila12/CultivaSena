@@ -37,7 +37,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
 
 
   return (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mx-auto">
+    <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mx-auto">
       <div className="flex flex-col-reverse lg:flex-row justify-between lg:items-center mb-4 gap-4 mx-auto">
         {/* IZQUIERDA: Botón atrás + título + barra de búsqueda */}
         <div className="flex flex-col my-2 w-full lg:flex-row lg:items-center lg:justify-between gap-4">

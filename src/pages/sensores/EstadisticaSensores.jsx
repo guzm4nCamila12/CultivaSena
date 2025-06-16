@@ -70,7 +70,7 @@ const Estadistica = () => {
   return (
     <div>
       <Navbar />
-      <div className="px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 mt-4">
+      <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-4">
         <div className="flex w-auto items-center">
           <BotonAtras />
           <h1 className="sm:text-2xl w-full text-lg font-semibold">

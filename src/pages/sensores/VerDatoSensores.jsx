@@ -110,7 +110,7 @@ export default function VerSensores() {
     <div>
       <NavBar />
       <div className='mb-4'>
-        <div className="px-4 mt-2 mb-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
+        <div className="mt-2 mb-4 px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18">
           <div className="flex justify-between items-center mb-4">
             <div className="flex w-auto items-center">
               <BotonAtras />

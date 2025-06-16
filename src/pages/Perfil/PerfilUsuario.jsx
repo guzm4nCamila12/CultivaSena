@@ -6,7 +6,8 @@ import Navbar from '../../components/navbar'
 import Tabla from '../../components/Tabla'
 import { acctionSucessful } from '../../components/alertSuccesful'
 //Importacion de icono e imagenes
-import { sensoresIcon, editar, ver, telefono, nombre, correo,
+import {
+  sensoresIcon, editar, ver, telefono, nombre, correo,
   sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon,
   ajustesA,
   actividadesA,
@@ -307,8 +308,8 @@ function PerfilUsuario() {
       return traducciones[clave];
 
     return clave
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase())
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase())
   }
 
 
@@ -346,9 +347,9 @@ function PerfilUsuario() {
   return (
     <div>
       <Navbar />
-      <div className="flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
-        <div className="sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 xl:justify-between w-full">
-        <div className="bg-yellow-200 flex flex-wrap sm:justify-center sm:flex-row xl:flex-col items-center justify-between py-2 px-4 mt-8 rounded-3xl 2xl:w-[32rem] xl:w-[23rem] xl:px-2 2xl:px-4 xl:my-10">
+      <div className=" bg-green-700  flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
+        <div className="bg-pink-300 sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 xl:justify-between w-full ">
+          <div className="bg-yellow-200 flex flex-wrap sm:justify-center sm:flex-row xl:flex-col items-center justify-between py-2 px-4 mt-8 rounded-3xl 2xl:w-[32rem] xl:w-[23rem] xl:px-2 2xl:px-4 xl:mt-10">
             <div className="w-[20%] p-2 flex justify-center items-center bg-[#00304D] rounded-full sm:my-12 xl:my-0">
               <img src={fincaPerfil} alt="" className="w-20 sm:w-auto sm:h-auto h-20" />
             </div>
@@ -455,7 +456,7 @@ function PerfilUsuario() {
           </div>
 
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
-          <div className=" mt-[2.5rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:gap-[12rem] 2xl:gap-[12rem]  xl:flex xl:flex-col xl:justify-around xl:w-auto">
+          <div className="bg-red-700 mt-[2.5rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-[94%] xl:gap-[1rem]  xl:mb-10  xl:flex xl:flex-col xl:w-auto">
             <div
               onClick={() => navigate(ruta)}
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
@@ -505,9 +506,9 @@ function PerfilUsuario() {
           </div>
 
           {/* Contenedor tabla actividades / historial */}
-          <div className=" sm:w-full flex flex-col py-7 items-end xl:w-2/5">
-            <div className="bg-[#002A43]  w-full xl:w-full shadow-slate-700 shadow-lg mt-3 mb-3 h-full rounded-3xl flex flex-col items-center p-4">
-              <h3 className="font-bold text-xl mt-1 text-white">
+          <div className="  sm:w-full flex flex-col pt-7 items-end xl:w-2/5 xl:h-[100%]">
+            <div className="bg-[#002A43] py-6  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
+              <h3 className="font-bold text-xl mt-1 text-white mb-2">
                 {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}
               </h3>
               <Tabla

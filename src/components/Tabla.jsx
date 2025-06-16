@@ -1,5 +1,5 @@
 // Tabla.jsx
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
@@ -9,8 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
-import Procesar from "../assets/icons/procesar.png"
-import { useEffect } from "react";
+import Procesar from "../assets/icons/procesar.png";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -21,20 +20,27 @@ const getRoleImage = (role) => {
   }
 };
 
-const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSelection = false, vista, colorEncabezado = "#00304D", colorTextoEncabezado = "#FFFFFF", seleccionados, setSeleccionados
-
+const Tabla = ({
+  columnas,
+  datos,
+  acciones,
+  onAddUser,
+  mostrarAgregar,
+  enableSelection = false,
+  vista,
+  colorEncabezado = "#00304D",
+  colorTextoEncabezado = "#FFFFFF",
+  seleccionados,
+  setSeleccionados
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
-  
   const allIds = datos.map((fila) => fila.id);
   const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState({ fechaInicio: null, fechaFin: null });
   const navigate = useNavigate();
-
-  const {obtenerRangoFecha} = useExportarExcel()
-  const { reporteSensores } = useExportarExcel()
+  const { obtenerRangoFecha, reporteSensores } = useExportarExcel();
 
   // Construcción de encabezados
   const encabezados = [];
@@ -42,59 +48,47 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   if (mostrarFotoPerfil) encabezados.push({ key: 'fotoPerfil', label: '' });
   encabezados.push(...columnasSinFoto);
   const totalCols = encabezados.length;
-  
 
-  // Select all toggle
+  // Toggle selección
   const toggleAll = () => {
     if (seleccionados.length === datos.length) setSeleccionados([]);
     else setSeleccionados(allIds);
   };
-
-  const toggleSeleccion = id => {
+  const toggleSeleccion = (id) => {
     setSeleccionados(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
   };
 
-  // Abrir modal para confirmar selección
   const procesarSeleccionados = () => {
-    if(seleccionados.length == 0){
-      acctionSucessful.fire({
-        imageUrl: Alerta,
-        title: `¡Seleccione al menos 1 item!`
-      });
-      return
+    if (seleccionados.length === 0) {
+      acctionSucessful.fire({ imageUrl: Alerta, title: `¡Seleccione al menos 1 item!` });
+      return;
     }
     setModalAbierto(true);
   };
 
   const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-  
     if (vista === "/reporte") {
-      // Transformar seleccionados (ids) a objetos {id, nombre} usando los datos completos
       const seleccionadosConNombre = seleccionados.map(id => {
         const item = datos.find(d => d.id === id);
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
-  
-
-      const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
-      // aquí actividades es según la función, ya ajusta según necesites
+      await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
-    }
-    else if (vista === "/sensores") {
-      const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
+    } else if (vista === "/sensores") {
+      await reporteSensores(seleccionados, fechaInicio, fechaFin);
     }
   };
-  
+
   return (
     <div className="pb-4 w-full min-h-full h-auto max-h-[640px] flex flex-col">
       <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4 h-auto">
-          <thead className="">
-            <tr className="text-white w-full">
+          <thead>
+            <tr className="text-white">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
                 const base = "p-2 md:p-3 text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D] align-middle";
@@ -106,19 +100,10 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
                   <th
                     key={idx}
                     className={`${base} ${textAlign} ${sticky} ${roundedLeft} ${roundedRight} h-14`}
-                    style={{
-                      ...(isAcc ? { right: '-1rem' } : {}),
-                      backgroundColor: colorEncabezado,
-                      color: colorTextoEncabezado,
-                    }}
+                    style={{ ...(isAcc ? { right: '-1rem' } : {}), backgroundColor: colorEncabezado, color: colorTextoEncabezado }}
                   >
                     {col.key === 'seleccionar' ? (
-                      <input
-                        type="checkbox"
-                        className="mx-auto rounded-full border-2 align-middle"
-                        checked={seleccionados.length === datos.length}
-                        onChange={toggleAll}
-                      />
+                      <input type="checkbox" className="mx-auto rounded-full border-2 align-middle" checked={seleccionados.length === datos.length} onChange={toggleAll} />
                     ) : col.key === 'fotoPerfil' ? (
                       <span />
                     ) : (
@@ -133,105 +118,91 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
             </tr>
           </thead>
           <tbody>
-            {datos.map((fila, ridx) => {
-              let colIdx = 0;
+            {datos.length > 0 ? datos.map((fila, rowIndex) => {
+              let colIndex = 0;
               return (
-                <tr key={fila.id || ridx}>
+                <tr key={fila.id || rowIndex}>
                   {enableSelection && (() => {
-                    const isFirst = colIdx === 0;
-                    const classes = `p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''}`;
-                    colIdx++;
+                    const first = colIndex === 0;
+                    colIndex++;
                     return (
-                      <td className={classes}>
-                        <input
-                          type="checkbox"
-                          className="align-middle"
-                          checked={seleccionados.includes(fila.id)}
-                          onChange={() => toggleSeleccion(fila.id)}
-                        />
+                      <td className={`p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle ${first ? 'rounded-l-full' : ''}`}> 
+                        <input type="checkbox" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
                       </td>
                     );
                   })()}
                   {mostrarFotoPerfil && (() => {
-                    const isFirst = colIdx === 0;
-                    const isLast = colIdx === totalCols - 1;
-                    const classes = `p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''} ${isLast ? 'rounded-r-full' : ''}`;
-                    colIdx++;
+                    const first = colIndex === 0;
+                    const last = colIndex === totalCols - 1;
+                    colIndex++;
                     return (
-                      <td className={classes}>
+                      <td className={`p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${first ? 'rounded-l-full' : ''} ${last ? 'rounded-r-full' : ''}`}> 
                         <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-10 h-10 rounded-full" />
                       </td>
                     );
                   })()}
-                  {columnasSinFoto.map((col, cidx) => {
-                    if (col.key === 'acciones') {
-                      const isLast = colIdx === totalCols - 1;
-                      const classes = `sticky right-0 z-10 p-2 md:p-3 border-t border-b border-gray-300 bg-white align-middle ${isLast ? 'rounded-r-full' : ''}`;
-                      colIdx++;
+                  {columnasSinFoto.map((columna, cidx) => {
+                    const isAcciones = columna.key === "acciones";
+                    let cellBorder = "";
+                    if (!mostrarFotoPerfil && ["nombre", "cultivo", "#"].includes(columna.key)) cellBorder = "rounded-l-full";
+                    if (cidx === columnasSinFoto.length - 1) cellBorder += " rounded-r-full";
+                    if (isAcciones) {
+                      colIndex++;
                       return (
-                        <td key={cidx} className={classes} style={{ right: '-1rem' }}>
-                          <div className="hidden md:flex gap-2">
+                        <td
+                          key={cidx}
+                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 justify-start ${cellBorder} border-t border-b border-gray-300 bg-white`}
+                          style={{ right: '-1rem' }}
+                        >
+                          <div className="hidden md:flex justify-start gap-2">
                             {acciones(fila)}
                           </div>
-                          <div className="flex md:hidden relative">
+                          <div className="flex md:hidden relative justify-start">
                             {showAllActions ? (
-                              <div className="absolute right-full top-0 bg-white p-2 rounded-md shadow-lg" onClick={e => e.stopPropagation()}>
+                              <div className="right-full top-0 z-50 flex flex-row items-start gap-6 w-56 p-2 bg-white rounded-md" onClick={e => e.stopPropagation()} style={{ boxShadow: "-3px 0px 0px rgba(0,0,0,0.15)" }}>
                                 {acciones(fila)}
-                                <button onClick={e => { e.stopPropagation(); setShowAllActions(false); }} className="absolute top-1 right-1">
+                                <button onClick={e => { e.stopPropagation(); setShowAllActions(false); }} className="absolute right-0">
                                   <img src={cerrarMenu} alt="Cerrar" />
                                 </button>
                               </div>
                             ) : (
-                              <button onClick={e => { e.stopPropagation(); setShowAllActions(true); }}>
-                                <img src={DropdownIcon} alt="Acciones" />
+                              <button onClick={e => { e.stopPropagation(); setShowAllActions(true); }} className="rounded-full text-white">
+                                <img src={DropdownIcon} alt="Desplegar acciones" className="mr-5" />
                               </button>
                             )}
                           </div>
                         </td>
                       );
                     }
-                    const isFirst = colIdx === 0;
-                    const isLast = colIdx === totalCols - 1;
-                    const classes = `p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${isFirst ? 'rounded-l-full' : ''} ${isLast ? 'rounded-r-full' : ''}`;
-                    colIdx++;
+                    colIndex++;
                     return (
-                      <td key={cidx} className={classes}>
-                        {col.key === '#' ? ridx + 1 : fila[col.key]}
+                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${cellBorder} border-t border-b border-gray-300 bg-white`}>
+                        <span>{columna.key === "#" ? rowIndex + 1 : fila[columna.key]}</span>
                       </td>
                     );
                   })}
                 </tr>
               );
-            })}
+            }) : (
+              <tr><td colSpan={encabezados.length} className="text-center p-4 text-sm">No hay datos</td></tr>
+            )}
           </tbody>
         </table>
       </div>
       {enableSelection && (
         <div className="flex justify-end mt-2">
-          <button
-            onClick={procesarSeleccionados}
-            className="bg-[#39A900] justify-center hover:bg-[#005F00] text-white w-36 flex px-3 py-2 rounded-3xl"
-          >
-            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />
-            Procesar
+          <button onClick={procesarSeleccionados} className="bg-[#39A900] hover:bg-[#005F00] text-white w-36 flex px-3 py-2 rounded-3xl">
+            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />Procesar
           </button>
         </div>
       )}
       {mostrarAgregar && (
-        <div className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3" onClick={onAddUser}>
+        <div onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
           <span className="text-[#009E00] text-base font-semibold">Crear</span>
-          <div className="ml-2 w-8 h-8 bg-[#009E00] rounded-full flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">+</span>
-          </div>
+          <div className="ml-2 w-8 h-8 bg-[#009E00] rounded-full flex items-center justify-center"><span className="text-white text-2xl font-bold">+</span></div>
         </div>
       )}
-
-      <ModalFechaRango
-        isOpen={modalAbierto}
-        onClose={() => setModalAbierto(false)}
-        onConfirm={handleConfirmRango}
-        vista={vista}
-      />
+      <ModalFechaRango isOpen={modalAbierto} onClose={() => setModalAbierto(false)} onConfirm={handleConfirmRango} vista={vista} />
     </div>
   );
 };

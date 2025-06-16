@@ -90,11 +90,11 @@ const Tabla = ({ columnas, datos, acciones, onAddUser, mostrarAgregar, enableSel
   };
   
   return (
-    <div className="pb-4 w-full">
-      <div className="w-full overflow-x-auto overflow-y-auto max-h-[640px] rounded-lg">
-        <table className="min-w-full border-separate border-spacing-y-4">
-          <thead>
-            <tr className="text-white">
+    <div className="pb-4 w-full min-h-full h-auto max-h-[640px] flex flex-col">
+      <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
+        <table className="min-w-full border-separate border-spacing-y-4 h-auto">
+          <thead className="">
+            <tr className="text-white w-full">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
                 const base = "p-2 md:p-3 text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D] align-middle";

@@ -58,7 +58,7 @@ export const useTransferir = () => {
                 setFincasAlternas(prev => [...prev, fincaActualizada]);
                 acctionSucessful.fire({
                     imageUrl: usuarioCreado,
-                    title: `¡Finca transferida correctamente!`
+                    title: `¡Finca <span style="color: green;">${fincaActualizada.nombre}</span> transferida correctamente!`
                 });
             })
             // Obtener sensores asociados a la finca

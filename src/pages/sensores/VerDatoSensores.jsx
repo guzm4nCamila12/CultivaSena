@@ -6,7 +6,7 @@ import NavBar from '../../components/navbar';
 import GraficoSensores from './GraficoSensores';
 import MostrarInfo from "../../components/mostrarInfo";
 import BotonAtras from '../../components/botonAtras';
-import { getSensor, getHistorialSensores } from '../../services/sensores/ApiSensores';
+import { getSensor, getHistorialSensores, getTipoSensor } from '../../services/sensores/ApiSensores';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useExportarExcel } from '../../hooks/useReportes';
 
@@ -29,6 +29,7 @@ export default function VerSensores() {
   const [sensores, setSensores] = useState({});
   const [rawHistorial, setRawHistorial] = useState([]);      // ← datos crudos
   const [datosSensor, setDatosSensores] = useState([]);      // ← datos formateados para la tabla
+  const [tipoSensor, setTipoSensor] = useState({});
   const [fechaFiltro, setFechaFiltro] = useState('');
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
@@ -42,6 +43,7 @@ export default function VerSensores() {
     getSensor(id)
       .then(data => {
         setSensores(data);
+        getTipoSensor(data.tipo_id).then(tipo => setTipoSensor(tipo));
         return data.mac;
       })
       .then(mac => getHistorialSensores(mac))
@@ -69,29 +71,43 @@ export default function VerSensores() {
 
   // Filtrado por fecha para la tabla
   const filtrarDatos = () => {
-    return datosSensor.filter(item => {
-      const { fecha } = item;
-
-      if (fechaFiltro) {
+    return rawHistorial
+      .sort((a, b) => new Date(a.fecha) - new Date(b.fecha)) // ordenar cronológicamente
+      .slice(-24) // ← limitar a los últimos 24 antes de filtrar
+      .map(item => {
+        const { fecha, hora } = formatearFechaYHora(item.fecha);
+        return {
+          ...item, // mantiene fecha ISO
+          fechaFormateada: fecha,
+          horaFormateada: hora,
+          valorFormateado: limitarValor(item.valor)
+        };
+      })
+      .filter(item => {
+        if (!fechaFiltro) return true;
+  
         const [añoFiltro, mesFiltro, diaFiltro] = fechaFiltro.split('-');
-        const [diaItem, mesItem, añoItem] = fecha.split('/');
+        const [diaItem, mesItem, añoItem] = item.fechaFormateada.split('/');
+  
         const coincideDia = diaFiltro ? diaItem === diaFiltro : true;
         const coincideMes = mesFiltro ? mesItem === mesFiltro : true;
         const coincideAño = añoFiltro ? añoItem === añoFiltro : true;
+  
         return coincideDia && coincideMes && coincideAño;
-      }
-      return true;
-    });
+      });
   };
+  
+
   const datosFinales = filtrarDatos();
 
-  // Preparar datos de la tabla
-  const datosTabla = datosFinales.map((fila, i) => ({
+  const datosTabla = datosFinales.map((item, i) => ({
     "#": i + 1,
-    fecha: fila.fecha,
-    hora: fila.hora,
-    valor: fila.valor + " °C"
+    fecha: item.fechaFormateada,
+    hora: item.horaFormateada,
+    valor: item.valorFormateado + ` ${tipoSensor.unidad || ''}`,
   }));
+
+
   const itemsPorPagina = 12;
   const totalPaginas = Math.ceil(datosTabla.length / itemsPorPagina);
   const inicio = (paginaActual - 1) * itemsPorPagina;
@@ -105,6 +121,11 @@ export default function VerSensores() {
     { key: "hora", label: "Hora", icon: Icons.hora, icon2: Icons.hora },
     { key: "valor", label: "Datos", icon: Icons.dato, icon2: Icons.dato }
   ];
+  console.log("-------------------------------------");
+  console.log("rawHistorial:", rawHistorial);
+  console.log("Datos de la tabla:", datosTabla);
+  console.log("Datos Finales:", datosFinales);
+  console.log("Datos paginados:", datosPaginados);
 
   return (
     <div>
@@ -126,48 +147,59 @@ export default function VerSensores() {
             />
             <button
               onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
-            className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+              className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
             >
-            Exportar Excel
-          </button>
-        </div>
-      </div>
-
-      {cargando ? (
-        <p className="text-center">Cargando datos…</p>
-      ) : !hayDatos ? (
-        <p className="text-center text-red-500">No hay datos para este sensor.</p>
-      ) : (
-        <>
-          {/* Gráfico individual */}
-          <div className="flex justify-center mb-8">
-            <GraficoSensores sensoresData={[{ sensor: sensores, historial: rawHistorial }]} />
+              Exportar Excel
+            </button>
           </div>
+        </div>
 
-          {/* Tabla paginada */}
-          <MostrarInfo
-            columnas={columnas}
-            datos={datosPaginados}
-            mostrarAgregar={false}
-            mostrarBotonAtras={false}
-          />
-          {totalPaginas > 1 && (
-            <div className="flex justify-center space-x-2 mt-4">
-              {Array.from({ length: totalPaginas }).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPaginaActual(i + 1)}
-                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+        {cargando ? (
+          <p className="text-center">Cargando datos…</p>
+        ) : !hayDatos ? (
+          <p className="text-center text-red-500">No hay datos para este sensor.</p>
+        ) : (
+          <>
+            {/* Gráfico individual */}
+            <div className="flex justify-center mb-8">
+              <GraficoSensores
+                sensoresData={[{
+                  sensor: sensores,
+                  historial: datosFinales
+                    .slice(-24) // últimos 24
+                    .map(item => ({
+                      fecha: item.fecha, // fecha ISO
+                      valor: item.valorFormateado
+                    }))
+                }]}
+              />
 
-                >
-                  Página {i + 1}
-                </button>
-              ))}
             </div>
-          )}
-        </>
-      )}
-    </div>
+
+            {/* Tabla paginada */}
+            <MostrarInfo
+              columnas={columnas}
+              datos={datosPaginados}
+              mostrarAgregar={false}
+              mostrarBotonAtras={false}
+            />
+            {totalPaginas > 1 && (
+              <div className="flex justify-center space-x-2 mt-4">
+                {Array.from({ length: totalPaginas }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setPaginaActual(i + 1)}
+                    className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+
+                  >
+                    Página {i + 1}
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div >
   );
 }

@@ -37,7 +37,7 @@ const Estadistica = () => {
             const historialRaw = await getHistorialSensores(sensor.mac);
 
             const historial = historialRaw.filter(item => {
-              // Use raw string to avoid timezone shifts
+              
               const raw = item.fecha || item.timestamp;
               const itemDay = raw.slice(0, 10);
 

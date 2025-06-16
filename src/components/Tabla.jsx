@@ -86,12 +86,11 @@ const Tabla = ({
     <div className="pb-4 w-full min-h-full h-auto max-h-[640px] flex flex-col">
       <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4 h-auto">
-          <thead>
-          <tr className="text-white">
+        <thead>
+            <tr className="text-white">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
                 const base = "p-2 md:p-3 text-left text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D]";
-                // Rounded-left según enableSelection o fallback
                 let roundedL = '';
                 if (enableSelection) {
                   if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
@@ -101,14 +100,14 @@ const Tabla = ({
                 }
                 const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
                 const sticky = isAcc ? 'sticky right-0 z-20' : '';
+
                 return (
                   <th
                     key={idx}
-                    className={`${base} ${roundedL}${roundedR} ${sticky} `}
+                    className={`${base} ${roundedL}${roundedR} ${sticky}`}
                     style={{ color: colorTextoEncabezado, backgroundColor: colorEncabezado, ...(isAcc && { right: '-1rem' }) }}
                   >
                     <div className="flex items-center">
-                      {/* Checkbox select-all */}
                       {col.key === 'seleccionar' ? (
                         <input
                           type="checkbox"
@@ -118,9 +117,16 @@ const Tabla = ({
                         />
                       ) : (
                         <>
-                          {col.key !== 'fotoPerfil' && col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
-                          <span>{col.key === 'acciones' ? (showAllActions ? 'Acciones' : '') : col.label}</span>
-                         
+                          {/* Si es columna de acciones, mostramos el label siempre en pantallas md+ */}
+                          {col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
+                          {isAcc ? (
+                            <>
+                              <span className="hidden md:inline">{col.label}</span>
+                              <span className="md:hidden">{showAllActions ? col.label : ''}</span>
+                            </>
+                          ) : (
+                            <span>{col.label}</span>
+                          )}
                         </>
                       )}
                     </div>

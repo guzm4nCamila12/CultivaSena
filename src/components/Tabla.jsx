@@ -38,7 +38,6 @@ const Tabla = ({
   const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [rangoFechas, setRangoFechas] = useState({ fechaInicio: null, fechaFin: null });
   const navigate = useNavigate();
   const { obtenerRangoFecha, reporteSensores } = useExportarExcel();
 
@@ -69,7 +68,6 @@ const Tabla = ({
   };
 
   const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
-    setRangoFechas({ fechaInicio, fechaFin });
     if (vista === "/reporte") {
       const seleccionadosConNombre = seleccionados.map(id => {
         const item = datos.find(d => d.id === id);
@@ -81,6 +79,7 @@ const Tabla = ({
     } else if (vista === "/sensores") {
       await reporteSensores(seleccionados, fechaInicio, fechaFin);
     }
+    setModalAbierto(false);
   };
 
   return (
@@ -88,30 +87,43 @@ const Tabla = ({
       <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4 h-auto">
           <thead>
-            <tr className="text-white">
+          <tr className="text-white">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
-                const base = "p-2 md:p-3 text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D] align-middle";
-                const sticky = isAcc ? "sticky right-0 z-20" : "";
-                const roundedLeft = idx === 0 ? 'rounded-l-full' : '';
-                const roundedRight = idx === totalCols - 1 ? 'rounded-r-full' : '';
-                const textAlign = col.key === 'seleccionar' ? 'text-center' : 'text-left';
+                const base = "p-2 md:p-3 text-left text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D]";
+                // Rounded-left según enableSelection o fallback
+                let roundedL = '';
+                if (enableSelection) {
+                  if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
+                } else {
+                  if (mostrarFotoPerfil && col.key === 'fotoPerfil') roundedL = 'rounded-l-full px-7';
+                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#'].includes(col.key)) roundedL = 'rounded-l-full';
+                }
+                const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
+                const sticky = isAcc ? 'sticky right-0 z-20' : '';
                 return (
                   <th
                     key={idx}
-                    className={`${base} ${textAlign} ${sticky} ${roundedLeft} ${roundedRight} h-14`}
-                    style={{ ...(isAcc ? { right: '-1rem' } : {}), backgroundColor: colorEncabezado, color: colorTextoEncabezado }}
+                    className={`${base} ${roundedL}${roundedR} ${sticky} `}
+                    style={{ color: colorTextoEncabezado, ...(isAcc && { right: '-1rem' }) }}
                   >
-                    {col.key === 'seleccionar' ? (
-                      <input type="checkbox" className="mx-auto rounded-full border-2 align-middle" checked={seleccionados.length === datos.length} onChange={toggleAll} />
-                    ) : col.key === 'fotoPerfil' ? (
-                      <span />
-                    ) : (
-                      <div className="flex items-center">
-                        {col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
-                        <span>{col.label}</span>
-                      </div>
-                    )}
+                    <div className="flex items-center">
+                      {/* Checkbox select-all */}
+                      {col.key === 'seleccionar' ? (
+                        <input
+                          type="checkbox"
+                          checked={seleccionados.length === datos.length}
+                          onChange={toggleAll}
+                          className="mx-auto rounded-full border-2 bg-white"
+                        />
+                      ) : (
+                        <>
+                          {col.key !== 'fotoPerfil' && col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
+                          <span>{col.key === 'acciones' ? (showAllActions ? 'Acciones' : '') : col.label}</span>
+                         
+                        </>
+                      )}
+                    </div>
                   </th>
                 );
               })}
@@ -122,36 +134,36 @@ const Tabla = ({
               let colIndex = 0;
               return (
                 <tr key={fila.id || rowIndex}>
-                  {enableSelection && (() => {
-                    const first = colIndex === 0;
-                    colIndex++;
-                    return (
-                      <td className={`p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle ${first ? 'rounded-l-full' : ''}`}> 
-                        <input type="checkbox" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
-                      </td>
-                    );
-                  })()}
+                  {enableSelection && (() => { colIndex++; return (
+                    <td className="p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle rounded-l-full">
+                      <input type="checkbox" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
+                    </td>
+                  ); })()}
+
+                  {/* Foto Perfil */}
                   {mostrarFotoPerfil && (() => {
-                    const first = colIndex === 0;
-                    const last = colIndex === totalCols - 1;
                     colIndex++;
+                    const isFirst = colIndex === 1;
+                    const isLast = colIndex === encabezados.length;
                     return (
-                      <td className={`p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white align-middle ${first ? 'rounded-l-full' : ''} ${last ? 'rounded-r-full' : ''}`}> 
-                        <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-10 h-10 rounded-full" />
+                      <td className={`rounded-l-full p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white w-16 ${isLast ? 'rounded-r-full' : ''}`}> 
+                        <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-10 h-10 rounded-full mx-auto" />
                       </td>
                     );
                   })()}
+
+                  {/* Celdas Sin Foto */}
                   {columnasSinFoto.map((columna, cidx) => {
-                    const isAcciones = columna.key === "acciones";
-                    let cellBorder = "";
-                    if (!mostrarFotoPerfil && ["nombre", "cultivo", "#"].includes(columna.key)) cellBorder = "rounded-l-full";
-                    if (cidx === columnasSinFoto.length - 1) cellBorder += " rounded-r-full";
+                    
+                    const isAcciones = columna.key === 'acciones';
+                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#'].includes(columna.key) ? 'rounded-l-full' : '';
+                    let borderR = cidx === columnasSinFoto.length - 1 ? ' rounded-r-full' : '';
+                    colIndex++;
                     if (isAcciones) {
-                      colIndex++;
                       return (
                         <td
                           key={cidx}
-                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 justify-start ${cellBorder} border-t border-b border-gray-300 bg-white`}
+                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
                           style={{ right: '-1rem' }}
                         >
                           <div className="hidden md:flex justify-start gap-2">
@@ -159,25 +171,28 @@ const Tabla = ({
                           </div>
                           <div className="flex md:hidden relative justify-start">
                             {showAllActions ? (
-                              <div className="right-full top-0 z-50 flex flex-row items-start gap-6 w-56 p-2 bg-white rounded-md" onClick={e => e.stopPropagation()} style={{ boxShadow: "-3px 0px 0px rgba(0,0,0,0.15)" }}>
+                              <div
+                                className="right-full top-0 z-50 flex flex-row items-start gap-6 w-56 p-2 bg-white rounded-md"
+                                onClick={e => e.stopPropagation()}
+                                style={{ boxShadow: '-3px 0px 0px rgba(0,0,0,0.15)' }}
+                              >
                                 {acciones(fila)}
                                 <button onClick={e => { e.stopPropagation(); setShowAllActions(false); }} className="absolute right-0">
                                   <img src={cerrarMenu} alt="Cerrar" />
                                 </button>
                               </div>
                             ) : (
-                              <button onClick={e => { e.stopPropagation(); setShowAllActions(true); }} className="rounded-full text-white">
-                                <img src={DropdownIcon} alt="Desplegar acciones" className="mr-5" />
+                              <button onClick={e => { e.stopPropagation(); setShowAllActions(true); }} className="rounded-full text-white ">
+                                <img src={DropdownIcon} alt="Desplegar acciones" className="mr-14" />
                               </button>
                             )}
                           </div>
                         </td>
                       );
                     }
-                    colIndex++;
                     return (
-                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 ${cellBorder} border-t border-b border-gray-300 bg-white`}>
-                        <span>{columna.key === "#" ? rowIndex + 1 : fila[columna.key]}</span>
+                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}> 
+                        {columna.key === '#' ? rowIndex + 1 : fila[columna.key]}
                       </td>
                     );
                   })}

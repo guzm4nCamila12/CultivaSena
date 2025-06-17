@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { driver } from "driver.js";
-import "driver.js/dist/driver.css";
+// import { driver } from "driver.js";
+// import "driver.js/dist/driver.css";
 
 // componentes reutilizados
 import Gov from '../../components/gov';
@@ -27,41 +27,42 @@ const Login = () => {
   }, []);
 
   // Driver.js tour
-  useEffect(() => {
-    const driverObj = driver({
-      showProgress: true,
-      animate: true,
-      opacity: 0.5,
-      doneBtnText: 'Finalizar',
-      nextBtnText: 'Siguiente',
-      prevBtnText: 'Anterior',
-      steps: [
-        {
-          element: '#input-telefono',
-          popover: {
-            title: 'Número de teléfono',
-            description: 'Ingrese su número de teléfono aquí.'
-          }
-        },
-        {
-          element: '#input-clave',
-          popover: {
-            title: 'Contraseña',
-            description: 'Ingrese su contraseña aquí.'
-          }
-        },
-        {
-          element: '#btn-login',
-          popover: {
-            title: 'Iniciar sesión',
-            description: 'Haz clic aquí para iniciar sesión.'
-          }
-        }
-      ]
-    });
-
-    driverObj.drive();
-  }, []);
+  // useEffect(() => {
+  //   const driverObj = driver({
+  //     showProgress: true,
+  //     animate: true,
+  //     opacity: 0.5,
+  //     doneBtnText: 'Finalizar',
+  //     nextBtnText: 'Siguiente',
+  //     prevBtnText: 'Anterior',
+  //     steps: [
+  //       {
+  //         element: '#input-telefono',
+  //         popover: {
+  //           title: 'Número de teléfono',
+  //           description: 'Ingrese su número de teléfono aquí.'
+  //         }
+  //       },
+  //       {
+  //         element: '#input-clave',
+  //         popover: {
+  //           title: 'Contraseña',
+  //           description: 'Ingrese su contraseña aquí.'
+  //         }
+  //       },
+  //       {
+  //         element: '#btn-login',
+  //         popover: {
+  //           title: 'Iniciar sesión',
+  //           description: 'Haz clic aquí para iniciar sesión.'
+  //         }
+  //       }
+  //     ],
+  //   });
+  
+  //   driverObj.drive();
+  // }, []);
+  
 
   // manejar redimensionamiento
   useEffect(() => {
@@ -125,9 +126,9 @@ const Login = () => {
             <img src="logoC.svg" alt="Logo" className="h-24 md:h-[120px] transition-all" />
             <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
               <form onSubmit={handleSubmit} className="space-y-3">
+                <div id="input-telefono">
                 <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
                 <input
-                  id="input-telefono"
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"
@@ -137,6 +138,7 @@ const Login = () => {
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{ backgroundImage: `url(${telefonoGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
                 />
+                </div>
                 <div className="relative pb-3">
                   <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
                   <input

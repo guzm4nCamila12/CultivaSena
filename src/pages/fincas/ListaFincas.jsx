@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import MostrarInfo from '../../components/mostrarInfo';
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
 import { useFincas } from '../../hooks/useFincas';
-import {fincasIcon,zonasIcon,sensoresIcon,alternos,ajustes,editar,eliminar} from '../../assets/icons/IconsExportation';
+import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
+import Driver from "driver.js";
+import '../../assets/driver.css'
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -28,6 +30,50 @@ export default function ListaFincas() {
     { key: "alternos", label: "Alternos", icon: alternos, icon2: alternos },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
+
+  // Driver.js tour
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const allExist =
+        document.querySelector('#sensoresjaja')
+
+      if (allExist) {
+        clearInterval(interval);
+
+        const driverObj = new Driver({
+          showProgress: true,
+          animate: true,
+          opacity: 0.5,
+          doneBtnText: 'Finalizar',
+          nextBtnText: 'Siguiente',
+          prevBtnText: 'Anterior',
+        });
+
+        driverObj.defineSteps([
+          {
+            element: '#sensoresjaja',
+            popover: {
+              title: 'Apartado de Sensores',
+              description: 'Sensores de la finca'
+            }
+          },
+          {
+            element: '#alternosjaja',
+            popover: {
+              title: 'Apartado de Alternos',
+              description: 'Puedes eliminar una finca creada'
+            }
+          },
+        ]);
+
+        driverObj.start();
+
+      }
+    }, 300);
+
+    return () => clearInterval(interval);
+  }, []);
+
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
@@ -57,7 +103,7 @@ export default function ListaFincas() {
     sensores: (
       <Link to={`/activar-sensores/${finca.id}/${id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='sensoresjaja' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -69,7 +115,7 @@ export default function ListaFincas() {
     alternos: (
       <Link to={`/alternos/${finca.id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='alternosjaja' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -81,7 +127,7 @@ export default function ListaFincas() {
     zonas: (
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
-          <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div  className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -91,7 +137,7 @@ export default function ListaFincas() {
       </Link>
     )
   }));
-  
+
 
   return (
     <div>

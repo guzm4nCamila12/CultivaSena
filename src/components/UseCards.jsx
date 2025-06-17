@@ -127,13 +127,14 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             )}
 
             {datosFiltrados.map((fila, idx) => (
-              <div key={fila.id || idx} className="relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95">
+              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95">
                 {enableSelection && (
                   <input
                     type="checkbox"
                     checked={seleccionados.includes(fila.id)}
+                    onClick={(e) => e.stopPropagation()}
                     onChange={() => toggleSeleccion(fila.id)}
-                    className="absolute top-5 left-5 w-5 h-5 cursor-pointer rounded-full "
+                    className="absolute top-5 accent-[#39A900] left-5 w-5 h-5 cursor-pointer rounded-full "
                   />
                 )}
                 <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center">

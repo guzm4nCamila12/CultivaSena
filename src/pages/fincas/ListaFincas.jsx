@@ -6,6 +6,7 @@ import ConfirmationModal from '../../components/confirmationModal/confirmationMo
 import { useFincas } from '../../hooks/useFincas';
 import {fincasIcon,zonasIcon,sensoresIcon,alternos,ajustes,editar,eliminar} from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
+
 export default function ListaFincas() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -90,6 +91,7 @@ export default function ListaFincas() {
       </Link>
     )
   }));
+  
 
   return (
     <div>

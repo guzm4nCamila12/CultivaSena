@@ -127,7 +127,7 @@ export default function VerSensores() {
             /> */}
               <button
                 onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
-                className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+                className="px-4 py-2 bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
               >
                 Exportar
               </button>

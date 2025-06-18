@@ -17,14 +17,50 @@ import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import ayuda from '../../assets/icons/ayuda.png'
 
+import { useLocation } from 'react-router-dom';
+import { useDriverTour } from "../../hooks/useTourDriver";
+import {
+  fincaDriverSteps,
+  zonasDriverSteps,
+  actividadesDriverSteps,
+  mostarInfoDriverSteps,
+  sensoresDriverSteps,
+  alternosDriverSteps,
+  sensorAlternosDriverSteps,
+  crearFincaSteps,
+  editarFincaSteps
+} from '../../utils/aplicationSteps';
+
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
+
+    const { startTour } = useDriverTour();
+    const location = useLocation();
+
+    const handleStartTour = () => {
+        localStorage.setItem("tour_usuario_visto", "false");
+        onCloseMenu();
+    
+        if (location.pathname.includes('/lista-fincas')) {
+          startTour(fincaDriverSteps);
+        } else if (location.pathname.includes('/zonas')) {
+          startTour(zonasDriverSteps);
+        } else if (location.pathname.includes('/actividadesZonas')) {
+          startTour(actividadesDriverSteps);
+        } else if (location.pathname.includes('/activar-sensores')) {
+          startTour(sensoresDriverSteps);
+        } else if (location.pathname.includes('/alternos')) {
+          startTour(alternosDriverSteps);
+        } else {
+          startTour(mostarInfoDriverSteps); // fallback
+        }
+      };
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
-    
+
     // Obtener ícono según rol
     const obtenerRol = () => {
         switch (rolToken()) {
@@ -211,8 +247,13 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 )}
 
                 <div className='flex cursor-help items-center'>
-                    <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
-                    <span>Ayuda</span>
+                    <button
+                        className='flex'
+                        onClick={handleStartTour}
+                    >
+                        <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
+                        <span>Ayuda</span>
+                    </button>
                 </div>
 
             </div>

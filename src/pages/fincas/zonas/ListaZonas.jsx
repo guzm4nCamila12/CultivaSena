@@ -45,7 +45,8 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div id="editarSteps" className="relative group z-50">
+      {fila.nombre !== "Zona general" && (
+      <div id="editarSteps" className="relative group ">
         <button id="editarSteps"
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEditar(fila)}
@@ -56,6 +57,7 @@ const Zonas = () => {
           Editar
         </span>
       </div>
+      )}
 
       {fila.nombre !== "Zona general" && (
         <div id="eliminarSteps" className="relative group">

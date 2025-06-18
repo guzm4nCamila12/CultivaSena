@@ -6,8 +6,8 @@ import ConfirmationModal from '../../components/confirmationModal/confirmationMo
 import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
-import Driver from "driver.js";
-import '../../assets/driver.css'
+
+import { useDriverTour } from '../../hooks/useTourDriver';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -32,48 +32,22 @@ export default function ListaFincas() {
   ];
 
   // Driver.js tour
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const allExist =
-        document.querySelector('#sensoresjaja')
-
-      if (allExist) {
-        clearInterval(interval);
-
-        const driverObj = new Driver({
-          showProgress: true,
-          animate: true,
-          opacity: 0.5,
-          doneBtnText: 'Finalizar',
-          nextBtnText: 'Siguiente',
-          prevBtnText: 'Anterior',
-        });
-
-        driverObj.defineSteps([
-          {
-            element: '#sensoresjaja',
-            popover: {
-              title: 'Apartado de Sensores',
-              description: 'Sensores de la finca'
-            }
-          },
-          {
-            element: '#alternosjaja',
-            popover: {
-              title: 'Apartado de Alternos',
-              description: 'Puedes eliminar una finca creada'
-            }
-          },
-        ]);
-
-        driverObj.start();
-
+  useDriverTour([
+    {
+      element: '#sensoresjaja',
+      popover: {
+        title: 'Apartado de Sensores',
+        description: 'Sensores de la finca'
       }
-    }, 300);
-
-    return () => clearInterval(interval);
-  }, []);
-
+    },
+    {
+      element: '#alternosjaja',
+      popover: {
+        title: 'Apartado de Alternos',
+        description: 'Puedes eliminar una finca creada'
+      }
+    },
+  ]);
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">

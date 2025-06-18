@@ -86,18 +86,18 @@ export default function VerSensores() {
       })
       .filter(item => {
         if (!fechaFiltro) return true;
-  
+
         const [añoFiltro, mesFiltro, diaFiltro] = fechaFiltro.split('-');
         const [diaItem, mesItem, añoItem] = item.fechaFormateada.split('/');
-  
+
         const coincideDia = diaFiltro ? diaItem === diaFiltro : true;
         const coincideMes = mesFiltro ? mesItem === mesFiltro : true;
         const coincideAño = añoFiltro ? añoItem === añoFiltro : true;
-  
+
         return coincideDia && coincideMes && coincideAño;
       });
   };
-  
+
 
   const datosFinales = filtrarDatos();
 
@@ -150,8 +150,8 @@ export default function VerSensores() {
               onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
               className="px-4 flex py-2 justify-center items-center bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
             >
-              <img src={exportarIcon} alt="" className='w-4 h-4 mr-1' />
-              Exportar
+              <img src={exportarIcon} alt="" className='w-4 h-4 mr-2' />
+              <h3> Exportar</h3>
             </button>
           </div>
         </div>

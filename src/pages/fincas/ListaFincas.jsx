@@ -7,6 +7,7 @@ import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
 
+import fincaDriverSteps from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 export default function ListaFincas() {
@@ -31,23 +32,7 @@ export default function ListaFincas() {
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
-  // Driver.js tour
-  useDriverTour([
-    {
-      element: '#sensoresjaja',
-      popover: {
-        title: 'Apartado de Sensores',
-        description: 'Sensores de la finca'
-      }
-    },
-    {
-      element: '#alternosjaja',
-      popover: {
-        title: 'Apartado de Alternos',
-        description: 'Puedes eliminar una finca creada'
-      }
-    },
-  ]);
+  useDriverTour(fincaDriverSteps);
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">

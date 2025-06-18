@@ -39,7 +39,14 @@ function ActivarSensores() {
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  useDriverTour(sensoresDriverSteps)
+  const pasosTour = sensoresDriverSteps.filter(paso => {
+    if (paso.element === "#activarSensor") return rol === "1";
+    if (paso.element === "#noPoderActivar") return rol !== "1";
+    return true; // conservar todos los demás pasos
+  });
+  
+  useDriverTour(pasosTour);
+  
 
   const tituloMostrar = state?.titulo || `Sensores de la finca: ${fincas?.nombre || "..."}`;
 
@@ -66,7 +73,7 @@ function ActivarSensores() {
   };
 
   const ActivarSensor = (sensor, index) => (
-    <label  id='activarSensor' className="relative flex items-center cursor-pointer">
+    <label id={rol === "1" ? 'activarSensor' : 'noPoderActivar'} className="relative flex items-center cursor-pointer">
       <input
         type="checkbox"
         checked={sensor.estado}

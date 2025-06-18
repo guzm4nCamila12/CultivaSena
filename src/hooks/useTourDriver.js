@@ -7,7 +7,11 @@ export function useDriverTour() {
   const driverRef = useRef(new Driver({
     showProgress: true,
     allowClose: true,
-    overlayClickNext: true
+    overlayClickNext: true,
+    doneBtnText: "Finalizar",
+    nextBtnText: "Siguiente",
+    prevBtnText: "Anterior",
+    closeBtnText: "✕",
   }));
 
   const startTour = (steps) => {

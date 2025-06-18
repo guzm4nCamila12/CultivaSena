@@ -219,7 +219,7 @@ const Tabla = ({
         </div>
       )}
       {mostrarAgregar && (
-        <div onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
+        <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
           <span className="text-[#009E00] text-base font-semibold">Crear</span>
           <div className="ml-2 w-8 h-8 bg-[#009E00] rounded-full flex items-center justify-center"><span className="text-white text-2xl font-bold">+</span></div>
         </div>

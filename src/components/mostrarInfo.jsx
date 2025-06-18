@@ -24,7 +24,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
   useEffect(() => {
     setSeleccionados([]);
   }, [vista]);
-  
+
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((col) =>
       String(fila[col.key] || "")
@@ -40,9 +40,9 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
         {/* IZQUIERDA: Botón atrás + título + barra de búsqueda */}
         <div className="flex flex-col my-2 w-full lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex justify-between">
-            <div className="flex w-auto items-center">
+            <div  className="flex w-auto items-center">
               {mostrarBotonAtras && <BotonAtras />}
-              <h1 className="sm:text-2xl w-full text-lg font-semibold">{titulo}</h1>
+              <h1 id="tituloSteps" className="sm:text-2xl w-full text-lg font-semibold">{titulo}</h1>
             </div>
             {/* Mover Opción aquí en móviles */}
             <div className="block lg:hidden">
@@ -50,7 +50,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             </div>
           </div>
           {/* Barra de búsqueda */}
-          <div className=" relative flex items-center w-full  lg:justify-end lg:w-64 sm:w-70 bg-white rounded-full border border-gray-300">
+          <div id="buscadorSteps" className=" relative flex items-center w-full  lg:justify-end lg:w-64 sm:w-70 bg-white rounded-full border border-gray-300">
             <img src={buscar} alt="Buscar" className="absolute left-3 border-r-2 pr-1 border-[#EEEEEE]" />
             <input
               type="text"
@@ -80,7 +80,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
         {/* DERECHA: Botón seleccionar + Opción (visible solo en sm+) */}
         <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
           {/* Opción solo visible en sm+ */}
-          <div className="hidden lg:block bg-">
+          <div id="opcionSteps" className="hidden lg:block bg-">
             <Opcion onChangeVista={setVistaActiva} />
           </div>
         </div>

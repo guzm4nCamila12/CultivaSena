@@ -7,7 +7,7 @@ import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
 
-import fincaDriverSteps from '../../utils/aplicationSteps';
+import {fincaDriverSteps} from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 export default function ListaFincas() {

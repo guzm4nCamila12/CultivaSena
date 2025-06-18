@@ -9,6 +9,8 @@ import ConfirmationModal from '../../../components/confirmationModal/confirmatio
 import { sinFincas, cultivo, etapa, ajustes, eliminar } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useActividadesZona } from '../../../hooks/useActividades';
+import { actividadesDriverSteps, mostarInfoDriverSteps } from '../../../utils/aplicationSteps';
+import { useDriverTour } from '../../../hooks/useTourDriver';
 
 export default function ActividadesZonas() {
     const { id } = useParams();
@@ -16,6 +18,11 @@ export default function ActividadesZonas() {
         modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange, 
         handleEtapaChange, handleCrearActividad, handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
         abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear, } = useActividadesZona(Number(id));
+
+        const pasosCombinados = [
+            ...mostarInfoDriverSteps,
+            ...actividadesDriverSteps
+          ];
 
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
@@ -25,14 +32,14 @@ export default function ActividadesZonas() {
 
     const acciones = fila => (
         <div className="flex justify-center gap-2">
-            <button
+            <button id='editarSteps'
                 className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                 onClick={() => abrirModalEditar(fila)}
             >
                 <img src={sinFincas} alt="Ver detalle" />
             </button>
             {!(rolusuario === 3 && fila.idusuario !== idusuario) && (
-                <button
+                <button id='eliminarSteps'
                     className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
@@ -43,6 +50,7 @@ export default function ActividadesZonas() {
     );
 
     const actividadesOptions = actividadesPorEtapa[etapaSeleccionada] || [];
+     useDriverTour(actividadesDriverSteps);
 
     return (
         <>

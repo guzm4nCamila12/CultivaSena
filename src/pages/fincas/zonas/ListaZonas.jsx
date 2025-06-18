@@ -10,6 +10,8 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useZonas } from "../../../hooks/useZonas"; 
+import { zonasDriverSteps } from '../../../utils/aplicationSteps';
+import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -38,20 +40,20 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div className="relative group">
-        <button
+      <div id="editarSteps"  className="relative group z-50">
+        <button id="editarSteps"
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEditar(fila)}
         >
-          <img src={editar} alt="Editar" className='absolute' />
+          <img id="editarSteps" src={editar} alt="Editar" className='absolute' />
         </button>
-        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <span id="editarSteps" className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
         </span>
       </div>
 
       {fila.nombre !== "Zona general" && (
-        <div className="relative group">
+        <div id="eliminarSteps" className="relative group">
           <button
             className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEliminar(fila.id)}
@@ -69,18 +71,20 @@ const Zonas = () => {
   const zonasMapeadas = zonas.map(z => ({
     ...z,
     verSensores: !isReporte ? (
-      <Link className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
+      <Link id="sensoresSteps" className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
         ({z.cantidad_sensores ?? 0}) Ver más...
       </Link>
     ) : undefined,
     actividades: isReporte ? (
       <span className="font-bold">Seleccione para generar reporte</span>
     ) : (
-      <Link className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
+      <Link id="actividadesSteps" className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
         Ver más...
       </Link>
     ),
   }));
+
+    useDriverTour(zonasDriverSteps);
   
   return (
     <div>

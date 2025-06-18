@@ -7,7 +7,7 @@ import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
 
-import fincaDriverSteps from '../../utils/aplicationSteps';
+import {fincaDriverSteps} from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 export default function ListaFincas() {
@@ -36,7 +36,7 @@ export default function ListaFincas() {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      <div className="relative group">
+      <div id='editarSteps'  className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={editar} alt="Editar" className='absolute' />
@@ -46,7 +46,7 @@ export default function ListaFincas() {
           </span>
         </Link>
       </div>
-      <div className="relative group">
+      <div id='eliminarSteps' className="relative group">
         <button onClick={() => abrirModalEliminar(fila.id)} className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
           <img src={eliminar} alt="Eliminar" className='absolute' />
         </button>
@@ -62,7 +62,7 @@ export default function ListaFincas() {
     sensores: (
       <Link to={`/activar-sensores/${finca.id}/${id}`}>
         <button className="group relative">
-          <div id='sensoresjaja' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='sensoresSteps' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -74,7 +74,7 @@ export default function ListaFincas() {
     alternos: (
       <Link to={`/alternos/${finca.id}`}>
         <button className="group relative">
-          <div id='alternosjaja' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='alternosSteps' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -86,7 +86,7 @@ export default function ListaFincas() {
     zonas: (
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
-          <div  className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='zonasSteps'  className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">

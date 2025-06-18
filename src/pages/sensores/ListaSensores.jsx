@@ -8,6 +8,9 @@ import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 
+import { sensoresDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
+
 // Iconos e imágenes
 import {
   sensoresIcon, mac, zonasIcon, descripcion, estadoIcon, ajustes,
@@ -27,7 +30,7 @@ function ActivarSensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
-  
+
   const {
     sensores, tiposSensores, formData, handleChange, crearNuevoSensor,
     sensorEditar, setSensorEditar, handleChangeEditar,
@@ -35,6 +38,8 @@ function ActivarSensores() {
     eliminarSensor, cambiarEstadoSensor,
     fincas, zonas, rol, setSensorOriginal
   } = useSensores(id, idUser);
+
+  useDriverTour(sensoresDriverSteps)
 
   const tituloMostrar = state?.titulo || `Sensores de la finca: ${fincas?.nombre || "..."}`;
 
@@ -47,6 +52,9 @@ function ActivarSensores() {
     { key: "estado", label: "Inactivo/Activo", icon: estadoIcon, icon2: estadoIcon },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
+
+
+
   // Filtrar columna "acciones" si es vista estadística
   const columnas = isEstadistica
     ? columnasBase.filter(col => col.key !== "acciones")
@@ -58,7 +66,7 @@ function ActivarSensores() {
   };
 
   const ActivarSensor = (sensor, index) => (
-    <label className="relative flex items-center cursor-pointer">
+    <label  id='activarSensor' className="relative flex items-center cursor-pointer">
       <input
         type="checkbox"
         checked={sensor.estado}
@@ -81,7 +89,7 @@ function ActivarSensores() {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      <div className="relative group">
+      <div id="editarSensor" className="relative group">
         <button
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => enviarForm(fila.id)}>
@@ -92,7 +100,7 @@ function ActivarSensores() {
         </span>
       </div>
 
-      <div className="relative group">
+      <div id="verDatosSensor" className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
           <button className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={ver} alt="Ver" className='absolute' />
@@ -103,7 +111,7 @@ function ActivarSensores() {
         </Link>
       </div>
 
-      <div className="relative group">
+      <div id="eliminarSensor" className="relative group">
         <button
           onClick={() => abrirModalEliminar(fila.id)}
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
@@ -150,6 +158,8 @@ function ActivarSensores() {
       </select>
     </div>
   );
+
+
 
   return (
     <div>

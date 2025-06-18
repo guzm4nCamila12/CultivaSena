@@ -138,6 +138,13 @@ export const sensoresDriverSteps = [
     }
   },
   {
+    element: '#noPoderActivar',
+    popover: {
+      title: 'Apartado de Activar/Desactivar',
+      description: 'NO puedes activar o desactivar sensores'
+    }
+  },
+  {
     element: '#editarSensor',
     popover: {
       title: 'Apartado de editar',

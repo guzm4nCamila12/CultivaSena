@@ -1,5 +1,3 @@
-import { Position } from "driver.js";
-
 //Pasos para tour Lista Fincas
 export const fincaDriverSteps = [
   {
@@ -45,7 +43,7 @@ export const zonasDriverSteps = [
     element: '#sensoresSteps',
     popover: {
       title: 'Apartado de Sensores',
-      description: 'Sensores asociados a la zona'
+      description: 'Sensores de la Zona'
     }
   },
   {
@@ -58,15 +56,15 @@ export const zonasDriverSteps = [
   {
     element: '#editarSteps',
     popover: {
-      title: 'Apartado de Actividades',
-      description: 'Actividades Realizadas en la Zona'
+      title: 'Editar Zona',
+      description: 'Editar la informacion de la zona'
     }
   },
   {
     element: '#eliminarSteps',
     popover: {
-      title: 'Apartado de Actividades',
-      description: 'Actividades Realizadas en la Zona'
+      title: 'Eliminar Zona',
+      description: 'Eliminar una Zona de la Finca'
     }
   }
 ];
@@ -75,15 +73,15 @@ export const actividadesDriverSteps = [
   {
     element: '#editarSteps',
     popover: {
-      title: 'Apartado para Editar',
-      description: 'Sensores de la finca'
+      title: 'Ver Actividad',
+      description: 'Información completa de la actividad'
     }
   },
   {
     element: '#eliminarSteps',
     popover: {
-      title: 'Apartado para Eliminar',
-      description: 'Puedes eliminar una finca creada'
+      title: 'Eliminar Actividad',
+      description: 'Eliminar una actividad'
     }
   }
   
@@ -94,28 +92,28 @@ export const mostarInfoDriverSteps = [
     element: '#btnAtrasSteps',
     popover: {
       title: 'Boton para regresar ',
-      description: 'Al hacer click a este boton regresaras a la pagina anterior'
+      description: 'Botón para regresar a la vista anterior'
     }
   },
   {
     element: '#tituloSteps',
     popover: {
       title: 'Titulo de la vista',
-      description: 'Aqui podras ver el titulo de la vista en la que estas'
+      description: 'Aquí podrás ver el titulo de la vista en la que estas'
     }
   },
   {
     element: '#buscadorSteps',
     popover: {
       title: 'Buscador',
-      description: 'Aqui podras buscar informacion mas rapidamente'
+      description: 'Aquí podrás buscar informacion mas rapidamente'
     }
   },
   {
     element: '#opcionSteps',
     popover: {
       title: 'Boton para Seleccionar la Vista ',
-      description: 'Aqui puedes cambiar de vista entre tablas y tarjetas',
+      description: 'Aquí puedes cambiar de vista entre tabla y tarjetas',
       position: "left",
       align: 'center'
     }
@@ -140,8 +138,8 @@ export const sensoresDriverSteps = [
   {
     element: '#noPoderActivar',
     popover: {
-      title: 'Apartado de Activar/Desactivar',
-      description: 'NO puedes activar o desactivar sensores'
+      title: 'Actviar y desactivar sensores',
+      description: 'Solo el superAdmin puede activar o desactivar sensores'
     }
   },
   {

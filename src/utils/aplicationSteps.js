@@ -3,21 +3,21 @@ export const fincaDriverSteps = [
   {
       element: '#zonasSteps',
       popover: {
-          title: 'Apartado de Zonas',
+          title: 'Zonas de la finca',
           description: 'Zonas en que está dividida la finca'
       }
   },
   {
       element: '#sensoresSteps',
       popover: {
-          title: 'Apartado de Sensores',
-          description: 'Sensores de la finca'
+          title: 'Sensores de la finca',
+          description: 'Sensores que se encuentran en la finca'
       }
   },
   {
       element: '#alternosSteps',
       popover: {
-          title: 'Apartado de Alternos',
+          title: 'Alternos de la finca',
           description: 'Trabajadores de la finca'
       }
   },

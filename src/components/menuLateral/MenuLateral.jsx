@@ -20,15 +20,15 @@ import ayuda from '../../assets/icons/ayuda.png'
 import { useLocation } from 'react-router-dom';
 import { useDriverTour } from "../../hooks/useTourDriver";
 import {
-  fincaDriverSteps,
-  zonasDriverSteps,
-  actividadesDriverSteps,
-  mostarInfoDriverSteps,
-  sensoresDriverSteps,
-  alternosDriverSteps,
-  sensorAlternosDriverSteps,
-  crearFincaSteps,
-  editarFincaSteps
+    fincaDriverSteps,
+    zonasDriverSteps,
+    actividadesDriverSteps,
+    mostarInfoDriverSteps,
+    sensoresDriverSteps,
+    alternosDriverSteps,
+    sensorAlternosDriverSteps,
+    crearFincaSteps,
+    editarFincaSteps
 } from '../../utils/aplicationSteps';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
@@ -40,21 +40,23 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const handleStartTour = () => {
         localStorage.setItem("tour_usuario_visto", "false");
         onCloseMenu();
-    
-        if (location.pathname.includes('/lista-fincas')) {
-          startTour(fincaDriverSteps);
-        } else if (location.pathname.includes('/zonas')) {
-          startTour(zonasDriverSteps);
-        } else if (location.pathname.includes('/actividadesZonas')) {
-          startTour(actividadesDriverSteps);
-        } else if (location.pathname.includes('/activar-sensores')) {
-          startTour(sensoresDriverSteps);
-        } else if (location.pathname.includes('/alternos')) {
-          startTour(alternosDriverSteps);
-        } else {
-          startTour(mostarInfoDriverSteps); // fallback
-        }
-      };
+
+        setTimeout(() => {
+            if (location.pathname.includes('/lista-fincas')) {
+                startTour(fincaDriverSteps);
+            } else if (location.pathname.includes('/zonas')) {
+                startTour(zonasDriverSteps);
+            } else if (location.pathname.includes('/actividadesZonas')) {
+                startTour(actividadesDriverSteps);
+            } else if (location.pathname.includes('/activar-sensores')) {
+                startTour(sensoresDriverSteps);
+            } else if (location.pathname.includes('/alternos')) {
+                startTour(alternosDriverSteps);
+            } else {
+                startTour(mostarInfoDriverSteps); // fallback
+            }
+        }, 300); // Ajusta el delay si es necesario
+    };
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);

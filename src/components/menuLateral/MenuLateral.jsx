@@ -24,7 +24,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
-
+    
     // Obtener ícono según rol
     const obtenerRol = () => {
         switch (rolToken()) {
@@ -92,7 +92,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 </div>
 
                 {/* Estadísticas */}
-                <div>
+                <div id='estadisticasSteps'>
                     <div
                         onClick={() => toggleSubmenu('estadisticas')}
                         className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"

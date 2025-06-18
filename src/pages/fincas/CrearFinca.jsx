@@ -14,6 +14,10 @@ import nombreFinca from "../../assets/icons/fincaAzul.png"
 import { crearFinca } from "../../services/fincas/ApiFincas";
 import BotonAtras from "../../components/botonAtras";
 
+//Driver tour
+import { useDriverTour } from "../../hooks/useTourDriver";
+import { crearFincaSteps } from "../../utils/aplicationSteps";
+
 const Agregar = () => {
   //estados del id del usuario, nombre de la finca y ubicación
   const { id } = useParams();
@@ -24,6 +28,8 @@ const Agregar = () => {
   const irAtras = () => {
     navigate(-1);
   };
+
+  useDriverTour(crearFincaSteps)
 
   const validarFormulario = () => {
     if (!nombre || !ubicacion.lat || !ubicacion.lng) {
@@ -71,7 +77,7 @@ const Agregar = () => {
                 <BotonAtras />
                 <h2 className="text-2xl font-semibold">Crear finca</h2>
               </div>
-              <div className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
+              <div id='nombreFincaSteps' className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
                 <img src={nombreFinca} alt="" srcset="" className="pr-1 border-r-2" />
                 <input
                   type="text"
@@ -82,6 +88,7 @@ const Agregar = () => {
                   placeholder="Ingrese el nombre"
                   autoComplete="off" />
                 <button
+                  id="botonCrearSteps"
                   type="submit"
                   className=" h-full mr-0 font-bold bg-[rgba(0,_158,_0,_1)] text-white w-1/3 lg:w-1/5 text-xl sm:text-2xl  rounded-full hover:bg-green-800 focus:outline-none">
                   Crear
@@ -89,7 +96,7 @@ const Agregar = () => {
               </div>
             </div>
           </div>
-          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3  mx-auto ">
+          <div id='ubicacionSteps' className="m-0  rounded-b-3xl pt-24 sm:pt-3  mx-auto ">
             <Mapa setUbicacion={setUbicacion} />
           </div>
         </form>

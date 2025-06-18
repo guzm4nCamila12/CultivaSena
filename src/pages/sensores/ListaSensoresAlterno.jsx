@@ -10,6 +10,8 @@ import MostrarInfo from "../../components/mostrarInfo";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
 
+import { sensorAlternosDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
@@ -47,6 +49,8 @@ function SensoresAlterno() {
 
   const [hideTabs, setHideTabs] = useState(false);
   const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
+
+  useDriverTour(sensorAlternosDriverSteps)
   
   useEffect(() => {
     const nuevaVista = location.state?.vista ?? '';
@@ -148,7 +152,7 @@ function SensoresAlterno() {
 
   //Funcion que define las acciones que se muestran en cada fila
   const acciones = (fila) => (
-    <div className="relative group">
+    <div id="verDatosSensor" className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
           <img src={ver} alt="Ver" />
@@ -223,7 +227,7 @@ function SensoresAlterno() {
             ...sensor,
             "#": index + 1,
             estado: (
-              <div className="flex justify-center items-center">
+              <div id="noActivar" className="flex justify-center items-center">
                 <label className="switch">
                   <input
                     type="checkbox"

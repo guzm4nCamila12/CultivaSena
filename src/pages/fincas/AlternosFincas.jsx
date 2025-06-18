@@ -6,6 +6,9 @@ import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { nombre, telefono, correo, ajustes, editar, eliminar, usuarioAzul, telefonoAzul, correoAzul, claveAzul, verClaveAzul, noVerClaveAzul, tipoDocumento } from "../../assets/icons/IconsExportation";
 
+import { alternosDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
+
 const AlternosFinca = () => {
   const {
     fincas,
@@ -30,6 +33,8 @@ const AlternosFinca = () => {
     setAlternoEditado
   } = useAlternosFinca();
 
+  useDriverTour(alternosDriverSteps)
+
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: nombre },
     { key: "documento", label: "Documento", icon: nombre, icon2: nombre},
@@ -40,16 +45,22 @@ const AlternosFinca = () => {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <button className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => {
+      <button id="editarAlterno" className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => {
         const { "#": _, ...edit } = fila;
         setusuarioEditar(edit);
         setAlternoEditado(fila);
         setModalEditarAbierto(true);
       }}>
         <img src={editar} alt="Editar" />
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Editar
+        </span>
       </button>
-      <button className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => abrirModalEliminar(fila.id)}>
+      <button id="eliminarAlterno" className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => abrirModalEliminar(fila.id)}>
         <img src={eliminar} alt="Eliminar" />
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Eliminar
+          </span>
       </button>
     </div>
   );

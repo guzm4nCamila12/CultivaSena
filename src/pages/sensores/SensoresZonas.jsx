@@ -20,6 +20,9 @@ import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFinc
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
 import { useSensores } from "../../hooks/useSensores";
 
+import { sensoresDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
+
 function Sensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
@@ -33,6 +36,8 @@ function Sensores() {
     eliminarSensor, cambiarEstadoSensor,
     zona, rol, setSensorOriginal
   } = useSensores(id, idUser);
+
+  useDriverTour(sensoresDriverSteps)
 
   //se declaran las columnas de la tabla
   const columnas = [
@@ -57,7 +62,7 @@ function Sensores() {
   const acciones = (fila) => (
     rol !== "3" ? (
       <div className="flex justify-center gap-4">
-        <div className="relative group">
+        <div id="editarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => enviarForm(fila.id)}>
@@ -67,7 +72,7 @@ function Sensores() {
             Editar
           </span>
         </div>
-        <div className="relative group">
+        <div id="verDatosSensor" className="relative group">
           <Link to={`/datos-sensor/${fila.id}`}>
             <button
               className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
@@ -78,7 +83,7 @@ function Sensores() {
             </button>
           </Link>
         </div>
-        <div className="relative group">
+        <div id="eliminarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEliminar(fila.id)}>
@@ -110,7 +115,7 @@ function Sensores() {
 
   const ActivarSensor = (sensor, index) => {
     return (
-      <label className="relative flex items-center cursor-pointer">
+      <label id="activarSensor" className="relative flex items-center cursor-pointer">
         <input
           type="checkbox"
           checked={sensor.estado}

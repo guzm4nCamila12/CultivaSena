@@ -50,7 +50,7 @@ export default function ActividadesZonas() {
     );
 
     const actividadesOptions = actividadesPorEtapa[etapaSeleccionada] || [];
-     useDriverTour(actividadesDriverSteps);
+     useDriverTour(pasosCombinados);
 
     return (
         <>

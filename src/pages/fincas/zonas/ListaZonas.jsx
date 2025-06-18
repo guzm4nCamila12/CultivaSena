@@ -9,8 +9,8 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 //Importacion de iconos
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
-import { useZonas } from "../../../hooks/useZonas"; 
-import { zonasDriverSteps } from '../../../utils/aplicationSteps';
+import { useZonas } from "../../../hooks/useZonas";
+import { zonasDriverSteps, mostarInfoDriverSteps } from '../../../utils/aplicationSteps';
 import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
@@ -20,10 +20,15 @@ const Zonas = () => {
   const vista = state?.vista ?? "";
   const isReporte = vista === "/reporte";
 
-  const {fincas, zonas,  modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar, 
+  const { fincas, zonas, modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar,
     abrirModalEliminar, setModalFormularioAbierto, handleSubmitFormulario, handleChangeZona, setModalEliminarAbierto, handleEliminarZona, } = useZonas(id, idUser);
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
+
+  const pasosCombinados = [
+    ...mostarInfoDriverSteps,
+    ...zonasDriverSteps
+  ];
 
   // Columnas base
   const columnasBase = [
@@ -40,7 +45,7 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div id="editarSteps"  className="relative group z-50">
+      <div id="editarSteps" className="relative group z-50">
         <button id="editarSteps"
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEditar(fila)}
@@ -84,8 +89,8 @@ const Zonas = () => {
     ),
   }));
 
-    useDriverTour(zonasDriverSteps);
-  
+  useDriverTour(pasosCombinados);
+
   return (
     <div>
       <Navbar />

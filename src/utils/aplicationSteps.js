@@ -51,36 +51,6 @@ export const zonasDriverSteps = [
 
 export const actividadesDriverSteps = [
   {
-    element: '#btnAtrasSteps',
-    popover: {
-      title: 'Boton para regresar ',
-      description: 'Sensores de la finca'
-    }
-  },
-  {
-    element: '#tituloSteps',
-    popover: {
-      title: 'Boton para regresar ',
-      description: 'Sensores de la finca'
-    }
-  },
-  {
-    element: '#buscadorSteps',
-    popover: {
-      title: 'Boton para regresar ',
-      description: 'Sensores de la finca'
-    }
-  },
-  {
-    element: '#opcionSteps',
-    popover: {
-      title: 'Boton para regresar ',
-      description: 'Sensores de la finca',
-      position: "left",
-      align: 'center'
-    }
-  },
-  {
     element: '#editarSteps',
     popover: {
       title: 'Apartado para Editar',
@@ -93,22 +63,46 @@ export const actividadesDriverSteps = [
       title: 'Apartado para Eliminar',
       description: 'Puedes eliminar una finca creada'
     }
-  },
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Apartado para Eliminar',
-      description: 'Puedes eliminar una finca creada'
-    }
   }
+  
 ];
 
 export const mostarInfoDriverSteps = [
   {
     element: '#btnAtrasSteps',
     popover: {
-      title: 'Apartado para Editar',
-      description: 'Sensores de la finca'
+      title: 'Boton para regresar ',
+      description: 'Al hacer click a este boton regresaras a la pagina anterior'
+    }
+  },
+  {
+    element: '#tituloSteps',
+    popover: {
+      title: 'Titulo de la vista',
+      description: 'Aqui podras ver el titulo de la vista en la que estas'
+    }
+  },
+  {
+    element: '#buscadorSteps',
+    popover: {
+      title: 'Buscador',
+      description: 'Aqui podras buscar informacion mas rapidamente'
+    }
+  },
+  {
+    element: '#opcionSteps',
+    popover: {
+      title: 'Boton para Seleccionar la Vista ',
+      description: 'Aqui puedes cambiar de vista entre tablas y tarjetas',
+      position: "left",
+      align: 'center'
+    }
+  },
+  {
+    element: '#crearSteps',
+    popover: {
+      title: 'Boton para crear',
+      description: 'Aqui puedes crear un nuevo dato'
     }
   }
 ];

@@ -20,7 +20,7 @@ import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFinc
 import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
 import { useSensores } from "../../hooks/useSensores";
 
-import { sensoresDriverSteps } from "../../utils/aplicationSteps";
+import { sensoresDriverSteps, mostarInfoDriverSteps } from "../../utils/aplicationSteps";
 import { useDriverTour } from "../../hooks/useTourDriver";
 
 function Sensores() {
@@ -37,7 +37,12 @@ function Sensores() {
     zona, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  useDriverTour(sensoresDriverSteps)
+  const pasosCombinados = [
+    ...mostarInfoDriverSteps,
+    ...sensoresDriverSteps
+  ];
+
+  useDriverTour(pasosCombinados)
 
   //se declaran las columnas de la tabla
   const columnas = [

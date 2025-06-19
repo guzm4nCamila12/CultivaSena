@@ -98,6 +98,49 @@ div#driver-popover-item .driver-popover-footer button {
     font-weight: 500;
 }
 
+/* Botón Siguiente (verde) */
+.driver-next-btn {
+    background-color: #39A900 !important;
+    /* verde */
+    color: white !important;
+}
+
+/* Botón Finalizar (verde) */
+.driver-done-btn {
+    background-color: #39A900 !important;
+    color: white !important;
+}
+
+/* Botón Anterior (azul) */
+.driver-prev-btn {
+    background-color: #002A43 !important;
+    /* azul */
+    color: white !important;
+}
+
+/* Botón de Cerrar (✕) */
+.driver-close-btn {
+    background-color: #39A900 !important;
+    font-size: 20px;
+    color: white !important;
+    border-radius: 40px !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    margin-top: 12px !important;
+}
+
+/* Asegúrate de limpiar el texto de cualquier sombra o transformación */
+.driver-popover-footer button {
+    text-shadow: none !important;
+    font-weight: bold !important;
+    transform: none !important;
+    filter: none !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
 div#driver-popover-item .driver-popover-footer button.driver-disabled {
     color: grey;
     cursor: default;

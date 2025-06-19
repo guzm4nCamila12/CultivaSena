@@ -198,7 +198,7 @@ div#driver-popover-item .driver-popover-description {
     line-height: 1.5;
     color: black;
     margin: 20px;
-    font-weight: bold;
+    font-weight: normal;
     zoom: 1;
     border-radius: 20px;
 }

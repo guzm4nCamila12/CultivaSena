@@ -105,7 +105,7 @@ export default function EditarFinca() {
                   id="botonCrearSteps"
                   type="submit"
                   className=" h-full mr-0 font-bold bg-[rgba(0,_158,_0,_1)] text-white w-1/3 lg:w-1/5 text-xl sm:text-2xl  rounded-full hover:bg-green-800 focus:outline-none">
-                  Crear
+                  Editar
                 </button>
               </div>
             </div>

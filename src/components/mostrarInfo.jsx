@@ -15,7 +15,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
     () => localStorage.getItem('vistaActiva') || 'tarjetas'
   );
   const [seleccionados, setSeleccionados] = useState([]);
-  const [seleccionEnabled, setSeleccionEnabled] = useState();
+  const [seleccionEnabled, setSeleccionEnabled] = useState(false);
 
   useEffect(() => {
     setSeleccionEnabled(enableSelectionButton);

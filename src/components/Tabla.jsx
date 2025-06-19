@@ -96,7 +96,7 @@ const Tabla = ({
                   if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
                 } else {
                   if (mostrarFotoPerfil && col.key === 'fotoPerfil') roundedL = 'rounded-l-full px-7';
-                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion'].includes(col.key)) roundedL = 'rounded-l-full';
+                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre'].includes(col.key)) roundedL = 'rounded-l-full';
                 }
                 const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
                 const sticky = isAcc ? 'sticky right-0 z-20' : '';
@@ -163,7 +163,7 @@ const Tabla = ({
                   {columnasSinFoto.map((columna, cidx) => {
                     
                     const isAcciones = columna.key === 'acciones';
-                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion'].includes(columna.key) ? 'rounded-l-full' : '';
+                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre'].includes(columna.key) ? 'rounded-l-full' : '';
                     let borderR = cidx === columnasSinFoto.length - 1 ? ' rounded-r-full' : '';
                     colIndex++;
                     if (isAcciones) {

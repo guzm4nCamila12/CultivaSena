@@ -9,14 +9,13 @@ import cultivaSena from "../../assets/icons/cultivaSena.png";
 import Estadisticas from "../../assets/icons/grafico-de-barras.png";
 import Reporte from "../../assets/icons/reporteActividades.png";
 import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
-import { superAdminIcon, adminIcon, alternoIcon, finca } from '../../assets/img/imagesExportation';
+import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import ayuda from '../../assets/icons/ayuda.png'
-
 import { useLocation } from 'react-router-dom';
 import { useDriverTour } from "../../hooks/useTourDriver";
 import {
@@ -28,7 +27,8 @@ import {
     alternosDriverSteps,
     sensorAlternosDriverSteps,
     crearFincaSteps,
-    editarFincaSteps
+    editarFincaSteps,
+    perfilUsuarioSteps
 } from '../../utils/aplicationSteps';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
@@ -52,6 +52,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 startTour(sensoresDriverSteps);
             } else if (location.pathname.includes('/alternos')) {
                 startTour(alternosDriverSteps);
+            }else if (location.pathname.includes('/perfil-usuario')){
+                startTour(perfilUsuarioSteps);
             } else {
                 startTour(mostarInfoDriverSteps); // fallback
             }
@@ -248,7 +250,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     </div>
                 )}
 
-                <div className='flex cursor-help items-center'>
+                <div className='flex items-center hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out'>
                     <button
                         className='flex'
                         onClick={handleStartTour}

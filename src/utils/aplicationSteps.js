@@ -1,40 +1,40 @@
 //Pasos para tour Lista Fincas
 export const fincaDriverSteps = [
   {
-      element: '#zonasSteps',
-      popover: {
-          title: 'Zonas de la finca',
-          description: 'Zonas en que está dividida la finca'
-      }
+    element: '#zonasSteps',
+    popover: {
+      title: 'Zonas de la finca',
+      description: 'Zonas en que está dividida la finca'
+    }
   },
   {
-      element: '#sensoresSteps',
-      popover: {
-          title: 'Sensores de la finca',
-          description: 'Sensores que se encuentran en la finca'
-      }
+    element: '#sensoresSteps',
+    popover: {
+      title: 'Sensores de la finca',
+      description: 'Sensores que se encuentran en la finca'
+    }
   },
   {
-      element: '#alternosSteps',
-      popover: {
-          title: 'Alternos de la finca',
-          description: 'Trabajadores de la finca'
-      }
+    element: '#alternosSteps',
+    popover: {
+      title: 'Alternos de la finca',
+      description: 'Trabajadores de la finca'
+    }
   },
   {
-      element: '#editarSteps',
-      popover: {
-          title: 'Editar Finca',
-          description: 'Modificar la información de la finca'
-      }
+    element: '#editarSteps',
+    popover: {
+      title: 'Editar Finca',
+      description: 'Modificar la información de la finca'
+    }
   }
   ,
   {
-      element: '#eliminarSteps',
-      popover: {
-          title: 'Eliminar Finca',
-          description: 'Eliminar la finca de manera permanente'
-      }
+    element: '#eliminarSteps',
+    popover: {
+      title: 'Eliminar Finca',
+      description: 'Eliminar la finca de manera permanente'
+    }
   }
 ];
 
@@ -42,8 +42,8 @@ export const zonasDriverSteps = [
   {
     element: '#sensoresSteps',
     popover: {
-      title: 'Apartado de Sensores',
-      description: 'Sensores de la Zona'
+      title: 'Sensores de la Zona',
+      description: 'Sensores ubicados en la zona'
     }
   },
   {
@@ -84,7 +84,7 @@ export const actividadesDriverSteps = [
       description: 'Eliminar una actividad'
     }
   }
-  
+
 ];
 
 export const mostarInfoDriverSteps = [
@@ -170,14 +170,14 @@ export const alternosDriverSteps = [
     element: '#editarAlterno',
     popover: {
       title: 'Apartado de editar',
-      description: 'Puedes editar información de un alterno'
+      description: 'Puedes editar información de un trabajador'
     }
   },
   {
     element: '#eliminarAlterno',
     popover: {
       title: 'Apartado de eliminar',
-      description: 'Puedes eliminar un alterno'
+      description: 'Puedes eliminar un trabajador'
     }
   }
 ]
@@ -202,92 +202,111 @@ export const sensorAlternosDriverSteps = [
 
 export const menuLateralSteps = [
   {
-      element: '#estadisticasSteps',
-      popover: {
-          title: 'Grafica de Sensores',
-          description: 'Agregar varios sensores a la grafica'
-      }
+    element: '#estadisticasSteps',
+    popover: {
+      title: 'Grafica de Sensores',
+      description: 'Agregar varios sensores a la grafica'
+    }
   }
 ]
 
 export const crearFincaSteps = [
   {
-      element: '#nombreFincaSteps',
-      popover: {
-          title: 'Nombre de la Finca',
-          description: 'Define el nombre de la finca'
-      }
+    element: '#nombreFincaSteps',
+    popover: {
+      title: 'Nombre de la Finca',
+      description: 'Define el nombre de la finca'
+    }
   },
   {
-      element: '#ubicacionSteps',
-      popover: {
-          title: 'Ubicacion de la finca',
-          description: 'Haga click en el mapa para seleccionar una ubicacion'
-      }
+    element: '#ubicacionSteps',
+    popover: {
+      title: 'Ubicacion de la finca',
+      description: 'Haga click en el mapa para seleccionar una ubicacion'
+    }
   },
   {
-      element: '#botonCrearSteps',
-      popover: {
-          title: 'Crear Finca',
-          description: 'Crear la finca'
-      }
+    element: '#botonCrearSteps',
+    popover: {
+      title: 'Crear Finca',
+      description: 'Crear la finca'
+    }
   },
   {
-      element: '#coordenadasSteps',
-      popover: {
-          title: 'Coordenadas',
-          description: 'Coordenadas de tu ubicacion actual',
-      }
+    element: '#coordenadasSteps',
+    popover: {
+      title: 'Coordenadas',
+      description: 'Coordenadas de tu ubicacion actual',
+    }
   },
   {
-      element: '#ubicarseSteps',
-      popover: {
-          title: 'Ubicacion Actual',
-          description: 'Ubicarse en el mapa',
-          position: "left",
-          align: "start"
-      }
+    element: '#ubicarseSteps',
+    popover: {
+      title: 'Ubicacion Actual',
+      description: 'Ubicarse en el mapa',
+      position: "left",
+      align: "start"
+    }
   },
   {
-      element: '#zoomOutSteps',
-      popover: {
-          title: 'Alejar Zoom',
-          description: 'Alejar zoom en el mapa',
-          position: "left",
-          align: "start"
-      }
+    element: '#zoomOutSteps',
+    popover: {
+      title: 'Alejar Zoom',
+      description: 'Alejar zoom en el mapa',
+      position: "left",
+      align: "start"
+    }
   },
   {
-      element: '#zoomInSteps',
-      popover: {
-          title: 'Acercar Zoom',
-          description: 'Acercar zoom en el mapa',
-          position: "left",
-          align: "start"
-      }
+    element: '#zoomInSteps',
+    popover: {
+      title: 'Acercar Zoom',
+      description: 'Acercar zoom en el mapa',
+      position: "left",
+      align: "start"
+    }
   },
 ]
 
 export const editarFincaSteps = [
   {
-      element: '#nombreFincaSteps',
-      popover: {
-          title: 'Cambiar Nombre',
-          description: 'Modificar el nombre si se desea'
-      }
+    element: '#nombreFincaSteps',
+    popover: {
+      title: 'Cambiar Nombre',
+      description: 'Modificar el nombre si se desea'
+    }
   },
   {
-      element: '#ubicacionSteps',
-      popover: {
-          title: 'Cambiar Ubicacion',
-          description: 'Modificar la ubicacion si se desea'
-      }
+    element: '#ubicacionSteps',
+    popover: {
+      title: 'Cambiar Ubicacion',
+      description: 'Modificar la ubicacion si se desea'
+    }
   },
   {
-      element: '#botonCrearSteps',
-      popover: {
-          title: 'Editar Finca',
-          description: 'Modificar la informacion de la finca'
-      }
+    element: '#botonCrearSteps',
+    popover: {
+      title: 'Editar Finca',
+      description: 'Modificar la informacion de la finca'
+    }
+  },
+]
+
+export const perfilUsuarioSteps = [
+  {
+    element: '#formularioSteps',
+    popover: {
+      title: 'Información del Usuario',
+      description: 'Datos personales del usuario',
+      position: "right",
+      align: "start"
+    }
+  },
+  {
+    element: '#btnEditarSteps',
+    popover: {
+      title: 'Botón para Editar',
+      description: 'Actualizar datos personales',
+    }
   },
 ]

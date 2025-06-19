@@ -25,6 +25,10 @@ import { useUsuarios } from '../../hooks/useUsuarios'
 import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
 import { editarUsuario } from '../../services/usuarios/ApiUsuarios'
 
+//Driver
+import { useDriverTour } from '../../hooks/useTourDriver'
+import { perfilUsuarioSteps } from '../../utils/aplicationSteps'
+
 function PerfilUsuario() {
   const navigate = useNavigate()
   const [cantidadSensores, setCantidadSensores] = useState({})
@@ -37,6 +41,8 @@ function PerfilUsuario() {
   const [usuarioOriginal, setUsuarioOriginal] = useState(null)
   const { usuarios } = useUsuarios()
   const [datosTabla, setDatosTabla] = useState([])
+
+  useDriverTour(perfilUsuarioSteps)
 
   // Estados para el modal de historial completo (rol 1)
   const [modalHistorialAbierto, setModalHistorialAbierto] = useState(false)
@@ -349,7 +355,7 @@ function PerfilUsuario() {
       <Navbar />
       <div className="h-auto flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
         <div className="h-auto sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 xl:justify-between w-full ">
-          <div className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
+          <div  id='formularioSteps' className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
             <div className="w-[30%] xl:h-[45%] xl:w-full p-1 flex justify-center items-center">
               <div className="bg-[#002A43] p-1 rounded-full aspect-square w-[80%] sm:w-[70%]  lg:w-full max-w-[180px]">
                 <img src={fincaPerfil} alt="" className="rounded-full w-full h-full object-cover" />
@@ -410,7 +416,7 @@ function PerfilUsuario() {
             </div>
 
             {/* Botón editar */}
-            <div className='w-full mt-2 xl:mt-0 font-bold text-white flex items-center justify-center'>
+            <div id='btnEditarSteps' className='w-full mt-2 xl:mt-0 font-bold text-white flex items-center justify-center'>
               {!modoEdicion ? (
                 <button onClick={() => setModoEdicion(true)} className='flex  items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'>
                   <img src={editar} alt="editar" className='mr-2'/>

@@ -45,14 +45,14 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div id="editarSteps" className="relative group z-50">
-        <button id="editarSteps"
+      <div id="editarSteps" className="relative group">
+        <button
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEditar(fila)}
         >
-          <img id="editarSteps" src={editar} alt="Editar" className='absolute' />
+          <img src={editar} alt="Editar" className='absolute' />
         </button>
-        <span id="editarSteps" className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
         </span>
       </div>

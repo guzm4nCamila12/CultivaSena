@@ -1,23 +1,12 @@
 //importaciones necesarias de react
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { sensoresIcon, mac, descripcion, estadoIcon, ajustes, ver, editar, eliminar, descripcionAzul, sensorAzul } from '../../assets/icons/IconsExportation'
-//librerias de alertas
-import Swal from "sweetalert2";
-import withReactContent from 'sweetalert2-react-content'
-//imgs de los modales
-import usuarioCreado from "../../assets/img/usuarioCreado.png"
-import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 //componentes reutilizados
 import MostrarInfo from "../../components/mostrarInfo";
 import NavBar from "../../components/navbar"
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import { acctionSucessful } from "../../components/alertSuccesful";
-//endpoints para consumir api
-import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
-import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
-import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
 import { useSensores } from "../../hooks/useSensores";
 
 import { sensoresDriverSteps, mostarInfoDriverSteps } from "../../utils/aplicationSteps";

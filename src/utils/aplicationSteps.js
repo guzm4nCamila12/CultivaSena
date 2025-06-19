@@ -373,3 +373,29 @@ export const perfilUsuarioSteps = [
     }
   },
 ]
+
+export const datosSensoresSteps = [
+  {
+    element: '#graficaSteps',
+    popover: {
+      title: 'Grafico Sensores',
+      description: 'Grafico con los datos de sensores'
+    }
+  },
+  {
+    element: '#datosSteps',
+    popover: {
+      title: 'Cambiar Ubicacion',
+      description: 'Modificar la ubicacion si se desea'
+    }
+  },
+  {
+    element: '#exportarSteps',
+    popover: {
+      title: 'Exportar Datos',
+      description: 'Exportar datos del sensor a excel',
+      position: "left",
+      align: "start"
+    }
+  },
+]

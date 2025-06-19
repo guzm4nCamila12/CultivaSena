@@ -1,6 +1,7 @@
 // hooks/useTourDriver.js
 import { useRef } from 'react';
 import Driver from 'driver.js';
+import 'driver.js/dist/driver.min.css';
 import '../assets/driver.css';
 
 export function useDriverTour() {

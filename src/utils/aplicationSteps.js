@@ -309,4 +309,67 @@ export const perfilUsuarioSteps = [
       description: 'Actualizar datos personales',
     }
   },
+  {
+    element: '#carta1AdminSteps',
+    popover: {
+      title: 'Cantidad de Fincas',
+      description: 'Fincas administradas por el admin',
+    }
+  },
+  {
+    element: '#carta2AdminSteps',
+    popover: {
+      title: 'Cantidad de Sensores',
+      description: 'Sensores de todas las fincas',
+    }
+  },
+  {
+    element: '#tablaAdmin',
+    popover: {
+      title: 'Registro de Actividades',
+      description: 'Actividades realizadas en todas las fincas',
+    }
+  },
+  {
+    element: '#carta1SuperAdminSteps',
+    popover: {
+      title: 'Cantidad de Usuarios',
+      description: 'Usuarios registrados en la aplicación',
+    }
+  },
+  {
+    element: '#carta2SuperAdminSteps',
+    popover: {
+      title: 'Cantidad de Fincas',
+      description: 'Total de fincas registradas en la aplicación',
+    }
+  },
+  {
+    element: '#tablaSuperAdmin',
+    popover: {
+      title: 'Historial de Acciones',
+      description: 'Acciones realizadas por los usuarios en la aplicación',
+    }
+  },
+  {
+    element: '#carta1AlternoSteps',
+    popover: {
+      title: 'Zonas de la Finca',
+      description: 'Total de Zonas de la finca',
+    }
+  },
+  {
+    element: '#carta2AlternoSteps',
+    popover: {
+      title: 'Sensores de la finca',
+      description: 'Total de sensores de la finca',
+    }
+  },
+  {
+    element: '#tablaAlterno',
+    popover: {
+      title: 'Actividades Realizadas',
+      description: 'Actividades realizadas por el alterno',
+    }
+  },
 ]

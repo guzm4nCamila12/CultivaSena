@@ -318,6 +318,48 @@ function PerfilUsuario() {
       .replace(/\b\w/g, (l) => l.toUpperCase())
   }
 
+  const rolsito = obtenerRol();
+
+  const pasosTour = perfilUsuarioSteps.filter(paso => {
+    const el = paso.element;
+  
+    // SuperAdmin: rol 1
+    if (rolsito === 1) {
+      return (
+        el !== '#carta1AdminSteps' &&
+        el !== '#carta2AdminSteps' &&
+        el !== '#tablaAdmin' &&
+        el !== '#carta1AlternoSteps' &&
+        el !== '#carta2AlternoSteps' &&
+        el !== '#tablaAlterno'
+      );
+    }
+  
+    // Admin: rol 2
+    if (rolsito === 2) {
+      return (
+        el !== '#carta1SuperAdminSteps' &&
+        el !== '#carta2SuperAdminSteps' &&
+        el !== '#tablaSuperAdmin' &&
+        el !== '#carta1AlternoSteps' &&
+        el !== '#carta2AlternoSteps' &&
+        el !== '#tablaAlterno'
+      );
+    }
+  
+    // Alterno: rol 3 (u otro)
+    return (
+      el !== '#carta1SuperAdminSteps' &&
+      el !== '#carta2SuperAdminSteps' &&
+      el !== '#tablaSuperAdmin' &&
+      el !== '#carta1AdminSteps' &&
+      el !== '#carta2AdminSteps' &&
+      el !== '#tablaAdmin'
+    );
+  });
+  
+    
+    useDriverTour(pasosTour);
 
   // Columnas dinámicas:
   const columnas = obtenerRol() === 1
@@ -355,7 +397,7 @@ function PerfilUsuario() {
       <Navbar />
       <div className="h-auto flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
         <div className="h-auto sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 xl:justify-between w-full ">
-          <div  id='formularioSteps' className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
+          <div id='formularioSteps' className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
             <div className="w-[30%] xl:h-[45%] xl:w-full p-1 flex justify-center items-center">
               <div className="bg-[#002A43] p-1 rounded-full aspect-square w-[80%] sm:w-[70%]  lg:w-full max-w-[180px]">
                 <img src={fincaPerfil} alt="" className="rounded-full w-full h-full object-cover" />
@@ -384,7 +426,7 @@ function PerfilUsuario() {
               <div className='w-[85%] xl:w-full 2xl:space-y-2'>
                 <label className='hidden lg:block xl:pl-4'>Número de contacto</label>
                 <div className='flex'>
-                  <img src={telefono} alt="Teléfono" className='mr-2 block xl:hidden'/>
+                  <img src={telefono} alt="Teléfono" className='mr-2 block xl:hidden' />
                   <input
                     type="text"
                     readOnly={!modoEdicion}
@@ -401,7 +443,7 @@ function PerfilUsuario() {
               <div className='w-[85%] xl:w-full 2xl:space-y-2'>
                 <label className='hidden lg:block xl:pl-4'>Correo</label>
                 <div className='flex'>
-                  <img src={correo} alt="Correo" className='mr-2 block xl:hidden'/>
+                  <img src={correo} alt="Correo" className='mr-2 block xl:hidden' />
                   <input
                     type="email"
                     readOnly={!modoEdicion}
@@ -419,7 +461,7 @@ function PerfilUsuario() {
             <div id='btnEditarSteps' className='w-full mt-2 xl:mt-0 font-bold text-white flex items-center justify-center'>
               {!modoEdicion ? (
                 <button onClick={() => setModoEdicion(true)} className='flex  items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'>
-                  <img src={editar} alt="editar" className='mr-2'/>
+                  <img src={editar} alt="editar" className='mr-2' />
                   Actualizar Datos
                 </button>
               ) : (
@@ -450,6 +492,7 @@ function PerfilUsuario() {
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
           <div className="xl:w-[25%] xl:items-center mt-[2.5rem] 2xl:mt-[3rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-auto  xl:flex xl:flex-col">
             <div
+              id={obtenerRol() === 1 ? 'carta1SuperAdminSteps' : obtenerRol() === 2 ? 'carta1AdminSteps' : 'carta1AlternoSteps'}
               onClick={() => navigate(ruta)}
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
               style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
@@ -473,6 +516,7 @@ function PerfilUsuario() {
             </div>
 
             <div
+              id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
               onClick={() => navigate(ruta)}
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
               style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
@@ -499,7 +543,9 @@ function PerfilUsuario() {
 
           {/* Contenedor tabla actividades / historial */}
           <div className="xl:w-[40%]  sm:w-full flex flex-col pt-7 items-end xl:h-[100%]">
-            <div className="bg-[#002A43] pb-10  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  2xl:mt-5  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
+            <div
+              id={obtenerRol() === 1 ? 'tablaSuperAdmin' : obtenerRol() === 2 ? 'tablaAdmin' : 'tablaAlterno'}
+              className="bg-[#002A43] pb-10  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  2xl:mt-5  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
               <h3 className="font-bold text-xl mt-1 text-white">
                 {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}
               </h3>

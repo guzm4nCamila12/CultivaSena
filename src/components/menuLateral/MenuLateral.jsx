@@ -54,7 +54,16 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 startTour(alternosDriverSteps);
             }else if (location.pathname.includes('/sensoresZonas')) {
                 startTour(sensoresDriverSteps)
-            }else {
+            }else if(location.pathname.includes('/agregar-finca')){
+                startTour(crearFincaSteps);
+            }else if(location.pathname.includes('/editar-finca')){
+                startTour(editarFincaSteps)
+            }else if(location.pathname.includes('/perfil-usuario')){
+                startTour(perfilUsuarioSteps)
+            }else if(location.pathname.includes('/sensores-alterno')){
+                startTour(sensorAlternosDriverSteps)
+            }
+            else {
                 startTour(mostarInfoDriverSteps); // fallback
             }
         }, 300); // Ajusta el delay si es necesario

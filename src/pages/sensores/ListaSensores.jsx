@@ -47,7 +47,6 @@ function ActivarSensores() {
   
   useDriverTour(pasosTour);
   
-
   const tituloMostrar = state?.titulo || `Sensores de la finca: ${fincas?.nombre || "..."}`;
 
   // Columnas base

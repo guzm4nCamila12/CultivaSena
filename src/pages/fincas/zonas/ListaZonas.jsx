@@ -10,7 +10,7 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useZonas } from "../../../hooks/useZonas";
-import { zonasDriverSteps } from '../../../utils/aplicationSteps';
+import { zonasDriverSteps, zonasReporteSteps } from '../../../utils/aplicationSteps';
 import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
@@ -25,6 +25,7 @@ const Zonas = () => {
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
 
+  useDriverTour(zonasReporteSteps);
 
   // Columnas base
   const columnasBase = [
@@ -87,7 +88,7 @@ const Zonas = () => {
     ),
   }));
 
-  useDriverTour(zonasDriverSteps);
+  
 
   return (
     <div>

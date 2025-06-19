@@ -61,8 +61,9 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
             />
           </div>
           {enableSelectionButton && (
-            <div className="flex w-auto justify-end">
+            <div id="seleccionarSteps" className="flex w-auto justify-end">
               <button
+               id="seleccionarSteps" 
                 onClick={() => setSeleccionEnabled((prev) => !prev)}
                 className={`flex w-36 justify-center  ${seleccionEnabled ? 'bg-red-600 hover:bg-red-700' : 'bg-[#39A900] hover:bg-[#005F00]'} text-white px-3 py-2 rounded-3xl`}
               >

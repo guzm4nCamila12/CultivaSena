@@ -11,7 +11,6 @@ import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useExportarExcel } from '../../hooks/useReportes';
 import exportarIcon from '../../assets/icons/subir.png'
 import { useDriverTour } from '../../hooks/useTourDriver';
-import { datosSensoresSteps } from '../../utils/aplicationSteps';
 
 // Formatea una ISO date string a dd/mm/yyyy y hh:mm:ss
 const formatearFechaYHora = (fechaIso) => {
@@ -40,7 +39,6 @@ export default function VerSensores() {
   const [paginaActual, setPaginaActual] = useState(1);
   const { exportarExcel } = useExportarExcel();
   
-  useDriverTour(datosSensoresSteps)
 
   // Fetch sensor + historial
   useEffect(() => {
@@ -190,6 +188,7 @@ export default function VerSensores() {
               mostrarAgregar={false}
               mostrarBotonAtras={false}
             />
+
             {totalPaginas > 1 && (
               <div className="flex justify-center space-x-2 mt-4">
                 {Array.from({ length: totalPaginas }).map((_, i) => (

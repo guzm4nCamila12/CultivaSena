@@ -103,12 +103,16 @@ div#driver-popover-item .driver-popover-footer button {
     background-color: #39A900 !important;
     /* verde */
     color: white !important;
+    width: 45% ;
+    border-radius: 20px !important;
 }
 
 /* Botón Finalizar (verde) */
 .driver-done-btn {
     background-color: #39A900 !important;
     color: white !important;
+    width: 45%;
+    border-radius: 20px !important;
 }
 
 /* Botón Anterior (azul) */
@@ -116,20 +120,35 @@ div#driver-popover-item .driver-popover-footer button {
     background-color: #002A43 !important;
     /* azul */
     color: white !important;
+    width: 45%;
+    border-radius: 20px !important;
 }
 
-/* Botón de Cerrar (✕) */
+
+/* Contenedor de botones inferior */
+.driver-popover-footer .driver-btn-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 8px;
+    float: none !important;
+    clear: both;
+  }
+
 .driver-close-btn {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
     background-color: #39A900 !important;
     font-size: 20px;
     color: white !important;
     border-radius: 40px !important;
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
-    margin-top: 12px !important;
-}
+    padding: 4px 6px !important;
+    margin: 0 !important;
+    z-index: 1001;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+  }
 
 /* Asegúrate de limpiar el texto de cualquier sombra o transformación */
 .driver-popover-footer button {
@@ -179,7 +198,7 @@ div#driver-popover-item .driver-popover-description {
     line-height: 1.5;
     color: black;
     margin: 20px;
-    font-weight: bold;
+    font-weight: normal;
     zoom: 1;
     border-radius: 20px;
 }

@@ -373,3 +373,27 @@ export const perfilUsuarioSteps = [
     }
   },
 ]
+
+export const tranferirSteps = [
+  {
+    element: '#seleccionar1Steps',
+    popover: {
+      title: 'Cambiar Nombre',
+      description: 'Modificar el nombre si se desea'
+    }
+  },
+  {
+    element: '#seleccionar2Steps',
+    popover: {
+      title: 'Cambiar Ubicacion',
+      description: 'Modificar la ubicacion si se desea'
+    }
+  },
+  {
+    element: '#transferirSteps',
+    popover: {
+      title: 'Editar Finca',
+      description: 'Modificar la informacion de la finca'
+    }
+  },
+]

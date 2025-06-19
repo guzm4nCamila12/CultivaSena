@@ -73,13 +73,13 @@ export default function TransferirFInca() {
                             </div>
                         </div>
                     ) : (
-                        <div className='w-[40%] px-4'>
+                        <div id='seleccionar1Steps' className='w-[40%] px-4'>
                             <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar</button>
 
                         </div>
                     )}
-                    <div className='flex flex-col items-center justify-center mx-5 '>
+                    <div id='transferirSteps' className='flex flex-col items-center justify-center mx-5 '>
                         <button
                             onClick={() => {
                                 if (fincaTransferir !== null) {
@@ -125,7 +125,7 @@ export default function TransferirFInca() {
                             </div>
                         </div>
                     ) : (
-                        <div className='w-[40%] px-4'>
+                        <div id='seleccionar2Steps' className='w-[40%] px-4'>
                             <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
                         </div>

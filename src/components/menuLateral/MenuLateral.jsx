@@ -28,7 +28,8 @@ import {
     sensorAlternosDriverSteps,
     crearFincaSteps,
     editarFincaSteps,
-    perfilUsuarioSteps
+    perfilUsuarioSteps,
+    tranferirSteps
 } from '../../utils/aplicationSteps';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
@@ -62,6 +63,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 startTour(perfilUsuarioSteps)
             }else if(location.pathname.includes('/sensores-alterno')){
                 startTour(sensorAlternosDriverSteps)
+            }else if(location.pathname.includes('/transferir-finca')){
+                startTour(tranferirSteps)
             }
             else {
                 startTour(mostarInfoDriverSteps); // fallback

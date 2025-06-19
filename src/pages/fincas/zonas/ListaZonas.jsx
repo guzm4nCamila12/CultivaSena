@@ -10,7 +10,7 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useZonas } from "../../../hooks/useZonas";
-import { zonasDriverSteps, mostarInfoDriverSteps } from '../../../utils/aplicationSteps';
+import { zonasDriverSteps } from '../../../utils/aplicationSteps';
 import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
@@ -25,10 +25,6 @@ const Zonas = () => {
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
 
-  const pasosCombinados = [
-    ...mostarInfoDriverSteps,
-    ...zonasDriverSteps
-  ];
 
   // Columnas base
   const columnasBase = [
@@ -45,8 +41,9 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div id="editarSteps" className="relative group">
-        <button
+      {fila.nombre !== "Zona general" && (
+      <div id="editarSteps" className="relative group ">
+        <button id="editarSteps"
           className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
           onClick={() => abrirModalEditar(fila)}
         >
@@ -56,6 +53,7 @@ const Zonas = () => {
           Editar
         </span>
       </div>
+      )}
 
       {fila.nombre !== "Zona general" && (
         <div id="eliminarSteps" className="relative group">
@@ -89,7 +87,7 @@ const Zonas = () => {
     ),
   }));
 
-  useDriverTour(pasosCombinados);
+  useDriverTour(zonasDriverSteps);
 
   return (
     <div>

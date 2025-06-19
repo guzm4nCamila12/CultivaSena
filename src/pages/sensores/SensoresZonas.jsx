@@ -9,7 +9,7 @@ import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
 import { useSensores } from "../../hooks/useSensores";
 
-import { sensoresDriverSteps, mostarInfoDriverSteps } from "../../utils/aplicationSteps";
+import { sensoresDriverSteps } from "../../utils/aplicationSteps";
 import { useDriverTour } from "../../hooks/useTourDriver";
 
 function Sensores() {
@@ -26,12 +26,13 @@ function Sensores() {
     zona, rol, setSensorOriginal
   } = useSensores(id, idUser);
 
-  const pasosCombinados = [
-    ...mostarInfoDriverSteps,
-    ...sensoresDriverSteps
-  ];
-
-  useDriverTour(pasosCombinados)
+  const pasosTour = sensoresDriverSteps.filter(paso => {
+      if (paso.element === "#activarSensor") return rol === "1";
+      if (paso.element === "#noPoderActivar") return rol !== "1";
+      return true; // conservar todos los demás pasos
+    });
+    
+    useDriverTour(pasosTour);
 
   //se declaran las columnas de la tabla
   const columnas = [
@@ -109,7 +110,7 @@ function Sensores() {
 
   const ActivarSensor = (sensor, index) => {
     return (
-      <label id="activarSensor" className="relative flex items-center cursor-pointer">
+      <label id={rol === "1" ? 'activarSensor' : 'noPoderActivar'} className="relative flex items-center cursor-pointer">
         <input
           type="checkbox"
           checked={sensor.estado}

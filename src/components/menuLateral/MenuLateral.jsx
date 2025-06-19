@@ -52,9 +52,9 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 startTour(sensoresDriverSteps);
             } else if (location.pathname.includes('/alternos')) {
                 startTour(alternosDriverSteps);
-            }else if (location.pathname.includes('/perfil-usuario')){
-                startTour(perfilUsuarioSteps);
-            } else {
+            }else if (location.pathname.includes('/sensoresZonas')) {
+                startTour(sensoresDriverSteps)
+            }else {
                 startTour(mostarInfoDriverSteps); // fallback
             }
         }, 300); // Ajusta el delay si es necesario

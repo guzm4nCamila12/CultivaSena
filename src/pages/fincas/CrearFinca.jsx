@@ -35,7 +35,7 @@ const Agregar = () => {
     if (!nombre || !ubicacion.lat || !ubicacion.lng) {
       acctionSucessful.fire({
         imageUrl: altertaIcon,
-        title: "Debe ingresar un nombre y seleccionar una ubicación",
+        title: "Ingrese un nombre y seleccione una ubicación",
       });
       return false;
     }

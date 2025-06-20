@@ -128,7 +128,16 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             )}
 
             {datosFiltrados.map((fila, idx) => (
-              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95" style={{backgroundImage: "url('/fondoCards.png')" }}>
+              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95" 
+              style={{
+                backgroundImage: "url('/fondoCards.png')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center center",
+                
+
+                }}>
+                
                 {enableSelection && (
                   <input
                     id="checkboxSteps"

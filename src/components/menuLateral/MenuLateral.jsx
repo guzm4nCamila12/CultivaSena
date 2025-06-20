@@ -16,69 +16,13 @@ import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import ayuda from '../../assets/icons/ayuda.png'
-import { useLocation } from 'react-router-dom';
-import { useDriverTour } from "../../hooks/useTourDriver";
-import {
-    fincaDriverSteps,
-    zonasDriverSteps,
-    actividadesDriverSteps,
-    mostarInfoDriverSteps,
-    sensoresDriverSteps,
-    alternosDriverSteps,
-    sensorAlternosDriverSteps,
-    crearFincaSteps,
-    editarFincaSteps,
-    perfilUsuarioSteps,
-    tranferirSteps,
-    ReporteSteps,
-    datosSensorSteps
-} from '../../utils/aplicationSteps';
+
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
 
-    const { startTour } = useDriverTour();
-    const location = useLocation();
-
-    const handleStartTour = () => {
-        localStorage.setItem("tour_usuario_visto", "false");
-        onCloseMenu();
-
-        setTimeout(() => {
-            const vista = location.state?.vista ?? "";
-            if (location.pathname.includes('/lista-fincas')) {
-                startTour(fincaDriverSteps);
-            } else if (location.pathname.includes('/zonas')) {
-                const isReporte = vista === '/reporte';
-                startTour(isReporte ? ReporteSteps : zonasDriverSteps);
-            } else if (location.pathname.includes('/actividadesZonas')) {
-                startTour(actividadesDriverSteps);
-            } else if (location.pathname.includes('/activar-sensores')) {
-                const isReporte = vista === '/sensores';
-                startTour(isReporte ? ReporteSteps : sensoresDriverSteps);
-            } else if (location.pathname.includes('/alternos')) {
-                startTour(alternosDriverSteps);
-            } else if (location.pathname.includes('/sensoresZonas')) {
-                startTour(sensoresDriverSteps)
-            } else if (location.pathname.includes('/agregar-finca')) {
-                startTour(crearFincaSteps);
-            } else if (location.pathname.includes('/editar-finca')) {
-                startTour(editarFincaSteps)
-            } else if (location.pathname.includes('/perfil-usuario')) {
-                startTour(perfilUsuarioSteps)
-            } else if (location.pathname.includes('/sensores-alterno')) {
-                startTour(sensorAlternosDriverSteps)
-            } else if (location.pathname.includes('/transferir-finca')) {
-                startTour(tranferirSteps)
-            }else if (location.pathname.includes('/datos-sensor')){
-                startTour(datosSensorSteps)
-            }
-            else {
-                startTour(mostarInfoDriverSteps); // fallback
-            }
-        }, 300); // Ajusta el delay si es necesario
-    };
+    
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
@@ -286,16 +230,6 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                         <span>Transferir Fincas</span>
                     </div>
                 )}
-
-                <div className='flex items-center hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out'>
-                    <button
-                        className='flex'
-                        onClick={handleStartTour}
-                    >
-                        <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
-                        <span>Ayuda</span>
-                    </button>
-                </div>
 
             </div>
 

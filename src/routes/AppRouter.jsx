@@ -16,6 +16,8 @@ import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
 import PerfilUsuario from "../pages/Perfil/PerfilUsuario";
 import Estadistica from "../pages/sensores/EstadisticaSensores";
 import TransferirFInca from "../pages/fincas/TransferirFInca";
+import BotonAtras from "../components/botonAtras";
+import BotonAsistente from "../components/botonAsistente";
 
 
 function AppRouter() {
@@ -40,6 +42,7 @@ function AppRouter() {
         <Route path="/estadistica" element={<ProtectedRoute element={Estadistica} allowedRoles={[1,2,3]}/>}/>
 
       </Routes>
+      <BotonAsistente/>
     </Router>
   )
 }

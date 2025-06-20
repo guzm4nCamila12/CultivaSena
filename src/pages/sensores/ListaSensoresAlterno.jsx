@@ -10,7 +10,7 @@ import MostrarInfo from "../../components/mostrarInfo";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
 
-import { sensorAlternosDriverSteps } from "../../utils/aplicationSteps";
+import { sensorAlternosDriverSteps, zonasAlternosDriverSteps } from "../../utils/aplicationSteps";
 import { useDriverTour } from "../../hooks/useTourDriver";
 
 function SensoresAlterno() {
@@ -49,8 +49,6 @@ function SensoresAlterno() {
 
   const [hideTabs, setHideTabs] = useState(false);
   const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
-
-  useDriverTour(sensorAlternosDriverSteps)
   
   useEffect(() => {
     const nuevaVista = location.state?.vista ?? '';
@@ -171,7 +169,7 @@ function SensoresAlterno() {
     ),
     verSensores: (
       <Link to={`/sensoresZonas/${zona.id}/${fincas.idusuario}`}>
-        <button className="group relative">
+        <button id="sensoresSteps" className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
             {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
             <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
@@ -184,7 +182,7 @@ function SensoresAlterno() {
     ),
     actividades: (
       <Link to={`/actividadesZonas/${zona.id}`}>
-        <button className="group relative">
+        <button id="actividadesSteps" className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>

@@ -25,6 +25,7 @@ import {
     mostarInfoDriverSteps,
     sensoresDriverSteps,
     alternosDriverSteps,
+    zonasAlternosDriverSteps,
     sensorAlternosDriverSteps,
     crearFincaSteps,
     editarFincaSteps,
@@ -68,7 +69,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
             } else if (location.pathname.includes('/perfil-usuario')) {
                 startTour(perfilUsuarioSteps)
             } else if (location.pathname.includes('/sensores-alterno')) {
-                startTour(sensorAlternosDriverSteps)
+                const isAlternar = localStorage.getItem("Alternar") === "true";
+                startTour(isAlternar ? sensorAlternosDriverSteps : zonasAlternosDriverSteps);              
             } else if (location.pathname.includes('/transferir-finca')) {
                 startTour(tranferirSteps)
             }else if (location.pathname.includes('/datos-sensor')){

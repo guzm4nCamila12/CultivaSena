@@ -260,6 +260,24 @@ export const menuLateralSteps = [
   }
 ];
 
+export const zonasAlternosDriverSteps = [
+  {
+    element: '#sensoresSteps',
+    popover: {
+      title: 'Sensores de la Zona',
+      description: 'Sensores que se encuentran en la zona'
+    }
+  },
+  {
+    element: '#actividadesSteps',
+    popover: {
+      title: 'Actividades de la Zona',
+      description: 'Actividades realizadas en la zona'
+    }
+  }
+];
+
+
 export const crearFincaSteps = [
   {
     element: '#nombreFincaSteps',
@@ -428,22 +446,29 @@ export const tranferirSteps = [
   {
     element: '#seleccionar1Steps',
     popover: {
-      title: 'Cambiar nombre',
-      description: 'Modificar el nombre si se desea'
+      title: 'Seleccionar Administrador',
+      description: 'Seleccione el admin que va a transferir la finca'
     }
   },
   {
     element: '#seleccionar2Steps',
     popover: {
-      title: 'Cambiar ubicación',
-      description: 'Modificar la ubicación si se desea'
+      title: 'Seleccionar Segundo Administrador',
+      description: 'Seleccione el admin que va recibir la finca'
+    }
+  },
+  {
+    element: '#fincaTransSteps',
+    popover: {
+      title: 'Seleccionar Finca',
+      description: 'Seleccione una finca para transferir'
     }
   },
   {
     element: '#transferirSteps',
     popover: {
-      title: 'Editar finca',
-      description: 'Modificar la información de la finca'
+      title: 'Transferir la finca',
+      description: 'Transferir la finca al Admin seleccionado'
     }
   }
 ];

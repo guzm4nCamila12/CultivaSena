@@ -55,21 +55,23 @@ export default function TransferirFInca() {
                                     {propietario != null ? propietario.nombre : "Seleccionar..."}
                                 </button>
                             </div>
-                            <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas de {propietario.nombre}</h2>
-                            <div className='w-full rounded-3xl px-4 min-h-[350px] min-w-[500px] max-h-[350px] overflow-y-auto'>
+                            <div id="fincaTransSteps">
+                                <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas de {propietario.nombre}</h2>
+                                <div className='w-full rounded-3xl px-4 min-h-[350px] min-w-[500px] max-h-[350px] overflow-y-auto'>
 
-                                {fincasPropias.length > 0 ? (
-                                    fincasPropias.map((finca) => (
-                                        <div
-                                            key={finca.id}
-                                            onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
-                                            className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-100 hover:bg-gray-200'}`} >
-                                            <h2 key={finca.id}>{finca.nombre}</h2>
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p className="text-gray-400 py-2">No tiene fincas.</p>
-                                )}
+                                    {fincasPropias.length > 0 ? (
+                                        fincasPropias.map((finca) => (
+                                            <div
+                                                key={finca.id}
+                                                onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
+                                                className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-100 hover:bg-gray-200'}`} >
+                                                <h2 key={finca.id}>{finca.nombre}</h2>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-400 py-2">No tiene fincas.</p>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     ) : (

@@ -14,13 +14,11 @@ export function useDriverTour() {
     prevBtnText: "Anterior",
     closeBtnText: "✕",
   }));
-  const startTour = (steps, delay = 500) => {
-    setTimeout(() => {
-      driverRef.current.defineSteps(steps);
-      driverRef.current.start();
-    }, delay);
+
+  const startTour = (steps) => {
+    driverRef.current.defineSteps(steps);
+    driverRef.current.start();
   };
 
   return { startTour };
 }
-

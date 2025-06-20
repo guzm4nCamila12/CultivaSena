@@ -29,8 +29,10 @@ import {
     crearFincaSteps,
     editarFincaSteps,
     perfilUsuarioSteps,
-    tranferirSteps
+    tranferirSteps,
+    ReporteSteps
 } from '../../utils/aplicationSteps';
+import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
@@ -43,27 +45,30 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         onCloseMenu();
 
         setTimeout(() => {
+            const vista = location.state?.vista ?? "";
             if (location.pathname.includes('/lista-fincas')) {
                 startTour(fincaDriverSteps);
             } else if (location.pathname.includes('/zonas')) {
-                startTour(zonasDriverSteps);
+                const isReporte = vista === '/reporte';
+                startTour(isReporte ? ReporteSteps : zonasDriverSteps);
             } else if (location.pathname.includes('/actividadesZonas')) {
                 startTour(actividadesDriverSteps);
             } else if (location.pathname.includes('/activar-sensores')) {
-                startTour(sensoresDriverSteps);
+                const isReporte = vista === '/sensores';
+                startTour(isReporte ? ReporteSteps : sensoresDriverSteps);
             } else if (location.pathname.includes('/alternos')) {
                 startTour(alternosDriverSteps);
-            }else if (location.pathname.includes('/sensoresZonas')) {
+            } else if (location.pathname.includes('/sensoresZonas')) {
                 startTour(sensoresDriverSteps)
-            }else if(location.pathname.includes('/agregar-finca')){
+            } else if (location.pathname.includes('/agregar-finca')) {
                 startTour(crearFincaSteps);
-            }else if(location.pathname.includes('/editar-finca')){
+            } else if (location.pathname.includes('/editar-finca')) {
                 startTour(editarFincaSteps)
-            }else if(location.pathname.includes('/perfil-usuario')){
+            } else if (location.pathname.includes('/perfil-usuario')) {
                 startTour(perfilUsuarioSteps)
-            }else if(location.pathname.includes('/sensores-alterno')){
+            } else if (location.pathname.includes('/sensores-alterno')) {
                 startTour(sensorAlternosDriverSteps)
-            }else if(location.pathname.includes('/transferir-finca')){
+            } else if (location.pathname.includes('/transferir-finca')) {
                 startTour(tranferirSteps)
             }
             else {
@@ -76,6 +81,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
+    const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
     // Obtener ícono según rol
     const obtenerRol = () => {
@@ -106,6 +112,9 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 setCargandoFincas(true);
                 const response = await getFincasById(obtenerIdUsuario());
                 setFincas(response || []);
+                const data = await getUsuarioById(obtenerIdUsuario());
+                setUsuario(data || [])
+                
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
             } finally {
@@ -280,7 +289,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     <div className="flex items-center mb-4">
                         <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
-                            <span className="block font-bold">{obtenerNombre() || 'Usuario'}</span>
+                            <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>
                         </div>
                     </div>

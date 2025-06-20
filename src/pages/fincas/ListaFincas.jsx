@@ -117,9 +117,9 @@ export default function ListaFincas() {
         message={
           <>
             ¿Estás seguro?<br />
-            <h4 className='text-gray-400'>
+            <span className='text-gray-400'>
               Se eliminará la finca <strong className="text-red-600">{nombreFincaEliminar}</strong> de manera permanente.
-            </h4>
+            </span>
           </>
         }
         confirmText="Sí, eliminar"

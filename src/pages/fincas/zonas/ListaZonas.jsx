@@ -10,7 +10,7 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useZonas } from "../../../hooks/useZonas";
-import { zonasDriverSteps, zonasReporteSteps } from '../../../utils/aplicationSteps';
+import { zonasDriverSteps, ReporteSteps } from '../../../utils/aplicationSteps';
 import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
@@ -25,7 +25,12 @@ const Zonas = () => {
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
 
-  useDriverTour(zonasReporteSteps);
+  const steps = tituloMostrar === state?.titulo
+    ? ReporteSteps
+    : zonasDriverSteps;
+
+  useDriverTour(steps);
+
 
   // Columnas base
   const columnasBase = [
@@ -43,17 +48,17 @@ const Zonas = () => {
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
       {fila.nombre !== "Zona general" && (
-      <div id="editarSteps" className="relative group ">
-        <button id="editarSteps"
-          className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => abrirModalEditar(fila)}
-        >
-          <img src={editar} alt="Editar" className='absolute' />
-        </button>
-        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Editar
-        </span>
-      </div>
+        <div id="editarSteps" className="relative group ">
+          <button id="editarSteps"
+            className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            onClick={() => abrirModalEditar(fila)}
+          >
+            <img src={editar} alt="Editar" className='absolute' />
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Editar
+          </span>
+        </div>
       )}
 
       {fila.nombre !== "Zona general" && (
@@ -88,7 +93,7 @@ const Zonas = () => {
     ),
   }));
 
-  
+
 
   return (
     <div>
@@ -123,9 +128,9 @@ const Zonas = () => {
         message={
           <>
             ¿Estás seguro?<br />
-            <h4 className='text-gray-400'>
+            <span className='text-gray-400'>
               Se eliminará la zona <strong className="text-red-600">{zonaEliminada?.nombre}</strong> de manera permanente.
-            </h4>
+            </span>
           </>
         }
         confirmText="Sí, eliminar"

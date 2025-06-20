@@ -5,7 +5,6 @@ import * as Validaciones from '../utils/validaciones';
 
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);
-  const [usuario, setUsuario] = useState({});
   const [usuariosAdmin, setUsuariosAdmin] = useState([]);
 
   useEffect(() => {
@@ -14,7 +13,6 @@ export const useUsuarios = (id) => {
       const admins = data.filter((u) => u.id_rol === 2);
       setUsuariosAdmin(admins);
     }).catch(console.error);
-    getUsuarioById(id).then(setUsuario).catch(console.error);
 
   }, [id]);
 
@@ -56,5 +54,5 @@ export const useUsuarios = (id) => {
     setUsuarios(prev => prev.filter(u => u.id !== id));
   };
 
-  return { usuarios, usuario,usuariosAdmin, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId };
+  return { usuarios,usuariosAdmin, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId };
 };

@@ -45,19 +45,19 @@ const AlternosFinca = () => {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <button id="editarAlterno" className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => {
+      <button id="editarAlterno" className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => {
         const { "#": _, ...edit } = fila;
         setusuarioEditar(edit);
         setAlternoEditado(fila);
         setModalEditarAbierto(true);
       }}>
-        <img src={editar} alt="Editar" />
+        <img src={editar} alt="Editar" className="absolute" />
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           Editar
         </span>
       </button>
-      <button id="eliminarAlterno" className="px-7 py-2 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => abrirModalEliminar(fila.id)}>
-        <img src={eliminar} alt="Eliminar" />
+      <button id="eliminarAlterno" className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => abrirModalEliminar(fila.id)}>
+        <img src={eliminar} alt="Eliminar" className="absolute" />
         <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Eliminar
           </span>
@@ -162,9 +162,9 @@ const AlternosFinca = () => {
         message={
           <>
             ¿Estás seguro?<br />
-            <h4 className="text-gray-400">
+            <span className="text-gray-400">
               Se eliminará el alterno <strong className="text-red-600">{alternoEliminar?.nombre}</strong> de manera permanente.
-            </h4>
+            </span>
           </>
         }
         confirmText="Sí, eliminar"

@@ -122,11 +122,6 @@ export default function VerSensores() {
     { key: "hora", label: "Hora", icon: Icons.hora, icon2: Icons.hora },
     { key: "valor", label: "Datos", icon: Icons.dato, icon2: Icons.dato }
   ];
-  console.log("-------------------------------------");
-  console.log("rawHistorial:", rawHistorial);
-  console.log("Datos de la tabla:", datosTabla);
-  console.log("Datos Finales:", datosFinales);
-  console.log("Datos paginados:", datosPaginados);
 
   return (
     <div>

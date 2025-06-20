@@ -82,9 +82,9 @@ export const zonasDriverSteps = [
   }
 ];
 
-export const zonasReporteSteps =[
+export const ReporteSteps =[
   {
-    element: '#checkboxSteps',
+    element: '#seleccionarSteps',
     popover: {
       title: 'Apartado de actividades',
       description: 'Actividades realizadas en la zona'
@@ -101,7 +101,8 @@ export const zonasReporteSteps =[
     element: '#procesarSteps',
     popover: {
       title: 'Eliminar zona',
-      description: 'Eliminar una zona de la finca'
+      description: 'Eliminar una zona de la finca',
+      position: 'left'
     }
   }
 ]

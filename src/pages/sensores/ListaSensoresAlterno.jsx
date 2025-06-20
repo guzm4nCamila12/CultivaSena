@@ -24,7 +24,7 @@ function SensoresAlterno() {
   const vista = state?.vista ?? '';
   
   const enableSelectionButton =
-    (vista === '/reporte' || vista === '/sensores')
+    (vista === '/reporte' || vista === '/sensores' || vista === '/estadistica')
       ? (state.enableSelectionButton ?? false)
       : false;
   
@@ -56,7 +56,7 @@ function SensoresAlterno() {
     const nuevaVista = location.state?.vista ?? '';
     const nuevoTipo = location.state?.tipo ?? '';
   
-    const newHide = nuevaVista === '/reporte' || nuevaVista === '/sensores';
+    const newHide = nuevaVista === '/reporte' || nuevaVista === '/sensores' || nuevaVista === '/estadistica';
     setHideTabs(newHide);
   
     if (nuevoTipo === '/reporteZonas') {
@@ -200,7 +200,7 @@ function SensoresAlterno() {
     <div >
       <Navbar />
       {!hideTabs && (
-        <div className="flex justify-center mx-auto my-4 w-[80%] space-x-4">
+        <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
           <button
             className={`px-7 py-2 rounded-full transition ${Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}

@@ -447,3 +447,22 @@ export const tranferirSteps = [
     }
   }
 ];
+
+export const datosSensorSteps = [
+  {
+    element: '#exportarSteps',
+    popover: {
+      title: 'Exportar Datos',
+      description: 'Exportar datos del Sensor a Excel',
+      position: 'left',
+      align: 'center'
+    }
+  },
+  {
+    element: '#graficaSteps',
+    popover: {
+      title: 'Grafica Sensor',
+      description: 'Grafico con datos del Sensor',
+    }
+  }
+]

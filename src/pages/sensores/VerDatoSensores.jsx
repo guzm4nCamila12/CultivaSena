@@ -10,6 +10,7 @@ import { getSensor, getHistorialSensores, getTipoSensor } from '../../services/s
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useExportarExcel } from '../../hooks/useReportes';
 import exportarIcon from '../../assets/icons/subir.png'
+import { useDriverTour } from '../../hooks/useTourDriver';
 
 // Formatea una ISO date string a dd/mm/yyyy y hh:mm:ss
 const formatearFechaYHora = (fechaIso) => {
@@ -20,6 +21,7 @@ const formatearFechaYHora = (fechaIso) => {
     hora: `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`,
   };
 };
+
 
 // Limita decimales
 const limitarValor = (valor, decimales = 4) =>
@@ -36,7 +38,7 @@ export default function VerSensores() {
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
   const { exportarExcel } = useExportarExcel();
-
+  
 
   // Fetch sensor + historial
   useEffect(() => {
@@ -142,6 +144,7 @@ export default function VerSensores() {
               className="p-2 border rounded-xl mr-2"
             /> */}
             <button
+              id='exportarSteps'
               onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
               className="px-4 flex py-2 justify-center items-center bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
             >
@@ -158,7 +161,7 @@ export default function VerSensores() {
         ) : (
           <>
             {/* Gráfico individual */}
-            <div className="flex justify-center mb-8">
+            <div id='graficaSteps' className="flex justify-center mb-8">
               <GraficoSensores
                 sensoresData={[{
                   sensor: sensores,
@@ -180,6 +183,7 @@ export default function VerSensores() {
               mostrarAgregar={false}
               mostrarBotonAtras={false}
             />
+
             {totalPaginas > 1 && (
               <div className="flex justify-center space-x-2 mt-4">
                 {Array.from({ length: totalPaginas }).map((_, i) => (

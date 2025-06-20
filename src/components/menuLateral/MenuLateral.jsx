@@ -30,7 +30,8 @@ import {
     editarFincaSteps,
     perfilUsuarioSteps,
     tranferirSteps,
-    ReporteSteps
+    ReporteSteps,
+    datosSensorSteps
 } from '../../utils/aplicationSteps';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
@@ -70,6 +71,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 startTour(sensorAlternosDriverSteps)
             } else if (location.pathname.includes('/transferir-finca')) {
                 startTour(tranferirSteps)
+            }else if (location.pathname.includes('/datos-sensor')){
+                startTour(datosSensorSteps)
             }
             else {
                 startTour(mostarInfoDriverSteps); // fallback
@@ -153,29 +156,42 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 </div>
 
                 {/* Estadísticas */}
-                <div id='estadisticasSteps'>
-                    <div
-                        onClick={() => toggleSubmenu('estadisticas')}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                    >
-                        <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
-                        <span>Estadísticas</span>
+                <div>
+                    {rol === 3 ? (
+                        <Link
+                            to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
+                            state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar grafica", vista: "/estadistica", tipo: "/reporteSensores" }}
+                            className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
+                        >
+                            <img src={Estadisticas} alt="Estadisticas" className="h-6 w-7 mr-2" />
+                            <span>Estadistícas</span>
+                        </Link>
+                    ) : (
+                    <div id='estadisticasSteps'>
+                        <div
+                            onClick={() => toggleSubmenu('estadisticas')}
+                            className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                        >
+                            <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
+                            <span>Estadísticas</span>
+                        </div>
+                        <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                            {cargandoFincas
+                                ? <span>Cargando...</span>
+                                : fincas.map(finca => (
+                                    <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
+                                        className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                    >
+                                        <div className='flex'>
+                                            <img src={fincasBlancas} alt="" className='mr-1 w-5' />
+                                            <h3> {finca.nombre}</h3>
+                                        </div>
+                                    </Link>
+                                ))
+                            }
+                        </div>
                     </div>
-                    <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                        {cargandoFincas
-                            ? <span>Cargando...</span>
-                            : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
-                                    className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
-                                >
-                                    <div className='flex'>
-                                        <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                        <h3> {finca.nombre}</h3>
-                                    </div>
-                                </Link>
-                            ))
-                        }
-                    </div>
+                    )}
                 </div>
 
                 {/* Reporte Actividades */}

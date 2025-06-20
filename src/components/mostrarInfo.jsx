@@ -15,7 +15,7 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
     () => localStorage.getItem('vistaActiva') || 'tarjetas'
   );
   const [seleccionados, setSeleccionados] = useState([]);
-  const [seleccionEnabled, setSeleccionEnabled] = useState(false);
+  const [seleccionEnabled, setSeleccionEnabled] = useState();
 
   useEffect(() => {
     setSeleccionEnabled(enableSelectionButton);
@@ -24,6 +24,10 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
   useEffect(() => {
     setSeleccionados([]);
   }, [vista]);
+
+  console.log("vista",vista)
+  console.log ("seleccion llegada",enableSelectionButton)
+  console.log("seleccion procesada",seleccionEnabled)
 
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((col) =>

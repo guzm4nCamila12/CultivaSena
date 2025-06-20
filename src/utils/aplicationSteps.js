@@ -473,6 +473,49 @@ export const tranferirSteps = [
   }
 ];
 
+export const usuariosSteps = [
+  {
+    element: '#crearSteps',
+    popover: {
+      title: 'Botón para crear',
+      description: 'Aquí puedes crear un nuevo usuario'
+    }
+  },
+  {
+    element: '#editarSteps',
+    popover: {
+      title: 'Editar usuario',
+      description: 'Aquí puedes editar la información del usuario',
+      position: 'left',
+      align: 'center'
+    }
+  },
+  {
+    element: '#verSinFincasSteps',
+    popover: {
+      title: 'Ver Fincas del Usuario',
+      description: 'Este botón indica que este usuario no puede tener fincas',
+    }
+  },
+  {
+    element: '#verSteps',
+    popover: {
+      title: 'Ver Fincas del Usuario',
+      description: 'Aquí podras redirigirte a las fincas del usuario',
+      position: 'left',
+      align: 'center'
+    }
+  },
+  {
+    element: '#eliminarSteps',
+    popover: {
+      title: 'Eliminar Usuario',
+      description: 'Aquí puedes eliminar un usuario',
+    }
+  }
+]
+
+
 export const datosSensorSteps = [
   {
     element: '#exportarSteps',

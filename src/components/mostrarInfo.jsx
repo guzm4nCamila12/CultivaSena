@@ -25,10 +25,6 @@ function MostrarInfo({ columnas, datos, titulo, acciones, onAddUser, mostrarAgre
     setSeleccionados([]);
   }, [vista]);
 
-  console.log("vista",vista)
-  console.log ("seleccion llegada",enableSelectionButton)
-  console.log("seleccion procesada",seleccionEnabled)
-
   const datosFiltrados = datos.filter((fila) =>
     columnas.some((col) =>
       String(fila[col.key] || "")

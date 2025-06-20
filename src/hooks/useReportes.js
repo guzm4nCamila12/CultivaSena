@@ -121,6 +121,53 @@ export const useExportarExcel = () => {
       return [];
     }
   };
+
+  const exportarSensorIndividual = async (sensorId) => {
+    try {
+      const sensor = await getSensor(sensorId);
+      if (!sensor) throw new Error('Sensor no encontrado');
+  
+      const tipo = await getTipoSensor(sensor.tipo_id);
+      const zona = await getZonasById(sensor.idzona);
+      const historial = await getHistorialSensores(sensor.mac) ?? [];
+  
+      const datosParaExportar = historial.map(registro => {
+        const fechaOriginal = registro.fecha;
+        const [fecha, tiempo] = fechaOriginal.split('T');
+        const [anio, mes, dia] = fecha.split('-');
+        const hora = tiempo.split('.')[0];
+  
+        return {
+          ID: sensor.id,
+          MAC: sensor.mac,
+          Nombre: sensor.nombre,
+          Descripción: sensor.descripcion,
+          Tipo: tipo?.nombre || 'Desconocido',
+          Unidad: tipo?.unidad || 'N/A',
+          Zona: zona?.nombre || 'Zona desconocida',
+          Valor: registro.valor,
+          Día: dia,
+          Mes: mes,
+          Año: anio,
+          Hora: hora,
+        };
+      });
+  
+      if (datosParaExportar.length === 0) {
+        acctionSucessful.fire({
+          imageUrl: Alerta,
+          title: '¡No se encontraron datos para exportar!'
+        });
+        return;
+      }
+  
+      exportarExcel(datosParaExportar, `Sensor_${sensor.nombre || sensor.id}`);
+  
+    } catch (error) {
+      console.error('Error exportando sensor individual:', error);
+    }
+  };
+  
   
 
   const reporteSensores = async (sensoresSeleccionados, fechaInicio, fechaFin) => {
@@ -212,5 +259,5 @@ export const useExportarExcel = () => {
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
   };
-  return { exportarExcel, obtenerRangoFecha, reporteSensores };
+  return { exportarExcel, obtenerRangoFecha, reporteSensores, exportarSensorIndividual };
 };

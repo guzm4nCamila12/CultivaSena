@@ -37,7 +37,7 @@ export default function VerSensores() {
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
-  const { exportarExcel } = useExportarExcel();
+  const { exportarSensorIndividual } = useExportarExcel();
   
 
   // Fetch sensor + historial
@@ -145,7 +145,7 @@ export default function VerSensores() {
             /> */}
             <button
               id='exportarSteps'
-              onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
+              onClick={() => exportarSensorIndividual(id)}
               className="px-4 flex py-2 justify-center items-center bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
             >
               <img src={exportarIcon} alt="" className='w-4 h-4 mr-2' />

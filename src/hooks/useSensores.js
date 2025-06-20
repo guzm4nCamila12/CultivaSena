@@ -19,6 +19,7 @@ import { acctionSucessful } from "../components/alertSuccesful";
 import UsuarioEliminado from "../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../assets/img/usuarioCreado.png";
 import { validarSinCambios } from "../utils/validaciones";
+import { Alerta } from "../assets/img/imagesExportation";
 
 const MySwal = withReactContent(Swal);
 export function useSensores(id, idUser) {
@@ -134,12 +135,10 @@ export function useSensores(id, idUser) {
   const crearNuevoSensor = async () => {
     // Validación tipo_id obligatorio
     if (!formData.tipo_id) {
-      await MySwal.fire({
-        icon: 'warning',
-        title: 'Selecciona un tipo de sensor',
-        confirmButtonText: 'Entendido'
+      return acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'Seleccione un tipo de sensor',
       });
-      return;
     }
     try {
       const response = await crearSensor(formData);

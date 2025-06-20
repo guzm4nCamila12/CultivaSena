@@ -10,7 +10,10 @@ import { getUsuarioById } from '../services/usuarios/ApiUsuarios'
 export const useExportarExcel = () => {
   const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
     if (!Array.isArray(datos) || datos.length === 0) {
-      console.warn("No hay datos para exportar");
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'No hay datos para exportar'
+      })
       return;
     }
 

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { getActividadesByZona, getZonasById, eliminarActividad, crearActividad, editarActividad } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import * as Images from '../assets/img/imagesExportation';
+import { validarSinCambios } from '../utils/validaciones'
 import { obtenerIdUsuario, obtenerRol } from './useDecodeToken';
 
 export const useActividadesZona = (idZona) => {
   const idusuario = obtenerIdUsuario();
   const rolusuario = obtenerRol();
 
+  const [actividadOriginal, setActividadOriginal] = useState({})
   const [actividades, setActividades] = useState([]);
   const [zonas, setZonas] = useState({});
   const [actividadEliminar, setActividadEliminar] = useState(null);
@@ -102,6 +104,7 @@ export const useActividadesZona = (idZona) => {
   };
 
   const handleEditarActividadChange = (e) => {
+
     const { name, value } = e.target;
     // Si cambia la actividad, guardamos la etiqueta
     if (name === 'actividad') {
@@ -141,6 +144,9 @@ export const useActividadesZona = (idZona) => {
 
   const handleEditarActividad = (e) => {
     e.preventDefault();
+
+    if (!validarSinCambios(actividadOriginal, actividadEditar,"la actividad")) return
+
     if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -200,17 +206,21 @@ export const useActividadesZona = (idZona) => {
   };
 
   const abrirModalEditar = (actividad) => {
-    // Convertimos value a label para mostrar correctamente
     const etapaObj = etapas.find(et => et.label === actividad.etapa);
     const etapaValue = etapaObj ? etapaObj.value : '';
     setEtapaSeleccionada(etapaValue);
+  
     const actividadArr = actividadesPorEtapa[etapaValue] || [];
     const actividadObj = actividadArr.find(act => act.value === actividad.actividad);
     const actividadLabel = actividadObj ? actividadObj.label : actividad.actividad;
-    setActividadEditar({ ...actividad, actividad: actividadLabel });
+  
+    const actividadEditando = { ...actividad, actividad: actividadLabel };
+  
+    setActividadEditar(actividadEditando);
+    setActividadOriginal(actividadEditando); // 👈 Guardamos el original
     setModalEditarActividad(true);
   };
-
+  
   const handleAbrirModalCrear = (idZone) => {
     setNuevaActividad(prev => ({ ...prev, idzona: idZone, idusuario }));
     setModalActividadInsertar(true);

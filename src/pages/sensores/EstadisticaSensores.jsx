@@ -87,7 +87,7 @@ const Estadistica = () => {
         {error && (
           <div className="flex justify-center items-center h-64">
             <h3 className="text-center text-lg font-medium text-red-600">
-              No se encontraron datos para los sensores en el rango seleccionado.
+              No se encontraron datos de sensores en el rango de fechas seleccionado.
             </h3>
           </div>
         )}

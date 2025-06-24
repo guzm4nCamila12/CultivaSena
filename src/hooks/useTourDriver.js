@@ -12,7 +12,7 @@ export function useDriverTour() {
     doneBtnText: "Finalizar",
     nextBtnText: "Siguiente",
     prevBtnText: "Anterior",
-    closeBtnText: "✕",
+    closeBtnText: "⨉",
   }));
 
   const startTour = (steps) => {

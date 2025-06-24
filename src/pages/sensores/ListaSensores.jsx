@@ -51,6 +51,8 @@ function ActivarSensores() {
     handleChangeEditar,
     actualizarSensor,
     setSensorAEliminar,
+    sensorAEliminar,
+    sensorEliminado,
     setSensorEliminado,
     eliminarSensor,
     cambiarEstadoSensor,
@@ -249,7 +251,7 @@ function ActivarSensores() {
         message={
           <>
             ¿Estás seguro?<br />
-            <span className="text-gray-400">Se eliminará el sensor <strong className="text-red-600">{sensorEditar?.nombre}</strong> de manera permanente.</span>
+            <span className="text-gray-400">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</span>
           </>
         }
         confirmText="Sí, eliminar"

@@ -26,9 +26,9 @@ export default function TransferirFInca() {
         u.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
     return (
-        <div className='text-center h-screen'>
+        <div>
             <Navbar />
-            <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18">
+            <div className="flex flex-col px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18">
                 <div className="flex flex-row items-center w-full h-12  my-5">
                     {/* Botón de regreso, posicionado absolutamente a la izquierda */}
                     <div className="">

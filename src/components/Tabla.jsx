@@ -170,7 +170,7 @@ const Tabla = ({
                       return (
                         <td
                           key={cidx}
-                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
+                          className={`right-0 z-50 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
                           style={{ right: '-1rem' }}
                         >
                           <div className="hidden md:flex justify-start gap-2">

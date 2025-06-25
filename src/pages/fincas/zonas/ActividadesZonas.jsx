@@ -15,18 +15,18 @@ import { useDriverTour } from '../../../hooks/useTourDriver';
 export default function ActividadesZonas() {
     const { id } = useParams();
     const { actividades, zonas, etapas, actividadesPorEtapa, etapaSeleccionada, actividadEditar, modalEliminarAbierto, modalActividadInsertar,
-        modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange, 
+        modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange,
         handleEtapaChange, handleCrearActividad, handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
         abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear, } = useActividadesZona(Number(id));
 
-        const pasosCombinados = [
-            ...mostarInfoDriverSteps,
-            ...actividadesDriverSteps
-          ];
+    const pasosCombinados = [
+        ...mostarInfoDriverSteps,
+        ...actividadesDriverSteps
+    ];
 
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
-        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa }, 
+        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa },
         { key: "acciones", label: "Acciones", icon2: ajustes },
     ];
 
@@ -50,7 +50,7 @@ export default function ActividadesZonas() {
     );
 
     const actividadesOptions = actividadesPorEtapa[etapaSeleccionada] || [];
-     useDriverTour(pasosCombinados);
+    useDriverTour(pasosCombinados);
 
     return (
         <>
@@ -271,7 +271,14 @@ export default function ActividadesZonas() {
                 isOpen={modalEliminarAbierto}
                 onCancel={() => setModalEliminarAbierto(false)}
                 onConfirm={handleEliminarActividad}
-                message="¿Estás seguro de que deseas eliminar esta actividad?"
+                message={
+                    <>
+                        ¿Estás seguro?<br />
+                        <span className='text-gray-400'>
+                            Se eliminará la Actividad de manera permanente.
+                        </span>
+                    </>
+                }
                 confirmText="Sí, eliminar"
                 title={"Eliminar Actividad"}
             />

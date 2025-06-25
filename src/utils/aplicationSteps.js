@@ -82,7 +82,7 @@ export const zonasDriverSteps = [
   }
 ];
 
-export const ReporteSteps =[
+export const ReporteSteps = [
   {
     element: '#seleccionarSteps',
     popover: {
@@ -313,7 +313,7 @@ export const crearFincaSteps = [
       title: 'Ubicación actual',
       description: 'Ubicarse en el mapa',
       position: 'left',
-      align: 'start'
+      align: 'center'
     }
   },
   {

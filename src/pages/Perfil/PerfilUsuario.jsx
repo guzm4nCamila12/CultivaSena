@@ -98,19 +98,23 @@ function PerfilUsuario() {
         getHistorial()
           .then(data => {
             const formatted = Array.isArray(data)
-              ? data.map(item => {
-                let opTraducida = item.operacion
-                if (item.operacion === "INSERT") opTraducida = "Creó"
-                else if (item.operacion === "UPDATE") opTraducida = "Editó"
-                else if (item.operacion === "DELETE") opTraducida = "Eliminó"
+              ? data
+                .map(item => {
+                  let opTraducida = item.operacion
+                  if (item.operacion === "INSERT") opTraducida = "Creó"
+                  else if (item.operacion === "UPDATE") opTraducida = "Editó"
+                  else if (item.operacion === "DELETE") opTraducida = "Eliminó"
 
-                return {
-                  ...item,
-                  operacion: opTraducida,
-                  fecha: formatFecha(item.fecha)
-                }
-              })
+                  return {
+                    ...item,
+                    operacion: opTraducida,
+                    fecha: formatFecha(item.fecha),
+                    rawFecha: item.fecha // Agrega fecha sin formatear para orden
+                  }
+                })
+                .sort((a, b) => new Date(b.rawFecha) - new Date(a.rawFecha)) // Ordenar
               : []
+
             setDatosTabla(formatted)
           })
           .catch(console.error)
@@ -322,7 +326,7 @@ function PerfilUsuario() {
 
   const pasosTour = perfilUsuarioSteps.filter(paso => {
     const el = paso.element;
-  
+
     // SuperAdmin: rol 1
     if (rolsito === 1) {
       return (
@@ -334,7 +338,7 @@ function PerfilUsuario() {
         el !== '#tablaAlterno'
       );
     }
-  
+
     // Admin: rol 2
     if (rolsito === 2) {
       return (
@@ -346,7 +350,7 @@ function PerfilUsuario() {
         el !== '#tablaAlterno'
       );
     }
-  
+
     // Alterno: rol 3 (u otro)
     return (
       el !== '#carta1SuperAdminSteps' &&
@@ -357,9 +361,9 @@ function PerfilUsuario() {
       el !== '#tablaAdmin'
     );
   });
-  
-    
-    useDriverTour(pasosTour);
+
+
+  useDriverTour(pasosTour);
 
   // Columnas dinámicas:
   const columnas = obtenerRol() === 1

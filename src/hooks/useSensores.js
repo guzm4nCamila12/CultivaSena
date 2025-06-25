@@ -174,6 +174,7 @@ export function useSensores(id, idUser) {
 
   const eliminarSensor = async () => {
     if (!sensorAEliminar) return;
+
     try {
       await eliminarSensores(sensorAEliminar);
       setSensores(prev => prev.filter(s => s.id !== sensorAEliminar));

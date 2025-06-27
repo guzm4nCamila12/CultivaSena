@@ -8,32 +8,57 @@ import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sens
 import { getUsuarioById } from '../services/usuarios/ApiUsuarios'
 
 export const useExportarExcel = () => {
+
+
   const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
     if (!Array.isArray(datos) || datos.length === 0) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         title: 'No hay datos para exportar'
-      })
+      });
       return;
     }
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(nombreHoja);
 
-    const columnas = Object.keys(datos[0]).map(key => ({
-      header: key,
-      key: key,
-      width: ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22
-    }));
 
-    worksheet.columns = columnas;
+    // 🔹 Fecha y hora actual
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const fechaHora = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
-    datos.forEach(dato => {
-      worksheet.addRow(dato);
-    });
+    // 🔹 Agrega la fila "Reporte generado"
 
-    // Estiliza encabezado
-    worksheet.getRow(1).eachCell(cell => {
+    worksheet.addRow([`Reporte generado: ${fechaHora}`]);
+
+    // 🔹 Agrega una fila vacía
+    // 🔹 Agrega la fila del título "Reporte generado"
+    const titulo = `Reporte generado: ${fechaHora}`;
+    worksheet.mergeCells('A1:B1');
+    const tituloCell = worksheet.getCell('A1');
+    tituloCell.value = titulo;
+    tituloCell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: '00304D' },
+    };
+    tituloCell.font = {
+      name: 'Work Sans',
+      bold: true,
+      color: { argb: 'FFFFFFFF' },
+      size: 12,
+    };
+    tituloCell.alignment = { horizontal: 'left', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
+    // 🔹 Define encabezados (extraídos de los datos)
+    const headers = Object.keys(datos[0]);
+    worksheet.addRow(headers);
+
+    // 🔹 Estiliza encabezado
+    worksheet.getRow(3).eachCell(cell => {
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
@@ -53,6 +78,17 @@ export const useExportarExcel = () => {
       };
     });
 
+    // 🔹 Agrega los datos
+    datos.forEach(dato => {
+      worksheet.addRow(headers.map(key => dato[key]));
+    });
+
+    // 🔹 Ajusta los anchos de columna
+    headers.forEach((key, idx) => {
+      worksheet.getColumn(idx + 1).width = ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22;
+    });
+
+    // 🔹 Exporta
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `${nombreArchivo}.xlsx`);
   };

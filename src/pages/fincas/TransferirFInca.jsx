@@ -57,7 +57,7 @@ export default function TransferirFInca() {
                             </div>
                             <div id="fincaTransSteps" className=" w-full lg:w-auto">
                                 <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas de {propietario.nombre}</h2>
-                                <div className='rounded-3xl px-4 min-h-[350px] w-auto max-h-[350px] overflow-y-auto'>
+                                <div className='rounded-3xl px-4 mb-4 lg:h-[280px] h-auto w-auto overflow-y-auto'>
 
                                     {fincasPropias.length > 0 ? (
                                         fincasPropias.map((finca) => (
@@ -75,7 +75,7 @@ export default function TransferirFInca() {
                             </div>
                         </div>
                     ) : (
-                        <div id='seleccionar1Steps' className='w-full px-8 lg:w-[40%] lg:p-0'>
+                        <div id='seleccionar1Steps' className='w-full px-8 lg:w-[40%] lg:px-5'>
                             <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar</button>
 
@@ -106,14 +106,14 @@ export default function TransferirFInca() {
 
                     {/*Contenedor para las fincas del segundo usuario*/}
                     {usuarioSeleccionado !== null ? (
-                        <div className='w-full px-8 lg:w-[40%]'>
+                        <div className='w-full px-8 lg:w-[40%] mt-4 lg:mt-0'>
                             {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
                             <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador</p>
                             <div className='w-auto mx-4'>
                                 <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 font-medium hover:bg-gray-300  w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>{`${usuarioSeleccionado != null ? (`${usuarioSeleccionado.nombre}`) : ("Seleccionar...")}`}</button>
                             </div>
                             <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas de {usuarioSeleccionado.nombre}</h2>
-                            <div className='w-auto rounded-3xl px-4 min-h-[350px] max-h-[350px] overflow-y-auto'>
+                            <div className='w-auto rounded-3xl px-4 h-auto lg:h-[280px] overflow-y-auto'>
 
                                 {fincasAlternas.length > 0 ? (
                                     fincasAlternas.map((finca) => (
@@ -127,7 +127,7 @@ export default function TransferirFInca() {
                             </div>
                         </div>
                     ) : (
-                        <div id='seleccionar2Steps' className='w-full px-8 lg:w-[40%] lg:p-0'>
+                        <div id='seleccionar2Steps' className='w-full px-8 lg:w-[40%] lg:px-5'>
                             <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
                         </div>

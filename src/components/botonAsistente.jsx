@@ -39,8 +39,6 @@ export default function BotonAsistente() {
     setVisible(false);
   };
 
-
-
   const handleStartTour = () => {
     localStorage.setItem("tour_usuario_visto", "false");
 

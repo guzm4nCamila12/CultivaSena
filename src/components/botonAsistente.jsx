@@ -87,7 +87,7 @@ export default function BotonAsistente() {
     <div className="relative z-50">
       <button
         onMouseEnter={handleHover}
-        className="flex justify-center p-3 items-center w-14 h-14 md:w-16 md:h-16 rounded-full bg-[#00304D] fixed bottom-5 right-5 z-10"
+        className="flex justify-center p-3 items-center w-14 h-14 md:w-15 md:h-15 rounded-full bg-[#00304D] fixed bottom-5 right-5 z-10"
       >
         <img src={visible ? TourAmarillo : TourIcon} alt="" className="w-auto " />
       </button>

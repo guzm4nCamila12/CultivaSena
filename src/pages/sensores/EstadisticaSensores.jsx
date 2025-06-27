@@ -77,7 +77,7 @@ const Estadistica = () => {
     <div>
       <Navbar />
       <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-4">
-        <div className="flex w-auto items-center">
+        <div className="flex w-auto items-center mb-6">
           <BotonAtras />
           <h1 className="sm:text-2xl w-full text-lg font-semibold">
             Estadistícas de Sensores

@@ -21,7 +21,7 @@ import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
 
-    
+
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
@@ -60,7 +60,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 setFincas(response || []);
                 const data = await getUsuarioById(obtenerIdUsuario());
                 setUsuario(data || [])
-                
+
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
             } finally {
@@ -110,37 +110,66 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             <span>Estadistícas</span>
                         </Link>
                     ) : (
-                    <div id='estadisticasSteps'>
-                        <div
-                            onClick={() => toggleSubmenu('estadisticas')}
-                            className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                        >
-                            <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
-                            <span>Estadísticas</span>
+                        <div id='estadisticasSteps'>
+                            <div
+                                onClick={() => toggleSubmenu('estadisticas')}
+                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                            >
+                                <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
+                                <span>Estadísticas</span>
+                            </div>
+                            <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                                {cargandoFincas
+                                    ? <span>Cargando...</span>
+                                    : fincas.map(finca => (
+                                        <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
+                                            className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                        >
+                                            <div className='flex'>
+                                                <img src={fincasBlancas} alt="" className='mr-1 w-5' />
+                                                <h3> {finca.nombre}</h3>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
                         </div>
-                        <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                            {cargandoFincas
-                                ? <span>Cargando...</span>
-                                : fincas.map(finca => (
-                                    <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
-                                        className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
-                                    >
-                                        <div className='flex'>
-                                            <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                            <h3> {finca.nombre}</h3>
-                                        </div>
-                                    </Link>
-                                ))
-                            }
-                        </div>
-                    </div>
                     )}
                 </div>
 
-                {/* Reporte Actividades */}
+                {/* Reporte Actividades / Acciones */}
                 <div>
-                    {rol === 3 ? (
-                        // Rol 3: botón directo que lleva a selección de zonas sin desplegable
+                    {rol === 1 ? (
+                        // Rol 1: menú desplegable normal pero con otro texto
+                        <div>
+                            <div
+                                onClick={() => toggleSubmenu('reporteAcciones')}
+                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
+                            >
+                                <img src={Reporte} alt="Reporte de Acciones" className="h-8 w-8 mr-2" />
+                                <span>Reporte de Acciones</span>
+                            </div>
+                            <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
+         ${submenuAbierto === 'reporteAcciones' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
+                            >
+                                {cargandoFincas
+                                    ? <span>Cargando...</span>
+                                    : fincas.map(finca => (
+                                        <Link
+                                            key={finca.id}
+                                            to={`/zonas/${finca.id}/${obtenerIdUsuario()}`}
+                                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte de acciones", vista: "/reporteAcciones" }}
+                                            className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition flex items-center"
+                                        >
+                                            <img src={fincasBlancas} alt="" className='mr-1 w-5' />
+                                            <h3>{finca.nombre}</h3>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    ) : rol === 3 ? (
+                        // Rol 3: botón directo a alterno
                         <Link
                             to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
                             state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte", tipo: "/reporteZonas" }}
@@ -150,7 +179,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             <span>Reporte Actividades</span>
                         </Link>
                     ) : (
-                        // Roles distintos de 3: menú desplegable normal para selección de fincas y zonas
+                        // Roles 2, etc.: menú desplegable estándar
                         <div>
                             <div
                                 onClick={() => toggleSubmenu('reporte')}
@@ -160,7 +189,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                 <span>Reporte Actividades</span>
                             </div>
                             <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
-                               ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
+         ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
                             >
                                 {cargandoFincas
                                     ? <span>Cargando...</span>

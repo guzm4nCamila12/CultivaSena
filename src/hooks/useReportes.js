@@ -5,7 +5,7 @@ import { getActividadesByZona, getZonasById } from '../services/fincas/ApiFincas
 import { acctionSucessful } from '../components/alertSuccesful';
 import { Alerta } from '../assets/img/imagesExportation';
 import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sensores/ApiSensores';
-import { getUsuarioById } from '../services/usuarios/ApiUsuarios' 
+import { getUsuarioById } from '../services/usuarios/ApiUsuarios'
 
 export const useExportarExcel = () => {
   const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
@@ -62,20 +62,20 @@ export const useExportarExcel = () => {
       const actividadesPorZona = await Promise.all(
         zonasSeleccionadas.map(zona => getActividadesByZona(zona.id))
       );
-  
+
       const todasLasActividades = actividadesPorZona
         .filter(Boolean)
         .flat();
-  
+
       const rangoInicio = new Date(fechaInicio);
       const rangoFin = new Date(fechaFin);
-  
+
       const actividadesEnRango = todasLasActividades.filter(act => {
         const inicio = new Date(act.fechainicio);
         const fin = new Date(act.fechafin);
         return fin >= rangoInicio && inicio <= rangoFin;
       });
-  
+
       if (actividadesEnRango.length === 0) {
         acctionSucessful.fire({
           imageUrl: Alerta,
@@ -83,23 +83,32 @@ export const useExportarExcel = () => {
         });
         return;
       }
-  
+
       // Obtener usuarios únicos por ID para evitar llamadas repetidas
       const usuariosUnicosIds = [...new Set(actividadesEnRango.map(act => act.idusuario))];
-  
+
       // Obtener los datos de los usuarios
       const usuarios = await Promise.all(
         usuariosUnicosIds.map(id => getUsuarioById(id))
       );
-  
+
       // Mapear por ID para acceso rápido
       const usuariosMap = {};
       usuarios.forEach(user => {
         usuariosMap[user.id] = user.nombre || "Usuario desconocido";
       });
-  
+
       const datosParaExportar = actividadesEnRango.map(act => {
+        // 1) Limpiar formato ISO
+        //    "2025-05-26T09:20:00Z" → "2025-05-26 09:20:00"
+        const fechaHora = act.fechainicio.replace('Z', '').replace('T', ' ');
+        // 2) Separar fecha y hora
+        const [fecha, hora] = fechaHora.split(' ');
+        // 3) Desglosar año, mes, día
+        const [Año, Mes, Día] = fecha.split('-');
+
         const zona = zonasSeleccionadas.find(z => z.id === act.idzona);
+
         return {
           ID: act.id,
           Etapa: act.etapa,
@@ -108,13 +117,15 @@ export const useExportarExcel = () => {
           Zona: zona ? zona.nombre : act.idzona,
           Descripción: act.descripcion,
           Usuario: usuariosMap[act.idusuario] || act.idusuario,
-          FechaInicio: act.fechainicio,
-          FechaFin: act.fechafin,
+          Año,
+          Mes,
+          Día,
+          Hora: hora,
         };
       });
-  
+
       await exportarExcel(datosParaExportar, 'ActividadesFiltradas');
-  
+
       return actividadesEnRango;
     } catch (error) {
       console.error("Error obteniendo actividades por zonas:", error);
@@ -122,21 +133,22 @@ export const useExportarExcel = () => {
     }
   };
 
+
   const exportarSensorIndividual = async (sensorId) => {
     try {
       const sensor = await getSensor(sensorId);
       if (!sensor) throw new Error('Sensor no encontrado');
-  
+
       const tipo = await getTipoSensor(sensor.tipo_id);
       const zona = await getZonasById(sensor.idzona);
       const historial = await getHistorialSensores(sensor.mac) ?? [];
-  
+
       const datosParaExportar = historial.map(registro => {
         const fechaOriginal = registro.fecha;
         const [fecha, tiempo] = fechaOriginal.split('T');
         const [anio, mes, dia] = fecha.split('-');
         const hora = tiempo.split('.')[0];
-  
+
         return {
           ID: sensor.id,
           MAC: sensor.mac,
@@ -152,7 +164,7 @@ export const useExportarExcel = () => {
           Hora: hora,
         };
       });
-  
+
       if (datosParaExportar.length === 0) {
         acctionSucessful.fire({
           imageUrl: Alerta,
@@ -160,15 +172,15 @@ export const useExportarExcel = () => {
         });
         return;
       }
-  
+
       exportarExcel(datosParaExportar, `Sensor_${sensor.nombre || sensor.id}`);
-  
+
     } catch (error) {
       console.error('Error exportando sensor individual:', error);
     }
   };
-  
-  
+
+
 
   const reporteSensores = async (sensoresSeleccionados, fechaInicio, fechaFin) => {
 

@@ -71,7 +71,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         if (obtenerIdUsuario()) {
             fetchFincas();
         }
-    }, [obtenerIdUsuario()]);
+    }, [obtenerIdUsuario()],);
 
     const idFinca = obtenerFinca()
 

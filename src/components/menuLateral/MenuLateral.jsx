@@ -15,7 +15,6 @@ import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
-import ayuda from '../../assets/icons/ayuda.png'
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {

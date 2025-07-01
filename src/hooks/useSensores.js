@@ -18,7 +18,7 @@ import { getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import { acctionSucessful } from "../components/alertSuccesful";
 import UsuarioEliminado from "../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../assets/img/usuarioCreado.png";
-import { validarSinCambios } from "../utils/validaciones";
+import { validarNombre, validarSinCambios } from "../utils/validaciones";
 import { Alerta } from "../assets/img/imagesExportation";
 
 const MySwal = withReactContent(Swal);
@@ -210,9 +210,9 @@ export function useSensores(id, idUser) {
           Swal.showValidationMessage('¡Este campo es obligatorio!');
           return false;
         }
-        if(/\s/.test(val)){
+        if (/\s/.test(val)) {
           Swal.showValidationMessage('¡No se permiten espacios al ingresar la MAC!');
-            return false;
+          return false;
         }
         inputValue = val;
         return true;

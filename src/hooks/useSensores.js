@@ -210,9 +210,9 @@ export function useSensores(id, idUser) {
           Swal.showValidationMessage('¡Este campo es obligatorio!');
           return false;
         }
-        if(/\s/.test(val)){
+        if (/\s/.test(val)) {
           Swal.showValidationMessage('¡No se permiten espacios al ingresar la MAC!');
-            return false;
+          return false;
         }
         inputValue = val;
         return true;
@@ -244,7 +244,8 @@ export function useSensores(id, idUser) {
       });
       const sensoresZonasData = await getSensoresZonasById(id);
       setSensoresZona(sensoresZonasData || []);
-      await insertarDatos(updatedSensor.mac);
+      const respuesta = await insertarDatos(updatedSensor.mac);
+      console.log("Respuesta del endpoint:", respuesta);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }

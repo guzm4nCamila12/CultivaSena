@@ -9,30 +9,37 @@ import ConfirmationModal from '../../../components/confirmationModal/confirmatio
 import { sinFincas, cultivo, etapa, ajustes, eliminar } from '../../../assets/icons/IconsExportation';
 //Hooks
 import { useActividadesZona } from '../../../hooks/useActividades';
+import { actividadesDriverSteps, mostarInfoDriverSteps } from '../../../utils/aplicationSteps';
+import { useDriverTour } from '../../../hooks/useTourDriver';
 
 export default function ActividadesZonas() {
     const { id } = useParams();
     const { actividades, zonas, etapas, actividadesPorEtapa, etapaSeleccionada, actividadEditar, modalEliminarAbierto, modalActividadInsertar,
-        modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange, 
+        modalEditarActividad, idusuario, rolusuario, setModalEliminarAbierto, setModalActividadInsertar, setModalEditarActividad, handleActividadChange,
         handleEtapaChange, handleCrearActividad, handleEditarActividadChange, handleEditarActividad, handleEliminarActividad,
         abrirModalEliminar, abrirModalEditar, handleAbrirModalCrear, } = useActividadesZona(Number(id));
 
+    const pasosCombinados = [
+        ...mostarInfoDriverSteps,
+        ...actividadesDriverSteps
+    ];
+
     const columnas = [
         { key: "cultivo", label: "Cultivo", icon: cultivo, icon2: cultivo },
-        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa }, 
+        { key: "etapa", label: "Etapa", icon: etapa, icon2: etapa },
         { key: "acciones", label: "Acciones", icon2: ajustes },
     ];
 
     const acciones = fila => (
         <div className="flex justify-center gap-2">
-            <button
+            <button id='editarSteps'
                 className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                 onClick={() => abrirModalEditar(fila)}
             >
                 <img src={sinFincas} alt="Ver detalle" />
             </button>
             {!(rolusuario === 3 && fila.idusuario !== idusuario) && (
-                <button
+                <button id='eliminarSteps'
                     className="px-4 py-2 rounded-full bg-[#00304D] hover:bg-[#002438]"
                     onClick={() => abrirModalEliminar(fila.id)}
                 >
@@ -43,6 +50,7 @@ export default function ActividadesZonas() {
     );
 
     const actividadesOptions = actividadesPorEtapa[etapaSeleccionada] || [];
+    useDriverTour(pasosCombinados);
 
     return (
         <>
@@ -59,7 +67,7 @@ export default function ActividadesZonas() {
             {/* Modal Crear */}
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-auto mx-4 sm:m-0 p-6">
+                    <div className="bg-white rounded-3xl shadow-lg w-[85%] sm:w-[80%] md:w-[70%] lg:w-[50%] xl:w-[35%] mx-4 sm:m-0 p-6">
                         <h5 className="text-2xl font-bold mb-2 text-center">Crear actividad</h5>
                         <hr />
                         <form onSubmit={handleCrearActividad}>
@@ -152,7 +160,7 @@ export default function ActividadesZonas() {
             {/* Modal Editar */}
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-3xl w-[90%] sm:w-1/2 md:w-1/3">
+                    <div className="bg-white rounded-3xl shadow-lg w-[85%] sm:w-[80%] md:w-[70%] lg:w-[50%] xl:w-[35%] mx-4 sm:m-0 p-6">
                         <h2 className="text-2xl font-bold mb-2 text-center">Editar Actividad</h2>
                         <hr />
                         <form onSubmit={handleEditarActividad}>
@@ -263,7 +271,14 @@ export default function ActividadesZonas() {
                 isOpen={modalEliminarAbierto}
                 onCancel={() => setModalEliminarAbierto(false)}
                 onConfirm={handleEliminarActividad}
-                message="¿Estás seguro de que deseas eliminar esta actividad?"
+                message={
+                    <>
+                        ¿Estás seguro?<br />
+                        <span className='text-gray-400'>
+                            Se eliminará la Actividad de manera permanente.
+                        </span>
+                    </>
+                }
                 confirmText="Sí, eliminar"
                 title={"Eliminar Actividad"}
             />

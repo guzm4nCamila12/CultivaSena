@@ -1,24 +1,16 @@
 //importaciones necesarias de react
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { sensoresIcon, mac, descripcion, estadoIcon, ajustes, ver, editar, eliminar, descripcionAzul, sensorAzul } from '../../assets/icons/IconsExportation'
-//librerias de alertas
-import Swal from "sweetalert2";
-import withReactContent from 'sweetalert2-react-content'
-//imgs de los modales
-import usuarioCreado from "../../assets/img/usuarioCreado.png"
-import UsuarioEliminado from "../../assets/img/usuarioEliminado.png"
 //componentes reutilizados
 import MostrarInfo from "../../components/mostrarInfo";
 import NavBar from "../../components/navbar"
 import FormularioModal from "../../components/modals/FormularioModal";
 import ConfirmationModal from "../../components/confirmationModal/confirmationModal";
-import { acctionSucessful } from "../../components/alertSuccesful";
-//endpoints para consumir api
-import { crearSensor, editarSensor, eliminarSensores, getSensoresZonasById, insertarDatos } from "../../services/sensores/ApiSensores";
-import { getFincasByIdFincas, getZonasById } from "../../services/fincas/ApiFincas"
-import { getUsuarioById } from "../../services/usuarios/ApiUsuarios"
 import { useSensores } from "../../hooks/useSensores";
+
+import { sensoresDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
 
 function Sensores() {
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
@@ -33,6 +25,14 @@ function Sensores() {
     eliminarSensor, cambiarEstadoSensor,
     zona, rol, setSensorOriginal
   } = useSensores(id, idUser);
+
+  const pasosTour = sensoresDriverSteps.filter(paso => {
+      if (paso.element === "#activarSensor") return rol === "1";
+      if (paso.element === "#noPoderActivar") return rol !== "1";
+      return true; // conservar todos los demás pasos
+    });
+    
+    useDriverTour(pasosTour);
 
   //se declaran las columnas de la tabla
   const columnas = [
@@ -57,7 +57,7 @@ function Sensores() {
   const acciones = (fila) => (
     rol !== "3" ? (
       <div className="flex justify-center gap-4">
-        <div className="relative group">
+        <div id="editarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => enviarForm(fila.id)}>
@@ -67,7 +67,7 @@ function Sensores() {
             Editar
           </span>
         </div>
-        <div className="relative group">
+        <div id="verDatosSensor" className="relative group">
           <Link to={`/datos-sensor/${fila.id}`}>
             <button
               className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
@@ -78,7 +78,7 @@ function Sensores() {
             </button>
           </Link>
         </div>
-        <div className="relative group">
+        <div id="eliminarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEliminar(fila.id)}>
@@ -110,7 +110,7 @@ function Sensores() {
 
   const ActivarSensor = (sensor, index) => {
     return (
-      <label className="relative flex items-center cursor-pointer">
+      <label id={rol === "1" ? 'activarSensor' : 'noPoderActivar'} className="relative flex items-center cursor-pointer">
         <input
           type="checkbox"
           checked={sensor.estado}

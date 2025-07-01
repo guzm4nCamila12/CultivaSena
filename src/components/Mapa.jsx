@@ -9,6 +9,7 @@ import * as Icons from "../assets/icons/IconsExportation"
 import { acctionSucessful } from './alertSuccesful';
 import espera from '../assets/img/cargando.png'
 import exito from '../assets/img/usuarioCreado.png'
+
 // Componente del Mapa
 const Mapa = ({ setUbicacion, ubicacion }) => {
   // Estado para la posición actual del mapa (latitud y longitud)
@@ -131,7 +132,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
       <div className='p-2 shadow-2xl rounded-b-3xl flex flex-wrap lg:shadow-none lg:absolute lg:-bottom-0 lg:bg-transparent bg-white lg:w-full lg:flex lg:flex-row z-30'>
         <div className='bg-white lg:bg-transparent flex flex-wrap w-full p-2 justify-center lg:w-auto  lg:order-2'>
           <div className='bg-white p-2 rounded-full flex mr-2 lg:shadow-xl shadow-md hover:bg-[#93A6B2]'>
-            <button type="button" onClick={getCurrentLocation} className='group relative'>
+            <button id='ubicarseSteps' type="button" onClick={getCurrentLocation} className='group relative'>
               <img src={Icons.ubiActual} alt="Ubicación Actual" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 w-48 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Mostrar tu ubicacion
@@ -139,13 +140,13 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
             </button>
           </div>
           <div id="controlZoom" className='bg-white p-2 rounded-3xl flex ml-2 lg:shadow-xl shadow-md'>
-            <button type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2] group relative'>
+            <button id='zoomOutSteps' type="button" onClick={handleZoomOut} className='mr-2 rounded-l-3xl hover:bg-[#93A6B2] group relative'>
               <img src={Icons.alejar} alt="Zoom Out" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Alejar
               </span>
             </button>
-            <button type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2] group relative'>
+            <button id='zoomInSteps' type="button" onClick={handleZoomIn} className='ml-2 rounded-r-3xl hover:bg-[#93A6B2] group relative'>
               <img src={Icons.acercar} alt="Zoom In" />
               <span className='z-50 absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Acercar
@@ -153,7 +154,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
             </button>
           </div>
         </div>
-        <div className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
+        <div id='coordenadasSteps' className='lg:bg-white lg:shadow-xl lg:h-[55px] flex p-1 w-full justify-center flex-wrap lg:justify-start lg:mr-auto lg:rounded-full lg:w-3/4  lg:order-1'>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
             <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
               <img src={Icons.locacion} alt="Ubicacion actual" className='mr-1' />

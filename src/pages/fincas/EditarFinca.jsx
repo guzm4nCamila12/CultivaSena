@@ -15,6 +15,9 @@ import { validarSinCambios } from "../../utils/validaciones";
 import BotonAtras from "../../components/botonAtras";
 import finca from "../../assets/icons/fincaAzul.png"
 
+import { useDriverTour } from "../../hooks/useTourDriver";
+import { editarFincaSteps } from "../../utils/aplicationSteps";
+
 export default function EditarFinca() {
   //Obtener el ID de la URL
   const { id } = useParams();
@@ -28,6 +31,7 @@ export default function EditarFinca() {
   const irAtras = () => {
     navigate(-1);
   };
+  useDriverTour(editarFincaSteps)
 
   //Se ejecuta cuando el componente se monta o cuando cambia el ID 
   useEffect(() => {
@@ -88,7 +92,7 @@ export default function EditarFinca() {
                 <BotonAtras />
                 <h2 className="text-2xl font-semibold">Editar finca</h2>
               </div>
-              <div className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
+              <div id='nombreFincaSteps' className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
                 <img src={finca} alt="" srcset="" className="pr-1 border-r-2" />
                 <input
                   type="text"
@@ -98,14 +102,15 @@ export default function EditarFinca() {
                   className="text-[18px] w-full ml-1  placeholder-black h-full  focus:outline-none"
                   autoComplete="off" />
                 <button
+                  id="botonCrearSteps"
                   type="submit"
                   className=" h-full mr-0 font-bold bg-[rgba(0,_158,_0,_1)] text-white w-1/3 lg:w-1/5 text-xl sm:text-2xl  rounded-full hover:bg-green-800 focus:outline-none">
-                  Crear
+                  Editar
                 </button>
               </div>
             </div>
           </div>
-          <div className="m-0  rounded-b-3xl pt-24 sm:pt-3  mx-auto ">
+          <div id='ubicacionSteps' className="m-0  rounded-b-3xl pt-24 sm:pt-3  mx-auto ">
             <Mapa setUbicacion={setUbicacion} />
           </div>
         </form>

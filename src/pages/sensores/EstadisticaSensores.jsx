@@ -33,27 +33,33 @@ const Estadistica = () => {
 
         const resultados = await Promise.all(
           ids.map(async (id) => {
-            const sensor = await getSensor(id);
-            const historialRaw = await getHistorialSensores(sensor.mac);
+            try {
+              const sensor = await getSensor(id);
+              const historialRaw = await getHistorialSensores(sensor.mac);
 
-            const historial = historialRaw.filter(item => {
-              
-              const raw = item.fecha || item.timestamp;
-              const itemDay = raw.slice(0, 10);
+              const historial = historialRaw.filter(item => {
+                const raw = item.fecha || item.timestamp;
+                const itemDay = raw.slice(0, 10);
+                if (isSameDay) return itemDay === fechaInicio;
+                const date = new Date(raw);
+                return date >= start && date <= end;
+              });
 
-              if (isSameDay) {
-                return itemDay === fechaInicio;
-              }
-
-              const date = new Date(raw);
-              return date >= start && date <= end;
-            });
-
-            return { sensor, historial };
+              return { sensor, historial };
+            } catch (e) {
+              // Si falla este sensor en específico, igual seguimos
+              return { sensor: null, historial: [] };
+            }
           })
         );
 
-        setSensoresData(resultados);
+        const conDatos = resultados.filter(r => r.historial.length > 0);
+
+        if (conDatos.length === 0) {
+          setError("Ningún sensor tiene datos en el rango seleccionado.");
+        }
+
+        setSensoresData(conDatos);
       } catch (err) {
         console.error(err);
         setError("Error al cargar datos de sensores.");
@@ -71,14 +77,20 @@ const Estadistica = () => {
     <div>
       <Navbar />
       <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-4">
-        <div className="flex w-auto items-center">
+        <div className="flex w-auto items-center mb-6">
           <BotonAtras />
           <h1 className="sm:text-2xl w-full text-lg font-semibold">
             Estadistícas de Sensores
           </h1>
         </div>
         {loading && <p>Cargando datos...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        {error && (
+          <div className="flex justify-center items-center h-64">
+            <h3 className="text-center text-lg font-medium text-red-600">
+              No se encontraron datos de sensores en el rango de fechas seleccionado.
+            </h3>
+          </div>
+        )}
         {!loading && !error && sensoresData.length > 0 && (
           <GraficoSensores sensoresData={sensoresData} rangoFechas={{ fechaInicio, fechaFin }} />
         )}

@@ -9,11 +9,11 @@ import { acctionSucessful } from '../../components/alertSuccesful'
 import {
   sensoresIcon, editar, ver, telefono, nombre, correo,
   sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon,
-  ajustesA,
-  actividadesA,
-  fechaA,
-  fincaA,
-  zonaA,
+  ajustes,
+  actividadesIcon,
+  fecha,
+  fincasIcon,
+  zonasIcon,
 } from '../../assets/icons/IconsExportation'
 import { fincaPerfil, usuarioCreado, usuarioTarjeta, vacaTarjeta, fincaTarjeta } from '../../assets/img/imagesExportation'
 //Endpoints para consumir el api
@@ -24,6 +24,10 @@ import { getActividadesTotales, getActividadesByUsuario, getZonasById, getCountF
 import { useUsuarios } from '../../hooks/useUsuarios'
 import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
 import { editarUsuario } from '../../services/usuarios/ApiUsuarios'
+
+//Driver
+import { useDriverTour } from '../../hooks/useTourDriver'
+import { perfilUsuarioSteps } from '../../utils/aplicationSteps'
 
 function PerfilUsuario() {
   const navigate = useNavigate()
@@ -37,6 +41,8 @@ function PerfilUsuario() {
   const [usuarioOriginal, setUsuarioOriginal] = useState(null)
   const { usuarios } = useUsuarios()
   const [datosTabla, setDatosTabla] = useState([])
+
+  useDriverTour(perfilUsuarioSteps)
 
   // Estados para el modal de historial completo (rol 1)
   const [modalHistorialAbierto, setModalHistorialAbierto] = useState(false)
@@ -312,27 +318,69 @@ function PerfilUsuario() {
       .replace(/\b\w/g, (l) => l.toUpperCase())
   }
 
+  const rolsito = obtenerRol();
+
+  const pasosTour = perfilUsuarioSteps.filter(paso => {
+    const el = paso.element;
+
+    // SuperAdmin: rol 1
+    if (rolsito === 1) {
+      return (
+        el !== '#carta1AdminSteps' &&
+        el !== '#carta2AdminSteps' &&
+        el !== '#tablaAdmin' &&
+        el !== '#carta1AlternoSteps' &&
+        el !== '#carta2AlternoSteps' &&
+        el !== '#tablaAlterno'
+      );
+    }
+
+    // Admin: rol 2
+    if (rolsito === 2) {
+      return (
+        el !== '#carta1SuperAdminSteps' &&
+        el !== '#carta2SuperAdminSteps' &&
+        el !== '#tablaSuperAdmin' &&
+        el !== '#carta1AlternoSteps' &&
+        el !== '#carta2AlternoSteps' &&
+        el !== '#tablaAlterno'
+      );
+    }
+
+    // Alterno: rol 3 (u otro)
+    return (
+      el !== '#carta1SuperAdminSteps' &&
+      el !== '#carta2SuperAdminSteps' &&
+      el !== '#tablaSuperAdmin' &&
+      el !== '#carta1AdminSteps' &&
+      el !== '#carta2AdminSteps' &&
+      el !== '#tablaAdmin'
+    );
+  });
+
+
+  useDriverTour(pasosTour);
 
   // Columnas dinámicas:
   const columnas = obtenerRol() === 1
     ? [
-      { key: "operacion", label: "Operación", icon2: ajustesA },
-      { key: "tabla", label: "Tabla", icon2: actividadesA },
-      { key: "fecha", label: "Fecha", icon2: fechaA },
-      { key: "acciones", label: "Ver", icon2: ajustesA }
+      { key: "operacion", label: "Operación", icon2: ajustes },
+      { key: "tabla", label: "Tabla", icon2: actividadesIcon },
+      { key: "fecha", label: "Fecha", icon2: fecha },
+      { key: "acciones", label: "Ver", icon2: ajustes }
     ]
     : obtenerRol() === 2
       ? [
-        { key: "finca_nombre", label: "Finca", icon2: fincaA },
-        { key: "actividad", label: "Actividad", icon2: actividadesA },
-        { key: "fechafin", label: "Fecha", icon2: fechaA },
-        { key: "acciones", label: "Ver", icon2: ajustesA }
+        { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
+        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+        { key: "fechafin", label: "Fecha", icon2: fecha },
+        { key: "acciones", label: "Ver", icon2: ajustes }
       ]
       : [
-        { key: "zona", label: "Zona", icon2: zonaA },
-        { key: "actividad", label: "Actividad", icon2: actividadesA },
-        { key: "fechafin", label: "Fecha", icon2: fechaA },
-        { key: "acciones", label: "Ver", icon2: ajustesA }
+        { key: "zona", label: "Zona", icon2: zonasIcon },
+        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+        { key: "fechafin", label: "Fecha", icon2: fecha },
+        { key: "acciones", label: "Ver", icon2: ajustes }
       ]
 
   const ruta =
@@ -347,22 +395,21 @@ function PerfilUsuario() {
   return (
     <div>
       <Navbar />
-      <div className=" bg-green-700  flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
-        <div className="bg-pink-300 sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 xl:justify-between w-full ">
-          <div className="bg-yellow-200 flex flex-wrap sm:justify-center sm:flex-row xl:flex-col items-center justify-between py-2 px-4 mt-8 rounded-3xl 2xl:w-[32rem] xl:w-[23rem] xl:px-2 2xl:px-4 xl:mt-10">
-            <div className="w-[20%] p-2 flex justify-center items-center bg-[#00304D] rounded-full sm:my-12 xl:my-0">
-              <img src={fincaPerfil} alt="" className="w-20 sm:w-auto sm:h-auto h-20" />
+      <div className="h-auto flex lg:flex lg:flex-wrap lg:justify-center justify-end mx-auto">
+        <div className="h-auto sm:flex sm:flex-col xl:flex-row xl:flex px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 xl:justify-between w-full ">
+          <div id='formularioSteps' className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
+            <div className="w-[30%] xl:h-[45%] xl:w-full p-1 flex justify-center items-center">
+              <div className="bg-[#002A43] p-1 rounded-full aspect-square w-[80%] sm:w-[70%]  lg:w-full max-w-[180px]">
+                <img src={fincaPerfil} alt="" className="rounded-full w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="w-[80%] bg-purple-400 py-2 pl-4 sm:px-4 xl:px-0 flex flex-col space-y-2 sm:space-y-4 sm:my-12 xl:my-0">
-              {/* Nombre */}
-              <div>
-                <label className="hidden sm:block text-gray-600 mb-1">Nombre</label>
-                <div className="relative">
-                  <img
-                    src={nombre}
-                    alt="Teléfono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 sm:hidden"
-                  />
+
+            {/*Info usuario */}
+            <div className='w-[70%] xl:w-full space-y-2  xl:space-y-1 sm:space-y-4 md:space-y-8 md:py-2 xl:py-0 flex flex-col justify-center items-center'>
+              <div className='w-[85%] xl:w-full xl:space-y-2'>
+                <label className='hidden lg:block xl:pl-4 '>Nombre</label>
+                <div className='flex'>
+                  <img src={nombre} alt="Nombre" className='mr-2 block xl:hidden' />
                   <input
                     type="text"
                     readOnly={!modoEdicion}
@@ -370,21 +417,16 @@ function PerfilUsuario() {
                     onChange={(e) =>
                       setUsuarioEditar({ ...usuarioEditar, nombre: e.target.value })
                     }
-                    className="w-full py-2 sm:pl-3 pl-10 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                    className='w-full font-bold xl:py-2 xl:pl-4 xl:bg-[#EEEEEE]  xl:rounded-full xl:focus:outline-none xl:focus:ring-2 xl:focus:ring-[#39A900] xl:focus:border-[#39A900]'
                   />
                 </div>
               </div>
 
               {/* Teléfono */}
-              <div>
-                <label className="hidden sm:block  text-gray-600 mb-1">Número de contacto</label>
-                <div className="relative w-full">
-                  {/* Ícono visible solo en pantallas pequeñas */}
-                  <img
-                    src={telefono}
-                    alt="Teléfono"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 sm:hidden"
-                  />
+              <div className='w-[85%] xl:w-full 2xl:space-y-2'>
+                <label className='hidden lg:block xl:pl-4'>Número de contacto</label>
+                <div className='flex'>
+                  <img src={telefono} alt="Teléfono" className='mr-2 block xl:hidden' />
                   <input
                     type="text"
                     readOnly={!modoEdicion}
@@ -392,20 +434,16 @@ function PerfilUsuario() {
                     onChange={(e) =>
                       setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value })
                     }
-                    className="w-full py-2 sm:pl-3 pl-10 pr-4 bg-[#EEEEEE] font-bold rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                    className='w-full font-bold xl:py-2 xl:pl-4 xl:bg-[#EEEEEE]  xl:rounded-full xl:focus:outline-none xl:focus:ring-2 xl:focus:ring-[#39A900] xl:focus:border-[#39A900]'
                   />
                 </div>
               </div>
 
               {/* Correo */}
-              <div>
-                <label className="hidden sm:block text-gray-600 mb-1">Correo</label>
-                <div className="relative">
-                  <img
-                    src={correo}
-                    alt="Correo"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 sm:hidden"
-                  />
+              <div className='w-[85%] xl:w-full 2xl:space-y-2'>
+                <label className='hidden lg:block xl:pl-4'>Correo</label>
+                <div className='flex'>
+                  <img src={correo} alt="Correo" className='mr-2 block xl:hidden' />
                   <input
                     type="email"
                     readOnly={!modoEdicion}
@@ -413,38 +451,33 @@ function PerfilUsuario() {
                     onChange={(e) =>
                       setUsuarioEditar({ ...usuarioEditar, correo: e.target.value })
                     }
-                    className="w-full py-2 sm:pl-3 pl-10 pr-4 bg-[#EEEEEE] font-bold rounded-full border focus:outline-none focus:ring-2 focus:ring-[#39A900] h-12"
+                    className='w-full font-bold xl:py-2 xl:pl-4 xl:bg-[#EEEEEE] xl:rounded-full xl:focus:outline-none xl:focus:ring-2 xl:focus:ring-[#39A900] xl:focus:border-[#39A900]'
                   />
                 </div>
               </div>
-
             </div>
-            <div className='bg-red-300 w-full'>
-              {/* Botón editar */}
+
+            {/* Botón editar */}
+            <div id='btnEditarSteps' className='w-full mt-2 xl:mt-0 font-bold text-white flex items-center justify-center'>
               {!modoEdicion ? (
-                <button
-                  className="flex items-center justify-center w-full bg-[#39A900] hover:bg-[#005F00] transition py-2 rounded-full text-white font-semibold h-12"
-                  onClick={() => setModoEdicion(true)}
-                >
-                  <img src={editar} alt="editar" className="w-5 h-5 mr-2" />
+                <button onClick={() => setModoEdicion(true)} className='flex  items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'>
+                  <img src={editar} alt="editar" className='mr-2' />
                   Actualizar Datos
                 </button>
               ) : (
-                <div className="flex w-full gap-4">
-                  <button
-                    className="w-1/2 bg-[#002A43] hover:bg-[#021926] text-white font-semibold py-2 rounded-full h-12"
+                <div className='w-full xl:w-full sm:w-[90%] flex justify-between'>
+                  <button className='w-[45%] rounded-full bg-[#00304D] hover:bg-[#021926] py-2'
                     onClick={() => {
                       setModoEdicion(false);
                       setUsuarioEditar({ ...usuario });
-                      setUsuarioOriginal({ ...usuario }); // opcional, para poder restaurar
+                      setUsuarioOriginal({ ...usuario });
                     }}
                   >
                     Cancelar
                   </button>
-                  <button
-                    className="w-1/2 bg-[#39A900] hover:bg-[#005F00] text-white font-semibold py-2 rounded-full h-12"
+                  <button className='w-[45%] rounded-full bg-[#39A900] hover:bg-[#005F00] py-2'
                     onClick={(e) => {
-                      handleEditarUsuario(e)
+                      handleEditarUsuario(e);
                       setModoEdicion(false);
                     }}
                   >
@@ -455,14 +488,16 @@ function PerfilUsuario() {
             </div>
           </div>
 
+
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
-          <div className="bg-red-700 mt-[2.5rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-[94%] xl:gap-[1rem]  xl:mb-10  xl:flex xl:flex-col xl:w-auto">
+          <div className="xl:w-[25%] xl:items-center mt-[2.5rem] 2xl:mt-[3rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-auto  xl:flex xl:flex-col">
             <div
+              id={obtenerRol() === 1 ? 'carta1SuperAdminSteps' : obtenerRol() === 2 ? 'carta1AdminSteps' : 'carta1AlternoSteps'}
               onClick={() => navigate(ruta)}
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
               style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
             >
-              <div className=' font-bold text-4xl w-2/3 h-1/2'>
+              <div className=' font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
                 <h3>{cartas("texto")}</h3>
               </div>
               <div className=" flex items-start justify-end w-1/3 h-1/2 p-1">
@@ -481,11 +516,12 @@ function PerfilUsuario() {
             </div>
 
             <div
+              id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
               onClick={() => navigate(ruta)}
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
               style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
             >
-              <div className='font-bold text-4xl w-2/3 h-1/2'>
+              <div className='font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
                 <h3>{cartas("texto2")}</h3>
               </div>
               <div className="flex items-start justify-end  w-1/3 h-1/2 p-1 ">
@@ -506,9 +542,11 @@ function PerfilUsuario() {
           </div>
 
           {/* Contenedor tabla actividades / historial */}
-          <div className="  sm:w-full flex flex-col pt-7 items-end xl:w-2/5 xl:h-[100%]">
-            <div className="bg-[#002A43] py-6  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
-              <h3 className="font-bold text-xl mt-1 text-white mb-2">
+          <div className="xl:w-[40%]  sm:w-full flex flex-col pt-7 items-end xl:h-[100%]">
+            <div
+              id={obtenerRol() === 1 ? 'tablaSuperAdmin' : obtenerRol() === 2 ? 'tablaAdmin' : 'tablaAlterno'}
+              className="bg-[#002A43] pb-10  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  2xl:mt-5  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
+              <h3 className="font-bold text-xl mt-1 text-white">
                 {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}
               </h3>
               <Tabla
@@ -566,12 +604,14 @@ function PerfilUsuario() {
 
               </div>
             </div>
-            <button
-              className="mt-6 bg-[#00304D] text-white px-4 py-2 rounded-3xl hover:bg-[#021926]"
-              onClick={() => setModalHistorialAbierto(false)}
-            >
-              Cerrar
-            </button>
+            <div className='w-full flex justify-end'>
+              <button
+                className="mt-6 bg-[#00304D] text-white px-4 py-2 rounded-3xl hover:bg-[#021926]"
+                onClick={() => setModalHistorialAbierto(false)}
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       )}

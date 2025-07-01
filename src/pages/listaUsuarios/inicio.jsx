@@ -9,7 +9,8 @@ import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajuste
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
 import { useRoles } from "../../utils/useRoles";
-import { type } from "@testing-library/user-event/dist/type";
+import {usuariosSteps} from '../../utils/aplicationSteps';
+import { useDriverTour } from '../../hooks/useTourDriver';
 
 const Inicio = () => {
   const { usuarios, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId } = useUsuarios();
@@ -37,6 +38,8 @@ const Inicio = () => {
     { key: "id_rol", label: "Rol", transform: obtenerNombreRol, icon: rol, icon2: rol },
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
+
+   useDriverTour(usuariosSteps);
 
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
@@ -78,8 +81,9 @@ const Inicio = () => {
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       {/* Botón Editar */}
-      <div className="relative group">
+      <div id="editarSteps" className="relative group">
         <button
+        
           onClick={() => abrirModalEditar(fila)}
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
         >
@@ -92,7 +96,7 @@ const Inicio = () => {
 
       {/* Botón Ver (sin fincas o con link) */}
       {fila.id_rol !== "Admin" ? (
-        <div className="relative group">
+        <div id="verSinFincasSteps" className="relative group">
           <button
             onClick={() => setModalSinFincasAbierto(true)}
             className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -104,7 +108,7 @@ const Inicio = () => {
           </span>
         </div>
       ) : (
-        <div className="relative group">
+        <div id="verSteps" className="relative group">
           <Link
             to={`/lista-fincas/${fila.id}`}
             className="px-6 py-[12px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -118,7 +122,7 @@ const Inicio = () => {
       )}
 
       {/* Botón Eliminar */}
-      <div className="relative group">
+      <div id="eliminarSteps" className="relative group">
         <button
           onClick={() => abrirModalEliminar(fila)}
           className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -249,15 +253,16 @@ const Inicio = () => {
 
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-3xl shadow-lg w-full sm:w-1/2 md:w-1/3 p-6 mx-4 my-8 sm:my-12">
+          <div className="bg-white rounded-3xl shadow-lg p-6 mx-4 my-8 sm:my-12 max-w-full">
+
             <h5 className="text-2xl font-bold mb-4 text-center">Sin fincas</h5>
             <hr />
             <form>
               <div className="flex justify-center my-4">
                 <img src={Images.sinFinca} alt="icono" />
               </div>
-              <p className="text-lg text-center font-semibold">No hay fincas registradas</p>
-              <p className="text-gray-500 text-center text-sm">Agrega una finca para visualizar los datos.</p>
+              <p className="text-xl text-center font-bold">No hay fincas registradas</p>
+              <p className="text-gray-500 text-center text-xl">Agrega una finca para visualizar los datos.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"

@@ -9,21 +9,24 @@ import cultivaSena from "../../assets/icons/cultivaSena.png";
 import Estadisticas from "../../assets/icons/grafico-de-barras.png";
 import Reporte from "../../assets/icons/reporteActividades.png";
 import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
-import { superAdminIcon, adminIcon, alternoIcon, finca } from '../../assets/img/imagesExportation';
+import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reportesSensor.png"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
-import ayuda from '../../assets/icons/ayuda.png'
+import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
+
+
 
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
+    const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
 
     // Obtener ícono según rol
     const obtenerRol = () => {
@@ -54,6 +57,9 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 setCargandoFincas(true);
                 const response = await getFincasById(obtenerIdUsuario());
                 setFincas(response || []);
+                const data = await getUsuarioById(obtenerIdUsuario());
+                setUsuario(data || [])
+
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
             } finally {
@@ -64,7 +70,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         if (obtenerIdUsuario()) {
             fetchFincas();
         }
-    }, [obtenerIdUsuario()]);
+    }, [obtenerIdUsuario()],);
 
     const idFinca = obtenerFinca()
 
@@ -72,7 +78,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
         <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px] border-gray-700 text-white z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                <a href="/dashboard">
+                <a href='https://www.youtube.com/watch?v=EH0i4uqMLUY&list=RDEH0i4uqMLUY&start_radio=1'>
                     <img src="/logoC.svg" alt="Logo" className="h-9" />
                 </a>
                 <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 p-2">
@@ -93,34 +99,76 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
                 {/* Estadísticas */}
                 <div>
-                    <div
-                        onClick={() => toggleSubmenu('estadisticas')}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                    >
-                        <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
-                        <span>Estadísticas</span>
-                    </div>
-                    <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                        {cargandoFincas
-                            ? <span>Cargando...</span>
-                            : fincas.map(finca => (
-                                <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
-                                    className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
-                                >
-                                    <div className='flex'>
-                                        <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                        <h3> {finca.nombre}</h3>
-                                    </div>
-                                </Link>
-                            ))
-                        }
-                    </div>
+                    {rol === 3 ? (
+                        <Link
+                            to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
+                            state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar grafica", vista: "/estadistica", tipo: "/reporteSensores" }}
+                            className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
+                        >
+                            <img src={Estadisticas} alt="Estadisticas" className="h-6 w-7 mr-2" />
+                            <span>Estadistícas</span>
+                        </Link>
+                    ) : (
+                        <div id='estadisticasSteps'>
+                            <div
+                                onClick={() => toggleSubmenu('estadisticas')}
+                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                            >
+                                <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
+                                <span>Estadísticas</span>
+                            </div>
+                            <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
+                                {cargandoFincas
+                                    ? <span>Cargando...</span>
+                                    : fincas.map(finca => (
+                                        <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
+                                            className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                        >
+                                            <div className='flex'>
+                                                <img src={fincasBlancas} alt="" className='mr-1 w-5' />
+                                                <h3> {finca.nombre}</h3>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                {/* Reporte Actividades */}
+                {/* Reporte Actividades / Acciones */}
                 <div>
-                    {rol === 3 ? (
-                        // Rol 3: botón directo que lleva a selección de zonas sin desplegable
+                    {rol === 1 ? (
+                        // Rol 1: menú desplegable normal pero con otro texto
+                        <div>
+                            <div
+                                onClick={() => toggleSubmenu('reporteAcciones')}
+                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
+                            >
+                                <img src={Reporte} alt="Reporte de Acciones" className="h-8 w-8 mr-2" />
+                                <span>Reporte de Acciones</span>
+                            </div>
+                            <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
+         ${submenuAbierto === 'reporteAcciones' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
+                            >
+                                {cargandoFincas
+                                    ? <span>Cargando...</span>
+                                    : fincas.map(finca => (
+                                        <Link
+                                            key={finca.id}
+                                            to={`/zonas/${finca.id}/${obtenerIdUsuario()}`}
+                                            state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte de acciones", vista: "/reporteAcciones" }}
+                                            className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition flex items-center"
+                                        >
+                                            <img src={fincasBlancas} alt="" className='mr-1 w-5' />
+                                            <h3>{finca.nombre}</h3>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    ) : rol === 3 ? (
+                        // Rol 3: botón directo a alterno
                         <Link
                             to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
                             state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte", tipo: "/reporteZonas" }}
@@ -130,7 +178,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             <span>Reporte Actividades</span>
                         </Link>
                     ) : (
-                        // Roles distintos de 3: menú desplegable normal para selección de fincas y zonas
+                        // Roles 2, etc.: menú desplegable estándar
                         <div>
                             <div
                                 onClick={() => toggleSubmenu('reporte')}
@@ -140,7 +188,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                 <span>Reporte Actividades</span>
                             </div>
                             <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
-                               ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
+         ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
                             >
                                 {cargandoFincas
                                     ? <span>Cargando...</span>
@@ -210,11 +258,6 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     </div>
                 )}
 
-                <div className='flex cursor-help items-center'>
-                    <img src={ayuda} alt="" className='h-8 w-8 mr-3' />
-                    <span>Ayuda</span>
-                </div>
-
             </div>
 
             {/* Perfil y Cerrar Sesión */}
@@ -223,7 +266,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     <div className="flex items-center mb-4">
                         <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
-                            <span className="block font-bold">{obtenerNombre() || 'Usuario'}</span>
+                            <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>
                         </div>
                     </div>

@@ -18,7 +18,8 @@ import { getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import { acctionSucessful } from "../components/alertSuccesful";
 import UsuarioEliminado from "../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../assets/img/usuarioCreado.png";
-import { validarSinCambios } from "../utils/validaciones";
+import { validarNombre, validarSinCambios } from "../utils/validaciones";
+import { Alerta } from "../assets/img/imagesExportation";
 
 const MySwal = withReactContent(Swal);
 export function useSensores(id, idUser) {
@@ -134,12 +135,10 @@ export function useSensores(id, idUser) {
   const crearNuevoSensor = async () => {
     // Validación tipo_id obligatorio
     if (!formData.tipo_id) {
-      await MySwal.fire({
-        icon: 'warning',
-        title: 'Selecciona un tipo de sensor',
-        confirmButtonText: 'Entendido'
+      return acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'Seleccione un tipo de sensor',
       });
-      return;
     }
     try {
       const response = await crearSensor(formData);
@@ -175,6 +174,7 @@ export function useSensores(id, idUser) {
 
   const eliminarSensor = async () => {
     if (!sensorAEliminar) return;
+
     try {
       await eliminarSensores(sensorAEliminar);
       setSensores(prev => prev.filter(s => s.id !== sensorAEliminar));

@@ -10,6 +10,8 @@ import MostrarInfo from "../../components/mostrarInfo";
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
 
+import { sensorAlternosDriverSteps, zonasAlternosDriverSteps } from "../../utils/aplicationSteps";
+import { useDriverTour } from "../../hooks/useTourDriver";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
@@ -22,7 +24,7 @@ function SensoresAlterno() {
   const vista = state?.vista ?? '';
   
   const enableSelectionButton =
-    (vista === '/reporte' || vista === '/sensores')
+    (vista === '/reporte' || vista === '/sensores' || vista === '/estadistica')
       ? (state.enableSelectionButton ?? false)
       : false;
   
@@ -52,7 +54,7 @@ function SensoresAlterno() {
     const nuevaVista = location.state?.vista ?? '';
     const nuevoTipo = location.state?.tipo ?? '';
   
-    const newHide = nuevaVista === '/reporte' || nuevaVista === '/sensores';
+    const newHide = nuevaVista === '/reporte' || nuevaVista === '/sensores' || nuevaVista === '/estadistica';
     setHideTabs(newHide);
   
     if (nuevoTipo === '/reporteZonas') {
@@ -148,7 +150,7 @@ function SensoresAlterno() {
 
   //Funcion que define las acciones que se muestran en cada fila
   const acciones = (fila) => (
-    <div className="relative group">
+    <div id="verDatosSensor" className="relative group">
       <Link to={`/datos-sensor/${fila.id}`}>
         <button className="px-7 py-[9px] rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
           <img src={ver} alt="Ver" />
@@ -167,7 +169,7 @@ function SensoresAlterno() {
     ),
     verSensores: (
       <Link to={`/sensoresZonas/${zona.id}/${fincas.idusuario}`}>
-        <button className="group relative">
+        <button id="sensoresSteps" className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
             {/* Mostrar cantidad de sensores al lado de "Ver más..." */}
             <span className="text-[#3366CC] font-bold whitespace-nowrap">({zona.cantidad_sensores}) Ver más...</span>
@@ -180,7 +182,7 @@ function SensoresAlterno() {
     ),
     actividades: (
       <Link to={`/actividadesZonas/${zona.id}`}>
-        <button className="group relative">
+        <button id="actividadesSteps" className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
@@ -196,7 +198,7 @@ function SensoresAlterno() {
     <div >
       <Navbar />
       {!hideTabs && (
-        <div className="flex justify-center mx-auto my-4 w-[80%] space-x-4">
+        <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
           <button
             className={`px-7 py-2 rounded-full transition ${Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}
@@ -223,7 +225,7 @@ function SensoresAlterno() {
             ...sensor,
             "#": index + 1,
             estado: (
-              <div className="flex justify-center items-center">
+              <div id="noActivar" className="flex justify-center items-center">
                 <label className="switch">
                   <input
                     type="checkbox"

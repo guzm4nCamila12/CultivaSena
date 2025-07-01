@@ -9,7 +9,9 @@ import FormularioModal from "../../../components/modals/FormularioModal";
 //Importacion de iconos
 import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sensoresIcon } from '../../../assets/icons/IconsExportation';
 //Hooks
-import { useZonas } from "../../../hooks/useZonas"; 
+import { useZonas } from "../../../hooks/useZonas";
+import { zonasDriverSteps, ReporteSteps } from '../../../utils/aplicationSteps';
+import { useDriverTour } from '../../../hooks/useTourDriver';
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -18,10 +20,17 @@ const Zonas = () => {
   const vista = state?.vista ?? "";
   const isReporte = vista === "/reporte";
 
-  const {fincas, zonas,  modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar, 
+  const { fincas, zonas, modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar,
     abrirModalEliminar, setModalFormularioAbierto, handleSubmitFormulario, handleChangeZona, setModalEliminarAbierto, handleEliminarZona, } = useZonas(id, idUser);
 
   const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
+
+  const steps = tituloMostrar === state?.titulo
+    ? ReporteSteps
+    : zonasDriverSteps;
+
+  useDriverTour(steps);
+
 
   // Columnas base
   const columnasBase = [
@@ -38,20 +47,22 @@ const Zonas = () => {
   // Acciones solo si no es reporte
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
-      <div className="relative group">
-        <button
-          className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => abrirModalEditar(fila)}
-        >
-          <img src={editar} alt="Editar" className='absolute' />
-        </button>
-        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Editar
-        </span>
-      </div>
+      {fila.nombre !== "Zona general" && (
+        <div id="editarSteps" className="relative group">
+          <button id="editarSteps"
+            className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            onClick={() => abrirModalEditar(fila)}
+          >
+            <img src={editar} alt="Editar" className='absolute' />
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Editar
+          </span>
+        </div>
+      )}
 
       {fila.nombre !== "Zona general" && (
-        <div className="relative group">
+        <div id="eliminarSteps" className="relative group ">
           <button
             className="xl:px-8 px-5 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
             onClick={() => abrirModalEliminar(fila.id)}
@@ -69,19 +80,21 @@ const Zonas = () => {
   const zonasMapeadas = zonas.map(z => ({
     ...z,
     verSensores: !isReporte ? (
-      <Link className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
+      <Link id="sensoresSteps" className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
         ({z.cantidad_sensores ?? 0}) Ver más...
       </Link>
     ) : undefined,
     actividades: isReporte ? (
       <span className="font-bold">Seleccione para generar reporte</span>
     ) : (
-      <Link className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
+      <Link id="actividadesSteps" className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
         Ver más...
       </Link>
     ),
   }));
-  
+
+
+
   return (
     <div>
       <Navbar />
@@ -115,9 +128,9 @@ const Zonas = () => {
         message={
           <>
             ¿Estás seguro?<br />
-            <h4 className='text-gray-400'>
+            <span className='text-gray-400'>
               Se eliminará la zona <strong className="text-red-600">{zonaEliminada?.nombre}</strong> de manera permanente.
-            </h4>
+            </span>
           </>
         }
         confirmText="Sí, eliminar"

@@ -96,7 +96,7 @@ const Tabla = ({
                   if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
                 } else {
                   if (mostrarFotoPerfil && col.key === 'fotoPerfil') roundedL = 'rounded-l-full px-7';
-                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion'].includes(col.key)) roundedL = 'rounded-l-full';
+                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre','zona'].includes(col.key)) roundedL = 'rounded-l-full';
                 }
                 const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
                 const sticky = isAcc ? 'sticky right-0 z-20' : '';
@@ -111,9 +111,10 @@ const Tabla = ({
                       {col.key === 'seleccionar' ? (
                         <input
                           type="checkbox"
+                          title="Seleccionar todos"
                           checked={seleccionados.length === datos.length}
                           onChange={toggleAll}
-                          className="mx-auto rounded-full border-2 bg-white"
+                          className="mx-auto accent-[#39A900] rounded-full border-2 bg-white"
                         />
                       ) : (
                         <>
@@ -142,7 +143,7 @@ const Tabla = ({
                 <tr key={fila.id || rowIndex}>
                   {enableSelection && (() => { colIndex++; return (
                     <td className="p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle rounded-l-full">
-                      <input type="checkbox" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
+                      <input type="checkbox" className=" accent-[#39A900]" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
                     </td>
                   ); })()}
 
@@ -162,14 +163,14 @@ const Tabla = ({
                   {columnasSinFoto.map((columna, cidx) => {
                     
                     const isAcciones = columna.key === 'acciones';
-                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion'].includes(columna.key) ? 'rounded-l-full' : '';
+                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre','zona'].includes(columna.key) ? 'rounded-l-full' : '';
                     let borderR = cidx === columnasSinFoto.length - 1 ? ' rounded-r-full' : '';
                     colIndex++;
                     if (isAcciones) {
                       return (
                         <td
                           key={cidx}
-                          className={`sticky right-0 z-10 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
+                          className={`sticky  lg:static right-0 z-50 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
                           style={{ right: '-1rem' }}
                         >
                           <div className="hidden md:flex justify-start gap-2">
@@ -218,7 +219,7 @@ const Tabla = ({
         </div>
       )}
       {mostrarAgregar && (
-        <div onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
+        <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
           <span className="text-[#009E00] text-base font-semibold">Crear</span>
           <div className="ml-2 w-8 h-8 bg-[#009E00] rounded-full flex items-center justify-center"><span className="text-white text-2xl font-bold">+</span></div>
         </div>

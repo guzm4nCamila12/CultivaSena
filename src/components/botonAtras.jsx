@@ -19,6 +19,7 @@ export default function BotonAtras() {
 
   return (
     <button
+      id="btnAtrasSteps"
       type="button"
       onClick={irAtras}
       disabled={disableBack}
@@ -29,7 +30,7 @@ export default function BotonAtras() {
           : "hover:cursor-pointer"}
       `}
     >
-      <img src={atras} alt="btnRegresar" className="w-full "/>
+      <img src={atras} alt="btnRegresar" className="w-full " />
     </button>
   );
 }

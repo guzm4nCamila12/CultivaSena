@@ -5,32 +5,60 @@ import { getActividadesByZona, getZonasById } from '../services/fincas/ApiFincas
 import { acctionSucessful } from '../components/alertSuccesful';
 import { Alerta } from '../assets/img/imagesExportation';
 import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sensores/ApiSensores';
-import { getUsuarioById } from '../services/usuarios/ApiUsuarios' 
+import { getUsuarioById } from '../services/usuarios/ApiUsuarios'
 
 export const useExportarExcel = () => {
+
+
   const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
     if (!Array.isArray(datos) || datos.length === 0) {
-      console.warn("No hay datos para exportar");
+      acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'No hay datos para exportar'
+      });
       return;
     }
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(nombreHoja);
 
-    const columnas = Object.keys(datos[0]).map(key => ({
-      header: key,
-      key: key,
-      width: ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22
-    }));
 
-    worksheet.columns = columnas;
+    // 🔹 Fecha y hora actual
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const fechaHora = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
-    datos.forEach(dato => {
-      worksheet.addRow(dato);
-    });
+    // 🔹 Agrega la fila "Reporte generado"
 
-    // Estiliza encabezado
-    worksheet.getRow(1).eachCell(cell => {
+    worksheet.addRow([`Reporte generado: ${fechaHora}`]);
+
+    // 🔹 Agrega una fila vacía
+    // 🔹 Agrega la fila del título "Reporte generado"
+    const titulo = `Reporte generado: ${fechaHora}`;
+    worksheet.mergeCells('A1:B1');
+    const tituloCell = worksheet.getCell('A1');
+    tituloCell.value = titulo;
+    tituloCell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: '00304D' },
+    };
+    tituloCell.font = {
+      name: 'Work Sans',
+      bold: true,
+      color: { argb: 'FFFFFFFF' },
+      size: 12,
+    };
+    tituloCell.alignment = { horizontal: 'left', vertical: 'middle' };
+
+    worksheet.addRow([]);
+
+    // 🔹 Define encabezados (extraídos de los datos)
+    const headers = Object.keys(datos[0]);
+    worksheet.addRow(headers);
+
+    // 🔹 Estiliza encabezado
+    worksheet.getRow(3).eachCell(cell => {
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
@@ -50,6 +78,17 @@ export const useExportarExcel = () => {
       };
     });
 
+    // 🔹 Agrega los datos
+    datos.forEach(dato => {
+      worksheet.addRow(headers.map(key => dato[key]));
+    });
+
+    // 🔹 Ajusta los anchos de columna
+    headers.forEach((key, idx) => {
+      worksheet.getColumn(idx + 1).width = ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22;
+    });
+
+    // 🔹 Exporta
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `${nombreArchivo}.xlsx`);
   };
@@ -59,20 +98,20 @@ export const useExportarExcel = () => {
       const actividadesPorZona = await Promise.all(
         zonasSeleccionadas.map(zona => getActividadesByZona(zona.id))
       );
-  
+
       const todasLasActividades = actividadesPorZona
         .filter(Boolean)
         .flat();
-  
+
       const rangoInicio = new Date(fechaInicio);
       const rangoFin = new Date(fechaFin);
-  
+
       const actividadesEnRango = todasLasActividades.filter(act => {
         const inicio = new Date(act.fechainicio);
         const fin = new Date(act.fechafin);
         return fin >= rangoInicio && inicio <= rangoFin;
       });
-  
+
       if (actividadesEnRango.length === 0) {
         acctionSucessful.fire({
           imageUrl: Alerta,
@@ -80,23 +119,32 @@ export const useExportarExcel = () => {
         });
         return;
       }
-  
+
       // Obtener usuarios únicos por ID para evitar llamadas repetidas
       const usuariosUnicosIds = [...new Set(actividadesEnRango.map(act => act.idusuario))];
-  
+
       // Obtener los datos de los usuarios
       const usuarios = await Promise.all(
         usuariosUnicosIds.map(id => getUsuarioById(id))
       );
-  
+
       // Mapear por ID para acceso rápido
       const usuariosMap = {};
       usuarios.forEach(user => {
         usuariosMap[user.id] = user.nombre || "Usuario desconocido";
       });
-  
+
       const datosParaExportar = actividadesEnRango.map(act => {
+        // 1) Limpiar formato ISO
+        //    "2025-05-26T09:20:00Z" → "2025-05-26 09:20:00"
+        const fechaHora = act.fechainicio.replace('Z', '').replace('T', ' ');
+        // 2) Separar fecha y hora
+        const [fecha, hora] = fechaHora.split(' ');
+        // 3) Desglosar año, mes, día
+        const [Año, Mes, Día] = fecha.split('-');
+
         const zona = zonasSeleccionadas.find(z => z.id === act.idzona);
+
         return {
           ID: act.id,
           Etapa: act.etapa,
@@ -105,20 +153,70 @@ export const useExportarExcel = () => {
           Zona: zona ? zona.nombre : act.idzona,
           Descripción: act.descripcion,
           Usuario: usuariosMap[act.idusuario] || act.idusuario,
-          FechaInicio: act.fechainicio,
-          FechaFin: act.fechafin,
+          Año,
+          Mes,
+          Día,
+          Hora: hora,
         };
       });
-  
+
       await exportarExcel(datosParaExportar, 'ActividadesFiltradas');
-  
+
       return actividadesEnRango;
     } catch (error) {
       console.error("Error obteniendo actividades por zonas:", error);
       return [];
     }
   };
-  
+
+
+  const exportarSensorIndividual = async (sensorId) => {
+    try {
+      const sensor = await getSensor(sensorId);
+      if (!sensor) throw new Error('Sensor no encontrado');
+
+      const tipo = await getTipoSensor(sensor.tipo_id);
+      const zona = await getZonasById(sensor.idzona);
+      const historial = await getHistorialSensores(sensor.mac) ?? [];
+
+      const datosParaExportar = historial.map(registro => {
+        const fechaOriginal = registro.fecha;
+        const [fecha, tiempo] = fechaOriginal.split('T');
+        const [anio, mes, dia] = fecha.split('-');
+        const hora = tiempo.split('.')[0];
+
+        return {
+          ID: sensor.id,
+          MAC: sensor.mac,
+          Nombre: sensor.nombre,
+          Descripción: sensor.descripcion,
+          Tipo: tipo?.nombre || 'Desconocido',
+          Unidad: tipo?.unidad || 'N/A',
+          Zona: zona?.nombre || 'Zona desconocida',
+          Valor: registro.valor,
+          Día: dia,
+          Mes: mes,
+          Año: anio,
+          Hora: hora,
+        };
+      });
+
+      if (datosParaExportar.length === 0) {
+        acctionSucessful.fire({
+          imageUrl: Alerta,
+          title: '¡No se encontraron datos para exportar!'
+        });
+        return;
+      }
+
+      exportarExcel(datosParaExportar, `Sensor_${sensor.nombre || sensor.id}`);
+
+    } catch (error) {
+      console.error('Error exportando sensor individual:', error);
+    }
+  };
+
+
 
   const reporteSensores = async (sensoresSeleccionados, fechaInicio, fechaFin) => {
 
@@ -209,5 +307,5 @@ export const useExportarExcel = () => {
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
   };
-  return { exportarExcel, obtenerRangoFecha, reporteSensores };
+  return { exportarExcel, obtenerRangoFecha, reporteSensores, exportarSensorIndividual };
 };

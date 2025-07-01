@@ -9,8 +9,8 @@ import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 import Procesar from "../assets/icons/procesar.png"
 
-const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false,seleccionados, setSeleccionados
- }) => {
+const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false, seleccionados, setSeleccionados
+}) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,7 +29,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       setIsScrollable(container.scrollHeight > container.clientHeight);
     }
   }, [datos, busqueda]);
-  
+
 
   const datosFiltrados = datos.filter(fila =>
     columnas.some(col => String(fila[col.key] || "").toLowerCase().includes(busqueda.toLowerCase()))
@@ -94,6 +94,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       {enableSelection && (
         <div className="flex justify-end mb-2">
           <button
+            id="procesarSteps"
             onClick={procesarSeleccionados}
             className="bg-[#39A900] justify-center hover:bg-[#005F00] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
           >
@@ -108,7 +109,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       >
         {datosFiltrados.length === 0 ? (
           mostrarAgregar ? (
-            <div onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer hover:scale-95">
+            <div id='crearSteps' onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer hover:scale-95">
               <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
               <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
                 <span className="text-white text-3xl font-bold">+</span>
@@ -118,7 +119,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         ) : (
           <>
             {mostrarAgregar && (
-              <div onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer hover:scale-95">
+              <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer hover:scale-95">
                 <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Crear</span>
                 <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
                   <span className="text-white text-xl sm:text-3xl font-bold">+</span>
@@ -127,16 +128,33 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             )}
 
             {datosFiltrados.map((fila, idx) => (
-              <div key={fila.id || idx} className="relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95">
+              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95" 
+              style={{
+                backgroundImage: "url('/fondoCards.png')",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center center",
+                
+
+                }}>
+                
                 {enableSelection && (
                   <input
+                    id="checkboxSteps"
                     type="checkbox"
                     checked={seleccionados.includes(fila.id)}
+                    onClick={(e) => e.stopPropagation()}
                     onChange={() => toggleSeleccion(fila.id)}
-                    className="absolute top-5 left-5 w-5 h-5 cursor-pointer rounded-full "
+                    className="absolute top-5 accent-[#39A900] left-5 w-5 h-5 cursor-pointer rounded-full "
                   />
                 )}
-                <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center">
+                <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
+                  style={{
+                    backgroundImage: "url('/fondoTitle.png')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center center",
+                    backgroundRepeat: "no-repeat",
+                  }}>
                   {fila.nombre || `Dato ${idx + 1}`}
                 </div>
                 <div className="p-4 flex flex-col gap-1">

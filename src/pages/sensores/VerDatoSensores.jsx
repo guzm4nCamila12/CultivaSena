@@ -9,6 +9,8 @@ import BotonAtras from '../../components/botonAtras';
 import { getSensor, getHistorialSensores, getTipoSensor } from '../../services/sensores/ApiSensores';
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useExportarExcel } from '../../hooks/useReportes';
+import exportarIcon from '../../assets/icons/subir.png'
+import { useDriverTour } from '../../hooks/useTourDriver';
 
 // Formatea una ISO date string a dd/mm/yyyy y hh:mm:ss
 const formatearFechaYHora = (fechaIso) => {
@@ -19,6 +21,7 @@ const formatearFechaYHora = (fechaIso) => {
     hora: `${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`,
   };
 };
+
 
 // Limita decimales
 const limitarValor = (valor, decimales = 4) =>
@@ -34,8 +37,8 @@ export default function VerSensores() {
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
-  const { exportarExcel } = useExportarExcel();
-
+  const { exportarSensorIndividual } = useExportarExcel();
+  
 
   // Fetch sensor + historial
   useEffect(() => {
@@ -85,18 +88,18 @@ export default function VerSensores() {
       })
       .filter(item => {
         if (!fechaFiltro) return true;
-  
+
         const [añoFiltro, mesFiltro, diaFiltro] = fechaFiltro.split('-');
         const [diaItem, mesItem, añoItem] = item.fechaFormateada.split('/');
-  
+
         const coincideDia = diaFiltro ? diaItem === diaFiltro : true;
         const coincideMes = mesFiltro ? mesItem === mesFiltro : true;
         const coincideAño = añoFiltro ? añoItem === añoFiltro : true;
-  
+
         return coincideDia && coincideMes && coincideAño;
       });
   };
-  
+
 
   const datosFinales = filtrarDatos();
 
@@ -121,16 +124,11 @@ export default function VerSensores() {
     { key: "hora", label: "Hora", icon: Icons.hora, icon2: Icons.hora },
     { key: "valor", label: "Datos", icon: Icons.dato, icon2: Icons.dato }
   ];
-  console.log("-------------------------------------");
-  console.log("rawHistorial:", rawHistorial);
-  console.log("Datos de la tabla:", datosTabla);
-  console.log("Datos Finales:", datosFinales);
-  console.log("Datos paginados:", datosPaginados);
 
   return (
     <div>
       <NavBar />
-      <div className="px-5 xl:mx-36 lg:mx-16 sm:mx-5 pt-2">
+      <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-[1.5rem] pt-2">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             <BotonAtras />
@@ -139,17 +137,19 @@ export default function VerSensores() {
             </h3>
           </div>
           <div className="flex items-end">
-            <input
+            {/* <input
               type="date"
               value={fechaFiltro}
               onChange={e => setFechaFiltro(e.target.value)}
               className="p-2 border rounded-xl mr-2"
-            />
+            /> */}
             <button
-              onClick={() => exportarExcel(datosTabla, `sensor_${sensores.nombre || id}`)}
-              className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
+              id='exportarSteps'
+              onClick={() => exportarSensorIndividual(id)}
+              className="px-4 flex py-2 justify-center items-center bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
             >
-              Exportar Excel
+              <img src={exportarIcon} alt="" className='w-4 h-4 mr-2' />
+              <h3> Exportar</h3>
             </button>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default function VerSensores() {
         ) : (
           <>
             {/* Gráfico individual */}
-            <div className="flex justify-center mb-8">
+            <div id='graficaSteps' className="flex justify-center mb-8">
               <GraficoSensores
                 sensoresData={[{
                   sensor: sensores,
@@ -183,6 +183,7 @@ export default function VerSensores() {
               mostrarAgregar={false}
               mostrarBotonAtras={false}
             />
+
             {totalPaginas > 1 && (
               <div className="flex justify-center space-x-2 mt-4">
                 {Array.from({ length: totalPaginas }).map((_, i) => (

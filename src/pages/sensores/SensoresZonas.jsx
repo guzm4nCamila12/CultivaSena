@@ -13,8 +13,6 @@ import { sensoresDriverSteps } from "../../utils/aplicationSteps";
 import { useDriverTour } from "../../hooks/useTourDriver";
 
 function Sensores() {
-  const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
-  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const { id, idUser } = useParams();
 
@@ -23,7 +21,11 @@ function Sensores() {
     sensorEditar, setSensorEditar, handleChangeEditar,
     actualizarSensor, setSensorAEliminar, setSensorEliminado,
     eliminarSensor, cambiarEstadoSensor,
-    zona, rol, setSensorOriginal
+    zona, rol, setSensorOriginal,
+    modalInsertarAbierto,
+    setModalInsertarAbierto,
+    modalEditarAbierto,
+    setModalEditarAbierto,
   } = useSensores(id, idUser);
 
   const pasosTour = sensoresDriverSteps.filter(paso => {
@@ -158,7 +160,7 @@ function Sensores() {
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={agregar}
         datos={sensoresZona.map((sensor, index) => ({
-          ...sensor, "#": index + 1,
+          ...sensor,
           estado: (
             ActivarSensor(sensor, index)
           ),
@@ -168,7 +170,7 @@ function Sensores() {
         titulo="Crear Sensor"
         isOpen={modalInsertarAbierto}
         onClose={() => setModalInsertarAbierto(false)}
-        onSubmit={(e) => { e.preventDefault(); crearNuevoSensor(); setModalInsertarAbierto(false); }}
+        onSubmit={(e) => { e.preventDefault(); crearNuevoSensor();  }}
         valores={formData}
         onChange={handleChange}
         textoBoton="Crear"
@@ -188,7 +190,7 @@ function Sensores() {
         titulo="Editar Sensor"
         isOpen={modalEditarAbierto}
         onClose={() => setModalEditarAbierto(false)}
-        onSubmit={(e) => { e.preventDefault(); actualizarSensor(); setModalEditarAbierto(false); }}
+        onSubmit={(e) => { e.preventDefault(); actualizarSensor();  }}
         valores={sensorEditar}
         onChange={handleChangeEditar}
         textoBoton="Guardar y actualizar"

@@ -183,7 +183,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                             <div
                                 onClick={() => toggleSubmenu('reporte')}
                                 className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                            >
+                            > 
                                 <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                                 <span>Reporte Actividades</span>
                             </div>

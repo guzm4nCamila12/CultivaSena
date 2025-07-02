@@ -81,6 +81,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     } else if (vista === "/sensores") {
+      console.log("erda",seleccionados)
       await reporteSensores(seleccionados, fechaInicio, fechaFin);
     }
   };

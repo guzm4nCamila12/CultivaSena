@@ -194,6 +194,7 @@ export const useExportarExcel = () => {
           Tipo: tipo?.nombre || 'Desconocido',
           Unidad: tipo?.unidad || 'N/A',
           Zona: zona?.nombre || 'Zona desconocida',
+          IDZona:sensor.idzona,
           Valor: registro.valor,
           Día: dia,
           Mes: mes,
@@ -273,7 +274,7 @@ export const useExportarExcel = () => {
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {
       const sensor = sensoresConTipo[index]; // Emparejar con el sensor correspondiente
-
+      console.log("leo", sensor)
       return sensorHistorial.historial.map(registro => {
         const fechaOriginal = registro.fecha; // ejemplo: "2025-05-29T09:55:39.1214Z"
         const [fecha, tiempo] = fechaOriginal.split('T');
@@ -288,6 +289,7 @@ export const useExportarExcel = () => {
           Tipo: sensor.tipo.nombre,
           Unidad: sensor.tipo.unidad,
           Zona: sensor.zonaNombre,
+          IDZona: sensor.idzona,
           Valor: registro.valor,
           Día: dia,
           Mes: mes,
@@ -304,7 +306,7 @@ export const useExportarExcel = () => {
       });
       return;
     }
-
+    
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
   };

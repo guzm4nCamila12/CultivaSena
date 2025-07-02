@@ -501,7 +501,7 @@ function PerfilUsuario() {
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
               style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
             >
-              <div className=' font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
+              <div className=' font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
                 <h3>{cartas("texto")}</h3>
               </div>
               <div className=" flex items-start justify-end w-1/3 h-1/2 p-1">
@@ -525,7 +525,7 @@ function PerfilUsuario() {
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
               style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
             >
-              <div className='font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
+              <div className='font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
                 <h3>{cartas("texto2")}</h3>
               </div>
               <div className="flex items-start justify-end  w-1/3 h-1/2 p-1 ">

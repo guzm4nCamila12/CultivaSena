@@ -86,22 +86,22 @@ export const ReporteSteps = [
   {
     element: '#seleccionarSteps',
     popover: {
-      title: 'Apartado de actividades',
-      description: 'Actividades realizadas en la zona'
+      title: 'Apartado de Selección',
+      description: 'Botón para habilitar o desabilitar el checkbox de selección'
     }
   },
   {
     element: '#checkboxSteps',
     popover: {
-      title: 'Editar zona',
-      description: 'Editar la información de la zona'
+      title: 'Checbox de Selección',
+      description: 'Aquí puedes seleccionar si quieres incluir esta opción'
     }
   },
   {
     element: '#procesarSteps',
     popover: {
-      title: 'Eliminar zona',
-      description: 'Eliminar una zona de la finca',
+      title: 'Procesar Seleccionados',
+      description: 'Aquí puedes continuar la acción con las opciones elegidas',
       position: 'left'
     }
   }

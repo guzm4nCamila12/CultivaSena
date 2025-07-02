@@ -109,7 +109,7 @@ function SensoresAlterno() {
       return location.state?.titulo
     }
     else{
-      return `Sensores de la finca: ${nombreFinca}`
+      return `Sensores de la Finca: ${nombreFinca}`
     }
   
   };

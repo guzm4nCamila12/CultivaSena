@@ -9,19 +9,21 @@ import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 import Procesar from "../assets/icons/procesar.png"
 
-const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false, seleccionados, setSeleccionados
-}) => {
+const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false, seleccionados, setSeleccionados }) => {
   const [busqueda, setBusqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [rangoFechas, setRangoFechas] = useState(null);
   const navigate = useNavigate();
-  const { obtenerRangoFecha } = useExportarExcel();
-  const { reporteSensores } = useExportarExcel();
-
+  const { obtenerRangoFecha, reporteSensores } = useExportarExcel();
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('procesarSeleccionados', procesarSeleccionados);
+    return () => window.removeEventListener('procesarSeleccionados', procesarSeleccionados);
+  }, [seleccionados, datos]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -29,7 +31,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       setIsScrollable(container.scrollHeight > container.clientHeight);
     }
   }, [datos, busqueda]);
-
 
   const datosFiltrados = datos.filter(fila =>
     columnas.some(col => String(fila[col.key] || "").toLowerCase().includes(busqueda.toLowerCase()))
@@ -53,59 +54,42 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     setDescripcionModal("");
   };
 
-  // Selección
   const toggleSeleccion = (id) => {
     setSeleccionados(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
+
   const procesarSeleccionados = () => {
-    if (seleccionados.length == 0) {
+    if (seleccionados.length === 0) {
       acctionSucessful.fire({
         imageUrl: Alerta,
         title: `¡Seleccione al menos 1 item!`
       });
-      return
+      return;
     }
-    const seleccionData = datosFiltrados.filter(d => seleccionados.includes(d.id));
-    setModalAbierto(true)
+    setModalAbierto(true);
   };
 
   const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     setRangoFechas({ fechaInicio, fechaFin });
-
     if (vista === "/reporte") {
-      // Transformar seleccionados (ids) a objetos {id, nombre} usando los datos completos
       const seleccionadosConNombre = seleccionados.map(id => {
         const item = datos.find(d => d.id === id);
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
-
-      const actividades = await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
-      // aquí actividades es según la función, ya ajusta según necesites
+      await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     } else if (vista === "/sensores") {
-      const sensores = await reporteSensores(seleccionados, fechaInicio, fechaFin)
+      await reporteSensores(seleccionados, fechaInicio, fechaFin);
     }
   };
 
+
   return (
     <div className="">
-
-      {enableSelection && (
-        <div className="flex justify-end mb-2">
-          <button
-            id="procesarSteps"
-            onClick={procesarSeleccionados}
-            className="bg-[#39A900] justify-center hover:bg-[#005F00] shadow-lg  flex rounded-3xl text-white px-3 w-36 py-2"
-          >
-            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />
-            Procesar</button>
-        </div>
-      )}
-
       <div
         ref={containerRef}
-        className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length === 0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'} ${isScrollable ? 'sm:pr-4' : 'pr-0'}`}
+        className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length === 0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'} ${isScrollable ? 'sm:pr-4' : 'pr-0'}`}
       >
         {datosFiltrados.length === 0 ? (
           mostrarAgregar ? (

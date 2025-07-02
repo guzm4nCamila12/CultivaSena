@@ -152,7 +152,7 @@ function Sensores() {
       <NavBar />
 
       <MostrarInfo
-        titulo={`Sensores de la zona: ${zona.nombre}`}
+        titulo={`Sensores de la Zona ${zona.nombre}`}
         columnas={columnas}
         acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}

@@ -102,7 +102,7 @@ export default function ListaFincas() {
     <div>
       <Navbar />
       <MostrarInfo
-        titulo={`Fincas de: ${usuario.nombre}`}
+        titulo={`Fincas de ${usuario.nombre}`}
         columnas={columnas}
         datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
         acciones={acciones}
@@ -113,7 +113,7 @@ export default function ListaFincas() {
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}
         onConfirm={handleEliminarFinca}
-        title="Eliminar finca"
+        title="Eliminar Finca"
         message={
           <>
             ¿Estás seguro?<br />

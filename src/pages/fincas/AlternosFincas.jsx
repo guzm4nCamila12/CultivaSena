@@ -69,7 +69,7 @@ const AlternosFinca = () => {
     <>
       <Navbar />
       <MostrarInfo
-        titulo={`Alternos de la finca: ${fincas.nombre}`}
+        titulo={`Alternos de la Finca ${fincas.nombre}`}
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
         acciones={acciones}

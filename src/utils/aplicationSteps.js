@@ -502,7 +502,7 @@ export const usuariosSteps = [
     popover: {
       title: 'Ver Fincas del Usuario',
       description: 'Aquí podras redirigirte a las fincas del usuario',
-      position: 'left',
+      position: 'top',
       align: 'center'
     }
   },

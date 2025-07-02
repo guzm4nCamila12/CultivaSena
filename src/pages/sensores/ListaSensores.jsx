@@ -36,8 +36,6 @@ function ActivarSensores() {
   const vista = state?.vista ?? "";
   const isEstadisticaView = ["/estadistica", "/reporte", "/sensores"].includes(vista);
 
-  const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
-  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
 
   const {
@@ -59,7 +57,11 @@ function ActivarSensores() {
     fincas,
     zonas,
     rol,
-    setSensorOriginal
+    setSensorOriginal,
+    modalInsertarAbierto,
+    setModalInsertarAbierto,
+    modalEditarAbierto,
+    setModalEditarAbierto,
   } = useSensores(id, idUser);
 
   // Tour
@@ -178,6 +180,17 @@ function ActivarSensores() {
     setModalEditarAbierto(true);
   };
 
+  const obtenerNombreTipo = (sensorEditar) => {
+    const tipo = tiposSensores.find(t => t.id === sensorEditar.tipo_id);
+    console.log("Tipo de sensor:", tipo);
+    if (!tipo) return sensorEditar; // Si no se encuentra el tipo, retorna el sensor sin cambios
+    console.log("sensor:",  tipo.nombre);
+    return {
+      ...sensorEditar,
+      tipo_id: tipo.nombre // Reemplazas el ID por el nombre
+    };
+  }
+
   // Selects
   const asignarZona = onChange => (
     <div className="relative w-full mt-2">
@@ -213,7 +226,7 @@ function ActivarSensores() {
         titulo="Crear Sensor"
         isOpen={modalInsertarAbierto}
         onClose={() => setModalInsertarAbierto(false)}
-        onSubmit={e => { e.preventDefault(); crearNuevoSensor(); setModalInsertarAbierto(false); }}
+        onSubmit={e => { e.preventDefault(); crearNuevoSensor(); }}
         valores={formData}
         onChange={handleChange}
         textoBoton="Crear"
@@ -230,8 +243,8 @@ function ActivarSensores() {
         titulo="Editar Sensor"
         isOpen={modalEditarAbierto}
         onClose={() => setModalEditarAbierto(false)}
-        onSubmit={e => { e.preventDefault(); actualizarSensor(); setModalEditarAbierto(false); }}
-        valores={sensorEditar}
+        onSubmit={e => { e.preventDefault(); actualizarSensor();  }}
+        valores={obtenerNombreTipo(sensorEditar)}
         onChange={handleChangeEditar}
         textoBoton="Guardar y actualizar"
         campos={[

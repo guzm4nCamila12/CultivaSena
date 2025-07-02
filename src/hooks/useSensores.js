@@ -25,7 +25,7 @@ const MySwal = withReactContent(Swal);
 export function useSensores(id, idUser) {
   const [sensores, setSensores] = useState([]);
   const [sensoresZona, setSensoresZona] = useState([]);
-  const [formData, setFormData] = useState({
+  const valoresIniciales = {
     mac: null,
     nombre: "",
     descripcion: "",
@@ -34,7 +34,10 @@ export function useSensores(id, idUser) {
     idzona: null,
     idfinca: "",
     tipo_id: null
-  });
+  };
+
+  const [formData, setFormData] = useState(valoresIniciales);
+
   const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null, tipo_id: null });
   const [sensorOriginal, setSensorOriginal] = useState(null);
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
@@ -46,6 +49,11 @@ export function useSensores(id, idUser) {
   const [tiposSensores, setTiposSensores] = useState([]);
   const rol = localStorage.getItem("rol");
   let inputValue = "";
+
+  //abrir modales
+  const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
+  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,6 +131,7 @@ export function useSensores(id, idUser) {
       ? parseInt(e.target.value, 10)
       : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
+    console.log("formdata:", formData);
   };
 
   const handleChangeEditar = (e) => {
@@ -133,6 +142,19 @@ export function useSensores(id, idUser) {
   };
 
   const crearNuevoSensor = async () => {
+    if (!formData.nombre) {
+      return acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'El sensor necesita un nombre',
+      });
+    }
+    if (!formData.descripcion) {
+      return acctionSucessful.fire({
+        imageUrl: Alerta,
+        title: 'El sensor necesita una descripción',
+      });
+    }
+
     // Validación tipo_id obligatorio
     if (!formData.tipo_id) {
       return acctionSucessful.fire({
@@ -150,6 +172,9 @@ export function useSensores(id, idUser) {
           imageUrl: usuarioCreado,
           title: `¡Sensor <span style=\"color: green;\">${formData.nombre}</span> creado correctamente!`
         });
+
+        setFormData(valoresIniciales);
+        setModalInsertarAbierto(false);
       }
     } catch (err) {
       console.error("Error al crear sensor:", err);
@@ -167,6 +192,8 @@ export function useSensores(id, idUser) {
         imageUrl: usuarioCreado,
         title: `¡Sensor <span style=\"color: #3366CC;\">${sensorEditar.nombre}</span> editado correctamente!`
       });
+
+      setModalEditarAbierto(false);
     } catch (err) {
       console.error("Error al actualizar sensor:", err);
     }
@@ -244,7 +271,8 @@ export function useSensores(id, idUser) {
       });
       const sensoresZonasData = await getSensoresZonasById(id);
       setSensoresZona(sensoresZonasData || []);
-      await insertarDatos(updatedSensor.mac);
+      const respuesta = await insertarDatos(updatedSensor.mac);
+      console.log("Respuesta del endpoint:", respuesta);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }
@@ -273,5 +301,9 @@ export function useSensores(id, idUser) {
     cambiarEstadoSensor,
     handleChange,
     handleChangeEditar,
+    modalInsertarAbierto,
+    setModalInsertarAbierto,
+    modalEditarAbierto,
+    setModalEditarAbierto,
   };
 }

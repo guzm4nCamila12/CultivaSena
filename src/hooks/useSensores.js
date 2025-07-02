@@ -257,6 +257,7 @@ export function useSensores(id, idUser) {
   };
 
   const cambiarEstadoSensor = async (sensor, index) => {
+    console.log("cambiar estado sensor:", sensor, index);
     const newEstado = !sensor.estado;
     const updatedSensor = { ...sensor, estado: newEstado };
     if (!sensor.mac && newEstado) {
@@ -269,10 +270,13 @@ export function useSensores(id, idUser) {
       setSensores(prev => {
         const arr = [...prev]; arr[index] = updatedSensor; return arr;
       });
-      const sensoresZonasData = await getSensoresZonasById(id);
-      setSensoresZona(sensoresZonasData || []);
+      setSensoresZona(prev => {
+        const updated = [...prev];
+        updated[index] = updatedSensor;
+        return updated;
+      });
+      
       const respuesta = await insertarDatos(updatedSensor.mac);
-      console.log("Respuesta del endpoint:", respuesta);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }

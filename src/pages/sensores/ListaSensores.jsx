@@ -182,9 +182,7 @@ function ActivarSensores() {
 
   const obtenerNombreTipo = (sensorEditar) => {
     const tipo = tiposSensores.find(t => t.id === sensorEditar.tipo_id);
-    console.log("Tipo de sensor:", tipo);
     if (!tipo) return sensorEditar; // Si no se encuentra el tipo, retorna el sensor sin cambios
-    console.log("sensor:",  tipo.nombre);
     return {
       ...sensorEditar,
       tipo_id: tipo.nombre // Reemplazas el ID por el nombre

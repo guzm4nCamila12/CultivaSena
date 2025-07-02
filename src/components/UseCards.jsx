@@ -76,12 +76,10 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         const item = datos.find(d => d.id === id);
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
-      console.log("jummm",seleccionadosConNombre)
       await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
     } else if (vista === "/sensores") {
-      console.log("erda",seleccionados)
       await reporteSensores(seleccionados, fechaInicio, fechaFin);
     }
   };

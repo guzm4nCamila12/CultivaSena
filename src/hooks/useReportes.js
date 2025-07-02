@@ -274,7 +274,6 @@ export const useExportarExcel = () => {
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {
       const sensor = sensoresConTipo[index]; // Emparejar con el sensor correspondiente
-      console.log("leo", sensor)
       return sensorHistorial.historial.map(registro => {
         const fechaOriginal = registro.fecha; // ejemplo: "2025-05-29T09:55:39.1214Z"
         const [fecha, tiempo] = fechaOriginal.split('T');

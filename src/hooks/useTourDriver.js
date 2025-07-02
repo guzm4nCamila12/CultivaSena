@@ -16,7 +16,13 @@ export function useDriverTour() {
   }));
 
   const startTour = (steps) => {
-    driverRef.current.defineSteps(steps);
+    const enhancedSteps = steps.map(step => ({
+      ...step,
+      onHighlightStarted: el => el?.classList?.add('tour-disabled'),
+      onDeselected: el => el?.classList?.remove('tour-disabled'),
+    }));
+
+    driverRef.current.defineSteps(enhancedSteps);
     driverRef.current.start();
   };
 

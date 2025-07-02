@@ -67,7 +67,7 @@ export default function ActividadesZonas() {
             {/* Modal Crear */}
             {modalActividadInsertar && (
                 <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white rounded-3xl shadow-lg w-auto mx-4 sm:m-0 p-6">
+                    <div className="bg-white rounded-3xl shadow-lg w-[85%] sm:w-[80%] md:w-[70%] lg:w-[50%] xl:w-[35%] mx-4 sm:m-0 p-6">
                         <h5 className="text-2xl font-bold mb-2 text-center">Crear actividad</h5>
                         <hr />
                         <form onSubmit={handleCrearActividad}>
@@ -160,7 +160,7 @@ export default function ActividadesZonas() {
             {/* Modal Editar */}
             {modalEditarActividad && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-3xl w-[90%] sm:w-1/2 md:w-1/3">
+                    <div className="bg-white rounded-3xl shadow-lg w-[85%] sm:w-[80%] md:w-[70%] lg:w-[50%] xl:w-[35%] mx-4 sm:m-0 p-6">
                         <h2 className="text-2xl font-bold mb-2 text-center">Editar Actividad</h2>
                         <hr />
                         <form onSubmit={handleEditarActividad}>

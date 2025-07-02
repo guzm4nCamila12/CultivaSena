@@ -76,6 +76,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         const item = datos.find(d => d.id === id);
         return item ? { id: item.id, nombre: item.nombre || item.name || '' } : { id, nombre: '' };
       });
+      console.log("jummm",seleccionadosConNombre)
       await obtenerRangoFecha(seleccionadosConNombre, fechaInicio, fechaFin);
     } else if (vista === "/estadistica") {
       navigate(vista, { state: { ids: seleccionados, fechaInicio, fechaFin } });
@@ -93,7 +94,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
       >
         {datosFiltrados.length === 0 ? (
           mostrarAgregar ? (
-            <div id='crearSteps' onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer hover:scale-95">
+            <div id='crearSteps' onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer transition hover:scale-95   ">
               <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
               <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
                 <span className="text-white text-3xl font-bold">+</span>
@@ -103,7 +104,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
         ) : (
           <>
             {mostrarAgregar && (
-              <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer hover:scale-95">
+              <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer transition hover:scale-95">
                 <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Crear</span>
                 <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
                   <span className="text-white text-xl sm:text-3xl font-bold">+</span>

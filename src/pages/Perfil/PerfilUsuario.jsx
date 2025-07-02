@@ -9,11 +9,11 @@ import { acctionSucessful } from '../../components/alertSuccesful'
 import {
   sensoresIcon, editar, ver, telefono, nombre, correo,
   sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon,
-  ajustesA,
-  actividadesA,
-  fechaA,
-  fincaA,
-  zonaA,
+  ajustes,
+  actividadesIcon,
+  fecha,
+  fincasIcon,
+  zonasIcon,
 } from '../../assets/icons/IconsExportation'
 import { fincaPerfil, usuarioCreado, usuarioTarjeta, vacaTarjeta, fincaTarjeta } from '../../assets/img/imagesExportation'
 //Endpoints para consumir el api
@@ -368,23 +368,23 @@ function PerfilUsuario() {
   // Columnas dinámicas:
   const columnas = obtenerRol() === 1
     ? [
-      { key: "operacion", label: "Operación", icon2: ajustesA },
-      { key: "tabla", label: "Tabla", icon2: actividadesA },
-      { key: "fecha", label: "Fecha", icon2: fechaA },
-      { key: "acciones", label: "Ver", icon2: ajustesA }
+      { key: "operacion", label: "Operación", icon2: ajustes },
+      { key: "tabla", label: "Tabla", icon2: actividadesIcon },
+      { key: "fecha", label: "Fecha", icon2: fecha },
+      { key: "acciones", label: "Ver", icon2: ajustes }
     ]
     : obtenerRol() === 2
       ? [
-        { key: "finca_nombre", label: "Finca", icon2: fincaA },
-        { key: "actividad", label: "Actividad", icon2: actividadesA },
-        { key: "fechafin", label: "Fecha", icon2: fechaA },
-        { key: "acciones", label: "Ver", icon2: ajustesA }
+        { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
+        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+        { key: "fechafin", label: "Fecha", icon2: fecha },
+        { key: "acciones", label: "Ver", icon2: ajustes }
       ]
       : [
-        { key: "zona", label: "Zona", icon2: zonaA },
-        { key: "actividad", label: "Actividad", icon2: actividadesA },
-        { key: "fechafin", label: "Fecha", icon2: fechaA },
-        { key: "acciones", label: "Ver", icon2: ajustesA }
+        { key: "zona", label: "Zona", icon2: zonasIcon },
+        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
+        { key: "fechafin", label: "Fecha", icon2: fecha },
+        { key: "acciones", label: "Ver", icon2: ajustes }
       ]
 
   const ruta =
@@ -608,12 +608,14 @@ function PerfilUsuario() {
 
               </div>
             </div>
-            <button
-              className="mt-6 bg-[#00304D] text-white px-4 py-2 rounded-3xl hover:bg-[#021926]"
-              onClick={() => setModalHistorialAbierto(false)}
-            >
-              Cerrar
-            </button>
+            <div className='w-full flex justify-end'>
+              <button
+                className="mt-6 bg-[#00304D] text-white px-4 py-2 rounded-3xl hover:bg-[#021926]"
+                onClick={() => setModalHistorialAbierto(false)}
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       )}

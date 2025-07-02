@@ -511,6 +511,8 @@ export const usuariosSteps = [
     popover: {
       title: 'Eliminar Usuario',
       description: 'Aquí puedes eliminar un usuario',
+      position: 'left',
+      align: 'center'
     }
   }
 ]

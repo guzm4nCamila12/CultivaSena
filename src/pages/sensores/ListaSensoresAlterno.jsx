@@ -22,6 +22,33 @@ function SensoresAlterno() {
   const location = useLocation()
   const { state } = useLocation();
   const vista = state?.vista ?? '';
+  const [hideTabs, setHideTabs] = useState(false);
+  const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
+  
+
+  const [redirection,setRedirection] = useState(null)
+
+  useEffect(() => {
+    const redirectionFromState = location.state?.redirection;
+  
+    if (redirectionFromState === "Rsensores") {
+      setRedirection(true);
+    } else if (redirectionFromState === "Rzonas") {
+      setRedirection(false);
+    } else {
+      setRedirection(null);
+    }
+  }, [location.state?.redirection]);
+
+  useEffect(() => {
+    if (redirection === true && !Alternar) {
+      setAlternar(true);
+      localStorage.setItem("Alternar", "true");
+    } else if (redirection === false && Alternar) {
+      setAlternar(false);
+      localStorage.setItem("Alternar", "false");
+    }
+  }, [redirection]);
   
   const enableSelectionButton =
     (vista === '/reporte' || vista === '/sensores' || vista === '/estadistica')
@@ -47,9 +74,6 @@ function SensoresAlterno() {
   //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();
 
-  const [hideTabs, setHideTabs] = useState(false);
-  const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
-  
   useEffect(() => {
     const nuevaVista = location.state?.vista ?? '';
     const nuevoTipo = location.state?.tipo ?? '';

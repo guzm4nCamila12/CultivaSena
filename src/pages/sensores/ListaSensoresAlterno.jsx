@@ -224,13 +224,13 @@ function SensoresAlterno() {
       {!hideTabs && (
         <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
           <button
-            className={`px-7 py-2 rounded-full transition ${Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}
           >
             Sensores
           </button>
           <button
-            className={`px-7 py-2 rounded-full transition ${!Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            className={`px-7 py-2 font-bold rounded-full transition ${!Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(false); localStorage.setItem("Alternar", "false"); }}
           >
             Zonas

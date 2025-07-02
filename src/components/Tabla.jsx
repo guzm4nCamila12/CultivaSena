@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
-import Procesar from "../assets/icons/procesar.png";
 
 const getRoleImage = (role) => {
   switch (role) {

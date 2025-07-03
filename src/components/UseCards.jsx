@@ -84,9 +84,16 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     }
   };
 
+  console.log(seleccionados)
+
 
   return (
     <div className="">
+      {/* {seleccionados.length != 0 && (
+        <div className="bg-[#009E00] mt-12 p-3 rounded-full shadow-lg flex fixed z-30">
+          <h3 className="text-white font-bold">Seleccionados : {seleccionados.length}</h3>
+        </div>
+      )} */}
       <div
         ref={containerRef}
         className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length === 0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'} ${isScrollable ? 'sm:pr-4' : 'pr-0'}`}
@@ -112,16 +119,14 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             )}
 
             {datosFiltrados.map((fila, idx) => (
-              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95" 
-              style={{
-                backgroundImage: "url('/fondoCards.png')",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-                backgroundPosition: "center center",
-                
-
+              <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95"
+                style={{
+                  backgroundImage: "url('/fondoCards.png')",
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center center",
                 }}>
-                
+
                 {enableSelection && (
                   <input
                     id="checkboxSteps"

@@ -58,32 +58,47 @@ function MostrarInfo({
                 {titulo}
               </h1>
             </div>
+          </div>
+          <div className="lg:hidden">
+            {enableSelectionButton && (
+              <button
+                onClick={handleProcesar}
+                className="flex w-full font-bold mt-4 lg:m-0 lg:w-36 justify-center bg-[#39A900] hover:bg-[#005F00] text-white px-3 py-2 rounded-3xl"
+              >
+                <img src={ProcesarIcon} alt="Procesar" className="w-6 h-6 mr-1" />
+                Procesar
+              </button>
+            )}
+          </div>
+          <div className="flex space-x-5">
+            <div id="buscadorSteps" className="relative flex items-center w-full lg:justify-end lg:w-64 sm:w-70 bg-white rounded-full border border-gray-300">
+              <img src={buscar} alt="Buscar" className="absolute left-3 border-r-2 pr-1 border-[#EEEEEE]" />
+              <input
+                type="text"
+                placeholder="Buscar"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
+              />
+            </div>
             <div className="block lg:hidden">
               <Opcion onChangeVista={setVistaActiva} />
             </div>
           </div>
-          <div id="buscadorSteps" className="relative flex items-center w-full lg:justify-end lg:w-64 sm:w-70 bg-white rounded-full border border-gray-300">
-            <img src={buscar} alt="Buscar" className="absolute left-3 border-r-2 pr-1 border-[#EEEEEE]" />
-            <input
-              type="text"
-              placeholder="Buscar"
-              value={busqueda}
-              onChange={(e) => setBusqueda(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
-            />
-          </div>
         </div>
 
         {/* Controles derecha: Procesar y Opción */}
-        <div className="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
+        <div className="flex-row flex lg:flex-row items-center gap-4 w-full lg:w-auto">
           {enableSelectionButton && (
-            <button
-              onClick={handleProcesar}
-              className="flex w-36 justify-center bg-[#39A900] hover:bg-[#005F00] text-white px-3 py-2 rounded-3xl"
-            >
-              <img src={ProcesarIcon} alt="Procesar" className="w-6 h-6 mr-1" />
-              Procesar
-            </button>
+            <div className="hidden lg:block">
+              <button
+                onClick={handleProcesar}
+                className="flex-row flex w-full font-bold mt-4 lg:m-0 lg:w-36 justify-center bg-[#39A900] hover:bg-[#005F00] text-white px-3 py-2 rounded-3xl"
+              >
+                <img src={ProcesarIcon} alt="Procesar" className="w-6 h-6 mr-1" />
+                Procesar
+              </button>
+            </div>
           )}
           <div id="opcionSteps" className="hidden lg:block">
             <Opcion onChangeVista={setVistaActiva} />

@@ -16,21 +16,28 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
   const handleConfirm = () => {
     if (!fechaInicio || !fechaFin) {
       acctionSucessful.fire({
-            imageUrl: Images.Alerta,
-            title: `¡Por favor selecciona ambas fechas!`,
-          });
+        imageUrl: Images.Alerta,
+        title: `¡Por favor selecciona ambas fechas!`,
+      });
       return;
     }
-    if (new Date(fechaInicio) > new Date(fechaFin)) {
+  
+    const start = new Date(fechaInicio);
+    const end = new Date(fechaFin);
+    end.setHours(23, 59, 59, 999); // Asegura que se incluya todo el día de 'fechaFin'
+  
+    if (start > end) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
         title: `¡La fecha de inicio no puede ser mayor que la fecha de fin!`,
       });
       return;
     }
+  
     onConfirm({ fechaInicio, fechaFin });
     onClose();
   };
+  
 
   if (!isOpen) return null;
 

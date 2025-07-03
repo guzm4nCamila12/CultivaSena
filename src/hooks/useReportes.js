@@ -109,6 +109,7 @@ export const useExportarExcel = () => {
 
       const rangoInicio = new Date(fechaInicio);
       const rangoFin = new Date(fechaFin);
+      rangoFin.setHours(23, 59, 59, 999);
 
       const actividadesEnRango = todasLasActividades.filter(act => {
         const inicio = new Date(act.fechainicio);
@@ -194,7 +195,7 @@ export const useExportarExcel = () => {
           Tipo: tipo?.nombre || 'Desconocido',
           Unidad: tipo?.unidad || 'N/A',
           Zona: zona?.nombre || 'Zona desconocida',
-          IDZona:sensor.idzona,
+          IDZona: sensor.idzona,
           Valor: registro.valor,
           Día: dia,
           Mes: mes,
@@ -305,7 +306,7 @@ export const useExportarExcel = () => {
       });
       return;
     }
-    
+
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
   };

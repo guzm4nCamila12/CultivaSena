@@ -223,6 +223,9 @@ export const useExportarExcel = () => {
 
   const reporteSensores = async (sensoresSeleccionados, fechaInicio, fechaFin) => {
 
+    const toDateString = (date) => new Date(date).toISOString().split('T')[0];
+
+
     const sensoresFinca = await Promise.all(
       sensoresSeleccionados.map(id => getSensor(id))
     );
@@ -254,23 +257,23 @@ export const useExportarExcel = () => {
       })
     )
 
-    const inicio = new Date(fechaInicio);
-    const fin = new Date(fechaFin);
-    fin.setHours(23, 59, 59, 999); // Incluye todo el día
+    const inicioStr = toDateString(fechaInicio);
+    const finStr = toDateString(fechaFin);
+    
 
 
     // Filtramos los historiales para que contengan solo los registros en el rango
     const historialesFiltrados = historiales.map(sensorHistorial => {
       const registrosFiltrados = sensorHistorial.historial.filter(registro => {
-        const fechaRegistro = new Date(registro.fecha);
-        return fechaRegistro >= inicio && fechaRegistro <= fin;
+        const registroStr = toDateString(registro.fecha);
+        return registroStr >= inicioStr && registroStr <= finStr;
       });
-
+    
       return {
         ...sensorHistorial,
         historial: registrosFiltrados
       };
-    });
+    });    
 
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {

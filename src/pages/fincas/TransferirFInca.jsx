@@ -137,7 +137,7 @@ export default function TransferirFInca() {
                 {/* modal de busqueda */}
                 {abrirModalBuscar && (
                     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
-                        <div className="bg-white flex flex-col rounded-3xl shadow-lg w-full sm:w-2/3 md:w-1/4 p-6 mx-4 my-8 sm:my-12">
+                        <div className="bg-white flex flex-col rounded-3xl shadow-lg w-[85%] sm:w-2/3 md:w-1/2 lg:w-[40%] 2xl:w-[30%] p-6 mx-4 my-8 sm:my-12">
                             <h5 className="text-xl font-bold mb-2 text-black text-center">Seleccionar Usuario</h5>
                             <hr />
                             <div className="relative flex items-center my-2 w-full rounded-full border border-gray-300">

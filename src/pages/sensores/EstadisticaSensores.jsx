@@ -22,14 +22,9 @@ const Estadistica = () => {
       setError(null);
 
       try {
-        const isSameDay = fechaInicio === fechaFin;
-        const start = new Date(fechaInicio);
-        const end = new Date(fechaFin);
-
-        if (!isSameDay) {
-          start.setHours(0, 0, 0, 0);
-          end.setHours(23, 59, 59, 999);
-        }
+        const inicioStr = fechaInicio;
+        const finStr = fechaFin;
+        
 
         const resultados = await Promise.all(
           ids.map(async (id) => {
@@ -39,11 +34,9 @@ const Estadistica = () => {
 
               const historial = historialRaw.filter(item => {
                 const raw = item.fecha || item.timestamp;
-                const itemDay = raw.slice(0, 10);
-                if (isSameDay) return itemDay === fechaInicio;
-                const date = new Date(raw);
-                return date >= start && date <= end;
-              });
+                const itemDate = raw.slice(0, 10); // 'YYYY-MM-DD'
+                return itemDate >= inicioStr && itemDate <= finStr;
+              });              
 
               return { sensor, historial };
             } catch (e) {

@@ -4,10 +4,10 @@ import { getFincasById } from '../../services/fincas/ApiFincas';
 import { obtenerIdUsuario, obtenerNombre, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
 
 // Iconos
-import Inicio from "../../assets/icons/pagina-de-inicio.png";
-import cultivaSena from "../../assets/icons/cultivaSena.png";
-import Estadisticas from "../../assets/icons/grafico-de-barras.png";
-import Reporte from "../../assets/icons/reporteActividades.png";
+import Inicio from "../../assets/icons/inicio.svg";
+import cultivaSena from "../../assets/icons/cultivaSenaIcon.svg";
+import Estadisticas from "../../assets/icons/estadisticas.svg";
+import Reporte from "../../assets/icons/reportes.svg";
 import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
@@ -81,7 +81,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 <a href='https://www.youtube.com/watch?v=EH0i4uqMLUY&list=RDEH0i4uqMLUY&start_radio=1'>
                     <img src="/logoC.svg" alt="Logo" className="h-9" />
                 </a>
-                <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 p-2">
+                <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 hover:bg-gray-600 p-2">
                     <img src={cerrarIcon} alt="Cerrar" className="w-2 h-2" />
                 </button>
             </div>
@@ -261,9 +261,9 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
             </div>
 
             {/* Perfil y Cerrar Sesión */}
-            <div className="px-6 py-4 border-t border-gray-700">
+            <div className="px-6 py-4 border-t  border-gray-700">
                 <Link to={`/perfil-usuario`}>
-                    <div className="flex items-center mb-4">
+                    <div className="flex items-center mb-4 hover:translate-x-1 transition">
                         <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
                             <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>

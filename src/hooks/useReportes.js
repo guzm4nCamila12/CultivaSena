@@ -1,14 +1,13 @@
 // import * as XLSX from 'xlsx';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import { getActividadesByZona, getZonasById } from '../services/fincas/ApiFincas'; // ajusta la ruta según tu proyecto
+import { getActividadesByZona, getZonasById, getFincasByIdFincas } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import { Alerta } from '../assets/img/imagesExportation';
 import { getHistorialSensores, getSensor, getTipoSensor } from '../services/sensores/ApiSensores';
 import { getUsuarioById } from '../services/usuarios/ApiUsuarios'
 
 export const useExportarExcel = () => {
-
 
   const exportarExcel = async (datos, nombreArchivo = 'datos_exportados', nombreHoja = 'Hoja1') => {
     if (!Array.isArray(datos) || datos.length === 0) {
@@ -18,26 +17,31 @@ export const useExportarExcel = () => {
       });
       return;
     }
-
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(nombreHoja);
-
 
     // 🔹 Fecha y hora actual
     const now = new Date();
     const pad = (n) => String(n).padStart(2, '0');
     const fechaHora = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
-    // 🔹 Agrega la fila "Reporte generado"
+    // 🔹 Obtener nombre de la finca (todas las zonas pertenecen a la misma)
+    let nombreFinca = '';
+    try {
+      // asumiendo que cada dato tiene campo 'idzona'
+      const primeraZonaId = datos[0].IDZona || datos[0].ZonaId;
+      const zonaInfo = await getZonasById(primeraZonaId);
+      const fincaInfo = await getFincasByIdFincas(zonaInfo.idfinca);
+      nombreFinca = fincaInfo.nombre || '';
+    } catch (error) {
+      console.warn('No se pudo obtener la finca:', error);
+    }
 
-    worksheet.addRow([`Reporte generado: ${fechaHora}`]);
-
-    // 🔹 Agrega una fila vacía
-    // 🔹 Agrega la fila del título "Reporte generado"
-    const titulo = `Reporte generado: ${fechaHora}`;
-    worksheet.mergeCells('A1:B1');
+    // 🔹 Agrega la fila de título personalizado
+    const tituloReporte = `Reporte de la finca ${nombreFinca} generado el ${fechaHora}`;
+    worksheet.mergeCells('A1:D1');
     const tituloCell = worksheet.getCell('A1');
-    tituloCell.value = titulo;
+    tituloCell.value = tituloReporte;
     tituloCell.fill = {
       type: 'pattern',
       pattern: 'solid',
@@ -135,12 +139,8 @@ export const useExportarExcel = () => {
       });
 
       const datosParaExportar = actividadesEnRango.map(act => {
-        // 1) Limpiar formato ISO
-        //    "2025-05-26T09:20:00Z" → "2025-05-26 09:20:00"
         const fechaHora = act.fechainicio.replace('Z', '').replace('T', ' ');
-        // 2) Separar fecha y hora
         const [fecha, hora] = fechaHora.split(' ');
-        // 3) Desglosar año, mes, día
         const [Año, Mes, Día] = fecha.split('-');
 
         const zona = zonasSeleccionadas.find(z => z.id === act.idzona);
@@ -151,6 +151,7 @@ export const useExportarExcel = () => {
           Actividad: act.actividad,
           Cultivo: act.cultivo,
           Zona: zona ? zona.nombre : act.idzona,
+          IDZona: zona ? zona.id : null,
           Descripción: act.descripcion,
           Usuario: usuariosMap[act.idusuario] || act.idusuario,
           Año,
@@ -193,6 +194,7 @@ export const useExportarExcel = () => {
           Tipo: tipo?.nombre || 'Desconocido',
           Unidad: tipo?.unidad || 'N/A',
           Zona: zona?.nombre || 'Zona desconocida',
+          IDZona:sensor.idzona,
           Valor: registro.valor,
           Día: dia,
           Mes: mes,
@@ -272,7 +274,6 @@ export const useExportarExcel = () => {
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {
       const sensor = sensoresConTipo[index]; // Emparejar con el sensor correspondiente
-
       return sensorHistorial.historial.map(registro => {
         const fechaOriginal = registro.fecha; // ejemplo: "2025-05-29T09:55:39.1214Z"
         const [fecha, tiempo] = fechaOriginal.split('T');
@@ -287,6 +288,7 @@ export const useExportarExcel = () => {
           Tipo: sensor.tipo.nombre,
           Unidad: sensor.tipo.unidad,
           Zona: sensor.zonaNombre,
+          IDZona: sensor.idzona,
           Valor: registro.valor,
           Día: dia,
           Mes: mes,
@@ -303,7 +305,7 @@ export const useExportarExcel = () => {
       });
       return;
     }
-
+    
     exportarExcel(datosParaExportar, 'HistorialSensores');
 
   };

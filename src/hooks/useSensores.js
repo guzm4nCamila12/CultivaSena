@@ -131,7 +131,6 @@ export function useSensores(id, idUser) {
       ? parseInt(e.target.value, 10)
       : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
-    console.log("formdata:", formData);
   };
 
   const handleChangeEditar = (e) => {
@@ -221,10 +220,10 @@ export function useSensores(id, idUser) {
   const showSwal = () => {
     return withReactContent(Swal).fire({
       title: (
-        <h5 className="text-2xl font-extrabold mb-4 text-center">
+        <span className="text-2xl font-extrabold mb-4 text-center">
           Ingrese la dirección MAC <br />
           del sensor:
-        </h5>
+        </span>
       ),
       input: 'text',
       inputPlaceholder: 'Digite la dirección MAC',
@@ -257,7 +256,6 @@ export function useSensores(id, idUser) {
   };
 
   const cambiarEstadoSensor = async (sensor, index) => {
-    console.log("cambiar estado sensor:", sensor, index);
     const newEstado = !sensor.estado;
     const updatedSensor = { ...sensor, estado: newEstado };
     if (!sensor.mac && newEstado) {

@@ -7,7 +7,7 @@ import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
 import { Link } from 'react-router-dom';
 
-import {fincaDriverSteps} from '../../utils/aplicationSteps';
+import { fincaDriverSteps } from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 export default function ListaFincas() {
@@ -36,7 +36,7 @@ export default function ListaFincas() {
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      <div id='editarSteps'  className="relative group">
+      <div id='editarSteps' className="relative group">
         <Link to={`/editar-finca/${fila.id}`}>
           <button className="px-8 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
             <img src={editar} alt="Editar" className='absolute' />
@@ -86,7 +86,7 @@ export default function ListaFincas() {
     zonas: (
       <Link to={`/zonas/${finca.id}/${id}`}>
         <button className="group relative">
-          <div id='zonasSteps'  className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
+          <div id='zonasSteps' className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-center">
             <span className="text-[#3366CC] font-bold">Ver más...</span>
           </div>
           <span className="absolute left-1/2 -translate-x-1/2 -top-10 text-sm bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -102,7 +102,7 @@ export default function ListaFincas() {
     <div>
       <Navbar />
       <MostrarInfo
-        titulo={`Fincas de: ${usuario.nombre}`}
+        titulo={`Fincas de ${usuario.nombre}`}
         columnas={columnas}
         datos={Array.isArray(fincasConSensores) ? fincasConSensores : []}
         acciones={acciones}
@@ -113,7 +113,7 @@ export default function ListaFincas() {
         isOpen={modalEliminarAbierto}
         onCancel={() => setModalEliminarAbierto(false)}
         onConfirm={handleEliminarFinca}
-        title="Eliminar finca"
+        title="Eliminar Finca"
         message={
           <>
             ¿Estás seguro?<br />

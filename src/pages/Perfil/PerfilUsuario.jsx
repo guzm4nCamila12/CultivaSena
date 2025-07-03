@@ -98,19 +98,23 @@ function PerfilUsuario() {
         getHistorial()
           .then(data => {
             const formatted = Array.isArray(data)
-              ? data.map(item => {
-                let opTraducida = item.operacion
-                if (item.operacion === "INSERT") opTraducida = "Creó"
-                else if (item.operacion === "UPDATE") opTraducida = "Editó"
-                else if (item.operacion === "DELETE") opTraducida = "Eliminó"
+              ? data
+                .map(item => {
+                  let opTraducida = item.operacion
+                  if (item.operacion === "INSERT") opTraducida = "Creó"
+                  else if (item.operacion === "UPDATE") opTraducida = "Editó"
+                  else if (item.operacion === "DELETE") opTraducida = "Eliminó"
 
-                return {
-                  ...item,
-                  operacion: opTraducida,
-                  fecha: formatFecha(item.fecha)
-                }
-              })
+                  return {
+                    ...item,
+                    operacion: opTraducida,
+                    fecha: formatFecha(item.fecha),
+                    rawFecha: item.fecha // Agrega fecha sin formatear para orden
+                  }
+                })
+                .sort((a, b) => new Date(b.rawFecha) - new Date(a.rawFecha)) // Ordenar
               : []
+
             setDatosTabla(formatted)
           })
           .catch(console.error)
@@ -493,11 +497,17 @@ function PerfilUsuario() {
           <div className="xl:w-[25%] xl:items-center mt-[2.5rem] 2xl:mt-[3rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-auto  xl:flex xl:flex-col">
             <div
               id={obtenerRol() === 1 ? 'carta1SuperAdminSteps' : obtenerRol() === 2 ? 'carta1AdminSteps' : 'carta1AlternoSteps'}
-              onClick={() => navigate(ruta)}
+              onClick={() =>
+                navigate(ruta, {
+                  state: {
+                    redirection: "Rzonas"
+                  }
+                })
+              }              
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
               style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
             >
-              <div className=' font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
+              <div className=' font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
                 <h3>{cartas("texto")}</h3>
               </div>
               <div className=" flex items-start justify-end w-1/3 h-1/2 p-1">
@@ -517,11 +527,17 @@ function PerfilUsuario() {
 
             <div
               id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
-              onClick={() => navigate(ruta)}
+              onClick={() =>
+                navigate(ruta, {
+                  state: {
+                    redirection: "Rsensores"
+                  }
+                })
+              }              
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
               style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
             >
-              <div className='font-bold text-2xl sm:text-4xl w-2/3 h-1/2'>
+              <div className='font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
                 <h3>{cartas("texto2")}</h3>
               </div>
               <div className="flex items-start justify-end  w-1/3 h-1/2 p-1 ">

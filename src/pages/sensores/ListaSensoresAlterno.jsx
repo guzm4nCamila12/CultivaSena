@@ -22,6 +22,33 @@ function SensoresAlterno() {
   const location = useLocation()
   const { state } = useLocation();
   const vista = state?.vista ?? '';
+  const [hideTabs, setHideTabs] = useState(false);
+  const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
+  
+
+  const [redirection,setRedirection] = useState(null)
+
+  useEffect(() => {
+    const redirectionFromState = location.state?.redirection;
+  
+    if (redirectionFromState === "Rsensores") {
+      setRedirection(true);
+    } else if (redirectionFromState === "Rzonas") {
+      setRedirection(false);
+    } else {
+      setRedirection(null);
+    }
+  }, [location.state?.redirection]);
+
+  useEffect(() => {
+    if (redirection === true && !Alternar) {
+      setAlternar(true);
+      localStorage.setItem("Alternar", "true");
+    } else if (redirection === false && Alternar) {
+      setAlternar(false);
+      localStorage.setItem("Alternar", "false");
+    }
+  }, [redirection]);
   
   const enableSelectionButton =
     (vista === '/reporte' || vista === '/sensores' || vista === '/estadistica')
@@ -47,9 +74,6 @@ function SensoresAlterno() {
   //Se obtiene el id de la URL para identificar el recurso
   const { id } = useParams();
 
-  const [hideTabs, setHideTabs] = useState(false);
-  const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
-  
   useEffect(() => {
     const nuevaVista = location.state?.vista ?? '';
     const nuevoTipo = location.state?.tipo ?? '';
@@ -109,7 +133,7 @@ function SensoresAlterno() {
       return location.state?.titulo
     }
     else{
-      return `Sensores de la finca: ${nombreFinca}`
+      return `Sensores de la Finca: ${nombreFinca}`
     }
   
   };
@@ -200,13 +224,13 @@ function SensoresAlterno() {
       {!hideTabs && (
         <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
           <button
-            className={`px-7 py-2 rounded-full transition ${Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}
           >
             Sensores
           </button>
           <button
-            className={`px-7 py-2 rounded-full transition ${!Alternar ? "bg-[#00304D] text-white" : "bg-white text-[#00304D]"}`}
+            className={`px-7 py-2 font-bold rounded-full transition ${!Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
             onClick={() => { setAlternar(false); localStorage.setItem("Alternar", "false"); }}
           >
             Zonas

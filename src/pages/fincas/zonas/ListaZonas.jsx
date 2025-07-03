@@ -23,7 +23,7 @@ const Zonas = () => {
   const { fincas, zonas, modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar,
     abrirModalEliminar, setModalFormularioAbierto, handleSubmitFormulario, handleChangeZona, setModalEliminarAbierto, handleEliminarZona, } = useZonas(id, idUser);
 
-  const tituloMostrar = state?.titulo || `Zonas de la finca: ${fincas?.nombre || "..."}`;
+  const tituloMostrar = state?.titulo || `Zonas de la Finca ${fincas?.nombre || "..."}`;
 
   const steps = tituloMostrar === state?.titulo
     ? ReporteSteps

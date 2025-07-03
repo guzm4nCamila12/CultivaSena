@@ -152,7 +152,7 @@ const Inicio = () => {
     <div>
       <NavBar />
       <MostrarInfo
-        titulo="Usuarios registrados"
+        titulo="Usuarios Registrados"
         columnas={columnas}
         datos={usuarios.map(u => ({ ...u, id_rol: obtenerNombreRol(u.id_rol) }))}
         acciones={acciones}

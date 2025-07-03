@@ -1,5 +1,5 @@
 // Tabla.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
-import Procesar from "../assets/icons/procesar.png";
 
 const getRoleImage = (role) => {
   switch (role) {
@@ -34,19 +33,25 @@ const Tabla = ({
   setSeleccionados
 }) => {
   const [showAllActions, setShowAllActions] = useState(false);
-  const allIds = datos.map((fila) => fila.id);
-  const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
-  const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
   const [modalAbierto, setModalAbierto] = useState(false);
   const navigate = useNavigate();
   const { obtenerRangoFecha, reporteSensores } = useExportarExcel();
+
+  const allIds = datos.map((fila) => fila.id);
+  const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
+  const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
+
+  // Escuchar evento global de procesar
+  useEffect(() => {
+    window.addEventListener('procesarSeleccionados', procesarSeleccionados);
+    return () => window.removeEventListener('procesarSeleccionados', procesarSeleccionados);
+  }, [seleccionados, datos]);
 
   // Construcción de encabezados
   const encabezados = [];
   if (enableSelection) encabezados.push({ key: 'seleccionar', label: '' });
   if (mostrarFotoPerfil) encabezados.push({ key: 'fotoPerfil', label: '' });
   encabezados.push(...columnasSinFoto);
-  const totalCols = encabezados.length;
 
   // Toggle selección
   const toggleAll = () => {
@@ -59,13 +64,14 @@ const Tabla = ({
     );
   };
 
-  const procesarSeleccionados = () => {
+  // Procesar seleccionados (invocado por evento)
+  function procesarSeleccionados() {
     if (seleccionados.length === 0) {
       acctionSucessful.fire({ imageUrl: Alerta, title: `¡Seleccione al menos 1 item!` });
       return;
     }
     setModalAbierto(true);
-  };
+  }
 
   const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
     if (vista === "/reporte") {
@@ -104,7 +110,7 @@ const Tabla = ({
                 return (
                   <th
                     key={idx}
-                    className={`${base} ${roundedL}${roundedR} ${sticky}`}
+                    className={`${base} ${roundedL}${roundedR} ${sticky} `}
                     style={{ color: colorTextoEncabezado, backgroundColor: colorEncabezado, ...(isAcc && { right: '-1rem' }) }}
                   >
                     <div className="flex items-center">
@@ -126,7 +132,7 @@ const Tabla = ({
                               <span className="md:hidden">{showAllActions ? col.label : ''}</span>
                             </>
                           ) : (
-                            <span>{col.label}</span>
+                            <span className="pr-4">{col.label}</span>
                           )}
                         </>
                       )}
@@ -211,13 +217,6 @@ const Tabla = ({
           </tbody>
         </table>
       </div>
-      {enableSelection && (
-        <div className="flex justify-end mt-2">
-          <button onClick={procesarSeleccionados} className="bg-[#39A900] hover:bg-[#005F00] text-white w-36 flex px-3 py-2 rounded-3xl">
-            <img src={Procesar} alt="" className="w-6 h-6 mr-1" />Procesar
-          </button>
-        </div>
-      )}
       {mostrarAgregar && (
         <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
           <span className="text-[#009E00] text-base font-semibold">Crear</span>

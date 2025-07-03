@@ -15,8 +15,27 @@ export function useDriverTour() {
     closeBtnText: "⨉",
   }));
 
+  // 👇 Ajusta posición y alineación según el tamaño de pantalla
+  const ajustarPosicionesSteps = (steps) => {
+    const isMobile = window.innerWidth < 1300;
+    return steps.map(step => {
+      if (!step.popover) return step;
+
+      return {
+        ...step,
+        popover: {
+          ...step.popover,
+          position: isMobile ? 'bottom' : step.popover.position || 'right',
+          align: isMobile ? 'start' : step.popover.align || 'center',
+        }
+      };
+    });
+  };
+
   const startTour = (steps) => {
-    const enhancedSteps = steps.map(step => ({
+    const stepsConPosicion = ajustarPosicionesSteps(steps);
+
+    const enhancedSteps = stepsConPosicion.map(step => ({
       ...step,
       onHighlightStarted: el => el?.classList?.add('tour-disabled'),
       onDeselected: el => el?.classList?.remove('tour-disabled'),
@@ -28,3 +47,4 @@ export function useDriverTour() {
 
   return { startTour };
 }
+//probar corriendo el tour con un tamaño menor a 768px

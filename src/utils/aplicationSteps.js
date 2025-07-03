@@ -374,28 +374,32 @@ export const perfilUsuarioSteps = [
     element: '#btnEditarSteps',
     popover: {
       title: 'Botón para editar',
-      description: 'Actualizar datos personales'
+      description: 'Actualizar datos personales',
+      position: 'top',
     }
   },
   {
     element: '#carta1AdminSteps',
     popover: {
       title: 'Cantidad de fincas',
-      description: 'Fincas administradas por el administrador'
+      description: 'Fincas administradas por el administrador',
+      position: 'bottom'
     }
   },
   {
     element: '#carta2AdminSteps',
     popover: {
       title: 'Cantidad de sensores',
-      description: 'Sensores de todas las fincas'
+      description: 'Sensores de todas las fincas',
+      position: 'top'
     }
   },
   {
     element: '#tablaAdmin',
     popover: {
       title: 'Registro de actividades',
-      description: 'Actividades realizadas en todas las fincas'
+      description: 'Actividades realizadas en todas las fincas',
+      position: 'top'
     }
   },
   {
@@ -416,28 +420,32 @@ export const perfilUsuarioSteps = [
     element: '#tablaSuperAdmin',
     popover: {
       title: 'Historial de acciones',
-      description: 'Acciones realizadas por los usuarios en la aplicación'
+      description: 'Acciones realizadas por los usuarios en la aplicación',
+      position: 'top'
     }
   },
   {
     element: '#carta1AlternoSteps',
     popover: {
       title: 'Zonas de la finca',
-      description: 'Total de zonas de la finca'
+      description: 'Total de zonas de la finca',
+      position: 'bottom'
     }
   },
   {
     element: '#carta2AlternoSteps',
     popover: {
       title: 'Sensores de la finca',
-      description: 'Total de sensores de la finca'
+      description: 'Total de sensores de la finca',
+      position: 'top'
     }
   },
   {
     element: '#tablaAlterno',
     popover: {
       title: 'Actividades realizadas',
-      description: 'Actividades realizadas por el alterno'
+      description: 'Actividades realizadas por el alterno',
+      position: 'top'
     }
   }
 ];
@@ -447,14 +455,16 @@ export const tranferirSteps = [
     element: '#seleccionar1Steps',
     popover: {
       title: 'Seleccionar Administrador',
-      description: 'Seleccione el admin que va a transferir la finca'
+      description: 'Seleccione el admin que va a transferir la finca',
+      position: 'top'
     }
   },
   {
     element: '#seleccionar2Steps',
     popover: {
       title: 'Seleccionar Segundo Administrador',
-      description: 'Seleccione el admin que va recibir la finca'
+      description: 'Seleccione el admin que va recibir la finca',
+      position: 'top',
     }
   },
   {
@@ -468,7 +478,8 @@ export const tranferirSteps = [
     element: '#transferirSteps',
     popover: {
       title: 'Transferir la finca',
-      description: 'Transferir la finca al Admin seleccionado'
+      description: 'Transferir la finca al Admin seleccionado',
+      position:'bottom'
     }
   }
 ];

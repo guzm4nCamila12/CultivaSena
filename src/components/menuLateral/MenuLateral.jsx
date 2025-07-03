@@ -12,16 +12,13 @@ import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
-import sensor from "../../assets/icons/reportesSensor.png"
+import sensor from "../../assets/icons/reporteSensores.svg"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
     const navigate = useNavigate();
-
-
-
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
@@ -192,7 +189,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                 state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte.", vista: "/sensores", tipo: "/reporteSensores" }}
                                 className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                             >
-                                <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
+                                <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
                                 <span>Reporte Sensores</span>
                             </Link>
                         ) : (
@@ -201,7 +198,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                     onClick={() => toggleSubmenu('sensores')}
                                     className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                                 >
-                                    <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
+                                    <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
                                     <span>Reporte Sensores</span>
                                 </div>
                                 <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top 

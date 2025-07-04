@@ -13,14 +13,23 @@ export function useDriverTour() {
     nextBtnText: "Siguiente",
     prevBtnText: "Anterior",
     closeBtnText: "⨉",
+
+    // Evento cuando empieza el tour
+    onReset: () => {
+      document.body.style.pointerEvents = 'auto';
+    },
+    onDestroyStarted: () => {
+      document.body.style.pointerEvents = 'auto';
+    }
   }));
 
   const startTour = (steps) => {
     const enhancedSteps = steps.map(step => ({
       ...step,
-      onHighlightStarted: el => el?.classList?.add('tour-disabled'),
-      onDeselected: el => el?.classList?.remove('tour-disabled'),
     }));
+
+    // Deshabilitar interacción al empezar
+    document.body.style.pointerEvents = 'none';
 
     driverRef.current.defineSteps(enhancedSteps);
     driverRef.current.start();

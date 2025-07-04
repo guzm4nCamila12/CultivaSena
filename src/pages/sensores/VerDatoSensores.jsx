@@ -131,7 +131,7 @@ export default function VerSensores() {
       <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-[1.5rem] pt-2">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
-          <BotonAtras />
+            <BotonAtras />
             <h3 className="text-2xl font-semibold ml-4">
               Datos del sensor: {sensores.nombre || `ID ${id}`}
             </h3>
@@ -148,59 +148,58 @@ export default function VerSensores() {
               onClick={() => exportarSensorIndividual(id)}
               className="px-4 flex py-2 justify-center items-center bg-[#009E00] hover:bg-[#005F00] text-white rounded-xl"
             >
-              <img src={exportarIcon} alt="" className='w-4 h-4 mr-2' />
-              <h3> Exportar</h3>
+              <img src={exportarIcon} alt="" className='w-4 h-4 sm:mr-2' />
+              <h3 className='hidden sm:block'> Exportar</h3>
             </button>
           </div>
         </div>
+        {/* Gráfico individual */}
+        <div id='graficaSteps' className="flex justify-center mb-8">
+          <GraficoSensores
+            sensoresData={[{
+              sensor: sensores,
+              historial: datosFinales
+                .slice(-24) // últimos 24
+                .map(item => ({
+                  fecha: item.fecha, // fecha ISO
+                  valor: item.valorFormateado
+                }))
+            }]}
+          />
 
-        {cargando ? (
-          <p className="text-center">Cargando datos…</p>
-        ) : !hayDatos ? (
-          <p className="text-center text-red-500">No hay datos para este sensor.</p>
-        ) : (
-          <>
-            {/* Gráfico individual */}
-            <div id='graficaSteps' className="flex justify-center mb-8">
-              <GraficoSensores
-                sensoresData={[{
-                  sensor: sensores,
-                  historial: datosFinales
-                    .slice(-24) // últimos 24
-                    .map(item => ({
-                      fecha: item.fecha, // fecha ISO
-                      valor: item.valorFormateado
-                    }))
-                }]}
-              />
-
-            </div>
-
-            {/* Tabla paginada */}
-            <MostrarInfo
-              columnas={columnas}
-              datos={datosPaginados}
-              mostrarAgregar={false}
-              mostrarBotonAtras={false}
-            />
-
-            {totalPaginas > 1 && (
-              <div className="flex justify-center space-x-2 mt-4">
-                {Array.from({ length: totalPaginas }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setPaginaActual(i + 1)}
-                    className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
-
-                  >
-                    Página {i + 1}
-                  </button>
-                ))}
-              </div>
-            )}
-          </>
-        )}
+        </div>
       </div>
+      {cargando ? (
+        <p className="text-center">Cargando datos…</p>
+      ) : !hayDatos ? (
+        <p className="text-center text-red-500">No hay datos para este sensor.</p>
+      ) : (
+        <>
+
+          {/* Tabla paginada */}
+          <MostrarInfo
+            columnas={columnas}
+            datos={datosPaginados}
+            mostrarAgregar={false}
+            mostrarBotonAtras={false}
+          />
+
+          {totalPaginas > 1 && (
+            <div className="flex justify-center space-x-2 mt-4">
+              {Array.from({ length: totalPaginas }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setPaginaActual(i + 1)}
+                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
+
+                >
+                  Página {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
+      )}
     </div >
   );
 }

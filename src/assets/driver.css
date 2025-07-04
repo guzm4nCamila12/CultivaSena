@@ -52,7 +52,9 @@ div#driver-popover-item .driver-popover-tip.right {
 }
 
 .tour-disabled,
-.tour-disabled * {
+.tour-disabled *,
+.driver-highlighted .tour-disabled,
+.driver-highlighted .tour-disabled * {
   pointer-events: none !important;
   cursor: not-allowed !important;
 }

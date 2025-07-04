@@ -503,7 +503,7 @@ function PerfilUsuario() {
                     redirection: "Rzonas"
                   }
                 })
-              }              
+              }
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
               style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
             >
@@ -527,13 +527,14 @@ function PerfilUsuario() {
 
             <div
               id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
-              onClick={() =>
-                navigate(ruta, {
-                  state: {
-                    redirection: "Rsensores"
-                  }
-                })
-              }              
+              onClick={() => {
+                const rol = obtenerRol();
+                if (rol !== 1 && rol !== 2) {
+                  navigate(ruta, {
+                    state: { redirection: "Rsensores" }
+                  });
+                }
+              }}
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
               style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
             >

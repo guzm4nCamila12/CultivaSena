@@ -32,14 +32,16 @@ export const fincaDriverSteps = [
     element: '#editarSteps',
     popover: {
       title: 'Editar finca',
-      description: 'Modificar la información de la finca'
+      description: 'Modificar la información de la finca',
+      position: 'left',
     }
   },
   {
     element: '#eliminarSteps',
     popover: {
       title: 'Eliminar finca',
-      description: 'Eliminar la finca de manera permanente'
+      description: 'Eliminar la finca de manera permanente',
+      position: 'left',
     }
   }
 ];
@@ -77,7 +79,8 @@ export const zonasDriverSteps = [
     element: '#eliminarSteps',
     popover: {
       title: 'Eliminar zona',
-      description: 'Eliminar una zona de la finca'
+      description: 'Eliminar una zona de la finca',
+      position: 'left',
     }
   }
 ];
@@ -190,21 +193,24 @@ export const sensoresDriverSteps = [
     element: '#editarSensor',
     popover: {
       title: 'Editar sensor',
-      description: 'Puedes editar información de un sensor'
+      description: 'Puedes editar información de un sensor',
+      position: 'left',
     }
   },
   {
     element: '#verDatosSensor',
     popover: {
       title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor'
+      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
+      position: 'left',
     }
   },
   {
     element: '#eliminarSensor',
     popover: {
       title: 'Eliminar sensor',
-      description: 'Puedes eliminar un sensor'
+      description: 'Puedes eliminar un sensor',
+      position: 'left',
     }
   }
 ];
@@ -221,14 +227,16 @@ export const alternosDriverSteps = [
     element: '#editarAlterno',
     popover: {
       title: 'Editar alterno',
-      description: 'Puedes editar información de un trabajador'
+      description: 'Puedes editar información de un trabajador',
+      position: 'left'
     }
   },
   {
     element: '#eliminarAlterno',
     popover: {
       title: 'Eliminar alterno',
-      description: 'Puedes eliminar un trabajador'
+      description: 'Puedes eliminar un trabajador',
+      position: 'left'
     }
   }
 ];
@@ -238,14 +246,18 @@ export const sensorAlternosDriverSteps = [
     element: '#noActivar',
     popover: {
       title: 'Activar/Desactivar restringido',
-      description: 'No puedes activar o desactivar sensores'
+      description: 'No puedes activar o desactivar sensores',
+      position: 'left',
+      align: 'center'
     }
   },
   {
     element: '#verDatosSensor',
     popover: {
       title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor'
+      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
+      position: 'left',
+      align: 'center'
     }
   }
 ];
@@ -506,6 +518,7 @@ export const usuariosSteps = [
     popover: {
       title: 'Ver Fincas del Usuario',
       description: 'Este botón indica que este usuario no puede tener fincas',
+      position: 'left',
     }
   },
   {
@@ -544,6 +557,7 @@ export const datosSensorSteps = [
     popover: {
       title: 'Grafica Sensor',
       description: 'Grafico con datos del Sensor',
+      position: 'top'
     }
   }
 ]

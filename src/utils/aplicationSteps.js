@@ -87,13 +87,6 @@ export const zonasDriverSteps = [
 
 export const ReporteSteps = [
   {
-    element: '#seleccionarSteps',
-    popover: {
-      title: 'Apartado de Selección',
-      description: 'Botón para habilitar o desabilitar el checkbox de selección'
-    }
-  },
-  {
     element: '#checkboxSteps',
     popover: {
       title: 'Checbox de Selección',
@@ -172,7 +165,8 @@ export const sensoresDriverSteps = [
     element: '#crearSteps',
     popover: {
       title: 'Botón para crear',
-      description: 'Aquí puedes crear un nuevo sensor'
+      description: 'Aquí puedes crear un nuevo sensor',
+      position: "botom"
     }
   },
   {

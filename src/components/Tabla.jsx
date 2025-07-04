@@ -120,7 +120,7 @@ const Tabla = ({
                           title="Seleccionar todos"
                           checked={seleccionados.length === datos.length}
                           onChange={toggleAll}
-                          className="mx-auto accent-[#39A900] rounded-full border-2 bg-white"
+                          className="mx-auto cursor-pointer bg-white accent-[#39A900] rounded-full border-2"
                         />
                       ) : (
                         <>
@@ -149,7 +149,7 @@ const Tabla = ({
                 <tr key={fila.id || rowIndex}>
                   {enableSelection && (() => { colIndex++; return (
                     <td className="p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle rounded-l-full">
-                      <input type="checkbox" className=" accent-[#39A900]" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
+                      <input type="checkbox" className="cursor-pointer accent-[#39A900]" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
                     </td>
                   ); })()}
 

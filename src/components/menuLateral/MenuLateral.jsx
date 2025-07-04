@@ -149,7 +149,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                 <span>Reporte Actividades</span>
                             </Link>
                         ) : (
-                            // Roles 2, etc.: menú desplegable estándar
+                            // Rol 2.: menú desplegable estándar
                             <div>
                                 <div
                                     onClick={() => toggleSubmenu('reporte')}
@@ -221,8 +221,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     </div>
                 )}
 
-
-                {/*Trnasferir fincas(Solo para superAdmin)*/}
+                {/*Transferir fincas(Solo para superAdmin)*/}
                 {rolToken() === 1 && (
                     <div
                         onClick={() => navigate("/transferir-finca")}

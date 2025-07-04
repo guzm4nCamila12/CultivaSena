@@ -53,7 +53,7 @@ export default function BotonAsistente() {
       } else if (location.pathname.includes('/actividadesZonas')) {
         startTour(actividadesDriverSteps);
       } else if (location.pathname.includes('/activar-sensores')) {
-        const isReporte = vista === '/sensores';
+        const isReporte = vista === '/estadistica';
         startTour(isReporte ? ReporteSteps : sensoresDriverSteps);
       } else if (location.pathname.includes('/alternos')) {
         startTour(alternosDriverSteps);

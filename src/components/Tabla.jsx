@@ -116,6 +116,7 @@ const Tabla = ({
                     <div className="flex items-center">
                       {col.key === 'seleccionar' ? (
                         <input
+                        id="checkboxSteps"
                           type="checkbox"
                           title="Seleccionar todos"
                           checked={seleccionados.length === datos.length}

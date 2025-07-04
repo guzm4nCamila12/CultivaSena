@@ -32,14 +32,16 @@ export const fincaDriverSteps = [
     element: '#editarSteps',
     popover: {
       title: 'Editar finca',
-      description: 'Modificar la información de la finca'
+      description: 'Modificar la información de la finca',
+      position: 'left',
     }
   },
   {
     element: '#eliminarSteps',
     popover: {
       title: 'Eliminar finca',
-      description: 'Eliminar la finca de manera permanente'
+      description: 'Eliminar la finca de manera permanente',
+      position: 'left',
     }
   }
 ];
@@ -77,19 +79,13 @@ export const zonasDriverSteps = [
     element: '#eliminarSteps',
     popover: {
       title: 'Eliminar zona',
-      description: 'Eliminar una zona de la finca'
+      description: 'Eliminar una zona de la finca',
+      position: 'left',
     }
   }
 ];
 
 export const ReporteSteps = [
-  {
-    element: '#seleccionarSteps',
-    popover: {
-      title: 'Apartado de Selección',
-      description: 'Botón para habilitar o desabilitar el checkbox de selección'
-    }
-  },
   {
     element: '#checkboxSteps',
     popover: {
@@ -169,7 +165,8 @@ export const sensoresDriverSteps = [
     element: '#crearSteps',
     popover: {
       title: 'Botón para crear',
-      description: 'Aquí puedes crear un nuevo sensor'
+      description: 'Aquí puedes crear un nuevo sensor',
+      position: "botom"
     }
   },
   {
@@ -190,21 +187,24 @@ export const sensoresDriverSteps = [
     element: '#editarSensor',
     popover: {
       title: 'Editar sensor',
-      description: 'Puedes editar información de un sensor'
+      description: 'Puedes editar información de un sensor',
+      position: 'left',
     }
   },
   {
     element: '#verDatosSensor',
     popover: {
       title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor'
+      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
+      position: 'left',
     }
   },
   {
     element: '#eliminarSensor',
     popover: {
       title: 'Eliminar sensor',
-      description: 'Puedes eliminar un sensor'
+      description: 'Puedes eliminar un sensor',
+      position: 'left',
     }
   }
 ];
@@ -221,14 +221,16 @@ export const alternosDriverSteps = [
     element: '#editarAlterno',
     popover: {
       title: 'Editar alterno',
-      description: 'Puedes editar información de un trabajador'
+      description: 'Puedes editar información de un trabajador',
+      position: 'left'
     }
   },
   {
     element: '#eliminarAlterno',
     popover: {
       title: 'Eliminar alterno',
-      description: 'Puedes eliminar un trabajador'
+      description: 'Puedes eliminar un trabajador',
+      position: 'left'
     }
   }
 ];
@@ -238,14 +240,18 @@ export const sensorAlternosDriverSteps = [
     element: '#noActivar',
     popover: {
       title: 'Activar/Desactivar restringido',
-      description: 'No puedes activar o desactivar sensores'
+      description: 'No puedes activar o desactivar sensores',
+      position: 'left',
+      align: 'center'
     }
   },
   {
     element: '#verDatosSensor',
     popover: {
       title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor'
+      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
+      position: 'left',
+      align: 'center'
     }
   }
 ];
@@ -374,28 +380,32 @@ export const perfilUsuarioSteps = [
     element: '#btnEditarSteps',
     popover: {
       title: 'Botón para editar',
-      description: 'Actualizar datos personales'
+      description: 'Actualizar datos personales',
+      position: 'top',
     }
   },
   {
     element: '#carta1AdminSteps',
     popover: {
       title: 'Cantidad de fincas',
-      description: 'Fincas administradas por el administrador'
+      description: 'Fincas administradas por el administrador',
+      position: 'bottom'
     }
   },
   {
     element: '#carta2AdminSteps',
     popover: {
       title: 'Cantidad de sensores',
-      description: 'Sensores de todas las fincas'
+      description: 'Sensores de todas las fincas',
+      position: 'top'
     }
   },
   {
     element: '#tablaAdmin',
     popover: {
       title: 'Registro de actividades',
-      description: 'Actividades realizadas en todas las fincas'
+      description: 'Actividades realizadas en todas las fincas',
+      position: 'top'
     }
   },
   {
@@ -416,28 +426,32 @@ export const perfilUsuarioSteps = [
     element: '#tablaSuperAdmin',
     popover: {
       title: 'Historial de acciones',
-      description: 'Acciones realizadas por los usuarios en la aplicación'
+      description: 'Acciones realizadas por los usuarios en la aplicación',
+      position: 'top'
     }
   },
   {
     element: '#carta1AlternoSteps',
     popover: {
       title: 'Zonas de la finca',
-      description: 'Total de zonas de la finca'
+      description: 'Total de zonas de la finca',
+      position: 'bottom'
     }
   },
   {
     element: '#carta2AlternoSteps',
     popover: {
       title: 'Sensores de la finca',
-      description: 'Total de sensores de la finca'
+      description: 'Total de sensores de la finca',
+      position: 'top'
     }
   },
   {
     element: '#tablaAlterno',
     popover: {
       title: 'Actividades realizadas',
-      description: 'Actividades realizadas por el alterno'
+      description: 'Actividades realizadas por el alterno',
+      position: 'top'
     }
   }
 ];
@@ -447,14 +461,16 @@ export const tranferirSteps = [
     element: '#seleccionar1Steps',
     popover: {
       title: 'Seleccionar Administrador',
-      description: 'Seleccione el admin que va a transferir la finca'
+      description: 'Seleccione el admin que va a transferir la finca',
+      position: 'top'
     }
   },
   {
     element: '#seleccionar2Steps',
     popover: {
       title: 'Seleccionar Segundo Administrador',
-      description: 'Seleccione el admin que va recibir la finca'
+      description: 'Seleccione el admin que va recibir la finca',
+      position: 'top',
     }
   },
   {
@@ -468,7 +484,8 @@ export const tranferirSteps = [
     element: '#transferirSteps',
     popover: {
       title: 'Transferir la finca',
-      description: 'Transferir la finca al Admin seleccionado'
+      description: 'Transferir la finca al Admin seleccionado',
+      position:'bottom'
     }
   }
 ];
@@ -495,6 +512,7 @@ export const usuariosSteps = [
     popover: {
       title: 'Ver Fincas del Usuario',
       description: 'Este botón indica que este usuario no puede tener fincas',
+      position: 'left',
     }
   },
   {
@@ -502,7 +520,7 @@ export const usuariosSteps = [
     popover: {
       title: 'Ver Fincas del Usuario',
       description: 'Aquí podras redirigirte a las fincas del usuario',
-      position: 'left',
+      position: 'top',
       align: 'center'
     }
   },
@@ -533,6 +551,7 @@ export const datosSensorSteps = [
     popover: {
       title: 'Grafica Sensor',
       description: 'Grafico con datos del Sensor',
+      position: 'top'
     }
   }
 ]

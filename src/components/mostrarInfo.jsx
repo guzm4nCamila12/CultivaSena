@@ -96,6 +96,7 @@ function MostrarInfo({
           {enableSelectionButton && (
             <div className="hidden lg:block">
               <button
+              id="procesarSteps"
                 onClick={handleProcesar}
                 className="flex-row flex w-full font-bold mt-4 lg:m-0 lg:w-40 justify-center bg-[#39A900] hover:bg-[#005F00] text-white px-3 py-2 rounded-3xl"
               >

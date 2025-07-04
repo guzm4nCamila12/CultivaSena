@@ -90,7 +90,15 @@ export const ReporteSteps = [
     element: '#checkboxSteps',
     popover: {
       title: 'Checbox de Selección',
-      description: 'Aquí puedes seleccionar si quieres incluir esta opción'
+      description: 'Aquí puedes seleccionar este elemento'
+    }
+  },
+  {
+    element: '#seleccionarTodoSteps',
+    popover: {
+      title: 'Seleccionar Todo',
+      description: 'Aquí puedes seleccionar todos los elementos',
+      position: 'right'
     }
   },
   {

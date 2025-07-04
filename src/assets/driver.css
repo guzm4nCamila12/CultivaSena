@@ -51,15 +51,11 @@ div#driver-popover-item .driver-popover-tip.right {
     border-color: transparent transparent transparent #00304D
 }
 
-.tour-disabled,
-.tour-disabled *,
-.driver-highlighted .tour-disabled,
-.driver-highlighted .tour-disabled * {
-  pointer-events: none !important;
-  cursor: not-allowed !important;
-}
-
-
+.tour-disabled {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+  
 div#driver-popover-item .driver-popover-tip.right.position-center {
     top: 46%
 }

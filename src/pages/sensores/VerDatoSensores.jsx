@@ -10,7 +10,6 @@ import { getSensor, getHistorialSensores, getTipoSensor } from '../../services/s
 import 'react-horizontal-scrolling-menu/dist/styles.css';
 import { useExportarExcel } from '../../hooks/useReportes';
 import exportarIcon from '../../assets/icons/subir.png'
-import { useDriverTour } from '../../hooks/useTourDriver';
 
 // Formatea una ISO date string a dd/mm/yyyy y hh:mm:ss
 const formatearFechaYHora = (fechaIso) => {
@@ -28,6 +27,7 @@ const limitarValor = (valor, decimales = 4) =>
   parseFloat(valor).toFixed(decimales);
 
 export default function VerSensores() {
+
   const { id } = useParams();
   const [sensores, setSensores] = useState({});
   const [rawHistorial, setRawHistorial] = useState([]);      // ← datos crudos
@@ -38,7 +38,7 @@ export default function VerSensores() {
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
   const { exportarSensorIndividual } = useExportarExcel();
-  
+
 
   // Fetch sensor + historial
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function VerSensores() {
       <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 mt-[1.5rem] pt-2">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
-            <BotonAtras />
+          <BotonAtras />
             <h3 className="text-2xl font-semibold ml-4">
               Datos del sensor: {sensores.nombre || `ID ${id}`}
             </h3>

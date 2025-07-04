@@ -14,7 +14,6 @@ import { useDriverTour } from '../../hooks/useTourDriver';
 
 const Inicio = () => {
   const { usuarios, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId } = useUsuarios();
-
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);

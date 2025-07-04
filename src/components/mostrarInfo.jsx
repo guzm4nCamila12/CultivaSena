@@ -1,4 +1,5 @@
 /* MostrarInfo.jsx */
+import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import buscar from "../assets/icons/buscar.png";
 import Opcion from "../components/Opcion";
@@ -23,6 +24,9 @@ function MostrarInfo({
   );
   const [seleccionEnabled, setSeleccionEnabled] = useState(enableSelectionButton);
   const [seleccionados, setSeleccionados] = useState([]);
+
+  const location = useLocation()
+  const mostrarBotonAtras =  !location.pathname.includes('/datos-sensor/');
 
   useEffect(() => {
     setSeleccionEnabled(enableSelectionButton);
@@ -53,7 +57,7 @@ function MostrarInfo({
         <div className="flex flex-col my-2 w-full lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex justify-between">
             <div className="flex w-auto items-center">
-              <BotonAtras />
+              {mostrarBotonAtras && <BotonAtras />}
               <h1 id="tituloSteps" className="sm:text-2xl w-full text-lg font-semibold">
                 {titulo}
               </h1>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getFincasById } from '../../services/fincas/ApiFincas';
-import { obtenerIdUsuario, obtenerNombre, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
+import { obtenerIdUsuario, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
 
 // Iconos
 import Inicio from "../../assets/icons/inicio.svg";
@@ -85,7 +85,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
             {/* Navegación */}
             <div className="flex-1 px-4 pt-6 space-y-7">
-                <div onClick={goInicio} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
+                <div onClick={() => {goInicio()
+                    onCloseMenu()}} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
                     <span>Inicio</span>
                 </div>
@@ -98,14 +99,25 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 {rol !== 1 && (
                     <div>
                         {rol === 3 ? (
-                            <Link
-                                to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
-                                state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar grafica", vista: "/estadistica", tipo: "/reporteSensores" }}
+                            <div
+                                onClick={() => {
+                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
+                                        state: {
+                                            enableSelectionButton: true,
+                                            titulo: "Seleccione sensores para generar grafica",
+                                            vista: "/estadistica",
+                                            tipo: "/reporteSensores"
+                                        }
+                                    });
+                                    onCloseMenu(); // Cierra el menú
+                                }}
                                 className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                             >
+
+
                                 <img src={Estadisticas} alt="Estadisticas" className="h-6 w-7 mr-2" />
                                 <span>Estadistícas</span>
-                            </Link>
+                            </div>
                         ) : (
                             <div id='estadisticasSteps'>
                                 <div
@@ -140,14 +152,24 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                     <div>
                         {rol === 3 ? (
                             // Rol 3: botón directo a alterno
-                            <Link
-                                to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
-                                state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte", tipo: "/reporteZonas" }}
+                            <div
+                                onClick={() => {
+                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
+                                        state: {
+                                            enableSelectionButton: true,
+                                            titulo: "Seleccione zonas para generar reporte",
+                                            vista: "/reporte",
+                                            tipo: "/reporteZonas"
+                                        }
+                                    });
+                                    onCloseMenu();
+                                }}
                                 className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                             >
+
                                 <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                                 <span>Reporte Actividades</span>
-                            </Link>
+                            </div>
                         ) : (
                             // Rol 2.: menú desplegable estándar
                             <div>
@@ -184,14 +206,24 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                 {rol !== 1 && (
                     <div>
                         {rol === 3 ? (
-                            <Link
-                                to={`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`}
-                                state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte.", vista: "/sensores", tipo: "/reporteSensores" }}
+                            <div
+                                onClick={() => {
+                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
+                                        state: {
+                                            enableSelectionButton: true,
+                                            titulo: "Seleccione sensores para generar reporte.",
+                                            vista: "/sensores",
+                                            tipo: "/reporteSensores"
+                                        }
+                                    });
+                                    onCloseMenu();
+                                }}
                                 className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                             >
+
                                 <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
                                 <span>Reporte Sensores</span>
-                            </Link>
+                            </div>
                         ) : (
                             <div>
                                 <div

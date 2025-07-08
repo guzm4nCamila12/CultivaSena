@@ -249,7 +249,7 @@ export const sensorAlternosDriverSteps = [
     popover: {
       title: 'Activar/Desactivar restringido',
       description: 'No puedes activar o desactivar sensores',
-      position: 'left',
+      position: 'bottom',
       align: 'center'
     }
   },
@@ -258,7 +258,7 @@ export const sensorAlternosDriverSteps = [
     popover: {
       title: 'Ver datos del sensor',
       description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
-      position: 'left',
+      position: 'bottom',
       align: 'center'
     }
   }

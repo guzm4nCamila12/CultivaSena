@@ -21,7 +21,8 @@ import {
   tranferirSteps,
   ReporteSteps,
   datosSensorSteps,
-  usuariosSteps
+  usuariosSteps,
+  zonasAlternosDriverSteps
 } from '../utils/aplicationSteps';
 
 //Funcion con boton de pqrs 
@@ -66,8 +67,30 @@ export default function BotonAsistente() {
       } else if (location.pathname.includes('/perfil-usuario')) {
         startTour(perfilUsuarioSteps)
       } else if (location.pathname.includes('/sensores-alterno')) {
-        startTour(sensorAlternosDriverSteps)
-      } else if (location.pathname.includes('/transferir-finca')) {
+        const isReporte = vista === '/estadistica' || vista === '/reporte' || vista === '/sensores'
+        const alternarFlag = localStorage.getItem('Alternar') === 'true';
+        const definirSteps = () => {
+          if (isReporte) {
+            return ReporteSteps;
+          }
+          else if (!alternarFlag) {
+            return zonasAlternosDriverSteps;
+          } else {
+            return sensorAlternosDriverSteps;
+          }
+        };
+
+        const steps = definirSteps();
+        console.log('Steps to startTour:', steps);
+
+        if (!Array.isArray(steps) || steps.length === 0) {
+          console.error('❌ No hay pasos definidos para esta ruta');
+          return;
+        }
+        startTour(steps);
+      }
+
+      else if (location.pathname.includes('/transferir-finca')) {
         startTour(tranferirSteps)
       } else if (location.pathname.includes('/datos-sensor')) {
         startTour(datosSensorSteps)

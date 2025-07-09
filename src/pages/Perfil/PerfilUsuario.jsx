@@ -221,7 +221,9 @@ function PerfilUsuario() {
         imageAlt: "usuario editado",
         title: `¡Tu información se ha editado con éxito!`
       })
-      setUsuario(usuarioEditar)
+      setUsuario({ ...usuarioEditar });
+      setUsuarioOriginal({...usuarioEditar})
+
     }
   }
   // Acciones según rol:

@@ -33,22 +33,24 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
             default: return alternoIcon;
         }
     };
-    const rol = obtenerRol()
     
     const toggleSubmenu = (submenu) => {
         setSubmenuAbierto(prev => (prev === submenu ? null : submenu));
     };
-
+    
     // Navegar a inicio
     const goInicio = () => {
         const ruta = localStorage.getItem('principal') || '/';
         navigate(ruta);
     };
+    
+    const rol = rolToken()
 
+    const idUser = obtenerIdUsuario()
     // Fetch de fincas al montar
     useEffect(() => {
         if (!isOpen) return;
-    
+        
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
@@ -63,15 +65,15 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 setCargandoFincas(false);
             }
         };
-    
-        if (obtenerIdUsuario()) {
+        
+        if (idUser) {
             fetchFincas();
         }
-    }, [isOpen]);
+        
+    }, [isOpen,idUser]);
     
-
     const idFinca = obtenerFinca()
-
+    
     return (
         <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px] border-gray-700 text-white z-50">
             {/* Header */}
@@ -102,7 +104,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                         {rol === 3 ? (
                             <div
                                 onClick={() => {
-                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
+                                    navigate(`/sensores-alterno/${idFinca}/${idUser}`, {
                                         state: {
                                             enableSelectionButton: true,
                                             titulo: "Seleccione sensores para generar grafica",

@@ -121,7 +121,7 @@ export default function BotonAsistente() {
             </div>
             <div>
               <button onClick={handleClose} className='bg-[#39A900] font-bold hover:bg-[#005F00] px-2 py-2 mr-3 rounded-full shadow-xl'>
-                <img src={cerrar} alt="" srcset="" />
+                <img src={cerrar} alt="" />
               </button>
             </div>
           </div>

@@ -1,565 +1,123 @@
 // Pasos para tour Lista Fincas
+function createStep(element, title, description, position = undefined, align = undefined) {
+  const popover = { title, description };
+  if (position) popover.position = position;
+  if (align) popover.align = align;
+  return { element, popover };
+}
+
+
 export const fincaDriverSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear una nueva finca'
-    }
-  },
-  {
-    element: '#zonasSteps',
-    popover: {
-      title: 'Zonas de la finca',
-      description: 'Zonas en que está dividida la finca'
-    }
-  },
-  {
-    element: '#sensoresSteps',
-    popover: {
-      title: 'Sensores de la finca',
-      description: 'Sensores que se encuentran en la finca'
-    }
-  },
-  {
-    element: '#alternosSteps',
-    popover: {
-      title: 'Alternos de la finca',
-      description: 'Trabajadores de la finca'
-    }
-  },
-  {
-    element: '#editarSteps',
-    popover: {
-      title: 'Editar finca',
-      description: 'Modificar la información de la finca',
-      position: 'left',
-    }
-  },
-  {
-    element: '#eliminarSteps',
-    popover: {
-      title: 'Eliminar finca',
-      description: 'Eliminar la finca de manera permanente',
-      position: 'left',
-    }
-  }
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear una nueva finca', 'bottom'),
+  createStep('#zonasSteps', 'Zonas de la finca', 'Zonas en que está dividida la finca '),
+  createStep('#sensoresSteps', 'Sensores de la finca', 'Sensores que se encuentran en la finca'),
+  createStep('#alternosSteps', 'Alternos de la finca', 'Trabajadores de la finca'),
+  createStep('#editarSteps', 'Editar Finca', 'Modificar la información de la finca', 'left'),
+  createStep('#eliminarSteps', 'Eliminar Finca', 'Eliminar la finca de manera permanente', 'left'),
 ];
 
 export const zonasDriverSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear una nueva zona'
-    }
-  },
-  {
-    element: '#sensoresSteps',
-    popover: {
-      title: 'Sensores de la zona',
-      description: 'Sensores ubicados en la zona'
-    }
-  },
-  {
-    element: '#actividadesSteps',
-    popover: {
-      title: 'Apartado de actividades',
-      description: 'Actividades realizadas en la zona'
-    }
-  },
-  {
-    element: '#editarSteps',
-    popover: {
-      title: 'Editar zona',
-      description: 'Editar la información de la zona'
-    }
-  },
-  {
-    element: '#eliminarSteps',
-    popover: {
-      title: 'Eliminar zona',
-      description: 'Eliminar una zona de la finca',
-      position: 'left',
-    }
-  }
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear una nueva zona', 'bottom'),
+  createStep('#sensoresSteps', 'Sensores de la zona', 'Sensores ubicados en la zona'),
+  createStep('#actividadesSteps', 'Apartado de actividades', 'Actividades realizadas en la zona'),
+  createStep('#editarSteps', 'Editar zona', 'Editar la información de la zona'),
+  createStep('#eliminarSteps', 'Eliminar zona', 'Eliminar una zona de la finca', 'left')
 ];
 
 export const ReporteSteps = [
-  {
-    element: '#checkboxSteps',
-    popover: {
-      title: 'Checbox de Selección',
-      description: 'Aquí puedes seleccionar este elemento'
-    }
-  },
-  {
-    element: '#seleccionarTodoSteps',
-    popover: {
-      title: 'Seleccionar Todo',
-      description: 'Aquí puedes seleccionar todos los elementos',
-      position: 'right'
-    }
-  },
-  {
-    element: '#procesarSteps',
-    popover: {
-      title: 'Procesar Seleccionados',
-      description: 'Aquí puedes continuar la acción con las opciones elegidas',
-      position: 'left'
-    }
-  }
-]
+  createStep('#checkboxSteps', 'Checbox de Selección', 'Aquí puedes seleccionar este elemento'),
+  createStep('#seleccionarTodoSteps', 'Seleccionar Todo', 'Aquí puedes seleccionar todos los elementos', 'right'),
+  createStep('#procesarSteps', 'Procesar Seleccionados', 'Aquí puedes continuar la acción con las opciones elegidas', 'left')
+];
 
 export const actividadesDriverSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear una nueva actividad'
-    }
-  },
-  {
-    element: '#editarSteps',
-    popover: {
-      title: 'Ver actividad',
-      description: 'Información completa de la actividad'
-    }
-  },
-  {
-    element: '#eliminarSteps',
-    popover: {
-      title: 'Eliminar actividad',
-      description: 'Eliminar una actividad'
-    }
-  }
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear una nueva actividad', 'bottom'),
+  createStep('#editarSteps', 'Ver actividad', 'Información completa de la actividad'),
+  createStep('#eliminarSteps', 'Eliminar actividad', 'Eliminar una actividad')
 ];
 
 export const mostarInfoDriverSteps = [
-  {
-    element: '#btnAtrasSteps',
-    popover: {
-      title: 'Botón para regresar',
-      description: 'Botón para regresar a la vista anterior'
-    }
-  },
-  {
-    element: '#tituloSteps',
-    popover: {
-      title: 'Título de la vista',
-      description: 'Aquí podrás ver el título de la vista en la que estás'
-    }
-  },
-  {
-    element: '#buscadorSteps',
-    popover: {
-      title: 'Buscador',
-      description: 'Aquí podrás buscar información más rápidamente'
-    }
-  },
-  {
-    element: '#opcionSteps',
-    popover: {
-      title: 'Botón para seleccionar la vista',
-      description: 'Aquí puedes cambiar de vista entre tabla y tarjetas',
-      position: 'left',
-      align: 'center'
-    }
-  }
+  createStep('#btnAtrasSteps', 'Botón para regresar', 'Botón para regresar a la vista anterior'),
+  createStep('#tituloSteps', 'Título de la vista', 'Aquí podrás ver el título de la vista en la que estás'),
+  createStep('#buscadorSteps', 'Buscador', 'Aquí podrás buscar información más rápidamente'),
+  createStep('#opcionSteps', 'Botón para seleccionar la vista', 'Aquí puedes cambiar de vista entre tabla y tarjetas', 'left', 'center')
 ];
 
 export const sensoresDriverSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear un nuevo sensor',
-      position: "botom"
-    }
-  },
-  {
-    element: '#activarSensor',
-    popover: {
-      title: 'Activar/Desactivar',
-      description: 'Puedes activar o desactivar sensores'
-    }
-  },
-  {
-    element: '#noPoderActivar',
-    popover: {
-      title: 'Activar y desactivar sensores',
-      description: 'Solo el superadmin puede activar o desactivar sensores'
-    }
-  },
-  {
-    element: '#editarSensor',
-    popover: {
-      title: 'Editar sensor',
-      description: 'Puedes editar información de un sensor',
-      position: 'left',
-    }
-  },
-  {
-    element: '#verDatosSensor',
-    popover: {
-      title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
-      position: 'left',
-    }
-  },
-  {
-    element: '#eliminarSensor',
-    popover: {
-      title: 'Eliminar sensor',
-      description: 'Puedes eliminar un sensor',
-      position: 'left',
-    }
-  }
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear un nuevo sensor', 'botom'),
+  createStep('#activarSensor', 'Activar/Desactivar', 'Puedes activar o desactivar sensores'),
+  createStep('#noPoderActivar', 'Activar y desactivar sensores', 'Solo el superadmin puede activar o desactivar sensores'),
+  createStep('#editarSensor', 'Editar sensor', 'Puedes editar información de un sensor', 'left'),
+  createStep('#verDatosSensor', 'Ver datos del sensor', 'Puedes ver los datos y gráfico obtenidos de un sensor', 'left'),
+  createStep('#eliminarSensor', 'Eliminar sensor', 'Puedes eliminar un sensor', 'left')
 ];
 
 export const alternosDriverSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear un nuevo alterno'
-    }
-  },
-  {
-    element: '#editarAlterno',
-    popover: {
-      title: 'Editar alterno',
-      description: 'Puedes editar información de un trabajador',
-      position: 'left'
-    }
-  },
-  {
-    element: '#eliminarAlterno',
-    popover: {
-      title: 'Eliminar alterno',
-      description: 'Puedes eliminar un trabajador',
-      position: 'left'
-    }
-  }
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear un nuevo alterno', 'bottom'),
+  createStep('#editarAlterno', 'Editar alterno', 'Puedes editar información de un trabajador', 'left'),
+  createStep('#eliminarAlterno', 'Eliminar alterno', 'Puedes eliminar un trabajador', 'left')
 ];
 
 export const sensorAlternosDriverSteps = [
-  {
-    element: '#noActivar',
-    popover: {
-      title: 'Activar/Desactivar restringido',
-      description: 'No puedes activar o desactivar sensores',
-      position: 'bottom',
-      align: 'center'
-    }
-  },
-  {
-    element: '#verDatosSensor',
-    popover: {
-      title: 'Ver datos del sensor',
-      description: 'Puedes ver los datos y gráfico obtenidos de un sensor',
-      position: 'bottom',
-      align: 'center'
-    }
-  }
+  createStep('#noActivar', 'Activar/Desactivar restringido', 'No puedes activar o desactivar sensores', 'bottom', 'center'),
+  createStep('#verDatosSensor', 'Ver datos del sensor', 'Puedes ver los datos y gráfico obtenidos de un sensor', 'bottom', 'center')
 ];
 
 export const menuLateralSteps = [
-  {
-    element: '#estadisticasSteps',
-    popover: {
-      title: 'Gráfica de sensores',
-      description: 'Agregar varios sensores a la gráfica'
-    }
-  }
+  createStep('#estadisticasSteps', 'Gráfica de sensores', 'Agregar varios sensores a la gráfica')
 ];
 
 export const zonasAlternosDriverSteps = [
-  {
-    element: '#sensoresSteps',
-    popover: {
-      title: 'Sensores de la Zona',
-      description: 'Sensores que se encuentran en la zona'
-    }
-  },
-  {
-    element: '#actividadesSteps',
-    popover: {
-      title: 'Actividades de la Zona',
-      description: 'Actividades realizadas en la zona'
-    }
-  }
+  createStep('#sensoresSteps', 'Sensores de la Zona', 'Sensores que se encuentran en la zona'),
+  createStep('#actividadesSteps', 'Actividades de la Zona', 'Actividades realizadas en la zona')
 ];
 
-
 export const crearFincaSteps = [
-  {
-    element: '#nombreFincaSteps',
-    popover: {
-      title: 'Nombre de la finca',
-      description: 'Define el nombre de la finca'
-    }
-  },
-  {
-    element: '#ubicacionSteps',
-    popover: {
-      title: 'Ubicación de la finca',
-      description: 'Haz clic en el mapa para seleccionar una ubicación'
-    }
-  },
-  {
-    element: '#botonCrearSteps',
-    popover: {
-      title: 'Crear finca',
-      description: 'Crear la finca'
-    }
-  },
-  {
-    element: '#coordenadasSteps',
-    popover: {
-      title: 'Coordenadas',
-      description: 'Coordenadas de tu ubicación actual'
-    }
-  },
-  {
-    element: '#ubicarseSteps',
-    popover: {
-      title: 'Ubicación actual',
-      description: 'Ubicarse en el mapa',
-      position: 'left',
-      align: 'center'
-    }
-  },
-  {
-    element: '#zoomOutSteps',
-    popover: {
-      title: 'Alejar zoom',
-      description: 'Alejar zoom en el mapa',
-      position: 'left',
-      align: 'start'
-    }
-  },
-  {
-    element: '#zoomInSteps',
-    popover: {
-      title: 'Acercar zoom',
-      description: 'Acercar zoom en el mapa',
-      position: 'left',
-      align: 'start'
-    }
-  }
+  createStep('#nombreFincaSteps', 'Nombre de la finca', 'Define el nombre de la finca', 'bottom'),
+  createStep('#ubicacionSteps', 'Ubicación de la finca', 'Haz clic en el mapa para seleccionar una ubicación', 'top'),
+  createStep('#botonCrearSteps', 'Crear finca', 'Crear la finca', 'left'),
+  createStep('#coordenadasSteps', 'Coordenadas', 'Coordenadas de tu ubicación actual', 'top'),
+  createStep('#ubicarseSteps', 'Ubicación actual', 'Ubicarse en el mapa', 'left', 'start'),
+  createStep('#zoomOutSteps', 'Alejar zoom', 'Alejar zoom en el mapa', 'left', 'start'),
+  createStep('#zoomInSteps', 'Acercar zoom', 'Acercar zoom en el mapa', 'left', 'start')
 ];
 
 export const editarFincaSteps = [
-  {
-    element: '#nombreFincaSteps',
-    popover: {
-      title: 'Cambiar nombre',
-      description: 'Modificar el nombre si se desea'
-    }
-  },
-  {
-    element: '#ubicacionSteps',
-    popover: {
-      title: 'Cambiar ubicación',
-      description: 'Modificar la ubicación si se desea'
-    }
-  },
-  {
-    element: '#botonCrearSteps',
-    popover: {
-      title: 'Editar finca',
-      description: 'Modificar la información de la finca'
-    }
-  }
+  createStep('#nombreFincaSteps', 'Cambiar nombre', 'Modificar el nombre si se desea', 'bottom'),
+  createStep('#ubicacionSteps', 'Cambiar ubicación', 'Modificar la ubicación si se desea', 'top'),
+  createStep('#botonCrearSteps', 'Editar finca', 'Modificar la información de la finca', 'left')
 ];
 
 export const perfilUsuarioSteps = [
-  {
-    element: '#formularioSteps',
-    popover: {
-      title: 'Información del usuario',
-      description: 'Datos personales del usuario',
-      position: 'right',
-      align: 'start'
-    }
-  },
-  {
-    element: '#btnEditarSteps',
-    popover: {
-      title: 'Botón para editar',
-      description: 'Actualizar datos personales',
-      position: 'top',
-    }
-  },
-  {
-    element: '#carta1AdminSteps',
-    popover: {
-      title: 'Cantidad de fincas',
-      description: 'Fincas administradas por el administrador',
-      position: 'bottom'
-    }
-  },
-  {
-    element: '#carta2AdminSteps',
-    popover: {
-      title: 'Cantidad de sensores',
-      description: 'Sensores de todas las fincas',
-      position: 'top'
-    }
-  },
-  {
-    element: '#tablaAdmin',
-    popover: {
-      title: 'Registro de actividades',
-      description: 'Actividades realizadas en todas las fincas',
-      position: 'top'
-    }
-  },
-  {
-    element: '#carta1SuperAdminSteps',
-    popover: {
-      title: 'Cantidad de usuarios',
-      description: 'Usuarios registrados en la aplicación'
-    }
-  },
-  {
-    element: '#carta2SuperAdminSteps',
-    popover: {
-      title: 'Cantidad de fincas',
-      description: 'Total de fincas registradas en la aplicación'
-    }
-  },
-  {
-    element: '#tablaSuperAdmin',
-    popover: {
-      title: 'Historial de acciones',
-      description: 'Acciones realizadas por los usuarios en la aplicación',
-      position: 'top'
-    }
-  },
-  {
-    element: '#carta1AlternoSteps',
-    popover: {
-      title: 'Zonas de la finca',
-      description: 'Total de zonas de la finca',
-      position: 'bottom'
-    }
-  },
-  {
-    element: '#carta2AlternoSteps',
-    popover: {
-      title: 'Sensores de la finca',
-      description: 'Total de sensores de la finca',
-      position: 'top'
-    }
-  },
-  {
-    element: '#tablaAlterno',
-    popover: {
-      title: 'Actividades realizadas',
-      description: 'Actividades realizadas por el alterno',
-      position: 'top'
-    }
-  }
+  createStep('#formularioSteps', 'Información del usuario', 'Datos personales del usuario', 'right', 'start'),
+  createStep('#btnEditarSteps', 'Botón para editar', 'Actualizar datos personales', 'top'),
+  createStep('#carta1AdminSteps', 'Cantidad de fincas', 'Fincas administradas por el administrador', 'bottom'),
+  createStep('#carta2AdminSteps', 'Cantidad de sensores', 'Sensores de todas las fincas', 'top'),
+  createStep('#tablaAdmin', 'Registro de actividades', 'Actividades realizadas en todas las fincas', 'top'),
+  createStep('#carta1SuperAdminSteps', 'Cantidad de usuarios', 'Usuarios registrados en la aplicación'),
+  createStep('#carta2SuperAdminSteps', 'Cantidad de fincas', 'Total de fincas registradas en la aplicación'),
+  createStep('#tablaSuperAdmin', 'Historial de acciones', 'Acciones realizadas por los usuarios en la aplicación', 'top'),
+  createStep('#carta1AlternoSteps', 'Zonas de la finca', 'Total de zonas de la finca', 'bottom'),
+  createStep('#carta2AlternoSteps', 'Sensores de la finca', 'Total de sensores de la finca', 'top'),
+  createStep('#tablaAlterno', 'Actividades realizadas', 'Actividades realizadas por el alterno', 'top')
 ];
 
 export const tranferirSteps = [
-  {
-    element: '#seleccionar1Steps',
-    popover: {
-      title: 'Seleccionar Administrador',
-      description: 'Seleccione el admin que va a transferir la finca',
-      position: 'top'
-    }
-  },
-  {
-    element: '#seleccionar2Steps',
-    popover: {
-      title: 'Seleccionar Segundo Administrador',
-      description: 'Seleccione el admin que va recibir la finca',
-      position: 'top',
-    }
-  },
-  {
-    element: '#fincaTransSteps',
-    popover: {
-      title: 'Seleccionar Finca',
-      description: 'Seleccione una finca para transferir'
-    }
-  },
-  {
-    element: '#transferirSteps',
-    popover: {
-      title: 'Transferir la finca',
-      description: 'Transferir la finca al Admin seleccionado',
-      position:'bottom'
-    }
-  }
+  createStep('#seleccionar1Steps', 'Seleccionar Administrador', 'Seleccione el admin que va a transferir la finca', 'top'),
+  createStep('#seleccionar2Steps', 'Seleccionar Segundo Administrador', 'Seleccione el admin que va recibir la finca', 'top'),
+  createStep('#fincaTransSteps', 'Seleccionar Finca', 'Seleccione una finca para transferir'),
+  createStep('#transferirSteps', 'Transferir la finca', 'Transferir la finca al Admin seleccionado', 'bottom')
 ];
 
 export const usuariosSteps = [
-  {
-    element: '#crearSteps',
-    popover: {
-      title: 'Botón para crear',
-      description: 'Aquí puedes crear un nuevo usuario'
-    }
-  },
-  {
-    element: '#editarSteps',
-    popover: {
-      title: 'Editar usuario',
-      description: 'Aquí puedes editar la información del usuario',
-      position: 'left',
-      align: 'center'
-    }
-  },
-  {
-    element: '#verSinFincasSteps',
-    popover: {
-      title: 'Ver Fincas del Usuario',
-      description: 'Este botón indica que este usuario no puede tener fincas',
-      position: 'left',
-    }
-  },
-  {
-    element: '#verSteps',
-    popover: {
-      title: 'Ver Fincas del Usuario',
-      description: 'Aquí podras redirigirte a las fincas del usuario',
-      position: 'top',
-      align: 'center'
-    }
-  },
-  {
-    element: '#eliminarSteps',
-    popover: {
-      title: 'Eliminar Usuario',
-      description: 'Aquí puedes eliminar un usuario',
-      position: 'left',
-      align: 'center'
-    }
-  }
-]
-
+  createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear un nuevo usuario', 'bottom'),
+  createStep('#editarSteps', 'Editar usuario', 'Aquí puedes editar la información del usuario', 'left', 'center'),
+  createStep('#verSinFincasSteps', 'Ver Fincas del Usuario', 'Este botón indica que este usuario no puede tener fincas', 'left'),
+  createStep('#verSteps', 'Ver Fincas del Usuario', 'Aquí podras redirigirte a las fincas del usuario', 'top', 'center'),
+  createStep('#eliminarSteps', 'Eliminar Usuario', 'Aquí puedes eliminar un usuario', 'left', 'center')
+];
 
 export const datosSensorSteps = [
-  {
-    element: '#exportarSteps',
-    popover: {
-      title: 'Exportar Datos',
-      description: 'Exportar datos del Sensor a Excel',
-      position: 'left',
-      align: 'center'
-    }
-  },
-  {
-    element: '#graficaSteps',
-    popover: {
-      title: 'Grafica Sensor',
-      description: 'Grafico con datos del Sensor',
-      position: 'top'
-    }
-  }
-]
+  createStep('#exportarSteps', 'Exportar Datos', 'Exportar datos del Sensor a Excel', 'left', 'center'),
+  createStep('#graficaSteps', 'Grafica Sensor', 'Grafico con datos del Sensor', 'top')
+];

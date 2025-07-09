@@ -93,7 +93,7 @@ export default function EditarFinca() {
                 <h2 className="text-2xl font-semibold">Editar Finca</h2>
               </div>
               <div id='nombreFincaSteps' className="pl-4 flex bg-white items-center order-0 flex-grow-[6] flex-shrink-0 self-center w-auto h-12  rounded-full relative">
-                <img src={finca} alt="" srcset="" className="pr-1 border-r-2" />
+                <img src={finca} alt="" className="pr-1 border-r-2" />
                 <input
                   type="text"
                   name="nombre"

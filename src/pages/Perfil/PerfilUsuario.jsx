@@ -23,7 +23,6 @@ import { getActividadesTotales, getActividadesByUsuario, getZonasById, getCountF
 //Hooks
 import { useUsuarios } from '../../hooks/useUsuarios'
 import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
-import { editarUsuario } from '../../services/usuarios/ApiUsuarios'
 
 //Driver
 import { useDriverTour } from '../../hooks/useTourDriver'

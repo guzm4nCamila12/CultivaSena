@@ -132,11 +132,11 @@ export default function VerSensores() {
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             <BotonAtras />
-            <h3 className="text-2xl font-semibold ml-4">
+            <h3 className="sm:text-2xl text-lg font-semibold ml-1">
               Datos del sensor: {sensores.nombre || `ID ${id}`}
             </h3>
           </div>
-          <div className="flex items-end">
+          <div className="flex items-end" title='Exportar historial de datos del sensor'>
             {/* <input
               type="date"
               value={fechaFiltro}

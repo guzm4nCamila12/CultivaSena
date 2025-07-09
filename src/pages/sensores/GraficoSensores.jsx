@@ -89,7 +89,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
 
   return (
     <div className="bg-white w-full shadow-lg my-2 rounded-xl">
-      <h2 className="text-center text-xl font-semibold mb-2 mt-2">
+      <h2 className="text-center text-lg sm:text-xl font-bold mb-2 mt-2">
         Registro de sensores
       </h2>
       <div className="overflow-x-auto w-full">

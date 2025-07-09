@@ -5,6 +5,7 @@ import { getSensor, getHistorialSensores } from "../../services/sensores/ApiSens
 import GraficoSensores from "./GraficoSensores";
 import Navbar from "../../components/navbar";
 import BotonAtras from "../../components/botonAtras";
+import { Alerta } from "../../assets/img/imagesExportation";
 
 const Estadistica = () => {
   const { state } = useLocation();
@@ -78,8 +79,9 @@ const Estadistica = () => {
         </div>
         {loading && <p>Cargando datos...</p>}
         {error && (
-          <div className="flex justify-center items-center h-64">
-            <h3 className="text-center text-lg font-medium text-red-600">
+          <div className="flex flex-col justify-center items-center h-64">
+            <img src={Alerta} alt="" srcset="" />
+            <h3 className="text-center text-3xl font-medium">
               No se encontraron datos de sensores en el rango de fechas seleccionado.
             </h3>
           </div>

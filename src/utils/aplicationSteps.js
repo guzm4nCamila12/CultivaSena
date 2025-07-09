@@ -6,7 +6,6 @@ function createStep(element, title, description, position = undefined, align = u
   return { element, popover };
 }
 
-
 export const fincaDriverSteps = [
   createStep('#crearSteps', 'Botón para crear', 'Aquí puedes crear una nueva finca', 'bottom'),
   createStep('#zonasSteps', 'Zonas de la finca', 'Zonas en que está dividida la finca '),

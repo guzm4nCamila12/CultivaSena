@@ -25,6 +25,7 @@ export default function TransferirFInca() {
         (propietario === null || u.id !== propietario.id) &&
         u.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
+    
     return (
         <div>
             <Navbar />

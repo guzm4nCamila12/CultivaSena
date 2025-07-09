@@ -17,14 +17,13 @@ import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 
-export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
+export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
     const navigate = useNavigate();
     const [hoverCerrar, setHoverCerrar] = useState(false);
     const [submenuAbierto, setSubmenuAbierto] = useState(null);
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
     const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
-
     // Obtener ícono según rol
     const obtenerRol = () => {
         switch (rolToken()) {
@@ -34,12 +33,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
             default: return alternoIcon;
         }
     };
-
+    const rol = obtenerRol()
+    
     const toggleSubmenu = (submenu) => {
         setSubmenuAbierto(prev => (prev === submenu ? null : submenu));
     };
-
-    const rol = rolToken();
 
     // Navegar a inicio
     const goInicio = () => {
@@ -49,25 +47,28 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
 
     // Fetch de fincas al montar
     useEffect(() => {
+        if (!isOpen) return;
+    
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
-                const response = await getFincasById(obtenerIdUsuario());
+                const idUsuario = obtenerIdUsuario();
+                const response = await getFincasById(idUsuario);
                 setFincas(response || []);
-                const data = await getUsuarioById(obtenerIdUsuario());
-                setUsuario(data || [])
-
+                const data = await getUsuarioById(idUsuario);
+                setUsuario(data || {});
             } catch (error) {
                 console.error('Error al cargar fincas:', error);
             } finally {
                 setCargandoFincas(false);
             }
         };
-
+    
         if (obtenerIdUsuario()) {
             fetchFincas();
         }
-    }, [obtenerIdUsuario()],);
+    }, [isOpen]);
+    
 
     const idFinca = obtenerFinca()
 
@@ -132,7 +133,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                         ? <span>Cargando...</span>
                                         : fincas.map(finca => (
                                             <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition"
+                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                                             >
                                                 <div className='flex'>
                                                     <img src={fincasBlancas} alt="" className='mr-1 w-5' />
@@ -190,7 +191,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                                 key={finca.id}
                                                 to={`/zonas/${finca.id}/${obtenerIdUsuario()}`}
                                                 state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition flex items-center"
+                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 duration-300 ease-in-out transition flex items-center"
                                             >
                                                 <img src={fincasBlancas} alt="" className='mr-1 w-5' />
                                                 <h3>{finca.nombre}</h3>
@@ -240,7 +241,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu }) {
                                         : fincas.map(finca => (
                                             <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`}
                                                 state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition flex"
+                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out flex"
                                             >
                                                 <img src={fincasBlancas} alt="" className='mr-1 w-5' />
                                                 <h3> {finca.nombre}</h3>

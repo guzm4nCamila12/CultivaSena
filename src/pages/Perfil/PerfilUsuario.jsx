@@ -168,53 +168,49 @@ function PerfilUsuario() {
 
   const cartas = (tipo) => {
 
-    if (tipo === "imagen") {
-      switch (obtenerRol()) {
-        case 1: return usuarioTarjetaIcon
-        case 2: return fincaTarjetaIcon
-        case 3: return zonaTarjeta
-        default: return sensoresIcon
+    const config = {
+      imagen: {
+        1: usuarioTarjetaIcon,
+        2: fincaTarjetaIcon,
+        3: zonaTarjeta,
+        default: sensoresIcon
+      },
+      imagen2: {
+        1: fincaTarjetaIcon,
+        2: sensoresTarjeta,
+        3: sensoresTarjeta,
+        default: sensoresTarjeta
+      },
+      texto: {
+        1: "Cantidad de Usuarios",
+        2: "Cantidad de Fincas",
+        3: "Zonas de la finca",
+        default: ""
+      },
+      texto2: {
+        1: "Cantidad de Fincas",
+        2: "Cantidad de Sensores",
+        3: "Sensores de la Finca",
+        default: ""
+      },
+      tarjeta: {
+        1: usuarioTarjeta,
+        2: vacaTarjeta,
+        3: fincaTarjeta,
+        default: undefined
+      },
+      tarjeta2: {
+        1: fincaTarjeta,
+        2: fincaTarjeta,
+        3: vacaTarjeta,
+        default: undefined
       }
-    }
-    if (tipo === "imagen2") {
-      switch (obtenerRol()) {
-        case 1: return fincaTarjetaIcon
-        case 2: return sensoresTarjeta
-        case 3: return sensoresTarjeta
-        default: return sensoresTarjeta
-      }
-    }
-    if (tipo === "texto") {
-      switch (obtenerRol()) {
-        case 1: return "Cantidad de Usuarios"
-        case 2: return "Cantidad de Fincas"
-        case 3: return "Zonas de la finca"
-        default: return ""
-      }
-    }
-    if (tipo === "texto2") {
-      switch (obtenerRol()) {
-        case 1: return "Cantidad de Fincas"
-        case 2: return "Cantidad de Sensores"
-        case 3: return "Sensores de la Finca"
-        default: return ""
-      }
-    }
-    if (tipo === "tarjeta") {
-      switch (obtenerRol()) {
-        case 1: return usuarioTarjeta
-        case 2: return vacaTarjeta
-        case 3: return fincaTarjeta
-      }
-    }
-    if (tipo === "tarjeta2") {
-      switch (obtenerRol()) {
-        case 1: return fincaTarjeta
-        case 2: return fincaTarjeta
-        case 3: return vacaTarjeta
-      }
-    }
-  }
+    };
+
+    const tipoConfig = config[tipo];
+    return tipoConfig ? (tipoConfig[rolsito] ?? tipoConfig.default) : undefined;
+  };
+
 
   const handleEditarUsuario = async (e) => {
     e.preventDefault()
@@ -387,11 +383,11 @@ function PerfilUsuario() {
       ]
 
   const ruta =
-    obtenerRol() === 1
+    rolsito === 1
       ? `/inicio-SuperAdmin`
-      : obtenerRol() === 2
+      : rolsito === 2
         ? `/lista-fincas/${usuario.id}`
-        : obtenerRol() === 3
+        : rolsito === 3
           ? `/sensores-alterno/${usuario.id_finca}/${usuario.id}`
           : '/'
 
@@ -514,11 +510,11 @@ function PerfilUsuario() {
               </div>
 
               <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end h-1/2 p-1">
-                {obtenerRol() === 1 ? (
+                {rolsito === 1 ? (
                   <h2>{usuarios.length}</h2>
-                ) : obtenerRol() === 3 ? (
+                ) : rolsito === 3 ? (
                   <h2>{cantidadZonas.total_zonas}</h2>
-                ) : obtenerRol() === 2 ? (
+                ) : rolsito === 2 ? (
                   <h2>{usuario.cantidad_fincas}</h2>
                 ) : null}
               </div>
@@ -545,11 +541,11 @@ function PerfilUsuario() {
               </div>
 
               <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end  h-1/2 p-1">
-                {obtenerRol() === 1 ? (
+                {rolsito === 1 ? (
                   <h2>{cantidadFincas.total_fincas}</h2>
-                ) : obtenerRol() === 3 ? (
+                ) : rolsito === 3 ? (
                   <h2>{cantidadSensoresFinca.total_sensores_finca}</h2>
-                ) : obtenerRol() === 2 ? (
+                ) : rolsito === 2 ? (
                   <h2>{cantidadSensores.total_sensores ?? 0}</h2>
                 ) : null}
 

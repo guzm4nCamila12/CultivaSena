@@ -39,11 +39,15 @@ export default function Navbar() {
           <h2 className="font-extrabold text-white text-2xl">{rol()}</h2>
 
           <div
-            className={`fixed top-0 left-0 h-screen w-64 bg-[#002A43] transition-transform duration-300 ease-in-out transform z-50 ${
-              menuVisible ? 'translate-x-0' : '-translate-x-full'
-            }`}
+            className={`fixed top-0 left-0 h-screen w-64 bg-[#002A43] transition-transform duration-300 ease-in-out transform z-50 ${menuVisible ? 'translate-x-0' : '-translate-x-full'
+              }`}
           >
-            <MenuLateral onLogoutClick={openLogoutModal} onCloseMenu={() => setMenuVisible(false)}/>
+            <MenuLateral
+              isOpen={menuVisible}
+              onLogoutClick={openLogoutModal}
+              onCloseMenu={() => setMenuVisible(false)}
+            />
+
           </div>
         </div>
       </div>

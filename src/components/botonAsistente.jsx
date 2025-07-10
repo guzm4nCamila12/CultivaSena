@@ -81,7 +81,6 @@ export default function BotonAsistente() {
         };
 
         const steps = definirSteps();
-        console.log('Steps to startTour:', steps);
 
         if (!Array.isArray(steps) || steps.length === 0) {
           console.error('❌ No hay pasos definidos para esta ruta');

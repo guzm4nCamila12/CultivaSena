@@ -84,7 +84,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     }
   };
 
-
   return (
     <div className="">
       {/* {seleccionados.length != 0 && (

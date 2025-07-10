@@ -81,7 +81,7 @@ const Estadistica = () => {
         {error && (
           <div className="flex flex-col justify-center items-center h-64">
             <img src={Alerta} alt="" srcset="" />
-            <h3 className="text-center text-3xl font-medium">
+            <h3 className="text-center text-3xl font-semibold">
               No se encontraron datos de sensores en el rango de fechas seleccionado.
             </h3>
           </div>

@@ -102,21 +102,24 @@ export const useExportarExcel = () => {
       const actividadesPorZona = await Promise.all(
         zonasSeleccionadas.map(zona => getActividadesByZona(zona.id))
       );
-
+  
       const todasLasActividades = actividadesPorZona
         .filter(Boolean)
         .flat();
-
-      const rangoInicio = new Date(fechaInicio);
-      const rangoFin = new Date(fechaFin);
-      rangoFin.setHours(23, 59, 59, 999);
-
+  
+      // Normalizar fechas a formato YYYY-MM-DD (independiente de la hora y zona horaria)
+      const toYYYYMMDD = fecha => new Date(fecha).toISOString().split('T')[0];
+  
+      const inicioRangoStr = toYYYYMMDD(fechaInicio);
+      const finRangoStr = toYYYYMMDD(fechaFin);
+  
       const actividadesEnRango = todasLasActividades.filter(act => {
-        const inicio = new Date(act.fechainicio);
-        const fin = new Date(act.fechafin);
-        return fin >= rangoInicio && inicio <= rangoFin;
+        const inicioStr = toYYYYMMDD(act.fechainicio);
+        const finStr = toYYYYMMDD(act.fechafin);
+  
+        return finStr >= inicioRangoStr && inicioStr <= finRangoStr;
       });
-
+  
       if (actividadesEnRango.length === 0) {
         acctionSucessful.fire({
           imageUrl: Alerta,
@@ -124,28 +127,28 @@ export const useExportarExcel = () => {
         });
         return;
       }
-
+  
       // Obtener usuarios únicos por ID para evitar llamadas repetidas
       const usuariosUnicosIds = [...new Set(actividadesEnRango.map(act => act.idusuario))];
-
+  
       // Obtener los datos de los usuarios
       const usuarios = await Promise.all(
         usuariosUnicosIds.map(id => getUsuarioById(id))
       );
-
+  
       // Mapear por ID para acceso rápido
       const usuariosMap = {};
       usuarios.forEach(user => {
         usuariosMap[user.id] = user.nombre || "Usuario desconocido";
       });
-
+  
       const datosParaExportar = actividadesEnRango.map(act => {
         const fechaHora = act.fechainicio.replace('Z', '').replace('T', ' ');
         const [fecha, hora] = fechaHora.split(' ');
         const [Año, Mes, Día] = fecha.split('-');
-
+      
         const zona = zonasSeleccionadas.find(z => z.id === act.idzona);
-
+      
         return {
           ID: act.id,
           Etapa: act.etapa,
@@ -155,21 +158,20 @@ export const useExportarExcel = () => {
           IDZona: zona ? zona.id : null,
           Descripción: act.descripcion,
           Usuario: usuariosMap[act.idusuario] || act.idusuario,
-          Año,
-          Mes,
-          Día,
-          Hora: hora,
+          FechaInicio: act.fechainicio.replace('Z', '').replace('T', ' '),
+          FechaFin: act.fechafin.replace('Z', '').replace('T', ' '),
         };
       });
-
+      
+  
       await exportarExcel(datosParaExportar, 'ActividadesFiltradas');
-
+  
       return actividadesEnRango;
     } catch (error) {
       console.error("Error obteniendo actividades por zonas:", error);
       return [];
     }
-  };
+  };  
 
 
   const exportarSensorIndividual = async (sensorId) => {
@@ -259,7 +261,7 @@ export const useExportarExcel = () => {
 
     const inicioStr = toDateString(fechaInicio);
     const finStr = toDateString(fechaFin);
-    
+
 
 
     // Filtramos los historiales para que contengan solo los registros en el rango
@@ -268,12 +270,12 @@ export const useExportarExcel = () => {
         const registroStr = toDateString(registro.fecha);
         return registroStr >= inicioStr && registroStr <= finStr;
       });
-    
+
       return {
         ...sensorHistorial,
         historial: registrosFiltrados
       };
-    });    
+    });
 
     // Transformar los historiales en un formato plano para Excel
     const datosParaExportar = historialesFiltrados.flatMap((sensorHistorial, index) => {

@@ -84,8 +84,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     }
   };
 
-  console.log(seleccionados)
-
 
   return (
     <div className="">

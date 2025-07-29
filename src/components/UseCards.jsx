@@ -8,6 +8,8 @@ import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 import Procesar from "../assets/icons/procesar.png"
+import fondoCards from '../assets/img/fondoCards.png'
+import fondoTitle from '../assets/img/fondoTitle.png'
 
 const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false, seleccionados, setSeleccionados }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -118,7 +120,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             {datosFiltrados.map((fila, idx) => (
               <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95"
                 style={{
-                  backgroundImage: "url('./fondoCards.png')",
+                  backgroundImage: `url(${fondoCards})`,
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   backgroundPosition: "center center",
@@ -136,7 +138,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
                 )}
                 <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
                   style={{
-                    backgroundImage: "url('./fondoTitle.png')",
+                    backgroundImage: `url(${fondoTitle})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center center",
                     backgroundRepeat: "no-repeat",

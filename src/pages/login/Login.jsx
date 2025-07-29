@@ -11,6 +11,10 @@ import welcomeIcon from "../../assets/img/inicioSesion.png";
 import alerta from '../../assets/img/alerta.png';
 import { validarTelefono } from "../../utils/validaciones";
 import { login } from "../../services/usuarios/ApiUsuarios";
+import cultivaBanner2 from '../../assets/img/cultivaBanner2.png'
+import fondoC from '../../assets/img/fondoC.svg'
+import logoC from '../../assets/img/logoC.svg'
+import logoSena from '../../assets/img/sena-logo.svg'
 
 const Login = () => {
   const [telefono, setTelefono] = useState("");
@@ -119,11 +123,11 @@ const Login = () => {
   const responsive = () => {
     if (screenWidth > 768) {
       return (
-        <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('./fondoC.svg')" }}>
+        <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative" style={{ backgroundImage: `url(${fondoC}` }}>
           <div className="absolute w-full h-full backdrop-blur-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} />
           <div className="flex flex-col items-center z-10 gap-16 px-5">
             <button className='absolute p-2 rounded-full w-7 text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
-            <img src="logoC.svg" alt="Logo" className="h-24 md:h-[120px] transition-all" />
+            <img src={logoC} alt="Logo" className="h-24 md:h-[120px] transition-all" />
             <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div id="input-telefono">
@@ -163,19 +167,19 @@ const Login = () => {
                 </button>
               </form>
             </div>
-            <img src="./sena-logo.svg" alt="Sena Logo" />
+            <img src={logoSena} alt="Sena Logo" />
           </div>
         </div>
       );
     } else {
       return (
         <div className="min-h-screen bg-black">
-          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: "url('./cultivaBanner2.png')" }}>  
+          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: `url(${cultivaBanner2})` }}>  
             <div className="absolute w-full h-full backdrop-blur-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
               <button className='absolute p-2 rounded-full w-7 text-white top-5 left-2 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent font-sans text-center">
                 <div className="absolute bottom-44 m-auto w-full p-2 z-20 gap-5 ">
-                  <img src="logoC.svg" alt="Logo" className="h-[100px] m-auto mb-3 transition-all" />
+                  <img src={logoC} alt="Logo" className="h-[100px] m-auto mb-3 transition-all" />
                   <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}>
                     <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
                     <form onSubmit={handleSubmit} className="space-y-3">
@@ -220,7 +224,7 @@ const Login = () => {
               </div>
             </div>
             <div className="w-full flex justify-center py-4">
-              <img src="./sena-logo.svg" alt="Sena Logo" className='static m-auto w-16' />
+              <img src={logoSena} alt="Sena Logo" className='static m-auto w-16' />
             </div>
           </div>
         </div>

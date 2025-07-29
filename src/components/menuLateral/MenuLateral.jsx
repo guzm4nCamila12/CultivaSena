@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getFincasById } from '../../services/fincas/ApiFincas';
 import { obtenerIdUsuario, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
+import logoC from '../../assets/img/logoC.svg'
 
 // Iconos
 import Inicio from "../../assets/icons/inicio.svg";
@@ -78,8 +79,8 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
         <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px] border-gray-700 text-white z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                <a href='https://www.youtube.com/watch?v=EH0i4uqMLUY&list=RDEH0i4uqMLUY&start_radio=1'>
-                    <img src="./logoC.svg" alt="Logo" className="h-9" />
+                <a>
+                    <img src={logoC} alt="Logo" className="h-9" />
                 </a>
                 <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 hover:bg-gray-600 p-2">
                     <img src={cerrarIcon} alt="Cerrar" className="w-2 h-2" />

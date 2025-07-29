@@ -119,7 +119,7 @@ const Login = () => {
   const responsive = () => {
     if (screenWidth > 768) {
       return (
-        <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('/fondoC.svg')" }}>
+        <div className="flex justify-center items-center min-h-screen bg-cover bg-center relative" style={{ backgroundImage: "url('./fondoC.svg')" }}>
           <div className="absolute w-full h-full backdrop-blur-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} />
           <div className="flex flex-col items-center z-10 gap-16 px-5">
             <button className='absolute p-2 rounded-full w-7 text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
@@ -163,14 +163,14 @@ const Login = () => {
                 </button>
               </form>
             </div>
-            <img src="sena-logo.svg" alt="Sena Logo" />
+            <img src="./sena-logo.svg" alt="Sena Logo" />
           </div>
         </div>
       );
     } else {
       return (
         <div className="min-h-screen bg-black">
-          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>  
+          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: "url('./cultivaBanner2.png')" }}>  
             <div className="absolute w-full h-full backdrop-blur-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
               <button className='absolute p-2 rounded-full w-7 text-white top-5 left-2 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent font-sans text-center">
@@ -220,7 +220,7 @@ const Login = () => {
               </div>
             </div>
             <div className="w-full flex justify-center py-4">
-              <img src="sena-logo.svg" alt="Sena Logo" className='static m-auto w-16' />
+              <img src="./sena-logo.svg" alt="Sena Logo" className='static m-auto w-16' />
             </div>
           </div>
         </div>

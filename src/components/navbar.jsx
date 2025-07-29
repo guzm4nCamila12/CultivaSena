@@ -25,7 +25,7 @@ export default function Navbar() {
 
       <nav
         className="relative bg-cover bg-center bg-no-repeat h-20 sm:h-32"
-        style={{ backgroundImage: "url('/banner.png')" }}
+        style={{ backgroundImage: "url('./banner.png')" }}
       />
 
       <div className="bg-[#002A43] h-12 w-full z-50">

@@ -118,7 +118,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             {datosFiltrados.map((fila, idx) => (
               <div key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95"
                 style={{
-                  backgroundImage: "url('/fondoCards.png')",
+                  backgroundImage: "url('./fondoCards.png')",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                   backgroundPosition: "center center",
@@ -136,7 +136,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
                 )}
                 <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
                   style={{
-                    backgroundImage: "url('/fondoTitle.png')",
+                    backgroundImage: "url('./fondoTitle.png')",
                     backgroundSize: "cover",
                     backgroundPosition: "center center",
                     backgroundRepeat: "no-repeat",

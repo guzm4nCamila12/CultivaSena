@@ -79,7 +79,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
                 <a href='https://www.youtube.com/watch?v=EH0i4uqMLUY&list=RDEH0i4uqMLUY&start_radio=1'>
-                    <img src="/logoC.svg" alt="Logo" className="h-9" />
+                    <img src="./logoC.svg" alt="Logo" className="h-9" />
                 </a>
                 <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 hover:bg-gray-600 p-2">
                     <img src={cerrarIcon} alt="Cerrar" className="w-2 h-2" />

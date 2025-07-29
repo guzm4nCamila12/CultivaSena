@@ -26,7 +26,7 @@ export default function Login() {
     if (screenWidth > 768) {
       let bloque = <div
         className="flex justify-center items-center min-h-screen bg-cover bg-center relative"
-        style={{ backgroundImage: "url('/fondoC.svg')" }}>
+        style={{ backgroundImage: "url('./fondoC.svg')" }}>
         <img src="logoC.svg" alt="" className="h-12  transition-all absolute top-12 left-4" />
         <Link to={"/login"}>
           <button
@@ -48,7 +48,7 @@ export default function Login() {
       // Si la pantalla es más pequeña
       let bloque = <div
         className="min-h-screen  bg-black">
-        <div className='flex justify-center   items-center min-h-screen bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('/cultivaBanner2.png')" }}>
+        <div className='flex justify-center   items-center min-h-screen bg-no-repeat bg-cover bg-center relative' style={{ backgroundImage: "url('./cultivaBanner2.png')" }}>
           <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent  font-sans text-center">
             <div className='bottom-0 absolute w-full px-5 text-center text-white'>
               <h1 className='font-extrabold mt-16 text-[40px]   '>Bienvenido</h1>
@@ -62,7 +62,7 @@ export default function Login() {
                 </button>
               </Link>
               <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>
-              <img src="/sena-logo.svg" alt="" className='m-auto w-14 mb-5 mt-5' />
+              <img src="./sena-logo.svg" alt="" className='m-auto w-14 mb-5 mt-5' />
             </div>
           </div>
         </div>

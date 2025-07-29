@@ -4,6 +4,7 @@ import Gov from './gov';
 import MenuLateral from './menuLateral/MenuLateral';
 import CerrarSesion from './auth/logOut';
 import menuIcon from '../assets/icons/menu.png';
+import banner from '../assets/img/banner.png'
 
 export default function Navbar() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -25,7 +26,7 @@ export default function Navbar() {
 
       <nav
         className="relative bg-cover bg-center bg-no-repeat h-20 sm:h-32"
-        style={{ backgroundImage: "url('./banner.png')" }}
+        style={{ backgroundImage: `url(${banner})` }}
       />
 
       <div className="bg-[#002A43] h-12 w-full z-50">

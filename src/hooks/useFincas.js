@@ -12,14 +12,14 @@ export const useFincas = (id) => {
   const [nombreFincaEliminar, setNombreFincaEliminar] = useState('');
 
   useEffect(() => {
-    // Cargar los datos del usuario y las fincas
+    // Cargar los datos del usuario
     const fetchData = async () => {
       try {
         const usuarioData = await getUsuarioById(id);
         setUsuario(usuarioData);
-        
-        const fincasData = await getFincasById(id);
-        setFincas(fincasData || []);
+        console.log("usuario:",usuarioData)
+
+      
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
@@ -27,6 +27,24 @@ export const useFincas = (id) => {
 
     fetchData();
   }, [id]);
+
+   useEffect(() => {
+    // Cargar los datos del las fincas
+    const fetchData = async () => {
+      try {
+        console.log("chimpanzini bananini")
+        const fincasData = await getFincasById(id);
+        setFincas(fincasData || []);
+        console.log("use fincas", fincasData)
+        console.log("id:", id)
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
 
   const handleEliminarFinca = () => {
     eliminarFincas(fincaEliminar)

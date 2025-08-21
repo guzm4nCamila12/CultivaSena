@@ -15,13 +15,14 @@ import cultivaBanner2 from '../../assets/img/cultivaBanner2.png'
 import fondoC from '../../assets/img/fondoC.svg'
 import logoC from '../../assets/img/logoC.svg'
 import logoSena from '../../assets/img/sena-logo.svg'
-
+import { useLogin } from "../../hooks/useLogin";
 const Login = () => {
-  const [telefono, setTelefono] = useState("");
-  const [clave, setClave] = useState("");
+
   const [mostrarClave, setMostrarClave] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
+
+  const [ usuario, handleChange, inicioSesion ] = useLogin();
 
   // limpiar token si existe
   useEffect(() => {
@@ -30,43 +31,6 @@ const Login = () => {
     }
   }, []);
 
-  // Driver.js tour
-  // useEffect(() => {
-  //   const driverObj = driver({
-  //     showProgress: true,
-  //     animate: true,
-  //     opacity: 0.5,
-  //     doneBtnText: 'Finalizar',
-  //     nextBtnText: 'Siguiente',
-  //     prevBtnText: 'Anterior',
-  //     steps: [
-  //       {
-  //         element: '#input-telefono',
-  //         popover: {
-  //           title: 'Número de teléfono',
-  //           description: 'Ingrese su número de teléfono aquí.'
-  //         }
-  //       },
-  //       {
-  //         element: '#input-clave',
-  //         popover: {
-  //           title: 'Contraseña',
-  //           description: 'Ingrese su contraseña aquí.'
-  //         }
-  //       },
-  //       {
-  //         element: '#btn-login',
-  //         popover: {
-  //           title: 'Iniciar sesión',
-  //           description: 'Haz clic aquí para iniciar sesión.'
-  //         }
-  //       }
-  //     ],
-  //   });
-  
-  //   driverObj.drive();
-  // }, []);
-  
 
   // manejar redimensionamiento
   useEffect(() => {
@@ -75,47 +39,6 @@ const Login = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const inicioUsuario = { telefono, clave };
-
-    if (!telefono && !clave) {
-      acctionSucessful.fire({ imageUrl: alerta, imageAlt: 'Icono alerta', title: 'Todos los campos son obligatorios' });
-      return;
-    }
-    if (!telefono) {
-      acctionSucessful.fire({ imageUrl: alerta, imageAlt: 'Icono alerta', title: '¡Por favor, ingrese su número de telefono!' });
-      return;
-    }
-    if (!clave) {
-      acctionSucessful.fire({ imageUrl: alerta, imageAlt: 'Icono alerta', title: '¡Por favor, ingrese su contraseña!' });
-      return;
-    }
-
-    login(inicioUsuario)
-      .then((data) => {
-        const user = data.user;
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('rol', user.id_rol);
-
-        let rutaPrincipal = user.id_rol === 1
-          ? '/inicio-SuperAdmin'
-          : user.id_rol === 2
-            ? `/lista-fincas/${user.id}`
-            : `/sensores-alterno/${user.id_finca}/${user.id}`;
-
-        if (user.id_rol !== 1 && user.id_rol !== 2) {
-          localStorage.setItem('Alternar', true);
-        }
-        localStorage.setItem('principal', rutaPrincipal);
-
-        acctionSucessful.fire({ imageUrl: welcomeIcon, imageAlt: 'Icono personalizado', title: `Bienvenido(a) ${user.nombre}` });
-        navigate(rutaPrincipal, { state: { fromLogin: true } });
-      })
-      .catch(() => {
-        acctionSucessful.fire({ imageUrl: alerta, title: '¡Usuario no encontrado!' });
-      });
-  };
 
   const handleToggle = () => setMostrarClave(!mostrarClave);
   const irAtras = () => navigate("/");
@@ -129,16 +52,17 @@ const Login = () => {
             <button className='absolute p-2 rounded-full w-7 text-white top-5 left-4 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
             <img src={logoC} alt="Logo" className="h-24 md:h-[120px] transition-all" />
             <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={inicioSesion} className="space-y-3">
                 <div id="input-telefono">
                 <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
                 <input
                   type="text"
+                  name="telefono"
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="Ingrese su número de teléfono"
-                  value={telefono}
-                  onChange={(e) => { if (/^\d*$/.test(e.target.value)) setTelefono(e.target.value); }}
+                  value={usuario.telefono}
+                  onChange={(e) => { if (/^\d*$/.test(e.target.value) && e.target.value.length <= 10) handleChange(e); }}
                   className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                   style={{ backgroundImage: `url(${telefonoGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
                 />
@@ -147,10 +71,11 @@ const Login = () => {
                   <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
                   <input
                     id="input-clave"
+                    name="clave"
                     type={mostrarClave ? 'text' : 'password'}
                     placeholder="Ingrese su contraseña"
-                    value={clave}
-                    onChange={(e) => setClave(e.target.value)}
+                    value={usuario.clave}
+                    onChange={handleChange}
                     className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                     style={{ backgroundImage: `url(${claveGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
                   />
@@ -182,15 +107,16 @@ const Login = () => {
                   <img src={logoC} alt="Logo" className="h-[100px] m-auto mb-3 transition-all" />
                   <div className="py-4 px-2 mb-2 m-auto shadow-md w-full max-w-sm rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}>
                     <h2 className="text-[35px] text-center mb-3 text-white drop-shadow-xl font-bold">Bienvenidos</h2>
-                    <form onSubmit={handleSubmit} className="space-y-3">
+                    <form onSubmit={inicioSesion} className="space-y-3">
                       <input
                         id="input-telefono"
                         type="text"
+                        name="telefono"
                         inputMode="numeric"
                         pattern="[0-9]*"
                         placeholder="Número de teléfono"
-                        value={telefono}
-                        onChange={(e) => { if (/^\d*$/.test(e.target.value)) setTelefono(e.target.value); }}
+                        value={usuario.telefono}
+                        onChange={(e) => { if (/^\d*$/.test(e.target.value) && e.target.value.length <= 10) handleChange(e); }}
                         required
                         className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                         style={{ backgroundImage: `url(${telefonoGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center' }}
@@ -199,9 +125,10 @@ const Login = () => {
                         <input
                           id="input-clave"
                           type={mostrarClave ? 'text' : 'password'}
+                          name="clave"
                           placeholder="Contraseña"
-                          value={clave}
-                          onChange={(e) => setClave(e.target.value)}
+                          value={usuario.clave}
+                          onChange={handleChange}
                           required
                           className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                           style={{ backgroundImage: `url(${claveGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center' }}

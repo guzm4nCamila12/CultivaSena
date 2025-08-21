@@ -6,16 +6,22 @@ import * as Validaciones from '../utils/validaciones';
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosAdmin, setUsuariosAdmin] = useState([]);
-
-  useEffect(() => {
-    getUsuarios().then((data) => {
+  // Función para traer todos los usuarios
+  const fetchUsuarios = async () => {
+    try {
+      const data = await getUsuarios();
       setUsuarios(data);
       const admins = data.filter((u) => u.id_rol === 2);
       setUsuariosAdmin(admins);
-    }).catch(console.error);
+    } catch (error) {
+      console.error("Error al traer usuarios:", error);
+    }
+  };
 
+  // Cargar usuarios al montar o si cambia el id
+  useEffect(() => {
+    fetchUsuarios();
   }, [id]);
-
   const validarUsuario = (usuario) => {
     if (!Validaciones.validarCamposUsuario(usuario)) return false;
     if (!Validaciones.validarNombre(usuario.nombre)) return false;
@@ -25,16 +31,16 @@ export const useUsuarios = (id) => {
 
     return true
   }
-
-
-
   const agregarUsuario = async (usuario) => {
     if (!validarUsuario(usuario)) return;
     if (!await Validaciones.comprobarCredenciales(usuario)) return false;
 
     const data = await crearUsuario({ ...usuario, id_rol: Number(usuario.id_rol) });
-    if (data) setUsuarios(prev => [...prev, data]);
-    return data;
+    console.log("usuarios:", data)
+    if (data) {
+      //  Refrescar usuarios desde backend para mantener consistencia
+      await fetchUsuarios();
+    } return data;
   };
 
 
@@ -54,5 +60,5 @@ export const useUsuarios = (id) => {
     setUsuarios(prev => prev.filter(u => u.id !== id));
   };
 
-  return { usuarios,usuariosAdmin, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId };
+  return { usuarios, usuariosAdmin, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId };
 };

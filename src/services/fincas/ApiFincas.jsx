@@ -1,16 +1,16 @@
 import { obtenerIdUsuario, obtenerFinca } from '../../hooks/useDecodeToken';
+import { fetchConToken, fetchSinToken, fetchConTokenFormData } from '../fetchHelpers';
+
 //URL donde esta alojado el servidor
 const API_URL = process.env.REACT_APP_API_URL;
 
 // Consumo al api para obtener todas las fincas de un usuario por su id
 export const getFincasById = async (id) => {
-  const response = await fetch(`${API_URL}/fincas/${id}`);
-  return response.json();
+ fetchConToken(`/fincas/${id}`);
 };
 // Consumo al api para obtener una finca por su id
 export const getFincasByIdFincas = async (id) => {
-  const response = await fetch(`${API_URL}/api/fincas/${id}`);
-  return response.json();
+  fetchConToken(`/api/fincas/${id}`);
 };
 //Ontener la cantidad de fincas en la aplicacion
 export const getCountFincas = async () => {
@@ -23,14 +23,12 @@ export const getCountZonasByFinca = async () => {
   return response.json();
 };
 // Consumo al api para crear una finca
-export const crearFinca = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/api/fincas/${obtenerIdUsuario()}`, {
+export const crearFinca = async (nuevaFinca) => 
+  fetchConToken(`/api/fincas/${obtenerIdUsuario()}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
   });
-  return response.json();
-};
+
 // Consumo al api para actualizar una finca
 export const editarFinca = async (id, fincaActualizada) => {
   const response = await fetch(`${API_URL}/api/fincas/${id}/${obtenerIdUsuario()}`, {

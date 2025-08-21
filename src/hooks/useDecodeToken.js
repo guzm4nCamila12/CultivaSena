@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 
 const obtenerInfoUsuario = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('session');
   return token ? jwtDecode(token) : {};
 };
 

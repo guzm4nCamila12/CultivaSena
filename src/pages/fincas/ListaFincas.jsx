@@ -24,6 +24,7 @@ export default function ListaFincas() {
     setModalEliminarAbierto,
   } = useFincas(id);
 
+
   const columnas = [
     { key: "nombre", label: "Nombre", icon2: fincasIcon },
     { key: "zonas", label: "Zonas", icon: zonasIcon, icon2: zonasIcon },

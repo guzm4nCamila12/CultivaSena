@@ -135,7 +135,7 @@ function PerfilUsuario() {
         const actividades = await getActividadesByUsuario(obtenerIdUsuario())
 
         if (Array.isArray(actividades)) {
-          const actividadesConZona = await Promise.all(
+          const actividadesConZona =  await Promise.all(
             actividades.map(async (item) => {
               let nombreZona = "Zona desconocida"
               try {

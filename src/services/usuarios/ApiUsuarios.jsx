@@ -13,10 +13,9 @@ export const getUsuarioById = async (id) =>
 
 
 //Funcion para obtener un usuario por su ID pero con rol alterno
-export const getUsuarioByIdRol = async (id) => {
-  const response = await fetch(`${API_URL}/usuarios/alterno/${id}`);
-  return response.json();
-};
+export const getUsuarioByIdRol = async (id) => 
+  fetchConToken(`/usuarios/alterno/${id}`);
+
 
 //Funcion para iniciar sesion
 export const login = async (inicioUsuario) => 
@@ -47,16 +46,14 @@ export const editarUsuario = async (idUsuario, formData, idAdmin) => {
 //Funcion para eliminar un usuario
 export const eliminarUsuario = async (id) => {
   fetchConToken(`/api/usuario/${id}/${obtenerIdUsuario()}`, {
-     method: "DELETE"
-     
+     method: "DELETE" 
     });
 };
 
 //Funcion para obtener todo el historial
-export const getHistorial = async () => {
-  const response = await fetch(`${API_URL}/api/historial`);
-  return response.json();
-};
+export const getHistorial = async () => 
+  fetchConToken(`/api/historial`);
+ 
 
 // Función para verificar si el correo o teléfono ya existe
 export const verificarExistenciaCorreo = async (correo, idIgnorar = null) => {

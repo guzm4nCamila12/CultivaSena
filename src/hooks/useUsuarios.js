@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getUsuarios, crearUsuario, editarUsuario, eliminarUsuario, getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import * as Validaciones from '../utils/validaciones';
+import { obtenerIdUsuario } from "./useDecodeToken";
 
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);
@@ -50,7 +51,7 @@ export const useUsuarios = (id) => {
     if (!validarUsuario(usuarioEditado)) return false;
     if (!await Validaciones.comprobarCredenciales(usuarioEditado, usuarioEditado.id)) return false;
 
-    await editarUsuario(usuarioEditado.id, usuarioEditado);
+    await editarUsuario(usuarioEditado.id, usuarioEditado, obtenerIdUsuario());
     setUsuarios(prev => prev.map(u => u.id === usuarioEditado.id ? usuarioEditado : u));
     return true;
   };

@@ -1,27 +1,24 @@
 import { obtenerIdUsuario, obtenerFinca } from '../../hooks/useDecodeToken';
+import { fetchConToken, fetchConTokenFormData, fetchSinToken } from '../fetchHelpers';
 //Variable que almacena la url base del localhost para concatenar a los endpoints
 const API_URL = process.env.REACT_APP_API_URL;
 
 // Función para obtener todos los sensores de la finca a la cual pertenece el ID
-export const getSensoresById = async (id) => {
-  const response = await fetch(`${API_URL}/sensores/${id}`);
-  return response.json();
-};
+export const getSensoresById = async (id) =>
+  fetchConToken(`/sensores/${id}`);
 //funcion para obtener los sensores de manera individual por su propio ID
 export const getSensor = async (id) => {
   const response = await fetch(`${API_URL}/api/sensores/${id}`);
   return response.json();
 };
 //Funcion que obtiene la cantidad de sensores que hay en una finca
-export const getCountSensoresByFinca = async () => {
-  const response = await fetch(`${API_URL}/api/sensores/count/${obtenerFinca()}`);
-  return response.json();
-};
+export const getCountSensoresByFinca = async () => 
+  fetchConToken(`/api/sensores/count/${obtenerFinca()}`);
+  
 
-export const getTiposSensor = async () => {
-  const response = await fetch(`${API_URL}/api/tipos_sensores`);
-  return response.json();
-};
+export const getTiposSensor = async () => 
+  fetchConToken(`/api/tipos_sensores`);
+
 
 export const getTipoSensor = async (id) => {
   const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
@@ -29,33 +26,28 @@ export const getTipoSensor = async (id) => {
 };
 
 //Funcion para agregar un sensor a su respectiva finca
-export const crearSensor = async (nuevaFinca) => {
-  const response = await fetch(`${API_URL}/api/sensores/${obtenerIdUsuario()}`, {
+export const crearSensor = async (nuevaFinca) => 
+  fetchConToken(`/api/sensores/${obtenerIdUsuario()}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(nuevaFinca),
   });
-  return response.json();
-};
+ 
 //Funcion para actualizar la informacion de un sensor ya existente
-export const editarSensor = async (id, fincaActualizada) => {
-  const response = await fetch(`${API_URL}/api/sensores/${id}/${obtenerIdUsuario()}`, {
+export const editarSensor = async (id, fincaActualizada) => 
+  fetchConToken(`/api/sensores/${id}/${obtenerIdUsuario()}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(fincaActualizada),
   });
   
-};
 
-export const getCantidadSensores = async (id) => {
-  const response = await fetch(`${API_URL}/cantidad/sensores/${id}`);
-  return response.json();
-};
+export const getCantidadSensores = async (id) => 
+  fetchConToken(`/cantidad/sensores/${id}`);
+
 
 //Funcion para eliminar un sensor de la finca
-export const eliminarSensores = async (id) => {
-  await fetch(`${API_URL}/api/sensores/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
-};
+export const eliminarSensores = async (id) => 
+  fetchConToken(`/api/sensores/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
+
 
 //Funcion para simular la lectura de datos del sensor a partir de su MAC
 export const insertarDatos = async (mac) => {
@@ -98,7 +90,6 @@ export const activarDatosSensor = async (mac) => {
 }
 
 // Función para obtener todos los sensores de la finca a la cual pertenece el ID
-export const getSensoresZonasById = async (id) => {
-  const response = await fetch(`${API_URL}/sensoreszona/${id}`);
-  return response.json();
-};
+export const getSensoresZonasById = async (id) => 
+  fetchConToken(`/sensoreszona/${id}`);
+

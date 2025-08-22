@@ -8,13 +8,12 @@ export async function fetchConToken(endpoint, opciones = {}) {
     headers: {
       ...(opciones.headers || {}),
       Authorization: token ? `Bearer ${token}` : undefined,
-       "Content-Type": "application/json" 
+      "Content-Type": "application/json"
     },
   };
 
   const response = await fetch(`${API_URL}${endpoint}`, config);
-  const data = await response.json()
-  console.log("peticion:", data)
+  console.log(" estadiño:", response.status)
   if (response.status === 401) {
     localStorage.removeItem("session");
     localStorage.removeItem("userId");
@@ -22,18 +21,20 @@ export async function fetchConToken(endpoint, opciones = {}) {
     return null;
   }
   if (response.status !== 204) {
-      console.log("peticion !204:", data)
+    const data = await response.json()
+
+    console.log("peticion !204:", data)
 
     return data;
   }
 
-  if ( response.status === 204) {
-      console.log("peticion 204:", data)
+  if (response.status === 204) {
+    console.log("Sin respuesta")
 
     return null;
   }
 
-  
+
 }
 
 export async function fetchConTokenFormData(endpoint, opciones = {}) {
@@ -57,7 +58,7 @@ export async function fetchConTokenFormData(endpoint, opciones = {}) {
   if (response.status !== 204) {
     return await response.json();
   }
-  if(response.status === 200){
+  if (response.status === 200) {
     return await response
   }
   return response;

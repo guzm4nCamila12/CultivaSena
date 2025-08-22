@@ -41,9 +41,31 @@ export function useLogin() {
         }
     }
 
+      const logout = async () => {
+        try {
+            const userId = localStorage.getItem("user");
+            if (userId) {
+                // 🔄 Actualizamos en backend para dejar el token vacío
+                await editarUsuario(userId, { token: "" }, userId);
+            }
+
+            // 🗑️ Limpiamos el localStorage
+            localStorage.removeItem("session");
+            localStorage.removeItem("user");
+            navigate('/login')
+            console.log("👋 Sesión cerrada");
+
+            navigate("/login");
+        } catch (error) {
+            console.error("❌ Error al cerrar sesión:", error);
+        }
+    };
+
+
     return [
         usuario,
         handleChange,
-        iniciarSesion
+        iniciarSesion,
+        logout
     ]
 }

@@ -222,7 +222,7 @@ function PerfilUsuario() {
         title: `¡Tu información se ha editado con éxito!`
       })
       setUsuario({ ...usuarioEditar });
-      setUsuarioOriginal({...usuarioEditar})
+      setUsuarioOriginal({ ...usuarioEditar })
 
     }
   }
@@ -401,7 +401,11 @@ function PerfilUsuario() {
           <div id='formularioSteps' className='bg-white xl:w-[30%] 2xl:mt-[3rem] flex flex-wrap xl:justify-between mt-[2.5rem] xl:flex-col rounded-3xl p-2 md:p-4'>
             <div className="w-[30%] xl:h-[45%] xl:w-full p-1 flex justify-center items-center">
               <div className="bg-[#002A43] p-1 rounded-full aspect-square w-[80%] sm:w-[70%]  lg:w-full max-w-[180px]">
-                <img src={fincaPerfil} alt="" className="rounded-full w-full h-full object-cover" />
+                <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${usuario.id}`}
+                  onError={(e) => {
+                    e.target.onerror = null; // Evitar loop infinito
+                    e.target.src = fincaPerfil;
+                  }} alt="" className="rounded-full w-full h-full object-cover" />
               </div>
             </div>
 

@@ -274,7 +274,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
             <div className="px-6 py-4 border-t  border-gray-700">
                 <Link to={`/perfil-usuario`}>
                     <div className="flex items-center mb-4 hover:translate-x-1 transition">
-                        <img src={obtenerRol()} alt="Perfil" className="h-10 w-10 rounded-full" />
+                        <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${usuario.id}`}
+                          onError={(e) => {
+                            e.target.onerror = null; // Evitar loop infinito
+                            e.target.src = obtenerRol();
+                          }} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
                             <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>

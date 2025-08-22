@@ -17,9 +17,6 @@ export const useFincas = (id) => {
       try {
         const usuarioData = await getUsuarioById(id);
         setUsuario(usuarioData);
-        console.log("usuario:",usuarioData)
-
-      
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }

@@ -22,14 +22,10 @@ export async function fetchConToken(endpoint, opciones = {}) {
     return null;
   }
   if (response.status !== 204) {
-      console.log("peticion !204:", data)
-
     return data;
   }
 
   if ( response.status === 204) {
-      console.log("peticion 204:", data)
-
     return null;
   }
 

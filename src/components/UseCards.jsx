@@ -159,7 +159,11 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
                   ))}
                 </div>
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                  <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg" />
+                  <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${fila.id}`}
+                    onError={(e) => {
+                      e.target.onerror = null; // Evitar loop infinito
+                      e.target.src = getRoleImage(fila.id_rol);
+                    }} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg" />
                 </div>
                 <hr />
                 <div className="flex items-center justify-center p-3">

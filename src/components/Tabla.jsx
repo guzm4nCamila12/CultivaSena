@@ -92,7 +92,7 @@ const Tabla = ({
     <div className="pb-4 w-full min-h-full h-auto max-h-[640px] flex flex-col">
       <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
         <table className="min-w-full border-separate border-spacing-y-4 h-auto">
-        <thead>
+          <thead>
             <tr className="text-white">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
@@ -102,7 +102,7 @@ const Tabla = ({
                   if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
                 } else {
                   if (mostrarFotoPerfil && col.key === 'fotoPerfil') roundedL = 'rounded-l-full px-7';
-                  else if (!mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre','zona'].includes(col.key)) roundedL = 'rounded-l-full';
+                  else if (!mostrarFotoPerfil && ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(col.key)) roundedL = 'rounded-l-full';
                 }
                 const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
                 const sticky = isAcc ? 'sticky right-0 z-20' : '';
@@ -148,11 +148,13 @@ const Tabla = ({
               let colIndex = 0;
               return (
                 <tr key={fila.id || rowIndex}>
-                  {enableSelection && (() => { colIndex++; return (
-                    <td className="p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle rounded-l-full">
-                      <input id="checkboxSteps" type="checkbox" className="cursor-pointer accent-[#39A900]" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
-                    </td>
-                  ); })()}
+                  {enableSelection && (() => {
+                    colIndex++; return (
+                      <td className="p-2 md:p-3 text-center border-t border-b border-gray-300 bg-white align-middle rounded-l-full">
+                        <input id="checkboxSteps" type="checkbox" className="cursor-pointer accent-[#39A900]" checked={seleccionados.includes(fila.id)} onChange={() => toggleSeleccion(fila.id)} />
+                      </td>
+                    );
+                  })()}
 
                   {/* Foto Perfil */}
                   {mostrarFotoPerfil && (() => {
@@ -160,17 +162,21 @@ const Tabla = ({
                     const isFirst = colIndex === 1;
                     const isLast = colIndex === encabezados.length;
                     return (
-                      <td className={`rounded-l-full p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white w-16 ${isLast ? 'rounded-r-full' : ''}`}> 
-                        <img src={getRoleImage(fila.id_rol)} alt="Perfil" className="w-10 h-10 rounded-full mx-auto" />
+                      <td className={`rounded-l-full p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white w-16 ${isLast ? 'rounded-r-full' : ''}`}>
+                        <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${fila.id}`}
+                          onError={(e) => {
+                            e.target.onerror = null; // Evitar loop infinito
+                            e.target.src = getRoleImage(fila.id_rol);
+                          }} alt="Perfil" className="w-10 h-10 rounded-full mx-auto" />
                       </td>
                     );
                   })()}
 
                   {/* Celdas Sin Foto */}
                   {columnasSinFoto.map((columna, cidx) => {
-                    
+
                     const isAcciones = columna.key === 'acciones';
-                    let borderL = enableSelection? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre','cultivo','#', 'operacion', 'finca_nombre','zona'].includes(columna.key) ? 'rounded-l-full' : '';
+                    let borderL = enableSelection ? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(columna.key) ? 'rounded-l-full' : '';
                     let borderR = cidx === columnasSinFoto.length - 1 ? ' rounded-r-full' : '';
                     colIndex++;
                     if (isAcciones) {
@@ -205,7 +211,7 @@ const Tabla = ({
                       );
                     }
                     return (
-                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}> 
+                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}>
                         {columna.key === '#' ? rowIndex + 1 : fila[columna.key]}
                       </td>
                     );

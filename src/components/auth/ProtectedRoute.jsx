@@ -2,7 +2,7 @@ import {React} from 'react';
 import { Navigate } from 'react-router-dom'; // Para redirigir al login
 import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
 
-const ProtectedRoute = ({ element: Component }) => {
+const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
     const token = localStorage.getItem('session'); // Obtener el token del localStorage
     const idUser = localStorage.getItem('User')
     // Verificar si no hay token
@@ -22,6 +22,11 @@ const ProtectedRoute = ({ element: Component }) => {
             localStorage.removeItem('token'); // Eliminar token expirado
             return <Navigate to="/login" />;
         }
+         const userRole =decodedToken.idRol; // Obtener el rol del usuario
+    if (!allowedRoles.includes(userRole)) {
+      return <Navigate to="/login" />;;  // Redirigir si no tiene el rol adecuado
+    }
+
     } catch (error) {
         console.error("Error al decodificar el token:", error);
         localStorage.removeItem('token');

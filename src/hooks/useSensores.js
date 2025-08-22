@@ -60,6 +60,7 @@ export function useSensores(id, idUser) {
       try {
         const sensoresData = await getSensoresById(id);
         setSensores(sensoresData || []);
+        console.log(" sensorcitos:", sensoresData)
       } catch (err) {
         console.error("❌ Error al obtener sensores:", err);
       }

@@ -76,3 +76,6 @@ export const verificarExistenciaTelefono = async (telefono, idIgnorar = null) =>
   );
   return telefonoExistente;
 };
+
+ export const traerToken = (id) =>
+    fetchSinToken(`/token/${id}`)

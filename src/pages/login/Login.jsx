@@ -22,14 +22,14 @@ const Login = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
-  const [ usuario, handleChange, inicioSesion ] = useLogin();
+  const [ usuario, handleChange, inicioSesion, logout ] = useLogin();
 
   // limpiar token si existe
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      localStorage.removeItem('token');
-    }
+    logout()
   }, []);
+
+  
 
 
   // manejar redimensionamiento

@@ -3,6 +3,7 @@ import { getFincasByIdFincas, getZonasByIdFinca, crearZona, editarZona, eliminar
 import { acctionSucessful } from "../components/alertSuccesful";
 import * as Images from '../assets/img/imagesExportation';
 import { validarSinCambios } from "../utils/validaciones";
+import { postValidarpermisos } from "../services/usuarios/ApiUsuarios";
 
 export const useZonas = (id) => {
   const [fincas, setFincas] = useState({});
@@ -14,22 +15,51 @@ export const useZonas = (id) => {
   const [modoFormulario, setModoFormulario] = useState("crear");
   const [zonaFormulario, setZonaFormulario] = useState({ nombre: "", idfinca: parseInt(id) });
   const [zonaOriginal, setZonaOriginal] = useState(null);
+  const [permisos, setPermisos] = useState({});
+
+  // Lista de permisos que quieres validar
+  const listaPermisos = [
+    "editar zonas",
+    "eliminar zonas",
+    "crear zonas",
+    "ver zonas",
+    "ver actividades",
+    "ver sensores"
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Traer fincas y zonas
         const [fincaData, zonasData] = await Promise.all([
           getFincasByIdFincas(id),
           getZonasByIdFinca(id),
         ]);
         setFincas(fincaData);
         setZonas(zonasData || []);
+
+        // Consultar todos los permisos en paralelo
+        const respuestas = await Promise.all(
+          listaPermisos.map(nombrePermiso =>
+            postValidarpermisos({ nombrePermiso })
+          )
+        );
+
+        // Convertir respuestas a objeto
+        const permisosObj = {};
+        listaPermisos.forEach((permiso, i) => {
+          permisosObj[permiso] = respuestas[i];
+        });
+
+        setPermisos(permisosObj);
       } catch (err) {
-        console.error("Error cargando datos", err);
+        console.error("Error cargando datos o permisos", err);
       }
     };
+
     fetchData();
   }, [id]);
+
 
   const abrirModalCrear = () => {
     setZonaFormulario({ nombre: "", idfinca: parseInt(id) });
@@ -102,6 +132,7 @@ export const useZonas = (id) => {
 
   return {
     fincas,
+    permisos,
     zonas,
     zonaFormulario,
     modalFormularioAbierto,

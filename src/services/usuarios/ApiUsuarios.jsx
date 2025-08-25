@@ -1,7 +1,6 @@
 import { obtenerIdUsuario } from '../../hooks/useDecodeToken';
 import { fetchConToken, fetchSinToken, fetchConTokenFormData } from '../fetchHelpers';
 //URL base de la api
-const API_URL = process.env.REACT_APP_API_URL;
 
 //Funcion para obtener todos los usuarios
 export const getUsuarios = async () => fetchConToken(`/api/usuario`);
@@ -54,6 +53,12 @@ export const eliminarUsuario = async (id) => {
 export const getHistorial = async () => 
   fetchConToken(`/api/historial`);
  
+
+export const postValidarpermisos = async (permisos) =>
+  fetchSinToken(`/verificarPermiso/${obtenerIdUsuario()}`,{
+    method: "POST",
+    body: JSON.stringify(permisos)
+  })
 
 // Función para verificar si el correo o teléfono ya existe
 export const verificarExistenciaCorreo = async (correo, idIgnorar = null) => {

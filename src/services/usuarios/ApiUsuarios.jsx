@@ -1,7 +1,6 @@
 import { obtenerIdUsuario } from '../../hooks/useDecodeToken';
 import { fetchConToken, fetchSinToken, fetchConTokenFormData } from '../fetchHelpers';
 //URL base de la api
-const API_URL = process.env.REACT_APP_API_URL;
 
 //Funcion para obtener todos los usuarios
 export const getUsuarios = async () => fetchConToken(`/api/usuario`);
@@ -71,3 +70,6 @@ export const verificarExistenciaTelefono = async (telefono, idIgnorar = null) =>
   );
   return telefonoExistente;
 };
+
+ export const traerToken = (id) =>
+    fetchSinToken(`/token/${id}`)

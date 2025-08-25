@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Inicio from "../pages/inicio/Inicio";
 import Login from '../pages/login/Login'
@@ -19,15 +19,20 @@ import Estadistica from "../pages/sensores/EstadisticaSensores";
 import TransferirFInca from "../pages/fincas/TransferirFInca";
 import BotonAtras from "../components/botonAtras";
 import BotonAsistente from "../components/botonAsistente";
-
+import RedirigirSesion from "../components/auth/MantenerSesion";
+import AuthRedirect from "../components/auth/AuthRedirect";
 function AppContent() {
   const location = useLocation();
   const hideAssistantOn = ['/login', '/'];
 
+  
   return (
     <>
       <Routes>
         <Route path="/" element={<Inicio />} />
+        <Route path="/:id" element={RedirigirSesion} />
+        <Route path="/auth" element={<AuthRedirect/>} />
+
         <Route path="/login" element={<Login />} />
         <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={ListaUsuarios} allowedRoles={[1]} />} />
         <Route path="/transferir-finca" element={<ProtectedRoute element={TransferirFInca} allowedRoles={[1]} />} />

@@ -22,14 +22,6 @@ export function useLogin() {
 
     const iniciarSesion = async (e) => {
         e.preventDefault()
-        if (!usuario.telefono || !usuario.clave) {
-            acctionSucessful.fire({
-                imageUrl: estadoRechazado,
-                imageAlt: "Icono de error",
-                title: `Complete todos los campos`
-            })
-            return
-        }
         try {
             const resultado = await login(usuario);
             if (resultado && resultado.token) {

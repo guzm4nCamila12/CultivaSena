@@ -54,6 +54,12 @@ export const getHistorial = async () =>
   fetchConToken(`/api/historial`);
  
 
+export const postValidarpermisos = async (permisos) =>
+  fetchSinToken(`/verificarPermiso/${obtenerIdUsuario()}`,{
+    method: "POST",
+    body: JSON.stringify(permisos)
+  })
+
 // Función para verificar si el correo o teléfono ya existe
 export const verificarExistenciaCorreo = async (correo, idIgnorar = null) => {
   const usuarios = await getUsuarios();

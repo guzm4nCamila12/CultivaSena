@@ -1,12 +1,14 @@
 // hooks/useUsuarios.js
 import { useEffect, useState } from "react";
-import { getUsuarios, crearUsuario, editarUsuario, eliminarUsuario, getUsuarioById } from "../services/usuarios/ApiUsuarios";
+import { getUsuarios, editarUsuario, postValidarpermisos } from "../services/usuarios/ApiUsuarios";
 import * as Validaciones from '../utils/validaciones';
 import { obtenerIdUsuario } from "./useDecodeToken";
 
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosAdmin, setUsuariosAdmin] = useState([]);
+  const [permisoEditar, setPermisoEditar] = useState([]);
+  const [permisoVerFincas, setPermisoVerFincas] = useState([]);
   // Función para traer todos los usuarios
   const fetchUsuarios = async () => {
     try {
@@ -16,6 +18,19 @@ export const useUsuarios = (id) => {
       setUsuariosAdmin(admins);
     } catch (error) {
       console.error("Error al traer usuarios:", error);
+    }
+
+    try {
+      postValidarpermisos({ nombrePermiso: "editar usuarios" })
+        .then(data => {
+          setPermisoEditar(data);
+        })
+        postValidarpermisos({ nombrePermiso: "ver fincas" })
+        .then(data => {
+          setPermisoVerFincas(data);
+        })
+    }catch (error){
+       console.error("Error al consultar el permisos:", error);
     }
   };
 
@@ -32,18 +47,6 @@ export const useUsuarios = (id) => {
 
     return true
   }
-  const agregarUsuario = async (usuario) => {
-    if (!validarUsuario(usuario)) return;
-    if (!await Validaciones.comprobarCredenciales(usuario)) return false;
-
-    const data = await crearUsuario({ ...usuario, id_rol: Number(usuario.id_rol) });
-    console.log("usuarios:", data)
-    if (data) {
-      //  Refrescar usuarios desde backend para mantener consistencia
-      await fetchUsuarios();
-    } return data;
-  };
-
 
   const actualizarUsuario = async (usuarioEditado, original) => {
     const huboCambios = Validaciones.validarSinCambios(usuarioEditado, original, "el usuario", ["id_rol"]);
@@ -56,10 +59,5 @@ export const useUsuarios = (id) => {
     return true;
   };
 
-  const eliminarUsuarioPorId = async (id) => {
-    await eliminarUsuario(id);
-    setUsuarios(prev => prev.filter(u => u.id !== id));
-  };
-
-  return { usuarios, usuariosAdmin, agregarUsuario, actualizarUsuario, eliminarUsuarioPorId };
+  return { usuarios, usuariosAdmin, permisoEditar, permisoVerFincas, actualizarUsuario };
 };

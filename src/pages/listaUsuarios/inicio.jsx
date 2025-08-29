@@ -4,6 +4,7 @@ import NavBar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
 import FormularioModal from "../../components/modals/FormularioModal";
 import { useUsuarios } from "../../hooks/useUsuarios";
+import { usePermisos } from "../../hooks/usePermisos";
 import { nombreIcon, verClaveAzul, noVerClaveAzul, telefono, correo, rol, ajustes, editar, sinFincas, ver, telefonoAzul, correoAzul, claveAzul, usuarioAzul, tipoDocumento } from "../../assets/icons/IconsExportation";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../../components/alertSuccesful";
@@ -12,7 +13,8 @@ import { usuariosSteps } from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 const Inicio = () => {
-  const { usuarios, permisoEditar, permisoVerFincas, actualizarUsuario } = useUsuarios();
+  const { usuarios, actualizarUsuario } = useUsuarios();
+  const { permisos } = usePermisos();
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
 
@@ -51,7 +53,7 @@ const Inicio = () => {
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
       {/* Botón Editar */}
-      {permisoEditar?.tienePermiso && (
+      {permisos["editar usuarios"]?.tienePermiso && (
         <div id="editarSteps" className="relative group">
           <button
 
@@ -67,7 +69,7 @@ const Inicio = () => {
       )}
 
       {/* Botón Ver (sin fincas o con link) */}
-      {permisoVerFincas?.tienePermiso && (
+      {permisos["ver fincas"]?.tienePermiso && (
         fila.id_rol !== "Admin" ? (
           <div id="verSinFincasSteps" className="relative group">
             <button

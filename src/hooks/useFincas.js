@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUsuarioById, postValidarpermisos } from "../services/usuarios/ApiUsuarios";
+import { getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import { getFincasById, eliminarFincas } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from '../components/alertSuccesful';
 import UsuarioEliminado from '../assets/img/usuarioEliminado.png';
@@ -10,19 +10,6 @@ export const useFincas = (id) => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [fincaEliminar, setFincaEliminar] = useState(null);
   const [nombreFincaEliminar, setNombreFincaEliminar] = useState('');
-  const [permisos, setPermisos] = useState({});
-
-
-  // Lista de permisos que quieres validar
-  const listaPermisos = [
-    "editar fincas",
-    "eliminar fincas",
-    "crear fincas",
-    "ver fincas",
-    "ver zonas",
-    "ver sensores",
-    "ver alternos"
-  ];
 
   useEffect(() => {
     // Cargar los datos del usuario
@@ -33,25 +20,6 @@ export const useFincas = (id) => {
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
-
-      try {
-        // Consultar todos los permisos en paralelo
-        const respuestas = await Promise.all(
-          listaPermisos.map(nombrePermiso =>
-            postValidarpermisos({ nombrePermiso })
-          )
-        );
-
-        // Convertir las respuestas a un objeto { "editar fincas": {tienePermiso: true}, ... }
-        const permisosObj = {};
-        listaPermisos.forEach((permiso, i) => {
-          permisosObj[permiso] = respuestas[i];
-        });
-
-        setPermisos(permisosObj);
-      } catch (error) {
-        console.error("Error al consultar permisos:", error);
-      }
     };
 
     fetchData();
@@ -61,11 +29,8 @@ export const useFincas = (id) => {
     // Cargar los datos del las fincas
     const fetchData = async () => {
       try {
-        console.log("chimpanzini bananini")
         const fincasData = await getFincasById(id);
         setFincas(fincasData || []);
-        console.log("use fincas", fincasData)
-        console.log("id:", id)
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
@@ -102,7 +67,6 @@ export const useFincas = (id) => {
     modalEliminarAbierto,
     fincaEliminar,
     nombreFincaEliminar,
-    permisos,
     abrirModalEliminar,
     handleEliminarFinca,
     setModalEliminarAbierto,

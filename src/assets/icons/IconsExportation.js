@@ -25,7 +25,8 @@ import telefonoGris from './phone.png';
 import usuarioAzul from './usuarioAzul.png';
 import ver from './ver.png';
 import verClave from './eye-open.png';
-import volver from './volver.png';
+import volver from './Volver.png';
+import volverVerde from './volverVerde.png'
 import zonasIcon from './zonas.png';
 import locacion from "./locacion.png"
 import marcador from "./marcador.png"
@@ -117,5 +118,6 @@ export {
   fechaA,
   ajustesA,
   actividadesA,
-  zonaA
+  zonaA,
+  volverVerde
 };

@@ -11,6 +11,7 @@ import { useSensores } from "../../hooks/useSensores";
 
 import { sensoresDriverSteps } from "../../utils/aplicationSteps";
 import { useDriverTour } from "../../hooks/useTourDriver";
+import { usePermisos } from "../../hooks/usePermisos";
 
 function Sensores() {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
@@ -27,6 +28,8 @@ function Sensores() {
     modalEditarAbierto,
     setModalEditarAbierto,
   } = useSensores(id, idUser);
+
+  const { permisos } = usePermisos()
 
   const pasosTour = sensoresDriverSteps.filter(paso => {
       if (paso.element === "#activarSensor") return rol === "1";
@@ -59,6 +62,7 @@ function Sensores() {
   const acciones = (fila) => (
     rol !== "3" ? (
       <div className="flex justify-center gap-4">
+        {permisos["editar sensores"]?.tienePermiso && (
         <div id="editarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -69,6 +73,7 @@ function Sensores() {
             Editar
           </span>
         </div>
+        )}
         <div id="verDatosSensor" className="relative group">
           <Link to={`/datos-sensor/${fila.id}`}>
             <button
@@ -80,6 +85,7 @@ function Sensores() {
             </button>
           </Link>
         </div>
+        {permisos["eliminar sensores"]?.tienePermiso  &&(
         <div id="eliminarSensor" className="relative group">
           <button
             className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
@@ -90,6 +96,7 @@ function Sensores() {
             </span>
           </button>
         </div>
+        )}
       </div>
     ) : (
       <div className="flex justify-center gap-4">
@@ -150,6 +157,8 @@ function Sensores() {
   );
 
   return (
+    <>
+    {permisos["ver sensores"]?.tienePermiso && (
     <div>
       <NavBar />
 
@@ -217,6 +226,8 @@ function Sensores() {
         confirmText="Sí, eliminar"
       />
     </div>
+    )}
+    </>
   );
 }
 

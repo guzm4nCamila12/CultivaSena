@@ -12,6 +12,7 @@ import { zonasIcon, actividadesIcon, ajustes, editar, eliminar, nombreZona, sens
 import { useZonas } from "../../../hooks/useZonas";
 import { zonasDriverSteps, ReporteSteps } from '../../../utils/aplicationSteps';
 import { useDriverTour } from '../../../hooks/useTourDriver';
+import { usePermisos } from "../../../hooks/usePermisos";
 
 const Zonas = () => {
   const { idUser, id } = useParams();
@@ -20,8 +21,10 @@ const Zonas = () => {
   const vista = state?.vista ?? "";
   const isReporte = vista === "/reporte";
 
-  const { fincas, zonas, modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, permisos, abrirModalCrear, abrirModalEditar,
+  const { fincas, zonas, modalFormularioAbierto, zonaFormulario, modoFormulario, modalEliminarAbierto, zonaEliminada, abrirModalCrear, abrirModalEditar,
     abrirModalEliminar, setModalFormularioAbierto, handleSubmitFormulario, handleChangeZona, setModalEliminarAbierto, handleEliminarZona, } = useZonas(id, idUser);
+
+  const { permisos } = usePermisos()
 
   const tituloMostrar = state?.titulo || `Zonas de la Finca ${fincas?.nombre || "..."}`;
 

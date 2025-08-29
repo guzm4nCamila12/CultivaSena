@@ -20,12 +20,12 @@ export const useExportarExcel = () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(nombreHoja);
 
-    // 🔹 Fecha y hora actual
+    // Fecha y hora actual
     const now = new Date();
     const pad = (n) => String(n).padStart(2, '0');
     const fechaHora = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
 
-    // 🔹 Obtener nombre de la finca (todas las zonas pertenecen a la misma)
+    // Obtener nombre de la finca (todas las zonas pertenecen a la misma)
     let nombreFinca = '';
     try {
       // asumiendo que cada dato tiene campo 'idzona'
@@ -37,7 +37,7 @@ export const useExportarExcel = () => {
       console.warn('No se pudo obtener la finca:', error);
     }
 
-    // 🔹 Agrega la fila de título personalizado
+    // Agrega la fila de título personalizado
     const tituloReporte = `Reporte de la finca ${nombreFinca} generado el ${fechaHora}`;
     worksheet.mergeCells('A1:D1');
     const tituloCell = worksheet.getCell('A1');
@@ -57,11 +57,11 @@ export const useExportarExcel = () => {
 
     worksheet.addRow([]);
 
-    // 🔹 Define encabezados (extraídos de los datos)
+    // Define encabezados (extraídos de los datos)
     const headers = Object.keys(datos[0]);
     worksheet.addRow(headers);
 
-    // 🔹 Estiliza encabezado
+    // Estiliza encabezado
     worksheet.getRow(3).eachCell(cell => {
       cell.fill = {
         type: 'pattern',
@@ -82,17 +82,17 @@ export const useExportarExcel = () => {
       };
     });
 
-    // 🔹 Agrega los datos
+    // Agrega los datos
     datos.forEach(dato => {
       worksheet.addRow(headers.map(key => dato[key]));
     });
 
-    // 🔹 Ajusta los anchos de columna
+    // Ajusta los anchos de columna
     headers.forEach((key, idx) => {
       worksheet.getColumn(idx + 1).width = ['ID', 'Día', 'Mes', 'Año', 'Hora', 'Valor', 'Cultivo'].includes(key) ? 10 : 22;
     });
 
-    // 🔹 Exporta
+    // Exporta
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `${nombreArchivo}.xlsx`);
   };

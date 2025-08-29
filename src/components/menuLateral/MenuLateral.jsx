@@ -17,6 +17,7 @@ import sensor from "../../assets/icons/reporteSensores.svg"
 import { fincasBlancas } from '../../assets/icons/IconsExportation';
 import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
+import { usePermisos } from '../../hooks/usePermisos';
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
     const [fincas, setFincas] = useState([]);
     const [cargandoFincas, setCargandoFincas] = useState(true);
     const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
+    const { permisos } = usePermisos()
     // Obtener ícono según rol
     const obtenerRol = () => {
         switch (rolToken()) {
@@ -266,6 +268,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
 
                 {/*Transferir fincas(Solo para superAdmin)*/}
                 {rolToken() === 1 && (
+                    permisos["editar fincas"]?.tienePermiso && (
                     <div
                         onClick={() => navigate("/transferir-finca")}
                         className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
@@ -273,6 +276,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                         <img src={TransferirFinca} alt="Transferir Fincas" className="h-8 w-9 mr-2" />
                         <span>Transferir Fincas</span>
                     </div>
+                    )
                 )}
 
             </div>

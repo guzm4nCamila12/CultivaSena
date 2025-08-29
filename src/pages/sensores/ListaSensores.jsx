@@ -28,6 +28,7 @@ import {
 
 // Hooks personalizados
 import { useSensores } from "../../hooks/useSensores";
+import { usePermisos } from "../../hooks/usePermisos";
 
 function ActivarSensores() {
   const { id, idUser } = useParams();
@@ -49,7 +50,6 @@ function ActivarSensores() {
     handleChangeEditar,
     actualizarSensor,
     setSensorAEliminar,
-    sensorAEliminar,
     sensorEliminado,
     setSensorEliminado,
     eliminarSensor,
@@ -64,6 +64,8 @@ function ActivarSensores() {
     setModalEditarAbierto,
   } = useSensores(id, idUser);
 
+  const { permisos } = usePermisos()
+
   // Tour
   const pasosTour = sensoresDriverSteps.filter(paso => {
     if (paso.element === "#activarSensor") return rol === "1";
@@ -71,10 +73,10 @@ function ActivarSensores() {
     return true;
   });
   const steps = vista === state?.titulo
-      ? ReporteSteps
-      : pasosTour;
-  
-    useDriverTour(steps);
+    ? ReporteSteps
+    : pasosTour;
+
+  useDriverTour(steps);
 
   const tituloMostrar = state?.titulo || `Sensores de la Finca ${fincas?.nombre || "..."}`;
 
@@ -132,16 +134,18 @@ function ActivarSensores() {
   // Acciones fila
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      <div id="editarSensor" className="relative group">
-        <button
-          className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          onClick={() => enviarForm(fila.id)}>
-          <img src={editar} alt="Editar" className='absolute' />
-        </button>
-        <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-          Editar
-        </span>
-      </div>
+      {permisos["editar sensores"]?.tienePermiso && (
+        <div id="editarSensor" className="relative group">
+          <button
+            className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            onClick={() => enviarForm(fila.id)}>
+            <img src={editar} alt="Editar" className='absolute' />
+          </button>
+          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Editar
+          </span>
+        </div>
+      )}
 
       <div id="verDatosSensor" className="relative group">
         <Link to={`/datos-sensor/${fila.id}`}>
@@ -153,7 +157,7 @@ function ActivarSensores() {
           </button>
         </Link>
       </div>
-
+      {permisos["eliminar sensores"]?.tienePermiso &&(
       <div id="eliminarSensor" className="relative group">
         <button
           onClick={() => abrirModalEliminar(fila.id)}
@@ -164,6 +168,7 @@ function ActivarSensores() {
           </span>
         </button>
       </div>
+      )}
     </div>
   );
 
@@ -207,6 +212,8 @@ function ActivarSensores() {
   );
 
   return (
+    <>
+    {permisos["ver sensores"]?.tienePermiso && (
     <div>
       <Navbar />
       <MostrarInfo
@@ -215,7 +222,7 @@ function ActivarSensores() {
         datos={sensoresFiltrados}
         acciones={!isEstadisticaView ? acciones : undefined}
         onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={!isEstadisticaView}
+        mostrarAgregar={permisos["crear sensores"]?.tienePermiso && !isEstadisticaView}
         enableSelectionButton={enableSelectionButton}
         vista={vista}
       />
@@ -241,7 +248,7 @@ function ActivarSensores() {
         titulo="Editar Sensor"
         isOpen={modalEditarAbierto}
         onClose={() => setModalEditarAbierto(false)}
-        onSubmit={e => { e.preventDefault(); actualizarSensor();  }}
+        onSubmit={e => { e.preventDefault(); actualizarSensor(); }}
         valores={obtenerNombreTipo(sensorEditar)}
         onChange={handleChangeEditar}
         textoBoton="Guardar y actualizar"
@@ -268,6 +275,8 @@ function ActivarSensores() {
         confirmText="Sí, eliminar"
       />
     </div>
+    )}
+    </>
   );
 }
 

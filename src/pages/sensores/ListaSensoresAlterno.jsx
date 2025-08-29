@@ -1,5 +1,5 @@
 //importaciones necesarias de react
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 //iconos de las columnas
 import { sensoresIcon, mac, descripcion, estadoIcon, ajustes, ver, actividadesIcon, nombre } from "../../assets/icons/IconsExportation"
@@ -9,9 +9,7 @@ import MostrarInfo from "../../components/mostrarInfo";
 //endpoints para consumir el api
 import { getFincasByIdFincas, getZonasByIdFinca } from "../../services/fincas/ApiFincas";
 import { getSensoresById } from "../../services/sensores/ApiSensores";
-
-import { sensorAlternosDriverSteps, zonasAlternosDriverSteps } from "../../utils/aplicationSteps";
-import { useDriverTour } from "../../hooks/useTourDriver";
+import { usePermisos } from "../../hooks/usePermisos";
 
 function SensoresAlterno() {
   //Estado para almacenar datos
@@ -24,7 +22,7 @@ function SensoresAlterno() {
   const vista = state?.vista ?? '';
   const [hideTabs, setHideTabs] = useState(false);
   const [Alternar, setAlternar] = useState(() => localStorage.getItem("Alternar") === "true");
-  
+  const { permisos } = usePermisos()
 
   const [redirection,setRedirection] = useState(null)
 
@@ -55,7 +53,6 @@ function SensoresAlterno() {
       ? (state.enableSelectionButton ?? false)
       : false;
   
-  const isEstadistica = vista === "/estadistica" || vista === "/reporte" || vista === "/sensores";
   const tipo = location.state?.tipo ?? "";
 
   const [fincas, setFincas] = useState({});
@@ -205,6 +202,7 @@ function SensoresAlterno() {
       </Link>
     ),
     actividades: (
+      permisos["ver actividades"]?.tienePermiso &&(
       <Link to={`/actividadesZonas/${zona.id}`}>
         <button id="actividadesSteps" className="group relative">
           <div className="w-20 h-9 rounded-3xl bg-white hover:bg-[#93A6B2] flex items-center justify-start">
@@ -215,10 +213,13 @@ function SensoresAlterno() {
           </span>
         </button>
       </Link>
+      )
     )
   }));
 
   return (
+    <>
+    {permisos["ver sensores"]?.tienePermiso &&(
     <div >
       <Navbar />
       {!hideTabs && (
@@ -278,6 +279,8 @@ function SensoresAlterno() {
       )}
 
     </div>
+    )}
+    </>
   );
 }
 

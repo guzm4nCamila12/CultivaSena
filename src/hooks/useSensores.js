@@ -18,10 +18,9 @@ import { getUsuarioById } from "../services/usuarios/ApiUsuarios";
 import { acctionSucessful } from "../components/alertSuccesful";
 import UsuarioEliminado from "../assets/img/usuarioEliminado.png";
 import usuarioCreado from "../assets/img/usuarioCreado.png";
-import { validarNombre, validarSinCambios } from "../utils/validaciones";
+import { validarSinCambios } from "../utils/validaciones";
 import { Alerta } from "../assets/img/imagesExportation";
 
-const MySwal = withReactContent(Swal);
 export function useSensores(id, idUser) {
   const [sensores, setSensores] = useState([]);
   const [sensoresZona, setSensoresZona] = useState([]);
@@ -60,7 +59,6 @@ export function useSensores(id, idUser) {
       try {
         const sensoresData = await getSensoresById(id);
         setSensores(sensoresData || []);
-        console.log(" sensorcitos:", sensoresData)
       } catch (err) {
         console.error("❌ Error al obtener sensores:", err);
       }
@@ -170,7 +168,7 @@ export function useSensores(id, idUser) {
         setSensoresZona(sensoresZonasData || []);
         acctionSucessful.fire({
           imageUrl: usuarioCreado,
-          title: `¡Sensor <span style=\"color: green;\">${formData.nombre}</span> creado correctamente!`
+          title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
         });
 
         setFormData(valoresIniciales);
@@ -190,7 +188,7 @@ export function useSensores(id, idUser) {
       setSensoresZona(sensoresZonasData || []);
       acctionSucessful.fire({
         imageUrl: usuarioCreado,
-        title: `¡Sensor <span style=\"color: #3366CC;\">${sensorEditar.nombre}</span> editado correctamente!`
+        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
       });
 
       setModalEditarAbierto(false);
@@ -209,7 +207,7 @@ export function useSensores(id, idUser) {
       setSensoresZona(sensoresZonasData || []);
       acctionSucessful.fire({
         imageUrl: UsuarioEliminado,
-        title: `¡Sensor <span style=\"color: red;\">${sensorEliminado?.nombre}</span> eliminado correctamente!`
+        title: `¡Sensor <span style="color: red;">${sensorEliminado?.nombre}</span> eliminado correctamente!`
       });
       setSensorAEliminar(null);
       setSensorEliminado(null);
@@ -274,7 +272,7 @@ export function useSensores(id, idUser) {
         updated[index] = updatedSensor;
         return updated;
       });
-      
+
       const respuesta = await insertarDatos(updatedSensor.mac);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);

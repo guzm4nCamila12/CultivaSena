@@ -41,7 +41,6 @@ const useAlternosFinca = () => {
 
   useEffect(() => {
     getUsuarioByIdRol(id).then(data => setUsuarios(data || [])).catch(console.error);
-    console.log("id finca:", id)
     getFincasByIdFincas(id).then(data => setFincas(data));
   }, [id]);
 
@@ -56,9 +55,7 @@ const useAlternosFinca = () => {
 
     const credencialesValidas = await comprobarCredenciales(nuevoUsuario);
     if (!credencialesValidas) return;
-    console.log("alterno a crear:", nuevoUsuario)
     crearUsuario(nuevoUsuario).then((data) => {
-      console.log("data crear alterno:", data)
       setUsuarios([...usuarios, data]);
       setModalInsertarAbierto(false);
       acctionSucessful.fire({

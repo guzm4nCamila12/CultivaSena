@@ -73,6 +73,7 @@ export const useActividadesZona = (idZona) => {
     ]
   };
 
+
   useEffect(() => {
     getActividadesByZona(idZona)
       .then(data => setActividades(data || []))
@@ -145,7 +146,7 @@ export const useActividadesZona = (idZona) => {
   const handleEditarActividad = (e) => {
     e.preventDefault();
 
-    if (!validarSinCambios(actividadOriginal, actividadEditar,"la actividad")) return
+    if (!validarSinCambios(actividadOriginal, actividadEditar, "la actividad")) return
 
     if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
       acctionSucessful.fire({
@@ -209,18 +210,18 @@ export const useActividadesZona = (idZona) => {
     const etapaObj = etapas.find(et => et.label === actividad.etapa);
     const etapaValue = etapaObj ? etapaObj.value : '';
     setEtapaSeleccionada(etapaValue);
-  
+
     const actividadArr = actividadesPorEtapa[etapaValue] || [];
     const actividadObj = actividadArr.find(act => act.value === actividad.actividad);
     const actividadLabel = actividadObj ? actividadObj.label : actividad.actividad;
-  
+
     const actividadEditando = { ...actividad, actividad: actividadLabel };
-  
+
     setActividadEditar(actividadEditando);
     setActividadOriginal(actividadEditando); // 👈 Guardamos el original
     setModalEditarActividad(true);
   };
-  
+
   const handleAbrirModalCrear = (idZone) => {
     setNuevaActividad(prev => ({ ...prev, idzona: idZone, idusuario }));
     setModalActividadInsertar(true);

@@ -59,7 +59,7 @@ function AppContent() {
 
 function AppRouter() {
   return (
-    <Router>
+    <Router basename="/cultivasensores">
       <AppContent />
     </Router>
   );

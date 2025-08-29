@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import MostrarInfo from '../../components/mostrarInfo';
@@ -9,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 import { fincaDriverSteps } from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
+import { usePermisos } from '../../hooks/usePermisos';
 
 export default function ListaFincas() {
   const { id } = useParams();
@@ -17,13 +17,14 @@ export default function ListaFincas() {
   const {
     fincas,
     usuario,
-    permisos,
     modalEliminarAbierto,
     nombreFincaEliminar,
     abrirModalEliminar,
     handleEliminarFinca,
     setModalEliminarAbierto,
   } = useFincas(id);
+
+  const { permisos } = usePermisos()
 
   const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: fincasIcon },

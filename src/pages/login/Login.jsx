@@ -5,12 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // componentes reutilizados
 import Gov from '../../components/gov';
-import { acctionSucessful } from "../../components/alertSuccesful";
-import { volver, telefonoGris, claveGris, verClave, noVerClave } from "../../assets/icons/IconsExportation";
-import welcomeIcon from "../../assets/img/inicioSesion.png";
-import alerta from '../../assets/img/alerta.png';
-import { validarTelefono } from "../../utils/validaciones";
-import { login } from "../../services/usuarios/ApiUsuarios";
+import { volverVerde as volver, telefonoGris, claveGris, verClave, noVerClave } from "../../assets/icons/IconsExportation";
 import cultivaBanner2 from '../../assets/img/cultivaBanner2.png'
 import fondoC from '../../assets/img/fondoC.svg'
 import logoC from '../../assets/img/logoC.svg'

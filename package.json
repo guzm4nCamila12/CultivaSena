@@ -1,6 +1,5 @@
 {
   "name": "cultiva-sena",
-  "homepage": "/cultivasensores",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

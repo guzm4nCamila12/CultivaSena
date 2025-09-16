@@ -16,20 +16,35 @@ import fondoC from '../../assets/img/fondoC.svg'
 import logoC from '../../assets/img/logoC.svg'
 import logoSena from '../../assets/img/sena-logo.svg'
 import { useLogin } from "../../hooks/useLogin";
+import ModalConfirmacion from "../../components/modals/modalConfirmacion";
+import ModalTelefono from "../../components/modals/modalTelefono";
+import useRecuperarClave from "../../hooks/useRecuperarClave";
 const Login = () => {
 
   const [mostrarClave, setMostrarClave] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
-  const [ usuario, handleChange, inicioSesion, logout ] = useLogin();
+  const [usuario, handleChange, inicioSesion, logout] = useLogin();
+  const [telefonoRecuperar, handleChangeRecuperar, recuperar, exito, error] = useRecuperarClave();
 
   // limpiar token si existe
   useEffect(() => {
     logout()
   }, []);
 
-  
+  //mostrar modal
+  const [isTelefonoOpen, setTelefonoOpen] = useState(false);
+  const [isConfirmOpen, setConfirmOpen] = useState(false);
+
+  useEffect(() => {
+    if (exito) {
+      setTelefonoOpen(false);
+      setConfirmOpen(true);
+    }
+  }, [exito]);
+
+
 
 
   // manejar redimensionamiento
@@ -54,18 +69,18 @@ const Login = () => {
             <div className="py-4 px-5 shadow-[0_0_60px_#fff] w-[640px] max-w-lg rounded-3xl backdrop-blur-sm border border-gray-500" style={{ backgroundColor: "rgba(255, 255, 255, 0.3)" }}>
               <form onSubmit={inicioSesion} className="space-y-3">
                 <div id="input-telefono">
-                <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
-                <input
-                  type="text"
-                  name="telefono"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  placeholder="Ingrese su número de teléfono"
-                  value={usuario.telefono}
-                  onChange={(e) => { if (/^\d*$/.test(e.target.value) && e.target.value.length <= 10) handleChange(e); }}
-                  className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
-                  style={{ backgroundImage: `url(${telefonoGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
-                />
+                  <h3 className="text-white font-semibold text-lg mt-5">Número de telefono</h3>
+                  <input
+                    type="text"
+                    name="telefono"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    placeholder="Ingrese su número de teléfono"
+                    value={usuario.telefono}
+                    onChange={(e) => { if (/^\d*$/.test(e.target.value) && e.target.value.length <= 10) handleChange(e); }}
+                    className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
+                    style={{ backgroundImage: `url(${telefonoGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
+                  />
                 </div>
                 <div className="relative pb-3">
                   <h3 className="text-white font-semibold text-lg pb-2">Contraseña</h3>
@@ -83,6 +98,8 @@ const Login = () => {
                     <img src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                   </div>
                 </div>
+                <p className="text-white font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                >¿Olvidaste tu contraseña?</p>
                 <button
                   id="btn-login"
                   type="submit"
@@ -94,12 +111,24 @@ const Login = () => {
             </div>
             <img src={logoSena} alt="Sena Logo" />
           </div>
+          <ModalTelefono
+            isOpen={isTelefonoOpen}
+            onClose={() => setTelefonoOpen(false)}
+            telefono={telefonoRecuperar}
+            handleChange={handleChangeRecuperar}
+            recuperar={recuperar}
+            error={error}
+          />
+          <ModalConfirmacion
+            isOpen={isConfirmOpen}
+            onClose={() => setConfirmOpen(false)}
+          />
         </div>
       );
     } else {
       return (
         <div className="min-h-screen bg-black">
-          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: `url(${cultivaBanner2})` }}>  
+          <div className="flex justify-center items-center min-h-[45rem] bg-cover bg-center relative" style={{ backgroundImage: `url(${cultivaBanner2})` }}>
             <div className="absolute w-full h-full backdrop-blur-sm" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}>
               <button className='absolute p-2 rounded-full w-7 text-white top-5 left-2 bg-white' onClick={irAtras}><img src={volver} alt="" className='w-2 m-auto' /></button>
               <div className="absolute inset-x-0 bottom-0 h-[400px] bg-gradient-to-t from-black to-transparent font-sans text-center">
@@ -146,7 +175,8 @@ const Login = () => {
                       </button>
                     </form>
                   </div>
-                  <a className='m-auto text-white'>¿Olvidó su contraseña?</a>
+                  <p className="text-white font-semibold pt-2 cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                  >¿Olvidaste tu contraseña?</p>
                 </div>
               </div>
             </div>
@@ -154,6 +184,18 @@ const Login = () => {
               <img src={logoSena} alt="Sena Logo" className='static m-auto w-16' />
             </div>
           </div>
+          <ModalTelefono
+            isOpen={isTelefonoOpen}
+            onClose={() => setTelefonoOpen(false)}
+            telefono={telefonoRecuperar}
+            handleChange={handleChangeRecuperar}
+            recuperar={recuperar}
+            error={error}
+          />
+          <ModalConfirmacion
+            isOpen={isConfirmOpen}
+            onClose={() => setConfirmOpen(false)}
+          />
         </div>
       );
     }

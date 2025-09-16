@@ -79,3 +79,15 @@ export const verificarExistenciaTelefono = async (telefono, idIgnorar = null) =>
 
  export const traerToken = (id) =>
     fetchSinToken(`/token/${id}`)
+//Genera el token temporal que envia el correo
+export const recuperarClave = async (telefono) =>
+  fetchSinToken(`/auth/recuperar`, {
+    method: "POST",
+    body: JSON.stringify(telefono)
+  })
+//restablece la clave junto con el token temporal
+export const restablecerClave = async (clave) =>
+  fetchSinToken(`/auth/restablecer`, {
+    method: "POST",
+    body: JSON.stringify(clave)
+  })

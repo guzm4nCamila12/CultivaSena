@@ -31,6 +31,7 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/:id" element={RedirigirSesion} />
+        {/* inicia sesion y redirecciona automaticamente cuando se trae el token desde clientes */}
         <Route path="/auth" element={<AuthRedirect/>} />
 
         <Route path="/login" element={<Login />} />

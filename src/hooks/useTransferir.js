@@ -70,7 +70,7 @@ export const useTransferir = () => {
                 return editarSensor(sensor.id, sensorActualizado);
             }));
         } catch (error) {
-            console.log('Error al transferir la finca:', error);
+            console.error('Error al transferir la finca:', error);
         }
         // Resetear los estados después de la transferencia
         setFincaTransferir(null);

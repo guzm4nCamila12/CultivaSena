@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login } from "../services/usuarios/ApiUsuarios";
-import { crearUsuario, editarUsuario } from "../services/usuarios/ApiUsuarios";
+import { editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
 export function useLogin() {
     const navigate = useNavigate();
@@ -23,25 +23,22 @@ export function useLogin() {
         try {
             const resultado = await login(usuario);
             if (resultado && resultado.token) {
-                console.log("Inicio de sesión exitoso");
-                console.log(resultado);
 
                 const formData = new FormData()
                 formData.append("token", resultado.token)
-                const result = await editarUsuario(resultado.user.id, { token: resultado.token }, resultado.user.id)
+                await editarUsuario(resultado.user.id, { token: resultado.token }, resultado.user.id)
                 localStorage.setItem("session", resultado.token)
                 localStorage.setItem("user", resultado.user.id)
                 localStorage.setItem("rol", resultado.user.id_rol)
 
-                if (resultado.user.id_rol == 1) {
+                if (resultado.user.id_rol === 1) {
                     navigate('/inicio-SuperAdmin')
                     localStorage.setItem("principal", '/inicio-SuperAdmin')
-                } else if (resultado.user.id_rol == 2) {
+                } else if (resultado.user.id_rol === 2) {
                     navigate(`/lista-fincas/${resultado.user.id}`)
                     localStorage.setItem("principal", `/lista-fincas/${resultado.user.id}`)
 
                 } else {
-                    console.log(resultado.user.id_rol);
                     navigate(`/sensores-alterno/${resultado.user.id_finca}/${resultado.user.id}`)
                     localStorage.setItem("principal", `/sensores-alterno/${resultado.user.id_finca}/${resultado.user.id}`)
 
@@ -67,7 +64,6 @@ export function useLogin() {
             localStorage.removeItem("session");
             localStorage.removeItem("user");
             navigate('/login')
-            console.log("Sesión cerrada");
 
             navigate("/login");
         } catch (error) {

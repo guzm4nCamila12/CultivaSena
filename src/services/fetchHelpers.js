@@ -13,7 +13,6 @@ export async function fetchConToken(endpoint, opciones = {}) {
   };
 
   const response = await fetch(`${API_URL}${endpoint}`, config);
-  console.log(" estadiño:", response.status)
   if (response.status === 401) {
     localStorage.removeItem("session");
     localStorage.removeItem("userId");
@@ -23,14 +22,10 @@ export async function fetchConToken(endpoint, opciones = {}) {
   if (response.status !== 204) {
     const data = await response.json()
 
-    console.log("peticion !204:", data)
-
     return data;
   }
 
   if (response.status === 204) {
-    console.log("Sin respuesta")
-
     return null;
   }
 

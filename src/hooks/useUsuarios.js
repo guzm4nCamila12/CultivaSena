@@ -1,14 +1,12 @@
 // hooks/useUsuarios.js
 import { useEffect, useState } from "react";
-import { getUsuarios, editarUsuario, postValidarpermisos } from "../services/usuarios/ApiUsuarios";
+import { getUsuarios, editarUsuario } from "../services/usuarios/ApiUsuarios";
 import * as Validaciones from '../utils/validaciones';
 import { obtenerIdUsuario } from "./useDecodeToken";
 
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);
   const [usuariosAdmin, setUsuariosAdmin] = useState([]);
-  const [permisoEditar, setPermisoEditar] = useState([]);
-  const [permisoVerFincas, setPermisoVerFincas] = useState([]);
   // Función para traer todos los usuarios
   const fetchUsuarios = async () => {
     try {
@@ -18,19 +16,6 @@ export const useUsuarios = (id) => {
       setUsuariosAdmin(admins);
     } catch (error) {
       console.error("Error al traer usuarios:", error);
-    }
-
-    try {
-      postValidarpermisos({ nombrePermiso: "editar usuarios" })
-        .then(data => {
-          setPermisoEditar(data);
-        })
-        postValidarpermisos({ nombrePermiso: "ver fincas" })
-        .then(data => {
-          setPermisoVerFincas(data);
-        })
-    }catch (error){
-       console.error("Error al consultar el permisos:", error);
     }
   };
 
@@ -59,5 +44,5 @@ export const useUsuarios = (id) => {
     return true;
   };
 
-  return { usuarios, usuariosAdmin, permisoEditar, permisoVerFincas, actualizarUsuario };
+  return { usuarios, usuariosAdmin, actualizarUsuario };
 };

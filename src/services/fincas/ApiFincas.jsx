@@ -38,9 +38,9 @@ export const editarFinca = async (id, fincaActualizada) => {
 
 };
 // Consumo al api para eliminar una finca
-export const eliminarFincas = async (id) => {
-  await fetch(`${API_URL}/api/fincas/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
-};
+export const eliminarFincas = async (id) => 
+  fetchConToken(`/api/fincas/${id}/${obtenerIdUsuario()}`, { method: "DELETE" });
+
 // Consumo al api para obtener una zona por el id de la finca
 export const getZonasByIdFinca = async (id) => 
   fetchConToken(`/zonas/${id}`);

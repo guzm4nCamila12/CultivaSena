@@ -20,9 +20,7 @@ export async function fetchConToken(endpoint, opciones = {}) {
     return null;
   }
   if (response.status !== 204) {
-    const data = await response.json()
-
-    return data;
+    return await response.json();
   }
 
   if (response.status === 204) {

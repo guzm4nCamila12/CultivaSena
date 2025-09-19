@@ -2,7 +2,10 @@ import { useState } from "react";
 import { login } from "../services/usuarios/ApiUsuarios";
 import { editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
+import { acctionSucessful } from "../components/alertSuccesful"
+import { Alerta } from "../assets/img/imagesExportation";
 export function useLogin() {
+    const [errorMensaje, setErrorMensaje] = useState("");
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({
         telefono: '',
@@ -22,6 +25,9 @@ export function useLogin() {
 
         try {
             const resultado = await login(usuario);
+            if(resultado.status === 401){
+                setErrorMensaje(resultado)
+            }
             if (resultado && resultado.token) {
 
                 const formData = new FormData()
@@ -45,10 +51,15 @@ export function useLogin() {
                 }
             } else {
                 console.warn("Credenciales incorrectas o respuesta inválida:", resultado);
-
+                 acctionSucessful.fire({
+                    imageUrl: Alerta,
+                    imageAlt: "Icono de error",
+                    title: resultado.error
+                })
             }
         } catch (error) {
             console.error("No se pudo iniciar sesion:", error)
+            
         }
     }
 

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { login } from "../services/usuarios/ApiUsuarios";
 import { editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
-import { acctionSucessful } from "../components/alertSuccesful";
-import { error } from "../assets/icons/IconsExportation";
-import { inicioSesion } from "../assets/img/imagesExportation";
+import { acctionSucessful } from "../components/alertSuccesful"
+import { Alerta } from "../assets/img/imagesExportation";
 export function useLogin() {
+    const [errorMensaje, setErrorMensaje] = useState("");
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({
         telefono: '',
@@ -24,6 +24,9 @@ export function useLogin() {
         e.preventDefault()
         try {
             const resultado = await login(usuario);
+            if(resultado.status === 401){
+                setErrorMensaje(resultado)
+            }
             if (resultado && resultado.token) {
 
                 const formData = new FormData()
@@ -51,18 +54,16 @@ export function useLogin() {
                     title: `Bienvenido usuario`
                 });
             } else {
-                acctionSucessful.fire({
-                    imageUrl: error,
+                console.warn("Credenciales incorrectas o respuesta inválida:", resultado);
+                 acctionSucessful.fire({
+                    imageUrl: Alerta,
                     imageAlt: "Icono de error",
                     title: resultado.error
-                });
+                })
             }
-        } catch (responseError) {
-            acctionSucessful.fire({
-                imageUrl: error,
-                imageAlt: "Icono de error",
-                title: 'Usuario no econtrado'
-            });
+        } catch (error) {
+            console.error("No se pudo iniciar sesion:", error)
+            
         }
     }
 

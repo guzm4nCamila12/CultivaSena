@@ -20,9 +20,7 @@ export async function fetchConToken(endpoint, opciones = {}) {
     return null;
   }
   if (response.status !== 204) {
-    const data = await response.json()
-
-    return data;
+    return await response.json();
   }
 
   if (response.status === 204) {
@@ -67,6 +65,14 @@ export async function fetchSinToken(endpoint, opciones = {}) {
     },
   };
   const response = await fetch(`${API_URL}${endpoint}`, config);
+
+   if (response.status === 500) {
+    localStorage.removeItem("session");
+    localStorage.removeItem("userId");
+    window.location.href = "/login";
+    return;
+  }
+  
   if (response.status !== 204) {
     return await response.json();
   }

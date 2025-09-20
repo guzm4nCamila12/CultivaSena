@@ -1,4 +1,5 @@
 // Estadistica.jsx
+// hola desde dev05
 import React, { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { getSensor, getHistorialSensores } from "../../services/sensores/ApiSensores";

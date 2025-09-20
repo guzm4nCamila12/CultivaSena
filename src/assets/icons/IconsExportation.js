@@ -58,6 +58,7 @@ import ajustesA from "./ajustesA.png"
 import fechaA from "./fechaA.png"
 import actividadesA from "./actividadesA.png"
 import zonaA from "./zonaA.png"
+import error from "./error.svg"
 
 export {
   ajustes,
@@ -119,5 +120,6 @@ export {
   ajustesA,
   actividadesA,
   zonaA,
-  volverVerde
+  volverVerde,
+  error
 };

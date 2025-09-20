@@ -12,7 +12,7 @@ import fincaPerfil from "./fincaPerfil.svg"
 import fincaTarjeta from "./fincaTarjeta.svg"
 import usuarioTarjeta from "./usuarioTarjeta.svg"
 import vacaTarjeta from "./vacaTarjeta.svg"
-
+import inicioSesion from "./inicioSesion.png"
 
 export {
   usuarioCreado,
@@ -28,5 +28,6 @@ export {
   fincaPerfil,
   fincaTarjeta,
   usuarioTarjeta,
-  vacaTarjeta
+  vacaTarjeta,
+  inicioSesion
 };

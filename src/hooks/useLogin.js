@@ -2,6 +2,9 @@ import { useState } from "react";
 import { login } from "../services/usuarios/ApiUsuarios";
 import { editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
+import { acctionSucessful } from "../components/alertSuccesful";
+import { error } from "../assets/icons/IconsExportation";
+import { inicioSesion } from "../assets/img/imagesExportation";
 export function useLogin() {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({
@@ -19,7 +22,6 @@ export function useLogin() {
 
     const iniciarSesion = async (e) => {
         e.preventDefault()
-
         try {
             const resultado = await login(usuario);
             if (resultado && resultado.token) {
@@ -43,12 +45,24 @@ export function useLogin() {
                     localStorage.setItem("principal", `/sensores-alterno/${resultado.user.id_finca}/${resultado.user.id}`)
 
                 }
+                acctionSucessful.fire({
+                    imageUrl: inicioSesion,
+                    imageAlt: "Icono de exito",
+                    title: `Bienvenido usuario`
+                });
             } else {
-                console.warn("Credenciales incorrectas o respuesta inválida:", resultado);
-
+                acctionSucessful.fire({
+                    imageUrl: error,
+                    imageAlt: "Icono de error",
+                    title: resultado.error
+                });
             }
-        } catch (error) {
-            console.error("No se pudo iniciar sesion:", error)
+        } catch (responseError) {
+            acctionSucessful.fire({
+                imageUrl: error,
+                imageAlt: "Icono de error",
+                title: 'Usuario no econtrado'
+            });
         }
     }
 

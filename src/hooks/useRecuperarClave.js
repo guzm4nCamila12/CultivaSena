@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { recuperarClave } from '../services/usuarios/ApiUsuarios';
+import { acctionSucessful } from '../components/alertSuccesful';
+import alerta from '../assets/img/alerta.png'
+
 export default function useRecuperarClave() {
     const [telefonoRecuperar, setTelefono] = useState({
         telefono: ""
@@ -17,6 +20,12 @@ export default function useRecuperarClave() {
 
     const recuperar = async (e) => {
         e.preventDefault();
+        if (!telefonoRecuperar.telefono){
+            acctionSucessful.fire({
+                title:'¡Ingrese el telefono!',
+                imageUrl: alerta
+            })
+        }
         setError(null);
         setExito(false);
         try {

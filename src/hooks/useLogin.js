@@ -4,6 +4,8 @@ import { editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
 import { acctionSucessful } from "../components/alertSuccesful"
 import { Alerta } from "../assets/img/imagesExportation";
+import { jwtDecode } from "jwt-decode";
+import cerrar from "../assets/img/sesionFinalizada.png"
 export function useLogin() {
     const [errorMensaje, setErrorMensaje] = useState("");
     const navigate = useNavigate();
@@ -65,10 +67,33 @@ export function useLogin() {
 
     const logout = async () => {
         try {
+            const token = localStorage.getItem("session")
             const userId = localStorage.getItem("user");
-            if (userId) {
-                //  Actualizamos en backend para dejar el token vacío
-                await editarUsuario(userId, { token: "" }, userId);
+             // Decodificar el token para ver si ya expiró
+            let isExpired = false;
+
+            if (!token || !userId) {
+                console.warn("No hay sesión activa para cerrar");
+                return;
+            }
+
+            try {
+                const decoded = jwtDecode(token);
+                const now = Math.floor(Date.now() / 1000); // segundos
+                if (decoded.exp && decoded.exp < now) {
+                    isExpired = true;
+                }
+            } catch (err) {
+                console.error("Token inválido o no decodificable", err);
+                isExpired = true;
+            }
+            // Si no está expirado, actualizar en el backend
+            await editarUsuario(userId, { token: "" }, userId);
+            if (!isExpired) {
+                acctionSucessful.fire({
+                    imageUrl: cerrar,
+                    title: "¡Sesión cerrada correctamente!",
+                });
             }
 
             // Limpiamos el localStorage

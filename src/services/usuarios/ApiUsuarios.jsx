@@ -36,7 +36,7 @@ export const crearUsuario = async (nuevoUsuario) =>
 
 //Funcion para actualizar un usuario existente
 export const editarUsuario = async (idUsuario, formData, idAdmin) => {
-  fetchSinToken(`/api/usuario/${idUsuario}/${idAdmin}`,{
+  fetchConToken(`/api/usuario/${idUsuario}/${idAdmin}`,{
     method: "PUT",
     body: JSON.stringify(formData)
   })

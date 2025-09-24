@@ -84,6 +84,7 @@ const Login = () => {
                     name="clave"
                     type={mostrarClave ? 'text' : 'password'}
                     placeholder="Ingrese su contraseña"
+                    required
                     value={usuario.clave}
                     onChange={handleChange}
                     className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"

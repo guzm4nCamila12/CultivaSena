@@ -6,6 +6,7 @@ import { acctionSucessful } from "../components/alertSuccesful"
 import { Alerta } from "../assets/img/imagesExportation";
 import { jwtDecode } from "jwt-decode";
 import cerrar from "../assets/img/sesionFinalizada.png"
+import { inicioSesion } from "../assets/img/imagesExportation";
 export function useLogin() {
     const [errorMensaje, setErrorMensaje] = useState("");
     const navigate = useNavigate();
@@ -24,7 +25,6 @@ export function useLogin() {
 
     const iniciarSesion = async (e) => {
         e.preventDefault()
-
         try {
             const resultado = await login(usuario);
             if(resultado.status === 401){
@@ -51,6 +51,11 @@ export function useLogin() {
                     localStorage.setItem("principal", `/sensores-alterno/${resultado.user.id_finca}/${resultado.user.id}`)
 
                 }
+                acctionSucessful.fire({
+                    imageUrl: inicioSesion,
+                    imageAlt: "Icono de exito",
+                    title: `Bienvenido usuario`
+                });
             } else {
                 console.warn("Credenciales incorrectas o respuesta inválida:", resultado);
                  acctionSucessful.fire({

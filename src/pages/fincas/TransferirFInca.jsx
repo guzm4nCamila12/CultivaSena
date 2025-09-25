@@ -40,11 +40,11 @@ export default function TransferirFInca() {
                         Transferir Fincas
                     </h2>
                 </div>
-                <div className='flex flex-wrap lg:flex-row justify-center items-center pb-9 pt-7 w-auto rounded-3xl shadow-2xl'>
+                <div className='flex flex-wrap lg:flex-row justify-center items-center w-auto rounded-3xl '>
                     {/*Contenedor para las fincas del Primer usuario*/}
                     {propietario !== null ? (
-                        <div className='w-full px-8 lg:w-[40%]'>
-                            <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador</p>
+                        <div className='w-full px-8 lg:w-[40%] pb-9 pt-7  shadow-2xl rounded-3xl '>
+                            <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador.</p>
                             <div className=' w-auto mx-4'>
                                 <button
                                     className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg'
@@ -65,19 +65,19 @@ export default function TransferirFInca() {
                                             <div
                                                 key={finca.id}
                                                 onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
-                                                className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-100 hover:bg-gray-200'}`} >
+                                                className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-200 hover:bg-gray-300'}`} >
                                                 <h2 key={finca.id}>{finca.nombre}</h2>
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-gray-400 py-2">No tiene fincas.</p>
+                                        <p className="text-gray-400 py-2 px-5 ">No tiene fincas.</p>
                                     )}
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <div id='seleccionar1Steps' className='w-full px-8 lg:w-[40%] lg:px-5'>
-                            <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
+                        <div id='seleccionar1Steps' className='w-full px-8 lg:w-[40%] lg:px-5 pb-9 pt-7  shadow-2xl rounded-3xl'>
+                            <p className="font-semibold text-xl text-left ml-7">Seleccione un administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(1) }}>Seleccionar</button>
 
                         </div>
@@ -107,9 +107,9 @@ export default function TransferirFInca() {
 
                     {/*Contenedor para las fincas del segundo usuario*/}
                     {usuarioSeleccionado !== null ? (
-                        <div className='w-full px-8 lg:w-[40%] mt-4 lg:mt-0'>
+                        <div className='w-full px-8 lg:w-[40%] mt-4 lg:mt-0 pb-9 pt-7  shadow-2xl rounded-3xl'>
                             {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
-                            <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador</p>
+                            <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador.</p>
                             <div className='w-auto mx-4'>
                                 <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 font-medium hover:bg-gray-300  w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>{`${usuarioSeleccionado != null ? (`${usuarioSeleccionado.nombre}`) : ("Seleccionar...")}`}</button>
                             </div>
@@ -118,18 +118,18 @@ export default function TransferirFInca() {
 
                                 {fincasAlternas.length > 0 ? (
                                     fincasAlternas.map((finca) => (
-                                        <div className='flex rounded-3xl font-medium px-5 py-2 my-3 bg-gray-100 w-full'>
+                                        <div className='flex rounded-3xl font-medium px-5 py-2 my-3 bg-gray-200 w-full cursor-not-allowed' title='El segundo administrador seleccionado solamente recibe fincas.'>
                                             <h2 key={finca.id}>{finca.nombre}</h2>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-400 py-2">No tiene fincas.</p>
+                                    <p className="text-gray-400 py-2 ">No tiene fincas.</p>
                                 )}
                             </div>
                         </div>
                     ) : (
-                        <div id='seleccionar2Steps' className='w-full px-8 lg:w-[40%] lg:px-5'>
-                            <p className="font-semibold text-xl text-left ml-7">Seleccione un Administrador.</p>
+                        <div id='seleccionar2Steps' className='w-full px-8 lg:w-[40%] lg:px-5 pb-9 pt-7 shadow-2xl rounded-3xl'>
+                            <p className="font-semibold text-xl text-left ml-7">Seleccione un administrador.</p>
                             <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 hover:bg-gray-300 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>Seleccionar</button>
                         </div>
                     )}

@@ -30,8 +30,7 @@ export default function useRecuperarClave() {
         setExito(false);
         try {
             const data = await recuperarClave(telefonoRecuperar);
-            console.log("chi:", data)
-            setExito(true); // ✅ éxito
+            setExito(true); 
 
         } catch (error) {
             console.error("errorsin:", error)

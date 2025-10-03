@@ -6,7 +6,6 @@ export default function useRestablecer(propToken) {
         nueva_clave: ""
     });
     const handleChange = (e) =>{
-        console.log("nueva clave:", NuevaClave.nueva_clave)
         const {name, value} = e.target
         setNuevaClave((prev) =>({
             ...prev,
@@ -18,7 +17,6 @@ export default function useRestablecer(propToken) {
         e.preventDefault();
         try {
             const data = await restablecerClave(NuevaClave);
-            console.log("chi:", data)
         } catch (error) {
             error(error)
         }

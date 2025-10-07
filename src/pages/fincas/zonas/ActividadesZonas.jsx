@@ -68,7 +68,7 @@ export default function ActividadesZonas() {
                         columnas={columnas}
                         datos={actividades}
                         acciones={acciones}
-                        mostrarAgregar={true}
+                        mostrarAgregar={permisos["crear actividades"]?.tienePermiso}
                         onAddUser={() => handleAbrirModalCrear(Number(id))}
                     />
 

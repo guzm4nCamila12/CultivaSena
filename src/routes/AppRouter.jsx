@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "r
 import { useEffect, useState } from "react";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Inicio from "../pages/inicio/Inicio";
+import Error404 from '../pages/Error404/Error404'
 import Login from '../pages/login/Login'
 import ListaUsuarios from '../pages/listaUsuarios/inicio'
 import ListaFincas from "../pages/fincas/ListaFincas";
@@ -25,14 +26,14 @@ function AppContent() {
   const location = useLocation();
   const hideAssistantOn = ['/login', '/'];
 
-  
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/:id" element={RedirigirSesion} />
         {/* inicia sesion y redirecciona automaticamente cuando se trae el token desde clientes */}
-        <Route path="/auth" element={<AuthRedirect/>} />
+        <Route path="/auth" element={<AuthRedirect />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/inicio-SuperAdmin" element={<ProtectedRoute element={ListaUsuarios} allowedRoles={[1]} />} />
@@ -49,7 +50,7 @@ function AppContent() {
         <Route path="/sensores-alterno/:id/:idUser" element={<ProtectedRoute element={ListaSensoresAlterno} allowedRoles={[3]} />} />
         <Route path="/perfil-usuario" element={<ProtectedRoute element={PerfilUsuario} allowedRoles={[1, 2, 3]} />} />
         <Route path="/estadistica" element={<ProtectedRoute element={Estadistica} allowedRoles={[1, 2, 3]} />} />
-
+        <Route path="*" element={<Error404 />} />
       </Routes>
 
       {!hideAssistantOn.includes(location.pathname) && <BotonAsistente />}

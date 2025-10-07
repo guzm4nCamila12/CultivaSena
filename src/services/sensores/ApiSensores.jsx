@@ -7,23 +7,19 @@ const API_URL = process.env.REACT_APP_API_URL;
 export const getSensoresById = async (id) =>
   fetchConToken(`/sensores/${id}`);
 //funcion para obtener los sensores de manera individual por su propio ID
-export const getSensor = async (id) => {
-  const response = await fetch(`${API_URL}/api/sensores/${id}`);
-  return response.json();
-};
+
+export const getSensor = async (id) => 
+  fetchConToken(`/api/sensores/${id}`);
+  
 //Funcion que obtiene la cantidad de sensores que hay en una finca
 export const getCountSensoresByFinca = async () => 
   fetchConToken(`/api/sensores/count/${obtenerFinca()}`);
   
 
-export const getTiposSensor = async () => 
-  fetchConToken(`/api/tipos_sensores`);
+export const getTipoSensor = async (id) => 
+  fetchConToken(`/api/tipos_sensores/${id}`);
 
 
-export const getTipoSensor = async (id) => {
-  const response = await fetch(`${API_URL}/api/tipos_sensores/${id}`);
-  return response.json();
-};
 
 //Funcion para agregar un sensor a su respectiva finca
 export const crearSensor = async (nuevaFinca) => 
@@ -80,10 +76,10 @@ export const insertarDatos = async (mac) => {
     throw error; // También lanzamos el error para que el llamador lo pueda manejar
   }
 };
-export const getHistorialSensores = async (mac) => {
-  const response = await fetch(`${API_URL}/historial/sensores/${mac}`);
-  return response.json();
-};
+
+export const getHistorialSensores = async (mac) => 
+  fetchSinToken(`/historial/sensores/${mac}`);
+
 
 export const activarDatosSensor = async (mac) => {
  await fetch (`${API_URL}/prueba/${mac}`);

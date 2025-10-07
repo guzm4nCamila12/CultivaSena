@@ -9,7 +9,8 @@ import {
   getTiposSensor,
   editarSensor,
   eliminarSensores,
-  insertarDatos
+  insertarDatos,
+  getTipoSensor
 } from "../services/sensores/ApiSensores";
 
 import { getFincasByIdFincas, getZonasByIdFinca, getZonasById } from "../services/fincas/ApiFincas";
@@ -69,7 +70,7 @@ export function useSensores(id, idUser) {
         console.error("❌ Error al obtener sensores de la zona:", err);
       }
       try {
-        const tiposData = await getTiposSensor();
+        const tiposData = await getTipoSensor();
         setTiposSensores(tiposData || []);
       } catch (err) {
         console.error("❌ Error al obtener tipos de sensores:", err);

@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 // import "driver.js/dist/driver.css";
 
 // componentes reutilizados
+
 import Gov from '../../components/gov';
+import { Alerta as alerta } from "../../assets/img/imagesExportation";
 import { volverVerde as volver, telefonoGris, claveGris, verClave, noVerClave } from "../../assets/icons/IconsExportation";
 import cultivaBanner2 from '../../assets/img/cultivaBanner2.png'
 import fondoC from '../../assets/img/fondoC.svg'
@@ -14,12 +16,13 @@ import { useLogin } from "../../hooks/useLogin";
 import ModalConfirmacion from "../../components/modals/modalConfirmacion";
 import ModalTelefono from "../../components/modals/modalTelefono";
 import useRecuperarClave from "../../hooks/useRecuperarClave";
+import { acctionSucessful } from "../../components/alertSuccesful";
 const Login = () => {
 
   const [mostrarClave, setMostrarClave] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false); // nuevo
   const [usuario, handleChange, inicioSesion, logout] = useLogin();
   const [telefonoRecuperar, handleChangeRecuperar, recuperar, exito, error] = useRecuperarClave();
 
@@ -39,8 +42,19 @@ const Login = () => {
     }
   }, [exito]);
 
-
-
+  const handleRecuperar = async (e) => {
+    e.preventDefault();
+    if (!telefonoRecuperar.telefono || telefonoRecuperar.telefono.length < 10) {
+      acctionSucessful.fire({
+        title: '¡Por favor, ingrese un número de telefono válido!',
+        imageUrl: alerta
+      })
+      return;
+    }
+    setLoading(true);
+    await recuperar(e); // le pasas el evento porque el hook lo necesita
+    setLoading(false);
+  };
 
   // manejar redimensionamiento
   useEffect(() => {
@@ -94,7 +108,7 @@ const Login = () => {
                     <img src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                   </div>
                 </div>
-                <p className="text-white font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                <p className="text-white text-center font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
                 >¿Olvidaste tu contraseña?</p>
                 <button
                   id="btn-login"
@@ -112,8 +126,9 @@ const Login = () => {
             onClose={() => setTelefonoOpen(false)}
             telefono={telefonoRecuperar}
             handleChange={handleChangeRecuperar}
-            recuperar={recuperar}
+            recuperar={handleRecuperar}
             error={error}
+            loading={loading}
           />
           <ModalConfirmacion
             isOpen={isConfirmOpen}

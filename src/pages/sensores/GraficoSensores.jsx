@@ -37,7 +37,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
         Array.isArray(historial) ? historial.map(item => item.fecha) : []
       )
     )
-  ).sort();
+  ).sort((a, b) => new Date(a) - new Date(b));
 
   // Mantener último valor conocido para cada sensor para dibujar líneas continuas
   const lastValues = {};

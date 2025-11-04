@@ -233,8 +233,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Descripción</label>
+                                        <label htmlFor='input-editarDescripcion' className="font-semibold">Descripción</label>
                                         <input
+                                            id='input-editarDescripcion'
                                             type="text"
                                             name="descripcion"
                                             required
@@ -245,8 +246,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Fecha Inicio</label>
+                                        <label htmlFor='input-editarFechaInicio' className="font-semibold">Fecha Inicio</label>
                                         <input
+                                            id='input-editarFechaInicio'
                                             type="datetime-local"
                                             name="fechainicio"
                                             required
@@ -257,8 +259,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-4">
-                                        <label className="font-semibold">Fecha Finalización</label>
+                                        <label htmlFor='input-editarFechaFinalizacion' className="font-semibold">Fecha Finalización</label>
                                         <input
+                                            id='input-editarFechaFinalizacion'
                                             type="datetime-local"
                                             name="fechafin"
                                             required

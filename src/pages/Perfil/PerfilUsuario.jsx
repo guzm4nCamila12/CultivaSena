@@ -316,7 +316,7 @@ function PerfilUsuario() {
 
     return clave
       .replaceAll("_", " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+      .replaceAll(/\b\w/g, (l) => l.toUpperCase());
   };
 
   const rolsito = obtenerRol();

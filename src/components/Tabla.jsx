@@ -1,5 +1,5 @@
-// Tabla.jsx
-import React, { useState, useEffect } from "react";
+/* global globalThis */
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
@@ -43,8 +43,8 @@ const Tabla = ({
 
   // Escuchar evento global de procesar
   useEffect(() => {
-    window.addEventListener('procesarSeleccionados', procesarSeleccionados);
-    return () => window.removeEventListener('procesarSeleccionados', procesarSeleccionados);
+    globalThis.addEventListener('procesarSeleccionados', procesarSeleccionados);
+    return () => globalThis.removeEventListener('procesarSeleccionados', procesarSeleccionados);
   }, [seleccionados, datos]);
 
   // Construcción de encabezados

@@ -128,14 +128,14 @@ export function useSensores(id, idUser) {
 
   const handleChange = (e) => {
     const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
-      ? parseInt(e.target.value, 10)
+      ? Number.parseInt(e.target.value, 10)
       : e.target.value;
     setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleChangeEditar = (e) => {
     const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
-      ? parseInt(e.target.value, 10)
+      ? Number.parseInt(e.target.value, 10)
       : e.target.value;
     setSensorEditar({ ...sensorEditar, [e.target.name]: value });
   };

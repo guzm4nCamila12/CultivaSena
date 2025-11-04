@@ -1,7 +1,7 @@
 // src/components/ModalFechaRango.jsx
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import * as Images from "../../assets/img/imagesExportation"
+import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../alertSuccesful";
 
 const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
@@ -21,11 +21,11 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
       });
       return;
     }
-  
+
     const start = new Date(fechaInicio);
     const end = new Date(fechaFin);
-    end.setHours(23, 59, 59, 999); // Asegura que se incluya todo el día de 'fechaFin'
-  
+    end.setHours(23, 59, 59, 999);
+
     if (start > end) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -33,22 +33,29 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
       });
       return;
     }
-  
+
     onConfirm({ fechaInicio, fechaFin });
     onClose();
   };
-  
 
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div className="bg-white rounded-3xl shadow-lg w-auto xl:1/3 2xl:w-1/3 p-6 mx-4 my-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">Seleccionar Rango de Fechas</h2>
-        <hr/>
+      <div className="bg-white rounded-3xl shadow-lg w-auto xl:w-1/3 2xl:w-1/3 p-6 mx-4 my-8">
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Seleccionar Rango de Fechas
+        </h2>
+        <hr />
         <div className="mb-4 my-2">
-          <label className="block text-lg font-medium mb-1 pl-3">Fecha de Inicio:</label>
+          <label
+            htmlFor="fechaInicio"
+            className="block text-lg font-medium mb-1 pl-3"
+          >
+            Fecha de Inicio:
+          </label>
           <input
+            id="fechaInicio"
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
@@ -56,8 +63,14 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-medium mb-1 pl-3">Fecha de Fin:</label>
+          <label
+            htmlFor="fechaFin"
+            className="block text-lg font-medium mb-1 pl-3"
+          >
+            Fecha de Fin:
+          </label>
           <input
+            id="fechaFin"
             type="date"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}

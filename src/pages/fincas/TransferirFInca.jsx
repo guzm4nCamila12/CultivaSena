@@ -62,12 +62,12 @@ export default function TransferirFInca() {
 
                                     {fincasPropias.length > 0 ? (
                                         fincasPropias.map((finca) => (
-                                            <div
+                                            <button
                                                 key={finca.id}
                                                 onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
                                                 className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-200 hover:bg-gray-300'}`} >
                                                 <h2 key={finca.id}>{finca.nombre}</h2>
-                                            </div>
+                                            </button>
                                         ))
                                     ) : (
                                         <p className="text-gray-400 py-2 px-5 ">No tiene fincas.</p>
@@ -153,13 +153,13 @@ export default function TransferirFInca() {
                             </div>
                             <div className="flex flex-col items-center mb-4 space-y-2">
                                 {usuariosFiltrados.map((u) => (
-                                    <div
+                                    <button
                                         key={u.id}
                                         className="flex items-center justify-between w-full p-2 shadow rounded-lg cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                                         onClick={() => { seleccionarUsuario(u); setAbrirModalBuscar(false) }}
                                     >
                                         <p className="text-black text-lg">{u.nombre}</p>
-                                    </div>
+                                    </button>
                                 ))}
                             </div>
                             <div className="flex justify-between mt-6 space-x-4">

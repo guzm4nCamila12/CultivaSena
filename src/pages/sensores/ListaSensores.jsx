@@ -104,6 +104,11 @@ function ActivarSensores() {
     <label
       id={rol === "1" && !isEstadisticaView ? "activarSensor" : "noPoderActivar"}
       className="relative flex items-center cursor-pointer"
+      aria-label={
+        rol === "1" && !isEstadisticaView
+          ? "Activar o desactivar sensor"
+          : "No puede modificar el estado del sensor"
+      }
     >
       <input
         type="checkbox"
@@ -114,8 +119,14 @@ function ActivarSensores() {
         }}
         className="sr-only"
       />
-      <div className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-[#39A900]" : "bg-gray-400"}`}>
-        <div className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"}`}></div>
+      <div
+        className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-[#39A900]" : "bg-gray-400"
+          }`}
+      >
+        <div
+          className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
+            }`}
+        ></div>
       </div>
     </label>
   );
@@ -157,17 +168,17 @@ function ActivarSensores() {
           </button>
         </Link>
       </div>
-      {permisos["eliminar sensores"]?.tienePermiso &&(
-      <div id="eliminarSensor" className="relative group">
-        <button
-          onClick={() => abrirModalEliminar(fila.id)}
-          className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-          <img src={eliminar} alt="Eliminar" className='absolute' />
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Eliminar
-          </span>
-        </button>
-      </div>
+      {permisos["eliminar sensores"]?.tienePermiso && (
+        <div id="eliminarSensor" className="relative group">
+          <button
+            onClick={() => abrirModalEliminar(fila.id)}
+            className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+            <img src={eliminar} alt="Eliminar" className='absolute' />
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Eliminar
+            </span>
+          </button>
+        </div>
       )}
     </div>
   );
@@ -213,69 +224,69 @@ function ActivarSensores() {
 
   return (
     <>
-    {permisos["ver sensores"]?.tienePermiso && (
-    <div>
-      <Navbar />
-      <MostrarInfo
-        titulo={tituloMostrar}
-        columnas={columnas}
-        datos={sensoresFiltrados}
-        acciones={!isEstadisticaView ? acciones : undefined}
-        onAddUser={() => setModalInsertarAbierto(true)}
-        mostrarAgregar={permisos["crear sensores"]?.tienePermiso && !isEstadisticaView}
-        enableSelectionButton={enableSelectionButton}
-        vista={vista}
-      />
+      {permisos["ver sensores"]?.tienePermiso && (
+        <div>
+          <Navbar />
+          <MostrarInfo
+            titulo={tituloMostrar}
+            columnas={columnas}
+            datos={sensoresFiltrados}
+            acciones={!isEstadisticaView ? acciones : undefined}
+            onAddUser={() => setModalInsertarAbierto(true)}
+            mostrarAgregar={permisos["crear sensores"]?.tienePermiso && !isEstadisticaView}
+            enableSelectionButton={enableSelectionButton}
+            vista={vista}
+          />
 
-      <FormularioModal
-        titulo="Crear Sensor"
-        isOpen={modalInsertarAbierto}
-        onClose={() => setModalInsertarAbierto(false)}
-        onSubmit={e => { e.preventDefault(); crearNuevoSensor(); }}
-        valores={formData}
-        onChange={handleChange}
-        textoBoton="Crear"
-        campos={[
-          { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
-        ]}
-      >
-        {asignarZona(handleChange)}
-        {tipoSensor(handleChange)}
-      </FormularioModal>
+          <FormularioModal
+            titulo="Crear Sensor"
+            isOpen={modalInsertarAbierto}
+            onClose={() => setModalInsertarAbierto(false)}
+            onSubmit={e => { e.preventDefault(); crearNuevoSensor(); }}
+            valores={formData}
+            onChange={handleChange}
+            textoBoton="Crear"
+            campos={[
+              { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
+              { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
+            ]}
+          >
+            {asignarZona(handleChange)}
+            {tipoSensor(handleChange)}
+          </FormularioModal>
 
-      <FormularioModal
-        titulo="Editar Sensor"
-        isOpen={modalEditarAbierto}
-        onClose={() => setModalEditarAbierto(false)}
-        onSubmit={e => { e.preventDefault(); actualizarSensor(); }}
-        valores={obtenerNombreTipo(sensorEditar)}
-        onChange={handleChangeEditar}
-        textoBoton="Guardar y actualizar"
-        campos={[
-          { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
-          { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
-        ]}
-      >
-        {asignarZona(handleChangeEditar)}
-        {tipoSensor(handleChangeEditar)}
-      </FormularioModal>
+          <FormularioModal
+            titulo="Editar Sensor"
+            isOpen={modalEditarAbierto}
+            onClose={() => setModalEditarAbierto(false)}
+            onSubmit={e => { e.preventDefault(); actualizarSensor(); }}
+            valores={obtenerNombreTipo(sensorEditar)}
+            onChange={handleChangeEditar}
+            textoBoton="Guardar y actualizar"
+            campos={[
+              { name: "nombre", placeholder: "Nombre", icono: sensorAzul },
+              { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
+            ]}
+          >
+            {asignarZona(handleChangeEditar)}
+            {tipoSensor(handleChangeEditar)}
+          </FormularioModal>
 
-      <ConfirmationModal
-        isOpen={modalEliminarAbierto}
-        onCancel={() => setModalEliminarAbierto(false)}
-        onConfirm={e => { e.preventDefault(); eliminarSensor(); setModalEliminarAbierto(false); }}
-        title="Eliminar Sensor"
-        message={
-          <>
-            ¿Estás seguro?<br />
-            <span className="text-gray-400">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</span>
-          </>
-        }
-        confirmText="Sí, eliminar"
-      />
-    </div>
-    )}
+          <ConfirmationModal
+            isOpen={modalEliminarAbierto}
+            onCancel={() => setModalEliminarAbierto(false)}
+            onConfirm={e => { e.preventDefault(); eliminarSensor(); setModalEliminarAbierto(false); }}
+            title="Eliminar Sensor"
+            message={
+              <>
+                ¿Estás seguro?<br />
+                <span className="text-gray-400">Se eliminará el sensor <strong className="text-red-600">{sensorEliminado?.nombre}</strong> de manera permanente.</span>
+              </>
+            }
+            confirmText="Sí, eliminar"
+          />
+        </div>
+      )}
     </>
   );
 }

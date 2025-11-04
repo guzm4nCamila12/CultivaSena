@@ -1,5 +1,4 @@
 //Importacion necesaria de react
-import React from 'react'
 import { useState } from 'react';
 //importacion de icono propio
 import TourIcon from '../assets/icons/guia.svg'
@@ -7,23 +6,9 @@ import TourAmarillo from '../assets/icons/recorrido.svg'
 import cerrar from '../assets/icons/x.png';
 import { useLocation } from 'react-router-dom';
 import { useDriverTour } from "../hooks/useTourDriver";
-import {
-  fincaDriverSteps,
-  zonasDriverSteps,
-  actividadesDriverSteps,
-  mostarInfoDriverSteps,
-  sensoresDriverSteps,
-  alternosDriverSteps,
-  sensorAlternosDriverSteps,
-  crearFincaSteps,
-  editarFincaSteps,
-  perfilUsuarioSteps,
-  tranferirSteps,
-  ReporteSteps,
-  datosSensorSteps,
-  usuariosSteps,
-  zonasAlternosDriverSteps
-} from '../utils/aplicationSteps';
+import { fincaDriverSteps, zonasDriverSteps, actividadesDriverSteps, mostarInfoDriverSteps, sensoresDriverSteps, alternosDriverSteps, 
+        sensorAlternosDriverSteps, crearFincaSteps, editarFincaSteps, perfilUsuarioSteps, tranferirSteps, ReporteSteps, datosSensorSteps, 
+        usuariosSteps, zonasAlternosDriverSteps } from '../utils/aplicationSteps';
 
 //Funcion con boton de pqrs 
 export default function BotonAsistente() {
@@ -128,9 +113,9 @@ export default function BotonAsistente() {
             <div className=''>
               <h3>Empezar un recorrido guiado</h3>
             </div>
-            <div onClick={handleStartTour} className='bg-[#39A900] hover:bg-[#005F00] cursor-pointer font-bold shadow-xl text-white w-[60%] p-1 rounded-full flex justify-center items-center'>
+            <button onClick={handleStartTour} className='bg-[#39A900] hover:bg-[#005F00] cursor-pointer font-bold shadow-xl text-white w-[60%] p-1 rounded-full flex justify-center items-center'>
               <button>Iniciar recorrido</button>
-            </div>
+            </button>
           </div>
         </div>
       )}

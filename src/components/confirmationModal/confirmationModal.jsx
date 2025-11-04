@@ -1,16 +1,7 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 import ConfirmarEliminar from '../../assets/img/eliminar.png'
 
-const ConfirmationModal = ({
-  isOpen,
-  onCancel,
-  onConfirm,
-  title,
-  message,
-  confirmText,
-  confirmButton= false,
-  cancelText = "Cancelar",
-}) => {
+const ConfirmationModal = ({ isOpen, onCancel, onConfirm, title, message, confirmText, confirmButton= false, cancelText = "Cancelar" }) => {
   if (!isOpen) return null;
 
   return (
@@ -39,6 +30,17 @@ const ConfirmationModal = ({
       </div>
     </div>
   );
+};
+
+ConfirmationModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,           
+  onCancel: PropTypes.func.isRequired,         
+  onConfirm: PropTypes.func.isRequired,        
+  title: PropTypes.string.isRequired,          
+  message: PropTypes.string.isRequired,        
+  confirmText: PropTypes.string.isRequired,    
+  confirmButton: PropTypes.bool,               
+  cancelText: PropTypes.string,                
 };
 
 export default ConfirmationModal;

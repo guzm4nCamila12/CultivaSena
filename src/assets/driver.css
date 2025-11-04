@@ -199,10 +199,8 @@ div#driver-popover-item .driver-popover-title {
     padding-top: 8px;
     padding-bottom: 8px;
     font-weight: 700;
-    display: block;
     zoom: 1;
     color: white;
-    font-weight: bold;
     background-color: #00304D;
     display: inline-block;
     width: fit-content;
@@ -212,13 +210,13 @@ div#driver-popover-item .driver-popover-title {
 }
 
 div#driver-popover-item .driver-popover-description {
-    margin-bottom: 0;
-    font: 16px/normal 'Work Sans';
+    font-size: 16px;
     line-height: 1.5;
+    font-family: 'Work Sans', sans-serif;
     color: black;
     margin: 20px;
+    margin-bottom: 0;
     font-weight: normal;
-    zoom: 1;
     border-radius: 20px;
 }
 

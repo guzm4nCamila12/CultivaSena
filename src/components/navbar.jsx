@@ -31,12 +31,18 @@ export default function Navbar() {
 
       <div className="bg-[#002A43] h-12 w-full z-50">
         <div className="px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 h-full flex items-center relative">
-          <img
-            src={menuIcon}
-            alt="Menu"
-            className="cursor-pointer mr-4"
+          <button
             onClick={() => setMenuVisible(v => !v)}
-          />
+            className="mr-4 focus:outline-none"
+            aria-label="Abrir menú lateral"
+          >
+            <img
+              src={menuIcon}
+              alt="Icono de menú"
+              className="cursor-pointer"
+            />
+          </button>
+
           <h2 className="font-extrabold text-white text-2xl">{rol()}</h2>
 
           <div
@@ -54,7 +60,7 @@ export default function Navbar() {
       </div>
 
       {menuVisible && (
-        <div
+        <button
           className="fixed inset-0 bg-black opacity-50 z-40"
           onClick={() => setMenuVisible(false)}
         />

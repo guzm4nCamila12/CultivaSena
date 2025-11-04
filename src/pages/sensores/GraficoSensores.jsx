@@ -1,15 +1,6 @@
 // GraficoSensores.jsx
-import React from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from "recharts";
+import PropTypes from "prop-types";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 // Paleta de colores predeterminada para las líneas
 const DEFAULT_COLORS = ["#3CB23C", "#FF5733", "#3375FF", "#FFC300", "#8E44AD"];
@@ -65,7 +56,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
       let valor = null;
       if (Array.isArray(historial)) {
         const registro = historial.find(item => item.fecha === fechaISO);
-        if (registro && !isNaN(Number(registro.valor))) {
+        if (registro && !Number.isNaN(Number(registro.valor))) {
           valor = Number(registro.valor);
           lastValues[key] = valor;
         } else {
@@ -123,3 +114,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
     </div>
   );
 }
+
+GraficoSensores.propTypes = {
+  sensoresData: PropTypes.array
+};

@@ -1,4 +1,6 @@
-const FormModal = ({ isOpen, onClose, children }) => {
+import PropTypes from "prop-types";
+
+const FormModal = ({ isOpen, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -8,6 +10,11 @@ const FormModal = ({ isOpen, onClose, children }) => {
       </div>
     </div>
   );
+};
+
+FormModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default FormModal;

@@ -1,6 +1,7 @@
 /* MostrarInfo.jsx */
 import { useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import buscar from "../assets/icons/buscar.png";
 import Opcion from "../components/Opcion";
 import Tabla from "./Tabla";
@@ -141,5 +142,21 @@ function MostrarInfo({
     </div>
   );
 }
+
+MostrarInfo.propTypes = {
+  columnas: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string,
+    })
+  ).isRequired,
+  datos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  titulo: PropTypes.string.isRequired,
+  acciones: PropTypes.arrayOf(PropTypes.object),
+  onAddUser: PropTypes.func,
+  mostrarAgregar: PropTypes.bool,
+  enableSelectionButton: PropTypes.bool,
+  vista: PropTypes.string,
+};
 
 export default MostrarInfo;

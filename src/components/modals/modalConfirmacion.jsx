@@ -1,4 +1,5 @@
 import check from '../../assets/icons/Check-box.svg'
+import PropTypes from "prop-types";
 
 function ModalConfirmacion({ isOpen, onClose }) {
     if (!isOpen) return null;
@@ -22,5 +23,10 @@ function ModalConfirmacion({ isOpen, onClose }) {
         </div>
     );
 }
+
+ModalConfirmacion.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default ModalConfirmacion

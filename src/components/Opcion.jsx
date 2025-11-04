@@ -1,10 +1,12 @@
 //importaciones necesarias de react
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
+
 //componentes reutilizados
 import OpcionTabla from "../assets/icons/opcionTabla.png";
 import OpcionTarjeta from "../assets/icons/opcionTarjetas.png";
 
-function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInsertarAbierto }) {
+function Opcion({ onChangeVista}) {
   // Inicializa 'vistaActiva' leyendo el valor desde localStorage, o por defecto 'tarjetas'
   const [vistaActiva, setVistaActiva] = useState(() => localStorage.getItem('vistaActiva') || 'tarjetas');
 
@@ -37,5 +39,9 @@ function Opcion({ onChangeVista, columnas, acciones, obtenerRol, setModalInserta
     </div>
   );
 }
+
+Opcion.propTypes = {
+  onChangeVista: PropTypes.func.isRequired,
+};
 
 export default Opcion;

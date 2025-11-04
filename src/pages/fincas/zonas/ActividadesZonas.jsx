@@ -80,11 +80,12 @@ export default function ActividadesZonas() {
                                 <hr />
                                 <form onSubmit={handleCrearActividad}>
                                     <div className="mb-2 my-2">
-                                        <label className="font-semibold">Seleccione el tipo de cultivo</label>
+                                        <label htmlFor='input-tipoCultivo' className="font-semibold">Seleccione el tipo de cultivo</label>
                                         <div className="flex gap-4 mt-0">
                                             {["Café", "Mora"].map(cultivo => (
                                                 <label key={cultivo} className="flex items-center gap-2">
                                                     <input
+                                                        id='input-tipoCultivo'
                                                         type="radio"
                                                         name="cultivo"
                                                         value={cultivo}
@@ -98,24 +99,25 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Seleccione la etapa del cultivo</label>
-                                        <select name="etapa" required onChange={handleEtapaChange} className="w-full border p-2 rounded-3xl">
+                                        <label htmlFor='input-EtapaCultivo' className="font-semibold">Seleccione la etapa del cultivo</label>
+                                        <select id='input-EtapaCultivo' name="etapa" required onChange={handleEtapaChange} className="w-full border p-2 rounded-3xl">
                                             <option value="">Seleccione etapa</option>
                                             {etapas.map(et => <option key={et.value} value={et.value}>{et.label}</option>)}
                                         </select>
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Seleccione la actividad que realizó</label>
-                                        <select name="actividad" required onChange={handleActividadChange} className="w-full border p-2 rounded-3xl">
+                                        <label htmlFor='input-actividad' className="font-semibold">Seleccione la actividad que realizó</label>
+                                        <select id='input-actividad' name="actividad" required onChange={handleActividadChange} className="w-full border p-2 rounded-3xl">
                                             <option value="">Seleccione actividad</option>
                                             {actividadesOptions.map(act => <option key={act.value} value={act.value}>{act.label}</option>)}
                                         </select>
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Descripción</label>
+                                        <label htmlFor='input-descripcion' className="font-semibold">Descripción</label>
                                         <input
+                                            id='input-descripcion'
                                             type="text"
                                             name="descripcion"
                                             placeholder="Describa la actividad"
@@ -126,8 +128,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Fecha de inicio</label>
+                                        <label htmlFor='input-fechaInicio' className="font-semibold">Fecha de inicio</label>
                                         <input
+                                            id='input-fechaInicio'
                                             type="datetime-local"
                                             name="fechainicio"
                                             required
@@ -137,8 +140,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-4">
-                                        <label className="font-semibold">Fecha de finalización</label>
+                                        <label htmlFor='input-fechaFinalizacion' className="font-semibold">Fecha de finalización</label>
                                         <input
+                                            id='input-fechaFinalizacion'
                                             type="datetime-local"
                                             name="fechafin"
                                             required
@@ -173,11 +177,18 @@ export default function ActividadesZonas() {
                                 <hr />
                                 <form onSubmit={handleEditarActividad}>
                                     <div className="mb-2 my-2">
-                                        <label className="font-semibold">Tipo de cultivo</label>
+                                        <label
+                                            htmlFor="cultivo-cafe"
+                                            className="font-semibold"
+                                        >
+                                            Tipo de cultivo
+                                        </label>
+
                                         <div className="flex gap-4 mt-0">
-                                            {["Café", "Mora"].map(cultivo => (
+                                            {["Café", "Mora"].map((cultivo) => (
                                                 <label key={cultivo} className="flex items-center gap-2">
                                                     <input
+                                                        id={`cultivo-${cultivo.toLowerCase()}`}
                                                         type="radio"
                                                         name="cultivo"
                                                         value={cultivo}
@@ -192,8 +203,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Etapa</label>
+                                        <label htmlFor='input-editarEtapa' className="font-semibold">Etapa</label>
                                         <select
+                                            id='input-editarEtapa'
                                             name="etapa"
                                             required
                                             onChange={handleEtapaChange}
@@ -206,8 +218,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Actividad</label>
+                                        <label htmlFor='input-editarActividad' className="font-semibold">Actividad</label>
                                         <select
+                                            id='input-editarActividad'
                                             name="actividad"
                                             required
                                             value={actividadesOptions.find(a => a.label === actividadEditar.actividad)?.value || ''}

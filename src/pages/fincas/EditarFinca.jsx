@@ -58,26 +58,22 @@ export default function EditarFinca() {
 
     if (!validarSinCambios(originalFinca, fincaActualizada, "la finca", ["idusuario", "id"])) return
 
-    try {
-      //Intenta actualizar la finca
-      editarFinca(id, fincaActualizada)
-        .then(() => {
-          acctionSucessful.fire({
-            imageUrl: usuarioCreado,
-            title: `¡Finca: <span style="color: #3366CC;">${fincaActualizada.nombre}</span> editada correctamente!`,
-          });
-          irAtras();
-        })
-        .catch((error) => {
-          acctionSucessful.fire({
-            icon: "error",
-            title: "Error al actualizar la finca",
-          });
-          console.error("Error al actualizar finca:", error);
+    editarFinca(id, fincaActualizada)
+      .then(() => {
+        acctionSucessful.fire({
+          imageUrl: usuarioCreado,
+          title: `¡Finca: <span style="color: #3366CC;">${fincaActualizada.nombre}</span> editada correctamente!`,
         });
-    } catch (error) {
-      console.error("Error al enviar el formulario:", error);
-    }
+        irAtras();
+      })
+      .catch((error) => {
+        acctionSucessful.fire({
+          icon: "error",
+          title: "Error al actualizar la finca",
+        });
+        console.error("Error al actualizar finca:", error);
+      });
+
   };
 
   return (

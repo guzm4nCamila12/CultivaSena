@@ -135,7 +135,7 @@ function PerfilUsuario() {
         const actividades = await getActividadesByUsuario(obtenerIdUsuario())
 
         if (Array.isArray(actividades)) {
-          const actividadesConZona =  await Promise.all(
+          const actividadesConZona = await Promise.all(
             actividades.map(async (item) => {
               let nombreZona = "Zona desconocida"
               try {
@@ -310,14 +310,14 @@ function PerfilUsuario() {
       telefono: "Teléfono",
       correo: "Correo",
       nombre: "Nombre",
-    }
-    if (traducciones[clave])
-      return traducciones[clave];
+    };
+
+    if (traducciones[clave]) return traducciones[clave];
 
     return clave
-      .replace(/_/g, " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase())
-  }
+      .replaceAll("_", " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+  };
 
   const rolsito = obtenerRol();
 
@@ -412,10 +412,11 @@ function PerfilUsuario() {
             {/*Info usuario */}
             <div className='w-[70%] xl:w-full space-y-2  xl:space-y-1 sm:space-y-4 md:space-y-8 md:py-2 xl:py-0 flex flex-col justify-center items-center'>
               <div className='w-[85%] xl:w-full xl:space-y-2'>
-                <label className='hidden lg:block xl:pl-4 '>Nombre</label>
+                <label htmlFor='input-nombre' className='hidden lg:block xl:pl-4 '>Nombre</label>
                 <div className='flex'>
                   <img src={nombre} alt="Nombre" className='mr-2 block xl:hidden' />
                   <input
+                    id='input-nombre'
                     type="text"
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.nombre || "" : usuario.nombre || ""}
@@ -429,10 +430,11 @@ function PerfilUsuario() {
 
               {/* Teléfono */}
               <div className='w-[85%] xl:w-full 2xl:space-y-2'>
-                <label className='hidden lg:block xl:pl-4'>Número de contacto</label>
+                <label htmlFor='numero-input' className='hidden lg:block xl:pl-4'>Número de contacto</label>
                 <div className='flex'>
                   <img src={telefono} alt="Teléfono" className='mr-2 block xl:hidden' />
                   <input
+                    id='numero-input'
                     type="text"
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.telefono || "" : usuario.telefono || ""}
@@ -446,10 +448,11 @@ function PerfilUsuario() {
 
               {/* Correo */}
               <div className='w-[85%] xl:w-full 2xl:space-y-2'>
-                <label className='hidden lg:block xl:pl-4'>Correo</label>
+                <label htmlFor='email-input' className='hidden lg:block xl:pl-4'>Correo</label>
                 <div className='flex'>
                   <img src={correo} alt="Correo" className='mr-2 block xl:hidden' />
                   <input
+                    id='email-input'
                     type="email"
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.correo || "" : usuario.correo || ""}
@@ -467,7 +470,7 @@ function PerfilUsuario() {
               {!modoEdicion ? (
                 <button onClick={() => setModoEdicion(true)} className='flex  items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'>
                   <img src={editar} alt="editar" className='mr-2' />
-                  Actualizar Datos
+                  <span>Actualizar Datos</span>
                 </button>
               ) : (
                 <div className='w-full xl:w-full sm:w-[90%] flex justify-between'>
@@ -496,7 +499,7 @@ function PerfilUsuario() {
 
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
           <div className="xl:w-[25%] xl:items-center mt-[2.5rem] 2xl:mt-[3rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-auto  xl:flex xl:flex-col">
-            <div
+            <button
               id={obtenerRol() === 1 ? 'carta1SuperAdminSteps' : obtenerRol() === 2 ? 'carta1AdminSteps' : 'carta1AlternoSteps'}
               onClick={() =>
                 navigate(ruta, {
@@ -524,9 +527,9 @@ function PerfilUsuario() {
                   <h2>{usuario.cantidad_fincas}</h2>
                 ) : null}
               </div>
-            </div>
+            </button>
 
-            <div
+            <button
               id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
               onClick={() => {
                 const rol = obtenerRol();
@@ -556,7 +559,7 @@ function PerfilUsuario() {
                 ) : null}
 
               </div>
-            </div>
+            </button>
           </div>
 
           {/* Contenedor tabla actividades / historial */}

@@ -1,8 +1,8 @@
-import {React} from 'react';
+import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom'; // Para redirigir al login
 import { jwtDecode } from 'jwt-decode'; // Para decodificar el token
 
-const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
+const ProtectedRoute = ({ element: Component, allowedRoles, ...rest }) => {
     const token = localStorage.getItem('session'); // Obtener el token del localStorage
     const idUser = localStorage.getItem('User')
     // Verificar si no hay token
@@ -22,10 +22,10 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
             localStorage.removeItem('token'); // Eliminar token expirado
             return <Navigate to="/login" />;
         }
-         const userRole =decodedToken.idRol; // Obtener el rol del usuario
-    if (!allowedRoles.includes(userRole)) {
-      return <Navigate to="/login" />;;  // Redirigir si no tiene el rol adecuado
-    }
+        const userRole = decodedToken.idRol; // Obtener el rol del usuario
+        if (!allowedRoles.includes(userRole)) {
+            return <Navigate to="/login" />;;  // Redirigir si no tiene el rol adecuado
+        }
 
     } catch (error) {
         console.error("Error al decodificar el token:", error);
@@ -35,7 +35,10 @@ const ProtectedRoute = ({ element: Component, allowedRoles,...rest }) => {
     // Si el token es válido y el rol está permitido, renderiza el componente protegido
     return <Component />;
 };
-  
 
+ProtectedRoute.propTypes = {
+    element: PropTypes.elementType.isRequired, // Componente que se renderiza si pasa la validación
+    allowedRoles: PropTypes.arrayOf(PropTypes.number).isRequired, // Lista de roles permitidos (según tu token)
+};
 
 export default ProtectedRoute;

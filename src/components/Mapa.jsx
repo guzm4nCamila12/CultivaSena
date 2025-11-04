@@ -1,5 +1,7 @@
 //importaciones necesarios de react
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
+
 // Importaciones para el mapa
 import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
@@ -116,7 +118,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     <div className='mb-10 relative lg:shadow-2xl lg:rounded-b-3xl'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
         <img src={Icons.ubicacionMapa} className='mr-2' alt='iconoUbicacion' />
-        Seleccione una ubicación en el mapa
+          <span>Seleccione una ubicación en el mapa</span>
       </h2>
       <div className="flex justify-center relative">
         <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 lg:rounded-b-3xl'
@@ -158,7 +160,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-l-full'>
             <h2 className='flex items-center font-extrabold text-[18px] text-[#00304D]'>
               <img src={Icons.locacion} alt="Ubicacion actual" className='mr-1' />
-              Ubicación Actual:
+              <span>Ubicación Actual:</span>
             </h2>
           </div>
           <div className='p-2 flex w-full justify-center lg:w-auto lg:rounded-r-full'>
@@ -171,3 +173,11 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
 };
 
 export default Mapa;
+
+Mapa.propTypes = {
+  setUbicacion: PropTypes.func.isRequired,
+  ubicacion: PropTypes.shape({
+    lat: PropTypes.number,
+    lng: PropTypes.number,
+  }).isRequired,
+};

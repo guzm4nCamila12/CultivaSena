@@ -12,7 +12,7 @@ export const useZonas = (id) => {
   const [modalEliminarAbierto, setModalEliminarAbierto] = useState(false);
   const [modalFormularioAbierto, setModalFormularioAbierto] = useState(false);
   const [modoFormulario, setModoFormulario] = useState("crear");
-  const [zonaFormulario, setZonaFormulario] = useState({ nombre: "", idfinca: parseInt(id) });
+  const [zonaFormulario, setZonaFormulario] = useState({ nombre: "", idfinca: Number.parseInt(id) });
   const [zonaOriginal, setZonaOriginal] = useState(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export const useZonas = (id) => {
 
 
   const abrirModalCrear = () => {
-    setZonaFormulario({ nombre: "", idfinca: parseInt(id) });
+    setZonaFormulario({ nombre: "", idfinca: Number.parseInt(id) });
     setModoFormulario("crear");
     setModalFormularioAbierto(true);
   };

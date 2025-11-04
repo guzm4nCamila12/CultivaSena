@@ -1,17 +1,7 @@
-import React from "react";
+import PropTypes from "prop-types";
 import FormModal from "./formModal";
 
-const FormularioModal = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  titulo,
-  campos,
-  valores,
-  onChange,
-  textoBoton,
-  children
-}) => {
+const FormularioModal = ({ isOpen, onClose, onSubmit, titulo, campos, valores, onChange, textoBoton, children }) => {
   return (
     <FormModal isOpen={isOpen} onClose={onClose}>
       <h5 className="text-2xl font-bold mb-4 text-center">{titulo}</h5>
@@ -66,7 +56,7 @@ const FormularioModal = ({
 
                 {/* Mostrar icono para toggle de contraseña si se pasa */}
                 {campo.name === "clave" && campo.onToggleClave && (
-                  <div
+                  <button
                     onClick={campo.onToggleClave}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   >
@@ -74,7 +64,7 @@ const FormularioModal = ({
                       src={campo.mostrarClave ? campo.iconoVisible : campo.iconoOculto}
                       alt="Toggle Visibility"
                     />
-                  </div>
+                  </button>
                 )}
               </div>
             )}
@@ -102,5 +92,35 @@ const FormularioModal = ({
     </FormModal>
   );
 };
+
+FormularioModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired, 
+  onClose: PropTypes.func.isRequired, 
+  onSubmit: PropTypes.func.isRequired, 
+  titulo: PropTypes.string.isRequired, 
+  campos: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      type: PropTypes.string,
+      placeholder: PropTypes.string,
+      icono: PropTypes.string,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+          label: PropTypes.string,
+        })
+      ),
+      mostrarClave: PropTypes.bool,
+      onToggleClave: PropTypes.func,
+      iconoVisible: PropTypes.string,
+      iconoOculto: PropTypes.string,
+    })
+  ).isRequired, 
+  valores: PropTypes.object.isRequired, 
+  onChange: PropTypes.func.isRequired, 
+  textoBoton: PropTypes.string.isRequired,
+  children: PropTypes.node, 
+};
+
 
 export default FormularioModal;

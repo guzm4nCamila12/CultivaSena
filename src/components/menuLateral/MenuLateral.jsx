@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
 import { getFincasById } from '../../services/fincas/ApiFincas';
 import { obtenerIdUsuario, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
@@ -36,24 +37,24 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
             default: return alternoIcon;
         }
     };
-    
+
     const toggleSubmenu = (submenu) => {
         setSubmenuAbierto(prev => (prev === submenu ? null : submenu));
     };
-    
+
     // Navegar a inicio
     const goInicio = () => {
         const ruta = localStorage.getItem('principal') || '/';
         navigate(ruta);
     };
-    
+
     const rol = rolToken()
 
     const idUser = obtenerIdUsuario()
     // Fetch de fincas al montar
     useEffect(() => {
         if (!isOpen) return;
-        
+
         const fetchFincas = async () => {
             try {
                 setCargandoFincas(true);
@@ -68,22 +69,20 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 setCargandoFincas(false);
             }
         };
-        
+
         if (idUser) {
             fetchFincas();
         }
-        
-    }, [isOpen,idUser]);
-    
+
+    }, [isOpen, idUser]);
+
     const idFinca = obtenerFinca()
-    
+
     return (
         <div className="flex flex-col h-full w-64 bg-[#002A43] border-r-[0.5px] border-gray-700 text-white z-50">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                <a>
-                    <img src={logoC} alt="Logo" className="h-9" />
-                </a>
+                <img src={logoC} alt="Logo" className="h-9" />
                 <button onClick={onCloseMenu} className="text-white rounded-md border border-gray-700 hover:bg-gray-600 p-2">
                     <img src={cerrarIcon} alt="Cerrar" className="w-2 h-2" />
                 </button>
@@ -91,27 +90,29 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
 
             {/* Navegación */}
             <div className="flex-1 px-4 pt-6 space-y-7">
-                <div onClick={() => {goInicio()
-                    onCloseMenu()}} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
+                <button onClick={() => {
+                    goInicio()
+                    onCloseMenu()
+                }} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
                     <span>Inicio</span>
-                </div>
+                </button>
                 <div className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
                     <Link
-            to={`${process.env.REACT_APP_API_URL_CULTIVA}/auth?id=${localStorage.getItem("user")}&token=${localStorage.getItem("session")}`}
-            rel="noopener noreferrer"
-            className="bg-AzulMarino text-sm font-semibold px-4 py-3 lg:px-5 lg:py-3 rounded-full transition whitespace-nowrap"
-          >
-            <span>Ir a <strong>CultivaSena</strong></span>
-            </Link>
+                        to={`${process.env.REACT_APP_API_URL_CULTIVA}/auth?id=${localStorage.getItem("user")}&token=${localStorage.getItem("session")}`}
+                        rel="noopener noreferrer"
+                        className="bg-AzulMarino text-sm font-semibold px-4 py-3 lg:px-5 lg:py-3 rounded-full transition whitespace-nowrap"
+                    >
+                        <span>Ir a <strong>CultivaSena</strong></span>
+                    </Link>
                 </div>
 
                 {/* Estadísticas */}
                 {rol !== 1 && (
-                    <div>
+                    <button>
                         {rol === 3 ? (
-                            <div
+                            <button
                                 onClick={() => {
                                     navigate(`/sensores-alterno/${idFinca}/${idUser}`, {
                                         state: {
@@ -129,16 +130,16 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
 
                                 <img src={Estadisticas} alt="Estadisticas" className="h-6 w-7 mr-2" />
                                 <span>Estadistícas</span>
-                            </div>
+                            </button>
                         ) : (
                             <div id='estadisticasSteps'>
-                                <div
+                                <button
                                     onClick={() => toggleSubmenu('estadisticas')}
                                     className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
                                 >
                                     <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
                                     <span>Estadísticas</span>
-                                </div>
+                                </button>
                                 <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
                                     {cargandoFincas
                                         ? <span>Cargando...</span>
@@ -156,7 +157,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                                 </div>
                             </div>
                         )}
-                    </div>
+                    </button>
                 )}
 
                 {/* Reporte Actividades / Acciones */}
@@ -164,7 +165,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                     <div>
                         {rol === 3 ? (
                             // Rol 3: botón directo a alterno
-                            <div
+                            <button
                                 onClick={() => {
                                     navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
                                         state: {
@@ -181,17 +182,17 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
 
                                 <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                                 <span>Reporte Actividades</span>
-                            </div>
+                            </button>
                         ) : (
                             // Rol 2.: menú desplegable estándar
-                            <div>
-                                <div
+                            <button>
+                                <button
                                     onClick={() => toggleSubmenu('reporte')}
                                     className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                                 >
                                     <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
                                     <span>Reporte Actividades</span>
-                                </div>
+                                </button>
                                 <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
                                  ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
                                 >
@@ -210,7 +211,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                                         ))
                                     }
                                 </div>
-                            </div>
+                            </button>
                         )}
                     </div>
                 )}
@@ -218,7 +219,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 {rol !== 1 && (
                     <div>
                         {rol === 3 ? (
-                            <div
+                            <button
                                 onClick={() => {
                                     navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
                                         state: {
@@ -235,16 +236,16 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
 
                                 <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
                                 <span>Reporte Sensores</span>
-                            </div>
+                            </button>
                         ) : (
                             <div>
-                                <div
+                                <button
                                     onClick={() => toggleSubmenu('sensores')}
                                     className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
                                 >
                                     <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
                                     <span>Reporte Sensores</span>
-                                </div>
+                                </button>
                                 <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top 
                                 ${submenuAbierto === 'sensores' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
                                     {cargandoFincas
@@ -268,13 +269,13 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 {/*Transferir fincas(Solo para superAdmin)*/}
                 {rolToken() === 1 && (
                     permisos["editar fincas"]?.tienePermiso && (
-                    <div
-                        onClick={() => navigate("/transferir-finca")}
-                        className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                    >
-                        <img src={TransferirFinca} alt="Transferir Fincas" className="h-8 w-9 mr-2" />
-                        <span>Transferir Fincas</span>
-                    </div>
+                        <button
+                            onClick={() => navigate("/transferir-finca")}
+                            className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
+                        >
+                            <img src={TransferirFinca} alt="Transferir Fincas" className="h-8 w-9 mr-2" />
+                            <span>Transferir Fincas</span>
+                        </button>
                     )
                 )}
 
@@ -285,17 +286,17 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 <Link to={`/perfil-usuario`}>
                     <div className="flex items-center mb-4 hover:translate-x-1 transition">
                         <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${usuario.id}`}
-                          onError={(e) => {
-                            e.target.onerror = null; // Evitar loop infinito
-                            e.target.src = obtenerRol();
-                          }} alt="Perfil" className="h-10 w-10 rounded-full" />
+                            onError={(e) => {
+                                e.target.onerror = null; // Evitar loop infinito
+                                e.target.src = obtenerRol();
+                            }} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
                             <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>
                         </div>
                     </div>
                 </Link>
-                <div
+                <button
                     onClick={onLogoutClick}
                     onMouseEnter={() => setHoverCerrar(true)}
                     onMouseLeave={() => setHoverCerrar(false)}
@@ -303,8 +304,13 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 >
                     <img src={hoverCerrar ? cerrarRojo : cerrarSesionIcon} alt="Cerrar sesión" className='mr-1 w-6 h-6' />
                     <span>Cerrar sesión</span>
-                </div>
+                </button>
             </div>
         </div >
     );
 }
+MenuLateral.propTypes = {
+    onLogoutClick: PropTypes.func.isRequired,
+    onCloseMenu: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+};

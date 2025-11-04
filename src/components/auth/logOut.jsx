@@ -1,5 +1,6 @@
 // src/auth/logOut.jsx
-import React, { useState } from 'react';
+import  { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import goodBye from "../../assets/img/sesionFinalizada.png";
 import { acctionSucessful } from "../../components/alertSuccesful";
@@ -37,3 +38,7 @@ export default function CerrarSesion({ onClose }) {
     />
   );
 }
+
+CerrarSesion.propTypes = {
+  onClose: PropTypes.func.isRequired, 
+};

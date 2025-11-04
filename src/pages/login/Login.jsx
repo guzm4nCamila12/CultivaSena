@@ -104,12 +104,12 @@ const Login = () => {
                     className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                     style={{ backgroundImage: `url(${claveGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center', backgroundSize: '20px 20px' }}
                   />
-                  <div onClick={handleToggle} className="absolute right-3 mt-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                  <button type="button" onClick={handleToggle} className="absolute right-3 mt-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                     <img src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
-                  </div>
+                  </button>
                 </div>
-                <p className="text-white text-center font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
-                >¿Olvidaste tu contraseña?</p>
+                <button className="text-white text-center w-full font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                >¿Olvidaste tu contraseña?</button>
                 <button
                   id="btn-login"
                   type="submit"
@@ -173,9 +173,9 @@ const Login = () => {
                           className="w-full p-3 pl-12 pr-12 border-2 border-gray-300 focus:outline-none focus:ring-1 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
                           style={{ backgroundImage: `url(${claveGris})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'left 12px center' }}
                         />
-                        <div onClick={handleToggle} className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                        <button type="button" onClick={handleToggle} className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
                           <img src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
-                        </div>
+                        </button>
                       </div>
                       <button
                         id="btn-login"
@@ -186,8 +186,8 @@ const Login = () => {
                       </button>
                     </form>
                   </div>
-                  <p className="text-white font-semibold pt-2 cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
-                  >¿Olvidaste tu contraseña?</p>
+                  <button className="text-white font-semibold pt-2 cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                  >¿Olvidaste tu contraseña?</button>
                 </div>
               </div>
             </div>

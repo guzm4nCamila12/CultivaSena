@@ -191,7 +191,7 @@ const Tabla = ({
                           </div>
                           <div className="flex md:hidden relative justify-start">
                             {showAllActions ? (
-                              <div
+                              <button
                                 className="right-full top-0 z-50 flex flex-row items-start gap-6 w-56 p-2 bg-white rounded-md"
                                 onClick={e => e.stopPropagation()}
                                 style={{ boxShadow: '-3px 0px 0px rgba(0,0,0,0.15)' }}
@@ -200,7 +200,7 @@ const Tabla = ({
                                 <button onClick={e => { e.stopPropagation(); setShowAllActions(false); }} className="absolute right-0">
                                   <img src={cerrarMenu} alt="Cerrar" />
                                 </button>
-                              </div>
+                              </button>
                             ) : (
                               <button onClick={e => { e.stopPropagation(); setShowAllActions(true); }} className="rounded-full text-white ">
                                 <img src={DropdownIcon} alt="Desplegar acciones" className="mr-14" />
@@ -225,10 +225,10 @@ const Tabla = ({
         </table>
       </div>
       {mostrarAgregar && (
-        <div id="crearSteps" onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
+        <button id="crearSteps" onClick={onAddUser} className="w-full sm:w-[60%] mx-auto flex items-center justify-center bg-[#009E00]/10 border-dashed border-2 border-green-500 rounded-[36px] px-4 py-2 cursor-pointer hover:shadow-md hover:scale-95 m-3">
           <span className="text-[#009E00] text-base font-semibold">Crear</span>
           <div className="ml-2 w-8 h-8 bg-[#009E00] rounded-full flex items-center justify-center"><span className="text-white text-2xl font-bold">+</span></div>
-        </div>
+        </button>
       )}
       <ModalFechaRango isOpen={modalAbierto} onClose={() => setModalAbierto(false)} onConfirm={handleConfirmRango} vista={vista} />
     </div>
@@ -242,7 +242,12 @@ Tabla.propTypes = {
   onAddUser: PropTypes.func,
   mostrarAgregar: PropTypes.bool,
   enableSelection: PropTypes.bool,
+  vista: PropTypes.string,
   colorEncabezado: PropTypes.string,
+  colorTextoEncabezado: PropTypes.string,
+  seleccionados: PropTypes.array,
+  setSeleccionados: PropTypes.func,
 };
+
 
 export default Tabla;

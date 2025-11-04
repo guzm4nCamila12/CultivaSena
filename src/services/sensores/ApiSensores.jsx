@@ -16,8 +16,8 @@ export const getCountSensoresByFinca = async () =>
   fetchConToken(`/api/sensores/count/${obtenerFinca()}`);
   
 
-export const getTipoSensor = async (id) => 
-  fetchConToken(`/api/tipos_sensores/${id}`);
+export const getTipoSensor = async () => 
+  fetchConToken(`/api/tipos_sensores`);
 
 
 

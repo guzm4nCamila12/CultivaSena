@@ -24,7 +24,7 @@ const formatearFechaYHora = (fechaIso) => {
 
 // Limita decimales
 const limitarValor = (valor, decimales = 4) =>
-  parseFloat(valor).toFixed(decimales);
+  Number.parseFloat(valor).toFixed(decimales);
 
 export default function VerSensores() {
 

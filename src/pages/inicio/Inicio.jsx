@@ -66,7 +66,6 @@ export default function Login() {
                   Iniciar sesión
                 </button>
               </Link>
-              <p className='font-light text-[17px]   '>¿Aún no tiene una cuenta?, <a href="#" className='text-[#39A900] font-extrabold'>Registrese</a></p>
               <img src={logoSena} alt="" className='m-auto w-14 mb-5 mt-5' />
             </div>
           </div>

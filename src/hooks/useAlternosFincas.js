@@ -26,8 +26,8 @@ const useAlternosFinca = () => {
 
   const [fincas, setFincas] = useState({});
   const [usuarios, setUsuarios] = useState([]);
-  const [nuevoUsuario, setNuevoUsuario] = useState({ tipo_documento: "", documento: "", nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
-  const [usuarioEditar, setusuarioEditar] = useState({ id, tipo_documento:"", nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: parseInt(id) });
+  const [nuevoUsuario, setNuevoUsuario] = useState({ tipo_documento: "", documento: "", nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: Number.parseInt(id) });
+  const [usuarioEditar, setusuarioEditar] = useState({ id, tipo_documento:"", nombre: "", telefono: "", correo: "", clave: "", cantidad_fincas: 0, id_rol: 3, id_finca: Number.parseInt(id) });
 
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);

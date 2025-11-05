@@ -1,13 +1,14 @@
 // fetchHelpers.js
+/* global globalThis */
 const API_URL = process.env.REACT_APP_API_URL;
 export async function fetchConToken(endpoint, opciones = {}) {
   const token = localStorage.getItem("session");
   const config = {
     ...opciones,
     headers: {
-      ...(opciones.headers || {}),
-      Authorization: token ? `Bearer ${token}` : undefined,
-       "Content-Type": "application/json" 
+      ...(opciones.headers && { ...opciones.headers }),
+      ...(token && { Authorization: `Bearer ${token}` }),
+      "Content-Type": "application/json"
     },
   };
 
@@ -16,7 +17,7 @@ export async function fetchConToken(endpoint, opciones = {}) {
   if (response.status === 401) {
     localStorage.removeItem("session");
     localStorage.removeItem("userId");
-    window.location.href = "/login";
+    globalThis.location.href = "/login";
     return null;
   }
 
@@ -32,23 +33,24 @@ export async function fetchConTokenFormData(endpoint, opciones = {}) {
   const config = {
     ...opciones,
     headers: {
-      ...(opciones.headers || {}),
-      Authorization: token ? `Bearer ${token}` : undefined,
+      ...(opciones.headers && { ...opciones.headers }),
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   };
+
   const response = await fetch(`${API_URL}${endpoint}`, config);
 
   if (response.status === 401) {
     localStorage.removeItem("session");
     localStorage.removeItem("userId");
-    window.location.href = "/login";
+    globalThis.location.href = "/login";
     return null;
   }
   if (response.status !== 204) {
     return await response.json();
   }
   if (response.status === 200) {
-    return await response
+    return response
   }
   return response;
 }
@@ -56,19 +58,20 @@ export async function fetchSinToken(endpoint, opciones = {}) {
   const config = {
     ...opciones,
     headers: {
-      ...(opciones.headers || {}),
+      ...(opciones.headers && { ...opciones.headers }),
       "Content-Type": "application/json",
     },
   };
+
   const response = await fetch(`${API_URL}${endpoint}`, config);
 
-   if (response.status === 500) {
+  if (response.status === 500) {
     localStorage.removeItem("session");
     localStorage.removeItem("userId");
-    window.location.href = "/login";
+    globalThis.location.href = "/login";
     return;
   }
-  
+
   if (response.status !== 204) {
     return await response.json();
   }

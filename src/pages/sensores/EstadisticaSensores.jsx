@@ -26,7 +26,7 @@ const Estadistica = () => {
       try {
         const inicioStr = fechaInicio;
         const finStr = fechaFin;
-        
+
 
         const resultados = await Promise.all(
           ids.map(async (id) => {
@@ -38,10 +38,11 @@ const Estadistica = () => {
                 const raw = item.fecha || item.timestamp;
                 const itemDate = raw.slice(0, 10); // 'YYYY-MM-DD'
                 return itemDate >= inicioStr && itemDate <= finStr;
-              });              
+              });
 
               return { sensor, historial };
             } catch (e) {
+              console.error(`Error al obtener historial del sensor: ${sensor?.id ?? 'desconocido'}`, e);
               // Si falla este sensor en específico, igual seguimos
               return { sensor: null, historial: [] };
             }

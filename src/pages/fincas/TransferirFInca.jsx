@@ -53,7 +53,8 @@ export default function TransferirFInca() {
                                         setIndex(1);
                                     }}
                                 >
-                                    {propietario != null ? propietario.nombre : "Seleccionar..."}
+                                    {propietario === null ? "Seleccionar..." : propietario.nombre}
+
                                 </button>
                             </div>
                             <div id="fincaTransSteps" className=" w-full lg:w-auto">
@@ -116,20 +117,25 @@ export default function TransferirFInca() {
                             {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
                             <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador.</p>
                             <div className='w-auto mx-4'>
-                                <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 font-medium hover:bg-gray-300  w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>{`${usuarioSeleccionado != null ? (`${usuarioSeleccionado.nombre}`) : ("Seleccionar...")}`}</button>
+                                <button className='flex rounded-3xl px-5 py-2 my-2 bg-gray-200 font-medium hover:bg-gray-300  w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg' onClick={() => { setAbrirModalBuscar(true); setIndex(2) }}>{`${usuarioSeleccionado === null ? "Seleccionar..." : usuarioSeleccionado.nombre}`}</button>
                             </div>
                             <h2 className='text-black font-semibold text-xl text-left ml-7 mt-10'>Fincas de {usuarioSeleccionado.nombre}</h2>
                             <div className='w-auto rounded-3xl px-4 h-auto lg:h-[280px] overflow-y-auto'>
 
                                 {fincasAlternas.length > 0 ? (
                                     fincasAlternas.map((finca) => (
-                                        <div className='flex rounded-3xl font-medium px-5 py-2 my-3 bg-gray-200 w-full cursor-not-allowed' title='El segundo administrador seleccionado solamente recibe fincas.'>
-                                            <h2 key={finca.id}>{finca.nombre}</h2>
+                                        <div
+                                            key={finca.id}
+                                            className='flex rounded-3xl font-medium px-5 py-2 my-3 bg-gray-200 w-full cursor-not-allowed'
+                                            title='El segundo administrador seleccionado solamente recibe fincas.'
+                                        >
+                                            <h2>{finca.nombre}</h2>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-400 py-2 ">No tiene fincas.</p>
+                                    <p className="text-gray-400 py-2">No tiene fincas.</p>
                                 )}
+
                             </div>
                         </div>
                     ) : (

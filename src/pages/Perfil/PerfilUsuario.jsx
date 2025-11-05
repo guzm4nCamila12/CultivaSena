@@ -1,235 +1,40 @@
-//importaciones necesarias de react
-import React, { useEffect, useState } from 'react'
+// pages/PerfilUsuario/PerfilUsuario.jsx
 import { useNavigate, Link } from 'react-router-dom'
-//Componentes reutilizados
+// Componentes y assets
 import Navbar from '../../components/navbar'
 import Tabla from '../../components/Tabla'
-import { acctionSucessful } from '../../components/alertSuccesful'
-//Importacion de icono e imagenes
 import {
   sensoresIcon, editar, ver, telefono, nombre, correo,
-  sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon,
-  ajustes,
-  actividadesIcon,
-  fecha,
-  fincasIcon,
-  zonasIcon,
+  sensoresTarjeta, fincaTarjeta as fincaTarjetaIcon, zonaTarjeta, usuarioTarjeta as usuarioTarjetaIcon
 } from '../../assets/icons/IconsExportation'
-import { fincaPerfil, usuarioCreado, usuarioTarjeta, vacaTarjeta, fincaTarjeta } from '../../assets/img/imagesExportation'
-//Endpoints para consumir el api
-import { getCantidadSensores, getCountSensoresByFinca } from '../../services/sensores/ApiSensores'
-import { getUsuarioById, getHistorial } from '../../services/usuarios/ApiUsuarios'
-import { getActividadesTotales, getActividadesByUsuario, getZonasById, getCountFincas, getCountZonasByFinca } from '../../services/fincas/ApiFincas'
-//Hooks
-import { useUsuarios } from '../../hooks/useUsuarios'
-import { obtenerIdUsuario, obtenerRol } from '../../hooks/useDecodeToken'
+import { fincaPerfil, usuarioTarjeta, vacaTarjeta, fincaTarjeta } from '../../assets/img/imagesExportation'
 
-//Driver
-import { useDriverTour } from '../../hooks/useTourDriver'
-import { perfilUsuarioSteps } from '../../utils/aplicationSteps'
+// hook refactorizado
+import usePerfilUsuario from '../../hooks/usePerfil'
 
 function PerfilUsuario() {
   const navigate = useNavigate()
-  const [cantidadSensores, setCantidadSensores] = useState({})
-  const [cantidadFincas, setCantidadFincas] = useState({})
-  const [cantidadZonas, setCantidadZonas] = useState({})
-  const [cantidadSensoresFinca, setCantidadSensoresFinca] = useState({})
-  const [usuario, setUsuario] = useState({})
-  const [usuarioEditar, setUsuarioEditar] = useState({})
-  const { actualizarUsuario } = useUsuarios()
-  const [usuarioOriginal, setUsuarioOriginal] = useState(null)
-  const { usuarios } = useUsuarios()
-  const [datosTabla, setDatosTabla] = useState([])
 
-  useDriverTour(perfilUsuarioSteps)
+  // consumimos desde el hook
+  const {
+    usuario, usuarioEditar, setUsuarioEditar, setUsuarioOriginal, datosTabla, columnas, ruta, tituloTabla, rolsito, modoEdicion, setModoEdicion, 
+    modalHistorialAbierto, setModalHistorialAbierto, historialSeleccionado, setHistorialSeleccionado, cartas, handleEditarUsuario, renderValorTabla, 
+    formatearClave, obtenerRol, idBoton, idBoton2, valorMostrado, idTabla, cantidadTotal
+  } = usePerfilUsuario()
 
-  // Estados para el modal de historial completo (rol 1)
-  const [modalHistorialAbierto, setModalHistorialAbierto] = useState(false)
-  const [historialSeleccionado, setHistorialSeleccionado] = useState(null)
+  // usamos el helper cartas pasándole los assets que necesita
+  const cartasHelper = (key) => cartas(key, rolsito, {
+    usuarioTarjetaIcon,
+    fincaTarjetaIcon,
+    zonaTarjeta,
+    sensoresIcon,
+    sensoresTarjeta,
+    usuarioTarjeta,
+    vacaTarjeta,
+    fincaTarjeta
+  })
 
-  const [modoEdicion, setModoEdicion] = useState(false);
-
-  // Formatea ISO a 'DD/MM/YYYY H:mm' usando hora local
-  const formatFecha = (iso) => {
-    if (!iso) return ''
-    const d = new Date(iso)
-    const pad = (n) => String(n).padStart(2, '0')
-    const dia = pad(d.getDate())
-    const mes = pad(d.getMonth() + 1)
-    const año = d.getFullYear()
-    const hora = d.getHours()
-    const min = pad(d.getMinutes())
-    return `${dia}/${mes}/${año} ${hora}:${min}`
-  }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        getCantidadSensores(obtenerIdUsuario())
-          .then(data => setCantidadSensores(data))
-
-        getCountFincas()
-          .then(data => setCantidadFincas(data))
-
-        getCountZonasByFinca()
-          .then(data => setCantidadZonas(data))
-
-        getCountSensoresByFinca()
-          .then(data => setCantidadSensoresFinca(data))
-
-        getUsuarioById(obtenerIdUsuario())
-          .then(data => {
-            setUsuario(data)
-            setUsuarioEditar(data)
-            setUsuarioOriginal(data)
-          })
-      } catch (err) {
-        console.error("Error cargando sensores o usuario", err)
-      }
-    }
-    fetchData()
-  }, [obtenerIdUsuario()])
-
-  useEffect(() => {
-    const fetchTabla = async () => {
-      if (obtenerRol() === 1) {
-        // SuperAdmin: historial
-        getHistorial()
-          .then(data => {
-            const formatted = Array.isArray(data)
-              ? data
-                .map(item => {
-                  let opTraducida = item.operacion
-                  if (item.operacion === "INSERT") opTraducida = "Creó"
-                  else if (item.operacion === "UPDATE") opTraducida = "Editó"
-                  else if (item.operacion === "DELETE") opTraducida = "Eliminó"
-
-                  return {
-                    ...item,
-                    operacion: opTraducida,
-                    fecha: formatFecha(item.fecha),
-                    rawFecha: item.fecha // Agrega fecha sin formatear para orden
-                  }
-                })
-                .sort((a, b) => new Date(b.rawFecha) - new Date(a.rawFecha)) // Ordenar
-              : []
-
-            setDatosTabla(formatted)
-          })
-          .catch(console.error)
-      } else if (obtenerRol() === 2) {
-        // Admin: actividades totales
-        getActividadesTotales(obtenerIdUsuario())
-          .then(data => {
-            const formatted = Array.isArray(data)
-              ? data.map(item => ({
-                ...item,
-                fechafin: formatFecha(item.fechafin)
-              }))
-              : []
-            setDatosTabla(formatted)
-          })
-          .catch(console.error)
-      } else if (obtenerRol() === 3) {
-        // Alterno: actividades por usuario
-        const actividades = await getActividadesByUsuario(obtenerIdUsuario())
-
-        if (Array.isArray(actividades)) {
-          const actividadesConZona = await Promise.all(
-            actividades.map(async (item) => {
-              let nombreZona = "Zona desconocida"
-              try {
-                const zona = await getZonasById(item.idzona)
-                nombreZona = zona?.nombre || nombreZona
-              } catch (err) {
-                console.error(`Error obteniendo nombre de zona para id ${item.idzona}`, err)
-              }
-
-              return {
-                zona: nombreZona,
-                actividad: item.actividad,
-                fechafin: formatFecha(item.fechafin),
-                idzona: item.idzona
-              }
-            })
-          )
-          setDatosTabla(actividadesConZona)
-        } else {
-          setDatosTabla([])
-        }
-      }
-      else {
-        setDatosTabla([])
-      }
-    }
-    fetchTabla()
-  }, [obtenerRol(), obtenerIdUsuario()])
-
-
-  const cartas = (tipo) => {
-
-    const config = {
-      imagen: {
-        1: usuarioTarjetaIcon,
-        2: fincaTarjetaIcon,
-        3: zonaTarjeta,
-        default: sensoresIcon
-      },
-      imagen2: {
-        1: fincaTarjetaIcon,
-        2: sensoresTarjeta,
-        3: sensoresTarjeta,
-        default: sensoresTarjeta
-      },
-      texto: {
-        1: "Cantidad de Usuarios",
-        2: "Cantidad de Fincas",
-        3: "Zonas de la finca",
-        default: ""
-      },
-      texto2: {
-        1: "Cantidad de Fincas",
-        2: "Cantidad de Sensores",
-        3: "Sensores de la Finca",
-        default: ""
-      },
-      tarjeta: {
-        1: usuarioTarjeta,
-        2: vacaTarjeta,
-        3: fincaTarjeta,
-        default: undefined
-      },
-      tarjeta2: {
-        1: fincaTarjeta,
-        2: fincaTarjeta,
-        3: vacaTarjeta,
-        default: undefined
-      }
-    };
-
-    const tipoConfig = config[tipo];
-    return tipoConfig ? (tipoConfig[rolsito] ?? tipoConfig.default) : undefined;
-  };
-
-
-  const handleEditarUsuario = async (e) => {
-    e.preventDefault()
-    const exito = await actualizarUsuario(usuarioEditar, usuarioOriginal)
-    if (exito) {
-      acctionSucessful.fire({
-        imageUrl: usuarioCreado,
-        imageAlt: "usuario editado",
-        title: `¡Tu información se ha editado con éxito!`
-      })
-      setUsuario({ ...usuarioEditar });
-      setUsuarioOriginal({ ...usuarioEditar })
-
-    }
-  }
-  // Acciones según rol:
-  // - Rol 1: abre modal historial
-  // - Rol 2: redirige a actividadesZonas con idzona
-  // - Rol 3: misma acción que rol 2
+  // función de acciones (devuelve JSX) — la dejamos en el componente porque usa <Link /> y setModalHistorialAbierto
   const acciones = (fila) => {
     if (obtenerRol() === 1) {
       return (
@@ -269,132 +74,6 @@ function PerfilUsuario() {
     return null
   }
 
-  const renderValorTabla = (valor) => {
-    if (valor === null) return "null";
-    if (Array.isArray(valor)) {
-      return (
-        <ul className="list-disc pl-4">
-          {valor.map((item) => (
-            <li key={item}>{renderValorTabla(item)}</li>
-          ))}
-        </ul>
-      );
-    }
-    if (typeof valor === 'object') {
-      return (
-        <table className="table-auto border border-gray-200 ml-2 mt-1">
-          <tbody>
-            {Object.entries(valor)
-              .filter(([k]) => k.trim().toLowerCase() !== 'clave')
-              .map(([k, v]) => (
-                <tr key={k}>
-                  <td className="border px-2 py-1 font-semibold bg-gray-100">{formatearClave(k)}</td>
-                  <td className="border px-2 py-1">{renderValorTabla(v)}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      );
-    }
-    return String(valor);
-  };
-
-  const formatearClave = (clave) => {
-    const traducciones = {
-      id: "ID",
-      cantidad_fincas: "Cantidad de Fincas",
-      id_rol: "ID Rol",
-      id_finca: "ID Finca",
-      tipo_documento: "Tipo de Documento",
-      documento: "Documento",
-      telefono: "Teléfono",
-      correo: "Correo",
-      nombre: "Nombre",
-    };
-
-    if (traducciones[clave]) return traducciones[clave];
-
-    return clave
-      .replaceAll("_", " ")
-      .replaceAll(/\b\w/g, (l) => l.toUpperCase());
-  };
-
-  const rolsito = obtenerRol();
-
-  const pasosTour = perfilUsuarioSteps.filter(paso => {
-    const el = paso.element;
-
-    // SuperAdmin: rol 1
-    if (rolsito === 1) {
-      return (
-        el !== '#carta1AdminSteps' &&
-        el !== '#carta2AdminSteps' &&
-        el !== '#tablaAdmin' &&
-        el !== '#carta1AlternoSteps' &&
-        el !== '#carta2AlternoSteps' &&
-        el !== '#tablaAlterno'
-      );
-    }
-
-    // Admin: rol 2
-    if (rolsito === 2) {
-      return (
-        el !== '#carta1SuperAdminSteps' &&
-        el !== '#carta2SuperAdminSteps' &&
-        el !== '#tablaSuperAdmin' &&
-        el !== '#carta1AlternoSteps' &&
-        el !== '#carta2AlternoSteps' &&
-        el !== '#tablaAlterno'
-      );
-    }
-
-    // Alterno: rol 3 (u otro)
-    return (
-      el !== '#carta1SuperAdminSteps' &&
-      el !== '#carta2SuperAdminSteps' &&
-      el !== '#tablaSuperAdmin' &&
-      el !== '#carta1AdminSteps' &&
-      el !== '#carta2AdminSteps' &&
-      el !== '#tablaAdmin'
-    );
-  });
-
-
-  useDriverTour(pasosTour);
-
-  // Columnas dinámicas:
-  const columnas = obtenerRol() === 1
-    ? [
-      { key: "operacion", label: "Operación", icon2: ajustes },
-      { key: "tabla", label: "Tabla", icon2: actividadesIcon },
-      { key: "fecha", label: "Fecha", icon2: fecha },
-      { key: "acciones", label: "Ver", icon2: ajustes }
-    ]
-    : obtenerRol() === 2
-      ? [
-        { key: "finca_nombre", label: "Finca", icon2: fincasIcon },
-        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
-        { key: "fechafin", label: "Fecha", icon2: fecha },
-        { key: "acciones", label: "Ver", icon2: ajustes }
-      ]
-      : [
-        { key: "zona", label: "Zona", icon2: zonasIcon },
-        { key: "actividad", label: "Actividad", icon2: actividadesIcon },
-        { key: "fechafin", label: "Fecha", icon2: fecha },
-        { key: "acciones", label: "Ver", icon2: ajustes }
-      ]
-
-  const ruta =
-    rolsito === 1
-      ? `/inicio-SuperAdmin`
-      : rolsito === 2
-        ? `/lista-fincas/${usuario.id}`
-        : rolsito === 3
-          ? `/sensores-alterno/${usuario.id_finca}/${usuario.id}`
-          : '/'
-
-  const tituloTabla = obtenerRol() === 1 ? "Historial" : obtenerRol() === 2 ? "Registro Actividades" : "Actividades Realizadas";
-
   return (
     <div>
       <Navbar />
@@ -405,7 +84,7 @@ function PerfilUsuario() {
               <div className="bg-[#002A43] p-1 rounded-full aspect-square w-[80%] sm:w-[70%]  lg:w-full max-w-[180px]">
                 <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${usuario.id}`}
                   onError={(e) => {
-                    e.target.onerror = null; // Evitar loop infinito
+                    e.target.onerror = null;
                     e.target.src = fincaPerfil;
                   }} alt="" className="rounded-full w-full h-full object-cover" />
               </div>
@@ -469,14 +148,10 @@ function PerfilUsuario() {
 
             {/* Botón editar */}
             <div id='btnEditarSteps' className='w-full mt-2 xl:mt-0 font-bold text-white flex items-center justify-center'>
-              {!modoEdicion ? (
-                <button onClick={() => setModoEdicion(true)} className='flex  items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'>
-                  <img src={editar} alt="editar" className='mr-2' />
-                  <span>Actualizar Datos</span>
-                </button>
-              ) : (
+              {modoEdicion ? (
                 <div className='w-full xl:w-full sm:w-[90%] flex justify-between'>
-                  <button className='w-[45%] rounded-full bg-[#00304D] hover:bg-[#021926] py-2'
+                  <button
+                    className='w-[45%] rounded-full bg-[#00304D] hover:bg-[#021926] py-2'
                     onClick={() => {
                       setModoEdicion(false);
                       setUsuarioEditar({ ...usuario });
@@ -485,7 +160,8 @@ function PerfilUsuario() {
                   >
                     Cancelar
                   </button>
-                  <button className='w-[45%] rounded-full bg-[#39A900] hover:bg-[#005F00] py-2'
+                  <button
+                    className='w-[45%] rounded-full bg-[#39A900] hover:bg-[#005F00] py-2'
                     onClick={(e) => {
                       handleEditarUsuario(e);
                       setModoEdicion(false);
@@ -494,15 +170,22 @@ function PerfilUsuario() {
                     Guardar
                   </button>
                 </div>
+              ) : (
+                <button
+                  onClick={() => setModoEdicion(true)}
+                  className='flex items-center justify-center rounded-full bg-[#39A900] hover:bg-[#005F00] w-full xl:w-full sm:w-[90%] py-2'
+                >
+                  <img src={editar} alt="editar" className='mr-2' />
+                  <span>Actualizar Datos</span>
+                </button>
               )}
             </div>
           </div>
 
-
           {/* Contenedor de cartas: cantidad fincas y cantidad sensores */}
           <div className="xl:w-[25%] xl:items-center mt-[2.5rem] 2xl:mt-[3rem] flex justify-between  sm:justify-between sm:flex-row sm:flex sm:w-full xl:h-auto  xl:flex xl:flex-col">
             <button
-              id={obtenerRol() === 1 ? 'carta1SuperAdminSteps' : obtenerRol() === 2 ? 'carta1AdminSteps' : 'carta1AlternoSteps'}
+              id={idBoton}
               onClick={() =>
                 navigate(ruta, {
                   state: {
@@ -511,28 +194,22 @@ function PerfilUsuario() {
                 })
               }
               className="bg-cover hover:scale-95 transition xl:w-full w-2/5 h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white sm:rounded-3xl sm:max-w-xs p-5 shadow-lg cursor-pointer "
-              style={{ backgroundImage: `url(${cartas("tarjeta")})` }}
+              style={{ backgroundImage: `url(${cartasHelper("tarjeta")})` }}
             >
               <div className=' font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
-                <h3>{cartas("texto")}</h3>
+                <h3>{cartasHelper("texto")}</h3>
               </div>
               <div className=" flex items-start justify-end w-1/3 h-1/2 p-1">
-                <img src={cartas("imagen")} alt="Icono" className="hidden md:block md:h-14" />
+                <img src={cartasHelper("imagen")} alt="Icono" className="hidden md:block md:h-14" />
               </div>
 
               <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end h-1/2 p-1">
-                {rolsito === 1 ? (
-                  <h2>{usuarios.length}</h2>
-                ) : rolsito === 3 ? (
-                  <h2>{cantidadZonas.total_zonas}</h2>
-                ) : rolsito === 2 ? (
-                  <h2>{usuario.cantidad_fincas}</h2>
-                ) : null}
+                {valorMostrado !== null && <h2>{valorMostrado}</h2>}
               </div>
             </button>
 
             <button
-              id={obtenerRol() === 1 ? 'carta2SuperAdminSteps' : obtenerRol() === 2 ? 'carta2AdminSteps' : 'carta2AlternoSteps'}
+              id={idBoton2}
               onClick={() => {
                 const rol = obtenerRol();
                 if (rol !== 1 && rol !== 2) {
@@ -542,24 +219,17 @@ function PerfilUsuario() {
                 }
               }}
               className="bg-cover hover:scale-95 transition xl:w-full h-[16.5rem] border-4 text-lg rounded-3xl flex flex-wrap sm:mt-0 md:mt-0 text-white w-2/5 sm:rounded-3xl sm:max-w-xs p-5  shadow-lg cursor-pointer"
-              style={{ backgroundImage: `url(${cartas("tarjeta2")})` }}
+              style={{ backgroundImage: `url(${cartasHelper("tarjeta2")})` }}
             >
               <div className='font-bold text-2xl sm:text-3xl w-2/3 h-1/2'>
-                <h3>{cartas("texto2")}</h3>
+                <h3>{cartasHelper("texto2")}</h3>
               </div>
               <div className="flex items-start justify-end  w-1/3 h-1/2 p-1 ">
-                <img src={cartas("imagen2")} alt="Icono" className="md:block md:h-14 hidden " />
+                <img src={cartasHelper("imagen2")} alt="Icono" className="md:block md:h-14 hidden " />
               </div>
 
               <div className="text-8xl w-full font-bold flex items-end mt-3 justify-end  h-1/2 p-1">
-                {rolsito === 1 ? (
-                  <h2>{cantidadFincas.total_fincas}</h2>
-                ) : rolsito === 3 ? (
-                  <h2>{cantidadSensoresFinca.total_sensores_finca}</h2>
-                ) : rolsito === 2 ? (
-                  <h2>{cantidadSensores.total_sensores ?? 0}</h2>
-                ) : null}
-
+                {cantidadTotal}
               </div>
             </button>
           </div>
@@ -567,7 +237,7 @@ function PerfilUsuario() {
           {/* Contenedor tabla actividades / historial */}
           <div className="xl:w-[40%]  sm:w-full flex flex-col pt-7 items-end xl:h-[100%]">
             <div
-              id={obtenerRol() === 1 ? 'tablaSuperAdmin' : obtenerRol() === 2 ? 'tablaAdmin' : 'tablaAlterno'}
+              id={idTabla}
               className="bg-[#002A43] pb-10  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  2xl:mt-5  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
               <h3 className="font-bold text-xl mt-1 text-white">
                 {tituloTabla}
@@ -614,10 +284,27 @@ function PerfilUsuario() {
                           className={index % 2 === 0 ? "bg-white" : "bg-white transition-colors"}
                         >
                           <td className="border border-gray-200 px-4 py-2 font-medium text-sm text-gray-800">
-                            {clave}
+                            {formatearClave(clave)}
                           </td>
                           <td className="border border-gray-200 px-4 py-2 text-sm text-gray-700">
-                            {renderValorTabla(valor)}
+                            {/* Usamos la función renderValorTabla del hook; si retorna objetos, el componente los maneja aquí */}
+                            {typeof valor === 'object' && !Array.isArray(valor)
+                              ? (
+                                <table className="table-auto border border-gray-200 ml-2 mt-1">
+                                  <tbody>
+                                    {Object.entries(valor)
+                                      .filter(([k]) => k.trim().toLowerCase() !== 'clave')
+                                      .map(([k, v]) => (
+                                        <tr key={k}>
+                                          <td className="border px-2 py-1 font-semibold bg-gray-100">{formatearClave(k)}</td>
+                                          <td className="border px-2 py-1">{renderValorTabla(v)}</td>
+                                        </tr>
+                                      ))}
+                                  </tbody>
+                                </table>
+                              )
+                              : renderValorTabla(valor)
+                            }
                           </td>
                         </tr>
                       ))}

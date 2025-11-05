@@ -247,7 +247,7 @@ function ActivarSensores() {
             titulo={tituloMostrar}
             columnas={columnas}
             datos={sensoresFiltrados}
-            acciones={!isEstadisticaView ? acciones : undefined}
+            acciones={isEstadisticaView ? undefined : acciones}
             onAddUser={() => setModalInsertarAbierto(true)}
             mostrarAgregar={permisos["crear sensores"]?.tienePermiso && !isEstadisticaView}
             enableSelectionButton={enableSelectionButton}

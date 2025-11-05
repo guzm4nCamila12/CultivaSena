@@ -73,132 +73,129 @@ export const useActividadesZona = (idZona) => {
     ]
   };
 
-
   useEffect(() => {
-    getActividadesByZona(idZona)
-      .then(data => setActividades(data || []))
-      .catch(console.error);
-    getZonasById(idZona)
-      .then(data => setZonas(data || {}))
-      .catch(console.error);
+    const fetchData = async () => {
+      try {
+        const [actividadesData, zonasData] = await Promise.all([
+          getActividadesByZona(idZona),
+          getZonasById(idZona),
+        ]);
+        setActividades(actividadesData || []);
+        setZonas(zonasData || {});
+      } catch (error) {
+        console.error("Error cargando datos:", error);
+      }
+    };
+    fetchData();
   }, [idZona]);
+
+  const obtenerActividadLabel = (etapa, value) => {
+    return actividadesPorEtapa[etapa]?.find((act) => act.value === value)?.label || "";
+  };
+
+  const validarFechas = (inicio, fin) => {
+    if (fin < inicio) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡La fecha de fin no puede ser antes de la fecha de inicio!",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const mostrarAlerta = (imagen, titulo) => {
+    acctionSucessful.fire({ imageUrl: imagen, imageAlt: "Icono", title: titulo });
+  };
 
   const handleActividadChange = (e) => {
     const { name, value } = e.target;
-    // Si cambia la actividad, guardamos la etiqueta en lugar del valor
-    if (name === 'actividad') {
-      const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
-      if (actividadObj) {
-        setNuevaActividad(prev => ({ ...prev, [name]: actividadObj.label }));
-        return;
-      }
-    }
-    setNuevaActividad(prev => ({ ...prev, [name]: value }));
+    const nuevaValue =
+      name === "actividad" ? obtenerActividadLabel(etapaSeleccionada, value) : value;
+    setNuevaActividad((prev) => ({ ...prev, [name]: nuevaValue }));
   };
 
   const handleEtapaChange = (e) => {
     const { name, value, options, selectedIndex } = e.target;
     const etapaLabel = options[selectedIndex].text;
     setEtapaSeleccionada(value);
-    setNuevaActividad(prev => ({ ...prev, [name]: etapaLabel }));
-    setActividadEditar(prev => ({ ...prev, [name]: etapaLabel }));
+    setNuevaActividad((prev) => ({ ...prev, [name]: etapaLabel }));
+    setActividadEditar((prev) => ({ ...prev, [name]: etapaLabel }));
   };
 
   const handleEditarActividadChange = (e) => {
-
     const { name, value } = e.target;
-    // Si cambia la actividad, guardamos la etiqueta
-    if (name === 'actividad') {
-      const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
-      if (actividadObj) {
-        setActividadEditar(prev => ({ ...prev, [name]: actividadObj.label }));
-        return;
-      }
-    }
-    setActividadEditar(prev => ({ ...prev, [name]: value }));
+    const nuevoValor =
+      name === "actividad" ? obtenerActividadLabel(etapaSeleccionada, value) : value;
+    setActividadEditar((prev) => ({ ...prev, [name]: nuevoValor }));
   };
 
-  const handleCrearActividad = (e) => {
+  const handleCrearActividad = async (e) => {
     e.preventDefault();
     // Validación fechas
     const inicio = new Date(nuevaActividad.fechainicio);
     const fin = new Date(nuevaActividad.fechafin);
-    if (fin < inicio) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        imageAlt: 'Icono personalizado',
-        title: '¡La fecha de fin no puede ser antes de la fecha de inicio!'
-      });
-      return;
+    if (!validarFechas(inicio, fin)) return;
+
+    try {
+      await crearActividad(nuevaActividad);
+      const data = await getActividadesByZona(idZona);
+      setActividades(data || []);
+      mostrarAlerta(Images.usuarioCreado, "¡Actividad creada correctamente!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setModalActividadInsertar(false);
     }
-    crearActividad(nuevaActividad)
-      .then(() => getActividadesByZona(idZona))
-      .then(data => setActividades(data || []))
-      .catch(console.error);
-    setModalActividadInsertar(false);
-    acctionSucessful.fire({
-      imageUrl: Images.usuarioCreado,
-      imageAlt: 'Icono personalizado',
-      title: '¡Actividad creada correctamente!'
-    });
   };
 
-  const handleEditarActividad = (e) => {
+  const handleEditarActividad = async (e) => {
     e.preventDefault();
 
     if (!validarSinCambios(actividadOriginal, actividadEditar, "la actividad")) return
 
-    if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        imageAlt: 'Icono personalizado',
-        title: '¡No tienes permiso para editar esta actividad!'
-      });
-      return;
-    }
     // Validación fechas
     const inicio = new Date(actividadEditar.fechainicio);
     const fin = new Date(actividadEditar.fechafin);
-    if (fin < inicio) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        imageAlt: 'Icono personalizado',
-        title: '¡La fecha de fin no puede ser antes de la fecha de inicio!'
-      });
+    if (!validarFechas(inicio, fin)) return;
+
+    if (rolusuario === 3 && actividadEditar.idusuario !== idusuario) {
+      mostrarAlerta(Images.Alerta, "¡No tienes permiso para editar esta actividad!");
       return;
     }
-    editarActividad(actividadEditar.id, actividadEditar)
-      .then(() => setActividades(prev => prev.map(a => a.id === actividadEditar.id ? actividadEditar : a)))
-      .catch(console.error);
-    setModalEditarActividad(false);
-    acctionSucessful.fire({
-      imageUrl: Images.usuarioCreado,
-      imageAlt: 'Icono personalizado',
-      title: '¡Actividad editada correctamente!'
-    });
+
+    try {
+      await editarActividad(actividadEditar.id, actividadEditar);
+      setActividades((prev) =>
+        prev.map((a) => (a.id === actividadEditar.id ? actividadEditar : a))
+      );
+      mostrarAlerta(Images.usuarioCreado, "¡Actividad editada correctamente!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setModalEditarActividad(false);
+    }
   };
 
-  const handleEliminarActividad = (e) => {
+  const handleEliminarActividad = async (e) => {
     e.preventDefault();
     const actividad = actividades.find(a => a.id === actividadEliminar);
     if (rolusuario === 3 && actividad?.idusuario !== idusuario) {
-      acctionSucessful.fire({
-        imageUrl: Images.Alerta,
-        imageAlt: 'Icono personalizado',
-        title: '¡No tienes permiso para eliminar esta actividad!'
-      });
+      mostrarAlerta(Images.Alerta, "¡No tienes permiso para eliminar esta actividad!");
       setModalEliminarAbierto(false);
       return;
     }
-    eliminarActividad(actividadEliminar)
-      .then(() => setActividades(prev => prev.filter(a => a.id !== actividadEliminar)))
-      .catch(console.error);
-    setModalEliminarAbierto(false);
-    acctionSucessful.fire({
-      imageUrl: Images.UsuarioEliminado,
-      imageAlt: 'Icono personalizado',
-      title: '¡Actividad eliminada correctamente!'
-    });
+
+    try {
+      await eliminarActividad(actividadEliminar);
+      setActividades((prev) => prev.filter((a) => a.id !== actividadEliminar));
+      mostrarAlerta(Images.UsuarioEliminado, "¡Actividad eliminada correctamente!");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setModalEliminarAbierto(false);
+    }
   };
 
   const abrirModalEliminar = (id) => {

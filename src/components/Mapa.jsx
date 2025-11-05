@@ -7,7 +7,7 @@ import { MapContainer, TileLayer, Marker, useMapEvent } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 // Importación de íconos personalizados para el mapa
-import * as Icons from "../assets/icons/IconsExportation" 
+import * as Icons from "../assets/icons/IconsExportation"
 import { acctionSucessful } from './alertSuccesful';
 import espera from '../assets/img/cargando.png'
 import exito from '../assets/img/usuarioCreado.png'
@@ -89,7 +89,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
           acctionSucessful.showLoading();
         }
       });
-  
+      // eslint-disable-next-line no-restricted-globals
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -118,7 +118,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
     <div className='mb-10 relative lg:shadow-2xl lg:rounded-b-3xl'>
       <h2 className='bg-[#00304D] text-white font-bold rounded-bl rounded-br rounded-3xl flex items-center px-4 py-3'>
         <img src={Icons.ubicacionMapa} className='mr-2' alt='iconoUbicacion' />
-          <span>Seleccione una ubicación en el mapa</span>
+        <span>Seleccione una ubicación en el mapa</span>
       </h2>
       <div className="flex justify-center relative">
         <MapContainer ref={mapRef} center={position} opacity={1} className='z-10 lg:rounded-b-3xl'

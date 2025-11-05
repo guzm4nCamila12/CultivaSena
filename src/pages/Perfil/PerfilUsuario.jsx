@@ -274,8 +274,8 @@ function PerfilUsuario() {
     if (Array.isArray(valor)) {
       return (
         <ul className="list-disc pl-4">
-          {valor.map((item, index) => (
-            <li key={index}>{renderValorTabla(item)}</li>
+          {valor.map((item) => (
+            <li key={item}>{renderValorTabla(item)}</li>
           ))}
         </ul>
       );
@@ -316,7 +316,7 @@ function PerfilUsuario() {
 
     return clave
       .replaceAll("_", " ")
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+      .replaceAll(/\b\w/g, (l) => l.toUpperCase());
   };
 
   const rolsito = obtenerRol();
@@ -392,6 +392,8 @@ function PerfilUsuario() {
         : rolsito === 3
           ? `/sensores-alterno/${usuario.id_finca}/${usuario.id}`
           : '/'
+
+  const tituloTabla = obtenerRol() === 1 ? "Historial" : obtenerRol() === 2 ? "Registro Actividades" : "Actividades Realizadas";
 
   return (
     <div>
@@ -568,7 +570,7 @@ function PerfilUsuario() {
               id={obtenerRol() === 1 ? 'tablaSuperAdmin' : obtenerRol() === 2 ? 'tablaAdmin' : 'tablaAlterno'}
               className="bg-[#002A43] pb-10  w-full xl:w-full shadow-slate-700 shadow-lg mt-3  2xl:mt-5  h-[36.4rem] max-h-[36.4rem] rounded-3xl flex flex-col items-center p-4">
               <h3 className="font-bold text-xl mt-1 text-white">
-                {obtenerRol() === 1 ? 'Historial' : obtenerRol() === 2 ? 'Registro Actividades' : "Actividades Realizadas"}
+                {tituloTabla}
               </h3>
               <Tabla
                 titulo={obtenerRol() === 1 ? 'Historial de Cambios' : 'Actividades'}

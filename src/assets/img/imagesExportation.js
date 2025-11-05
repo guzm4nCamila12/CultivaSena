@@ -1,33 +1,15 @@
-import usuarioCreado from './usuarioCreado.png';
-import sinFinca from './sinFincas.png';
-import UsuarioEliminado from './usuarioEliminado.png';
-import fotoPerfil from './perfilSuperAdmin.png';
-import Alerta from './alerta.png';
-import superAdminIcon from "./SuperAdmin.svg";
-import adminIcon from "./Admin.svg";
-import alternoIcon from "./Alterno.svg";
-import cultivaIcon from "./cultivaSena.png"
-import finca from "./finca.svg"
-import fincaPerfil from "./fincaPerfil.svg"
-import fincaTarjeta from "./fincaTarjeta.svg"
-import usuarioTarjeta from "./usuarioTarjeta.svg"
-import vacaTarjeta from "./vacaTarjeta.svg"
-import inicioSesion from "./inicioSesion.png"
-
-export {
-  usuarioCreado,
-  sinFinca,
-  UsuarioEliminado,
-  fotoPerfil,
-  Alerta,
-  superAdminIcon,
-  adminIcon,
-  alternoIcon,
-  cultivaIcon,
-  finca,
-  fincaPerfil,
-  fincaTarjeta,
-  usuarioTarjeta,
-  vacaTarjeta,
-  inicioSesion
-};
+export { default as usuarioCreado } from './usuarioCreado.png';
+export { default as sinFinca } from './sinFincas.png';
+export { default as UsuarioEliminado } from './usuarioEliminado.png';
+export { default as fotoPerfil } from './perfilSuperAdmin.png';
+export { default as Alerta } from './alerta.png';
+export { default as superAdminIcon } from './SuperAdmin.svg';
+export { default as adminIcon } from './Admin.svg';
+export { default as alternoIcon } from './Alterno.svg';
+export { default as cultivaIcon } from './cultivaSena.png';
+export { default as finca } from './finca.svg';
+export { default as fincaPerfil } from './fincaPerfil.svg';
+export { default as fincaTarjeta } from './fincaTarjeta.svg';
+export { default as usuarioTarjeta } from './usuarioTarjeta.svg';
+export { default as vacaTarjeta } from './vacaTarjeta.svg';
+export { default as inicioSesion } from './inicioSesion.png';

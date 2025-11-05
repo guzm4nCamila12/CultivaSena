@@ -1,6 +1,4 @@
 import './App.css';
-
-import Layout from './components/layouts/Layout';
 import AppRouter from './routes/AppRouter';
 function App() {
   return (

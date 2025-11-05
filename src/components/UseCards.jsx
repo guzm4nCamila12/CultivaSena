@@ -1,5 +1,5 @@
 // UserCards.jsx
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
 import ModalFechaRango from "./modals/FechaRango";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
-import Procesar from "../assets/icons/procesar.png"
 import fondoCards from '../assets/img/fondoCards.png'
 import fondoTitle from '../assets/img/fondoTitle.png'
 

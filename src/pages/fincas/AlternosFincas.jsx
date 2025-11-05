@@ -46,7 +46,7 @@ const AlternosFinca = () => {
   const acciones = (fila) => (
     <div className="flex justify-center gap-2">
       <button id="editarAlterno" className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all" onClick={() => {
-        const { "#": _, ...edit } = fila;
+        const { ["#"]: __, ...edit } = fila;
         setusuarioEditar(edit);
         setAlternoEditado(fila);
         setModalEditarAbierto(true);

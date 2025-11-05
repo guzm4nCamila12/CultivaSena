@@ -1,125 +1,61 @@
-import acercar from "./acercar.png"
-import actividadesIcon from "./actividades.png";
-import alejar from "./alejar.png"
-import ajustes from './acciones.png';
-import alternos from './alternos.png';
-import claveAzul from './claveAzul.png';
-import claveGris from './claveOculta.png';
-import correo from './correo.png';
-import correoAzul from './correoAzul.png';
-import cultivo from './cultivo.png'
-import descripcionAzul from './descripcionAzul.png'
-import editar from './editar.png';
-import etapa from "./etapa.png"
-import eliminar from './eliminar.png';
-import fincasIcon from './fincas.png';
-import nombreIcon from './nombres.png';
-import noVerClave from './eye-hidden.png';
-import rol from './rol.png';
-import rolAzul from './rolAzul.png';
-import sensoresIcon from './sensores.png';
-import sinFincas from './sinFincas.png';
-import telefono from './telefono.png';
-import telefonoAzul from './telefonoAzul.png';
-import telefonoGris from './phone.png';
-import usuarioAzul from './usuarioAzul.png';
-import ver from './ver.png';
-import verClave from './eye-open.png';
-import volver from './Volver.png';
-import volverVerde from './volverVerde.png'
-import zonasIcon from './zonas.png';
-import locacion from "./locacion.png"
-import marcador from "./marcador.png"
-import ubicacionMapa from "./ubicacion.png"
-import ubiActual from "./ubiActual.png"
-import mac from "./mac.png";
-import descripcion from "./descripcion.png"
-import estadoIcon from "./estado.png"
-import sensorAzul from "./sensorAzul.png"
-import nombre from "./nombres.png"
-import nombreZona from "./zonaAzul.png";
-import dato from "./dato.png";
-import hora from "./hora.png";
-import fecha from "./fecha.png";
-import idSensor from "./id.png"
-import noVerClaveAzul from "./NoVerClaveAzul.png"
-import verClaveAzul from './verClaveAzul1.png'
-import tipoDocumento from './tipoDocumento.png'
-import intercambio from './IntercambioIcon.svg';
-import buscar from './buscar.png';
-import fincasBlancas from './fincas.svg'
-import TransferirFinca from "./TransferirIcon.png";
-import fincaTarjeta from "./fincaTarjeta.svg"
-import sensoresTarjeta from "./sensores.svg"
-import zonaTarjeta from "./zona.svg"
-import usuarioTarjeta from "./usuarioTarjeta.svg"
-import fincaA from "./fincaA.png"
-import ajustesA from "./ajustesA.png"
-import fechaA from "./fechaA.png"
-import actividadesA from "./actividadesA.png"
-import zonaA from "./zonaA.png"
-import error from "./error.svg"
-
-export {
-  ajustes,
-  alternos,
-  actividadesIcon,
-  acercar,
-  alejar,
-  claveAzul,
-  claveGris,
-  correo,
-  correoAzul,
-  cultivo,
-  editar,
-  eliminar,
-  etapa,
-  fincasIcon,
-  fincasBlancas,
-  locacion,
-  marcador,
-  nombre,
-  nombreIcon,
-  noVerClave,
-  nombreZona,
-  rol,
-  rolAzul,
-  sensoresIcon,
-  sensorAzul,
-  sinFincas,
-  telefono,
-  telefonoAzul,
-  telefonoGris,
-  usuarioAzul,
-  ubicacionMapa,
-  ubiActual,
-  ver,
-  verClave,
-  volver,
-  zonasIcon,
-  mac,
-  descripcion,
-  estadoIcon,
-  descripcionAzul,
-  dato,
-  hora,
-  idSensor,
-  fecha,
-  noVerClaveAzul,
-  verClaveAzul,
-  tipoDocumento,
-  intercambio,
-  buscar,
-  TransferirFinca,
-  fincaTarjeta,
-  sensoresTarjeta,
-  zonaTarjeta,
-  usuarioTarjeta,
-  fincaA,
-  fechaA,
-  ajustesA,
-  actividadesA,
-  zonaA,
-  volverVerde,
-  error
-};
+export { default as acercar } from './acercar.png';
+export { default as actividadesIcon } from './actividades.png';
+export { default as alejar } from './alejar.png';
+export { default as ajustes } from './acciones.png';
+export { default as alternos } from './alternos.png';
+export { default as claveAzul } from './claveAzul.png';
+export { default as claveGris } from './claveOculta.png';
+export { default as correo } from './correo.png';
+export { default as correoAzul } from './correoAzul.png';
+export { default as cultivo } from './cultivo.png';
+export { default as descripcionAzul } from './descripcionAzul.png';
+export { default as editar } from './editar.png';
+export { default as etapa } from './etapa.png';
+export { default as eliminar } from './eliminar.png';
+export { default as fincasIcon } from './fincas.png';
+export { default as nombreIcon } from './nombres.png';
+export { default as noVerClave } from './eye-hidden.png';
+export { default as rol } from './rol.png';
+export { default as rolAzul } from './rolAzul.png';
+export { default as sensoresIcon } from './sensores.png';
+export { default as sinFincas } from './sinFincas.png';
+export { default as telefono } from './telefono.png';
+export { default as telefonoAzul } from './telefonoAzul.png';
+export { default as telefonoGris } from './phone.png';
+export { default as usuarioAzul } from './usuarioAzul.png';
+export { default as ver } from './ver.png';
+export { default as verClave } from './eye-open.png';
+export { default as volver } from './Volver.png';
+export { default as volverVerde } from './volverVerde.png';
+export { default as zonasIcon } from './zonas.png';
+export { default as locacion } from './locacion.png';
+export { default as marcador } from './marcador.png';
+export { default as ubicacionMapa } from './ubicacion.png';
+export { default as ubiActual } from './ubiActual.png';
+export { default as mac } from './mac.png';
+export { default as descripcion } from './descripcion.png';
+export { default as estadoIcon } from './estado.png';
+export { default as sensorAzul } from './sensorAzul.png';
+export { default as nombre } from './nombres.png';
+export { default as nombreZona } from './zonaAzul.png';
+export { default as dato } from './dato.png';
+export { default as hora } from './hora.png';
+export { default as fecha } from './fecha.png';
+export { default as idSensor } from './id.png';
+export { default as noVerClaveAzul } from './NoVerClaveAzul.png';
+export { default as verClaveAzul } from './verClaveAzul1.png';
+export { default as tipoDocumento } from './tipoDocumento.png';
+export { default as intercambio } from './IntercambioIcon.svg';
+export { default as buscar } from './buscar.png';
+export { default as fincasBlancas } from './fincas.svg';
+export { default as TransferirFinca } from './TransferirIcon.png';
+export { default as fincaTarjeta } from './fincaTarjeta.svg';
+export { default as sensoresTarjeta } from './sensores.svg';
+export { default as zonaTarjeta } from './zona.svg';
+export { default as usuarioTarjeta } from './usuarioTarjeta.svg';
+export { default as fincaA } from './fincaA.png';
+export { default as ajustesA } from './ajustesA.png';
+export { default as fechaA } from './fechaA.png';
+export { default as actividadesA } from './actividadesA.png';
+export { default as zonaA } from './zonaA.png';
+export { default as error } from './error.svg';

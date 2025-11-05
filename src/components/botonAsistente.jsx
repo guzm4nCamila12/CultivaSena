@@ -37,6 +37,17 @@ export default function BotonAsistente() {
       const path = location.pathname;
       const alternarFlag = localStorage.getItem('Alternar') === 'true';
 
+      let sensoresAlternoSteps;
+
+      // Determinar los pasos para sensores alterno
+      if (vista === '/estadistica' || vista === '/reporte' || vista === '/sensores') {
+        sensoresAlternoSteps = ReporteSteps;
+      } else if (alternarFlag) {
+        sensoresAlternoSteps = sensorAlternosDriverSteps;
+      } else {
+        sensoresAlternoSteps = zonasAlternosDriverSteps;
+      }
+
       const routeMappings = [
         { match: '/lista-fincas', steps: fincaDriverSteps },
         { match: '/zonas', steps: vista === '/reporte' ? ReporteSteps : zonasDriverSteps },
@@ -50,16 +61,9 @@ export default function BotonAsistente() {
         { match: '/transferir-finca', steps: tranferirSteps },
         { match: '/datos-sensor', steps: datosSensorSteps },
         { match: '/inicio-SuperAdmin', steps: usuariosSteps },
-        {
-          match: '/sensores-alterno',
-          steps:
-            vista === '/estadistica' || vista === '/reporte' || vista === '/sensores'
-              ? ReporteSteps
-              : !alternarFlag
-                ? zonasAlternosDriverSteps
-                : sensorAlternosDriverSteps
-        }
+        { match: '/sensores-alterno', steps: sensoresAlternoSteps }
       ];
+
 
       const matched = routeMappings.find(route => path.includes(route.match));
       const steps = matched?.steps || mostarInfoDriverSteps;

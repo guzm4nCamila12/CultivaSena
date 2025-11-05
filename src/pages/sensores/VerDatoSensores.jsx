@@ -21,7 +21,6 @@ const formatearFechaYHora = (fechaIso) => {
   };
 };
 
-
 // Limita decimales
 const limitarValor = (valor, decimales = 4) =>
   Number.parseFloat(valor).toFixed(decimales);
@@ -31,14 +30,11 @@ export default function VerSensores() {
   const { id } = useParams();
   const [sensores, setSensores] = useState({});
   const [rawHistorial, setRawHistorial] = useState([]);      // ← datos crudos
-  const [datosSensor, setDatosSensores] = useState([]);      // ← datos formateados para la tabla
   const [tipoSensor, setTipoSensor] = useState({});
-  const [fechaFiltro, setFechaFiltro] = useState('');
   const [cargando, SetCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
   const { exportarSensorIndividual } = useExportarExcel();
-
 
   // Fetch sensor + historial
   useEffect(() => {
@@ -55,15 +51,7 @@ export default function VerSensores() {
         if (!historial || historial.length === 0) {
           setHayDatos(false);
         }
-        // Prepara los últimos 24 registros ordenados
-        const ultimos = (historial || [])
-          .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-          .slice(0, 24);
-        const datosGrafico = ultimos.map(item => {
-          const { fecha, hora } = formatearFechaYHora(item.fecha);
-          return { fecha, hora, valor: limitarValor(item.valor) };
-        });
-        setDatosSensores(datosGrafico);
+
       })
       .catch(err => {
         console.error(err);
@@ -86,18 +74,6 @@ export default function VerSensores() {
           valorFormateado: limitarValor(item.valor)
         };
       })
-      .filter(item => {
-        if (!fechaFiltro) return true;
-
-        const [añoFiltro, mesFiltro, diaFiltro] = fechaFiltro.split('-');
-        const [diaItem, mesItem, añoItem] = item.fechaFormateada.split('/');
-
-        const coincideDia = diaFiltro ? diaItem === diaFiltro : true;
-        const coincideMes = mesFiltro ? mesItem === mesFiltro : true;
-        const coincideAño = añoFiltro ? añoItem === añoFiltro : true;
-
-        return coincideDia && coincideMes && coincideAño;
-      });
   };
 
 
@@ -125,6 +101,44 @@ export default function VerSensores() {
     { key: "valor", label: "Datos", icon: Icons.dato, icon2: Icons.dato }
   ];
 
+  // Antes del return:
+  let contenido;
+
+  if (cargando) {
+    contenido = <p className="text-center">Cargando datos…</p>;
+  } else if (!hayDatos) {
+    contenido = <p className="text-center text-red-500">No hay datos para este sensor.</p>;
+  } else {
+    contenido = (
+      <>
+        {/* Tabla paginada */}
+        <MostrarInfo
+          columnas={columnas}
+          datos={datosPaginados}
+          mostrarAgregar={false}
+          mostrarBotonAtras={false}
+        />
+
+        {totalPaginas > 1 && (
+          <div className="flex justify-center space-x-2 mt-4">
+            {Array.from({ length: totalPaginas }).map((_, i) => (
+              <button
+                key={"indice"}
+                onClick={() => setPaginaActual(i + 1)}
+                className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1
+                    ? 'bg-[#00304D] hover:bg-[#002438] text-white'
+                    : 'bg-white text-[#00304D] hover:bg-gray'
+                  }`}
+              >
+                Página {i + 1}
+              </button>
+            ))}
+          </div>
+        )}
+      </>
+    );
+  }
+
   return (
     <div>
       <NavBar />
@@ -137,12 +151,6 @@ export default function VerSensores() {
             </h3>
           </div>
           <div className="flex items-end" title='Exportar historial de datos del sensor'>
-            {/* <input
-              type="date"
-              value={fechaFiltro}
-              onChange={e => setFechaFiltro(e.target.value)}
-              className="p-2 border rounded-xl mr-2"
-            /> */}
             <button
               id='exportarSteps'
               onClick={() => exportarSensorIndividual(id)}
@@ -169,37 +177,7 @@ export default function VerSensores() {
 
         </div>
       </div>
-      {cargando ? (
-        <p className="text-center">Cargando datos…</p>
-      ) : !hayDatos ? (
-        <p className="text-center text-red-500">No hay datos para este sensor.</p>
-      ) : (
-        <>
-
-          {/* Tabla paginada */}
-          <MostrarInfo
-            columnas={columnas}
-            datos={datosPaginados}
-            mostrarAgregar={false}
-            mostrarBotonAtras={false}
-          />
-
-          {totalPaginas > 1 && (
-            <div className="flex justify-center space-x-2 mt-4">
-              {Array.from({ length: totalPaginas }).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setPaginaActual(i + 1)}
-                  className={`px-3 py-1 mb-8 rounded-full flex items-center justify-center transition-all ${paginaActual === i + 1 ? 'bg-[#00304D] hover:bg-[#002438] text-white' : 'bg-white text-[#00304D] hover:bg-gray'}`}
-
-                >
-                  Página {i + 1}
-                </button>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+      {contenido}
     </div >
   );
 }

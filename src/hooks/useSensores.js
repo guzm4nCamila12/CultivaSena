@@ -6,7 +6,6 @@ import {
   getSensoresById,
   getSensoresZonasById,
   crearSensor,
-  getTiposSensor,
   editarSensor,
   eliminarSensores,
   insertarDatos,
@@ -274,7 +273,7 @@ export function useSensores(id, idUser) {
         return updated;
       });
 
-      const respuesta = await insertarDatos(updatedSensor.mac);
+      await insertarDatos(updatedSensor.mac);
     } catch (err) {
       console.error("Error al cambiar estado del sensor:", err);
     }

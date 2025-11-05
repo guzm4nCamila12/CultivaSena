@@ -109,7 +109,7 @@ const Tabla = ({
 
                 return (
                   <th
-                    key={idx}
+                    key={col.key}
                     className={`${base} ${roundedL}${roundedR} ${sticky} `}
                     style={{ color: colorTextoEncabezado, backgroundColor: colorEncabezado, ...(isAcc && { right: '-1rem' }) }}
                   >
@@ -182,7 +182,7 @@ const Tabla = ({
                     if (isAcciones) {
                       return (
                         <td
-                          key={cidx}
+                          key={columna.key}
                           className={`sticky  lg:static right-0 z-30 p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}
                           style={{ right: '-1rem' }}
                         >
@@ -211,7 +211,7 @@ const Tabla = ({
                       );
                     }
                     return (
-                      <td key={cidx} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}>
+                      <td key={columna.key} className={`p-2 md:p-3 text-left text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white ${borderL}${borderR}`}>
                         {columna.key === '#' ? rowIndex + 1 : fila[columna.key]}
                       </td>
                     );

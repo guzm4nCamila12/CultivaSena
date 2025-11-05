@@ -25,7 +25,7 @@ export default function TransferirFInca() {
         (propietario === null || u.id !== propietario.id) &&
         u.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
-    
+
     return (
         <div>
             <Navbar />
@@ -42,7 +42,7 @@ export default function TransferirFInca() {
                 </div>
                 <div className='flex flex-wrap lg:flex-row justify-center items-center w-auto rounded-3xl '>
                     {/*Contenedor para las fincas del Primer usuario*/}
-                    {propietario !== null ? (
+                    {propietario ? (
                         <div className='w-full px-8 lg:w-[40%] pb-9 pt-7  shadow-2xl rounded-3xl '>
                             <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador.</p>
                             <div className=' w-auto mx-4'>
@@ -64,7 +64,12 @@ export default function TransferirFInca() {
                                         fincasPropias.map((finca) => (
                                             <button
                                                 key={finca.id}
-                                                onClick={() => usuarioSeleccionado !== null && setFincaTransferir(finca.id)}
+                                                onClick={() => {
+                                                    if (usuarioSeleccionado) {
+                                                        setFincaTransferir(finca.id);
+                                                    }
+                                                }}
+
                                                 className={`flex rounded-3xl px-5 py-2 my-3 w-full cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg font-medium ${fincaTransferir === finca.id ? 'bg-[#39A900] text-white' : 'bg-gray-200 hover:bg-gray-300'}`} >
                                                 <h2 key={finca.id}>{finca.nombre}</h2>
                                             </button>
@@ -85,7 +90,7 @@ export default function TransferirFInca() {
                     <div id='transferirSteps' className='flex w-full lg:w-[20%] flex-col items-center justify-center mx-5 lg:m-auto '>
                         <button
                             onClick={() => {
-                                if (fincaTransferir !== null) {
+                                if (fincaTransferir) {
                                     setModalTransferirAbierto(true);
                                 } else {
                                     acctionSucessful.fire({
@@ -106,7 +111,7 @@ export default function TransferirFInca() {
                     </div>
 
                     {/*Contenedor para las fincas del segundo usuario*/}
-                    {usuarioSeleccionado !== null ? (
+                    {usuarioSeleccionado ? (
                         <div className='w-full px-8 lg:w-[40%] mt-4 lg:mt-0 pb-9 pt-7  shadow-2xl rounded-3xl'>
                             {/* <button onClick={() => setAbrirModalBuscar(true)}>Seleccionar</button> */}
                             <p className='font-semibold text-xl text-left ml-7'>Seleccione un administrador.</p>
@@ -182,7 +187,7 @@ export default function TransferirFInca() {
                     message={
                         <>
                             ¿Estás seguro?<br />
-                            <span className='text-gray-400'>Vas a transferir la finca a <strong className="text-[#39A900]">{usuarioSeleccionado !== null ? `${usuarioSeleccionado.nombre}` : ""}</strong>.</span>
+                            <span className='text-gray-400'>Vas a transferir la finca a <strong className="text-[#39A900]">{usuarioSeleccionado?.nombre ?? ""}</strong>.</span>
                         </>
                     }
                     confirmButton={true}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { restablecerClave } from '../services/usuarios/ApiUsuarios';
 export default function useRestablecer(propToken) {
     const [NuevaClave, setNuevaClave] = useState({
@@ -16,7 +16,7 @@ export default function useRestablecer(propToken) {
     const restablecer = async (e) =>{
         e.preventDefault();
         try {
-            const data = await restablecerClave(NuevaClave);
+            await restablecerClave(NuevaClave);
         } catch (error) {
             error(error)
         }

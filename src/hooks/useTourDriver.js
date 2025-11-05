@@ -5,21 +5,23 @@ import 'driver.js/dist/driver.min.css';
 import '../assets/driver.css';
 
 export function useDriverTour() {
-  // Deshabilita interacción en todo menos el popover y elemento resaltado
+  // Deshabilita interacción excepto en el popver y el elemento resaltado
   const deshabilitarInteraccion = () => {
     const all = document.querySelectorAll(
       'body *:not(.driver-popover):not(.driver-popover *)'
     );
-    all.forEach(el => el.classList.add('tour-disabled'));
+    for (const el of all) {
+      el.classList.add('tour-disabled');
+    }
   };
 
   // Reactiva toda la interacción
   const habilitarInteraccion = () => {
-    document.querySelectorAll('.tour-disabled').forEach(el => {
+    const elementos = document.querySelectorAll('.tour-disabled');
+    for (const el of elementos) {
       el.classList.remove('tour-disabled');
-    });
+    }
   };
-
   // Referencia a la instancia de Driver.js
   const driverRef = useRef(
     new Driver({

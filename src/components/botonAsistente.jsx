@@ -6,9 +6,11 @@ import TourAmarillo from '../assets/icons/recorrido.svg'
 import cerrar from '../assets/icons/x.png';
 import { useLocation } from 'react-router-dom';
 import { useDriverTour } from "../hooks/useTourDriver";
-import { fincaDriverSteps, zonasDriverSteps, actividadesDriverSteps, mostarInfoDriverSteps, sensoresDriverSteps, alternosDriverSteps, 
-        sensorAlternosDriverSteps, crearFincaSteps, editarFincaSteps, perfilUsuarioSteps, tranferirSteps, ReporteSteps, datosSensorSteps, 
-        usuariosSteps, zonasAlternosDriverSteps } from '../utils/aplicationSteps';
+import {
+  fincaDriverSteps, zonasDriverSteps, actividadesDriverSteps, mostarInfoDriverSteps, sensoresDriverSteps, alternosDriverSteps,
+  sensorAlternosDriverSteps, crearFincaSteps, editarFincaSteps, perfilUsuarioSteps, tranferirSteps, ReporteSteps, datosSensorSteps,
+  usuariosSteps, zonasAlternosDriverSteps
+} from '../utils/aplicationSteps';
 
 //Funcion con boton de pqrs 
 export default function BotonAsistente() {
@@ -29,63 +31,48 @@ export default function BotonAsistente() {
     localStorage.setItem("tour_usuario_visto", "false");
 
     setTimeout(() => {
-      setVisible(false)
+      setVisible(false);
+
       const vista = location.state?.vista ?? "";
-      if (location.pathname.includes('/lista-fincas')) {
-        startTour(fincaDriverSteps);
-      } else if (location.pathname.includes('/zonas')) {
-        const isReporte = vista === '/reporte';
-        startTour(isReporte ? ReporteSteps : zonasDriverSteps);
-      } else if (location.pathname.includes('/actividadesZonas')) {
-        startTour(actividadesDriverSteps);
-      } else if (location.pathname.includes('/activar-sensores')) {
-        const isReporte = vista === '/estadistica' || vista === '/sensores';
-        startTour(isReporte ? ReporteSteps : sensoresDriverSteps);
-      } else if (location.pathname.includes('/alternos')) {
-        startTour(alternosDriverSteps);
-      } else if (location.pathname.includes('/sensoresZonas')) {
-        startTour(sensoresDriverSteps)
-      } else if (location.pathname.includes('/agregar-finca')) {
-        startTour(crearFincaSteps);
-      } else if (location.pathname.includes('/editar-finca')) {
-        startTour(editarFincaSteps)
-      } else if (location.pathname.includes('/perfil-usuario')) {
-        startTour(perfilUsuarioSteps)
-      } else if (location.pathname.includes('/sensores-alterno')) {
-        const isReporte = vista === '/estadistica' || vista === '/reporte' || vista === '/sensores'
-        const alternarFlag = localStorage.getItem('Alternar') === 'true';
-        const definirSteps = () => {
-          if (isReporte) {
-            return ReporteSteps;
-          }
-          else if (!alternarFlag) {
-            return zonasAlternosDriverSteps;
-          } else {
-            return sensorAlternosDriverSteps;
-          }
-        };
+      const path = location.pathname;
+      const alternarFlag = localStorage.getItem('Alternar') === 'true';
 
-        const steps = definirSteps();
-
-        if (!Array.isArray(steps) || steps.length === 0) {
-          console.error('❌ No hay pasos definidos para esta ruta');
-          return;
+      const routeMappings = [
+        { match: '/lista-fincas', steps: fincaDriverSteps },
+        { match: '/zonas', steps: vista === '/reporte' ? ReporteSteps : zonasDriverSteps },
+        { match: '/actividadesZonas', steps: actividadesDriverSteps },
+        { match: '/activar-sensores', steps: vista === '/estadistica' || vista === '/sensores' ? ReporteSteps : sensoresDriverSteps },
+        { match: '/alternos', steps: alternosDriverSteps },
+        { match: '/sensoresZonas', steps: sensoresDriverSteps },
+        { match: '/agregar-finca', steps: crearFincaSteps },
+        { match: '/editar-finca', steps: editarFincaSteps },
+        { match: '/perfil-usuario', steps: perfilUsuarioSteps },
+        { match: '/transferir-finca', steps: tranferirSteps },
+        { match: '/datos-sensor', steps: datosSensorSteps },
+        { match: '/inicio-SuperAdmin', steps: usuariosSteps },
+        {
+          match: '/sensores-alterno',
+          steps:
+            vista === '/estadistica' || vista === '/reporte' || vista === '/sensores'
+              ? ReporteSteps
+              : !alternarFlag
+                ? zonasAlternosDriverSteps
+                : sensorAlternosDriverSteps
         }
-        startTour(steps);
+      ];
+
+      const matched = routeMappings.find(route => path.includes(route.match));
+      const steps = matched?.steps || mostarInfoDriverSteps;
+
+      if (!Array.isArray(steps) || steps.length === 0) {
+        console.error('❌ No hay pasos definidos para esta ruta');
+        return;
       }
 
-      else if (location.pathname.includes('/transferir-finca')) {
-        startTour(tranferirSteps)
-      } else if (location.pathname.includes('/datos-sensor')) {
-        startTour(datosSensorSteps)
-      } else if (location.pathname.includes('/inicio-SuperAdmin')) {
-        startTour(usuariosSteps)
-      }
-      else {
-        startTour(mostarInfoDriverSteps); // fallback
-      }
-    }, 300); // Ajusta el delay si es necesario
+      startTour(steps);
+    }, 300);
   };
+
 
 
   return (

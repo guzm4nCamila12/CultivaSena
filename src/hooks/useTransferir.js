@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { getFincasById } from '../services/fincas/ApiFincas';
-import { editarFinca } from '../services/fincas/ApiFincas';
+import { getFincasById, editarFinca } from '../services/fincas/ApiFincas';
 import { acctionSucessful } from "../components/alertSuccesful";
 import { usuarioCreado } from '../assets/img/imagesExportation';
 

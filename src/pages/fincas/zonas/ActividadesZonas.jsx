@@ -233,9 +233,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label htmlFor='input-editarDescripcion' className="font-semibold">Descripción</label>
+                                        <label htmlFor='descripcion' className="font-semibold">Descripción</label>
                                         <input
-                                            id='input-editarDescripcion'
+                                            id='descripcion'
                                             type="text"
                                             name="descripcion"
                                             required
@@ -246,9 +246,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label htmlFor='input-editarFechaInicio' className="font-semibold">Fecha Inicio</label>
+                                        <label htmlFor='fecha-inicio' className="font-semibold">Fecha Inicio</label>
                                         <input
-                                            id='input-editarFechaInicio'
+                                            id='fecha-inicio'
                                             type="datetime-local"
                                             name="fechainicio"
                                             required
@@ -259,9 +259,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-4">
-                                        <label htmlFor='input-editarFechaFinalizacion' className="font-semibold">Fecha Finalización</label>
+                                        <label htmlFor='fecha-fin' className="font-semibold">Fecha Finalización</label>
                                         <input
-                                            id='input-editarFechaFinalizacion'
+                                            id='fecha-fin'
                                             type="datetime-local"
                                             name="fechafin"
                                             required

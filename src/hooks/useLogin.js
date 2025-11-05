@@ -2,10 +2,9 @@ import { useState } from "react";
 import { login, editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
 import { acctionSucessful } from "../components/alertSuccesful"
-import { Alerta } from "../assets/img/imagesExportation";
 import { jwtDecode } from "jwt-decode";
 import cerrar from "../assets/img/sesionFinalizada.png"
-import { inicioSesion } from "../assets/img/imagesExportation";
+import { inicioSesion, Alerta } from "../assets/img/imagesExportation";
 
 export function useLogin() {
 

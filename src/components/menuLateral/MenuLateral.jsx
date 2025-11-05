@@ -7,16 +7,32 @@ import logoC from '../../assets/img/logoC.svg'
 // Iconos
 import Inicio from "../../assets/icons/inicio.svg";
 import cultivaSena from "../../assets/icons/cultivaSenaIcon.svg";
-import Estadisticas from "../../assets/icons/estadisticas.svg";
-import Reporte from "../../assets/icons/reportes.svg";
 import cerrarSesionIcon from "../../assets/icons/cerrarSesion.svg";
 import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesExportation';
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
-import sensor from "../../assets/icons/reporteSensores.svg"
-import { fincasBlancas, TransferirFinca } from '../../assets/icons/IconsExportation';
+import { TransferirFinca } from '../../assets/icons/IconsExportation';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 import { usePermisos } from '../../hooks/usePermisos';
+import EstadisticasMenu from './modules/estadisticasMenu';
+import ReporteActividadesMenu from './modules/reporteActividades';
+import ReporteSensoresMenu from './modules/reporteSensores';
+
+// Obtener ícono según rol
+const obtenerRol = () => {
+    switch (rolToken()) {
+        case 1: return superAdminIcon;
+        case 2: return adminIcon;
+        case 3: return alternoIcon;
+        default: return alternoIcon;
+    }
+};
+
+function goInicio(navigate) {
+    const ruta = localStorage.getItem('principal') || '/';
+    navigate(ruta);
+}
+
 
 export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
     const navigate = useNavigate();
@@ -26,25 +42,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
     const [cargandoFincas, setCargandoFincas] = useState(true);
     const [usuario, setUsuario] = useState({ nombre: "", telefono: "", correo: "", clave: "", id_rol: "" });
     const { permisos } = usePermisos()
-    // Obtener ícono según rol
-    const obtenerRol = () => {
-        switch (rolToken()) {
-            case 1: return superAdminIcon;
-            case 2: return adminIcon;
-            case 3: return alternoIcon;
-            default: return alternoIcon;
-        }
-    };
 
     const toggleSubmenu = (submenu) => {
         setSubmenuAbierto(prev => (prev === submenu ? null : submenu));
     };
 
-    // Navegar a inicio
-    const goInicio = () => {
-        const ruta = localStorage.getItem('principal') || '/';
-        navigate(ruta);
-    };
 
     const rol = rolToken()
 
@@ -89,7 +91,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
             {/* Navegación */}
             <div className="flex-1 px-4 pt-6 space-y-7">
                 <button onClick={() => {
-                    goInicio()
+                    goInicio(navigate)
                     onCloseMenu()
                 }} className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
                     <img src={Inicio} alt="Inicio" className="h-6 w-6 mr-3" />
@@ -107,162 +109,40 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                 </div>
 
                 {/* Estadísticas */}
-                {rol !== 1 && (
-                    <button>
-                        {rol === 3 ? (
-                            <button
-                                onClick={() => {
-                                    navigate(`/sensores-alterno/${idFinca}/${idUser}`, {
-                                        state: {
-                                            enableSelectionButton: true,
-                                            titulo: "Seleccione sensores para generar grafica",
-                                            vista: "/estadistica",
-                                            tipo: "/reporteSensores"
-                                        }
-                                    });
-                                    onCloseMenu(); // Cierra el menú
-                                }}
-                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                            >
-
-
-                                <img src={Estadisticas} alt="Estadisticas" className="h-6 w-7 mr-2" />
-                                <span>Estadistícas</span>
-                            </button>
-                        ) : (
-                            <div id='estadisticasSteps'>
-                                <button
-                                    onClick={() => toggleSubmenu('estadisticas')}
-                                    className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                                >
-                                    <img src={Estadisticas} alt="Estadísticas" className="h-6 w-7 mr-2" />
-                                    <span>Estadísticas</span>
-                                </button>
-                                <div className={`pl-10 flex mt-2 flex-col text-sm space-y-2 text-white transition-all duration-300 ease-in-out transform origin-top ${submenuAbierto === 'estadisticas' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                                    {cargandoFincas
-                                        ? <span>Cargando...</span>
-                                        : fincas.map(finca => (
-                                            <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`} state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar gráfica. ", vista: "/estadistica" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out"
-                                            >
-                                                <div className='flex'>
-                                                    <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                                    <h3> {finca.nombre}</h3>
-                                                </div>
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        )}
-                    </button>
-                )}
+                <EstadisticasMenu
+                    rol={rol}
+                    idFinca={idFinca}
+                    idUser={idUser}
+                    submenuAbierto={submenuAbierto}
+                    toggleSubmenu={toggleSubmenu}
+                    cargandoFincas={cargandoFincas}
+                    fincas={fincas}
+                    onCloseMenu={onCloseMenu}
+                />
 
                 {/* Reporte Actividades / Acciones */}
-                {rol !== 1 && (
-                    <div>
-                        {rol === 3 ? (
-                            // Rol 3: botón directo a alterno
-                            <button
-                                onClick={() => {
-                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
-                                        state: {
-                                            enableSelectionButton: true,
-                                            titulo: "Seleccione zonas para generar reporte",
-                                            vista: "/reporte",
-                                            tipo: "/reporteZonas"
-                                        }
-                                    });
-                                    onCloseMenu();
-                                }}
-                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                            >
+                <ReporteActividadesMenu
+                    rol={rol}
+                    idFinca={idFinca}
+                    idUser={idUser}
+                    submenuAbierto={submenuAbierto}
+                    toggleSubmenu={toggleSubmenu}
+                    cargandoFincas={cargandoFincas}
+                    fincas={fincas}
+                    onCloseMenu={onCloseMenu}
+                />
 
-                                <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
-                                <span>Reporte Actividades</span>
-                            </button>
-                        ) : (
-                            // Rol 2.: menú desplegable estándar
-                            <button>
-                                <button
-                                    onClick={() => toggleSubmenu('reporte')}
-                                    className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                                >
-                                    <img src={Reporte} alt="Reporte Actividades" className="h-8 w-8 mr-2" />
-                                    <span>Reporte Actividades</span>
-                                </button>
-                                <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top
-                                 ${submenuAbierto === 'reporte' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}
-                                >
-                                    {cargandoFincas
-                                        ? <span>Cargando...</span>
-                                        : fincas.map(finca => (
-                                            <Link
-                                                key={finca.id}
-                                                to={`/zonas/${finca.id}/${obtenerIdUsuario()}`}
-                                                state={{ enableSelectionButton: true, titulo: "Seleccione zonas para generar reporte", vista: "/reporte" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 duration-300 ease-in-out transition flex items-center"
-                                            >
-                                                <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                                <h3>{finca.nombre}</h3>
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                            </button>
-                        )}
-                    </div>
-                )}
-
-                {rol !== 1 && (
-                    <div>
-                        {rol === 3 ? (
-                            <button
-                                onClick={() => {
-                                    navigate(`/sensores-alterno/${idFinca}/${obtenerIdUsuario()}`, {
-                                        state: {
-                                            enableSelectionButton: true,
-                                            titulo: "Seleccione sensores para generar reporte.",
-                                            vista: "/sensores",
-                                            tipo: "/reporteSensores"
-                                        }
-                                    });
-                                    onCloseMenu();
-                                }}
-                                className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                            >
-
-                                <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
-                                <span>Reporte Sensores</span>
-                            </button>
-                        ) : (
-                            <div>
-                                <button
-                                    onClick={() => toggleSubmenu('sensores')}
-                                    className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out text-white"
-                                >
-                                    <img src={sensor} alt="Reporte Actividades" className="h-8 w-8 mr-2 ml-1" />
-                                    <span>Reporte Sensores</span>
-                                </button>
-                                <div className={`pl-12 mt-2 text-md flex flex-col space-y-2 transition-all duration-300 ease-in-out transform origin-top 
-                                ${submenuAbierto === 'sensores' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 h-0'}`}>
-                                    {cargandoFincas
-                                        ? <span>Cargando...</span>
-                                        : fincas.map(finca => (
-                                            <Link to={`/activar-sensores/${finca.id}/${obtenerIdUsuario()}`}
-                                                state={{ enableSelectionButton: true, titulo: "Seleccione sensores para generar reporte. ", vista: "/sensores" }}
-                                                className="cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out flex"
-                                            >
-                                                <img src={fincasBlancas} alt="" className='mr-1 w-5' />
-                                                <h3> {finca.nombre}</h3>
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                )}
+                {/* Reporte Sensores / Acciones */}
+                <ReporteSensoresMenu
+                    rol={rol}
+                    idFinca={idFinca}
+                    idUser={idUser}
+                    submenuAbierto={submenuAbierto}
+                    toggleSubmenu={toggleSubmenu}
+                    cargandoFincas={cargandoFincas}
+                    fincas={fincas}
+                    onCloseMenu={onCloseMenu}
+                />
 
                 {/*Transferir fincas(Solo para superAdmin)*/}
                 {rolToken() === 1 && (

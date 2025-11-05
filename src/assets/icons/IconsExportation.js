@@ -59,3 +59,6 @@ export { default as fechaA } from './fechaA.png';
 export { default as actividadesA } from './actividadesA.png';
 export { default as zonaA } from './zonaA.png';
 export { default as error } from './error.svg';
+export { default as Estadisticas } from './estadisticas.svg'
+export { default as Reporte } from './reportes.svg'
+export { default as sensor } from './reporteSensores.svg'

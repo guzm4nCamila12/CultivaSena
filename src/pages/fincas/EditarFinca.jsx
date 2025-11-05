@@ -1,10 +1,8 @@
 //importaciones necesarias de react
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router";
 //imgs de los modales
 import usuarioCreado from "../../assets/img/usuarioCreado.png"
-//icono del input
-import fincaNombre from "../../assets/icons/fincaAzul.png"
 //endpoints para consumir api
 import { editarFinca, getFincasByIdFincas } from "../../services/fincas/ApiFincas";
 //componentes reutilizados
@@ -14,7 +12,6 @@ import { acctionSucessful } from "../../components/alertSuccesful";
 import { validarSinCambios } from "../../utils/validaciones";
 import BotonAtras from "../../components/botonAtras";
 import finca from "../../assets/icons/fincaAzul.png"
-
 import { useDriverTour } from "../../hooks/useTourDriver";
 import { editarFincaSteps } from "../../utils/aplicationSteps";
 

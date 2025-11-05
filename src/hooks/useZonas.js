@@ -5,6 +5,7 @@ import * as Images from '../assets/img/imagesExportation';
 import { validarSinCambios } from "../utils/validaciones";
 
 export const useZonas = (id) => {
+  
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [zonaEliminar, setZonaEliminar] = useState(null);

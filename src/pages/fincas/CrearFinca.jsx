@@ -49,7 +49,7 @@ const Agregar = () => {
     const nuevaFinca = { idUsuario: Number(id), nombre, ubicacion };
 
     try {
-      const response = await crearFinca(nuevaFinca);
+      await crearFinca(nuevaFinca);
       // Si la respuesta es válida, se maneja de forma exitosa
       acctionSucessful.fire({
         imageUrl: usuarioCreado,

@@ -233,8 +233,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Descripción</label>
+                                        <label htmlFor='descripcion' className="font-semibold">Descripción</label>
                                         <input
+                                            id='descripcion'
                                             type="text"
                                             name="descripcion"
                                             required
@@ -245,8 +246,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-2">
-                                        <label className="font-semibold">Fecha Inicio</label>
+                                        <label htmlFor='fecha-inicio' className="font-semibold">Fecha Inicio</label>
                                         <input
+                                            id='fecha-inicio'
                                             type="datetime-local"
                                             name="fechainicio"
                                             required
@@ -257,8 +259,9 @@ export default function ActividadesZonas() {
                                     </div>
 
                                     <div className="mb-4">
-                                        <label className="font-semibold">Fecha Finalización</label>
+                                        <label htmlFor='fecha-fin' className="font-semibold">Fecha Finalización</label>
                                         <input
+                                            id='fecha-fin'
                                             type="datetime-local"
                                             name="fechafin"
                                             required

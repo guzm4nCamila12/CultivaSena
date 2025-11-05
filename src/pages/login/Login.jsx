@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { driver } from "driver.js";
-// import "driver.js/dist/driver.css";
-
 // componentes reutilizados
 
 import Gov from '../../components/gov';

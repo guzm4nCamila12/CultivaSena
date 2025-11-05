@@ -1,5 +1,4 @@
 //importaciones necesarias de react
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import cultivaBanner2 from '../../assets/img/cultivaBanner2.png'

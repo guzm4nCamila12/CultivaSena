@@ -95,19 +95,30 @@ const Zonas = () => {
 
   const zonasMapeadas = zonas.map(z => ({
     ...z,
-    verSensores: !isReporte ? (
-      <Link id="sensoresSteps" className="text-[#3366CC] font-bold" to={`/sensoresZonas/${z.id}/${idUser}`}>
-        ({z.cantidad_sensores ?? 0}) Ver más...
-      </Link>
-    ) : undefined,
+    verSensores: isReporte
+      ? undefined
+      : (
+        <Link
+          id="sensoresSteps"
+          className="text-[#3366CC] font-bold"
+          to={`/sensoresZonas/${z.id}/${idUser}`}
+        >
+          ({z.cantidad_sensores ?? 0}) Ver más...
+        </Link>
+      ),
     actividades: isReporte ? (
       <span className="font-bold">Seleccione para generar reporte</span>
     ) : (
-      <Link id="actividadesSteps" className="text-[#3366CC] font-bold" to={`/actividadesZonas/${z.id}`}>
+      <Link
+        id="actividadesSteps"
+        className="text-[#3366CC] font-bold"
+        to={`/actividadesZonas/${z.id}`}
+      >
         Ver más...
       </Link>
     ),
   }));
+
 
 
 

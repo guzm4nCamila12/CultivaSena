@@ -70,19 +70,7 @@ const Inicio = () => {
 
       {/* Botón Ver (sin fincas o con link) */}
       {permisos["ver fincas"]?.tienePermiso && (
-        fila.id_rol !== "Admin" ? (
-          <div id="verSinFincasSteps" className="relative group">
-            <button
-              onClick={() => setModalSinFincasAbierto(true)}
-              className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-            >
-              <img src={sinFincas} alt="Ver" className="absolute" />
-            </button>
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              Ver
-            </span>
-          </div>
-        ) : (
+        fila.id_rol === "Admin" ? (
           <div id="verSteps" className="relative group">
             <Link
               to={`/lista-fincas/${fila.id}`}
@@ -94,6 +82,19 @@ const Inicio = () => {
               Ver
             </span>
           </div>
+        ) : (
+          <div id="verSinFincasSteps" className="relative group">
+            <button
+              onClick={() => setModalSinFincasAbierto(true)}
+              className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
+            >
+              <img src={sinFincas} alt="Ver" className="absolute" />
+            </button>
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              Ver
+            </span>
+          </div>
+
         )
       )}
 
@@ -169,7 +170,7 @@ const Inicio = () => {
                 <img src={Images.sinFinca} alt="icono" />
               </div>
               <p className="text-xl text-center font-bold">No hay fincas registradas</p>
-              <p className="text-gray-500 text-center text-xl">Agrega una finca para visualizar los datos.</p>
+              <p className="text-gray-500 text-center text-xl">Este usuario no puede tener fincas.</p>
               <div className="flex justify-between mt-6 space-x-4">
                 <button
                   className="w-full bg-[#009E00] hover:bg-[#005F00] text-white font-bold py-3 rounded-full text-lg"

@@ -29,8 +29,8 @@ const Login = () => {
   }, []);
 
   //mostrar modal
-  const [isTelefonoOpen, setTelefonoOpen] = useState(false);
-  const [isConfirmOpen, setConfirmOpen] = useState(false);
+  const [telefonoOpen, setTelefonoOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   useEffect(() => {
     if (exito) {
@@ -105,7 +105,7 @@ const Login = () => {
                     <img src={mostrarClave ? verClave : noVerClave} alt="Toggle Visibility" />
                   </button>
                 </div>
-                <button className="text-white text-center w-full font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                <button type="button" className="text-white text-center w-full font-light cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
                 >¿Olvidaste tu contraseña?</button>
                 <button
                   id="btn-login"
@@ -119,7 +119,7 @@ const Login = () => {
             <img src={logoSena} alt="Sena Logo" />
           </div>
           <ModalTelefono
-            isOpen={isTelefonoOpen}
+            isOpen={telefonoOpen}
             onClose={() => setTelefonoOpen(false)}
             telefono={telefonoRecuperar}
             handleChange={handleChangeRecuperar}
@@ -128,7 +128,7 @@ const Login = () => {
             loading={loading}
           />
           <ModalConfirmacion
-            isOpen={isConfirmOpen}
+            isOpen={confirmOpen}
             onClose={() => setConfirmOpen(false)}
           />
         </div>
@@ -183,7 +183,7 @@ const Login = () => {
                       </button>
                     </form>
                   </div>
-                  <button className="text-white font-semibold pt-2 cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
+                  <button type="button" className="text-white font-semibold pt-2 cursor-pointer hover:text-gray-200" onClick={() => setTelefonoOpen(true)}
                   >¿Olvidaste tu contraseña?</button>
                 </div>
               </div>
@@ -193,7 +193,7 @@ const Login = () => {
             </div>
           </div>
           <ModalTelefono
-            isOpen={isTelefonoOpen}
+            isOpen={telefonoOpen}
             onClose={() => setTelefonoOpen(false)}
             telefono={telefonoRecuperar}
             handleChange={handleChangeRecuperar}
@@ -201,7 +201,7 @@ const Login = () => {
             error={error}
           />
           <ModalConfirmacion
-            isOpen={isConfirmOpen}
+            isOpen={confirmOpen}
             onClose={() => setConfirmOpen(false)}
           />
         </div>

@@ -22,6 +22,10 @@ const AlternosFinca = () => {
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
+  const acciones = () => {
+
+  }
+
   return (
     <>
       <Navbar />
@@ -29,7 +33,7 @@ const AlternosFinca = () => {
         titulo={`Alternos de la Finca ${fincas.nombre}`}
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
-        acciones={[]}
+        acciones={acciones}
         onAddUser={() => setModalInsertarAbierto(true)}
         mostrarAgregar={false}
       />

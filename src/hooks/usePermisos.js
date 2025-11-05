@@ -40,9 +40,9 @@ export const usePermisos = (id) => {
 
         // Convertir las respuestas a un objeto { "editar fincas": {tienePermiso: true}, ... }
         const permisosObj = {};
-        listaPermisos.forEach((permiso, i) => {
+        for (const [i, permiso] of listaPermisos.entries()) {
           permisosObj[permiso] = respuestas[i];
-        });
+        }
 
         setPermisos(permisosObj);
       } catch (error) {

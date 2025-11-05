@@ -56,15 +56,6 @@ function SensoresAlterno() {
   const tipo = location.state?.tipo ?? "";
 
   const [fincas, setFincas] = useState({});
-  const [usuario, setUsuario] = useState({});
-  const [formData, setFormData] = useState({
-    mac: null,
-    nombre: "",
-    descripcion: "",
-    estado: false,
-    idusuario: "",
-    idfinca: "",
-  });
 
   //se alterna entre los sensores y las zonas
 
@@ -96,7 +87,6 @@ function SensoresAlterno() {
     getSensoresById(id).then((data) => {
       if (data == null) {
         setSensores([]);
-        return
       } else {
         setSensores(data);
       }
@@ -108,20 +98,6 @@ function SensoresAlterno() {
       })
       .catch(error => console.error("Error: ", error));
   }, []);
-
-  //Se ejecuta cuando cambia el usuario o la finca, ajustando los datos
-  useEffect(() => {
-    if (usuario && fincas) {
-      setFormData({
-        mac: null,
-        nombre: "",
-        descripcion: "",
-        estado: false,
-        idusuario: usuario.id,
-        idfinca: fincas.id,
-      });
-    }
-  }, [usuario, fincas]);
 
   const getTitulo = () => {
     const nombreFinca = fincas?.nombre || '...';
@@ -219,8 +195,6 @@ function SensoresAlterno() {
   }));
 
   return (
-    <>
-
       <div >
         <Navbar />
         {!hideTabs && (
@@ -232,7 +206,7 @@ function SensoresAlterno() {
               Sensores
             </button>
             <button
-              className={`px-7 py-2 font-bold rounded-full transition ${!Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
+              className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-white text-[#00304D]" : "bg-[#39A900] text-white" }`}
               onClick={() => { setAlternar(false); localStorage.setItem("Alternar", "false"); }}
             >
               Zonas
@@ -304,8 +278,6 @@ function SensoresAlterno() {
         )}
 
       </div>
-
-    </>
   );
 }
 

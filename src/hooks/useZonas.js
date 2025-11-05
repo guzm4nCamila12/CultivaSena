@@ -43,7 +43,7 @@ export const useZonas = (id) => {
   };
 
   const abrirModalEditar = (zona) => {
-    const { cantidadSensores, verSensores, actividades, "#": removed, ...limpia } = zona;
+    const { cantidadSensores, verSensores, actividades, ...limpia } = zona;
     setZonaFormulario(limpia);
     setZonaOriginal(limpia);
     setModoFormulario("editar");

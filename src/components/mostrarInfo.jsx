@@ -1,3 +1,4 @@
+/* global globalThis */
 /* MostrarInfo.jsx */
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -23,15 +24,11 @@ function MostrarInfo({
   const [vistaActiva, setVistaActiva] = useState(
     () => localStorage.getItem('vistaActiva') || 'tarjetas'
   );
-  const [seleccionEnabled, setSeleccionEnabled] = useState(enableSelectionButton);
+
   const [seleccionados, setSeleccionados] = useState([]);
 
   const location = useLocation()
   const mostrarBotonAtras =  !location.pathname.includes('/datos-sensor/');
-
-  useEffect(() => {
-    setSeleccionEnabled(enableSelectionButton);
-  }, [enableSelectionButton]);
 
   useEffect(() => {
     setSeleccionados([]);
@@ -49,7 +46,7 @@ function MostrarInfo({
   const handleProcesar = () => {
     // Emitir evento personalizado o usar callback de props si lo necesitas
     const event = new CustomEvent('procesarSeleccionados');
-    window.dispatchEvent(event);
+    globalThis.dispatchEvent(event);
   };
 
   return (

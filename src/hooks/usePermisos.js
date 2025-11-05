@@ -9,7 +9,6 @@ export const usePermisos = (id) => {
     "ver zonas",
     "ver actividades",
     "ver sensores",
-    "ver alternos",
     "ver fincas",
 
     "editar zonas",

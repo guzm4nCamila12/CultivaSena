@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import Inicio from "../pages/inicio/Inicio";
 import Error404 from '../pages/Error404/Error404'
@@ -18,7 +17,6 @@ import ListaSensoresAlterno from "../pages/sensores/ListaSensoresAlterno";
 import PerfilUsuario from "../pages/Perfil/PerfilUsuario";
 import Estadistica from "../pages/sensores/EstadisticaSensores";
 import TransferirFInca from "../pages/fincas/TransferirFInca";
-import BotonAtras from "../components/botonAtras";
 import BotonAsistente from "../components/botonAsistente";
 import RedirigirSesion from "../components/auth/MantenerSesion";
 import AuthRedirect from "../components/auth/AuthRedirect";

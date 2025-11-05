@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { recuperarClave } from '../services/usuarios/ApiUsuarios';
 import { acctionSucessful } from '../components/alertSuccesful';
 import alerta from '../assets/img/alerta.png'
 
 export default function useRecuperarClave() {
-    const [telefonoRecuperar, setTelefono] = useState({
+    const [telefonoRecuperar, setTelefonoRecuperar] = useState({
         telefono: ""
     })
     const [exito, setExito] = useState(false);
@@ -12,7 +12,7 @@ export default function useRecuperarClave() {
 
     const handleChangeRecuperar = (e) => {
         const { name, value } = e.target
-        setTelefono((prev) => ({
+        setTelefonoRecuperar((prev) => ({
             ...prev,
             [name]: value
         }))
@@ -29,7 +29,7 @@ export default function useRecuperarClave() {
         setError(null);
         setExito(false);
         try {
-            const data = await recuperarClave(telefonoRecuperar);
+            await recuperarClave(telefonoRecuperar);
             setExito(true); 
 
         } catch (error) {

@@ -4,7 +4,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getFincasById } from '../../services/fincas/ApiFincas';
 import { obtenerIdUsuario, obtenerRol as rolToken, obtenerFinca } from '../../hooks/useDecodeToken';
 import logoC from '../../assets/img/logoC.svg'
-
 // Iconos
 import Inicio from "../../assets/icons/inicio.svg";
 import cultivaSena from "../../assets/icons/cultivaSenaIcon.svg";
@@ -15,8 +14,7 @@ import { superAdminIcon, adminIcon, alternoIcon } from '../../assets/img/imagesE
 import cerrarRojo from "../../assets/icons/cerrarRojo.svg"
 import cerrarIcon from "../../assets/icons/cerrar.png"
 import sensor from "../../assets/icons/reporteSensores.svg"
-import { fincasBlancas } from '../../assets/icons/IconsExportation';
-import { TransferirFinca } from '../../assets/icons/IconsExportation';
+import { fincasBlancas, TransferirFinca } from '../../assets/icons/IconsExportation';
 import { getUsuarioById } from '../../services/usuarios/ApiUsuarios';
 import { usePermisos } from '../../hooks/usePermisos';
 

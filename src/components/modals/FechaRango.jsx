@@ -1,5 +1,5 @@
 // src/components/ModalFechaRango.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import * as Images from "../../assets/img/imagesExportation";
 import { acctionSucessful } from "../alertSuccesful";
@@ -10,8 +10,7 @@ const ModalFechaRango = ({ isOpen, onClose, onConfirm, vista }) => {
 
   // Determinar texto del botón según la vista
   let btnText = "Generar Reporte";
-  if (vista === "/reporte") btnText = "Generar Reporte";
-  else if (vista === "/estadistica") btnText = "Generar Gráfica";
+  if (vista === "/estadistica") btnText = "Generar Gráfica";
 
   const handleConfirm = () => {
     if (!fechaInicio || !fechaFin) {

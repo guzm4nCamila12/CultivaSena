@@ -10,6 +10,18 @@ import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
 
+function getRoundedLeftClass(key, enableSelection, mostrarFotoPerfil) {
+  if (enableSelection && key === 'seleccionar') return 'rounded-l-full';
+  if (mostrarFotoPerfil && key === 'fotoPerfil') return 'rounded-l-full px-7';
+  if (
+    !mostrarFotoPerfil &&
+    ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(key)
+  ) {
+    return 'rounded-l-full';
+  }
+  return '';
+}
+
 const getRoleImage = (role) => {
   switch (role) {
     case "SuperAdmin": return Images.superAdminIcon;
@@ -88,6 +100,36 @@ const Tabla = ({
     setModalAbierto(false);
   };
 
+  function renderHeaderContent(col, isAcc, { showAllActions, seleccionados, datos, toggleAll }) {
+    if (col.key === 'seleccionar') {
+      return (
+        <input
+          id="seleccionarTodoSteps"
+          type="checkbox"
+          title="Seleccionar todos"
+          checked={seleccionados.length === datos.length}
+          onChange={toggleAll}
+          className="mx-auto cursor-pointer bg-white accent-[#39A900] rounded-full border-2"
+        />
+      );
+    }
+
+    return (
+      <>
+        {col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
+        {isAcc ? (
+          <>
+            <span className="hidden md:inline">{col.label}</span>
+            <span className="md:hidden">{showAllActions ? col.label : ''}</span>
+          </>
+        ) : (
+          <span className="pr-4">{col.label}</span>
+        )}
+      </>
+    );
+  }
+
+
   return (
     <div className="pb-4 w-full min-h-full h-auto max-h-[640px] flex flex-col">
       <div className="w-full overflow-x-auto overflow-y-auto h-auto rounded-lg">
@@ -96,53 +138,36 @@ const Tabla = ({
             <tr className="text-white">
               {encabezados.map((col, idx) => {
                 const isAcc = col.key === 'acciones';
+
                 const base = "p-2 md:p-3 text-left text-sm md:text-base border-t border-b border-gray-300 bg-[#00304D]";
-                let roundedL = '';
-                if (enableSelection) {
-                  if (col.key === 'seleccionar') roundedL = 'rounded-l-full';
-                } else {
-                  if (mostrarFotoPerfil && col.key === 'fotoPerfil') roundedL = 'rounded-l-full px-7';
-                  else if (!mostrarFotoPerfil && ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(col.key)) roundedL = 'rounded-l-full';
-                }
-                const roundedR = idx === encabezados.length - 1 ? ' rounded-r-full' : '';
+                const roundedL = getRoundedLeftClass(col.key, enableSelection, mostrarFotoPerfil);
+                const roundedR = idx === encabezados.length - 1 ? 'rounded-r-full' : '';
                 const sticky = isAcc ? 'sticky right-0 z-20' : '';
 
                 return (
                   <th
                     key={col.key}
-                    className={`${base} ${roundedL}${roundedR} ${sticky} `}
-                    style={{ color: colorTextoEncabezado, backgroundColor: colorEncabezado, ...(isAcc && { right: '-1rem' }) }}
+                    className={`${base} ${roundedL} ${roundedR} ${sticky}`}
+                    style={{
+                      color: colorTextoEncabezado,
+                      backgroundColor: colorEncabezado,
+                      ...(isAcc && { right: '-1rem' }),
+                    }}
                   >
                     <div className="flex items-center">
-                      {col.key === 'seleccionar' ? (
-                        <input
-                          id="seleccionarTodoSteps"
-                          type="checkbox"
-                          title="Seleccionar todos"
-                          checked={seleccionados.length === datos.length}
-                          onChange={toggleAll}
-                          className="mx-auto cursor-pointer bg-white accent-[#39A900] rounded-full border-2"
-                        />
-                      ) : (
-                        <>
-                          {/* Si es columna de acciones, mostramos el label siempre en pantallas md+ */}
-                          {col.icon2 && <img src={col.icon2} alt={col.label} className="mr-2" />}
-                          {isAcc ? (
-                            <>
-                              <span className="hidden md:inline">{col.label}</span>
-                              <span className="md:hidden">{showAllActions ? col.label : ''}</span>
-                            </>
-                          ) : (
-                            <span className="pr-4">{col.label}</span>
-                          )}
-                        </>
-                      )}
+                      {renderHeaderContent(col, isAcc, {
+                        showAllActions,
+                        seleccionados,
+                        datos,
+                        toggleAll,
+                      })}
                     </div>
                   </th>
                 );
               })}
             </tr>
           </thead>
+
           <tbody>
             {datos.length > 0 ? datos.map((fila, rowIndex) => {
               let colIndex = 0;
@@ -159,7 +184,6 @@ const Tabla = ({
                   {/* Foto Perfil */}
                   {mostrarFotoPerfil && (() => {
                     colIndex++;
-                    const isFirst = colIndex === 1;
                     const isLast = colIndex === encabezados.length;
                     return (
                       <td className={`rounded-l-full p-2 md:p-3 text-sm md:text-base h-14 border-t border-b border-gray-300 bg-white w-16 ${isLast ? 'rounded-r-full' : ''}`}>
@@ -176,7 +200,17 @@ const Tabla = ({
                   {columnasSinFoto.map((columna, cidx) => {
 
                     const isAcciones = columna.key === 'acciones';
-                    let borderL = enableSelection ? 'rounded-l-none' : !mostrarFotoPerfil && ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(columna.key) ? 'rounded-l-full' : '';
+                    let borderL = '';
+
+                    if (enableSelection) {
+                      borderL = 'rounded-l-none';
+                    } else if (
+                      !mostrarFotoPerfil &&
+                      ['nombre', 'cultivo', '#', 'operacion', 'finca_nombre', 'zona'].includes(columna.key)
+                    ) {
+                      borderL = 'rounded-l-full';
+                    }
+
                     let borderR = cidx === columnasSinFoto.length - 1 ? ' rounded-r-full' : '';
                     colIndex++;
                     if (isAcciones) {

@@ -1,5 +1,5 @@
 // src/screens/ActivarSensores.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 
 // Componentes reutilizables

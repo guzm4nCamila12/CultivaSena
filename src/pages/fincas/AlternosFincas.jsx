@@ -9,7 +9,6 @@ const AlternosFinca = () => {
   const {
     fincas,
     usuarios,
-    setModalInsertarAbierto,
   } = useAlternosFinca();
 
   useDriverTour(alternosDriverSteps)
@@ -34,7 +33,7 @@ const AlternosFinca = () => {
         columnas={columnas}
         datos={usuarios.map((usuario, index) => ({ ...usuario, "#": index + 1 }))}
         acciones={acciones}
-        onAddUser={() => setModalInsertarAbierto(true)}
+        onAddUser={() => { }}
         mostrarAgregar={false}
       />
 

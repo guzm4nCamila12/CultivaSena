@@ -25,8 +25,6 @@ export default function ListaFincas() {
 
   const { permisos } = usePermisos()
 
-  console.log('permisos',permisos)
-
   const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: fincasIcon },
     { key: "zonas", label: "Zonas", icon: zonasIcon, icon2: zonasIcon, permiso: "ver zonas" },

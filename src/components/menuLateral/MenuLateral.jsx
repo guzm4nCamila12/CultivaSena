@@ -96,11 +96,11 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                     <span>Inicio</span>
                 </button>
                 <div className="flex items-center cursor-pointer hover:text-[#39A900] hover:translate-x-2 transition duration-300 ease-in-out">
-                    <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7 mr-2" />
+                    <img src={cultivaSena} alt="Cultiva Sena" className="h-6 w-7" />
                     <Link
                         to={`${process.env.REACT_APP_API_URL_CULTIVA}/auth?id=${localStorage.getItem("user")}&token=${localStorage.getItem("session")}`}
                         rel="noopener noreferrer"
-                        className="bg-AzulMarino text-sm font-semibold px-4 py-3 lg:px-5 lg:py-3 rounded-full transition whitespace-nowrap"
+                        className="bg-AzulMarino text-sm font-semibold px-4 py-3 lg:px-2 lg:py-3 rounded-full transition whitespace-nowrap"
                     >
                         <span>Ir a <strong>CultivaSena</strong></span>
                     </Link>

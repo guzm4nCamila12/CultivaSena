@@ -31,14 +31,14 @@ export default function VerSensores() {
   const [sensores, setSensores] = useState({});
   const [rawHistorial, setRawHistorial] = useState([]);      // ← datos crudos
   const [tipoSensor, setTipoSensor] = useState({});
-  const [cargando, SetCargando] = useState(true);
+  const [cargando, setCargando] = useState(true);
   const [hayDatos, setHayDatos] = useState(true);
   const [paginaActual, setPaginaActual] = useState(1);
   const { exportarSensorIndividual } = useExportarExcel();
 
   // Fetch sensor + historial
   useEffect(() => {
-    SetCargando(true);
+    setCargando(true);
     getSensor(id)
       .then(data => {
         setSensores(data);
@@ -57,7 +57,7 @@ export default function VerSensores() {
         console.error(err);
         setHayDatos(false);
       })
-      .finally(() => SetCargando(false));
+      .finally(() => setCargando(false));
   }, [id]);
 
   // Filtrado por fecha para la tabla

@@ -1,7 +1,7 @@
 // src/screens/ActivarSensores.jsx
 import { useState } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
-
+import PropTypes from "prop-types";
 // Componentes reutilizables
 import Navbar from "../../components/navbar";
 import MostrarInfo from "../../components/mostrarInfo";
@@ -306,5 +306,17 @@ function ActivarSensores() {
     </>
   );
 }
+
+ActivarSensor.propTypes = {
+  sensor: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    nombre: PropTypes.string,
+    estado: PropTypes.bool.isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  rol: PropTypes.string.isRequired,
+  isEstadisticaView: PropTypes.bool.isRequired,
+  cambiarEstadoSensor: PropTypes.func.isRequired,
+};
 
 export default ActivarSensores;

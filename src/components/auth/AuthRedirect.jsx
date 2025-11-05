@@ -1,7 +1,8 @@
-import React, { useState, useEffect, } from 'react'
+import { useEffect, } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { traerToken } from '../../services/usuarios/ApiUsuarios'
 import { jwtDecode } from 'jwt-decode';
+
 export default function AuthRedirect() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();

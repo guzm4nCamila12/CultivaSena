@@ -84,7 +84,7 @@ export const useActividadesZona = (idZona) => {
   }, [idZona]);
 
   const handleActividadChange = (e) => {
-    const { name, value, options, selectedIndex } = e.target;
+    const { name, value } = e.target;
     // Si cambia la actividad, guardamos la etiqueta en lugar del valor
     if (name === 'actividad') {
       const actividadObj = actividadesPorEtapa[etapaSeleccionada]?.find(act => act.value === value);
@@ -218,7 +218,7 @@ export const useActividadesZona = (idZona) => {
     const actividadEditando = { ...actividad, actividad: actividadLabel };
 
     setActividadEditar(actividadEditando);
-    setActividadOriginal(actividadEditando); // 👈 Guardamos el original
+    setActividadOriginal(actividadEditando); // Guardamos el original
     setModalEditarActividad(true);
   };
 

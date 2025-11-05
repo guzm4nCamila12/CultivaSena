@@ -1,4 +1,4 @@
-// UserCards.jsx
+/* global globalThis */
 import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Images from '../assets/img/imagesExportation';
@@ -11,19 +11,18 @@ import fondoCards from '../assets/img/fondoCards.png'
 import fondoTitle from '../assets/img/fondoTitle.png'
 
 const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar, enableSelection = false, seleccionados, setSeleccionados }) => {
-  const [busqueda, setBusqueda] = useState("");
+  const [busqueda] = useState("");
   const [descripcionModal, setDescripcionModal] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [rangoFechas, setRangoFechas] = useState(null);
   const navigate = useNavigate();
   const { obtenerRangoFecha, reporteSensores } = useExportarExcel();
   const containerRef = useRef(null);
   const [isScrollable, setIsScrollable] = useState(false);
 
   useEffect(() => {
-    window.addEventListener('procesarSeleccionados', procesarSeleccionados);
-    return () => window.removeEventListener('procesarSeleccionados', procesarSeleccionados);
+    globalThis.addEventListener('procesarSeleccionados', procesarSeleccionados);
+    return () => globalThis.removeEventListener('procesarSeleccionados', procesarSeleccionados);
   }, [seleccionados, datos]);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
   };
 
   const handleConfirmRango = async ({ fechaInicio, fechaFin }) => {
-    setRangoFechas({ fechaInicio, fechaFin });
     if (vista === "/reporte") {
       const seleccionadosConNombre = seleccionados.map(id => {
         const item = datos.find(d => d.id === id);
@@ -85,93 +83,105 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
     }
   };
 
+  let contenido;
+
+  if (datosFiltrados.length === 0) {
+    if (mostrarAgregar) {
+      contenido = (
+        <button
+          id='crearSteps'
+          onClick={onAddUser}
+          className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer transition hover:scale-95"
+        >
+          <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
+          <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
+            <span className="text-white text-3xl font-bold">+</span>
+          </div>
+        </button>
+      );
+    } else {
+      contenido = (
+        <p className="text-center text-gray-500 col-span-full">No hay datos.</p>
+      );
+    }
+  } else {
+    contenido = (
+      <>
+        {mostrarAgregar && (
+          <button id="crearSteps" onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer transition hover:scale-95">
+            <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Crear</span>
+            <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
+              <span className="text-white text-xl sm:text-3xl font-bold">+</span>
+            </div>
+          </button>
+        )}
+
+        {datosFiltrados.map((fila, idx) => (
+          <button key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95"
+            style={{
+              backgroundImage: `url(${fondoCards})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
+            }}>
+
+            {enableSelection && (
+              <input
+                id="checkboxSteps"
+                type="checkbox"
+                checked={seleccionados.includes(fila.id)}
+                onClick={(e) => e.stopPropagation()}
+                onChange={() => toggleSeleccion(fila.id)}
+                className="absolute top-5 accent-[#39A900] left-5 w-5 h-5 cursor-pointer rounded-full "
+              />
+            )}
+            <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
+              style={{
+                backgroundImage: `url(${fondoTitle})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center center",
+                backgroundRepeat: "no-repeat",
+              }}>
+              {fila.nombre || `Dato ${idx + 1}`}
+            </div>
+            <div className="p-4 flex flex-col gap-1">
+              {columnas.filter(c => !['acciones', '#', 'nombre', 'fotoPerfil'].includes(c.key)).map((col, i) => (
+                <div key={i} className="text-sm flex items-center">
+                  {col.icon && <img src={col.icon} alt={col.label} className="mr-2" />}
+                  <strong>{col.label}:</strong>
+                  <span className="ml-1">
+                    {col.key === 'descripcion' && fila[col.key]?.length > 0 ? (
+                      <button onClick={() => handleVerMas(fila[col.key])} className="text-blue-500">Ver todo</button>
+                    ) : fila[col.key]}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${fila.id}`}
+                onError={(e) => {
+                  e.target.onerror = null; // Evitar loop infinito
+                  e.target.src = getRoleImage(fila.id_rol);
+                }} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg" />
+            </div>
+            <hr />
+            <div className="flex items-center justify-center p-3">
+              {acciones?.(fila)}
+            </div>
+          </button>
+        ))}
+      </>
+    );
+  }
+
+
   return (
-    <div className="">
-      {/* {seleccionados.length != 0 && (
-        <div className="bg-[#009E00] mt-12 p-3 rounded-full shadow-lg flex fixed z-30">
-          <h3 className="text-white font-bold">Seleccionados : {seleccionados.length}</h3>
-        </div>
-      )} */}
+    <div>
       <div
         ref={containerRef}
         className={`w-full mx-auto overflow-y-auto max-h-[710px] grid gap-4 pb-1 ${datosFiltrados.length === 0 ? 'grid-cols-1 place-items-center' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'} ${isScrollable ? 'sm:pr-4' : 'pr-0'}`}
       >
-        {datosFiltrados.length === 0 ? (
-          mostrarAgregar ? (
-            <button id='crearSteps' onClick={onAddUser} className="w-full h-52 flex flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] cursor-pointer transition hover:scale-95   ">
-              <span className="text-[#009E00] text-2xl font-semibold">Crear</span>
-              <div className="w-12 h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-3">
-                <span className="text-white text-3xl font-bold">+</span>
-              </div>
-            </button>
-          ) : <p className="text-center text-gray-500 col-span-full">No hay datos.</p>
-        ) : (
-          <>
-            {mostrarAgregar && (
-              <button id="crearSteps" onClick={onAddUser} className="w-full sm:w-auto flex flex-row sm:flex-col items-center justify-center bg-[#009E00] bg-opacity-10 border-dashed border-2 border-green-500 rounded-[36px] px-4 sm:px-6 py-2 sm:py-6 cursor-pointer transition hover:scale-95">
-                <span className="text-[#009E00] text-base sm:text-2xl font-semibold">Crear</span>
-                <div className="ml-2 sm:ml-0 w-8 sm:w-12 h-8 sm:h-12 bg-[#009E00] rounded-full flex items-center justify-center mt-0 sm:mt-2">
-                  <span className="text-white text-xl sm:text-3xl font-bold">+</span>
-                </div>
-              </button>
-            )}
-
-            {datosFiltrados.map((fila, idx) => (
-              <button key={fila.id || idx} onClick={() => toggleSeleccion(fila.id)} className="cursor-pointer relative bg-white shadow-md rounded-[36px] overflow-hidden flex flex-col transition hover:scale-95"
-                style={{
-                  backgroundImage: `url(${fondoCards})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center center",
-                }}>
-
-                {enableSelection && (
-                  <input
-                    id="checkboxSteps"
-                    type="checkbox"
-                    checked={seleccionados.includes(fila.id)}
-                    onClick={(e) => e.stopPropagation()}
-                    onChange={() => toggleSeleccion(fila.id)}
-                    className="absolute top-5 accent-[#39A900] left-5 w-5 h-5 cursor-pointer rounded-full "
-                  />
-                )}
-                <div className="bg-[#00304D] text-white text-xl p-4 font-semibold text-center"
-                  style={{
-                    backgroundImage: `url(${fondoTitle})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center center",
-                    backgroundRepeat: "no-repeat",
-                  }}>
-                  {fila.nombre || `Dato ${idx + 1}`}
-                </div>
-                <div className="p-4 flex flex-col gap-1">
-                  {columnas.filter(c => !['acciones', '#', 'nombre', 'fotoPerfil'].includes(c.key)).map((col, i) => (
-                    <div key={i} className="text-sm flex items-center">
-                      {col.icon && <img src={col.icon} alt={col.label} className="mr-2" />}
-                      <strong>{col.label}:</strong>
-                      <span className="ml-1">
-                        {col.key === 'descripcion' && fila[col.key]?.length > 0 ? (
-                          <button onClick={() => handleVerMas(fila[col.key])} className="text-blue-500">Ver todo</button>
-                        ) : fila[col.key]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                  <img src={`${process.env.REACT_APP_API_URL}/image/usuario/${fila.id}`}
-                    onError={(e) => {
-                      e.target.onerror = null; // Evitar loop infinito
-                      e.target.src = getRoleImage(fila.id_rol);
-                    }} alt="Perfil" className="w-16 h-16 rounded-full border-4 border-white shadow-lg" />
-                </div>
-                <hr />
-                <div className="flex items-center justify-center p-3">
-                  {acciones && acciones(fila)}
-                </div>
-              </button>
-            ))}
-          </>
-        )}
+        {contenido}
       </div>
 
       {modalOpen && (

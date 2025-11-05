@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { login } from "../services/usuarios/ApiUsuarios";
-import { editarUsuario } from "../services/usuarios/ApiUsuarios";
+import { login, editarUsuario } from "../services/usuarios/ApiUsuarios";
 import { useNavigate } from "react-router-dom";
 import { acctionSucessful } from "../components/alertSuccesful"
 import { Alerta } from "../assets/img/imagesExportation";
 import { jwtDecode } from "jwt-decode";
 import cerrar from "../assets/img/sesionFinalizada.png"
 import { inicioSesion } from "../assets/img/imagesExportation";
+
 export function useLogin() {
-    const [errorMensaje, setErrorMensaje] = useState("");
+
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState({
         telefono: '',
@@ -27,10 +27,8 @@ export function useLogin() {
         e.preventDefault()
         try {
             const resultado = await login(usuario);
-            if(resultado.status === 401){
-                setErrorMensaje(resultado)
-            }
-            if (resultado && resultado.token) {
+
+            if (resultado?.token) {
 
                 const formData = new FormData()
                 formData.append("token", resultado.token)
@@ -58,7 +56,7 @@ export function useLogin() {
                 });
             } else {
                 console.warn("Credenciales incorrectas o respuesta inválida:", resultado);
-                 acctionSucessful.fire({
+                acctionSucessful.fire({
                     imageUrl: Alerta,
                     imageAlt: "Icono de error",
                     title: resultado.error
@@ -66,7 +64,7 @@ export function useLogin() {
             }
         } catch (error) {
             console.error("No se pudo iniciar sesion:", error)
-            
+
         }
     }
 
@@ -74,7 +72,7 @@ export function useLogin() {
         try {
             const token = localStorage.getItem("session")
             const userId = localStorage.getItem("user");
-             // Decodificar el token para ver si ya expiró
+            // Decodificar el token para ver si ya expiró
             let isExpired = false;
 
             if (!token || !userId) {

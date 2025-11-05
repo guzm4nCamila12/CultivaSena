@@ -1,16 +1,15 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/navbar';
 import MostrarInfo from '../../components/mostrarInfo';
 import ConfirmationModal from '../../components/confirmationModal/confirmationModal';
 import { useFincas } from '../../hooks/useFincas';
 import { fincasIcon, zonasIcon, sensoresIcon, alternos, ajustes, editar, eliminar } from '../../assets/icons/IconsExportation';
-import { Link } from 'react-router-dom';
-
 import { fincaDriverSteps } from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 import { usePermisos } from '../../hooks/usePermisos';
 
 export default function ListaFincas() {
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -26,11 +25,13 @@ export default function ListaFincas() {
 
   const { permisos } = usePermisos()
 
+  console.log('permisos',permisos)
+
   const columnasBase = [
     { key: "nombre", label: "Nombre", icon2: fincasIcon },
     { key: "zonas", label: "Zonas", icon: zonasIcon, icon2: zonasIcon, permiso: "ver zonas" },
     { key: "sensores", label: "Sensores", icon: sensoresIcon, icon2: sensoresIcon, permiso: "ver sensores" },
-    { key: "alternos", label: "Alternos", icon: alternos, icon2: alternos, permiso: "ver alternos" },
+    { key: "alternos", label: "Alternos", icon: alternos, icon2: alternos},
     { key: "acciones", label: "Acciones", icon2: ajustes },
   ];
 
@@ -61,7 +62,7 @@ export default function ListaFincas() {
             <img src={eliminar} alt="Eliminar" className='absolute' />
           </button>
           <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Eliminar 
+            Eliminar
           </span>
         </div>
       )}

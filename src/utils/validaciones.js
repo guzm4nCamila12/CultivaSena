@@ -59,7 +59,7 @@ export const validarClave = (clave) => {
     });
     return false;
   }
-  if (!/[0-9]/.test(clave)) {
+  if (!/\d/.test(clave)) {
     acctionSucessful.fire({
       imageUrl: Images.Alerta,
       title: "¡La clave debe tener al menos un número!"
@@ -87,7 +87,7 @@ export const validarNombre = (nombre) => {
   return true;
 };
 
-export const validarSinCambios = (original, editado, tipo = "la zona",ignorar = []) => {
+export const validarSinCambios = (original, editado, tipo = "la zona", ignorar = []) => {
   const originalKeys = Object.keys(original).filter(key => !ignorar.includes(key));
 
   const sinCambios = originalKeys.every(key => original[key] === editado[key]);

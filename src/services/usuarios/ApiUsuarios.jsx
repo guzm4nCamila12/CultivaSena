@@ -1,5 +1,5 @@
 import { obtenerIdUsuario } from '../../hooks/useDecodeToken';
-import { fetchConToken, fetchSinToken, fetchConTokenFormData } from '../fetchHelpers';
+import { fetchConToken, fetchSinToken } from '../fetchHelpers';
 //URL base de la api
 
 //Funcion para obtener todos los usuarios
@@ -49,7 +49,7 @@ export const eliminarUsuario = async (id) => {
     });
 };
 
-//Funcion para obtener todo el historial
+//Funcion para obtener el historial
 export const getHistorial = async () => 
   fetchConToken(`/api/historial`);
  

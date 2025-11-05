@@ -106,9 +106,7 @@ export default function VerSensores() {
 
   if (cargando) {
     contenido = <p className="text-center">Cargando datos…</p>;
-  } else if (!hayDatos) {
-    contenido = <p className="text-center text-red-500">No hay datos para este sensor.</p>;
-  } else {
+  } else if (hayDatos) {
     contenido = (
       <>
         {/* Tabla paginada */}
@@ -137,6 +135,8 @@ export default function VerSensores() {
         )}
       </>
     );
+  } else {
+    contenido = <p className="text-center text-red-500">No hay datos para este sensor.</p>;
   }
 
   return (

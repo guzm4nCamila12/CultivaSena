@@ -30,6 +30,46 @@ import {
 import { useSensores } from "../../hooks/useSensores";
 import { usePermisos } from "../../hooks/usePermisos";
 
+//funcion de activación
+function ActivarSensor({ sensor, index, rol, isEstadisticaView, cambiarEstadoSensor }) {
+  const isAdmin = rol === "1" && !isEstadisticaView;
+  const toggleId = isAdmin ? "activarSensor" : "noPoderActivar";
+
+  const handleChange = () => {
+    if (isAdmin) cambiarEstadoSensor(sensor, index);
+  };
+
+  return (
+    <label
+      id={toggleId}
+      className="relative flex items-center cursor-pointer"
+      aria-label={
+        isAdmin
+          ? "Activar o desactivar sensor"
+          : "No puede modificar el estado del sensor"
+      }
+    >
+      <input
+        type="checkbox"
+        checked={sensor.estado}
+        disabled={!isAdmin}
+        onChange={handleChange}
+        className="sr-only"
+      />
+      <div
+        className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-[#39A900]" : "bg-gray-400"
+          }`}
+      >
+        <div
+          className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
+            }`}
+        />
+      </div>
+    </label>
+  );
+}
+
+
 function ActivarSensores() {
   const { id, idUser } = useParams();
   const { state } = useLocation();
@@ -99,38 +139,6 @@ function ActivarSensores() {
     return zona ? zona.nombre : "Sin zona";
   };
 
-  // Toggle activación
-  const ActivarSensor = (sensor, index) => (
-    <label
-      id={rol === "1" && !isEstadisticaView ? "activarSensor" : "noPoderActivar"}
-      className="relative flex items-center cursor-pointer"
-      aria-label={
-        rol === "1" && !isEstadisticaView
-          ? "Activar o desactivar sensor"
-          : "No puede modificar el estado del sensor"
-      }
-    >
-      <input
-        type="checkbox"
-        checked={sensor.estado}
-        disabled={rol !== "1" || isEstadisticaView}
-        onChange={() => {
-          if (rol === "1" && !isEstadisticaView) cambiarEstadoSensor(sensor, index);
-        }}
-        className="sr-only"
-      />
-      <div
-        className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-[#39A900]" : "bg-gray-400"
-          }`}
-      >
-        <div
-          className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
-            }`}
-        ></div>
-      </div>
-    </label>
-  );
-
   // Lista sensores condicional
   const listaSensores = isEstadisticaView
     ? sensores.filter(s => s.mac && s.mac.trim() !== "")
@@ -139,7 +147,15 @@ function ActivarSensores() {
     ...sensor,
     idzona: asignarZonaNombre(sensor.idzona),
     mac: sensor.mac || "Sin mac",
-    estado: ActivarSensor(sensor, index)
+    estado: (
+      <ActivarSensor
+        sensor={sensor}
+        index={index}
+        rol={rol}
+        isEstadisticaView={isEstadisticaView}
+        cambiarEstadoSensor={cambiarEstadoSensor}
+      />
+    ),
   }));
 
   // Acciones fila

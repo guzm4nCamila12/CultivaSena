@@ -254,6 +254,34 @@ export function useSensores(id, idUser) {
     });
   };
 
+  const ActivarSensor = (sensor, index) => {
+    return (
+      <label
+        id={rol === "1" ? "activarSensor" : "noPoderActivar"}
+        className="relative flex items-center cursor-pointer"
+        aria-label={rol === "1" ? "Activar sensor" : "No puede activar sensor"}
+      >
+        <input
+          type="checkbox"
+          checked={sensor.estado}
+          disabled={rol !== "1"}
+          onChange={() => rol === "1" && cambiarEstadoSensor(sensor, index)}
+          className="sr-only"
+        />
+        <div
+          className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-green-500" : "bg-gray-400"
+            }`}
+        >
+          <div
+            className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
+              }`}
+          ></div>
+        </div>
+      </label>
+    );
+
+  };
+
   const cambiarEstadoSensor = async (sensor, index) => {
     const newEstado = !sensor.estado;
     const updatedSensor = { ...sensor, estado: newEstado };
@@ -280,6 +308,7 @@ export function useSensores(id, idUser) {
   };
 
   return {
+    ActivarSensor,
     sensores,
     sensoresZona,
     tiposSensores,

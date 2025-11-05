@@ -41,19 +41,21 @@ export default function GraficoSensores({ sensoresData = [] }) {
 
   // Mantener último valor conocido para cada sensor para dibujar líneas continuas
   const lastValues = {};
-  sensoresData.forEach(({ sensor }) => {
+  for (const { sensor } of sensoresData) {
     const key = sensor.nombre || `Sensor-${sensor.id}`;
     lastValues[key] = 0;
-  });
+  }
+
 
   // Construir mergedData con fechas formateadas en UTC
   const mergedData = allFechasISO.map(fechaISO => {
     const point = {
       fecha: formatFecha(fechaISO)
     };
-    sensoresData.forEach(({ sensor, historial }) => {
+    for (const { sensor, historial } of sensoresData) {
       const key = sensor.nombre || `Sensor-${sensor.id}`;
       let valor = null;
+
       if (Array.isArray(historial)) {
         const registro = historial.find(item => item.fecha === fechaISO);
         if (registro && !Number.isNaN(Number(registro.valor))) {
@@ -66,7 +68,7 @@ export default function GraficoSensores({ sensoresData = [] }) {
         valor = lastValues[key];
       }
       point[key] = valor;
-    });
+    }
     return point;
   });
 

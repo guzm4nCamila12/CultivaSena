@@ -146,7 +146,7 @@ const UserCards = ({ columnas, datos, vista, acciones, onAddUser, mostrarAgregar
             </div>
             <div className="p-4 flex flex-col gap-1">
               {columnas.filter(c => !['acciones', '#', 'nombre', 'fotoPerfil'].includes(c.key)).map((col, i) => (
-                <div key={i} className="text-sm flex items-center">
+                <div key={col.key} className="text-sm flex items-center">
                   {col.icon && <img src={col.icon} alt={col.label} className="mr-2" />}
                   <strong>{col.label}:</strong>
                   <span className="ml-1">

@@ -1,12 +1,32 @@
 // Estadistica.jsx
-// hola desde dev05
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { getSensor, getHistorialSensores } from "../../services/sensores/ApiSensores";
 import GraficoSensores from "./GraficoSensores";
 import Navbar from "../../components/navbar";
 import BotonAtras from "../../components/botonAtras";
 import { Alerta } from "../../assets/img/imagesExportation";
+
+const filtrarHistorialPorRango = (historial, inicioStr, finStr) => {
+  return historial.filter(item => {
+    const raw = item.fecha || item.timestamp;
+    const itemDate = raw.slice(0, 10); // 'YYYY-MM-DD'
+    return itemDate >= inicioStr && itemDate <= finStr;
+  });
+}
+
+const obtenerHistorialSensor = async (id, inicioStr, finStr) => {
+  try {
+    const sensor = await getSensor(id);
+    const historialRaw = await getHistorialSensores(sensor.mac);
+    const historial = filtrarHistorialPorRango(historialRaw, inicioStr, finStr);
+
+    return { sensor, historial };
+  } catch (error) {
+    console.error(`Error al obtener historial del sensor`, error);
+    return { sensor: null, historial: [] };
+  }
+};
 
 const Estadistica = () => {
   const { state } = useLocation();
@@ -18,35 +38,15 @@ const Estadistica = () => {
 
   useEffect(() => {
     if (!ids.length || !fechaInicio || !fechaFin) return;
+    setLoading(true);
+    setError(null);
 
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
+    const cargarDatos = async () => {
 
       try {
-        const inicioStr = fechaInicio;
-        const finStr = fechaFin;
-
 
         const resultados = await Promise.all(
-          ids.map(async (id) => {
-            try {
-              const sensor = await getSensor(id);
-              const historialRaw = await getHistorialSensores(sensor.mac);
-
-              const historial = historialRaw.filter(item => {
-                const raw = item.fecha || item.timestamp;
-                const itemDate = raw.slice(0, 10); // 'YYYY-MM-DD'
-                return itemDate >= inicioStr && itemDate <= finStr;
-              });
-
-              return { sensor, historial };
-            } catch (e) {
-              console.error(`Error al obtener historial del sensor'}`, e);
-              // Si falla este sensor en específico, igual seguimos
-              return { sensor: null, historial: [] };
-            }
-          })
+          ids.map(id => obtenerHistorialSensor(id, fechaInicio, fechaFin))
         );
 
         const conDatos = resultados.filter(r => r.historial.length > 0);
@@ -64,7 +64,7 @@ const Estadistica = () => {
       }
     };
 
-    fetchData();
+    cargarDatos();
   }, [ids, fechaInicio, fechaFin]);
 
   if (!ids.length) return <Navigate to="/" replace />;

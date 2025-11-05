@@ -1,5 +1,5 @@
 // src/components/Navbar.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Gov from './gov';
 import MenuLateral from './menuLateral/MenuLateral';
 import CerrarSesion from './auth/logOut';

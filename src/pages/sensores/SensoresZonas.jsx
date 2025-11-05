@@ -18,15 +18,9 @@ function Sensores() {
   const { id, idUser } = useParams();
 
   const {
-    sensoresZona, tiposSensores, formData, handleChange, crearNuevoSensor,
-    sensorEditar, setSensorEditar, handleChangeEditar,
-    actualizarSensor, setSensorAEliminar, setSensorEliminado,
-    eliminarSensor, cambiarEstadoSensor,
-    zona, rol, setSensorOriginal,
-    modalInsertarAbierto,
-    setModalInsertarAbierto,
-    modalEditarAbierto,
-    setModalEditarAbierto,
+    sensoresZona, tiposSensores, formData, handleChange, crearNuevoSensor, sensorEditar, setSensorEditar, handleChangeEditar, actualizarSensor, 
+    setSensorAEliminar, setSensorEliminado, eliminarSensor, zona, rol, setSensorOriginal, modalInsertarAbierto, setModalInsertarAbierto,
+    modalEditarAbierto, setModalEditarAbierto, ActivarSensor
   } = useSensores(id, idUser);
 
   const { permisos } = usePermisos()
@@ -55,12 +49,26 @@ function Sensores() {
     setSensorEditar(sensorEnviado);
     setSensorOriginal(sensorEnviado);
     setModalEditarAbierto(true);
-    // abrirModalEditar(sensorEnviado);
   }
 
   //se declaran las acciones de la tabla
   const acciones = (fila) => (
-    rol !== "3" ? (
+    rol == "3" ? (
+      <div className="flex justify-center gap-4">
+        <div className="relative group">
+          <Link to={`/datos-sensor/${fila.id}`}>
+            <button
+              className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
+              <img src={ver} alt="Ver" className='absolute' />
+              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                Ver Datos
+              </span>
+            </button>
+          </Link>
+        </div>
+
+      </div>
+    ) : (
       <div className="flex justify-center gap-4">
         {permisos["editar sensores"]?.tienePermiso && (
           <div id="editarSensor" className="relative group">
@@ -98,52 +106,9 @@ function Sensores() {
           </div>
         )}
       </div>
-    ) : (
-      <div className="flex justify-center gap-4">
-        <div className="relative group">
-          <Link to={`/datos-sensor/${fila.id}`}>
-            <button
-              className="px-7 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all">
-              <img src={ver} alt="Ver" className='absolute' />
-              <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                Ver Datos
-              </span>
-            </button>
-          </Link>
-        </div>
-
-      </div>
     )
 
   );
-
-  const ActivarSensor = (sensor, index) => {
-    return (
-      <label
-        id={rol === "1" ? "activarSensor" : "noPoderActivar"}
-        className="relative flex items-center cursor-pointer"
-        aria-label={rol === "1" ? "Activar sensor" : "No puede activar sensor"}
-      >
-        <input
-          type="checkbox"
-          checked={sensor.estado}
-          disabled={rol !== "1"}
-          onChange={() => rol === "1" && cambiarEstadoSensor(sensor, index)}
-          className="sr-only"
-        />
-        <div
-          className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-green-500" : "bg-gray-400"
-            }`}
-        >
-          <div
-            className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
-              }`}
-          ></div>
-        </div>
-      </label>
-    );
-
-  };
 
   //modal para eliminar, se guarda el sensor traido en el estado de sensorAEliminar
   const abrirModalEliminar = (sensor) => {

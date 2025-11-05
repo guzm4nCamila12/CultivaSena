@@ -194,91 +194,99 @@ function SensoresAlterno() {
     )
   }));
 
-  return (
-      <div >
-        <Navbar />
-        {!hideTabs && (
-          <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
-            <button
-              className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"}`}
-              onClick={() => { setAlternar(true); localStorage.setItem("Alternar", "true"); }}
-            >
-              Sensores
-            </button>
-            <button
-              className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-white text-[#00304D]" : "bg-[#39A900] text-white" }`}
-              onClick={() => { setAlternar(false); localStorage.setItem("Alternar", "false"); }}
-            >
-              Zonas
-            </button>
-          </div>
-        )}
-        {Alternar ? (
-          permisos["ver sensores"]?.tienePermiso ? (
+  let contenido = null;
 
-            <MostrarInfo
-              titulo={tituloMostrar}
-              columnas={columnas}
-              acciones={acciones}
-              mostrarAgregar={false}
-              vista={vista}
-              enableSelectionButton={enableSelectionButton}
-              datos={sensores.map((sensor, index) => ({
-                ...sensor,
-                "#": index + 1,
-                estado: (
-                  <div id="noActivar" className="flex justify-center items-center">
-                    <label
-                      className="switch"
-                      aria-label="Estado del sensor (solo lectura)"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={sensor.estado}
-                        disabled
-                        className="sr-only"
-                      />
-                      <div
-                        className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-green-500" : "bg-gray-400"
-                          }`}
-                      >
-                        <div
-                          className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
-                            }`}
-                        ></div>
-                      </div>
-                    </label>
+  if (Alternar) {
+    if (permisos["ver sensores"]?.tienePermiso) {
+      contenido = (
+        <MostrarInfo
+          titulo={tituloMostrar}
+          columnas={columnas}
+          acciones={acciones}
+          mostrarAgregar={false}
+          vista={vista}
+          enableSelectionButton={enableSelectionButton}
+          datos={sensores.map((sensor, index) => ({
+            ...sensor,
+            "#": index + 1,
+            estado: (
+              <div id="noActivar" className="flex justify-center items-center">
+                <label className="switch" aria-label="Estado del sensor (solo lectura)">
+                  <input type="checkbox" checked={sensor.estado} disabled className="sr-only" />
+                  <div
+                    className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${sensor.estado ? "bg-green-500" : "bg-gray-400"
+                      }`}
+                  >
+                    <div
+                      className={`h-6 w-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${sensor.estado ? "translate-x-6" : "translate-x-0"
+                        }`}
+                    ></div>
                   </div>
+                </label>
+              </div>
+            ),
+          }))}
+        />
+      );
+    } else {
+      contenido = (
+        <p className="flex justify-center items-center">
+          <span>No tienes permisos para ver</span>
+          <strong className="ml-1">Sensores.</strong>
+        </p>
+      );
+    }
+  } else if (permisos["ver zonas"]?.tienePermiso) {
+    contenido = (
+      <MostrarInfo
+        titulo={tituloMostrar2}
+        columnas={columnasZonas}
+        mostrarAgregar={false}
+        datos={zonaszonas}
+        vista={vista}
+        enableSelectionButton={enableSelectionButton}
+      />
+    );
+  } else {
+    contenido = (
+      <p className="flex justify-center items-center">
+        <span>No tienes permisos para ver</span>
+        <strong className="ml-1">Zonas.</strong>
+      </p>
+    );
+  }
 
-                ),
-              }))}
-            />
-          ) : (
-            <p className="flex justify-center items-center">
-              <span>No tienes permisos para ver</span>
-              <strong className="ml-1">Sensores.</strong>
-            </p>
-          )
-        ) : (
-          permisos["ver zonas"]?.tienePermiso ? (
-            <MostrarInfo
-              titulo={tituloMostrar2}
-              columnas={columnasZonas}
-              mostrarAgregar={false}
-              datos={zonaszonas}
-              vista={vista}
-              enableSelectionButton={enableSelectionButton}
-            />
-          ) : (
-            <p className="flex justify-center items-center">
-              <span>No tienes permisos para ver</span>
-              <strong className="ml-1">Zonas.</strong>
-            </p>
-          )
-        )}
-
-      </div>
+  return (
+    <div>
+      <Navbar />
+      {!hideTabs && (
+        <div className="flex justify-start px-4 sm:px-8 md:px-14 lg:px-16 xl:px-18 my-4 w-[80%] space-x-4">
+          <button
+            className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-[#39A900] text-white" : "bg-white text-[#00304D]"
+              }`}
+            onClick={() => {
+              setAlternar(true);
+              localStorage.setItem("Alternar", "true");
+            }}
+          >
+            Sensores
+          </button>
+          <button
+            className={`px-7 py-2 font-bold rounded-full transition ${Alternar ? "bg-white text-[#00304D]" : "bg-[#39A900] text-white"
+              }`}
+            onClick={() => {
+              setAlternar(false);
+              localStorage.setItem("Alternar", "false");
+            }}
+          >
+            Zonas
+          </button>
+        </div>
+      )}
+      {contenido}
+    </div>
   );
+
 }
 
 export default SensoresAlterno;

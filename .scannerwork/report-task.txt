@@ -1,6 +1,6 @@
-projectKey=Cultivasena-Sensores
+projectKey=CultivaSena-Sensores
 serverUrl=http://localhost:9000
 serverVersion=25.10.0.114319
-dashboardUrl=http://localhost:9000/dashboard?id=Cultivasena-Sensores
-ceTaskId=008d8a15-bb68-4e36-a358-cf185b9aa5c5
-ceTaskUrl=http://localhost:9000/api/ce/task?id=008d8a15-bb68-4e36-a358-cf185b9aa5c5
+dashboardUrl=http://localhost:9000/dashboard?id=CultivaSena-Sensores
+ceTaskId=b50eb999-754a-4892-81ed-9a706d41700b
+ceTaskUrl=http://localhost:9000/api/ce/task?id=b50eb999-754a-4892-81ed-9a706d41700b

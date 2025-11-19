@@ -104,6 +104,7 @@ const Mapa = ({ setUbicacion, ubicacion }) => {
             title: `¡Ubicación obtenida con éxito!`
           });
         },
+        
         (error) => {
           console.error('Error al obtener la ubicación del usuario', error);
           alert('No se pudo obtener la ubicación del usuario.');

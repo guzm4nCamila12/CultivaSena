@@ -229,9 +229,9 @@ function ActivarSensores() {
       </select>
     </div>
   );
-  const tipoSensor = onChange => (
+  const tipoSensor = (onChange, value) => (
     <div className="relative w-full mt-2">
-      <select name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+      <select value={value ?? ""} name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
         <option value="">Tipo de sensor</option>
         {tiposSensores.map(t => <option key={t.id} value={t.id}>{t.nombre}</option>)}
       </select>
@@ -268,7 +268,7 @@ function ActivarSensores() {
             ]}
           >
             {asignarZona(handleChange)}
-            {tipoSensor(handleChange)}
+            {tipoSensor(handleChange, formData.tipo_id,)}
           </FormularioModal>
 
           <FormularioModal
@@ -276,7 +276,7 @@ function ActivarSensores() {
             isOpen={modalEditarAbierto}
             onClose={() => setModalEditarAbierto(false)}
             onSubmit={e => { e.preventDefault(); actualizarSensor(); }}
-            valores={obtenerNombreTipo(sensorEditar)}
+            valores={sensorEditar}
             onChange={handleChangeEditar}
             textoBoton="Guardar y actualizar"
             campos={[
@@ -285,8 +285,9 @@ function ActivarSensores() {
             ]}
           >
             {asignarZona(handleChangeEditar)}
-            {tipoSensor(handleChangeEditar)}
+            {tipoSensor(handleChangeEditar, sensorEditar.tipo_id)}
           </FormularioModal>
+
 
           <ConfirmationModal
             isOpen={modalEliminarAbierto}

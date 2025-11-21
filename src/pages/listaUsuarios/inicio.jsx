@@ -13,17 +13,11 @@ import { usuariosSteps } from '../../utils/aplicationSteps';
 import { useDriverTour } from '../../hooks/useTourDriver';
 
 const Inicio = () => {
-  const { usuarios, actualizarUsuario } = useUsuarios();
+  const { usuarios } = useUsuarios();
   const { permisos } = usePermisos();
-  const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
   const [modalSinFincasAbierto, setModalSinFincasAbierto] = useState(false);
 
-  const [usuarioEditar, setUsuarioEditar] = useState(null);
-  const [usuarioOriginal, setUsuarioOriginal] = useState(null);
-  const { obtenerNombreRol, obtenerIdRol } = useRoles();
-
-  const [mostrarClave, setMostrarClave] = useState(false);
-  const handleToggleClave = () => setMostrarClave(!mostrarClave);
+  const { obtenerNombreRol } = useRoles();
 
   const columnas = [
     { key: "fotoPerfil", label: "Foto", icon: Images.fotoPerfil },
@@ -37,37 +31,8 @@ const Inicio = () => {
 
   useDriverTour(usuariosSteps);
 
-  const handleEditarUsuario = async (e) => {
-    e.preventDefault();
-    const exito = await actualizarUsuario(usuarioEditar, usuarioOriginal);
-    if (exito) {
-      acctionSucessful.fire({
-        imageUrl: Images.usuarioCreado,
-        imageAlt: "usuario editado",
-        title: `¡Usuario <span style="color: #3366CC;">${usuarioEditar.nombre}</span> editado correctamente!`,
-      });
-      setModalEditarAbierto(false);
-    }
-  };
-
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">
-      {/* Botón Editar */}
-      {permisos["editar usuarios"]?.tienePermiso && (
-        <div id="editarSteps" className="relative group">
-          <button
-
-            onClick={() => abrirModalEditar(fila)}
-            className="px-6 py-3 rounded-full bg-[#00304D] hover:bg-[#002438] flex items-center justify-center transition-all"
-          >
-            <img src={editar} alt="Editar" className="absolute" />
-          </button>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 text-xs bg-gray-700 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Editar
-          </span>
-        </div>
-      )}
-
       {/* Botón Ver (sin fincas o con link) */}
       {permisos["ver fincas"]?.tienePermiso && (
         fila.id_rol === "Admin" ? (
@@ -101,13 +66,6 @@ const Inicio = () => {
     </div>
   );
 
-
-  const abrirModalEditar = (usuario) => {
-    setUsuarioEditar({ ...usuario, id_rol: obtenerIdRol(usuario.id_rol) });
-    setUsuarioOriginal({ ...usuario });
-    setModalEditarAbierto(true);
-  };
-
   return (
     <div>
       <NavBar />
@@ -117,47 +75,6 @@ const Inicio = () => {
         datos={usuarios.map(u => ({ ...u, id_rol: obtenerNombreRol(u.id_rol) }))}
         acciones={acciones}
       />
-
-      {/* Editar usuario */}
-      {usuarioEditar && (
-        <FormularioModal
-          titulo="Editar Usuario"
-          isOpen={modalEditarAbierto}
-          onClose={() => setModalEditarAbierto(false)}
-          onSubmit={handleEditarUsuario}
-          valores={usuarioEditar}
-          onChange={(e) => setUsuarioEditar({ ...usuarioEditar, [e.target.name]: e.target.value })}
-          textoBoton="Guardar y actualizar"
-          campos={[
-            {
-              name: "tipo_documento",
-              placeholder: "Seleccione tipo de documento",
-              type: "select",
-              icono: tipoDocumento,
-              options: [
-                { value: "Cédula de ciudadanía", label: "Cédula de ciudadanía" },
-                { value: "Tarjeta de identidad", label: "Tarjeta de identidad" },
-                { value: "Cédula de extranjería", label: "Cédula de extranjería" },
-                { value: "PEP", label: "PEP" },
-                { value: "Permiso por protección temporal", label: "Permiso por protección temporal" }
-              ]
-            },
-            { name: "nombre", placeholder: "Nombre", icono: usuarioAzul },
-            { name: "telefono", placeholder: "Teléfono", icono: telefonoAzul },
-            { name: "correo", placeholder: "Correo", icono: correoAzul },
-            {
-              name: "clave",
-              placeholder: "Clave",
-              icono: claveAzul,
-              type: "password",
-              mostrarClave: mostrarClave,
-              onToggleClave: handleToggleClave,
-              iconoVisible: verClaveAzul,
-              iconoOculto: noVerClaveAzul,
-            },
-          ]}
-        />
-      )}
 
       {modalSinFincasAbierto && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">

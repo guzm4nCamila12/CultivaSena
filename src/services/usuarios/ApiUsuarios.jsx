@@ -50,9 +50,12 @@ export const eliminarUsuario = async (id) => {
 };
 
 //Funcion para obtener el historial
-export const getHistorial = async () => 
-  fetchConToken(`/api/historial`);
+// export const getHistorial = async () => 
+//   fetchConToken(`/api/historial`);
  
+//Funcion para obtener el historial completo
+export const getHistorial = async (pagina, limite) => 
+  fetchConToken(`/historial-actividades?page=${pagina}&limit=${limite}`)
 
 export const postValidarpermisos = async (permisos) =>
   fetchSinToken(`/verificarPermiso/${obtenerIdUsuario()}`,{

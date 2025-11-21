@@ -125,9 +125,9 @@ export function usePerfilUsuario() {
             try {
                 if (rol === 1) {
                     // SuperAdmin: historial
-                    const data = await getHistorial()
-                    const formatted = Array.isArray(data)
-                        ? data
+                    const data = await getHistorial(1, 30)
+                    const formatted = Array.isArray(data.historial)
+                        ? data.historial
                             .map(item => {
                                 let opTraducida = item.operacion
                                 if (item.operacion === "INSERT") opTraducida = "Creó"

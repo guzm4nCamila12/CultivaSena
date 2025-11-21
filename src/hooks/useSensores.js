@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Swal from "sweetalert2";
 import withReactContent from 'sweetalert2-react-content';
 
@@ -24,7 +24,7 @@ import { Alerta } from "../assets/img/imagesExportation";
 export function useSensores(id, idUser) {
   const [sensores, setSensores] = useState([]);
   const [sensoresZona, setSensoresZona] = useState([]);
-  const valoresIniciales = {
+  const [formData, setFormData] = useState(() => ({
     mac: null,
     nombre: "",
     descripcion: "",
@@ -33,191 +33,131 @@ export function useSensores(id, idUser) {
     idzona: null,
     idfinca: "",
     tipo_id: null
-  };
-
-  const [formData, setFormData] = useState(valoresIniciales);
+  }));
 
   const [sensorEditar, setSensorEditar] = useState({ id: null, nombre: "", descripcion: "", idzona: null, tipo_id: null });
   const [sensorOriginal, setSensorOriginal] = useState(null);
   const [sensorAEliminar, setSensorAEliminar] = useState(null);
   const [sensorEliminado, setSensorEliminado] = useState(null);
+
   const [fincas, setFincas] = useState({});
   const [zonas, setZonas] = useState([]);
   const [zona, setZona] = useState({});
   const [usuario, setUsuario] = useState({});
   const [tiposSensores, setTiposSensores] = useState([]);
-  const rol = localStorage.getItem("rol");
-  let inputValue = "";
 
-  //abrir modales
+  const rol = localStorage.getItem("rol");
+
+  // abrir modales
   const [modalInsertarAbierto, setModalInsertarAbierto] = useState(false);
   const [modalEditarAbierto, setModalEditarAbierto] = useState(false);
 
+  // ---------- Helpers ----------
+  const resetForm = useCallback(() => {
+    // elige idzona: 1) formData existente 2) primera zona disponible 3) zona actual
+    const defaultIdZona = formData.idzona ?? (zonas && zonas.length ? zonas[0].id : (zona?.id ?? null));
+    const defaultIdFinca = fincas?.id ?? zona?.idfinca ?? formData.idfinca ?? "";
+    setFormData({
+      mac: null,
+      nombre: "",
+      descripcion: "",
+      estado: false,
+      idusuario: usuario?.id ?? "",
+      idzona: defaultIdZona,
+      idfinca: defaultIdFinca,
+      tipo_id: null
+    });
+  }, [usuario, fincas, zona, zonas, formData.idzona]);
 
+  const refreshSensoresZona = useCallback(async (zoneId) => {
+    try {
+      const idToUse = zoneId ?? formData.idzona ?? zona?.id ?? id;
+      if (!idToUse) return;
+      const sensoresZonasData = await getSensoresZonasById(idToUse);
+      setSensoresZona(sensoresZonasData || []);
+    } catch (err) {
+      console.error("Error refreshSensoresZona:", err);
+    }
+  }, [formData.idzona, zona, id]);
+
+  // ---------- Carga inicial ----------
   useEffect(() => {
-    const fetchData = async () => {
+    if (!id || !idUser) return;
+
+    let mounted = true;
+
+    const fetchAll = async () => {
       try {
-        const sensoresData = await getSensoresById(id);
+        const [sensoresData, sensoresZonasData, tiposData, usuarioData, fincasData, zonasData, zonaData] = await Promise.all([
+          getSensoresById(id).catch(e => { console.error("getSensoresById", e); return [] }),
+          getSensoresZonasById(id).catch(e => { console.error("getSensoresZonasById", e); return [] }),
+          getTipoSensor().catch(e => { console.error("getTipoSensor", e); return [] }),
+          getUsuarioById(idUser).catch(e => { console.error("getUsuarioById", e); return {} }),
+          getFincasByIdFincas(id).catch(e => { console.warn("getFincasByIdFincas", e); return {} }),
+          getZonasByIdFinca(id).catch(e => { console.warn("getZonasByIdFinca", e); return [] }),
+          getZonasById(id).catch(e => { console.error("getZonasById", e); return {} })
+        ]);
+
+        if (!mounted) return;
+
         setSensores(sensoresData || []);
-      } catch (err) {
-        console.error("❌ Error al obtener sensores:", err);
-      }
-      try {
-        const sensoresZonasData = await getSensoresZonasById(id);
         setSensoresZona(sensoresZonasData || []);
-      } catch (err) {
-        console.error("❌ Error al obtener sensores de la zona:", err);
-      }
-      try {
-        const tiposData = await getTipoSensor();
         setTiposSensores(tiposData || []);
-      } catch (err) {
-        console.error("❌ Error al obtener tipos de sensores:", err);
-      }
-      try {
-        const usuarioData = await getUsuarioById(idUser);
         setUsuario(usuarioData || {});
-      } catch (err) {
-        console.error("❌ Error al obtener usuario:", err);
-      }
-      try {
-        const fincasData = await getFincasByIdFincas(id);
         setFincas(fincasData || {});
-      } catch (err) {
-        console.warn("⚠️ No se pudo obtener finca (opcional):", err);
-      }
-      try {
-        const zonasData = await getZonasByIdFinca(id);
         setZonas(zonasData || []);
-        if (zonasData && zonasData.length > 0) {
-          setFormData(prev => ({
-            ...prev,
-            idzona: prev.idzona ?? zonasData[0].id
-          }));
-        }
-      } catch (err) {
-        console.warn("⚠️ No se pudo obtener zonas de finca:", err);
-      }
-      try {
-        const zonaData = await getZonasById(id);
         setZona(zonaData || {});
+
+        // inicializa el form con valores válidos según lo que exista
+        setFormData(prev => ({
+          ...prev,
+          idusuario: usuarioData?.id ?? prev.idusuario,
+          idfinca: fincasData?.id ?? zonaData?.idfinca ?? prev.idfinca,
+          idzona: prev.idzona ?? (zonasData && zonasData.length ? zonasData[0].id : zonaData?.id ?? prev.idzona)
+        }));
       } catch (err) {
-        console.error("❌ Error al obtener zona:", err);
+        console.error("Error fetchAll sensores:", err);
       }
     };
-    if (id && idUser) fetchData();
+
+    fetchAll();
+
+    return () => { mounted = false; };
   }, [id, idUser]);
 
+  // Mantener sincronía si cambian usuario/finca/zona/zonas
   useEffect(() => {
-    if (usuario && fincas?.id) {
-      setFormData(prev => ({
-        ...prev,
-        idusuario: usuario.id,
-        idfinca: fincas.id,
-      }));
-    } else if (usuario && zona?.idfinca) {
-      setFormData(prev => ({
-        ...prev,
-        idusuario: usuario.id,
-        idfinca: zona.idfinca,
-        idzona: zona.id,
-      }));
-    }
-  }, [usuario, fincas, zona]);
+    // Si el usuario o finca cambian (p ej. recarga externa), actualiza form
+    setFormData(prev => ({
+      ...prev,
+      idusuario: usuario?.id ?? prev.idusuario,
+      idfinca: fincas?.id ?? zona?.idfinca ?? prev.idfinca,
+      // no sobrescribimos idzona si el usuario ya la escogió; si no existe, usamos zona/primer elemento de zonas
+      idzona: prev.idzona ?? (zonas && zonas.length ? zonas[0].id : (zona?.id ?? prev.idzona))
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usuario, fincas, zona, zonas]);
 
+  // ---------- Handlers ----------
   const handleChange = (e) => {
-    const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
-      ? Number.parseInt(e.target.value, 10)
-      : e.target.value;
-    setFormData({ ...formData, [e.target.name]: value });
+    const name = e.target.name;
+    const raw = e.target.value;
+    const numericNames = ['idzona', 'tipo_id', 'idfinca', 'idusuario'];
+    const value = numericNames.includes(name) ? (raw === "" ? "" : Number.parseInt(raw, 10)) : raw;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleChangeEditar = (e) => {
-    const value = e.target.name === 'idzona' || e.target.name === 'tipo_id'
-      ? Number.parseInt(e.target.value, 10)
-      : e.target.value;
-    setSensorEditar({ ...sensorEditar, [e.target.name]: value });
+    const name = e.target.name;
+    const raw = e.target.value;
+    const numericNames = ['idzona', 'tipo_id'];
+    const value = numericNames.includes(name) ? (raw === "" ? null : Number.parseInt(raw, 10)) : raw;
+    setSensorEditar(prev => ({ ...prev, [name]: value }));
   };
 
-  const crearNuevoSensor = async () => {
-    if (!formData.nombre) {
-      return acctionSucessful.fire({
-        imageUrl: Alerta,
-        title: 'El sensor necesita un nombre',
-      });
-    }
-    if (!formData.descripcion) {
-      return acctionSucessful.fire({
-        imageUrl: Alerta,
-        title: 'El sensor necesita una descripción',
-      });
-    }
-
-    // Validación tipo_id obligatorio
-    if (!formData.tipo_id) {
-      return acctionSucessful.fire({
-        imageUrl: Alerta,
-        title: 'Seleccione un tipo de sensor',
-      });
-    }
-    try {
-      const response = await crearSensor(formData);
-      if (response) {
-        setSensores(prev => [...prev, response]);
-        const sensoresZonasData = await getSensoresZonasById(id);
-        setSensoresZona(sensoresZonasData || []);
-        acctionSucessful.fire({
-          imageUrl: usuarioCreado,
-          title: `¡Sensor <span style="color: green;">${formData.nombre}</span> creado correctamente!`
-        });
-
-        setFormData(valoresIniciales);
-        setModalInsertarAbierto(false);
-      }
-    } catch (err) {
-      console.error("Error al crear sensor:", err);
-    }
-  };
-
-  const actualizarSensor = async () => {
-    if (!validarSinCambios(sensorEditar, sensorOriginal, "el sensor")) return;
-    try {
-      await editarSensor(sensorEditar.id, sensorEditar);
-      setSensores(prev => prev.map(s => s.id === sensorEditar.id ? sensorEditar : s));
-      const sensoresZonasData = await getSensoresZonasById(sensorEditar.idzona);
-      setSensoresZona(sensoresZonasData || []);
-      acctionSucessful.fire({
-        imageUrl: usuarioCreado,
-        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
-      });
-
-      setModalEditarAbierto(false);
-    } catch (err) {
-      console.error("Error al actualizar sensor:", err);
-    }
-  };
-
-  const eliminarSensor = async () => {
-    if (!sensorAEliminar) return;
-
-    try {
-      await eliminarSensores(sensorAEliminar);
-      setSensores(prev => prev.filter(s => s.id !== sensorAEliminar));
-      const sensoresZonasData = await getSensoresZonasById(id);
-      setSensoresZona(sensoresZonasData || []);
-      acctionSucessful.fire({
-        imageUrl: UsuarioEliminado,
-        title: `¡Sensor <span style="color: red;">${sensorEliminado?.nombre}</span> eliminado correctamente!`
-      });
-      setSensorAEliminar(null);
-      setSensorEliminado(null);
-    } catch (err) {
-      console.error("Error al eliminar sensor:", err);
-    }
-  };
-
-  const showSwal = () => {
-    return withReactContent(Swal).fire({
+  const showSwal = async () => {
+    let inputValueLocal = "";
+    const result = await withReactContent(Swal).fire({
       title: (
         <span className="text-2xl font-extrabold mb-4 text-center">
           Ingrese la dirección MAC <br />
@@ -228,7 +168,7 @@ export function useSensores(id, idUser) {
       inputPlaceholder: 'Digite la dirección MAC',
       cancelButtonText: 'Cancelar',
       showCancelButton: true,
-      inputValue,
+      inputValue: inputValueLocal,
       preConfirm: () => {
         const val = Swal.getInput()?.value.trim();
         if (!val) {
@@ -239,7 +179,7 @@ export function useSensores(id, idUser) {
           Swal.showValidationMessage('¡No se permiten espacios al ingresar la MAC!');
           return false;
         }
-        inputValue = val;
+        inputValueLocal = val;
         return true;
       },
       confirmButtonText: 'Guardar e Insertar',
@@ -252,6 +192,104 @@ export function useSensores(id, idUser) {
         confirmButton: 'w-[210px] p-3 bg-[#009E00] hover:bg-[#005F00] text-white font-bold rounded-full text-lg',
       },
     });
+
+    // Si confirmó, recupera el valor directamente del input (ya validado)
+    if (result.isConfirmed) {
+      return Swal.getInput()?.value.trim() || "";
+    }
+    return null;
+  };
+
+  const crearNuevoSensor = async () => {
+    // Validaciones de frontend
+    if (!formData.nombre) {
+      return acctionSucessful.fire({ imageUrl: Alerta, title: 'El sensor necesita un nombre' });
+    }
+    if (!formData.descripcion) {
+      return acctionSucessful.fire({ imageUrl: Alerta, title: 'El sensor necesita una descripción' });
+    }
+    if (!formData.tipo_id) {
+      return acctionSucessful.fire({ imageUrl: Alerta, title: 'Seleccione un tipo de sensor' });
+    }
+    // idzona e idfinca obligatorios
+    if (!formData.idzona) {
+      return acctionSucessful.fire({ imageUrl: Alerta, title: 'Seleccione una zona válida' });
+    }
+    if (!formData.idfinca) {
+      return acctionSucessful.fire({ imageUrl: Alerta, title: 'Finca inválida' });
+    }
+
+    try {
+      // Construir payload con casts explícitos
+      const payload = {
+        ...formData,
+        idzona: Number(formData.idzona),
+        idfinca: Number(formData.idfinca),
+        idusuario: Number(formData.idusuario),
+        tipo_id: Number(formData.tipo_id)
+      };
+
+      const response = await crearSensor(payload);
+
+      if (response) {
+        // actualizar lista principal y lista por zona (usando la zona actual)
+        setSensores(prev => [...prev, response]);
+
+        // refrescar sensores por zona con la id de la zona usada (payload.idzona)
+        await refreshSensoresZona(payload.idzona);
+
+        acctionSucessful.fire({
+          imageUrl: usuarioCreado,
+          title: `¡Sensor <span style="color: green;">${payload.nombre}</span> creado correctamente!`
+        });
+
+        // Resetear el formulario pero conservando idusuario/idfinca/idzona desde estado actual
+        resetForm();
+        setModalInsertarAbierto(false);
+      }
+    } catch (err) {
+      console.error("Error al crear sensor:", err);
+      // opcional mostrar mensaje de error al usuario
+    }
+  };
+
+  const actualizarSensor = async () => {
+    if (!validarSinCambios(sensorEditar, sensorOriginal, "el sensor")) return;
+    try {
+      const payload = {
+        ...sensorEditar,
+        idzona: Number(sensorEditar.idzona),
+        tipo_id: Number(sensorEditar.tipo_id)
+      };
+      await editarSensor(sensorEditar.id, payload);
+      setSensores(prev => prev.map(s => s.id === sensorEditar.id ? { ...s, ...payload } : s));
+      await refreshSensoresZona(payload.idzona);
+      acctionSucessful.fire({
+        imageUrl: usuarioCreado,
+        title: `¡Sensor <span style="color: #3366CC;">${sensorEditar.nombre}</span> editado correctamente!`
+      });
+      setModalEditarAbierto(false);
+    } catch (err) {
+      console.error("Error al actualizar sensor:", err);
+    }
+  };
+
+  const eliminarSensor = async () => {
+    if (!sensorAEliminar) return;
+    try {
+      await eliminarSensores(sensorAEliminar);
+      setSensores(prev => prev.filter(s => s.id !== sensorAEliminar));
+      // refrescar según zona actual
+      await refreshSensoresZona();
+      acctionSucessful.fire({
+        imageUrl: UsuarioEliminado,
+        title: `¡Sensor eliminado correctamente!`
+      });
+      setSensorAEliminar(null);
+      setSensorEliminado(null);
+    } catch (err) {
+      console.error("Error al eliminar sensor:", err);
+    }
   };
 
   const ActivarSensor = (sensor, index) => {
@@ -279,17 +317,18 @@ export function useSensores(id, idUser) {
         </div>
       </label>
     );
-
   };
 
   const cambiarEstadoSensor = async (sensor, index) => {
     const newEstado = !sensor.estado;
     const updatedSensor = { ...sensor, estado: newEstado };
+
     if (!sensor.mac && newEstado) {
-      const confirm = await showSwal();
-      if (!confirm.isConfirmed) return;
-      updatedSensor.mac = inputValue;
+      const mac = await showSwal();
+      if (!mac) return;
+      updatedSensor.mac = mac;
     }
+
     try {
       await editarSensor(sensor.id, updatedSensor);
       setSensores(prev => {
@@ -297,7 +336,9 @@ export function useSensores(id, idUser) {
       });
       setSensoresZona(prev => {
         const updated = [...prev];
-        updated[index] = updatedSensor;
+        // find matching index by id if possible
+        const idx = updated.findIndex(s => s.id === sensor.id);
+        if (idx >= 0) updated[idx] = updatedSensor;
         return updated;
       });
 
@@ -335,5 +376,8 @@ export function useSensores(id, idUser) {
     setModalInsertarAbierto,
     modalEditarAbierto,
     setModalEditarAbierto,
+    // utilidad pública si alguien la necesita
+    refreshSensoresZona,
+    resetForm
   };
 }

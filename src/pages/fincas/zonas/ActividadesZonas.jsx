@@ -1,5 +1,4 @@
 //importaciones necesarias de react
-import React from 'react';
 import { useParams } from 'react-router-dom';
 //componentes reutilizados
 import Navbar from '../../../components/navbar';

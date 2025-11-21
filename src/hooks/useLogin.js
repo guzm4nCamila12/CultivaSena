@@ -22,6 +22,12 @@ export function useLogin() {
         }))
     }
 
+    const roles = {
+        1: "SuperAdmin",
+        2: "Admin",
+        3: "Alterno",
+    };
+
     const iniciarSesion = async (e) => {
         e.preventDefault()
         try {
@@ -51,7 +57,7 @@ export function useLogin() {
                 acctionSucessful.fire({
                     imageUrl: inicioSesion,
                     imageAlt: "Icono de exito",
-                    title: `Bienvenido usuario`
+                    title: `Bienvenido ${roles[resultado.user.id_rol] || "Usuario"}`
                 });
             } else {
                 console.warn("Credenciales incorrectas o respuesta inválida:", resultado);

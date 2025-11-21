@@ -93,7 +93,35 @@ export const useActividadesZona = (idZona) => {
     return actividadesPorEtapa[etapa]?.find((act) => act.value === value)?.label || "";
   };
 
+  const esFechaValida = (fecha) => {
+    const d = new Date(fecha);
+    return d instanceof Date && !isNaN(d.getTime());
+  };
+
   const validarFechas = (inicio, fin) => {
+    const hoy = new Date(); // Fecha actual
+
+    // Validar que las fechas no estén malformadas o fuera de rango
+    if (!esFechaValida(inicio) || !esFechaValida(fin)) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡Las fechas ingresadas no son válidas!",
+      });
+      return false;
+    }
+
+    // No permitir fechas futuras
+    if (inicio > hoy || fin > hoy) {
+      acctionSucessful.fire({
+        imageUrl: Images.Alerta,
+        imageAlt: "Icono personalizado",
+        title: "¡No puedes ingresar fechas futuras!",
+      });
+      return false;
+    }
+
+    // Validar que la fecha final no sea menor que la inicial
     if (fin < inicio) {
       acctionSucessful.fire({
         imageUrl: Images.Alerta,
@@ -102,8 +130,10 @@ export const useActividadesZona = (idZona) => {
       });
       return false;
     }
+
     return true;
   };
+
 
   const mostrarAlerta = (imagen, titulo) => {
     acctionSucessful.fire({ imageUrl: imagen, imageAlt: "Icono", title: titulo });

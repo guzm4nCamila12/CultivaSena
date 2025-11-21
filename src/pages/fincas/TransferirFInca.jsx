@@ -162,16 +162,18 @@ export default function TransferirFInca() {
                                     className="w-full pl-10 pr-10 py-2 bg-transparent outline-none text-gray-700 rounded-full"
                                 />
                             </div>
-                            <div className="flex flex-col items-center mb-4 space-y-2">
-                                {usuariosFiltrados.map((u) => (
-                                    <button
-                                        key={u.id}
-                                        className="flex items-center justify-between w-full p-2 shadow rounded-lg cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
-                                        onClick={() => { seleccionarUsuario(u); setAbrirModalBuscar(false) }}
-                                    >
-                                        <p className="text-black text-lg">{u.nombre}</p>
-                                    </button>
-                                ))}
+                            <div className=' max-h-[35rem] overflow-y-auto'>
+                                <div className="flex flex-col items-center mb-4 space-y-2">
+                                    {usuariosFiltrados.map((u) => (
+                                        <button
+                                            key={u.id}
+                                            className="flex items-center justify-between w-full p-2 shadow rounded-lg cursor-pointer transition-all duration-300 transform hover:scale-95 hover:shadow-lg"
+                                            onClick={() => { seleccionarUsuario(u); setAbrirModalBuscar(false) }}
+                                        >
+                                            <p className="text-black text-lg">{u.nombre}</p>
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                             <div className="flex justify-between mt-6 space-x-4">
                                 <button

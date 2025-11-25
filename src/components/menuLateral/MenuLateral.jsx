@@ -107,42 +107,45 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                         <span>Ir a <strong>CultivaSena</strong></span>
                     </Link>
                 </div>
+                {fincas.length >= 1 && (
+                    <>
+                        {/* Estadísticas */}
+                        <EstadisticasMenu
+                            rol={rol}
+                            idFinca={idFinca}
+                            idUser={idUser}
+                            submenuAbierto={submenuAbierto}
+                            toggleSubmenu={toggleSubmenu}
+                            cargandoFincas={cargandoFincas}
+                            fincas={fincas}
+                            onCloseMenu={onCloseMenu}
+                        />
 
-                {/* Estadísticas */}
-                <EstadisticasMenu
-                    rol={rol}
-                    idFinca={idFinca}
-                    idUser={idUser}
-                    submenuAbierto={submenuAbierto}
-                    toggleSubmenu={toggleSubmenu}
-                    cargandoFincas={cargandoFincas}
-                    fincas={fincas}
-                    onCloseMenu={onCloseMenu}
-                />
+                        {/* Reporte Actividades / Acciones */}
+                        <ReporteActividadesMenu
+                            rol={rol}
+                            idFinca={idFinca}
+                            idUser={idUser}
+                            submenuAbierto={submenuAbierto}
+                            toggleSubmenu={toggleSubmenu}
+                            cargandoFincas={cargandoFincas}
+                            fincas={fincas}
+                            onCloseMenu={onCloseMenu}
+                        />
 
-                {/* Reporte Actividades / Acciones */}
-                <ReporteActividadesMenu
-                    rol={rol}
-                    idFinca={idFinca}
-                    idUser={idUser}
-                    submenuAbierto={submenuAbierto}
-                    toggleSubmenu={toggleSubmenu}
-                    cargandoFincas={cargandoFincas}
-                    fincas={fincas}
-                    onCloseMenu={onCloseMenu}
-                />
-
-                {/* Reporte Sensores / Acciones */}
-                <ReporteSensoresMenu
-                    rol={rol}
-                    idFinca={idFinca}
-                    idUser={idUser}
-                    submenuAbierto={submenuAbierto}
-                    toggleSubmenu={toggleSubmenu}
-                    cargandoFincas={cargandoFincas}
-                    fincas={fincas}
-                    onCloseMenu={onCloseMenu}
-                />
+                        {/* Reporte Sensores / Acciones */}
+                        <ReporteSensoresMenu
+                            rol={rol}
+                            idFinca={idFinca}
+                            idUser={idUser}
+                            submenuAbierto={submenuAbierto}
+                            toggleSubmenu={toggleSubmenu}
+                            cargandoFincas={cargandoFincas}
+                            fincas={fincas}
+                            onCloseMenu={onCloseMenu}
+                        />
+                    </>
+                )}
 
                 {/*Transferir fincas(Solo para superAdmin)*/}
                 {rolToken() === 1 && (

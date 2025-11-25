@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
+import { useLocation } from "react-router-dom";
 
 function getRoundedLeftClass(key, enableSelection, mostrarFotoPerfil) {
   if (enableSelection && key === 'seleccionar') return 'rounded-l-full';
@@ -52,6 +53,9 @@ const Tabla = ({
   const allIds = datos.map((fila) => fila.id);
   const mostrarFotoPerfil = columnas.some((col) => col.key === "fotoPerfil");
   const columnasSinFoto = columnas.filter((col) => col.key !== "fotoPerfil");
+
+  const location = useLocation();
+  const esPerfilUsuario = location.pathname.includes("/perfil-usuario");
 
   // Escuchar evento global de procesar
   useEffect(() => {
@@ -253,7 +257,14 @@ const Tabla = ({
                 </tr>
               );
             }) : (
-              <tr><td colSpan={encabezados.length} className="text-center p-4 text-sm">No hay datos</td></tr>
+              <tr>
+                <td
+                  colSpan={encabezados.length}
+                  className={`text-center p-4 font-black ${esPerfilUsuario ? "text-white" : "text-black"}`}
+                >
+                  No hay datos
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

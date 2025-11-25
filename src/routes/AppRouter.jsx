@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import { useState, useEffect } from "react";
 import Inicio from "../pages/inicio/Inicio";
 import Error404 from '../pages/Error404/Error404'
 import Login from '../pages/login/Login'
@@ -20,10 +21,29 @@ import TransferirFInca from "../pages/fincas/TransferirFInca";
 import BotonAsistente from "../components/botonAsistente";
 import RedirigirSesion from "../components/auth/MantenerSesion";
 import AuthRedirect from "../components/auth/AuthRedirect";
+import loader from '../assets/gif/Loader.gif'
+
 function AppContent() {
   const location = useLocation();
   const hideAssistantOn = ['/login', '/'];
 
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      setIsLoading(false);
+    };
+
+    checkSession();
+  }, []); // El array vacío asegura que se ejecute solo una vez al montar
+
+  // Muestra una pantalla de carga
+  if (isLoading) {
+    return <div className="flex flex-col h-screen gap-y-4 items-center justify-center">
+      <img src={loader} alt="Icono cargando" />
+      <span>Cargando...</span>
+    </div>;
+  }
 
   return (
     <>

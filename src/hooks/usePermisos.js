@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { postValidarpermisos } from "../services/usuarios/ApiUsuarios";
 
-export const usePermisos = (id) => {
+export const usePermisos = () => {
   const [permisos, setPermisos] = useState({});
 
   // Lista de permisos que quieres validar

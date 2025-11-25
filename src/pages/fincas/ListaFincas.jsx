@@ -38,6 +38,7 @@ export default function ListaFincas() {
   );
 
   useDriverTour(fincaDriverSteps);
+  console.log("usuario",usuario)
 
   const acciones = (fila) => (
     <div className="flex justify-center gap-4">

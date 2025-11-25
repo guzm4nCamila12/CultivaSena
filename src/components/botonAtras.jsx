@@ -1,17 +1,20 @@
 // components/BotonAtras.jsx
-import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import atras from "../assets/icons/Volver.png";
 
 export default function BotonAtras() {
   const navigate = useNavigate();
   const location = useLocation();
-
   // Obtiene la ruta principal guardada en localStorage
   const principal = localStorage.getItem("principal");
 
   // Deshabilita si la ruta actual es exactamente la principal
   const disableBack = location.pathname === principal;
+
+  if (location.pathname === principal) {
+    return null;
+  }
+
 
   const irAtras = () => {
     if (!disableBack) navigate(-1);

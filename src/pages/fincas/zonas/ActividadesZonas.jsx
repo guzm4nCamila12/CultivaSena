@@ -122,7 +122,7 @@ export default function ActividadesZonas() {
                                             name="descripcion"
                                             placeholder="Describa la actividad"
                                             required
-                                            className="w-full border h-36 p-2 rounded-3xl"
+                                            className="w-full border resize-none h-36 p-2 rounded-3xl"
                                             onChange={handleActividadChange}
                                         />
                                     </div>
@@ -232,7 +232,7 @@ export default function ActividadesZonas() {
                                         </select>
                                     </div>
 
-                                    <div className="mb-2">
+                                    <div className="mb-2 relative">
                                         <label htmlFor='descripcion' className="font-semibold">Descripción</label>
                                         <textarea
                                             id='descripcion'

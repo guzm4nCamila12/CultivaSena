@@ -115,13 +115,14 @@ export default function ActividadesZonas() {
 
                                     <div className="mb-2">
                                         <label htmlFor='input-descripcion' className="font-semibold">Descripción</label>
-                                        <input
+                                        <textarea
                                             id='input-descripcion'
                                             type="text"
+                                            maxLength={200}
                                             name="descripcion"
                                             placeholder="Describa la actividad"
                                             required
-                                            className="w-full border p-2 rounded-3xl py-5"
+                                            className="w-full border h-36 p-2 rounded-3xl"
                                             onChange={handleActividadChange}
                                         />
                                     </div>
@@ -233,12 +234,13 @@ export default function ActividadesZonas() {
 
                                     <div className="mb-2">
                                         <label htmlFor='descripcion' className="font-semibold">Descripción</label>
-                                        <input
+                                        <textarea
                                             id='descripcion'
                                             type="text"
+                                            maxLength={200}
                                             name="descripcion"
                                             required
-                                            className="w-full border p-2 rounded-3xl py-5"
+                                            className="w-full resize-none h-36 flex text-start border p-2 rounded-3xl"
                                             value={actividadEditar.descripcion || ''}
                                             onChange={handleEditarActividadChange}
                                         />

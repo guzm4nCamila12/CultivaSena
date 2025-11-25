@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getUsuarios, editarUsuario } from "../services/usuarios/ApiUsuarios";
 import * as Validaciones from '../utils/validaciones';
-import { obtenerIdUsuario } from "../../../cultivasena-admin/src/hooks/useDecodeToken";
+import { obtenerIdUsuario } from "./useDecodeToken";
 
 export const useUsuarios = (id) => {
   const [usuarios, setUsuarios] = useState([]);

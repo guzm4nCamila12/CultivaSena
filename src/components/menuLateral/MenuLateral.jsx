@@ -172,7 +172,7 @@ export default function MenuLateral({ onLogoutClick, onCloseMenu, isOpen }) {
                                 e.target.src = obtenerRol();
                             }} alt="Perfil" className="h-10 w-10 rounded-full" />
                         <div className="ml-3">
-                            <span className="block font-bold">{usuario.nombre || 'Usuario'}</span>
+                            <span className="block truncate max-w-40 font-bold">{usuario.nombre || 'Usuario'}</span>
                             <span className="text-sm">Ver perfil</span>
                         </div>
                     </div>

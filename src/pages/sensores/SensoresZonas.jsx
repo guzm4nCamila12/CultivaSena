@@ -120,9 +120,9 @@ function Sensores() {
 
   const agregar = rol !== "3";
 
-  const tipoSensor = (onChange) => (
+  const tipoSensor = (onChange, value) => (
     <div className="relative w-full mt-2">
-      <select name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+      <select value={value ?? ""} name="tipo_id" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
         <option value="">Tipo de sensor</option>
 
         {tiposSensores.map((tipo) => (
@@ -164,7 +164,7 @@ function Sensores() {
               { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
             ]}
           >
-            {tipoSensor(handleChange)}
+            {tipoSensor(handleChange, formData.tipo_id)}
 
           </FormularioModal>
 
@@ -184,7 +184,7 @@ function Sensores() {
               { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul },
             ]}
           >
-            {tipoSensor(handleChangeEditar)}
+            {tipoSensor(handleChangeEditar, sensorEditar.tipo_id)}
 
           </FormularioModal>
 

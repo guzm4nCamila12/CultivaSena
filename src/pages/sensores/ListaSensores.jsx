@@ -212,19 +212,10 @@ function ActivarSensores() {
     setModalEditarAbierto(true);
   };
 
-  const obtenerNombreTipo = (sensorEditar) => {
-    const tipo = tiposSensores.find(t => t.id === sensorEditar.tipo_id);
-    if (!tipo) return sensorEditar; // Si no se encuentra el tipo, retorna el sensor sin cambios
-    return {
-      ...sensorEditar,
-      tipo_id: tipo.nombre // Reemplazas el ID por el nombre
-    };
-  }
-
   // Selects
-  const asignarZona = onChange => (
+  const asignarZona = (onChange, value) => (
     <div className="relative w-full mt-2">
-      <select name="idzona" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
+      <select value={value ?? ""} name="idzona" onChange={onChange} className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-3xl">
         {zonas.map(z => <option key={z.id} value={z.id}>{z.nombre}</option>)}
       </select>
     </div>
@@ -267,7 +258,7 @@ function ActivarSensores() {
               { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
             ]}
           >
-            {asignarZona(handleChange)}
+            {asignarZona(handleChange, formData.idzona)}
             {tipoSensor(handleChange, formData.tipo_id,)}
           </FormularioModal>
 
@@ -284,7 +275,7 @@ function ActivarSensores() {
               { name: "descripcion", placeholder: "Descripción", icono: descripcionAzul }
             ]}
           >
-            {asignarZona(handleChangeEditar)}
+            {asignarZona(handleChangeEditar, sensorEditar.idzona)}
             {tipoSensor(handleChangeEditar, sensorEditar.tipo_id)}
           </FormularioModal>
 

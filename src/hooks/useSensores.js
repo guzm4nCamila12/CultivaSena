@@ -55,8 +55,18 @@ export function useSensores(id, idUser) {
   // ---------- Helpers ----------
   const resetForm = useCallback(() => {
     // elige idzona: 1) formData existente 2) primera zona disponible 3) zona actual
-    const defaultIdZona = formData.idzona ?? (zonas && zonas.length ? zonas[0].id : (zona?.id ?? null));
-    const defaultIdFinca = fincas?.id ?? zona?.idfinca ?? formData.idfinca ?? "";
+    const defaultIdZona =
+      formData.idzona ??
+      zonas?.[0]?.id ??
+      zona?.id ??
+      null;
+
+    const defaultIdFinca =
+      fincas?.id ??
+      zona?.idfinca ??
+      formData.idfinca ??
+      "";
+
     setFormData({
       mac: null,
       nombre: "",
@@ -113,7 +123,7 @@ export function useSensores(id, idUser) {
           ...prev,
           idusuario: usuarioData?.id ?? prev.idusuario,
           idfinca: fincasData?.id ?? zonaData?.idfinca ?? prev.idfinca,
-          idzona: prev.idzona ?? (zonasData && zonasData.length ? zonasData[0].id : zonaData?.id ?? prev.idzona)
+          idzona: prev.idzona ?? zonasData?.[0]?.id ?? zonaData?.id ?? prev.idzona
         }));
       } catch (err) {
         console.error("Error fetchAll sensores:", err);
@@ -132,27 +142,40 @@ export function useSensores(id, idUser) {
       ...prev,
       idusuario: usuario?.id ?? prev.idusuario,
       idfinca: fincas?.id ?? zona?.idfinca ?? prev.idfinca,
-      // no sobrescribimos idzona si el usuario ya la escogió; si no existe, usamos zona/primer elemento de zonas
-      idzona: prev.idzona ?? (zonas && zonas.length ? zonas[0].id : (zona?.id ?? prev.idzona))
+      idzona: prev.idzona ?? zonas?.[0]?.id ?? zona?.id ?? prev.idzona
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usuario, fincas, zona, zonas]);
 
   // ---------- Handlers ----------
   const handleChange = (e) => {
-    const name = e.target.name;
-    const raw = e.target.value;
-    const numericNames = ['idzona', 'tipo_id', 'idfinca', 'idusuario'];
-    const value = numericNames.includes(name) ? (raw === "" ? "" : Number.parseInt(raw, 10)) : raw;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value: raw } = e.target;
+    const numericNames = ["idzona", "tipo_id", "idfinca", "idusuario"];
+
+    let value;
+
+    if (numericNames.includes(name)) {
+      value = raw === "" ? "" : Number.parseInt(raw, 10);
+    } else {
+      value = raw;
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleChangeEditar = (e) => {
-    const name = e.target.name;
-    const raw = e.target.value;
-    const numericNames = ['idzona', 'tipo_id'];
-    const value = numericNames.includes(name) ? (raw === "" ? null : Number.parseInt(raw, 10)) : raw;
-    setSensorEditar(prev => ({ ...prev, [name]: value }));
+    const { name, value: raw } = e.target;
+    const numericNames = ["idzona", "tipo_id"];
+
+    let value;
+
+    if (numericNames.includes(name)) {
+      value = raw === "" ? null : Number.parseInt(raw, 10);
+    } else {
+      value = raw;
+    }
+
+    setSensorEditar((prev) => ({ ...prev, [name]: value }));
   };
 
   const showSwal = async () => {

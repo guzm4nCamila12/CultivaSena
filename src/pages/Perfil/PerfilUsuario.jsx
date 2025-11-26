@@ -121,7 +121,7 @@ function PerfilUsuario() {
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.telefono || "" : usuario.telefono || ""}
                     onChange={(e) => {
-                      const soloNumeros = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      const soloNumeros = e.target.value.replaceAll(/\D/g, "").slice(0, 10);
                       setUsuarioEditar({
                         ...usuarioEditar,
                         telefono: soloNumeros,

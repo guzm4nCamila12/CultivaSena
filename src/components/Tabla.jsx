@@ -5,11 +5,10 @@ import * as Images from "../assets/img/imagesExportation";
 import DropdownIcon from "../assets/icons/accionesMenu.png";
 import cerrarMenu from "../assets/icons/cerrarMenu.png";
 import ModalFechaRango from "./modals/FechaRango";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useExportarExcel } from "../hooks/useReportes";
 import { acctionSucessful } from "./alertSuccesful";
 import { Alerta } from "../assets/img/imagesExportation";
-import { useLocation } from "react-router-dom";
 
 function getRoundedLeftClass(key, enableSelection, mostrarFotoPerfil) {
   if (enableSelection && key === 'seleccionar') return 'rounded-l-full';

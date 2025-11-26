@@ -95,7 +95,7 @@ export const useActividadesZona = (idZona) => {
 
   const esFechaValida = (fecha) => {
     const d = new Date(fecha);
-    return d instanceof Date && !isNaN(d.getTime());
+    return d instanceof Date && !Number.isNaN(d.getTime());
   };
 
   const validarFechas = (inicio, fin) => {

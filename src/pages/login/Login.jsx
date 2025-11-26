@@ -14,18 +14,35 @@ import ModalConfirmacion from "../../components/modals/modalConfirmacion";
 import ModalTelefono from "../../components/modals/modalTelefono";
 import useRecuperarClave from "../../hooks/useRecuperarClave";
 import { acctionSucessful } from "../../components/alertSuccesful";
+import cerrar from "../../assets/img/sesionFinalizada.png"
 const Login = () => {
 
   const [mostrarClave, setMostrarClave] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // nuevo
-  const [usuario, handleChange, inicioSesion, logout] = useLogin();
+  const [usuario, handleChange, inicioSesion] = useLogin();
   const [telefonoRecuperar, handleChangeRecuperar, recuperar, exito, error] = useRecuperarClave();
 
-  // limpiar token si existe
   useEffect(() => {
-    logout()
+    const reason = localStorage.getItem("logoutReason");
+
+    if (reason === "expired") {
+      acctionSucessful.fire({
+        imageUrl: cerrar,
+        title: "Tu sesión ha expirado. Vuelve a ingresar."
+      });
+    }
+
+    if (reason === "denied") {
+      acctionSucessful.fire({
+        imageUrl: cerrar,
+        title: "No cuentas con permisos para acceder"
+      });
+    }
+    // limpiar el motivo para que no salga otra vez
+    localStorage.removeItem("logoutReason");
+
   }, []);
 
   //mostrar modal
@@ -82,6 +99,7 @@ const Login = () => {
                     inputMode="numeric"
                     pattern="[0-9]*"
                     placeholder="Ingrese su número de teléfono"
+                    autoComplete="username"
                     value={usuario.telefono}
                     onChange={(e) => { if (/^\d*$/.test(e.target.value) && e.target.value.length <= 10) handleChange(e); }}
                     className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"
@@ -96,6 +114,7 @@ const Login = () => {
                     type={mostrarClave ? 'text' : 'password'}
                     placeholder="Ingrese su contraseña"
                     required
+                    autoComplete="current-password"
                     value={usuario.clave}
                     onChange={handleChange}
                     className="w-full p-3 pl-12 pr-12 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-white bg-transparent rounded-3xl text-white placeholder:text-white"

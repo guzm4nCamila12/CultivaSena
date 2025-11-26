@@ -17,8 +17,8 @@ function PerfilUsuario() {
 
   // consumimos desde el hook
   const {
-    usuario, usuarioEditar, setUsuarioEditar, setUsuarioOriginal, datosTabla, columnas, ruta, tituloTabla, rolsito, modoEdicion, setModoEdicion, 
-    modalHistorialAbierto, setModalHistorialAbierto, historialSeleccionado, setHistorialSeleccionado, cartas, handleEditarUsuario, renderValorTabla, 
+    usuario, usuarioEditar, setUsuarioEditar, setUsuarioOriginal, datosTabla, columnas, ruta, tituloTabla, rolsito, modoEdicion, setModoEdicion,
+    modalHistorialAbierto, setModalHistorialAbierto, historialSeleccionado, setHistorialSeleccionado, cartas, handleEditarUsuario, renderValorTabla,
     formatearClave, obtenerRol, idBoton, idBoton2, valorMostrado, idTabla, cantidadTotal
   } = usePerfilUsuario()
 
@@ -99,6 +99,7 @@ function PerfilUsuario() {
                   <input
                     id='input-nombre'
                     type="text"
+                    maxLength={40}
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.nombre || "" : usuario.nombre || ""}
                     onChange={(e) =>
@@ -119,9 +120,13 @@ function PerfilUsuario() {
                     type="text"
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.telefono || "" : usuario.telefono || ""}
-                    onChange={(e) =>
-                      setUsuarioEditar({ ...usuarioEditar, telefono: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const soloNumeros = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      setUsuarioEditar({
+                        ...usuarioEditar,
+                        telefono: soloNumeros,
+                      });
+                    }}
                     className='w-full font-bold xl:py-2 xl:pl-4 xl:bg-[#EEEEEE]  xl:rounded-full xl:focus:outline-none xl:focus:ring-2 xl:focus:ring-[#39A900] xl:focus:border-[#39A900]'
                   />
                 </div>
@@ -135,6 +140,7 @@ function PerfilUsuario() {
                   <input
                     id='email-input'
                     type="email"
+                    maxLength={150}
                     readOnly={!modoEdicion}
                     value={modoEdicion ? usuarioEditar.correo || "" : usuario.correo || ""}
                     onChange={(e) =>
@@ -251,7 +257,7 @@ function PerfilUsuario() {
                 colorTextoEncabezado='#00304D'
               />
             </div>
-            
+
           </div>
         </div>
       </div>

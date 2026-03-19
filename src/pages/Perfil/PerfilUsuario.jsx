@@ -74,6 +74,8 @@ function PerfilUsuario() {
     return null
   }
 
+
+
   return (
     <div>
       <Navbar />
@@ -268,12 +270,16 @@ function PerfilUsuario() {
           <div className="bg-white w-11/12 max-w-2xl p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-bold mb-4">Detalle de Historial</h2>
             <div className="overflow-y-auto max-h-96">
-              <p><strong>Id Historial:</strong> {historialSeleccionado.id_historial}</p>
-              <p><strong>Operación:</strong> {historialSeleccionado.operacion}</p>
-              <p><strong>Tabla:</strong> {historialSeleccionado.tabla}</p>
-              <p><strong>Registro ID:</strong> {historialSeleccionado.registro_id}</p>
-              <p><strong>Fecha:</strong> {historialSeleccionado.fecha}</p>
-              <p><strong>Usuario que {historialSeleccionado.operacion}:</strong> {historialSeleccionado.usuario}</p>
+              <p><strong>Id Historial:</strong> {String(historialSeleccionado.id_historial ?? '—')}</p>
+              <p><strong>Operación:</strong> {String(historialSeleccionado.operacion ?? '—')}</p>
+              <p><strong>Tabla:</strong> {String(historialSeleccionado.tabla ?? '—')}</p>
+              <p><strong>Registro ID:</strong> {String(historialSeleccionado.registro_id ?? '—')}</p>
+              <p><strong>Fecha:</strong> {String(historialSeleccionado.fecha ?? '—')}</p>
+              <p><strong>Usuario que {String(historialSeleccionado.operacion ?? '')}:</strong> {
+                typeof historialSeleccionado.usuario === 'object'
+                  ? JSON.stringify(historialSeleccionado.usuario)
+                  : String(historialSeleccionado.usuario ?? '—')
+              }</p>
               <div className="mt-4">
                 <h3 className="font-semibold">Datos:</h3>
                 <div className="overflow-x-auto mt-4">
@@ -295,7 +301,7 @@ function PerfilUsuario() {
                           </td>
                           <td className="border border-gray-200 px-4 py-2 text-sm text-gray-700">
                             {/* Usamos la función renderValorTabla del hook; si retorna objetos, el componente los maneja aquí */}
-                            {typeof valor === 'object' && !Array.isArray(valor)
+                            {typeof valor === 'object' && valor !== null && !Array.isArray(valor)
                               ? (
                                 <table className="table-auto border border-gray-200 ml-2 mt-1">
                                   <tbody>
@@ -303,14 +309,31 @@ function PerfilUsuario() {
                                       .filter(([k]) => k.trim().toLowerCase() !== 'clave')
                                       .map(([k, v]) => (
                                         <tr key={k}>
-                                          <td className="border px-2 py-1 font-semibold bg-gray-100">{formatearClave(k)}</td>
-                                          <td className="border px-2 py-1">{renderValorTabla(v)}</td>
+                                          <td className="border px-2 py-1 font-semibold bg-gray-100">
+                                            {formatearClave(k)}
+                                          </td>
+                                          <td className="border px-2 py-1">
+                                            {/* 👇 Si v también es objeto, lo convertimos a string seguro */}
+                                            {typeof v === 'object' && v !== null
+                                              ? JSON.stringify(v)
+                                              : v === null || v === undefined
+                                                ? '—'
+                                                : String(v)
+                                            }
+                                          </td>
                                         </tr>
                                       ))}
                                   </tbody>
                                 </table>
                               )
-                              : renderValorTabla(valor)
+                              : (
+                                // 👇 Para valores simples también lo hacemos seguro
+                                valor === null || valor === undefined
+                                  ? '—'
+                                  : typeof valor === 'object'
+                                    ? JSON.stringify(valor)
+                                    : String(valor)
+                              )
                             }
                           </td>
                         </tr>

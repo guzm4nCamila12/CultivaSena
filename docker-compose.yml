@@ -1,25 +1,25 @@
 services:
   # Frontend React (Producción con CRA)
   app:
-    build: 
+    build:
       context: .
       args:
-        REACT_APP_API_BASE_URL: https://api.cultivasena.com # Cambiar según la IP/host del backend
+        REACT_APP_API_BASE_URL: http://localhost:3001 # Cambiar según la IP/host del backend
     container_name: cultivasena_sensores_front
     env_file:
       - .env
     ports:
       - "0.0.0.0:9001:80"
-    environment:
-      - NODE_ENV=production
+    # environment:
+    #   - NODE_ENV=production
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
       interval: 30s
       timeout: 10s
       retries: 3
     networks:
-     - cultivasena_network
+      - cultivasena_network
 
 networks:
   cultivasena_network:

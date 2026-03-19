@@ -273,16 +273,18 @@ export function usePerfilUsuario() {
     }, [])
 
     const renderValorTabla = useCallback((valor) => {
-        if (valor === null) return "null";
+        if (valor === null || valor === undefined) return '—';
+        if (typeof valor === 'boolean') return valor ? 'Sí' : 'No';
         if (Array.isArray(valor)) {
-            return valor.map((item, i) => <div key={item}>{renderValorTabla(item)}</div>);
+            return valor.map((item, i) => (
+                <div key={i}>{renderValorTabla(item)}</div>
+            ));
         }
         if (typeof valor === 'object') {
-            // devolvemos un objeto simple que el componente puede interpretar o pintar; aquí devolvemos directamente la estructura
-            return valor;
+            return JSON.stringify(valor); // 👈 convierte a string, ya no explota React
         }
         return String(valor);
-    }, [])
+    }, []);
 
     // columnas dinámicas
     const columnas = (() => {

@@ -98,18 +98,40 @@ export function useSensores(id, idUser) {
 
     const fetchAll = async () => {
       try {
-        const [sensoresData, sensoresZonasData, tiposData, usuarioData, fincasData, zonasData, zonaData] = await Promise.all([
-          getSensoresById(id).catch(e => { console.error("getSensoresById", e); return [] }),
-          getSensoresZonasById(id).catch(e => { console.error("getSensoresZonasById", e); return [] }),
-          getTipoSensor().catch(e => { console.error("getTipoSensor", e); return [] }),
-          getUsuarioById(idUser).catch(e => { console.error("getUsuarioById", e); return {} }),
-          getFincasByIdFincas(id).catch(e => { console.warn("getFincasByIdFincas", e); return {} }),
-          getZonasByIdFinca(id).catch(e => { console.warn("getZonasByIdFinca", e); return [] }),
-          getZonasById(id).catch(e => { console.error("getZonasById", e); return {} })
+        // 🔥 detectar si es zona o finca
+        const esZona = window.location.pathname.includes("sensoresZonas");
+
+        const [
+          sensoresData,
+          sensoresZonasData,
+          tiposData,
+          usuarioData,
+          fincasData,
+          zonasData,
+          zonaData
+        ] = await Promise.all([
+          esZona
+            ? getSensoresZonasById(id).catch(() => [])
+            : getSensoresById(id).catch(() => []),
+
+          getSensoresZonasById(id).catch(() => []),
+          getTipoSensor().catch(() => []),
+          getUsuarioById(idUser).catch(() => { }),
+
+          esZona
+            ? getFincasByIdFincas(null).catch(() => { })
+            : getFincasByIdFincas(id).catch(() => { }),
+
+          esZona
+            ? getZonasByIdFinca(null).catch(() => [])
+            : getZonasByIdFinca(id).catch(() => []),
+
+          getZonasById(id).catch(() => { })
         ]);
 
         if (!mounted) return;
 
+        // 🔥 clave: unificar sensores
         setSensores(sensoresData || []);
         setSensoresZona(sensoresZonasData || []);
         setTiposSensores(tiposData || []);
@@ -118,13 +140,17 @@ export function useSensores(id, idUser) {
         setZonas(zonasData || []);
         setZona(zonaData || {});
 
-        // inicializa el form con valores válidos según lo que exista
         setFormData(prev => ({
           ...prev,
           idusuario: usuarioData?.id ?? prev.idusuario,
           idfinca: fincasData?.id ?? zonaData?.idfinca ?? prev.idfinca,
-          idzona: prev.idzona ?? zonasData?.[0]?.id ?? zonaData?.id ?? prev.idzona
+          idzona:
+            prev.idzona ??
+            zonaData?.id ??
+            zonasData?.[0]?.id ??
+            prev.idzona
         }));
+
       } catch (err) {
         console.error("Error fetchAll sensores:", err);
       }
